@@ -1,0 +1,3092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0f172a">
+<title>ACT Tutor — Daily Practice</title>
+<link rel="manifest" href="data:application/json,{%22name%22:%22ACT%20Tutor%22,%22short_name%22:%22ACT%22,%22start_url%22:%22.%22,%22display%22:%22standalone%22,%22background_color%22:%22%23ffffff%22,%22theme_color%22:%22%230f172a%22,%22icons%22:[{%22src%22:%22data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20192%20192%27%3E%3Crect%20width%3D%27192%27%20height%3D%27192%27%20fill%3D%27%230f172a%27%20rx%3D%2724%27/%3E%3Ctext%20x%3D%2796%27%20y%3D%27122%27%20font-family%3D%27sans-serif%27%20font-size%3D%2772%27%20font-weight%3D%27700%27%20text-anchor%3D%27middle%27%20fill%3D%27%23fff%27%3EACT%3C/text%3E%3C/svg%3E%22,%22sizes%22:%22192x192%22,%22type%22:%22image/svg+xml%22}]}">
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --border: #e2e8f0;
+    --text: #0f172a;
+    --muted: #64748b;
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --success: #16a34a;
+    --success-bg: #dcfce7;
+    --error: #dc2626;
+    --error-bg: #fee2e2;
+    --warn: #ea580c;
+    --warn-bg: #ffedd5;
+    --info: #0891b2;
+    --info-bg: #cffafe;
+    --gold: #ca8a04;
+    --gold-bg: #fef9c3;
+    --shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 80px;
+  }
+  header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+    color: white;
+    padding: 18px 16px 14px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .header-title {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .header-title .target { color: #fbbf24; }
+  .streak {
+    background: rgba(255,255,255,0.15);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  nav {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 64px;
+    z-index: 40;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tabs {
+    display: flex;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 4px;
+  }
+  .tab {
+    flex: 1;
+    min-width: 80px;
+    padding: 14px 8px;
+    text-align: center;
+    background: none;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 16px;
+  }
+  .view { display: none; }
+  .view.active { display: block; animation: fadeIn 0.2s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+  }
+  .card h2 { margin: 0 0 12px; font-size: 17px; letter-spacing: -0.01em; }
+  .card h3 { margin: 0 0 8px; font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+
+  .btn {
+    display: inline-block;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.05s;
+    text-decoration: none;
+    text-align: center;
+    line-height: 1.2;
+  }
+  .btn:hover { background: var(--primary-dark); }
+  .btn:active { transform: scale(0.98); }
+  .btn:disabled { background: #cbd5e1; cursor: not-allowed; transform: none; }
+  .btn.secondary { background: white; color: var(--text); border: 1px solid var(--border); }
+  .btn.secondary:hover { background: var(--bg); }
+  .btn.ghost { background: transparent; color: var(--primary); }
+  .btn.ghost:hover { background: var(--info-bg); }
+  .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn-row .btn { flex: 1; min-width: 120px; }
+
+  /* Dashboard */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  @media (min-width: 600px) {
+    .stat-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+  .stat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    box-shadow: var(--shadow);
+  }
+  .stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .stat-value {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .stat-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .stat.green .stat-value { color: var(--success); }
+  .stat.red .stat-value { color: var(--error); }
+  .stat.gold .stat-value { color: var(--gold); }
+  .stat.blue .stat-value { color: var(--primary); }
+
+  /* Section progress bars */
+  .section-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-row:last-child { border-bottom: none; }
+  .section-name {
+    font-weight: 600;
+    width: 90px;
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+  .section-bar {
+    flex: 1;
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+  .section-bar-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--success), var(--primary));
+    transition: width 0.3s ease;
+  }
+  .section-stat {
+    font-size: 12px;
+    color: var(--muted);
+    width: 80px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* Concept list */
+  .concept-list { display: flex; flex-direction: column; gap: 6px; }
+  .concept-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    background: var(--bg);
+    border-radius: 8px;
+    font-size: 13px;
+    gap: 8px;
+  }
+  .concept-name { flex: 1; font-weight: 500; }
+  .concept-stats { color: var(--muted); font-size: 12px; }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .badge.mastered { background: var(--gold-bg); color: var(--gold); }
+  .badge.strong { background: var(--success-bg); color: var(--success); }
+  .badge.needs-work { background: var(--warn-bg); color: var(--warn); }
+  .badge.weak { background: var(--error-bg); color: var(--error); }
+  .badge.untested { background: #f1f5f9; color: var(--muted); }
+  .badge.sat-focus {
+    background: #ede9fe;
+    color: #6d28d9;
+    margin-left: 6px;
+  }
+
+  /* Question UI */
+  .progress-bar {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--primary);
+    transition: width 0.3s ease;
+  }
+  .question-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .question-passage {
+    background: #f8fafc;
+    border-left: 3px solid var(--primary);
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    border-radius: 0 8px 8px 0;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+  }
+  .question-passage em { color: var(--primary); font-style: normal; font-weight: 600; }
+  .question-text {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 16px;
+    white-space: pre-wrap;
+  }
+  .choices { display: flex; flex-direction: column; gap: 8px; }
+  .choice {
+    display: block;
+    padding: 12px 14px;
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 15px;
+    line-height: 1.4;
+    transition: all 0.1s;
+    width: 100%;
+    color: var(--text);
+    font-family: inherit;
+  }
+  .choice:hover { border-color: var(--primary); background: #f0f7ff; }
+  .choice.selected { border-color: var(--primary); background: #dbeafe; }
+  .choice.correct { border-color: var(--success); background: var(--success-bg); }
+  .choice.incorrect { border-color: var(--error); background: var(--error-bg); }
+  .choice.disabled { cursor: not-allowed; }
+  .choice-letter {
+    display: inline-block;
+    font-weight: 700;
+    margin-right: 8px;
+    color: var(--muted);
+  }
+  .choice.correct .choice-letter { color: var(--success); }
+  .choice.incorrect .choice-letter { color: var(--error); }
+
+  .feedback {
+    margin-top: 16px;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .feedback.correct { background: var(--success-bg); border-left: 3px solid var(--success); }
+  .feedback.incorrect { background: var(--error-bg); border-left: 3px solid var(--error); }
+  .feedback h4 { margin: 0 0 6px; font-size: 14px; font-weight: 700; }
+  .feedback p { margin: 6px 0; }
+
+  /* Tutor mode */
+  .tutor-step {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 1px solid #fbbf24;
+    border-radius: 12px;
+    padding: 14px;
+    margin-top: 12px;
+  }
+  .tutor-step h4 {
+    margin: 0 0 8px;
+    color: #92400e;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .tutor-step p { margin: 6px 0; line-height: 1.5; }
+  .tutor-progress {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 12px;
+  }
+  .tutor-dot {
+    width: 24px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border);
+  }
+  .tutor-dot.done { background: var(--success); }
+  .tutor-dot.active { background: var(--primary); }
+
+  /* Test dates */
+  .date-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .date-card.target { border-color: var(--primary); background: #f0f7ff; }
+  .date-card.urgent { border-color: var(--warn); background: #fff7ed; }
+  .date-icon {
+    width: 56px;
+    height: 56px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .date-month { font-size: 11px; font-weight: 700; color: var(--error); text-transform: uppercase; letter-spacing: 0.04em; }
+  .date-day { font-size: 22px; font-weight: 700; line-height: 1; }
+  .date-info { flex: 1; }
+  .date-info h3 { margin: 0 0 2px; font-size: 15px; text-transform: none; letter-spacing: 0; color: var(--text); font-weight: 600; }
+  .date-info p { margin: 0; font-size: 12px; color: var(--muted); }
+  .date-countdown {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .date-countdown .num { font-size: 22px; font-weight: 700; line-height: 1; color: var(--primary); }
+  .date-countdown .label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+
+  /* Section browser */
+  .section-tab-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .section-pill {
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: white;
+    border: 1px solid var(--border);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--text);
+  }
+  .section-pill.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+  /* Empty / hint */
+  .empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+  }
+  .empty-icon {
+    font-size: 48px;
+    margin-bottom: 8px;
+  }
+  .hint {
+    background: var(--info-bg);
+    border-left: 3px solid var(--info);
+    padding: 10px 14px;
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+    color: #155e75;
+    margin: 12px 0;
+  }
+
+  /* Settings danger zone */
+  .danger-btn {
+    background: white;
+    color: var(--error);
+    border: 1px solid var(--error);
+  }
+  .danger-btn:hover { background: var(--error-bg); }
+
+  /* Math styling */
+  .math {
+    font-family: "Cambria Math", Cambria, "Times New Roman", serif;
+    font-size: 1.05em;
+  }
+  sup, sub { font-size: 0.75em; }
+
+  /* Final mastery celebration */
+  .celebrate {
+    text-align: center;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, #fef9c3 0%, #fde68a 100%);
+    border-radius: 12px;
+    margin-bottom: 12px;
+  }
+  .celebrate h2 { margin: 0 0 8px; color: var(--gold); font-size: 22px; }
+  .celebrate p { margin: 0; color: #92400e; }
+
+  /* Compact buttons in cards */
+  .small-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 6px;
+    background: white;
+    border: 1px solid var(--border);
+    color: var(--text);
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .small-btn:hover { background: var(--bg); }
+  .small-btn.primary { background: var(--primary); color: white; border-color: var(--primary); }
+
+  details { margin-top: 8px; }
+  summary { cursor: pointer; color: var(--primary); font-weight: 600; font-size: 13px; padding: 4px 0; }
+  summary:hover { color: var(--primary-dark); }
+
+  .ke { font-family: "SF Mono", Menlo, Monaco, Consolas, monospace; background: #f1f5f9; padding: 1px 5px; border-radius: 3px; font-size: 0.9em; }
+
+  /* Schedule view */
+  .sched-progress-wrap { margin: 8px 0 18px; }
+  .sched-progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .sched-progress-fill { height: 100%; background: var(--success); transition: width 0.3s ease; }
+  .sched-progress-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .sched-week-header {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    margin: 18px 0 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sched-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .sched-item:last-child { border-bottom: none; }
+  .sched-date {
+    flex-shrink: 0;
+    width: 56px;
+    text-align: center;
+    border-radius: 6px;
+    padding: 4px 0;
+    background: var(--bg);
+  }
+  .sched-date .dow { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  .sched-date .dnum { font-size: 18px; font-weight: 700; line-height: 1; color: var(--text); }
+  .sched-item.is-today .sched-date { background: var(--primary); }
+  .sched-item.is-today .sched-date .dow,
+  .sched-item.is-today .sched-date .dnum { color: white; }
+  .sched-body { flex: 1; min-width: 0; }
+  .sched-title { font-weight: 600; font-size: 14px; margin-bottom: 2px; color: var(--text); }
+  .sched-focus { font-size: 12px; color: var(--muted); line-height: 1.4; }
+  .sched-actions { display: flex; gap: 6px; flex-shrink: 0; align-items: center; }
+  .sched-tag {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 3px 8px;
+    border-radius: 999px;
+  }
+  .sched-tag.today { background: var(--primary); color: white; }
+  .sched-tag.upcoming { background: #f1f5f9; color: var(--muted); }
+  .sched-tag.missed { background: var(--error-bg); color: var(--error); }
+  .sched-tag.complete { background: var(--success-bg); color: var(--success); }
+  .sched-item.complete .sched-title { text-decoration: line-through; color: var(--muted); }
+  .sched-item.complete .sched-focus { color: #cbd5e1; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-row">
+    <div class="header-title">ACT Tutor <span class="target">— Target: 30+</span></div>
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <button id="voice-toggle" onclick="toggleVoice()" style="background: rgba(255,255,255,0.15); border: none; color: white; padding: 6px 10px; border-radius: 999px; font-size: 13px; font-weight: 600; cursor: pointer;" title="Toggle voice tutor">
+        <span id="voice-icon">🔊</span> <span id="voice-label">Voice</span>
+      </button>
+      <div class="streak" id="streak">🔥 <span id="streak-num">0</span> day</div>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <div class="tabs">
+    <button class="tab active" data-view="dashboard">Dashboard</button>
+    <button class="tab" data-view="practice">Practice</button>
+    <button class="tab" data-view="diagnostic">Diagnostic</button>
+    <button class="tab" data-view="concepts">Concepts</button>
+    <button class="tab" data-view="schedule">Schedule</button>
+    <button class="tab" data-view="dates">Test Dates</button>
+  </div>
+</nav>
+
+<main>
+  <!-- DASHBOARD VIEW -->
+  <section class="view active" id="view-dashboard">
+    <div class="stat-grid">
+      <div class="stat blue"><div class="stat-label">Questions Done</div><div class="stat-value" id="stat-total">0</div></div>
+      <div class="stat green"><div class="stat-label">Correct</div><div class="stat-value" id="stat-correct">0</div><div class="stat-sub" id="stat-correct-pct">—</div></div>
+      <div class="stat red"><div class="stat-label">Wrong</div><div class="stat-value" id="stat-wrong">0</div></div>
+      <div class="stat gold"><div class="stat-label">Mastered</div><div class="stat-value" id="stat-mastered">0</div><div class="stat-sub" id="stat-mastered-sub">of 0 concepts</div></div>
+    </div>
+
+    <div class="card">
+      <h3>Section Progress</h3>
+      <div id="section-progress"></div>
+    </div>
+
+    <div class="card">
+      <h3>Today's Plan</h3>
+      <div id="todays-plan"></div>
+      <div style="margin-top: 12px;">
+        <button class="btn" onclick="switchView('practice')">Start Today's Session →</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Concepts to Focus On</h3>
+      <div id="weak-concepts" class="concept-list"></div>
+    </div>
+
+    <div class="card">
+      <h3>Recently Mastered</h3>
+      <div id="recently-mastered" class="concept-list"></div>
+    </div>
+
+    <details>
+      <summary>Settings &amp; Data</summary>
+      <div style="padding: 12px 0;">
+        <button class="btn small-btn" onclick="exportData()">Export Progress (backup)</button>
+        <button class="btn small-btn" onclick="document.getElementById('import-file').click()">Import Progress</button>
+        <input id="import-file" type="file" accept=".json" style="display:none" onchange="importData(event)">
+        <button class="btn small-btn danger-btn" onclick="confirmReset()">Reset All Progress</button>
+        <p class="stat-sub" style="margin-top: 8px;">Progress is saved on this device. Use Export to back up or move to another device.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- PRACTICE VIEW -->
+  <section class="view" id="view-practice">
+    <div id="practice-content"></div>
+  </section>
+
+  <!-- DIAGNOSTIC VIEW -->
+  <section class="view" id="view-diagnostic">
+    <div id="diagnostic-content"></div>
+  </section>
+
+  <!-- CONCEPTS VIEW -->
+  <section class="view" id="view-concepts">
+    <div class="section-tab-row" id="concept-section-tabs"></div>
+    <div id="concept-list-container"></div>
+  </section>
+
+  <!-- SCHEDULE VIEW -->
+  <section class="view" id="view-schedule">
+    <div class="card">
+      <h2 style="margin-top: 0;">ACT Prep Schedule — May 5 → June 13</h2>
+      <div class="sched-progress-wrap">
+        <div class="sched-progress-bar"><div class="sched-progress-fill" id="sched-progress-fill"></div></div>
+        <div class="sched-progress-label" id="sched-progress-label">0 of 0 complete</div>
+      </div>
+      <div id="schedule-list"></div>
+    </div>
+  </section>
+
+  <!-- TEST DATES VIEW -->
+  <section class="view" id="view-dates">
+    <div class="card">
+      <h2>Upcoming 2026 ACT Test Dates</h2>
+      <div id="dates-list"></div>
+      <div class="hint">
+        Tip: Register at <strong>act.org</strong>. Late registration costs extra. The <strong>June 13</strong> date is your baseline target.
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* =============================================================
+   ACT TUTOR — Single-file standalone web app
+   - Runs entirely in the browser
+   - Saves progress to localStorage on each device
+   - All tutor explanations are baked in (no API needed)
+   ============================================================= */
+
+/* ----- 1. SECTION & CONCEPT TAXONOMY ----- */
+const SECTIONS = {
+  english:  { name: 'English',  questions: 75, time: 45, color: '#2563eb' },
+  math:     { name: 'Math',     questions: 60, time: 60, color: '#16a34a' },
+  reading:  { name: 'Reading',  questions: 40, time: 35, color: '#ea580c' },
+  science:  { name: 'Science',  questions: 40, time: 35, color: '#0891b2' }
+};
+
+const CONCEPTS = {
+  // ENGLISH
+  'eng-commas':      { section: 'english', name: 'Commas (essential vs non-essential, lists, intro)' },
+  'eng-semicolon':   { section: 'english', name: 'Semicolons & Colons' },
+  'eng-apostrophes': { section: 'english', name: 'Apostrophes (possessive vs plural vs contractions)' },
+  'eng-fragments':   { section: 'english', name: 'Fragments & Run-ons' },
+  'eng-sva':         { section: 'english', name: 'Subject-Verb Agreement' },
+  'eng-pronouns':    { section: 'english', name: 'Pronoun Agreement & Clarity' },
+  'eng-verbs':       { section: 'english', name: 'Verb Tense Consistency' },
+  'eng-modifiers':   { section: 'english', name: 'Misplaced & Dangling Modifiers' },
+  'eng-parallel':    { section: 'english', name: 'Parallel Structure' },
+  'eng-redundancy':  { section: 'english', name: 'Redundancy & Wordiness' },
+  'eng-transitions': { section: 'english', name: 'Transitions & Logic Words' },
+  'eng-purpose':     { section: 'english', name: 'Author Purpose / Sentence Relevance' },
+
+  // MATH
+  'math-fractions':  { section: 'math', name: 'Fractions, Percents & Ratios' },
+  'math-linear':     { section: 'math', name: 'Linear Equations & Inequalities' },
+  'math-systems':    { section: 'math', name: 'Systems of Equations' },
+  'math-quadratic':  { section: 'math', name: 'Quadratics & Factoring' },
+  'math-functions':  { section: 'math', name: 'Functions & f(x) Notation' },
+  'math-exponents':  { section: 'math', name: 'Exponents & Radicals' },
+  'math-coord':      { section: 'math', name: 'Coordinate Geometry (slope, distance, midpoint)' },
+  'math-lines':      { section: 'math', name: 'Equations of Lines (parallel, perpendicular)' },
+  'math-triangles':  { section: 'math', name: 'Triangles, Pythagorean & Special Right Triangles' },
+  'math-circles':    { section: 'math', name: 'Circles, Area & Volume' },
+  'math-trig':       { section: 'math', name: 'Trigonometry (SOHCAHTOA, identities)' },
+  'math-stats':      { section: 'math', name: 'Statistics, Probability & Counting' },
+  'math-word':       { section: 'math', name: 'Word Problems & Translation' },
+
+  // READING
+  'read-main':      { section: 'reading', name: 'Main Idea & Author Purpose' },
+  'read-detail':    { section: 'reading', name: 'Detail / Locate Information' },
+  'read-inference': { section: 'reading', name: 'Inference & Implication' },
+  'read-vocab':     { section: 'reading', name: 'Vocabulary in Context' },
+  'read-tone':      { section: 'reading', name: 'Tone, Attitude & Perspective' },
+
+  // SCIENCE
+  'sci-data':      { section: 'science', name: 'Data Interpretation (graphs/tables)' },
+  'sci-trends':    { section: 'science', name: 'Identifying Trends & Relationships' },
+  'sci-research':  { section: 'science', name: 'Research Summaries / Experimental Design' },
+  'sci-conflict':  { section: 'science', name: 'Conflicting Viewpoints' },
+  'sci-synthesis': { section: 'science', name: 'Synthesis & Application' }
+};
+
+/* ----- 1b. SAT-DERIVED PRIORITY -----
+   Patrick took the digital SAT March 14, 2026. Total 990 (47th %ile).
+   Section/domain performance:
+     R&W 470 (36th):  Information & Ideas 490-540  | Craft & Structure 420-480 *WEAK*
+                      Expression of Ideas 420-480 *WEAK* | Std Eng Conventions 490-540
+     Math 520 (57th): Algebra 470-540 | Advanced Math 550-600 *STRONG*
+                      Problem-Solving/Data 470-540 | Geometry & Trig 470-540
+
+   Map SAT weak domains to ACT concepts so the daily session picker boosts them.
+   'high' = SAT-flagged weak area, drill aggressively
+   'med'  = ACT-specific (Science) — no SAT signal, but still novel section
+   'low'  = SAT-strong area, maintain via retention only
+*/
+const SAT_PRIORITY = {
+  // ENGLISH — Expression of Ideas (SAT 420-480, weak)
+  'eng-transitions': 'high',
+  'eng-purpose':     'high',
+  'eng-redundancy':  'high',
+  // ENGLISH — Standard English Conventions (SAT 490-540, stronger; maintain)
+  'eng-commas':      'low',
+  'eng-semicolon':   'low',
+  'eng-apostrophes': 'low',
+  'eng-fragments':   'low',
+  'eng-sva':         'low',
+  'eng-pronouns':    'low',
+  'eng-verbs':       'low',
+  'eng-modifiers':   'low',
+  'eng-parallel':    'low',
+
+  // MATH — Algebra (SAT 470-540)
+  'math-linear':     'high',
+  'math-systems':    'high',
+  // MATH — Advanced (SAT 550-600, his strongest; maintain)
+  'math-quadratic':  'low',
+  'math-functions':  'low',
+  'math-exponents':  'low',
+  // MATH — Problem-Solving & Data (SAT 470-540)
+  'math-stats':      'high',
+  'math-word':       'high',
+  'math-fractions':  'high',
+  // MATH — Geometry & Trig (SAT 470-540)
+  'math-coord':      'high',
+  'math-lines':      'high',
+  'math-triangles':  'high',
+  'math-circles':    'high',
+  'math-trig':       'high',
+
+  // READING — Craft & Structure (SAT 420-480, his weakest reading domain)
+  'read-vocab':     'high',
+  'read-tone':      'high',
+  'read-main':      'high',
+  'read-inference': 'high',
+  // READING — Information & Ideas (SAT 490-540, stronger; maintain)
+  'read-detail':    'low',
+
+  // SCIENCE — no SAT signal, but ACT-specific section
+  'sci-data':      'med',
+  'sci-trends':    'med',
+  'sci-research':  'med',
+  'sci-conflict':  'med',
+  'sci-synthesis': 'med'
+};
+
+function satPriority(conceptId) {
+  return SAT_PRIORITY[conceptId] || 'med';
+}
+
+/* ----- 1c. PREP SCHEDULE — May 5 → June 13, 2026 ----- */
+const SCHEDULE = [
+  // WEEK 1
+  { id: 'sd-2026-05-05', date: '2026-05-05', week: 1, title: "Today's Session", focus: '20-30 min daily practice. SAT-focus concepts surface first.', startable: true },
+  { id: 'sd-2026-05-06', date: '2026-05-06', week: 1, title: "Today's Session", focus: 'Daily practice. Keep the streak going.', startable: true },
+  { id: 'sd-2026-05-07', date: '2026-05-07', week: 1, title: "Today's Session", focus: 'Daily practice.', startable: true },
+  { id: 'sd-2026-05-08', date: '2026-05-08', week: 1, title: "⚠️ Register for ACT (DEADLINE) + Today's Session", focus: 'Register for June 13 test at act.org TODAY. After today, late fees apply.', startable: true },
+  { id: 'sd-2026-05-09', date: '2026-05-09', week: 1, title: 'Long session (Week 1)', focus: '45 min in Concepts tab → drill any SAT-focus concept showing Weak/Needs Work.', startable: true },
+
+  // WEEK 2
+  { id: 'sd-2026-05-11', date: '2026-05-11', week: 2, title: "Today's Session + Drill Transitions/Purpose", focus: 'After daily session: 10 min on English Transitions and Author Purpose.', startable: true },
+  { id: 'sd-2026-05-12', date: '2026-05-12', week: 2, title: "Today's Session + Drill Tone/Vocab", focus: 'After daily session: drill Reading Tone and Vocabulary in Context.', startable: true },
+  { id: 'sd-2026-05-13', date: '2026-05-13', week: 2, title: "Today's Session + Drill Redundancy", focus: 'After daily session: drill English Redundancy. Concision = quick wins.', startable: true },
+  { id: 'sd-2026-05-14', date: '2026-05-14', week: 2, title: "Today's Session + Drill Inference/Main", focus: 'After daily session: drill Reading Inference and Main Idea.', startable: true },
+  { id: 'sd-2026-05-15', date: '2026-05-15', week: 2, title: "Today's Session + check progress", focus: 'Check dashboard — how many SAT-focus concepts moved from Weak to Strong this week?', startable: true },
+  { id: 'sd-2026-05-16', date: '2026-05-16', week: 2, title: 'Full timed English section (45 min)', focus: 'Use a real PDF from act.org. Self-grade. Identify 2 worst concept areas.', startable: false },
+  { id: 'sd-2026-05-17', date: '2026-05-17', week: 2, title: 'Drill weak areas from yesterday', focus: 'Drill the 2 concept areas you identified Saturday. Rest of day off.', startable: true },
+
+  // WEEK 3
+  { id: 'sd-2026-05-18', date: '2026-05-18', week: 3, title: "Today's Session + Math Linear/Systems", focus: 'After daily session: drill Math Linear Equations and Systems.', startable: true },
+  { id: 'sd-2026-05-19', date: '2026-05-19', week: 3, title: "Today's Session + Math Word Problems", focus: 'After daily session: drill Math Word Problems (translation is the bottleneck).', startable: true },
+  { id: 'sd-2026-05-20', date: '2026-05-20', week: 3, title: "Today's Session + Math Stats/Fractions", focus: 'After daily session: drill Statistics & Probability and Fractions/Percents.', startable: true },
+  { id: 'sd-2026-05-21', date: '2026-05-21', week: 3, title: "Today's Session + Math Coord Geom/Lines", focus: 'After daily session: drill Coordinate Geometry and Lines.', startable: true },
+  { id: 'sd-2026-05-22', date: '2026-05-22', week: 3, title: "Today's Session + Math Triangles/Circles/Trig", focus: 'After daily session: drill Triangles, Circles, basic Trig.', startable: true },
+  { id: 'sd-2026-05-23', date: '2026-05-23', week: 3, title: 'Full timed Math section (60 min)', focus: 'Calculator allowed throughout (different from SAT). Practice using it efficiently.', startable: false },
+  { id: 'sd-2026-05-24', date: '2026-05-24', week: 3, title: 'Intro Science', focus: 'Watch a 15-min YouTube primer on ACT Science. Then take Today\'s Session.', startable: true },
+
+  // WEEK 4
+  { id: 'sd-2026-05-25', date: '2026-05-25', week: 4, title: "Today's Session + Science Data Interp", focus: 'After daily session: drill Science Data Interpretation (graphs/tables).', startable: true },
+  { id: 'sd-2026-05-26', date: '2026-05-26', week: 4, title: "Today's Session + Science Trends/Research", focus: 'After daily session: drill Science Trends and Research Summaries.', startable: true },
+  { id: 'sd-2026-05-27', date: '2026-05-27', week: 4, title: "Today's Session + Science Conflicting Views", focus: 'After daily session: drill Conflicting Viewpoints (slow down — dense reading).', startable: true },
+  { id: 'sd-2026-05-28', date: '2026-05-28', week: 4, title: "Today's Session + remaining weak concepts", focus: 'Drill any remaining Weak SAT-focus concepts.', startable: true },
+  { id: 'sd-2026-05-29', date: '2026-05-29', week: 4, title: '⚠️ ACT Late Reg Deadline + Light review', focus: 'FINAL deadline to register for June 13 test (with late fee). Light review only — rest before tomorrow.', startable: true },
+  { id: 'sd-2026-05-30', date: '2026-05-30', week: 4, title: '🎯 FULL ACT Practice Test #1', focus: '2 hr 55 min. Quiet room, real timer, paper bubbles. 10-min break after Math.', startable: false },
+  { id: 'sd-2026-05-31', date: '2026-05-31', week: 4, title: 'Score practice test + drill weak areas', focus: 'Identify the 3 weakest concept areas. Drill those in the app.', startable: true },
+
+  // WEEK 5
+  { id: 'sd-2026-06-01', date: '2026-06-01', week: 5, title: "Today's Session + Stubborn Concept #1", focus: 'After daily session: 15 min drilling Stubborn Concept #1.', startable: true },
+  { id: 'sd-2026-06-02', date: '2026-06-02', week: 5, title: "Today's Session + Stubborn Concept #2", focus: 'After daily session: 15 min drilling Stubborn Concept #2.', startable: true },
+  { id: 'sd-2026-06-03', date: '2026-06-03', week: 5, title: "Today's Session + Stubborn Concept #3", focus: 'After daily session: 15 min drilling Stubborn Concept #3.', startable: true },
+  { id: 'sd-2026-06-04', date: '2026-06-04', week: 5, title: "Today's Session + Reading/Science endurance", focus: 'After daily session: back-to-back 35-min Reading + 35-min Science under timer.', startable: true },
+  { id: 'sd-2026-06-05', date: '2026-06-05', week: 5, title: "Today's Session + English/Math endurance", focus: 'After daily session: back-to-back 45-min English + 60-min Math under timer.', startable: true },
+  { id: 'sd-2026-06-06', date: '2026-06-06', week: 5, title: '🎯 FULL ACT Practice Test #2', focus: 'Compare to last week. Sections that improved most = trust those strategies on test day.', startable: false },
+  { id: 'sd-2026-06-07', date: '2026-06-07', week: 5, title: 'Light review of yesterday\'s misses', focus: 'Quick review only. Rest most of the day.', startable: true },
+
+  // WEEK 6 — TAPER
+  { id: 'sd-2026-06-08', date: '2026-06-08', week: 6, title: 'Light session (taper week)', focus: '15 min max. Review one Concepts tab area he wants to feel solid on.', startable: true },
+  { id: 'sd-2026-06-09', date: '2026-06-09', week: 6, title: 'Light session (taper week)', focus: 'Re-read 1-2 tutor walkthroughs for any concept that surprised him on practice tests.', startable: true },
+  { id: 'sd-2026-06-10', date: '2026-06-10', week: 6, title: 'Light session + Pack bag', focus: 'Print admission ticket + photo ID. Pack the test bag tonight.', startable: true },
+  { id: 'sd-2026-06-11', date: '2026-06-11', week: 6, title: 'Confidence boost session', focus: '10 min reviewing MASTERED concepts only. Confidence boost — not new material.', startable: true },
+  { id: 'sd-2026-06-12', date: '2026-06-12', week: 6, title: '🛌 Pre-test prep: lay out everything', focus: 'NO ACT prep. Lay out clothes/ID/ticket/calculator/snacks. Sleep by 10pm.', startable: false },
+  { id: 'sd-2026-06-13', date: '2026-06-13', week: 6, title: '🎯 ACT TEST DAY', focus: 'Arrive 30 min early. Trust the prep.', startable: false }
+];
+
+/* ----- 2. QUESTION BANK -----
+   Format:
+   {
+     id, concept, difficulty (1-3),
+     passage?: shared context (for reading/science),
+     question, choices: [a,b,c,d], correct: index,
+     explanation: full solution shown when correct or after tutor walkthrough,
+     tutor: [
+       { hint: 'Socratic nudge', followUp?: { q, choices, correct } },
+       ...
+     ]
+   }
+   When the student gets a question wrong, we walk through tutor[] step by step,
+   then re-quiz that concept until they get 2 in a row right.
+*/
+const QUESTIONS = [
+
+/* ============== ENGLISH: COMMAS ============== */
+{
+  id: 'q-eng-commas-1', concept: 'eng-commas', difficulty: 1,
+  passage: 'My older sister, [who lives in Denver], will visit us next month.',
+  question: 'In the sentence above, the bracketed clause "who lives in Denver" should be:',
+  choices: [
+    'set off with commas (as shown), because it is non-essential information',
+    'NOT set off with commas, because it identifies which sister',
+    'set off with dashes instead of commas',
+    'set off with parentheses'
+  ],
+  correct: 0,
+  explanation: 'The phrase "older sister" already identifies who she is, so "who lives in Denver" adds extra (non-essential) info. Non-essential clauses get commas on both sides. If she had multiple older sisters, then it would be essential and take no commas.',
+  tutor: [
+    { hint: 'Ask yourself: if you removed the bracketed phrase, would the sentence still tell us WHO is visiting? If yes, the phrase is non-essential and needs commas.' },
+    { hint: '"My older sister" already identifies one specific person. The clause is bonus info — it gets commas.', followUp: { question: 'Which version is correct: (1) "The book that I borrowed yesterday is overdue." (2) "The book, that I borrowed yesterday, is overdue."', choices: ['Version 1', 'Version 2', 'Both are correct', 'Neither'], correct: 0 } }
+  ]
+},
+{
+  id: 'q-eng-commas-2', concept: 'eng-commas', difficulty: 2,
+  passage: 'After winning the championship[,] the team celebrated[,] with their families[,] all evening.',
+  question: 'Which set of bracketed commas should be REMOVED?',
+  choices: [
+    'Only the first comma',
+    'Only the second and third commas',
+    'Only the third comma',
+    'All three commas'
+  ],
+  correct: 1,
+  explanation: 'Comma 1 is correct — it follows the introductory phrase "After winning the championship." Commas 2 and 3 incorrectly chop up the predicate ("celebrated with their families all evening"). You don\'t put commas between a verb and its prepositional phrases.',
+  tutor: [
+    { hint: 'A comma after an opening phrase like "After winning..." is correct. The other commas separate parts that belong together — never separate a verb from its modifiers without a reason.' },
+    { hint: 'Read it aloud without those middle commas: "the team celebrated with their families all evening." Smooth, right? They were extra.', followUp: { question: 'Where does the comma belong? "Although it was raining we went hiking."', choices: ['No comma needed', 'After "Although"', 'After "raining"', 'After "we"'], correct: 2 } }
+  ]
+},
+{
+  id: 'q-eng-commas-3', concept: 'eng-commas', difficulty: 2,
+  question: 'Which sentence uses commas correctly in a list?',
+  choices: [
+    'I packed shirts pants, and shoes for the trip.',
+    'I packed shirts, pants and shoes, for the trip.',
+    'I packed shirts, pants, and shoes for the trip.',
+    'I packed, shirts, pants, and shoes for the trip.'
+  ],
+  correct: 2,
+  explanation: 'In a list of three or more, commas separate each item. The ACT prefers the Oxford comma (the one before "and"). Don\'t put a comma right after the verb ("packed,"), and don\'t separate the list from the rest of the sentence with a stray comma.',
+  tutor: [
+    { hint: 'A list of three things needs a comma between EACH pair. That includes the comma before "and" (the Oxford comma).' },
+    { hint: 'Pattern: "X, Y, and Z." Commas go between items, not between the verb and the list.', followUp: { question: 'Which is correct?', choices: ['Apples oranges, and pears', 'Apples, oranges and pears', 'Apples, oranges, and pears', 'Apples, oranges, and, pears'], correct: 2 } }
+  ]
+},
+
+/* ============== ENGLISH: SEMICOLONS / COLONS ============== */
+{
+  id: 'q-eng-semicolon-1', concept: 'eng-semicolon', difficulty: 1,
+  passage: 'I missed the bus this morning[___] consequently, I was late for school.',
+  question: 'Which punctuation works in the bracket?',
+  choices: [
+    ', (just a comma)',
+    '; (semicolon)',
+    ': (colon)',
+    'no punctuation'
+  ],
+  correct: 1,
+  explanation: 'Both halves are independent clauses (complete sentences). A semicolon joins two independent clauses without a coordinating conjunction. A comma alone would be a comma splice. A colon would suggest the second part defines the first, which it doesn\'t.',
+  tutor: [
+    { hint: 'Test each side: "I missed the bus this morning" — complete sentence. "Consequently, I was late for school" — also complete. Two complete sentences need either a period, a semicolon, or a comma + FANBOYS conjunction.' },
+    { hint: 'Words like "consequently," "however," "therefore" are NOT conjunctions — they\'re adverbs. Don\'t let them fool you into using just a comma.', followUp: { question: 'Which is correctly punctuated?', choices: ['It rained all day, however the game continued.', 'It rained all day; however, the game continued.', 'It rained all day however, the game continued.', 'It rained all day: however, the game continued.'], correct: 1 } }
+  ]
+},
+{
+  id: 'q-eng-semicolon-2', concept: 'eng-semicolon', difficulty: 2,
+  passage: 'The recipe calls for three main ingredients[___] flour, sugar, and butter.',
+  question: 'Which punctuation works in the bracket?',
+  choices: [', (comma)', '; (semicolon)', ': (colon)', '— (dash)'],
+  correct: 2,
+  explanation: 'A colon introduces a list, definition, or explanation that follows a complete sentence. "The recipe calls for three main ingredients" is a complete sentence, and the list explains what those ingredients are.',
+  tutor: [
+    { hint: 'Rule: A colon must be preceded by a complete sentence. After it, you can have a list, a definition, or an explanation.' },
+    { hint: '"The recipe calls for three main ingredients." → complete. List follows → colon.', followUp: { question: 'Which is correct?', choices: ['She brought: chips, dip, and soda.', 'She brought chips, dip, and soda.', 'She brought; chips, dip, and soda.', 'Either A or B'], correct: 1 } }
+  ]
+},
+
+/* ============== ENGLISH: APOSTROPHES ============== */
+{
+  id: 'q-eng-apostrophes-1', concept: 'eng-apostrophes', difficulty: 1,
+  question: 'The dog wagged ___ tail happily. Which word fills the blank correctly?',
+  choices: ["it's", "its", "its'", "it is"],
+  correct: 1,
+  explanation: '"Its" (no apostrophe) is the possessive form, like "his" or "her." "It\'s" with an apostrophe is the contraction "it is" or "it has." Test: "The dog wagged it is tail" — doesn\'t work, so use "its."',
+  tutor: [
+    { hint: 'The apostrophe trick: "it\'s" = "it is" (or "it has"). If you can\'t replace with "it is," you need "its" with no apostrophe.' },
+    { hint: 'Possessive pronouns (his, hers, ours, theirs, ITS) never have apostrophes.', followUp: { question: '___ been a long day, and the team lost ___ best player.', choices: ["Its / it's", "It's / its", "Its / its", "It's / it's"], correct: 1 } }
+  ]
+},
+{
+  id: 'q-eng-apostrophes-2', concept: 'eng-apostrophes', difficulty: 2,
+  question: 'Which sentence is correctly punctuated?',
+  choices: [
+    "The students's projects are due next week.",
+    "The students' projects are due next week.",
+    "The student's projects are due next week.",
+    "The students projects are due next week."
+  ],
+  correct: 1,
+  explanation: 'Multiple students each have a project (plural possessive). For plural nouns ending in -s, just add an apostrophe after the s: "students\'." "Student\'s" would mean ONE student. "Students\'s" is wrong. "Students" with no apostrophe is plural but not possessive.',
+  tutor: [
+    { hint: 'Two questions: (1) Is it singular or plural? (2) Does it own something? Singular owner → \'s. Plural owner ending in -s → s\'.' },
+    { hint: 'Multiple students own multiple projects. Plural possessive = students\' (apostrophe after the s).', followUp: { question: 'Which is right? "The ___ uniforms were red." (referring to multiple players)', choices: ["player's", "players'", "players's", "players"], correct: 1 } }
+  ]
+},
+
+/* ============== ENGLISH: FRAGMENTS / RUN-ONS ============== */
+{
+  id: 'q-eng-fragments-1', concept: 'eng-fragments', difficulty: 1,
+  question: 'Which option is a complete sentence (not a fragment)?',
+  choices: [
+    'Running through the park early in the morning.',
+    'Although she was tired from the long drive.',
+    'The exhausted hikers finally reached the summit.',
+    'Which was the longest day of the year.'
+  ],
+  correct: 2,
+  explanation: 'A complete sentence needs a subject and a verb that together express a complete thought. "The exhausted hikers (subject) reached (verb) the summit" — complete. The others are dependent or have no main verb.',
+  tutor: [
+    { hint: 'Find the subject and the main verb. If the thought leaves you waiting for what happens next, it\'s a fragment.' },
+    { hint: '"Although she was tired from the long drive..." — what happened? The "although" makes it dependent. We need a main clause to follow.', followUp: { question: 'Which is a fragment?', choices: ['He left.', 'Because the alarm rang loudly.', 'It rained.', 'They cheered.'], correct: 1 } }
+  ]
+},
+{
+  id: 'q-eng-fragments-2', concept: 'eng-fragments', difficulty: 2,
+  passage: 'I love the beach[,] it has the best sunsets.',
+  question: 'How should this comma be replaced to fix the run-on (comma splice)?',
+  choices: [
+    'Keep the comma — it\'s correct.',
+    'Replace with a semicolon: "I love the beach; it has..."',
+    'Replace with "and": "I love the beach and it has..."',
+    'Both B and changing it to two sentences would work; A is wrong.'
+  ],
+  correct: 3,
+  explanation: 'A comma alone cannot join two complete sentences (that\'s a comma splice). Fixes: (1) period, (2) semicolon, (3) comma + coordinating conjunction (FANBOYS: for, and, nor, but, or, yet, so), or (4) make one clause subordinate.',
+  tutor: [
+    { hint: '"I love the beach." Complete. "It has the best sunsets." Complete. Two completes joined by just a comma = comma splice.' },
+    { hint: 'Memorize FANBOYS: For, And, Nor, But, Or, Yet, So. With a comma + one of those, you can join two completes.', followUp: { question: 'Which fixes "He studied hard, he aced the test."?', choices: ['He studied hard he aced the test.', 'He studied hard, and he aced the test.', 'He studied hard, so he aced the test.', 'Both B and C'], correct: 3 } }
+  ]
+},
+
+/* ============== ENGLISH: SUBJECT-VERB AGREEMENT ============== */
+{
+  id: 'q-eng-sva-1', concept: 'eng-sva', difficulty: 1,
+  passage: 'The collection of rare coins ___ displayed in the museum.',
+  question: 'Which verb agrees with the subject?',
+  choices: ['are', 'were', 'is', 'have been'],
+  correct: 2,
+  explanation: 'The subject is "collection" (singular), not "coins." Prepositional phrases like "of rare coins" don\'t change the subject. One collection IS displayed.',
+  tutor: [
+    { hint: 'Cross out the prepositional phrase ("of rare coins"). What\'s left? "The collection ___ displayed." Singular subject = singular verb.' },
+    { hint: 'The trap is the noun closest to the verb ("coins"), but the actual subject is "collection." Always find the real subject.', followUp: { question: 'Pick the right verb: "The box of chocolates ___ on the table."', choices: ['are', 'is', 'were', 'have been'], correct: 1 } }
+  ]
+},
+{
+  id: 'q-eng-sva-2', concept: 'eng-sva', difficulty: 2,
+  passage: 'Neither the coach nor the players ___ ready for the championship.',
+  question: 'Which verb is correct?',
+  choices: ['is', 'are', 'has been', 'was'],
+  correct: 1,
+  explanation: 'With "neither...nor" (or "either...or"), the verb agrees with the subject CLOSER to it. "Players" (plural, closer) → "are." If it were reversed ("Neither the players nor the coach ___"), it would take "is."',
+  tutor: [
+    { hint: 'Special rule for either/or and neither/nor: the verb matches the noun closer to it.' },
+    { hint: 'Closer noun = "players" (plural) → "are."', followUp: { question: 'Pick the right verb: "Either the chefs or the manager ___ responsible."', choices: ['are', 'is', 'have been', 'were'], correct: 1 } }
+  ]
+},
+
+/* ============== ENGLISH: PRONOUNS ============== */
+{
+  id: 'q-eng-pronouns-1', concept: 'eng-pronouns', difficulty: 1,
+  passage: 'Each student must bring ___ own laptop to the workshop.',
+  question: 'Which pronoun agrees with "Each student"?',
+  choices: ['their', 'his or her', 'them', 'they\'re'],
+  correct: 1,
+  explanation: '"Each" is singular, so the pronoun should be singular: "his or her." On the ACT, "their" is treated as plural and not accepted with singular antecedents like "each," "every," or "anyone." (In casual writing, singular "their" is accepted, but the ACT is strict.)',
+  tutor: [
+    { hint: '"Each," "every," "anyone," "everyone," "someone," "nobody" are all SINGULAR. They take singular pronouns: he, she, his, her, his or her.' },
+    { hint: 'On the ACT, choose "his or her" over "their" with these singular indefinite pronouns.', followUp: { question: 'Pick the right pronoun: "Everyone in the class submitted ___ essay on time."', choices: ['their', 'his or her', 'they\'re', 'them'], correct: 1 } }
+  ]
+},
+{
+  id: 'q-eng-pronouns-2', concept: 'eng-pronouns', difficulty: 2,
+  passage: 'Sarah and ___ went to the concert together.',
+  question: 'Which pronoun is correct?',
+  choices: ['me', 'I', 'myself', 'us'],
+  correct: 1,
+  explanation: 'Test by removing the other person: "___ went to the concert." You wouldn\'t say "Me went," you\'d say "I went." So it\'s "Sarah and I." If it were the object ("She invited Sarah and ___"), the answer would be "me."',
+  tutor: [
+    { hint: 'The "drop the other person" test: cover up "Sarah and." Which pronoun sounds right alone — "I" or "me"?' },
+    { hint: 'Subject of the sentence (doing the action) → "I." Object (receiving the action) → "me."', followUp: { question: 'Which is right? "The teacher gave the books to ___."', choices: ['Mark and I', 'Mark and me', 'Mark and myself', 'I and Mark'], correct: 1 } }
+  ]
+},
+
+/* ============== ENGLISH: VERB TENSE ============== */
+{
+  id: 'q-eng-verbs-1', concept: 'eng-verbs', difficulty: 1,
+  passage: 'Last summer, my family drove to the coast and ___ at the beach for two weeks.',
+  question: 'Which verb maintains tense consistency?',
+  choices: ['stays', 'will stay', 'stayed', 'is staying'],
+  correct: 2,
+  explanation: 'The sentence is set in the past ("Last summer," "drove"). The second verb should stay in past tense: "stayed."',
+  tutor: [
+    { hint: 'Look at the time signal ("Last summer") and the verb already in the sentence ("drove"). What tense?' },
+    { hint: 'Past tense throughout. Match it.', followUp: { question: 'Pick the right verb: "Yesterday I went to the store and ___ some milk."', choices: ['buy', 'bought', 'will buy', 'am buying'], correct: 1 } }
+  ]
+},
+{
+  id: 'q-eng-verbs-2', concept: 'eng-verbs', difficulty: 3,
+  passage: 'By the time we arrived at the theater, the movie ___ already started.',
+  question: 'Which verb form is correct?',
+  choices: ['has', 'had', 'have', 'was'],
+  correct: 1,
+  explanation: 'Two past events: arriving and the movie starting. The movie started FIRST, so use past perfect ("had started") to show it happened before the other past event.',
+  tutor: [
+    { hint: 'When you have two past events and need to show one happened before the other, use the past perfect (had + verb) for the earlier one.' },
+    { hint: 'Movie started → first past event → "had started." We arrived → second past event → simple past.', followUp: { question: 'Which is right? "She ___ already left when I called."', choices: ['has', 'had', 'have', 'will have'], correct: 1 } }
+  ]
+},
+
+/* ============== ENGLISH: MODIFIERS ============== */
+{
+  id: 'q-eng-modifiers-1', concept: 'eng-modifiers', difficulty: 2,
+  question: 'Which sentence has the modifier placed correctly?',
+  choices: [
+    'Walking down the street, a bright red car caught my eye.',
+    'A bright red car caught my eye walking down the street.',
+    'Walking down the street, I noticed a bright red car.',
+    'A bright red car, walking down the street, caught my eye.'
+  ],
+  correct: 2,
+  explanation: 'The opening phrase "Walking down the street" must describe the subject that follows. In A, it dangles — implying the car was walking. In C, "I" was walking, which is logical. Always make sure the subject right after the comma is who/what is doing the introductory action.',
+  tutor: [
+    { hint: 'Modifier rule: The thing being described should be right next to the modifier (no gap).' },
+    { hint: 'After "Walking down the street," who is walking? Whoever you put first after the comma. So you need a person, not the car.', followUp: { question: 'Pick the correct version: "Covered in chocolate, ___"', choices: ['I ate the donut.', 'the donut tasted amazing.', 'amazing was the donut\'s flavor.', 'tasting amazing, I devoured the donut.'], correct: 1 } }
+  ]
+},
+
+/* ============== ENGLISH: PARALLELISM ============== */
+{
+  id: 'q-eng-parallel-1', concept: 'eng-parallel', difficulty: 2,
+  passage: 'For her birthday, Anna received a new bike, a stack of books, and ___.',
+  question: 'Which option keeps the list parallel?',
+  choices: [
+    'going to a concert with her friends',
+    'a concert ticket',
+    'she got tickets to a concert',
+    'concert ticket'
+  ],
+  correct: 1,
+  explanation: 'The first two items are noun phrases ("a new bike," "a stack of books"). To keep parallel, the third should also be a noun phrase: "a concert ticket."',
+  tutor: [
+    { hint: 'In a list, all items should have the same grammatical form. Noun + noun + noun, or verb + verb + verb.' },
+    { hint: 'You have two noun phrases starting with "a." Keep the pattern.', followUp: { question: 'Which is parallel? "He likes hiking, swimming, and ___."', choices: ['to bike', 'biking', 'bike', 'he bikes'], correct: 1 } }
+  ]
+},
+
+/* ============== ENGLISH: REDUNDANCY ============== */
+{
+  id: 'q-eng-redundancy-1', concept: 'eng-redundancy', difficulty: 1,
+  passage: 'The ancient ruins were a relic from the past[___] dating back thousands of years.',
+  question: 'Which version is most concise (least redundant)?',
+  choices: [
+    'a relic from the past, dating back thousands of years',
+    'a past relic, dating back thousands of years from long ago',
+    'a relic, dating back thousands of years',
+    'an ancient relic from the past, that is from long ago'
+  ],
+  correct: 2,
+  explanation: 'A "relic" is by definition from the past. The phrase "from the past" is redundant. Cut it. The ACT prefers concise wording — when in doubt, the shortest grammatically correct option is often right.',
+  tutor: [
+    { hint: 'Hunt for words that repeat the same idea. "Past relic" / "relic from the past" / "ancient relic" all duplicate "relic."' },
+    { hint: 'On the ACT, when several options are grammatically OK, the shortest one usually wins.', followUp: { question: 'Most concise version of: "She returned back to her hometown of where she grew up."', choices: ['She returned back to her hometown.', 'She returned to her hometown.', 'She went back to her hometown of where she grew up.', 'She returned back to where she had grown up.'], correct: 1 } }
+  ]
+},
+
+/* ============== ENGLISH: TRANSITIONS ============== */
+{
+  id: 'q-eng-transitions-1', concept: 'eng-transitions', difficulty: 2,
+  passage: 'The team practiced every day for months. ___, they lost the championship game.',
+  question: 'Which transition fits the logic?',
+  choices: ['Therefore', 'Similarly', 'Nevertheless', 'For example'],
+  correct: 2,
+  explanation: 'Lots of practice would lead you to expect a win, but they LOST. That\'s a contrast. "Nevertheless" signals contrast, like "however" or "still."',
+  tutor: [
+    { hint: 'What\'s the relationship? Same direction (cause/effect, addition) or opposite (contrast, surprise)?' },
+    { hint: 'Practice → expect win. Reality → loss. That\'s contrast.', followUp: { question: 'Pick the right transition: "She studied hard. ___, she earned the highest grade."', choices: ['Therefore', 'However', 'In contrast', 'Nevertheless'], correct: 0 } }
+  ]
+},
+
+/* ============== ENGLISH: PURPOSE ============== */
+{
+  id: 'q-eng-purpose-1', concept: 'eng-purpose', difficulty: 2,
+  passage: 'A writer is editing an essay about the history of the bicycle. After this paragraph: "The first bicycles, called \'velocipedes,\' were heavy wooden contraptions built in the early 1800s," she wants to add a sentence that gives the reader a vivid sense of how uncomfortable they were.',
+  question: 'Which sentence best accomplishes that goal?',
+  choices: [
+    'Velocipedes were eventually replaced by safer designs.',
+    'These early bicycles weighed up to 80 pounds and lacked any padding or suspension, earning the nickname "boneshakers."',
+    'Velocipedes were a major innovation in transportation history.',
+    'Bicycles today come in many varieties and price ranges.'
+  ],
+  correct: 1,
+  explanation: 'The goal is "vivid sense of how uncomfortable they were." Option B gives concrete sensory details: weight, no padding, the nickname "boneshakers." The others don\'t address comfort.',
+  tutor: [
+    { hint: 'When the question gives you a goal, IGNORE answer choices that are factually true but off-topic. Pick the one that hits the goal exactly.' },
+    { hint: 'Goal = "vivid sense of how uncomfortable." Look for sensory/experience details.', followUp: { question: 'A writer wants to emphasize how QUICKLY a fire spread. Best choice?', choices: ['The fire was investigated by inspectors.', 'Within ninety seconds, the flames had jumped from the kitchen to the second floor.', 'Many homes have smoke detectors today.', 'The fire damaged several rooms.'], correct: 1 } }
+  ]
+},
+
+/* ============== MATH: FRACTIONS / PERCENTS / RATIOS ============== */
+{
+  id: 'q-math-frac-1', concept: 'math-fractions', difficulty: 1,
+  question: 'A shirt originally costs $40. It is on sale for 25% off. What is the sale price?',
+  choices: ['$10', '$15', '$30', '$35'],
+  correct: 2,
+  explanation: '25% of $40 = 0.25 × 40 = $10 off. Sale price = $40 − $10 = $30. Or: pay 75% → 0.75 × 40 = $30.',
+  tutor: [
+    { hint: '"25% off" means you pay 75% of the original. Or: find the discount amount and subtract.' },
+    { hint: '25% of 40 = 10. So 40 − 10 = ?', followUp: { question: 'A book costs $50. After a 30% discount, what\'s the new price?', choices: ['$20', '$30', '$35', '$45'], correct: 2 } }
+  ]
+},
+{
+  id: 'q-math-frac-2', concept: 'math-fractions', difficulty: 2,
+  question: 'In a class, the ratio of boys to girls is 3:5. If there are 24 students total, how many are boys?',
+  choices: ['6', '8', '9', '15'],
+  correct: 2,
+  explanation: 'Total parts: 3 + 5 = 8. Each part = 24 ÷ 8 = 3 students. Boys = 3 parts × 3 = 9. (Girls = 5 × 3 = 15. Check: 9 + 15 = 24 ✓)',
+  tutor: [
+    { hint: 'Ratios work in "parts." Add the parts: 3 + 5 = 8 total parts.' },
+    { hint: '24 students ÷ 8 parts = 3 students per part. Now: boys are 3 parts.', followUp: { question: 'Ratio of red to blue marbles is 2:3. There are 25 marbles total. How many are red?', choices: ['5', '8', '10', '15'], correct: 2 } }
+  ]
+},
+{
+  id: 'q-math-frac-3', concept: 'math-fractions', difficulty: 2,
+  question: 'A store increases the price of a $80 item by 15%, then later decreases the new price by 15%. What is the final price?',
+  choices: ['$80.00', '$78.20', '$79.20', '$92.00'],
+  correct: 1,
+  explanation: 'New price after increase: 80 × 1.15 = $92. After decrease: 92 × 0.85 = $78.20. (A 15% increase followed by a 15% decrease never returns to the original — the percentage is taken from a different base.)',
+  tutor: [
+    { hint: 'Two-step percent: do them in order, using the new price each time.' },
+    { hint: 'After +15%: 80 × 1.15 = 92. After −15% on $92: 92 × 0.85.', followUp: { question: '$100 increased by 20%, then decreased by 20%. Final price?', choices: ['$100', '$96', '$104', '$80'], correct: 1 } }
+  ]
+},
+
+/* ============== MATH: LINEAR EQUATIONS ============== */
+{
+  id: 'q-math-linear-1', concept: 'math-linear', difficulty: 1,
+  question: 'Solve for x:  3x + 7 = 22',
+  choices: ['3', '5', '7', '15'],
+  correct: 1,
+  explanation: '3x + 7 = 22  →  3x = 15  →  x = 5.',
+  tutor: [
+    { hint: 'Step 1: get the variable term alone. Subtract 7 from both sides.' },
+    { hint: '3x = 15. Now divide.', followUp: { question: 'Solve: 4x − 3 = 17', choices: ['3', '4', '5', '6'], correct: 2 } }
+  ]
+},
+{
+  id: 'q-math-linear-2', concept: 'math-linear', difficulty: 2,
+  question: 'Solve for x:  2(x − 3) = 4x + 6',
+  choices: ['−6', '−3', '3', '6'],
+  correct: 0,
+  explanation: '2(x − 3) = 4x + 6 → 2x − 6 = 4x + 6 → −12 = 2x → x = −6.',
+  tutor: [
+    { hint: 'First distribute the 2 across (x − 3).' },
+    { hint: '2x − 6 = 4x + 6. Get x\'s on one side, numbers on the other.', followUp: { question: 'Solve: 3(x + 2) = x − 4', choices: ['−5', '−2', '2', '5'], correct: 0 } }
+  ]
+},
+
+/* ============== MATH: SYSTEMS ============== */
+{
+  id: 'q-math-systems-1', concept: 'math-systems', difficulty: 2,
+  question: 'If x + y = 10 and x − y = 4, what is x?',
+  choices: ['3', '5', '7', '8'],
+  correct: 2,
+  explanation: 'Add the two equations: (x + y) + (x − y) = 10 + 4 → 2x = 14 → x = 7. (Then y = 3.)',
+  tutor: [
+    { hint: 'Adding the two equations cancels y. Try it.' },
+    { hint: '2x = 14. Solve for x.', followUp: { question: 'If a + b = 12 and a − b = 2, what is a?', choices: ['5', '6', '7', '10'], correct: 2 } }
+  ]
+},
+{
+  id: 'q-math-systems-2', concept: 'math-systems', difficulty: 2,
+  question: 'A movie theater sells adult tickets for $12 and child tickets for $8. On Saturday, 200 tickets were sold for a total of $2,000. How many child tickets were sold?',
+  choices: ['80', '100', '120', '150'],
+  correct: 1,
+  explanation: 'Let a = adult, c = child. a + c = 200 and 12a + 8c = 2000. From the first: a = 200 − c. Substitute: 12(200 − c) + 8c = 2000 → 2400 − 12c + 8c = 2000 → −4c = −400 → c = 100.',
+  tutor: [
+    { hint: 'Set up two variables: a (adult tickets) and c (child tickets). Write one equation for the count, one for the money.' },
+    { hint: 'Use substitution: a + c = 200 means a = 200 − c. Plug into the money equation.', followUp: { question: 'Apples cost $1, oranges $2. 50 fruits sold for $80 total. How many apples?', choices: ['10', '20', '30', '40'], correct: 1 } }
+  ]
+},
+
+/* ============== MATH: QUADRATICS ============== */
+{
+  id: 'q-math-quad-1', concept: 'math-quadratic', difficulty: 1,
+  question: 'Solve:  x² − 5x + 6 = 0',
+  choices: ['x = 1, 6', 'x = 2, 3', 'x = −2, −3', 'x = −1, −6'],
+  correct: 1,
+  explanation: 'Factor: x² − 5x + 6 = (x − 2)(x − 3) = 0. Find two numbers that multiply to +6 and add to −5: −2 and −3. So x = 2 or x = 3.',
+  tutor: [
+    { hint: 'Factor x² + bx + c by finding two numbers that multiply to c and add to b.' },
+    { hint: 'Multiply to 6, add to −5. Both negative? −2 × −3 = 6, −2 + (−3) = −5. ✓', followUp: { question: 'Solve: x² − 7x + 12 = 0', choices: ['x = 3, 4', 'x = 2, 6', 'x = −3, −4', 'x = 1, 12'], correct: 0 } }
+  ]
+},
+{
+  id: 'q-math-quad-2', concept: 'math-quadratic', difficulty: 2,
+  question: 'Which expression is equivalent to (x + 3)(x − 4)?',
+  choices: ['x² − x − 12', 'x² + x − 12', 'x² − 7x − 12', 'x² + 7x + 12'],
+  correct: 0,
+  explanation: 'FOIL: (x)(x) + (x)(−4) + (3)(x) + (3)(−4) = x² − 4x + 3x − 12 = x² − x − 12.',
+  tutor: [
+    { hint: 'FOIL: First, Outer, Inner, Last.' },
+    { hint: 'First: x·x = x². Outer: x·(−4) = −4x. Inner: 3·x = 3x. Last: 3·(−4) = −12. Now combine.', followUp: { question: 'Expand (x − 2)(x + 5).', choices: ['x² + 3x − 10', 'x² − 3x + 10', 'x² + 7x + 10', 'x² − 7x − 10'], correct: 0 } }
+  ]
+},
+
+/* ============== MATH: FUNCTIONS ============== */
+{
+  id: 'q-math-fn-1', concept: 'math-functions', difficulty: 1,
+  question: 'If f(x) = 2x² − 3, what is f(4)?',
+  choices: ['13', '29', '32', '61'],
+  correct: 1,
+  explanation: 'Plug in x = 4: f(4) = 2(4)² − 3 = 2(16) − 3 = 32 − 3 = 29.',
+  tutor: [
+    { hint: 'f(4) means "replace every x with 4."' },
+    { hint: 'Square first: 4² = 16. Then 2 × 16 = 32. Then 32 − 3.', followUp: { question: 'If g(x) = x² + 2x, what is g(3)?', choices: ['9', '12', '15', '18'], correct: 2 } }
+  ]
+},
+{
+  id: 'q-math-fn-2', concept: 'math-functions', difficulty: 2,
+  question: 'If f(x) = x + 5 and g(x) = 2x, what is f(g(3))?',
+  choices: ['8', '11', '13', '16'],
+  correct: 1,
+  explanation: 'Inside out. First g(3) = 2(3) = 6. Then f(6) = 6 + 5 = 11.',
+  tutor: [
+    { hint: 'Composition f(g(x)): work the inside function first, then plug into the outside.' },
+    { hint: 'g(3) = 6. Now f(6) = ?', followUp: { question: 'If f(x) = x² and g(x) = x + 1, what is f(g(2))?', choices: ['5', '7', '9', '4'], correct: 2 } }
+  ]
+},
+
+/* ============== MATH: EXPONENTS ============== */
+{
+  id: 'q-math-exp-1', concept: 'math-exponents', difficulty: 1,
+  question: 'Simplify:  x⁵ · x³',
+  choices: ['x⁸', 'x¹⁵', 'x², x⁵⁺³', '2x⁸'],
+  correct: 0,
+  explanation: 'When multiplying same base, ADD exponents: x⁵ · x³ = x⁵⁺³ = x⁸.',
+  tutor: [
+    { hint: 'Rule: aᵐ · aⁿ = aᵐ⁺ⁿ (add exponents when multiplying same base).' },
+    { hint: 'x⁵ · x³ = x^(5+3).', followUp: { question: 'Simplify: y⁴ · y⁶', choices: ['y¹⁰', 'y²⁴', '2y¹⁰', 'y²'], correct: 0 } }
+  ]
+},
+{
+  id: 'q-math-exp-2', concept: 'math-exponents', difficulty: 2,
+  question: 'Simplify:  (2x³)²',
+  choices: ['2x⁵', '2x⁶', '4x⁵', '4x⁶'],
+  correct: 3,
+  explanation: '(2x³)² = 2² · (x³)² = 4 · x⁶ = 4x⁶. Both the coefficient AND the variable get squared.',
+  tutor: [
+    { hint: '(ab)² = a²b². The exponent applies to EVERY factor inside the parentheses.' },
+    { hint: '2² = 4. (x³)² = x^(3·2) = x⁶.', followUp: { question: 'Simplify: (3y²)³', choices: ['3y⁶', '9y⁵', '27y⁵', '27y⁶'], correct: 3 } }
+  ]
+},
+
+/* ============== MATH: COORD GEOMETRY ============== */
+{
+  id: 'q-math-coord-1', concept: 'math-coord', difficulty: 1,
+  question: 'What is the slope of the line through (2, 3) and (6, 11)?',
+  choices: ['1/2', '2', '4', '8'],
+  correct: 1,
+  explanation: 'Slope = (y₂ − y₁) / (x₂ − x₁) = (11 − 3) / (6 − 2) = 8/4 = 2.',
+  tutor: [
+    { hint: 'Slope formula: rise over run = (Δy)/(Δx).' },
+    { hint: 'Δy = 11 − 3 = 8. Δx = 6 − 2 = 4. Slope = 8/4.', followUp: { question: 'Slope through (1, 4) and (5, 12)?', choices: ['1', '2', '3', '4'], correct: 1 } }
+  ]
+},
+{
+  id: 'q-math-coord-2', concept: 'math-coord', difficulty: 2,
+  question: 'What is the distance between the points (1, 2) and (4, 6)?',
+  choices: ['3', '4', '5', '7'],
+  correct: 2,
+  explanation: 'Distance = √((4−1)² + (6−2)²) = √(9 + 16) = √25 = 5. (This is a 3-4-5 right triangle.)',
+  tutor: [
+    { hint: 'Distance formula: √((x₂−x₁)² + (y₂−y₁)²). It\'s really just the Pythagorean theorem.' },
+    { hint: 'Δx = 3, Δy = 4. So distance = √(3² + 4²) = √25.', followUp: { question: 'Distance between (0, 0) and (6, 8)?', choices: ['10', '12', '14', '7'], correct: 0 } }
+  ]
+},
+
+/* ============== MATH: LINES ============== */
+{
+  id: 'q-math-lines-1', concept: 'math-lines', difficulty: 2,
+  question: 'A line is parallel to y = 3x − 5 and passes through (0, 2). What is its equation?',
+  choices: ['y = 3x + 2', 'y = -3x + 2', 'y = (1/3)x + 2', 'y = 3x − 2'],
+  correct: 0,
+  explanation: 'Parallel lines share the SAME slope. The given slope is 3. The new line has slope 3 and y-intercept 2 (since it passes through (0, 2)). Equation: y = 3x + 2.',
+  tutor: [
+    { hint: 'Parallel = same slope. Perpendicular = negative reciprocal slope.' },
+    { hint: 'Slope of given line = 3 (from y = 3x − 5). Use slope-intercept form with the new y-intercept.', followUp: { question: 'A line perpendicular to y = 2x + 1 has what slope?', choices: ['2', '−2', '1/2', '−1/2'], correct: 3 } }
+  ]
+},
+
+/* ============== MATH: TRIANGLES ============== */
+{
+  id: 'q-math-tri-1', concept: 'math-triangles', difficulty: 1,
+  question: 'In a right triangle, the legs are 6 and 8. What is the hypotenuse?',
+  choices: ['7', '10', '14', '12'],
+  correct: 1,
+  explanation: 'Pythagorean theorem: a² + b² = c². 6² + 8² = 36 + 64 = 100. c = √100 = 10. (This is a 3-4-5 triangle scaled by 2 — a common ACT pattern.)',
+  tutor: [
+    { hint: 'Pythagorean theorem: legs² added = hypotenuse².' },
+    { hint: '6² + 8² = 36 + 64 = 100. √100 = ?', followUp: { question: 'Right triangle with legs 5 and 12. Hypotenuse?', choices: ['7', '13', '17', '60'], correct: 1 } }
+  ]
+},
+{
+  id: 'q-math-tri-2', concept: 'math-triangles', difficulty: 2,
+  question: 'In a 30-60-90 triangle, the shortest side is 4. What is the length of the hypotenuse?',
+  choices: ['4√2', '4√3', '8', '12'],
+  correct: 2,
+  explanation: 'In a 30-60-90, the sides are in ratio 1 : √3 : 2. Shortest side (opposite 30°) = 1x. Hypotenuse (opposite 90°) = 2x. So hypotenuse = 2 × 4 = 8.',
+  tutor: [
+    { hint: 'Memorize the special right triangles. 30-60-90: sides in ratio 1 : √3 : 2.' },
+    { hint: 'Short leg = 4 = 1x, so x = 4. Hypotenuse = 2x = 8.', followUp: { question: 'In a 45-45-90 triangle, each leg is 5. What is the hypotenuse?', choices: ['5', '5√2', '10', '5√3'], correct: 1 } }
+  ]
+},
+
+/* ============== MATH: CIRCLES / AREA ============== */
+{
+  id: 'q-math-circ-1', concept: 'math-circles', difficulty: 1,
+  question: 'A circle has radius 6. What is its area?',
+  choices: ['12π', '36π', '6π', '144π'],
+  correct: 1,
+  explanation: 'Area of a circle = πr². π(6)² = 36π.',
+  tutor: [
+    { hint: 'Area = πr². Don\'t confuse with circumference (2πr).' },
+    { hint: '6² = 36. So area = 36π.', followUp: { question: 'A circle has radius 5. Area?', choices: ['10π', '25π', '50π', '100π'], correct: 1 } }
+  ]
+},
+{
+  id: 'q-math-circ-2', concept: 'math-circles', difficulty: 2,
+  question: 'A rectangular box is 4 ft long, 3 ft wide, and 2 ft tall. What is its volume?',
+  choices: ['9 ft³', '12 ft³', '24 ft³', '26 ft³'],
+  correct: 2,
+  explanation: 'Volume of a rectangular box = length × width × height = 4 × 3 × 2 = 24 ft³.',
+  tutor: [
+    { hint: 'Volume of a rectangular prism = l × w × h.' },
+    { hint: '4 × 3 = 12. Then × 2 = ?', followUp: { question: 'Volume of a box 5×6×10?', choices: ['60', '150', '300', '500'], correct: 2 } }
+  ]
+},
+
+/* ============== MATH: TRIG ============== */
+{
+  id: 'q-math-trig-1', concept: 'math-trig', difficulty: 2,
+  question: 'In a right triangle, the angle θ has opposite side 3 and hypotenuse 5. What is sin θ?',
+  choices: ['3/5', '4/5', '3/4', '5/3'],
+  correct: 0,
+  explanation: 'SOHCAHTOA: sin = Opposite / Hypotenuse = 3/5.',
+  tutor: [
+    { hint: 'SOH = Sine: Opposite / Hypotenuse. CAH = Cosine: Adjacent / Hypotenuse. TOA = Tangent: Opposite / Adjacent.' },
+    { hint: 'Opposite = 3, Hypotenuse = 5. sin θ = 3/5.', followUp: { question: 'In the same triangle (opposite 3, adjacent 4, hyp 5), what is cos θ?', choices: ['3/5', '4/5', '3/4', '5/4'], correct: 1 } }
+  ]
+},
+{
+  id: 'q-math-trig-2', concept: 'math-trig', difficulty: 3,
+  question: 'If sin θ = 5/13 and θ is in the first quadrant, what is tan θ?',
+  choices: ['5/12', '12/13', '13/12', '12/5'],
+  correct: 0,
+  explanation: 'Sine = opposite/hypotenuse = 5/13. Use Pythagorean: adjacent² + 5² = 13² → adjacent² = 169 − 25 = 144 → adjacent = 12. tan θ = opposite/adjacent = 5/12.',
+  tutor: [
+    { hint: 'Given sin (opp/hyp), find adjacent using Pythagorean theorem.' },
+    { hint: 'Opp = 5, Hyp = 13. Adj = √(13² − 5²) = √144 = 12. Now tan = opp/adj.', followUp: { question: 'If cos θ = 3/5 (first quadrant), what is sin θ?', choices: ['3/5', '4/5', '4/3', '5/3'], correct: 1 } }
+  ]
+},
+
+/* ============== MATH: STATS ============== */
+{
+  id: 'q-math-stats-1', concept: 'math-stats', difficulty: 1,
+  question: 'What is the mean of 4, 7, 10, 11, 13?',
+  choices: ['8', '9', '10', '11'],
+  correct: 1,
+  explanation: 'Mean = sum / count = (4 + 7 + 10 + 11 + 13) / 5 = 45 / 5 = 9.',
+  tutor: [
+    { hint: 'Mean (average) = sum of all numbers ÷ how many numbers.' },
+    { hint: 'Sum = 45. Count = 5.', followUp: { question: 'Mean of 2, 5, 8, 13?', choices: ['6', '7', '8', '9'], correct: 2 } }
+  ]
+},
+{
+  id: 'q-math-stats-2', concept: 'math-stats', difficulty: 2,
+  question: 'A bag has 3 red, 5 blue, and 2 green marbles. What is the probability of drawing a red marble?',
+  choices: ['1/10', '3/10', '3/7', '1/3'],
+  correct: 1,
+  explanation: 'P(red) = (number of red) / (total) = 3 / (3 + 5 + 2) = 3/10.',
+  tutor: [
+    { hint: 'Probability = favorable outcomes / total outcomes.' },
+    { hint: 'Red = 3. Total = 3 + 5 + 2 = 10.', followUp: { question: 'Bag has 4 red, 4 blue, 2 green. P(blue)?', choices: ['1/5', '2/5', '4/10', '2/5 (same as B and C)'], correct: 1 } }
+  ]
+},
+{
+  id: 'q-math-stats-3', concept: 'math-stats', difficulty: 2,
+  question: 'A student\'s test scores are 80, 85, 90, and x. The mean is 86. What is x?',
+  choices: ['85', '88', '89', '92'],
+  correct: 2,
+  explanation: 'Mean × count = sum. 86 × 4 = 344. Sum of given scores: 80 + 85 + 90 = 255. So x = 344 − 255 = 89.',
+  tutor: [
+    { hint: 'If you know the mean and the count, you know the total sum: mean × count = sum.' },
+    { hint: 'Total = 86 × 4 = 344. The other three add to 255. So x = 344 − 255.', followUp: { question: 'Scores 70, 80, x. Mean is 80. Find x.', choices: ['85', '90', '95', '100'], correct: 1 } }
+  ]
+},
+
+/* ============== MATH: WORD PROBLEMS ============== */
+{
+  id: 'q-math-word-1', concept: 'math-word', difficulty: 2,
+  question: 'A car travels at a constant speed of 60 mph. How far does it travel in 2.5 hours?',
+  choices: ['120 mi', '125 mi', '150 mi', '180 mi'],
+  correct: 2,
+  explanation: 'Distance = rate × time = 60 × 2.5 = 150 miles.',
+  tutor: [
+    { hint: 'Distance = rate × time. The classic D = rt.' },
+    { hint: '60 mph × 2.5 hr = ?', followUp: { question: 'A train at 80 mph for 3 hours covers how many miles?', choices: ['160', '180', '240', '320'], correct: 2 } }
+  ]
+},
+{
+  id: 'q-math-word-2', concept: 'math-word', difficulty: 3,
+  question: 'Maria is twice as old as her brother. In 5 years, the sum of their ages will be 31. How old is Maria now?',
+  choices: ['12', '14', '16', '18'],
+  correct: 1,
+  explanation: 'Let brother = b. Maria = 2b. In 5 years: (b + 5) + (2b + 5) = 31 → 3b + 10 = 31 → 3b = 21 → b = 7. Maria = 14.',
+  tutor: [
+    { hint: 'Set up variables: pick the smaller person as x, the relationship gives you the other person.' },
+    { hint: 'Brother now = b, Maria now = 2b. Add 5 to each for "in 5 years," then sum to 31.', followUp: { question: 'John is 3 times Tim\'s age. In 4 years, John will be twice Tim\'s age. How old is Tim now?', choices: ['2', '3', '4', '6'], correct: 2 } }
+  ]
+},
+
+/* ============== READING ============== */
+{
+  id: 'q-read-main-1', concept: 'read-main', difficulty: 2,
+  passage: `[Prose Fiction — original]\nMira had always thought of her grandmother's kitchen as a kind of museum: every drawer a vitrine, every spice jar a relic. Now, with the house being sold, she stood among the open boxes feeling like a curator who had failed her collection. She lifted the wooden rolling pin — its handles smoothed by sixty years of dough — and held it up to the window light. It seemed wrong to wrap it in newspaper. It seemed wrong to leave it behind. She set it on the counter and reached for the next thing.`,
+  question: 'The main purpose of this passage is to:',
+  choices: [
+    'argue that family possessions should never be discarded',
+    'describe Mira\'s reluctance to part with sentimental objects from her grandmother\'s kitchen',
+    'explain how kitchens have changed over generations',
+    'narrate the sale of a family home in detail'
+  ],
+  correct: 1,
+  explanation: 'The passage focuses on Mira\'s feelings about handling her grandmother\'s objects — calling herself a "failed curator," noting it feels "wrong" to either keep or leave the rolling pin. That\'s the core: emotional attachment / reluctance.',
+  tutor: [
+    { hint: 'For "main purpose" questions, ask: what is the SHARED feeling or focus across the whole passage? Don\'t pick details — pick the umbrella.' },
+    { hint: 'Wrong answers are usually too narrow (one detail), too broad (sweeping claim), or off-topic (something the passage didn\'t actually argue).', followUp: { question: 'In a passage where a runner describes her doubts before a race and how she pushes through them, the main purpose is most likely to:', choices: ['explain the rules of running', 'persuade readers to take up running', 'depict the runner\'s internal conflict before competing', 'describe the racecourse'], correct: 2 } }
+  ]
+},
+{
+  id: 'q-read-detail-1', concept: 'read-detail', difficulty: 1,
+  passage: 'Same passage as above (about Mira and the rolling pin).',
+  question: 'According to the passage, the rolling pin\'s handles are smoothed by:',
+  choices: ['Mira\'s frequent use', 'sixty years of use', 'being kept by the window', 'a recent restoration'],
+  correct: 1,
+  explanation: 'The passage states the handles are "smoothed by sixty years of dough."',
+  tutor: [
+    { hint: 'Detail questions: scan the passage for the keyword. Don\'t guess from memory.' },
+    { hint: 'Find "rolling pin" — what does the next phrase say?', followUp: { question: 'The passage compares the kitchen to a:', choices: ['museum', 'library', 'workshop', 'shrine'], correct: 0 } }
+  ]
+},
+{
+  id: 'q-read-inf-1', concept: 'read-inference', difficulty: 2,
+  passage: 'Same Mira passage.',
+  question: 'It can reasonably be inferred from the passage that Mira:',
+  choices: [
+    'plans to sell the rolling pin online',
+    'feels conflicted about which items to keep',
+    'never spent much time in her grandmother\'s kitchen',
+    'has already finished packing the kitchen'
+  ],
+  correct: 1,
+  explanation: 'She finds it "wrong to wrap it in newspaper" AND "wrong to leave it behind" — that\'s explicit conflict about whether to keep it. The other choices contradict the passage or aren\'t supported.',
+  tutor: [
+    { hint: 'Inferences must be SUPPORTED by the text — not your imagination. Ask: which phrase in the passage proves this?' },
+    { hint: 'She\'s torn between two "wrong" options about a single object. That\'s conflict.', followUp: { question: 'In the passage, the boxes being open suggests:', choices: ['someone is unpacking them', 'packing is in progress', 'they\'ve been emptied', 'they were never used'], correct: 1 } }
+  ]
+},
+{
+  id: 'q-read-vocab-1', concept: 'read-vocab', difficulty: 2,
+  passage: 'Same Mira passage.',
+  question: 'As used in the passage, the word "vitrine" most nearly means:',
+  choices: ['a kitchen tool', 'a glass display case', 'a type of cabinet door', 'a small window'],
+  correct: 1,
+  explanation: 'The passage compares the kitchen to a museum and the drawers to "vitrines." In museums, vitrines are glass display cases for showing artifacts. The metaphor is the clue: drawers as display cases.',
+  tutor: [
+    { hint: 'Vocab-in-context: don\'t rely on a dictionary definition. Use the surrounding sentence.' },
+    { hint: 'The kitchen is a "museum" and drawers are "vitrines." What is in a museum that holds artifacts?', followUp: { question: 'In "Her arguments were so cogent that even her opponents nodded," "cogent" most likely means:', choices: ['confusing', 'persuasive', 'lengthy', 'angry'], correct: 1 } }
+  ]
+},
+{
+  id: 'q-read-tone-1', concept: 'read-tone', difficulty: 2,
+  passage: 'Same Mira passage.',
+  question: 'The narrator\'s tone in this passage is best described as:',
+  choices: ['bitter and resentful', 'detached and clinical', 'wistful and reverent', 'cheerful and nostalgic'],
+  correct: 2,
+  explanation: 'Words like "museum," "relic," "failed her collection," "smoothed by sixty years" are reverent and slightly melancholy — that\'s wistful and reverent. Not bitter (she\'s not angry), not detached (she\'s deeply involved), not cheerful (the situation is sad).',
+  tutor: [
+    { hint: 'Tone questions: pick out the loaded WORDS. Are they harsh? Warm? Cold? Funny?' },
+    { hint: '"Museum," "relic," "smoothed by sixty years" → loving treatment of objects. "Failed her collection" → some sadness. Wistful + reverent.', followUp: { question: 'A passage uses words like "magnificent," "gleaming," and "triumphant." The tone is most likely:', choices: ['cynical', 'admiring', 'mournful', 'objective'], correct: 1 } }
+  ]
+},
+
+/* ============== SCIENCE ============== */
+{
+  id: 'q-sci-data-1', concept: 'sci-data', difficulty: 1,
+  passage: `[Study summary — original]\nA student measured the boiling point of water (in °C) at four different elevations:\n  Elevation (m) |  Boiling Point (°C)\n      0        |       100.0\n    500        |        98.4\n   1000        |        96.8\n   2000        |        93.6`,
+  question: 'According to the table, as elevation increases, the boiling point of water:',
+  choices: ['increases', 'decreases', 'remains constant', 'increases then decreases'],
+  correct: 1,
+  explanation: 'Reading down the table: 100.0 → 98.4 → 96.8 → 93.6. The values get smaller as elevation increases. So boiling point decreases.',
+  tutor: [
+    { hint: 'Read the values in order. Are they going up or down as you read down the column?' },
+    { hint: '100 → 98 → 96 → 93. That\'s decreasing.', followUp: { question: 'A table shows that as temperature rises from 10°C to 40°C, reaction rate goes from 5 to 25 units. Reaction rate ___ as temperature rises.', choices: ['decreases', 'remains the same', 'increases', 'oscillates'], correct: 2 } }
+  ]
+},
+{
+  id: 'q-sci-data-2', concept: 'sci-data', difficulty: 2,
+  passage: 'Same table from above (elevation vs. boiling point).',
+  question: 'Based on the data, what is the most reasonable estimate for the boiling point of water at 1500 m?',
+  choices: ['92.0 °C', '95.2 °C', '97.0 °C', '99.0 °C'],
+  correct: 1,
+  explanation: '1500 m is halfway between 1000 m (96.8) and 2000 m (93.6). Halfway between those is (96.8 + 93.6) / 2 = 95.2 °C.',
+  tutor: [
+    { hint: 'When the question asks for a value between two given points, average the two surrounding values (linear interpolation).' },
+    { hint: '1500 is halfway between 1000 and 2000. So average 96.8 and 93.6.', followUp: { question: 'A table shows pressure of 100 kPa at 0 m and 80 kPa at 1000 m. Best estimate at 500 m?', choices: ['70 kPa', '85 kPa', '90 kPa', '95 kPa'], correct: 2 } }
+  ]
+},
+{
+  id: 'q-sci-trends-1', concept: 'sci-trends', difficulty: 2,
+  passage: 'Same elevation/boiling-point table.',
+  question: 'Approximately how much does the boiling point change for every 1000 m increase in elevation?',
+  choices: ['about 0.3 °C', 'about 1.6 °C', 'about 3.2 °C', 'about 6.4 °C'],
+  correct: 2,
+  explanation: 'From 0 to 1000 m: 100.0 − 96.8 = 3.2. From 1000 to 2000 m: 96.8 − 93.6 = 3.2. So roughly 3.2 °C per 1000 m.',
+  tutor: [
+    { hint: 'Pick two rows that are 1000 m apart and find the difference in boiling point.' },
+    { hint: '0 m: 100.0. 1000 m: 96.8. Difference = ?', followUp: { question: 'If pH drops from 7.0 to 4.0 over 30 days, how much per day (approx)?', choices: ['0.01', '0.05', '0.1', '1'], correct: 2 } }
+  ]
+},
+{
+  id: 'q-sci-research-1', concept: 'sci-research', difficulty: 2,
+  passage: `[Study Summary — original]\nResearchers tested whether a new fertilizer (Fertilizer X) increases plant height. They divided 100 identical seedlings into two groups: Group A (50 plants) received Fertilizer X every week; Group B (50 plants) received only water. All plants were kept under the same light, temperature, and watering schedule for 8 weeks. After 8 weeks, Group A plants averaged 22 cm tall; Group B plants averaged 15 cm tall.`,
+  question: 'In this experiment, Group B serves as the:',
+  choices: ['independent variable', 'dependent variable', 'control group', 'experimental group'],
+  correct: 2,
+  explanation: 'A control group receives no treatment (or a placebo) and is used for comparison. Group B got only water — no Fertilizer X — so it\'s the control. Group A is the experimental (treatment) group.',
+  tutor: [
+    { hint: 'Vocabulary: control group = the comparison baseline (no treatment). Experimental group = gets the treatment. Independent variable = what you change. Dependent variable = what you measure.' },
+    { hint: 'Group B got water only — no fertilizer. That\'s the comparison baseline.', followUp: { question: 'In a study testing a new drug vs. a sugar pill, the sugar pill group is the ___.', choices: ['experimental group', 'independent variable', 'control group', 'placebo effect'], correct: 2 } }
+  ]
+},
+{
+  id: 'q-sci-research-2', concept: 'sci-research', difficulty: 2,
+  passage: 'Same Fertilizer X study.',
+  question: 'A fellow scientist criticizes the study, saying it doesn\'t prove Fertilizer X is better than other commercial fertilizers. This critique is valid because the study:',
+  choices: [
+    'used only 100 plants total',
+    'lasted only 8 weeks',
+    'compared Fertilizer X only to water, not to other fertilizers',
+    'measured height instead of weight'
+  ],
+  correct: 2,
+  explanation: 'The study compared Fertilizer X to NO fertilizer (just water). To claim Fertilizer X is better than other commercial fertilizers, you\'d need a third group using a different fertilizer. The critique is about scope of comparison.',
+  tutor: [
+    { hint: 'Read the critique carefully and the study setup. Match the critique to the actual gap in design.' },
+    { hint: 'Critique: "doesn\'t prove X is better than OTHER fertilizers." What did the study actually compare? X vs. water. So the gap = no comparison to other fertilizers.', followUp: { question: 'If a study tested a drug only on adults, you cannot conclude:', choices: ['that the drug works', 'that the drug works in children', 'that the drug has side effects', 'anything from the study'], correct: 1 } }
+  ]
+},
+{
+  id: 'q-sci-conflict-1', concept: 'sci-conflict', difficulty: 2,
+  passage: `[Conflicting Viewpoints — original]\nScientist 1: The decline in regional honeybee populations is primarily caused by neonicotinoid pesticides, which damage bees' nervous systems and impair their ability to find food.\nScientist 2: While pesticides may play a role, the dominant cause of bee decline is habitat loss. Bees rely on diverse flowering plants, and large monoculture farms have eliminated the food sources bees depend on.`,
+  question: 'Scientist 1 and Scientist 2 would most likely disagree about which of the following?',
+  choices: [
+    'Whether bee populations are declining',
+    'The primary cause of bee decline',
+    'Whether bees pollinate flowers',
+    'Whether neonicotinoids exist'
+  ],
+  correct: 1,
+  explanation: 'Both scientists agree bees are declining. They disagree on the PRIMARY cause: pesticides (Scientist 1) vs. habitat loss (Scientist 2).',
+  tutor: [
+    { hint: 'For "disagree about" questions, find the specific point of conflict — not what they share.' },
+    { hint: 'They agree decline is happening. What do they pin it on?', followUp: { question: 'If both scientists agree that pesticides have SOME effect, but disagree on whether it\'s the BIGGEST effect, the disagreement is over:', choices: ['whether pesticides exist', 'the magnitude / primary cause', 'whether bees decline', 'pesticide chemistry'], correct: 1 } }
+  ]
+},
+{
+  id: 'q-sci-conflict-2', concept: 'sci-conflict', difficulty: 3,
+  passage: 'Same Conflicting Viewpoints (Scientists 1 and 2 on bees).',
+  question: 'Suppose new evidence shows that even in pesticide-free areas, bee populations have declined sharply where flower diversity is low. This new evidence would most strongly:',
+  choices: [
+    'support Scientist 1',
+    'support Scientist 2',
+    'support both equally',
+    'undermine both'
+  ],
+  correct: 1,
+  explanation: 'The new finding shows decline where there are no pesticides but low flower diversity. Scientist 2 blames habitat / flower diversity loss — this fits her view. Scientist 1 says pesticides are primary, but the evidence shows decline without pesticides, weakening her view.',
+  tutor: [
+    { hint: 'Match the new evidence to the predictions of each viewpoint. Whose theory is most consistent with it?' },
+    { hint: 'No pesticides + low flower diversity → still decline. Scientist 2 says habitat is key. Match.', followUp: { question: 'If decline is shown to occur ONLY where pesticides are used and flower diversity is the same, that supports:', choices: ['Scientist 1', 'Scientist 2', 'Both equally', 'Neither'], correct: 0 } }
+  ]
+},
+{
+  id: 'q-sci-syn-1', concept: 'sci-synthesis', difficulty: 3,
+  passage: 'Combine the elevation/boiling-point table with the Fertilizer X study.',
+  question: 'Which of the following is true based on BOTH passages?',
+  choices: [
+    'Both experiments used a control group',
+    'Both experiments measured a physical change in response to a single varied factor',
+    'Both experiments lasted 8 weeks',
+    'Both experiments tested the effect of pesticides'
+  ],
+  correct: 1,
+  explanation: 'The boiling-point study varied elevation and measured boiling point — a single varied factor and a measured physical outcome. The fertilizer study varied fertilizer use and measured plant height — single factor, measured outcome. Choice A is wrong (the boiling-point study had no control). Choice C and D are clearly wrong.',
+  tutor: [
+    { hint: 'Synthesis questions: find what is true of BOTH passages, not just one.' },
+    { hint: 'Eliminate options that only describe one passage. Look for a structural commonality.', followUp: { question: 'If Study X varies temperature and Study Y varies pH, what do they have in common?', choices: ['Same variable', 'Both vary one factor and measure an outcome', 'Both use plants', 'Same units'], correct: 1 } }
+  ]
+},
+
+/* ============== SAT-DERIVED FOCUS PACK (added May 2026) ==============
+   These questions target SAT-flagged weak domains:
+   Expression of Ideas, Craft & Structure (Reading), and SAT Math weak strands.
+*/
+
+/* ENGLISH — Transitions (Expression of Ideas, SAT 420-480) */
+{
+  id: 'q-eng-transitions-2', concept: 'eng-transitions', difficulty: 2,
+  passage: 'Solar panels were once prohibitively expensive for most homeowners. [____], the price per watt has dropped by more than 80% since 2010, putting residential solar within reach for millions of families.',
+  question: 'Which choice provides the most logical transition?',
+  choices: ['Furthermore', 'However', 'For example', 'In other words'],
+  correct: 1,
+  explanation: 'The first sentence describes a problem (expensive). The second describes a contrast (now affordable). "However" signals contrast. "Furthermore" adds, "For example" illustrates, "In other words" restates.',
+  tutor: [
+    { hint: 'First decide the LOGICAL relationship between the two sentences. Are they reinforcing each other or contrasting?' },
+    { hint: 'The first says "expensive," the second says "dropped 80%." That is a contrast. Which transition word means contrast?', followUp: { question: '"He was exhausted; ___, he finished the marathon." Choose the contrast word.', choices: ['therefore', 'similarly', 'nevertheless', 'thus'], correct: 2 } }
+  ]
+},
+{
+  id: 'q-eng-transitions-3', concept: 'eng-transitions', difficulty: 2,
+  passage: 'The bridge\'s steel cables expand in summer heat. [____], engineers built expansion joints into the deck to absorb the change in length without buckling.',
+  question: 'Which choice gives the clearest cause-and-effect link?',
+  choices: ['In contrast', 'Likewise', 'For this reason', 'On the other hand'],
+  correct: 2,
+  explanation: 'The cables expanding (cause) leads to engineers adding joints (effect). "For this reason" signals cause/effect. "In contrast" and "On the other hand" signal opposition; "Likewise" signals similarity.',
+  tutor: [
+    { hint: 'Notice that the second sentence describes a SOLUTION to the issue in the first. That is a cause-effect relationship.' },
+    { hint: 'Pick the transition that signals "because of this." Words like "in contrast" or "on the other hand" point to opposition, not cause.' }
+  ]
+},
+{
+  id: 'q-eng-transitions-4', concept: 'eng-transitions', difficulty: 1,
+  passage: 'Ana practiced the violin for three hours a day. [____], her teacher worried she was practicing too long without breaks.',
+  question: 'Which transition fits best?',
+  choices: ['Therefore', 'Still', 'In addition', 'For example'],
+  correct: 1,
+  explanation: '"Still" signals concession — Ana practiced a lot, BUT the teacher worried. "Therefore" would mean the teacher\'s worry was caused by practice (logically reversed). "In addition" adds a similar fact; "For example" illustrates.',
+  tutor: [
+    { hint: 'The first sentence sounds positive (lots of practice). The second is a concern. The transition needs to set up that contrast.' }
+  ]
+},
+
+/* ENGLISH — Author Purpose / Sentence Relevance (Expression of Ideas) */
+{
+  id: 'q-eng-purpose-2', concept: 'eng-purpose', difficulty: 2,
+  passage: 'The writer is considering deleting the underlined sentence: "The Pacific giant octopus has been observed solving simple puzzles, opening jars, and recognizing individual humans by sight. [These cephalopods can change color in less than a second.] Some marine biologists now classify them among the most intelligent invertebrates."',
+  question: 'Should the writer make this deletion?',
+  choices: [
+    'Kept, because it provides a vivid example of octopus intelligence.',
+    'Kept, because it adds visual interest to the passage.',
+    'Deleted, because the paragraph focuses on intelligence, and color-changing speed does not support that focus.',
+    'Deleted, because the information is inaccurate.'
+  ],
+  correct: 2,
+  explanation: 'The paragraph is about cognitive abilities (puzzles, jars, recognition, intelligence). Color-changing speed is impressive but unrelated to intelligence — it breaks the focus. Always delete sentences that go off-topic from the paragraph\'s main idea.',
+  tutor: [
+    { hint: 'First, identify the paragraph\'s topic in your own words. What is it really about?' },
+    { hint: 'Now check if the underlined sentence advances that topic. If it just adds a different cool fact, it should go.', followUp: { question: 'A paragraph is about how exercise improves sleep. The sentence "Many people exercise outdoors in spring" is:', choices: ['Relevant — it mentions exercise', 'Off-topic — it does not mention sleep', 'Off-topic — wrong season', 'Relevant — adds atmosphere'], correct: 1 } }
+  ]
+},
+{
+  id: 'q-eng-purpose-3', concept: 'eng-purpose', difficulty: 2,
+  passage: 'The writer wants to add this sentence: "By the time the survey ended in 2018, more than 4,200 species had been catalogued, including 312 previously unknown to science." Existing paragraph: [1] Marine biologists began the Census of Marine Life in 2010. [2] Volunteers and researchers from 80 countries joined. [3] They sampled reefs, deep trenches, and open water. [4] The data have reshaped how we estimate ocean biodiversity.',
+  question: 'For maximum logical flow, the new sentence should be placed:',
+  choices: [
+    'before sentence 1',
+    'between sentences 2 and 3',
+    'between sentences 3 and 4',
+    'after sentence 4'
+  ],
+  correct: 2,
+  explanation: 'The new sentence describes the OUTCOME of the sampling (sentence 3) and provides the basis for the conclusion in sentence 4 ("the data have reshaped..."). It bridges 3 and 4. Placing it earlier disrupts chronology.',
+  tutor: [
+    { hint: 'Read the new sentence and ask: what does it tell us — beginning, middle, or end of the story?' },
+    { hint: '"By the time the survey ended... 4,200 species catalogued." That is a result. Where in the existing flow does the result belong?' }
+  ]
+},
+{
+  id: 'q-eng-purpose-4', concept: 'eng-purpose', difficulty: 2,
+  passage: 'The writer wants to introduce the paragraph with a sentence that previews its main argument. The paragraph then describes how community gardens reduced food costs, built neighborhood ties, and gave residents fresh produce in food deserts.',
+  question: 'Which choice best previews the paragraph?',
+  choices: [
+    'Community gardens have been around since the late nineteenth century.',
+    'Community gardens deliver economic, social, and nutritional benefits to the neighborhoods that host them.',
+    'Tomatoes, peppers, and lettuce are popular vegetables for community plots.',
+    'Some community gardens charge a small annual fee for plot use.'
+  ],
+  correct: 1,
+  explanation: 'The paragraph covers three benefits: cost (economic), neighborhood ties (social), produce in food deserts (nutritional). Choice B previews exactly that triad. The others are tangential facts.',
+  tutor: [
+    { hint: 'List the topics the paragraph actually covers, then look for the choice that names them — even abstractly.' }
+  ]
+},
+
+/* ENGLISH — Redundancy & Wordiness (Expression of Ideas) */
+{
+  id: 'q-eng-redundancy-2', concept: 'eng-redundancy', difficulty: 1,
+  passage: 'The committee agreed to [postpone and delay] the vote until the following week.',
+  question: 'Which is best?',
+  choices: ['postpone and delay', 'postpone', 'put off, postpone, and delay', 'delay and postpone again'],
+  correct: 1,
+  explanation: '"Postpone" and "delay" mean the same thing here. Use one word. ACT and SAT both heavily favor concision: if two words say the same thing, drop one.',
+  tutor: [
+    { hint: 'Are "postpone" and "delay" different in meaning, or do they mean the same thing?' },
+    { hint: 'Same meaning = redundant. Pick the shortest option that still says everything.' }
+  ]
+},
+{
+  id: 'q-eng-redundancy-3', concept: 'eng-redundancy', difficulty: 2,
+  passage: 'The vintage car, [which was old and aged from earlier times], sold at auction for over a million dollars.',
+  question: 'Which is best?',
+  choices: [
+    'which was old and aged from earlier times',
+    'which was old, aged, and from earlier times',
+    'which was vintage,',
+    'DELETE the bracketed phrase'
+  ],
+  correct: 3,
+  explanation: '"Vintage" already means old/from earlier times. The whole bracketed phrase is redundant. Deleting it is best — concision wins.',
+  tutor: [
+    { hint: 'Read the sentence WITHOUT the bracketed phrase. Does it lose any necessary information?' },
+    { hint: '"Vintage car" already tells us it is old. Restating that adds zero information.' }
+  ]
+},
+
+/* READING — Vocabulary in Context (Craft & Structure, SAT 420-480) */
+{
+  id: 'q-read-vocab-2', concept: 'read-vocab', difficulty: 2,
+  passage: 'Maria\'s argument was so polished that even her opponents conceded its force. The committee, however, remained unmoved by her eloquence; they were swayed not by rhetoric but by data, and Maria had brought little of that.',
+  question: 'As used in the passage, "force" most nearly means:',
+  choices: ['physical strength', 'persuasive power', 'military unit', 'compulsion'],
+  correct: 1,
+  explanation: 'Maria delivered an ARGUMENT, and even opponents conceded its "force." In context, force = the power of the argument to persuade. Strength/army/compulsion do not fit an argument.',
+  tutor: [
+    { hint: 'In vocab-in-context questions, the dictionary definition is rarely the answer. Substitute each option into the sentence and see which one preserves the meaning.' },
+    { hint: 'The sentence is about an ARGUMENT being effective. Which choice describes that?' }
+  ]
+},
+{
+  id: 'q-read-vocab-3', concept: 'read-vocab', difficulty: 2,
+  passage: 'The new policy ran counter to decades of practice in the agency. Veteran staffers were reluctant to bend, and many quietly continued doing things the old way until management was forced to issue a formal directive.',
+  question: 'As used in the passage, "bend" most nearly means:',
+  choices: ['curve physically', 'submit or yield', 'distort the truth', 'redirect attention'],
+  correct: 1,
+  explanation: 'Veterans were "reluctant to bend" regarding the new policy. They didn\'t want to yield/submit to the new rule. The sentence is about resistance to change, not physical motion or deceit.',
+  tutor: [
+    { hint: 'What were the veterans being asked to do? Adopt the new policy. So "bend" = ?' },
+    { hint: 'Try each option in the sentence: bend the truth? curve physically? submit? Pick the one that fits the situation.' }
+  ]
+},
+{
+  id: 'q-read-vocab-4', concept: 'read-vocab', difficulty: 3,
+  passage: 'The mayor\'s statement was studiously vague, an exercise in saying just enough to seem responsive while committing to nothing concrete. Reporters left the briefing with the same questions they had brought in.',
+  question: 'In this context, "studiously" most nearly means:',
+  choices: ['in a scholarly manner', 'with deliberate care', 'while studying', 'enthusiastically'],
+  correct: 1,
+  explanation: 'The vagueness was carefully calculated — the mayor INTENTIONALLY said little. "Studiously" here means with deliberate care/effort. The "scholarly" sense doesn\'t fit a politician dodging questions.',
+  tutor: [
+    { hint: 'Notice the rest of the sentence: "an exercise in saying just enough." That signals deliberate effort. Match that meaning.' }
+  ]
+},
+
+/* READING — Tone, Attitude & Perspective (Craft & Structure) */
+{
+  id: 'q-read-tone-2', concept: 'read-tone', difficulty: 2,
+  passage: 'I had been promised, in glowing terms, that the cabin would have "rustic charm." What I found was a leaning shed with a roof that whistled in the wind and a sink that emitted noises I will not describe here. Charm, evidently, was a word with elastic meaning.',
+  question: 'The narrator\'s tone toward the cabin can best be described as:',
+  choices: ['wistful and nostalgic', 'wryly disappointed', 'furiously outraged', 'detached and academic'],
+  correct: 1,
+  explanation: 'The narrator uses irony ("rustic charm" → leaning shed) and humor ("noises I will not describe"). That is wry / amused disappointment — not nostalgia, not rage, not detachment.',
+  tutor: [
+    { hint: 'Tone questions: identify two or three specific words/phrases that carry attitude, then match them to a choice.' },
+    { hint: 'Quotes "rustic charm" sarcastically; ends with a joke ("elastic meaning"). Sarcasm + humor = wry. Anger would not joke.' }
+  ]
+},
+{
+  id: 'q-read-tone-3', concept: 'read-tone', difficulty: 2,
+  passage: 'Dr. Achebe had spent thirty years studying the migration patterns of monarch butterflies. When she finally tracked a tagged butterfly across two continents, she described the moment, in her quiet way, as "a small completion." Colleagues understood: for her, decades of patience had landed in a single, steady note of confirmation.',
+  question: 'The author\'s attitude toward Dr. Achebe is best described as:',
+  choices: ['skeptical and reserved', 'admiring and respectful', 'critical of her methods', 'amused by her caution'],
+  correct: 1,
+  explanation: 'Phrases like "thirty years," "in her quiet way," "decades of patience," and "steady note of confirmation" all paint her in a positive, admiring light. Nothing in the passage critiques her or treats her humorously.',
+  tutor: [
+    { hint: 'Look for value-loaded words: "patience," "completion," "steady" — are these positive or negative?' }
+  ]
+},
+{
+  id: 'q-read-tone-4', concept: 'read-tone', difficulty: 3,
+  passage: 'The CEO insisted that the layoffs were "regrettable but necessary," language he had used at three previous companies, all of which had paid him bonuses for cost reduction. The press release thanked the departing employees for their "valued contributions."',
+  question: 'The author\'s tone toward the CEO is:',
+  choices: ['sympathetic', 'admiring', 'subtly critical', 'celebratory'],
+  correct: 2,
+  explanation: 'The author quotes "regrettable but necessary" and "valued contributions" without endorsement, then notes the CEO had used the same language before AND been paid for layoffs. This juxtaposition is critical — but understated, not openly hostile.',
+  tutor: [
+    { hint: 'When an author puts phrases in quotes WITHOUT endorsing them, it often signals doubt. Notice which facts the author chose to include.' },
+    { hint: 'The pattern of "same words at three companies + bonuses for cuts" is damning info, even though the author never says "this is bad." That is subtle criticism.' }
+  ]
+},
+
+/* READING — Main Idea & Author Purpose (Craft & Structure / synthesis) */
+{
+  id: 'q-read-main-2', concept: 'read-main', difficulty: 2,
+  passage: 'Most coral reefs grow no more than a few centimeters per year, and many have been building since the last ice age. A bleaching event lasting a single summer can wipe out tissue that took two centuries to form. Recovery, if it happens at all, plays out on a timescale that mocks human attention spans.',
+  question: 'The main idea of the passage is that:',
+  choices: [
+    'corals are sensitive to temperature changes',
+    'reef ecosystems support diverse marine life',
+    'reef destruction is fast but reef recovery is extremely slow',
+    'climate change threatens many ocean species'
+  ],
+  correct: 2,
+  explanation: 'Every sentence contrasts slow growth/recovery with fast destruction (centuries to form, single summer to destroy, recovery on timescales beyond human attention). That asymmetry IS the main idea. The other choices are true but broader or beside the point.',
+  tutor: [
+    { hint: 'Ask: what does EVERY sentence in the passage contribute to? That common thread is the main idea.' },
+    { hint: 'The passage repeatedly emphasizes the SPEED MISMATCH — slow build, fast destruction. That is the spine.' }
+  ]
+},
+{
+  id: 'q-read-main-3', concept: 'read-main', difficulty: 2,
+  passage: 'A new study of urban birds suggests that city sparrows sing at higher pitches than their rural cousins. Researchers initially attributed the difference to traffic noise. But follow-up work in quiet suburban parks found the same shift, raising the possibility that hardened surfaces — buildings, asphalt — change how sound travels and that birds adjust regardless of how loud the city is.',
+  question: 'The passage primarily serves to:',
+  choices: [
+    'argue that traffic noise harms urban birds',
+    'compare two species of sparrow',
+    'describe a developing scientific explanation',
+    'criticize the original researchers'
+  ],
+  correct: 2,
+  explanation: 'The passage walks through hypothesis ➝ data that complicates it ➝ revised hypothesis. That is describing how an explanation is developing. It does not argue noise is harmful, compare species, or criticize anyone.',
+  tutor: [
+    { hint: 'Track the verbs: "suggests... attributed... raising the possibility." That is a chain of evolving thought, not an argument.' }
+  ]
+},
+
+/* READING — Inference & Implication (Craft & Structure) */
+{
+  id: 'q-read-inference-2', concept: 'read-inference', difficulty: 2,
+  passage: 'Henry hesitated outside the conference room, hand hovering over the doorknob. He had rehearsed the speech for hours; he knew every word. Inside, his colleagues — including the manager who had so often dismissed his ideas — were waiting. He took one breath, then another. The third did not come easily.',
+  question: 'The passage most strongly suggests that Henry:',
+  choices: [
+    'has not prepared adequately for the meeting',
+    'is anxious despite being well-prepared',
+    'plans to confront his manager directly',
+    'is likely to leave without speaking'
+  ],
+  correct: 1,
+  explanation: 'He "rehearsed for hours" (well-prepared), but his breathing is unsteady and he hesitates at the door (anxious). The passage gives us BOTH preparation and anxiety — choice B. Nothing supports leaving or confrontation.',
+  tutor: [
+    { hint: 'Inference = supported guess, not wild guess. List the two clearest facts in the passage and pick the answer those facts BOTH support.' },
+    { hint: 'Fact 1: rehearsed every word. Fact 2: hesitating, breathing hard. What single state explains both?' }
+  ]
+},
+{
+  id: 'q-read-inference-3', concept: 'read-inference', difficulty: 3,
+  passage: 'The town\'s main library had not bought a new physics textbook in eleven years. Last month, a donor funded the entire science section. Within three weeks, the after-school sign-up sheet for the chess and physics clubs had a wait list for the first time anyone could remember.',
+  question: 'The passage most strongly implies that:',
+  choices: [
+    'students had been uninterested in science before',
+    'updated resources can encourage student engagement',
+    'chess and physics are equally popular',
+    'the library should focus on other subjects'
+  ],
+  correct: 1,
+  explanation: 'New books → wait list. The passage links updated resources to a surge in student interest. (A) is wrong — students may have been interested but lacked resources. (C) overreaches; (D) contradicts the trend.',
+  tutor: [
+    { hint: 'What changed in the passage? What happened after that change? The answer should connect those two events.' }
+  ]
+},
+
+/* MATH — Linear Equations (Algebra, SAT 470-540) */
+{
+  id: 'q-math-linear-3', concept: 'math-linear', difficulty: 2,
+  question: 'If 3(x + 4) - 2(x - 1) = 21, what is the value of x?',
+  choices: ['7', '8', '9', '11'],
+  correct: 0,
+  explanation: 'Distribute: 3x + 12 - 2x + 2 = 21. Combine: x + 14 = 21, so x = 7.',
+  tutor: [
+    { hint: 'Distribute first. 3(x+4) becomes 3x + 12. Be careful with the SECOND distribution: -2 times (x-1). The minus sign matters.' },
+    { hint: '-2(x-1) = -2x + 2 (minus times minus gives plus). Now combine like terms.', followUp: { question: 'Solve: 5(x-2) - 3(x-4) = 6', choices: ['2', '0', '-2', '4'], correct: 0 } }
+  ]
+},
+
+/* MATH — Statistics & Probability (Problem-Solving & Data, SAT 470-540) */
+{
+  id: 'q-math-stats-4', concept: 'math-stats', difficulty: 2,
+  question: 'A bag has 5 red marbles, 3 blue marbles, and 2 green marbles. If one marble is drawn at random, what is the probability it is NOT blue?',
+  choices: ['3/10', '5/10', '7/10', '8/10'],
+  correct: 2,
+  explanation: 'Total marbles = 5 + 3 + 2 = 10. NOT blue means red or green = 5 + 2 = 7. Probability = 7/10.',
+  tutor: [
+    { hint: 'Probability = favorable / total. Total marbles?' },
+    { hint: '"NOT blue" means red or green. Add those, then divide by total.' }
+  ]
+},
+{
+  id: 'q-math-stats-5', concept: 'math-stats', difficulty: 2,
+  question: 'The mean of 5 numbers is 12. If a sixth number is added and the new mean is 14, what is the sixth number?',
+  choices: ['16', '18', '20', '24'],
+  correct: 3,
+  explanation: 'Sum of first 5 = 5 × 12 = 60. New sum (6 numbers) = 6 × 14 = 84. Sixth number = 84 - 60 = 24.',
+  tutor: [
+    { hint: 'Mean = sum / count. Use that to find the sum of the original 5 numbers.' },
+    { hint: 'Find the sum of the new group of 6, then subtract.', followUp: { question: 'Mean of 4 numbers is 10. A fifth number is added; new mean is 12. The fifth number is:', choices: ['14', '16', '20', '22'], correct: 2 } }
+  ]
+},
+
+/* MATH — Word Problems (translation, SAT Data Analysis area) */
+{
+  id: 'q-math-word-3', concept: 'math-word', difficulty: 2,
+  question: 'A bookstore sells novels for $12 each and journals for $7 each. If a customer bought 9 items for a total of $83, how many novels did the customer buy?',
+  choices: ['3', '4', '5', '6'],
+  correct: 1,
+  explanation: 'Let n = novels, j = journals. n + j = 9 and 12n + 7j = 83. Substitute j = 9 - n: 12n + 7(9 - n) = 83, so 12n + 63 - 7n = 83, 5n = 20, n = 4.',
+  tutor: [
+    { hint: 'Set up two variables for the unknowns: novels (n) and journals (j). What two equations capture the information?' },
+    { hint: 'Equation 1: total items. Equation 2: total cost. Then solve by substitution.' }
+  ]
+},
+{
+  id: 'q-math-word-4', concept: 'math-word', difficulty: 2,
+  question: 'A water tank holds 240 gallons. It is drained at a constant rate of 8 gallons per minute. How many minutes will it take until the tank holds 80 gallons?',
+  choices: ['10', '15', '20', '30'],
+  correct: 2,
+  explanation: 'Water removed = 240 - 80 = 160 gallons. Time = 160 / 8 = 20 minutes.',
+  tutor: [
+    { hint: 'You do not need to find when it is empty — just when it reaches 80. How much water needs to leave?' }
+  ]
+},
+
+/* MATH — Coordinate Geometry (SAT Geometry & Trig area) */
+{
+  id: 'q-math-coord-3', concept: 'math-coord', difficulty: 2,
+  question: 'What is the distance between the points (-2, 5) and (4, -3) in the standard (x,y) plane?',
+  choices: ['6', '8', '10', '14'],
+  correct: 2,
+  explanation: 'Distance = √((4-(-2))² + (-3-5)²) = √(36 + 64) = √100 = 10.',
+  tutor: [
+    { hint: 'Distance formula: √((x2-x1)² + (y2-y1)²). Compute the differences first.' },
+    { hint: 'Δx = 4-(-2) = 6; Δy = -3-5 = -8. Square them, add, take square root.' }
+  ]
+},
+
+/* MATH — Equations of Lines (perpendicular/parallel) */
+{
+  id: 'q-math-lines-2', concept: 'math-lines', difficulty: 2,
+  question: 'A line passes through (2, 5) and is perpendicular to the line y = -3x + 4. What is the equation of the line?',
+  choices: ['y = 3x - 1', 'y = (1/3)x + 13/3', 'y = -3x + 11', 'y = (1/3)x + 5'],
+  correct: 1,
+  explanation: 'Perpendicular slopes are negative reciprocals. Original slope -3 → perpendicular slope = 1/3. Using y - 5 = (1/3)(x - 2): y = (1/3)x - 2/3 + 5 = (1/3)x + 13/3.',
+  tutor: [
+    { hint: 'Perpendicular = negative reciprocal of the slope. What is the negative reciprocal of -3?' },
+    { hint: 'Slope is 1/3. Use point-slope form with the point (2,5): y - 5 = (1/3)(x - 2). Then solve for y.' }
+  ]
+}
+];
+
+/* ----- 2.5 SPEECH (Web Speech API) ----- */
+const Voice = {
+  enabled: localStorage.getItem('act_voice_enabled') !== '0', // default ON
+  voice: null,
+  rate: 0.95,
+  pitch: 1.0,
+
+  init() {
+    if (!('speechSynthesis' in window)) {
+      this.enabled = false;
+      const tog = document.getElementById('voice-toggle');
+      if (tog) tog.style.display = 'none';
+      return;
+    }
+    // Pick a good voice once available. iOS/Android need a small delay.
+    const pickVoice = () => {
+      const voices = speechSynthesis.getVoices();
+      if (voices.length === 0) return;
+      // Preference: natural English voices
+      const preferred = [
+        'Samantha', 'Karen', 'Daniel', 'Alex', 'Google US English',
+        'Microsoft Aria', 'Microsoft Jenny', 'Microsoft Guy',
+        'Google UK English Female', 'Google UK English Male'
+      ];
+      for (const name of preferred) {
+        const match = voices.find(v => v.name.includes(name));
+        if (match) { this.voice = match; return; }
+      }
+      // Fallback: any English voice
+      this.voice = voices.find(v => /^en[-_]/i.test(v.lang)) || voices[0];
+    };
+    pickVoice();
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = pickVoice;
+    }
+    this.updateButton();
+  },
+
+  updateButton() {
+    const icon = document.getElementById('voice-icon');
+    const label = document.getElementById('voice-label');
+    if (!icon) return;
+    icon.textContent = this.enabled ? '🔊' : '🔇';
+    label.textContent = this.enabled ? 'Voice' : 'Muted';
+  },
+
+  cleanForSpeech(text) {
+    if (!text) return '';
+    return text
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/\[([^\]]+)\]/g, '$1')
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, 'and')
+      .replace(/&lt;/g, 'less than')
+      .replace(/&gt;/g, 'greater than')
+      .replace(/×/g, ' times ')
+      .replace(/÷/g, ' divided by ')
+      .replace(/°/g, ' degrees')
+      .replace(/π/g, ' pi ')
+      .replace(/√/g, ' the square root of ')
+      .replace(/²/g, ' squared')
+      .replace(/³/g, ' cubed')
+      .replace(/⁰/g, ' to the zero')
+      .replace(/⁴/g, ' to the fourth')
+      .replace(/⁵/g, ' to the fifth')
+      .replace(/⁶/g, ' to the sixth')
+      .replace(/⁷/g, ' to the seventh')
+      .replace(/⁸/g, ' to the eighth')
+      .replace(/⁹/g, ' to the ninth')
+      .replace(/¹/g, ' to the first')
+      .replace(/—/g, ', ')
+      .replace(/–/g, ', ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  },
+
+  speak(text, opts = {}) {
+    if (!this.enabled || !('speechSynthesis' in window)) return;
+    this.stop();
+    const clean = this.cleanForSpeech(text);
+    if (!clean) return;
+    const utter = new SpeechSynthesisUtterance(clean);
+    if (this.voice) utter.voice = this.voice;
+    utter.rate = opts.rate || this.rate;
+    utter.pitch = opts.pitch || this.pitch;
+    utter.volume = 1.0;
+    speechSynthesis.speak(utter);
+  },
+
+  stop() {
+    if ('speechSynthesis' in window) speechSynthesis.cancel();
+  },
+
+  toggle() {
+    this.enabled = !this.enabled;
+    localStorage.setItem('act_voice_enabled', this.enabled ? '1' : '0');
+    if (!this.enabled) this.stop();
+    this.updateButton();
+  }
+};
+
+function toggleVoice() { Voice.toggle(); }
+function speakNow(text) { Voice.speak(text); }
+function stopVoice() { Voice.stop(); }
+
+/* ----- 3. STORAGE ----- */
+const STORAGE_KEY = 'act_tutor_v1';
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return defaultState();
+    const s = JSON.parse(raw);
+    // Migrate / defaults
+    s.history = s.history || [];
+    s.concepts = s.concepts || {};
+    s.streak = s.streak || { count: 0, lastDate: null };
+    s.diagnosticDone = !!s.diagnosticDone;
+    s.schedule = s.schedule || {}; // { 'sd-2026-05-05': true, ... }
+    return s;
+  } catch (e) {
+    console.warn('Failed to load state:', e);
+    return defaultState();
+  }
+}
+function defaultState() {
+  return {
+    history: [],
+    concepts: {},
+    streak: { count: 0, lastDate: null },
+    diagnosticDone: false,
+    schedule: {} // session ids that are marked complete
+  };
+}
+function saveState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+let state = loadState();
+
+/* ----- 4. MASTERY LOGIC -----
+   Per-concept tracking:
+     attempts: total
+     correct: total correct
+     streak: current consecutive correct
+     mastered: bool (set true when streak hits 5)
+     masteredDate: date string when first mastered
+     lastAttempts: array of last 10 results (1=correct, 0=wrong)
+*/
+function getConceptStats(conceptId) {
+  if (!state.concepts[conceptId]) {
+    state.concepts[conceptId] = {
+      attempts: 0, correct: 0, streak: 0,
+      mastered: false, masteredDate: null,
+      lastAttempts: []
+    };
+  }
+  return state.concepts[conceptId];
+}
+
+function recordAttempt(conceptId, isCorrect) {
+  const c = getConceptStats(conceptId);
+  c.attempts += 1;
+  if (isCorrect) {
+    c.correct += 1;
+    c.streak += 1;
+    if (!c.mastered && c.streak >= 5) {
+      c.mastered = true;
+      c.masteredDate = new Date().toISOString();
+    }
+  } else {
+    c.streak = 0;
+    // If a mastered concept slips badly, we keep mastered status but track recent error
+    // (mastery is "earned" once 5-in-a-row; subsequent errors are tracked but don't un-master immediately)
+  }
+  c.lastAttempts.push(isCorrect ? 1 : 0);
+  if (c.lastAttempts.length > 10) c.lastAttempts.shift();
+
+  // Update history
+  state.history.push({
+    t: Date.now(),
+    concept: conceptId,
+    correct: isCorrect
+  });
+  if (state.history.length > 5000) state.history = state.history.slice(-5000);
+
+  // Update streak (daily)
+  const today = new Date().toISOString().slice(0, 10);
+  if (state.streak.lastDate !== today) {
+    const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+    if (state.streak.lastDate === yesterday) {
+      state.streak.count += 1;
+    } else {
+      state.streak.count = 1;
+    }
+    state.streak.lastDate = today;
+  }
+  saveState();
+}
+
+function getConceptStatus(conceptId) {
+  const c = state.concepts[conceptId];
+  if (!c || c.attempts === 0) return { label: 'Untested', cls: 'untested' };
+  if (c.mastered) {
+    const daysSince = Math.floor((Date.now() - new Date(c.masteredDate).getTime()) / 86400000);
+    return { label: `Mastered ${daysSince ? `(${daysSince}d)` : ''}`, cls: 'mastered', daysSince };
+  }
+  const recent = c.lastAttempts;
+  if (recent.length === 0) return { label: 'Untested', cls: 'untested' };
+  const recentRate = recent.reduce((a, b) => a + b, 0) / recent.length;
+  if (recentRate >= 0.7) return { label: 'Strong', cls: 'strong' };
+  if (recentRate < 0.5) return { label: 'Weak', cls: 'weak' };
+  return { label: 'Needs work', cls: 'needs-work' };
+}
+
+function getMasteryDays(conceptId) {
+  const c = state.concepts[conceptId];
+  if (!c || !c.mastered) return 0;
+  return Math.floor((Date.now() - new Date(c.masteredDate).getTime()) / 86400000);
+}
+
+/* ----- 5. ADAPTIVE QUESTION SELECTION ----- */
+// Sort a list of concept ids so SAT-priority "high" come first, then "med", then "low".
+// Items within the same priority tier are randomized.
+function sortBySatPriority(ids) {
+  const tiers = { high: [], med: [], low: [] };
+  ids.forEach(id => tiers[satPriority(id)].push(id));
+  return [...shuffled(tiers.high), ...shuffled(tiers.med), ...shuffled(tiers.low)];
+}
+
+function pickConceptsForToday(numConcepts = 6) {
+  // Priority: untested > weak > needs work > strong (for retention) > mastered (light retention)
+  // Within each bucket, SAT-flagged weak domains are picked first.
+  const allConcepts = Object.keys(CONCEPTS);
+  const buckets = { untested: [], weak: [], needsWork: [], strong: [], mastered: [] };
+  allConcepts.forEach(id => {
+    const status = getConceptStatus(id);
+    if (status.cls === 'untested') buckets.untested.push(id);
+    else if (status.cls === 'weak') buckets.weak.push(id);
+    else if (status.cls === 'needs-work') buckets.needsWork.push(id);
+    else if (status.cls === 'strong') buckets.strong.push(id);
+    else buckets.mastered.push(id);
+  });
+
+  // Apply SAT priority sort within each bucket
+  const weakSorted   = sortBySatPriority(buckets.weak);
+  const needsSorted  = sortBySatPriority(buckets.needsWork);
+  const untestSorted = sortBySatPriority(buckets.untested);
+
+  // Take 2 weak, 2 needs-work, 2 untested — SAT-priority concepts surface first
+  const picked = [];
+  picked.push(...weakSorted.slice(0, 2));
+  picked.push(...needsSorted.slice(0, 2));
+  picked.push(...untestSorted.slice(0, 2));
+
+  // Fill remaining slots; still favor SAT priority among any leftovers
+  const fill = sortBySatPriority(
+    [...buckets.untested, ...buckets.needsWork, ...buckets.weak, ...buckets.strong, ...buckets.mastered]
+      .filter(c => !picked.includes(c))
+  );
+  for (const c of fill) {
+    if (picked.length >= numConcepts) break;
+    picked.push(c);
+  }
+  return picked.slice(0, numConcepts);
+}
+
+function getQuestionsForConcept(conceptId, count = 1, excludeIds = []) {
+  const pool = QUESTIONS.filter(q => q.concept === conceptId && !excludeIds.includes(q.id));
+  return shuffled(pool).slice(0, count);
+}
+
+function shuffled(arr) {
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+/* ----- 6. UI: TAB SWITCHING ----- */
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => switchView(tab.dataset.view));
+});
+function switchView(viewName) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.view === viewName));
+  document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + viewName));
+  if (viewName === 'dashboard') renderDashboard();
+  if (viewName === 'practice') startPractice();
+  if (viewName === 'diagnostic') startDiagnostic();
+  if (viewName === 'concepts') renderConcepts();
+  if (viewName === 'schedule') renderSchedule();
+  if (viewName === 'dates') renderDates();
+}
+
+/* ----- 7. DASHBOARD ----- */
+function renderDashboard() {
+  // Top stats
+  const total = state.history.length;
+  const correct = state.history.filter(h => h.correct).length;
+  const wrong = total - correct;
+  const masteredConcepts = Object.values(state.concepts).filter(c => c.mastered).length;
+  const totalConcepts = Object.keys(CONCEPTS).length;
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-correct').textContent = correct;
+  document.getElementById('stat-correct-pct').textContent = total ? Math.round(100 * correct / total) + '% accuracy' : '—';
+  document.getElementById('stat-wrong').textContent = wrong;
+  document.getElementById('stat-mastered').textContent = masteredConcepts;
+  document.getElementById('stat-mastered-sub').textContent = `of ${totalConcepts} concepts`;
+  document.getElementById('streak-num').textContent = state.streak.count;
+  document.getElementById('streak').firstChild.textContent = state.streak.count > 0 ? '🔥 ' : '⏳ ';
+
+  // Section progress bars
+  const secProg = document.getElementById('section-progress');
+  secProg.innerHTML = '';
+  Object.entries(SECTIONS).forEach(([key, info]) => {
+    const conceptIds = Object.keys(CONCEPTS).filter(c => CONCEPTS[c].section === key);
+    const masteredHere = conceptIds.filter(c => state.concepts[c]?.mastered).length;
+    const pct = Math.round(100 * masteredHere / conceptIds.length);
+    secProg.innerHTML += `
+      <div class="section-row">
+        <div class="section-name">${info.name}</div>
+        <div class="section-bar"><div class="section-bar-fill" style="width: ${pct}%; background: ${info.color}"></div></div>
+        <div class="section-stat">${masteredHere}/${conceptIds.length} mastered</div>
+      </div>`;
+  });
+
+  // Today's plan
+  const plan = document.getElementById('todays-plan');
+  if (!state.diagnosticDone) {
+    plan.innerHTML = '<p style="margin: 8px 0;"><strong>Step 1:</strong> Take the placement diagnostic (about 8 minutes) to find weak spots. Then daily practice will auto-target them.</p>';
+  } else {
+    const todayConcepts = pickConceptsForToday(6);
+    const names = todayConcepts.map(c => CONCEPTS[c].name).slice(0, 5);
+    plan.innerHTML = `<p style="margin: 8px 0;">Today's set covers: <strong>${names.join(', ')}</strong>${todayConcepts.length > 5 ? ', and more' : ''}. About 12 questions, 15-20 minutes.</p>`;
+  }
+
+  // Weak concepts to focus on
+  const weakEl = document.getElementById('weak-concepts');
+  const weakConcepts = Object.keys(CONCEPTS)
+    .map(id => ({ id, status: getConceptStatus(id), stats: state.concepts[id] }))
+    .filter(c => c.status.cls === 'weak' || c.status.cls === 'needs-work')
+    .sort((a, b) => {
+      const aRate = a.stats?.lastAttempts.reduce((s, x) => s + x, 0) / (a.stats?.lastAttempts.length || 1);
+      const bRate = b.stats?.lastAttempts.reduce((s, x) => s + x, 0) / (b.stats?.lastAttempts.length || 1);
+      return aRate - bRate;
+    })
+    .slice(0, 6);
+
+  if (weakConcepts.length === 0) {
+    weakEl.innerHTML = '<div class="empty"><div class="empty-icon">✨</div><p>No weak concepts identified yet. Take the diagnostic to find areas to focus on.</p></div>';
+  } else {
+    weakEl.innerHTML = weakConcepts.map(c => {
+      const satTag = satPriority(c.id) === 'high' ? '<span class="badge sat-focus" title="SAT diagnostic flagged this area">SAT focus</span>' : '';
+      return `
+      <div class="concept-item">
+        <div class="concept-name">${CONCEPTS[c.id].name}${satTag}</div>
+        <div class="concept-stats">${c.stats.correct}/${c.stats.attempts}</div>
+        <span class="badge ${c.status.cls}">${c.status.label}</span>
+      </div>`;
+    }).join('');
+  }
+
+  // Recently mastered
+  const masteredEl = document.getElementById('recently-mastered');
+  const masteredList = Object.keys(CONCEPTS)
+    .filter(id => state.concepts[id]?.mastered)
+    .sort((a, b) => new Date(state.concepts[b].masteredDate) - new Date(state.concepts[a].masteredDate))
+    .slice(0, 6);
+  if (masteredList.length === 0) {
+    masteredEl.innerHTML = '<div class="empty"><div class="empty-icon">🎯</div><p>Get 5 in a row right on a concept to master it.</p></div>';
+  } else {
+    masteredEl.innerHTML = masteredList.map(id => {
+      const days = getMasteryDays(id);
+      return `<div class="concept-item">
+        <div class="concept-name">${CONCEPTS[id].name}</div>
+        <div class="concept-stats">held ${days}d</div>
+        <span class="badge mastered">Mastered</span>
+      </div>`;
+    }).join('');
+  }
+}
+
+/* ----- 8. PRACTICE / SESSION FLOW ----- */
+let session = null;
+
+function startPractice() {
+  const concepts = pickConceptsForToday(6);
+  const questions = [];
+  concepts.forEach(c => {
+    const qs = getQuestionsForConcept(c, 2);
+    questions.push(...qs);
+  });
+  // Shuffle and cap
+  const sessionQs = shuffled(questions).slice(0, 10);
+  if (sessionQs.length === 0) {
+    document.getElementById('practice-content').innerHTML = `
+      <div class="card">
+        <div class="empty">
+          <div class="empty-icon">📚</div>
+          <h2>No questions available yet</h2>
+          <p>The question bank may need more entries, or all concepts have run out of fresh questions for now.</p>
+          <button class="btn" onclick="switchView('dashboard')">Back to Dashboard</button>
+        </div>
+      </div>`;
+    return;
+  }
+  session = {
+    type: 'practice',
+    questions: sessionQs,
+    index: 0,
+    correct: 0,
+    wrong: 0,
+    tutorMode: false,
+    tutorState: null
+  };
+  renderQuestion();
+}
+
+function startDiagnostic() {
+  // Diagnostic: 1 question per major concept group, ~12 questions
+  const sample = [
+    'eng-commas', 'eng-sva', 'eng-pronouns',
+    'math-linear', 'math-quad', 'math-coord', 'math-trig',
+    'read-main', 'read-inference',
+    'sci-data', 'sci-research', 'sci-conflict'
+  ];
+  const qs = [];
+  sample.forEach(c => {
+    const found = QUESTIONS.find(q => q.concept === c);
+    if (found) qs.push(found);
+  });
+  if (qs.length === 0) {
+    document.getElementById('diagnostic-content').innerHTML = '<div class="card"><p>No diagnostic questions available.</p></div>';
+    return;
+  }
+  session = {
+    type: 'diagnostic',
+    questions: qs,
+    index: 0,
+    correct: 0,
+    wrong: 0,
+    tutorMode: false,
+    tutorState: null
+  };
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const container = session.type === 'diagnostic'
+    ? document.getElementById('diagnostic-content')
+    : document.getElementById('practice-content');
+
+  if (session.tutorMode) return renderTutor(container);
+
+  if (session.index >= session.questions.length) return renderSessionEnd(container);
+
+  const q = session.questions[session.index];
+  const progressPct = (session.index / session.questions.length) * 100;
+  const concept = CONCEPTS[q.concept];
+
+  container.innerHTML = `
+    <div class="progress-bar"><div class="progress-bar-fill" style="width: ${progressPct}%"></div></div>
+    <div class="question-meta">
+      <span><strong>${SECTIONS[concept.section].name}</strong> · ${concept.name}</span>
+      <span>Question ${session.index + 1} of ${session.questions.length}</span>
+    </div>
+    <div class="card">
+      ${q.passage ? `<div class="question-passage">${formatText(q.passage)}<div style="margin-top: 8px;"><button class="small-btn" onclick="speakNow(${JSON.stringify(q.passage).replace(/"/g, '&quot;')})">🔊 Read passage</button></div></div>` : ''}
+      <div class="question-text">${formatText(q.question)}</div>
+      <div style="margin-bottom: 10px;"><button class="small-btn" onclick="speakNow(${JSON.stringify(q.question + '. ' + q.choices.map((c,i) => String.fromCharCode(65+i) + ': ' + c).join('. ')).replace(/"/g, '&quot;')})">🔊 Read question &amp; choices</button></div>
+      <div class="choices">
+        ${q.choices.map((c, i) => `
+          <button class="choice" data-i="${i}" onclick="selectChoice(${i})">
+            <span class="choice-letter">${String.fromCharCode(65 + i)}.</span>${formatText(c)}
+          </button>`).join('')}
+      </div>
+      <div id="feedback-area"></div>
+    </div>
+  `;
+}
+
+function formatText(s) {
+  // Light formatting: brackets become emphasis, preserve newlines
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\[([^\]]+)\]/g, '<em>[$1]</em>')
+    .replace(/\n/g, '<br>');
+}
+
+function selectChoice(i) {
+  const q = session.questions[session.index];
+  const isCorrect = i === q.correct;
+  // Mark choices
+  document.querySelectorAll('.choice').forEach((el, idx) => {
+    el.classList.add('disabled');
+    el.onclick = null;
+    if (idx === q.correct) el.classList.add('correct');
+    if (idx === i && !isCorrect) el.classList.add('incorrect');
+  });
+
+  // Record only on first attempt of this question
+  recordAttempt(q.concept, isCorrect);
+  if (isCorrect) session.correct += 1; else session.wrong += 1;
+
+  const fb = document.getElementById('feedback-area');
+  if (isCorrect) {
+    fb.innerHTML = `
+      <div class="feedback correct">
+        <h4 style="display: flex; justify-content: space-between; align-items: center;">
+          <span>✓ Correct</span>
+          <button class="small-btn" style="border: none; background: transparent; color: var(--success);" onclick="speakNow(${JSON.stringify('Correct! ' + q.explanation).replace(/"/g, '&quot;')})">🔊 Hear it</button>
+        </h4>
+        <p>${formatText(q.explanation)}</p>
+      </div>
+      <div class="btn-row" style="margin-top: 12px;">
+        <button class="btn" onclick="nextQuestion()">Next →</button>
+      </div>`;
+    if (Voice.enabled) setTimeout(() => Voice.speak('Correct! ' + q.explanation), 250);
+  } else {
+    fb.innerHTML = `
+      <div class="feedback incorrect">
+        <h4>✗ Not quite — let's walk through it</h4>
+        <p>The correct answer was <strong>${String.fromCharCode(65 + q.correct)}</strong>. Don't worry — we'll work through this together.</p>
+      </div>
+      <div class="btn-row" style="margin-top: 12px;">
+        <button class="btn" onclick="enterTutorMode()">Walk me through it →</button>
+      </div>`;
+    if (Voice.enabled) setTimeout(() => Voice.speak("Not quite. The correct answer was " + String.fromCharCode(65 + q.correct) + ". Let's walk through it together."), 250);
+  }
+}
+
+/* ----- 9. TUTOR MODE -----
+   On wrong answer, walk through tutor[] hints one by one.
+   Each hint may have a followUp mini-question — student must answer correctly to continue.
+   After tutor sequence, student gets a new question on the same concept.
+   They must get 2 in a row right on that concept to move on.
+*/
+function enterTutorMode() {
+  const q = session.questions[session.index];
+  session.tutorMode = true;
+  session.tutorState = {
+    originalQ: q,
+    step: 0,
+    awaitingFollowUp: false,
+    correctOnFollowUp: false,
+    consecutiveCorrect: 0,
+    needToReQuiz: 2,
+    seenIds: [q.id]
+  };
+  renderTutor(getCurrentContainer());
+}
+
+function getCurrentContainer() {
+  return session.type === 'diagnostic'
+    ? document.getElementById('diagnostic-content')
+    : document.getElementById('practice-content');
+}
+
+function renderTutor(container) {
+  const ts = session.tutorState;
+  const q = ts.originalQ;
+  const tutorSteps = q.tutor || [];
+  const totalSteps = tutorSteps.length;
+  // Auto-speak the hint when it appears
+  if (ts.step < totalSteps && Voice.enabled) {
+    setTimeout(() => Voice.speak(tutorSteps[ts.step].hint), 200);
+  }
+
+  // First show the question and the hints sequentially
+  if (ts.step < totalSteps) {
+    const step = tutorSteps[ts.step];
+    container.innerHTML = `
+      <div class="question-meta">
+        <span><strong>Tutor Mode</strong> · ${CONCEPTS[q.concept].name}</span>
+        <span>Step ${ts.step + 1} of ${totalSteps + 1}</span>
+      </div>
+      <div class="card">
+        ${q.passage ? `<div class="question-passage">${formatText(q.passage)}</div>` : ''}
+        <div class="question-text">${formatText(q.question)}</div>
+        <div class="tutor-progress">
+          ${Array.from({length: totalSteps + 1}, (_, i) => `<div class="tutor-dot ${i < ts.step ? 'done' : i === ts.step ? 'active' : ''}"></div>`).join('')}
+        </div>
+        <div class="tutor-step">
+          <h4 style="display: flex; justify-content: space-between; align-items: center;">
+            <span>Hint ${ts.step + 1}</span>
+            <button class="small-btn" style="border: none; background: transparent; color: #92400e;" onclick="speakNow(${JSON.stringify(step.hint).replace(/"/g, '&quot;')})" title="Hear it">🔊 Hear it</button>
+          </h4>
+          <p>${formatText(step.hint)}</p>
+          ${step.followUp ? renderFollowUp(step.followUp) : `
+            <div class="btn-row" style="margin-top: 12px;">
+              <button class="btn" onclick="nextTutorStep()">Got it →</button>
+            </div>
+          `}
+        </div>
+      </div>
+    `;
+  } else {
+    // Tutor sequence complete; now re-quiz on this concept
+    renderReQuiz(container);
+  }
+}
+
+function renderFollowUp(fu) {
+  return `
+    <div style="margin-top: 12px;">
+      <p style="font-weight: 600; margin: 0 0 8px;">Quick check:</p>
+      <p style="margin: 0 0 10px;">${formatText(fu.question)}</p>
+      <div class="choices">
+        ${fu.choices.map((c, i) => `
+          <button class="choice" onclick="selectFollowUp(${i})">
+            <span class="choice-letter">${String.fromCharCode(65 + i)}.</span>${formatText(c)}
+          </button>`).join('')}
+      </div>
+      <div id="follow-up-feedback"></div>
+    </div>
+  `;
+}
+
+function selectFollowUp(i) {
+  const ts = session.tutorState;
+  const step = ts.originalQ.tutor[ts.step];
+  const fu = step.followUp;
+  const isCorrect = i === fu.correct;
+
+  document.querySelectorAll('.tutor-step .choice').forEach((el, idx) => {
+    el.classList.add('disabled');
+    el.onclick = null;
+    if (idx === fu.correct) el.classList.add('correct');
+    if (idx === i && !isCorrect) el.classList.add('incorrect');
+  });
+
+  const fbEl = document.getElementById('follow-up-feedback');
+  if (isCorrect) {
+    fbEl.innerHTML = `
+      <div class="feedback correct" style="margin-top: 10px;">
+        <p>Nice — you've got the idea. Let's keep going.</p>
+      </div>
+      <div class="btn-row" style="margin-top: 12px;">
+        <button class="btn" onclick="nextTutorStep()">Continue →</button>
+      </div>`;
+  } else {
+    fbEl.innerHTML = `
+      <div class="feedback incorrect" style="margin-top: 10px;">
+        <p>Not quite. The right answer was <strong>${String.fromCharCode(65 + fu.correct)}</strong>. Re-read the hint above carefully — same idea applies.</p>
+      </div>
+      <div class="btn-row" style="margin-top: 12px;">
+        <button class="btn" onclick="nextTutorStep()">Continue →</button>
+      </div>`;
+  }
+}
+
+function nextTutorStep() {
+  session.tutorState.step += 1;
+  renderTutor(getCurrentContainer());
+}
+
+function renderReQuiz(container) {
+  const ts = session.tutorState;
+  // Pick a fresh question from the same concept
+  const fresh = getQuestionsForConcept(ts.originalQ.concept, 1, ts.seenIds)[0];
+  if (!fresh) {
+    // If no more fresh questions, recycle one we've seen
+    const recycled = QUESTIONS.find(q => q.concept === ts.originalQ.concept && q.id !== ts.originalQ.id) || ts.originalQ;
+    showFinalExplanation(container);
+    return;
+  }
+  ts.seenIds.push(fresh.id);
+  ts.currentReQuiz = fresh;
+
+  const concept = CONCEPTS[fresh.concept];
+  container.innerHTML = `
+    <div class="question-meta">
+      <span><strong>Now you try</strong> · ${concept.name}</span>
+      <span>Need ${ts.needToReQuiz - ts.consecutiveCorrect} more right in a row</span>
+    </div>
+    <div class="card">
+      ${fresh.passage ? `<div class="question-passage">${formatText(fresh.passage)}</div>` : ''}
+      <div class="question-text">${formatText(fresh.question)}</div>
+      <div class="choices">
+        ${fresh.choices.map((c, i) => `
+          <button class="choice" data-i="${i}" onclick="selectReQuiz(${i})">
+            <span class="choice-letter">${String.fromCharCode(65 + i)}.</span>${formatText(c)}
+          </button>`).join('')}
+      </div>
+      <div id="requiz-feedback"></div>
+    </div>
+  `;
+}
+
+function selectReQuiz(i) {
+  const ts = session.tutorState;
+  const q = ts.currentReQuiz;
+  const isCorrect = i === q.correct;
+
+  document.querySelectorAll('#requiz-feedback').forEach(el => {});
+  document.querySelectorAll('.choice').forEach((el, idx) => {
+    el.classList.add('disabled');
+    el.onclick = null;
+    if (idx === q.correct) el.classList.add('correct');
+    if (idx === i && !isCorrect) el.classList.add('incorrect');
+  });
+
+  recordAttempt(q.concept, isCorrect);
+
+  const fb = document.getElementById('requiz-feedback');
+  if (isCorrect) {
+    ts.consecutiveCorrect += 1;
+    if (ts.consecutiveCorrect >= ts.needToReQuiz) {
+      // Done with tutor mode
+      fb.innerHTML = `
+        <div class="feedback correct">
+          <h4>🎉 Concept locked in</h4>
+          <p>You got ${ts.consecutiveCorrect} in a row right on this concept. Moving on!</p>
+        </div>
+        <div class="btn-row" style="margin-top: 12px;">
+          <button class="btn" onclick="exitTutorAndContinue()">Continue session →</button>
+        </div>`;
+    } else {
+      fb.innerHTML = `
+        <div class="feedback correct">
+          <p>✓ Correct. ${ts.needToReQuiz - ts.consecutiveCorrect} more in a row to lock it in.</p>
+        </div>
+        <div class="btn-row" style="margin-top: 12px;">
+          <button class="btn" onclick="renderReQuiz(getCurrentContainer())">Next question →</button>
+        </div>`;
+    }
+  } else {
+    ts.consecutiveCorrect = 0;
+    fb.innerHTML = `
+      <div class="feedback incorrect">
+        <p>Still tricky. The correct answer was <strong>${String.fromCharCode(65 + q.correct)}</strong>.</p>
+        <p style="margin-top: 6px;">${formatText(q.explanation)}</p>
+      </div>
+      <div class="btn-row" style="margin-top: 12px;">
+        <button class="btn" onclick="renderReQuiz(getCurrentContainer())">Try another →</button>
+      </div>`;
+  }
+}
+
+function showFinalExplanation(container) {
+  // Fallback when no re-quiz questions remain
+  const ts = session.tutorState;
+  const q = ts.originalQ;
+  container.innerHTML = `
+    <div class="card">
+      <div class="feedback correct">
+        <h4>Walkthrough complete</h4>
+        <p>${formatText(q.explanation)}</p>
+        <p style="margin-top: 8px;">Add more questions on this concept by extending the question bank.</p>
+      </div>
+      <div class="btn-row" style="margin-top: 12px;">
+        <button class="btn" onclick="exitTutorAndContinue()">Continue session →</button>
+      </div>
+    </div>`;
+}
+
+function exitTutorAndContinue() {
+  session.tutorMode = false;
+  session.tutorState = null;
+  session.index += 1;
+  renderQuestion();
+}
+
+function nextQuestion() {
+  session.index += 1;
+  renderQuestion();
+}
+
+function renderSessionEnd(container) {
+  const total = session.questions.length;
+  const pct = Math.round(100 * session.correct / total);
+  const sessionType = session.type === 'diagnostic' ? 'Diagnostic' : 'Practice';
+
+  if (session.type === 'diagnostic') {
+    state.diagnosticDone = true;
+    saveState();
+  }
+
+  container.innerHTML = `
+    <div class="card celebrate">
+      <h2>${sessionType} complete!</h2>
+      <p>You got ${session.correct} of ${total} right (${pct}%).</p>
+    </div>
+    <div class="card">
+      <h3>What's next</h3>
+      <p style="margin: 8px 0;">Great work. Tomorrow's session will adapt based on what you missed today. Concepts you got wrong will keep showing up until you get 5 in a row right.</p>
+      <div class="btn-row" style="margin-top: 12px;">
+        <button class="btn" onclick="switchView('dashboard')">View Dashboard</button>
+        <button class="btn secondary" onclick="switchView('practice')">Practice More</button>
+      </div>
+    </div>
+  `;
+  // Refresh dashboard data
+  renderDashboard();
+}
+
+/* ----- 10. CONCEPTS BROWSER ----- */
+let conceptFilter = 'english';
+/* ----- 11b. SCHEDULE VIEW ----- */
+function todayLocalISO() {
+  // Return today's date as YYYY-MM-DD in local time (matches schedule entries)
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+function renderSchedule() {
+  const list = document.getElementById('schedule-list');
+  const today = todayLocalISO();
+  const completedCount = SCHEDULE.filter(s => state.schedule[s.id]).length;
+  const total = SCHEDULE.length;
+  const pct = total ? Math.round((completedCount / total) * 100) : 0;
+  document.getElementById('sched-progress-fill').style.width = pct + '%';
+  document.getElementById('sched-progress-label').textContent = `${completedCount} of ${total} complete  ·  ${pct}%`;
+
+  // Group by week
+  const weeks = {};
+  SCHEDULE.forEach(s => { (weeks[s.week] = weeks[s.week] || []).push(s); });
+
+  const weekLabels = {
+    1: 'Week 1 — May 4 to May 10',
+    2: 'Week 2 — May 11 to May 17',
+    3: 'Week 3 — May 18 to May 24',
+    4: 'Week 4 — May 25 to May 31',
+    5: 'Week 5 — June 1 to June 7',
+    6: 'Week 6 — June 8 to June 13 (Test Week)'
+  };
+
+  let html = '';
+  Object.keys(weeks).sort((a, b) => +a - +b).forEach(w => {
+    html += `<div class="sched-week-header">${weekLabels[w] || ('Week ' + w)}</div>`;
+    weeks[w].forEach(s => {
+      const done = !!state.schedule[s.id];
+      const isToday = s.date === today;
+      const isPast = s.date < today;
+      const isFuture = s.date > today;
+      const dt = new Date(s.date + 'T12:00:00'); // noon to avoid TZ edge
+      const dow = dt.toLocaleDateString('en-US', { weekday: 'short' });
+      const dnum = dt.getDate();
+
+      let tag = '';
+      if (done) tag = '<span class="sched-tag complete">✓ Complete</span>';
+      else if (isToday) tag = '<span class="sched-tag today">Today</span>';
+      else if (isPast) tag = '<span class="sched-tag missed">Missed</span>';
+      else tag = '<span class="sched-tag upcoming">Upcoming</span>';
+
+      let actions = '';
+      if (!done) {
+        if (s.startable && !isFuture) {
+          actions += `<button class="small-btn primary" onclick="startScheduledSession('${s.id}')">Start</button>`;
+        }
+        actions += `<button class="small-btn" onclick="markScheduleDone('${s.id}')" title="Mark complete">Done</button>`;
+      } else {
+        actions += `<button class="small-btn" onclick="unmarkScheduleDone('${s.id}')" title="Undo">Undo</button>`;
+      }
+
+      html += `
+        <div class="sched-item ${done ? 'complete' : ''} ${isToday ? 'is-today' : ''}">
+          <div class="sched-date">
+            <div class="dow">${dow}</div>
+            <div class="dnum">${dnum}</div>
+          </div>
+          <div class="sched-body">
+            <div class="sched-title">${s.title}</div>
+            <div class="sched-focus">${s.focus}</div>
+          </div>
+          <div class="sched-actions">
+            ${tag}
+            ${actions}
+          </div>
+        </div>`;
+    });
+  });
+
+  list.innerHTML = html;
+}
+
+function startScheduledSession(id) {
+  // Launch a regular practice session (the picker is already SAT-priority biased)
+  switchView('practice');
+}
+
+function markScheduleDone(id) {
+  state.schedule[id] = true;
+  saveState();
+  renderSchedule();
+}
+
+function unmarkScheduleDone(id) {
+  delete state.schedule[id];
+  saveState();
+  renderSchedule();
+}
+
+function renderConcepts() {
+  const tabs = document.getElementById('concept-section-tabs');
+  tabs.innerHTML = Object.entries(SECTIONS).map(([key, info]) =>
+    `<button class="section-pill ${conceptFilter === key ? 'active' : ''}" onclick="setConceptFilter('${key}')">${info.name}</button>`
+  ).join('');
+
+  const list = document.getElementById('concept-list-container');
+  const conceptIds = Object.keys(CONCEPTS).filter(c => CONCEPTS[c].section === conceptFilter);
+  list.innerHTML = `
+    <div class="card">
+      <h3>${SECTIONS[conceptFilter].name} · ${SECTIONS[conceptFilter].questions} Q in ${SECTIONS[conceptFilter].time} min</h3>
+      <div class="concept-list">
+        ${conceptIds.map(id => {
+          const stats = state.concepts[id] || { attempts: 0, correct: 0 };
+          const status = getConceptStatus(id);
+          const days = status.cls === 'mastered' ? getMasteryDays(id) : null;
+          const satTag = satPriority(id) === 'high' ? '<span class="badge sat-focus" title="SAT diagnostic flagged this area">SAT focus</span>' : '';
+          return `
+            <div class="concept-item">
+              <div style="flex: 1;">
+                <div class="concept-name">${CONCEPTS[id].name}${satTag}</div>
+                <div class="concept-stats">${stats.correct}/${stats.attempts} correct${days !== null ? ` · mastered ${days}d` : ''}</div>
+              </div>
+              <span class="badge ${status.cls}">${status.label}</span>
+              <button class="small-btn primary" onclick="practiceSingleConcept('${id}')">Drill</button>
+            </div>`;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function setConceptFilter(s) {
+  conceptFilter = s;
+  renderConcepts();
+}
+
+function practiceSingleConcept(conceptId) {
+  const qs = getQuestionsForConcept(conceptId, 5);
+  if (qs.length === 0) {
+    alert('No questions available for this concept yet.');
+    return;
+  }
+  session = {
+    type: 'practice',
+    questions: qs,
+    index: 0,
+    correct: 0,
+    wrong: 0,
+    tutorMode: false,
+    tutorState: null
+  };
+  switchView('practice');
+  renderQuestion();
+}
+
+/* ----- 11. TEST DATES ----- */
+const TEST_DATES = [
+  { date: '2026-06-13', name: 'June 13, 2026', regBy: '2026-05-08', lateAfter: '2026-05-29', target: true },
+  { date: '2026-07-11', name: 'July 11, 2026', regBy: '2026-06-05', lateAfter: '2026-06-24' },
+  { date: '2026-09-19', name: 'September 19, 2026', regBy: '2026-08-14', lateAfter: '2026-09-01' },
+  { date: '2026-10-17', name: 'October 17, 2026', regBy: '2026-09-11', lateAfter: '2026-09-29' }
+];
+
+function renderDates() {
+  const list = document.getElementById('dates-list');
+  const today = new Date(); today.setHours(0,0,0,0);
+  list.innerHTML = TEST_DATES.map(d => {
+    const testDate = new Date(d.date);
+    const regDate = new Date(d.regBy);
+    const lateDate = new Date(d.lateAfter);
+    const daysUntilTest = Math.max(0, Math.floor((testDate - today) / 86400000));
+    const daysUntilReg = Math.floor((regDate - today) / 86400000);
+    const cls = d.target ? 'date-card target' : daysUntilReg < 14 && daysUntilReg >= 0 ? 'date-card urgent' : 'date-card';
+    const [y, m, day] = d.date.split('-');
+    const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    let regNote = '';
+    if (daysUntilReg > 0) regNote = `Register by ${d.regBy} (${daysUntilReg} days)`;
+    else if (daysUntilReg === 0) regNote = `Last day to register (today!)`;
+    else regNote = `Late registration: by ${d.lateAfter} (extra fee)`;
+    return `
+      <div class="${cls}">
+        <div class="date-icon">
+          <div class="date-month">${monthNames[parseInt(m)-1]}</div>
+          <div class="date-day">${parseInt(day)}</div>
+        </div>
+        <div class="date-info">
+          <h3>${d.name}${d.target ? ' · TARGET' : ''}</h3>
+          <p>${regNote}</p>
+        </div>
+        <div class="date-countdown">
+          <div class="num">${daysUntilTest}</div>
+          <div class="label">days</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+/* ----- 12. EXPORT / IMPORT / RESET ----- */
+function exportData() {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'act-tutor-progress-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+function importData(ev) {
+  const file = ev.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const imported = JSON.parse(e.target.result);
+      if (!imported.history || !imported.concepts) throw new Error('Bad file format');
+      state = imported;
+      saveState();
+      renderDashboard();
+      alert('Progress imported successfully.');
+    } catch (err) {
+      alert('Import failed: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+function confirmReset() {
+  if (confirm('Reset ALL progress? This cannot be undone (use Export first to back up).')) {
+    state = defaultState();
+    saveState();
+    renderDashboard();
+    alert('Progress reset.');
+  }
+}
+
+/* ----- 13. STARTUP ----- */
+Voice.init();
+renderDashboard();
+renderDates();
+// iOS quirk: speech needs user interaction first to "unlock" — we trigger a silent utterance on first tap
+let __voiceUnlocked = false;
+document.body.addEventListener('click', () => {
+  if (__voiceUnlocked || !('speechSynthesis' in window)) return;
+  __voiceUnlocked = true;
+  const u = new SpeechSynthesisUtterance('');
+  speechSynthesis.speak(u);
+}, { once: true });
+</script>
+
+</body>
+</html>
