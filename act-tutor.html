@@ -4462,11 +4462,22 @@ function setConceptFilter(s) {
 }
 
 function practiceSingleConcept(conceptId) {
-  const qs = getQuestionsForConcept(conceptId, 5);
+  // Avoid recently-seen questions in the drill
+  const recentIds = (state.history || []).slice(-50).map(h => h.qId).filter(Boolean);
+  let qs = getQuestionsForConcept(conceptId, 5, recentIds);
+  if (qs.length < 5) {
+    // Top up with stale ones if needed
+    const more = getQuestionsForConcept(conceptId, 5 - qs.length).filter(s => !qs.find(f => f.id === s.id));
+    qs = qs.concat(more);
+  }
   if (qs.length === 0) {
     alert('No questions available for this concept yet.');
     return;
   }
+  // Switch view FIRST without triggering startPractice (which would clobber our session)
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.view === 'practice'));
+  document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-practice'));
+  // Then set up the targeted session and render
   session = {
     type: 'practice',
     questions: qs,
@@ -4476,7 +4487,6 @@ function practiceSingleConcept(conceptId) {
     tutorMode: false,
     tutorState: null
   };
-  switchView('practice');
   renderQuestion();
 }
 
