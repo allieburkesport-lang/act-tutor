@@ -6,6 +6,10 @@
 <meta name="theme-color" content="#0f172a">
 <title>ACT Tutor — Daily Practice</title>
 
+<!-- KaTeX: proper math typesetting (fraction bars, radical overlines, etc.) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+
 <!-- Firebase: cloud sync so progress follows the user across devices -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
@@ -481,6 +485,30 @@
     font-weight: 700;
   }
 
+
+  /* KaTeX display inside formula cards and steps */
+  .formula-katex {
+    padding: 6px 4px 2px;
+    overflow-x: auto;
+    text-align: center;
+  }
+  .formula-katex + .formula-katex {
+    border-top: 1px solid #bfdbfe;
+    padding-top: 8px;
+    margin-top: 4px;
+  }
+  .step-math-katex {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-top: 4px;
+    overflow-x: auto;
+    text-align: center;
+  }
+  /* KaTeX font size tuning for mobile */
+  .katex { font-size: 1.1em; }
+  .step-math-katex .katex { font-size: 1.05em; }
 
   /* Formula identification card — shown above solution steps */
   .formula-card {
@@ -1632,53 +1660,96 @@ function getConceptGuide(conceptId) {
 const FORMULA_GUIDES = {
   'math-linear': {
     name: 'Solving Linear Equations',
-    template: 'ax + b = c  →  x = (c − b) / a\nKey move: isolate the variable — undo addition/subtraction first, then multiplication/division',
-    mnemonic: null
+    template: 'ax + b = c  →  x = (c − b) / a',
+    mnemonic: null,
+    latex: [
+      'ax + b = c \\implies x = \\dfrac{c - b}{a}',
+      '\\textit{Isolate the variable: undo } + / - \\textit{ first, then } \\times / \\div'
+    ]
   },
   'math-quadratic': {
     name: 'Quadratic Formula  +  FOIL for expanding',
-    template: 'Quadratic formula:  x = (−b ± √(b² − 4ac)) / 2a\n  for ax² + bx + c = 0\n\nFOIL — expanding two binomials like (x+2)(x+3):\n  First:  x × x = x²\n  Outer: x × 3 = 3x\n  Inner:  2 × x = 2x\n  Last:   2 × 3 = 6\n  Result: x² + 5x + 6',
-    mnemonic: 'FOIL'
+    template: 'x = (-b ± √(b²-4ac)) / 2a  for ax²+bx+c=0',
+    mnemonic: 'FOIL',
+    latex: [
+      'x = \\dfrac{-b \\pm \\sqrt{b^2 - 4ac}}{2a} \\quad \\text{for } ax^2+bx+c=0',
+      '\\textbf{FOIL:}\\; (x+2)(x+3) = x^2 + 3x + 2x + 6 = x^2 + 5x + 6'
+    ]
   },
   'math-systems': {
     name: 'Systems of Equations',
-    template: 'Substitution: solve one equation for a variable, plug into the other\nElimination: add/subtract equations to cancel a variable',
-    mnemonic: null
+    template: 'Substitution or Elimination',
+    mnemonic: null,
+    latex: [
+      '\\textbf{Substitution:} \\text{ solve for one variable, plug into the other}',
+      '\\textbf{Elimination:} \\text{ add/subtract equations to cancel a variable}'
+    ]
   },
   'math-lines': {
     name: 'Lines & Slope',
-    template: 'Slope-intercept:  y = mx + b  (m = slope, b = y-intercept)\nSlope:  m = (y₂ − y₁) / (x₂ − x₁)\nParallel lines → same slope  |  Perpendicular → negative reciprocal slopes\n(e.g. slope 2/3  →  perpendicular slope = −3/2)',
-    mnemonic: 'Rise over Run'
+    template: 'y = mx + b  |  m = rise/run',
+    mnemonic: 'Rise over Run',
+    latex: [
+      'y = mx + b \\quad (m = \\text{slope},\ b = \\text{y-intercept})',
+      'm = \\dfrac{y_2 - y_1}{x_2 - x_1} = \\dfrac{\\text{rise}}{\\text{run}}',
+      '\\text{Parallel} \\Rightarrow \\text{same slope} \\qquad \\text{Perpendicular} \\Rightarrow \\text{negative reciprocal}'
+    ]
   },
   'math-coord': {
     name: 'Coordinate Geometry',
-    template: 'Distance:   d = √[ (x₂−x₁)² + (y₂−y₁)² ]\n  (√[ ] = square root of everything inside the brackets)\nMidpoint:   M = ( (x₁+x₂)÷2 , (y₁+y₂)÷2 )',
-    mnemonic: null
+    template: 'Distance and Midpoint formulas',
+    mnemonic: null,
+    latex: [
+      'd = \\sqrt{(x_2-x_1)^2 + (y_2-y_1)^2}',
+      'M = \\left(\\dfrac{x_1+x_2}{2},\ \\dfrac{y_1+y_2}{2}\\right)'
+    ]
   },
   'math-circles': {
     name: 'Circles',
-    template: 'Standard form:  (x − h)² + (y − k)² = r²  [center (h,k), radius r]\nArea = πr²    Circumference = 2πr',
-    mnemonic: null
+    template: '(x-h)²+(y-k)²=r²  |  A=πr²  |  C=2πr',
+    mnemonic: null,
+    latex: [
+      '(x-h)^2 + (y-k)^2 = r^2 \\quad \\text{center }(h,k)\\text{, radius }r',
+      'A = \\pi r^2 \\qquad C = 2\\pi r'
+    ]
   },
   'math-triangles': {
     name: 'Triangle Formulas',
-    template: 'Pythagorean theorem:  a² + b² = c²  (right triangles only)\nArea = ½ × base × height\nAngles sum to 180°',
-    mnemonic: null
+    template: 'a²+b²=c²  |  A=½bh',
+    mnemonic: null,
+    latex: [
+      'a^2 + b^2 = c^2 \\quad \\text{(right triangles only — }c\\text{ is hypotenuse)}',
+      '\\text{Area} = \\dfrac{1}{2} \\times \\text{base} \\times \\text{height}',
+      '\\text{Angles in any triangle sum to } 180^{\\circ}'
+    ]
   },
   'math-trig': {
     name: 'Right Triangle Trigonometry',
-    template: 'sin(θ) = opposite / hypotenuse\ncos(θ) = adjacent / hypotenuse\ntan(θ) = opposite / adjacent',
-    mnemonic: 'SOH-CAH-TOA'
+    template: 'SOH-CAH-TOA',
+    mnemonic: 'SOH-CAH-TOA',
+    latex: [
+      '\\sin\\theta = \\dfrac{\\text{opposite}}{\\text{hypotenuse}} \\qquad \\cos\\theta = \\dfrac{\\text{adjacent}}{\\text{hypotenuse}} \\qquad \\tan\\theta = \\dfrac{\\text{opposite}}{\\text{adjacent}}'
+    ]
   },
   'math-sequences': {
     name: 'Sequences',
-    template: 'Arithmetic:  aₙ = a₁ + (n−1)d      [d = common difference]\nGeometric:   aₙ = a₁ × rⁿ⁻¹          [r = common ratio]\nArithmetic sum:  Sₙ = n(a₁ + aₙ) / 2',
-    mnemonic: null
+    template: 'Arithmetic/Geometric sequences',
+    mnemonic: null,
+    latex: [
+      '\\textbf{Arithmetic:}\\; a_n = a_1 + (n-1)d \\quad (d = \\text{common difference})',
+      '\\textbf{Geometric:}\\; a_n = a_1 \\cdot r^{n-1} \\quad (r = \\text{common ratio})',
+      '\\textbf{Arith. sum:}\\; S_n = \\dfrac{n(a_1 + a_n)}{2}'
+    ]
   },
   'math-logs': {
     name: 'Logarithms ↔ Exponentials',
-    template: 'Definition:  logₐ(x) = y  ↔  aʸ = x\nProduct rule:   logₐ(xy) = logₐ(x) + logₐ(y)\nPower rule:     logₐ(xⁿ) = n · logₐ(x)\nSpecial cases:  log(1) = 0,  log(base) = 1',
-    mnemonic: null
+    template: 'log_a(x)=y  ↔  a^y=x',
+    mnemonic: null,
+    latex: [
+      '\\log_a x = y \\iff a^y = x',
+      '\\log_a(xy) = \\log_a x + \\log_a y \\qquad \\log_a(x^n) = n\\log_a x',
+      '\\log_a 1 = 0 \\qquad \\log_a a = 1'
+    ]
   },
   'math-matrices': {
     name: 'Matrix Operations',
@@ -1687,18 +1758,32 @@ const FORMULA_GUIDES = {
   },
   'math-stats': {
     name: 'Statistics: Mean, Median, Mode, Range',
-    template: 'Mean   = (sum of all values) / (count of values)\nMedian = middle value when sorted  (avg of 2 middle values if even count)\nMode   = value that appears most often\nRange  = maximum − minimum',
-    mnemonic: 'Mode → Most, Median → Middle'
+    template: 'Mean / Median / Mode / Range',
+    mnemonic: 'Mode → Most, Median → Middle',
+    latex: [
+      '\\text{Mean} = \\dfrac{\\text{sum of all values}}{\\text{count of values}}',
+      '\\text{Median} = \\text{middle value (sort first)} \\qquad \\text{Mode} = \\text{most frequent}',
+      '\\text{Range} = \\text{max} - \\text{min}'
+    ]
   },
   'math-fractions': {
     name: 'Fraction Operations',
-    template: 'Multiply:  (a/b) × (c/d) = ac / bd\nDivide:    Keep the first fraction, Change ÷ to ×, Flip the second\n           (a/b) ÷ (c/d) = (a/b) × (d/c)\nAdd/Sub:   find a common denominator, then add/subtract numerators',
-    mnemonic: 'Keep · Change · Flip  (KCF)  for division'
+    template: 'Multiply, Divide (KCF), Add/Subtract',
+    mnemonic: 'Keep · Change · Flip  (KCF)  for division',
+    latex: [
+      '\\dfrac{a}{b} \\times \\dfrac{c}{d} = \\dfrac{ac}{bd}',
+      '\\dfrac{a}{b} \\div \\dfrac{c}{d} = \\dfrac{a}{b} \\times \\dfrac{d}{c} \\quad \\textbf{(Keep · Change · Flip)}',
+      '\\dfrac{a}{b} + \\dfrac{c}{d} = \\dfrac{ad + bc}{bd} \\quad \\text{(common denominator)}'
+    ]
   },
   'math-ratio': {
     name: 'Ratios & Proportions',
-    template: 'a/b = c/d  →  cross-multiply: a × d = b × c\nPercent:  part / whole × 100 = %',
-    mnemonic: null
+    template: 'Cross-multiply to solve proportions',
+    mnemonic: null,
+    latex: [
+      '\\dfrac{a}{b} = \\dfrac{c}{d} \\implies a \\times d = b \\times c \\quad \\text{(cross-multiply)}',
+      '\\text{Percent} = \\dfrac{\\text{part}}{\\text{whole}} \\times 100'
+    ]
   },
   'math-word': {
     name: 'Setting Up Word Problems',
@@ -1717,8 +1802,12 @@ const FORMULA_GUIDES = {
   },
   'math-probability': {
     name: 'Probability',
-    template: 'P(event) = (favorable outcomes) / (total outcomes)\nP(A AND B) = P(A) × P(B)   [multiply — if independent]\nP(A OR B)  = P(A) + P(B) − P(A and B)',
-    mnemonic: 'AND = multiply  |  OR = add'
+    template: 'AND=multiply  OR=add',
+    mnemonic: 'AND = multiply  |  OR = add',
+    latex: [
+      'P(\\text{event}) = \\dfrac{\\text{favorable outcomes}}{\\text{total outcomes}}',
+      'P(A \\text{ AND } B) = P(A) \\times P(B) \\qquad P(A \\text{ OR } B) = P(A) + P(B) - P(A \\cap B)'
+    ]
   },
 };
 
@@ -2781,7 +2870,7 @@ const QUESTIONS = [
   correct: 2,
   explanation: 'Distance = √((4−1)² + (6−2)²) = √(9 + 16) = √25 = 5.',
   steps: [
-    { note: 'Distance formula — √[ ] means everything inside is under the square root', math: 'd = √[ (x₂−x₁)² + (y₂−y₁)² ]' },
+    { note: 'Distance formula — the overline on √ covers everything underneath', math: 'd = √[ (x₂−x₁)² + (y₂−y₁)² ]', latex: 'd = \\sqrt{(x_2-x_1)^2 + (y_2-y_1)^2}' },
     { note: 'Label the points', math: 'x₁=1, y₁=2,   x₂=4, y₂=6' },
     { note: 'Find the x-difference  (x₂ − x₁)', context: 'd = √[ **(x₂−x₁)**² + (y₂−y₁)² ]', math: '4 − 1 = 3' },
     { note: 'Find the y-difference  (y₂ − y₁)', context: 'd = √[ (3)² + **(y₂−y₁)**² ]', math: '6 − 2 = 4' },
@@ -2822,7 +2911,7 @@ const QUESTIONS = [
   correct: 1,
   explanation: 'Pythagorean: 6² + 8² = 36 + 64 = 100. c = √100 = 10.',
   steps: [
-    { note: 'Pythagorean theorem — right triangles only. a and b are legs, c is the hypotenuse', math: 'a² + b² = c²' },
+    { note: 'Pythagorean theorem — right triangles only. a and b are legs, c is the hypotenuse', math: 'a² + b² = c²', latex: 'a^2 + b^2 = c^2 \\quad \\text{(a, b = legs;  c = hypotenuse)}' },
     { note: 'Plug in the two legs', context: '**a²** + **b²** = c²', math: '6² + 8² = c²' },
     { note: 'Square each leg', context: '**6²** + **8²** = c²', math: '36 + 64 = c²' },
     { note: 'Add the squared values', context: '**36 + 64** = c²', math: '100 = c²' },
@@ -5874,9 +5963,13 @@ function loadState() {
     s.streak = s.streak || { count: 0, lastDate: null };
     s.diagnosticDone = !!s.diagnosticDone;
     s.schedule = s.schedule || {}; // { 'sd-2026-05-05': true, ... }
+    s.cooldown = s.cooldown || {}; // { qId: isoDateString } — 7-day repeat prevention
     // Migration: if any practice history exists, treat diagnostic as done.
-    // Cleans up users who stopped the diagnostic mid-way but still have progress.
     if (s.history.length > 0 && !s.diagnosticDone) s.diagnosticDone = true;
+    // Migration: back-fill seen-set from full history so Patrick never re-sees old questions
+    if (Object.keys(s.cooldown).length === 0 && s.history.length > 0) {
+      s.history.forEach(h => { if (h.qId) s.cooldown[h.qId] = 1; });
+    }
     return s;
   } catch (e) {
     console.warn('Failed to load state:', e);
@@ -5889,8 +5982,40 @@ function defaultState() {
     concepts: {},
     streak: { count: 0, lastDate: null },
     diagnosticDone: false,
-    schedule: {} // session ids that are marked complete
+    schedule: {}, // session ids that are marked complete
+    cooldown: {}  // { qId: isoDateString } — 7-day repeat prevention
   };
+}
+
+// Returns a Set of question IDs Patrick has already seen — permanently excluded
+// until he exhausts ALL questions for that concept, at which point that concept's
+// questions reset so practice can continue (cycle-based, never truly repeating
+// within a cycle).
+function getCooldownSet() {
+  state.cooldown = state.cooldown || {};
+
+  // Per-concept cycle reset: if every question in a concept has been seen,
+  // wipe that concept's entries so Patrick gets a fresh cycle rather than dead-ending.
+  const conceptGroups = {};
+  QUESTIONS.forEach(q => {
+    if (!conceptGroups[q.concept]) conceptGroups[q.concept] = [];
+    conceptGroups[q.concept].push(q.id);
+  });
+  for (const [concept, ids] of Object.entries(conceptGroups)) {
+    if (ids.length > 0 && ids.every(id => state.cooldown[id])) {
+      // All seen — reset this concept's cycle
+      ids.forEach(id => delete state.cooldown[id]);
+    }
+  }
+
+  return new Set(Object.keys(state.cooldown));
+}
+
+// Mark a question as seen — permanently retired until its concept cycle resets.
+function stampCooldown(qId) {
+  if (!qId) return;
+  state.cooldown = state.cooldown || {};
+  state.cooldown[qId] = 1; // value is just a presence marker; getCooldownSet uses Object.keys
 }
 function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -5943,6 +6068,9 @@ function recordAttempt(conceptId, isCorrect, qId) {
     correct: isCorrect
   });
   if (state.history.length > 5000) state.history = state.history.slice(-5000);
+
+  // Stamp cooldown — this question won't be served again for COOLDOWN_DAYS days
+  stampCooldown(qId);
 
   // Update streak (daily)
   const today = new Date().toISOString().slice(0, 10);
@@ -6147,12 +6275,10 @@ function renderDashboard() {
 let session = null;
 
 function startPractice() {
-  // Build exclusion list from recent history (last 80 questions seen)
-  const recentIds = (state.history || [])
-    .slice(-80)
-    .map(h => h.qId)
-    .filter(Boolean);
-  const recentSet = new Set(recentIds);
+  // Build exclusion set from cooldown (questions seen within the last 7 days).
+  // This is time-based rather than count-based, so questions can't sneak back
+  // just because Patrick answered 80+ other questions in the same week.
+  const recentSet = getCooldownSet();
 
   // Get a generous pool of concepts (priority order: weak, needs-work, untested, etc.)
   const conceptPool = pickConceptsForToday(35); // get all if we want; filter as we go
@@ -6316,6 +6442,24 @@ function formatContext(t) {
     .replace(/\n/g, '<br>');
 }
 
+// Render LaTeX to HTML using KaTeX. Falls back to monospace text if KaTeX not loaded.
+// displayMode=true renders as a centred block (like the cheat sheet image).
+function renderMath(latex, displayMode = true) {
+  if (!latex) return '';
+  if (window.katex) {
+    try {
+      return katex.renderToString(latex, {
+        displayMode,
+        throwOnError: false,
+        trust: false
+      });
+    } catch (e) {
+      return `<code>${latex}</code>`;
+    }
+  }
+  return `<code>${latex}</code>`;
+}
+
 // Render concept guide as collapsible HTML; `expanded` controls default open
 function renderConceptGuideHTML(conceptId, opts = {}) {
   const guide = getConceptGuide(conceptId);
@@ -6353,12 +6497,16 @@ function renderSolutionStepsHTML(explanationOrQ, maybeSteps) {
     const mnemonicHTML = fData.mnemonic
       ? `<span class="formula-card-mnemonic">${fData.mnemonic}</span>`
       : '';
+    // If latex formulas are provided, render them with KaTeX (looks like the cheat sheet)
+    const mathHTML = fData.latex && fData.latex.length > 0
+      ? fData.latex.map(l => `<div class="formula-katex">${renderMath(l, true)}</div>`).join('')
+      : `<div class="formula-card-template">${formatText(fData.template)}</div>`;
     return `<div class="formula-card">
       <div class="formula-card-header">
         <span class="formula-card-name">📐 ${fData.name}</span>
         ${mnemonicHTML}
       </div>
-      <div class="formula-card-template">${formatText(fData.template)}</div>
+      ${mathHTML}
     </div>`;
   }
 
@@ -6376,11 +6524,15 @@ function renderSolutionStepsHTML(explanationOrQ, maybeSteps) {
             const contextHTML = context
               ? `<div class="step-context"><span class="step-context-label">Working on ↓</span>${formatContext(context)}</div>`
               : '';
+            // Use KaTeX rendering if the step has a latex field; otherwise plain monospace
+            const mathContent = item.latex
+              ? `<div class="step-math step-math-katex">${renderMath(item.latex, false)}</div>`
+              : item.math ? `<div class="step-math">${formatText(item.math)}</div>` : '';
             return `<li>
               <span class="step-label">Step ${i + 1}${note ? ' — ' + formatText(note) : ''}</span>
               ${contextHTML}
-              ${item.math ? `<div class="step-math">${formatText(item.math)}</div>` : ''}
-              ${item.text && !item.math ? `<div class="step-note">${formatText(item.text)}</div>` : ''}
+              ${mathContent}
+              ${item.text && !item.math && !item.latex ? `<div class="step-note">${formatText(item.text)}</div>` : ''}
             </li>`;
           }).join('')}
         </ol>
@@ -6918,7 +7070,7 @@ function setConceptFilter(s) {
 
 function practiceSingleConcept(conceptId) {
   const TARGET = 10;
-  const recentIds = new Set((state.history || []).slice(-80).map(h => h.qId).filter(Boolean));
+  const recentIds = getCooldownSet(); // 7-day cooldown — same dedup logic as main session
   const usedIds = new Set();
   const out = [];
 
@@ -7426,48 +7578,4 @@ const QUESTION_TEMPLATES = {
         explanation: `${a2}x + ${b2} = ${c2} → subtract ${b2}: ${a2}x = ${c2-b2} → divide by ${a2}: x = ${x}`,
         steps: [
           { note: `Subtract ${b2} from both sides`, math: `${a2}x = ${c2 - b2}` },
-          { note: `Divide both sides by ${a2}`,     math: `x = ${x}` },
-        ],
-        tutor: [{ hint: `Step 1: Subtract ${b2} from both sides. Step 2: Divide both sides by ${a2}.` }],
-        _generated: true,
-      };
-    },
-    () => {
-      const x = rndInt(-8, 8);
-      const a = rndInt(2, 5), b = rndInt(1, 10), c = rndInt(2, 5), d = rndInt(1, 12);
-      // ax + b = cx + d  → (a-c)x = d-b
-      const lhs_const = b, rhs_const = d;
-      const lhs_coef = a, rhs_coef = c;
-      if (lhs_coef === rhs_coef) return null; // degenerate
-      const xVal = Math.round((rhs_const - lhs_const) / (lhs_coef - rhs_coef));
-      const check = lhs_coef * xVal + lhs_const;
-      const check2 = rhs_coef * xVal + rhs_const;
-      if (check !== check2) return null;
-      return {
-        id: `gen-linear2-${Date.now()}-${Math.random().toString(36).slice(2,6)}`,
-        concept: 'math-linear',
-        question: `Solve for x:  ${a}x + ${b} = ${c}x + ${d}`,
-        choices: shuffleWith([xVal, xVal+3, xVal-2, xVal+1].map(String), xVal),
-        correct: 0,
-        explanation: `Move x-terms: (${a}-${c})x = ${d}-${b} → ${a-c}x = ${d-b} → x = ${xVal}`,
-        steps: [
-          { note: `Subtract ${c}x from both sides`, math: `${a-c}x + ${b} = ${d}` },
-          { note: `Subtract ${b} from both sides`,  math: `${a-c}x = ${d-b}` },
-          { note: `Divide by ${a-c}`,               math: `x = ${xVal}` },
-        ],
-        tutor: [{ hint: `Get all x-terms on one side: subtract ${c}x from both sides first.` }],
-        _generated: true,
-      };
-    },
-  ],
-
-  'math-systems': [
-    () => {
-      const x = rndInt(1,8), y = rndInt(1,8);
-      const a1=rndInt(1,4), a2=rndInt(1,4);
-      // a1*x + y = a1*x+y and x - a2*y = x-a2*y
-      const s1 = x + y, s2 = x - y;
-      return {
-        id: `gen-sys-${Date.now()}-${Math.random().toString(36).slice(2,6)}`,
-        concept: 'math-systems',
-       
+          { note: 
