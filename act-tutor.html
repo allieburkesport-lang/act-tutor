@@ -450,6 +450,78 @@
     min-width: 60%;
   }
 
+  /* Step context — shows WHERE in the formula each step is working */
+  .step-context {
+    font-family: "SF Mono", Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 12px;
+    color: #475569;
+    background: #f1f5f9;
+    border: 1px dashed #94a3b8;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin: 3px 0 5px;
+    line-height: 1.7;
+    white-space: pre-line;
+  }
+  .step-context-label {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #94a3b8;
+    margin-bottom: 2px;
+    display: block;
+  }
+  /* Highlighted focus within the context line — the part being computed */
+  .step-focus {
+    background: #fef08a;
+    color: #713f12;
+    padding: 0 2px;
+    border-radius: 3px;
+    font-weight: 700;
+  }
+
+
+  /* Formula identification card — shown above solution steps */
+  .formula-card {
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 0 0 8px;
+  }
+  .formula-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+  }
+  .formula-card-name {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #1d4ed8;
+  }
+  .formula-card-mnemonic {
+    display: inline-block;
+    background: #1d4ed8;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 1px 8px;
+    border-radius: 99px;
+    letter-spacing: 0.05em;
+  }
+  .formula-card-template {
+    font-family: "SF Mono", Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 13px;
+    color: #1e293b;
+    line-height: 1.6;
+    white-space: pre-line;
+  }
+
+
   /* Question UI */
   .progress-bar {
     height: 4px;
@@ -1554,6 +1626,102 @@ function getConceptGuide(conceptId) {
   return CONCEPT_GUIDES[conceptId] || null;
 }
 
+
+// ─── Formula / Mnemonic lookup — displayed before solution steps ───────────
+// Each entry: { name, template, mnemonic (optional) }
+const FORMULA_GUIDES = {
+  'math-linear': {
+    name: 'Solving Linear Equations',
+    template: 'ax + b = c  →  x = (c − b) / a\nKey move: isolate the variable — undo addition/subtraction first, then multiplication/division',
+    mnemonic: null
+  },
+  'math-quadratic': {
+    name: 'Quadratic Formula  +  FOIL for expanding',
+    template: 'Quadratic formula:  x = (−b ± √(b² − 4ac)) / 2a\n  for ax² + bx + c = 0\n\nFOIL — expanding two binomials like (x+2)(x+3):\n  First:  x × x = x²\n  Outer: x × 3 = 3x\n  Inner:  2 × x = 2x\n  Last:   2 × 3 = 6\n  Result: x² + 5x + 6',
+    mnemonic: 'FOIL'
+  },
+  'math-systems': {
+    name: 'Systems of Equations',
+    template: 'Substitution: solve one equation for a variable, plug into the other\nElimination: add/subtract equations to cancel a variable',
+    mnemonic: null
+  },
+  'math-lines': {
+    name: 'Lines & Slope',
+    template: 'Slope-intercept:  y = mx + b  (m = slope, b = y-intercept)\nSlope:  m = (y₂ − y₁) / (x₂ − x₁)\nParallel lines → same slope  |  Perpendicular → negative reciprocal slopes\n(e.g. slope 2/3  →  perpendicular slope = −3/2)',
+    mnemonic: 'Rise over Run'
+  },
+  'math-coord': {
+    name: 'Coordinate Geometry',
+    template: 'Distance:   d = √[ (x₂−x₁)² + (y₂−y₁)² ]\n  (√[ ] = square root of everything inside the brackets)\nMidpoint:   M = ( (x₁+x₂)÷2 , (y₁+y₂)÷2 )',
+    mnemonic: null
+  },
+  'math-circles': {
+    name: 'Circles',
+    template: 'Standard form:  (x − h)² + (y − k)² = r²  [center (h,k), radius r]\nArea = πr²    Circumference = 2πr',
+    mnemonic: null
+  },
+  'math-triangles': {
+    name: 'Triangle Formulas',
+    template: 'Pythagorean theorem:  a² + b² = c²  (right triangles only)\nArea = ½ × base × height\nAngles sum to 180°',
+    mnemonic: null
+  },
+  'math-trig': {
+    name: 'Right Triangle Trigonometry',
+    template: 'sin(θ) = opposite / hypotenuse\ncos(θ) = adjacent / hypotenuse\ntan(θ) = opposite / adjacent',
+    mnemonic: 'SOH-CAH-TOA'
+  },
+  'math-sequences': {
+    name: 'Sequences',
+    template: 'Arithmetic:  aₙ = a₁ + (n−1)d      [d = common difference]\nGeometric:   aₙ = a₁ × rⁿ⁻¹          [r = common ratio]\nArithmetic sum:  Sₙ = n(a₁ + aₙ) / 2',
+    mnemonic: null
+  },
+  'math-logs': {
+    name: 'Logarithms ↔ Exponentials',
+    template: 'Definition:  logₐ(x) = y  ↔  aʸ = x\nProduct rule:   logₐ(xy) = logₐ(x) + logₐ(y)\nPower rule:     logₐ(xⁿ) = n · logₐ(x)\nSpecial cases:  log(1) = 0,  log(base) = 1',
+    mnemonic: null
+  },
+  'math-matrices': {
+    name: 'Matrix Operations',
+    template: 'Addition/Subtraction: add/subtract corresponding entries (same dimensions required)\nScalar multiplication: multiply every entry by the scalar\n[a b]   [e f]   [a+e  b+f]\n[c d] + [g h] = [c+g  d+h]',
+    mnemonic: null
+  },
+  'math-stats': {
+    name: 'Statistics: Mean, Median, Mode, Range',
+    template: 'Mean   = (sum of all values) / (count of values)\nMedian = middle value when sorted  (avg of 2 middle values if even count)\nMode   = value that appears most often\nRange  = maximum − minimum',
+    mnemonic: 'Mode → Most, Median → Middle'
+  },
+  'math-fractions': {
+    name: 'Fraction Operations',
+    template: 'Multiply:  (a/b) × (c/d) = ac / bd\nDivide:    Keep the first fraction, Change ÷ to ×, Flip the second\n           (a/b) ÷ (c/d) = (a/b) × (d/c)\nAdd/Sub:   find a common denominator, then add/subtract numerators',
+    mnemonic: 'Keep · Change · Flip  (KCF)  for division'
+  },
+  'math-ratio': {
+    name: 'Ratios & Proportions',
+    template: 'a/b = c/d  →  cross-multiply: a × d = b × c\nPercent:  part / whole × 100 = %',
+    mnemonic: null
+  },
+  'math-word': {
+    name: 'Setting Up Word Problems',
+    template: '1. Define variable(s) — let x = the unknown\n2. Write the equation from the problem words\n3. Solve and check that the answer makes sense',
+    mnemonic: null
+  },
+  'math-functions': {
+    name: 'Function Notation',
+    template: 'f(x) — "f of x" means evaluate the function at x\nf(a): substitute x = a everywhere in the function\nDomain: all valid input values (watch for division by zero, √ of negatives)',
+    mnemonic: null
+  },
+  'math-inequalities': {
+    name: 'Inequalities',
+    template: 'Solve like an equation EXCEPT: flip the inequality sign when multiplying or dividing by a negative number\n−2x > 6  →  x < −3  (sign flips!)',
+    mnemonic: null
+  },
+  'math-probability': {
+    name: 'Probability',
+    template: 'P(event) = (favorable outcomes) / (total outcomes)\nP(A AND B) = P(A) × P(B)   [multiply — if independent]\nP(A OR B)  = P(A) + P(B) − P(A and B)',
+    mnemonic: 'AND = multiply  |  OR = add'
+  },
+};
+
 /* ----- 2. QUESTION BANK -----
    Format:
    {
@@ -1980,6 +2148,44 @@ function renderColorGuideHTML(conceptId) {
 }
 
 const QUESTIONS = [
+
+/* ============== DAILY PACK 2026-05-06 (auto-generated) ============== */
+{
+  id: 'dp-2026-05-06-math-triangles-1', concept: 'math-triangles', difficulty: 2,
+  question: 'A right triangle has legs of length 7 and 24. What is the length of the hypotenuse?',
+  choices: ['25', '27', '31', '√625'],
+  correct: 0,
+  explanation: 'Use the Pythagorean theorem: a² + b² = c². So 7² + 24² = 49 + 576 = 625, and √625 = 25. Answer: A) 25. (7-24-25 is a classic Pythagorean triple.)',
+  steps: [
+    { note: 'Write the Pythagorean theorem', math: 'a² + b² = c²' },
+    { note: 'Plug in legs a = 7, b = 24', math: '7² + 24² = c²' },
+    { note: 'Square each leg', math: '49 + 576 = c²' },
+    { note: 'Add', math: '625 = c²' },
+    { note: 'Take the square root', math: 'c = √625 = 25' }
+  ],
+  tutor: [
+    { hint: 'This is a right triangle, so a famous theorem applies. What formula relates the two legs and the hypotenuse of a right triangle?', followUp: { question: 'If you apply the Pythagorean theorem to legs 7 and 24, what do you get for a² + b²?', choices: ['31', '576', '625'], correct: 2 } },
+    { hint: 'Good — a² + b² = 49 + 576 = 625. Now what is c? Remember c² = 625, so you need to take the square root.' },
+    { hint: 'Step-by-step: 7² + 24² = 49 + 576 = 625. Then c = √625 = 25. Answer: A) 25. Tip: memorize 3-4-5, 5-12-13, and 7-24-25 as common ACT Pythagorean triples.' }
+  ]
+},
+{
+  id: 'dp-2026-05-06-sci-research-2', concept: 'sci-research', difficulty: 2,
+  question: 'A researcher notices that students who eat breakfast score higher on standardized tests than students who skip breakfast. She concludes that eating breakfast causes higher test scores. Which of the following best identifies a flaw in her reasoning?',
+  choices: [
+    'She should have used a larger sample size.',
+    'Correlation does not necessarily imply causation.',
+    'Test scores are not a valid measure of academic achievement.',
+    'The study should have been conducted over multiple years.'
+  ],
+  correct: 1,
+  explanation: 'The researcher observed a correlation but cannot claim causation without a controlled experiment. Other factors (e.g., students who eat breakfast may also have more stable home lives) could explain the relationship. Answer: B) Correlation does not imply causation.',
+  tutor: [
+    { hint: 'The researcher observed a pattern — breakfast eaters score higher. But observation alone is not proof. What is the difference between a correlation and a cause?', followUp: { question: 'Which statement best describes what the researcher actually showed?', choices: ['Eating breakfast causes better scores', 'There is a relationship between breakfast and scores', 'Breakfast has no effect on scores'], correct: 1 } },
+    { hint: 'She showed a correlation — a relationship. But could a third factor explain both? Students with supportive families might both eat breakfast AND study more. What reasoning flaw does that expose?' },
+    { hint: 'Answer: B) Correlation does not imply causation. Without a controlled experiment, she cannot rule out confounding variables. This is one of the most common ACT Science reasoning traps!' }
+  ]
+},
 
 /* ============== ENGLISH: COMMAS ============== */
 {
@@ -2575,12 +2781,13 @@ const QUESTIONS = [
   correct: 2,
   explanation: 'Distance = √((4−1)² + (6−2)²) = √(9 + 16) = √25 = 5.',
   steps: [
-    { note: 'Distance formula (it\'s really the Pythagorean theorem on a coordinate grid)', math: 'd = √((x₂−x₁)² + (y₂−y₁)²)' },
-    { note: 'Find the x-difference', math: '4 − 1 = 3' },
-    { note: 'Find the y-difference', math: '6 − 2 = 4' },
-    { note: 'Square each', math: '3² = 9,   4² = 16' },
-    { note: 'Add them', math: '9 + 16 = 25' },
-    { note: 'Take the square root', math: '√25 = 5' }
+    { note: 'Distance formula — √[ ] means everything inside is under the square root', math: 'd = √[ (x₂−x₁)² + (y₂−y₁)² ]' },
+    { note: 'Label the points', math: 'x₁=1, y₁=2,   x₂=4, y₂=6' },
+    { note: 'Find the x-difference  (x₂ − x₁)', context: 'd = √[ **(x₂−x₁)**² + (y₂−y₁)² ]', math: '4 − 1 = 3' },
+    { note: 'Find the y-difference  (y₂ − y₁)', context: 'd = √[ (3)² + **(y₂−y₁)**² ]', math: '6 − 2 = 4' },
+    { note: 'Square each difference', context: 'd = √[ **(3)²** + **(4)²** ]', math: '3² = 9,   4² = 16' },
+    { note: 'Add under the radical', context: 'd = √[ **9 + 16** ]', math: '9 + 16 = 25' },
+    { note: 'Take the square root of the total', context: 'd = **√[ 25 ]**', math: '√25 = 5  →  d = 5' }
   ],
   tutor: [
     { hint: 'Distance formula = Pythagorean theorem in disguise. The x-diff and y-diff are the legs of a right triangle; distance is the hypotenuse.' },
@@ -2615,11 +2822,11 @@ const QUESTIONS = [
   correct: 1,
   explanation: 'Pythagorean: 6² + 8² = 36 + 64 = 100. c = √100 = 10.',
   steps: [
-    { note: 'Pythagorean theorem applies to right triangles. Legs are a and b; hypotenuse is c', math: 'a² + b² = c²' },
-    { note: 'Plug in legs', math: '6² + 8² = c²' },
-    { note: 'Square each leg', math: '36 + 64 = c²' },
-    { note: 'Add', math: '100 = c²' },
-    { note: 'Take the square root of both sides', math: 'c = √100 = 10' }
+    { note: 'Pythagorean theorem — right triangles only. a and b are legs, c is the hypotenuse', math: 'a² + b² = c²' },
+    { note: 'Plug in the two legs', context: '**a²** + **b²** = c²', math: '6² + 8² = c²' },
+    { note: 'Square each leg', context: '**6²** + **8²** = c²', math: '36 + 64 = c²' },
+    { note: 'Add the squared values', context: '**36 + 64** = c²', math: '100 = c²' },
+    { note: 'Take the square root of both sides to isolate c', context: '100 = **c²**  →  √100 = c', math: 'c = √100 = 10' }
   ],
   tutor: [
     { hint: 'Pythagorean theorem: a² + b² = c² for right triangles ONLY. The hypotenuse (longest side) is c.' },
@@ -2792,6 +2999,14 @@ const QUESTIONS = [
   choices: ['12', '14', '16', '18'],
   correct: 1,
   explanation: 'Let brother = b. Maria = 2b. In 5 years: (b + 5) + (2b + 5) = 31 → 3b + 10 = 31 → 3b = 21 → b = 7. Maria = 14.',
+  steps: [
+    { note: 'Define variables. Let b = brother\'s age now; Maria = 2b', math: 'brother = b,   Maria = 2b' },
+    { note: 'In 5 years, add 5 to each age and set the sum to 31', math: '(b + 5) + (2b + 5) = 31' },
+    { note: 'Combine like terms', math: '3b + 10 = 31' },
+    { note: 'Subtract 10 from both sides', math: '3b = 21' },
+    { note: 'Divide both sides by 3', math: 'b = 7  →  brother is 7' },
+    { note: 'Maria is twice the brother\'s age', math: 'Maria = 2 × 7 = 14' }
+  ],
   tutor: [
     { hint: 'Set up variables: pick the smaller person as x, the relationship gives you the other person.' },
     { hint: 'Brother now = b, Maria now = 2b. Add 5 to each for "in 5 years," then sum to 31.', followUp: { question: 'John is 3 times Tim\'s age. In 4 years, John will be twice Tim\'s age. How old is Tim now?', choices: ['2', '3', '4', '6'], correct: 2 } }
@@ -3583,6 +3798,13 @@ const QUESTIONS = [
   choices: ['x = 4', 'x = 8', 'x = -2', 'x = 16'],
   correct: 1,
   explanation: '2x + 10 = 4x - 6 → 16 = 2x → x = 8.',
+  steps: [
+    { note: 'Start with the equation', math: '2(x + 5) = 4x - 6' },
+    { note: 'Distribute the 2 across (x + 5)', math: '2x + 10 = 4x - 6' },
+    { note: 'Subtract 2x from both sides', math: '10 = 2x - 6' },
+    { note: 'Add 6 to both sides', math: '16 = 2x' },
+    { note: 'Divide both sides by 2', math: 'x = 8' }
+  ],
   tutor: [{ hint: 'Distribute the 2, then move all x terms to one side and constants to the other.' }]
 },
 {
@@ -3591,6 +3813,12 @@ const QUESTIONS = [
   choices: ['x = 4', 'x = -3', 'x = -4', 'x = 8'],
   correct: 2,
   explanation: '3x - 5x = 1 + 7 → -2x = 8 → x = -4.',
+  steps: [
+    { note: 'Start with the equation', math: '3x - 7 = 5x + 1' },
+    { note: 'Subtract 5x from both sides', math: '-2x - 7 = 1' },
+    { note: 'Add 7 to both sides', math: '-2x = 8' },
+    { note: 'Divide both sides by -2 (dividing by negative flips the sign)', math: 'x = -4' }
+  ],
   tutor: [{ hint: 'Get all x terms on one side. Watch the sign when you divide by a negative.' }]
 },
 
@@ -3601,6 +3829,11 @@ const QUESTIONS = [
   choices: ['3', '4', '5', '7'],
   correct: 2,
   explanation: 'Add the two equations: 3x = 15, so x = 5. (Then y = 1.)',
+  steps: [
+    { note: 'Write both equations', math: '2x + y = 11\nx - y = 4' },
+    { note: 'Add the two equations — the y terms cancel (+y and -y)', math: '3x = 15' },
+    { note: 'Divide both sides by 3', math: 'x = 5' }
+  ],
   tutor: [{ hint: 'Adding the equations cancels y because the y terms are opposites (+y and -y). Try it.' }]
 },
 {
@@ -3609,6 +3842,14 @@ const QUESTIONS = [
   choices: ['3', '4', '5', '6'],
   correct: 2,
   explanation: 'From x + y = 7: x = 7 - y. Substitute: 3(7 - y) + 2y = 16 → 21 - 3y + 2y = 16 → -y = -5 → y = 5.',
+  steps: [
+    { note: 'Solve the simpler equation for x', math: 'x + y = 7  →  x = 7 - y' },
+    { note: 'Substitute x = 7 - y into the other equation', math: '3(7 - y) + 2y = 16' },
+    { note: 'Distribute the 3', math: '21 - 3y + 2y = 16' },
+    { note: 'Combine y terms', math: '21 - y = 16' },
+    { note: 'Subtract 21 from both sides', math: '-y = -5' },
+    { note: 'Multiply both sides by -1', math: 'y = 5' }
+  ],
   tutor: [{ hint: 'Easier system: solve x + y = 7 for x, then substitute into the other equation.' }]
 },
 
@@ -3619,6 +3860,13 @@ const QUESTIONS = [
   choices: ['1/2', '-1/2', '2', '-2'],
   correct: 0,
   explanation: 'slope = (y2 - y1)/(x2 - x1) = (5 - 7)/(-1 - 3) = -2/-4 = 1/2.',
+  steps: [
+    { note: 'Slope formula: rise over run', math: 'slope = (y₂ - y₁) / (x₂ - x₁)' },
+    { note: 'Label the points: Point 1 = (3, 7), Point 2 = (-1, 5)', math: 'x₁=3, y₁=7,  x₂=-1, y₂=5' },
+    { note: 'Compute rise (y difference)', math: '5 - 7 = -2' },
+    { note: 'Compute run (x difference)', math: '-1 - 3 = -4' },
+    { note: 'Divide rise by run', math: 'slope = -2 / -4 = 1/2' }
+  ],
   tutor: [{ hint: 'Slope = rise/run. Pick a consistent order for the points and stick with it.' }]
 },
 {
@@ -3627,6 +3875,12 @@ const QUESTIONS = [
   choices: ['(1, 3)', '(2, 6)', '(3, 5)', '(1, 5)'],
   correct: 0,
   explanation: 'Midpoint = ((-2+4)/2, (8+(-2))/2) = (1, 3).',
+  steps: [
+    { note: 'Midpoint formula: average the x-coords AND average the y-coords', math: 'midpoint = ((x₁+x₂)/2,  (y₁+y₂)/2)' },
+    { note: 'Average the x-coordinates', math: '(-2 + 4) / 2 = 2 / 2 = 1' },
+    { note: 'Average the y-coordinates', math: '(8 + (-2)) / 2 = 6 / 2 = 3' },
+    { note: 'Write as a coordinate pair', math: 'midpoint = (1, 3)' }
+  ],
   tutor: [{ hint: 'Midpoint = average the x-coords AND average the y-coords. Two simple averages.' }]
 },
 
@@ -3637,6 +3891,13 @@ const QUESTIONS = [
   choices: ['y = 2x + 4', 'y = -2x + 8', 'y = 2x - 4', 'y = (1/2)x + 5.5'],
   correct: 0,
   explanation: 'Parallel = SAME slope. Slope is 2. y - 6 = 2(x - 1) → y = 2x + 4.',
+  steps: [
+    { note: 'Identify the slope of the given line (m = the number in front of x)', math: 'y = 2x - 5  →  slope = 2' },
+    { note: 'Parallel lines have the SAME slope', math: 'new slope = 2' },
+    { note: 'Use point-slope form with the given point (1, 6)', math: 'y - 6 = 2(x - 1)' },
+    { note: 'Distribute the 2', math: 'y - 6 = 2x - 2' },
+    { note: 'Add 6 to both sides', math: 'y = 2x + 4' }
+  ],
   tutor: [{ hint: 'Parallel lines share the same slope. Then use point-slope form with the given point.' }]
 },
 {
@@ -3645,6 +3906,13 @@ const QUESTIONS = [
   choices: ['-1', '0', '1', '2'],
   correct: 0,
   explanation: 'Slope = (7-3)/(4-2) = 2. Using y = 2x + b with point (2,3): 3 = 4 + b, so b = -1.',
+  steps: [
+    { note: 'Find the slope using the two points', math: 'slope = (7 - 3) / (4 - 2) = 4 / 2 = 2' },
+    { note: 'Use y = mx + b with m = 2', math: 'y = 2x + b' },
+    { note: 'Plug in the point (2, 3) to solve for b', math: '3 = 2(2) + b  →  3 = 4 + b' },
+    { note: 'Subtract 4 from both sides', math: 'b = 3 - 4 = -1' },
+    { note: 'The y-intercept is b', math: 'y-intercept = -1' }
+  ],
   tutor: [{ hint: 'First find slope. Then plug a point into y = mx + b and solve for b.' }]
 },
 
@@ -3655,6 +3923,11 @@ const QUESTIONS = [
   choices: ['5', '5√3', '10', '10√3'],
   correct: 2,
   explanation: 'In a 30-60-90 triangle, the sides are in ratio 1 : √3 : 2 (opposite 30, 60, 90). Side opposite 30° = 5, so hypotenuse = 2 × 5 = 10.',
+  steps: [
+    { note: 'Recall the 30-60-90 side ratio', math: '30-60-90 sides:  1 : √3 : 2' },
+    { note: 'The side opposite 30° = 5, so the scale factor is 5', math: 'scale factor = 5' },
+    { note: 'Hypotenuse = 2 × scale factor', math: 'hypotenuse = 2 × 5 = 10' }
+  ],
   tutor: [{ hint: 'Memorize: 30-60-90 sides are in ratio 1 : √3 : 2 (short leg : long leg : hypotenuse).' }]
 },
 {
@@ -3663,6 +3936,13 @@ const QUESTIONS = [
   choices: ['10', '12', '14', '√48'],
   correct: 0,
   explanation: 'Pythagorean: 6² + 8² = c². 36 + 64 = 100. c = 10. (Classic 6-8-10 triangle = 3-4-5 doubled.)',
+  steps: [
+    { note: 'Apply the Pythagorean theorem', math: 'a² + b² = c²' },
+    { note: 'Plug in legs 6 and 8', math: '6² + 8² = c²' },
+    { note: 'Square each leg', math: '36 + 64 = c²' },
+    { note: 'Add', math: '100 = c²' },
+    { note: 'Take the square root', math: 'c = √100 = 10' }
+  ],
   tutor: [{ hint: 'Pythagorean theorem: a² + b² = c². The 6-8-10 triple is one to memorize.' }]
 },
 
@@ -3673,6 +3953,13 @@ const QUESTIONS = [
   choices: ['10π', '25π', '100π', '5π'],
   correct: 1,
   explanation: 'Radius = diameter/2 = 5. Area = πr² = 25π.',
+  steps: [
+    { note: 'Convert diameter to radius (radius = diameter ÷ 2)', math: 'radius = 10 ÷ 2 = 5' },
+    { note: 'Area formula', math: 'A = π × r²' },
+    { note: 'Substitute r = 5', math: 'A = π × 5²' },
+    { note: 'Square the radius', math: '5² = 25' },
+    { note: 'Write the final answer', math: 'A = 25π' }
+  ],
   tutor: [{ hint: 'Diameter = 2 × radius. Always convert to radius before using the area formula.' }]
 },
 {
@@ -3681,6 +3968,11 @@ const QUESTIONS = [
   choices: ['π', '2π', '6π', '12π'],
   correct: 1,
   explanation: 'Arc length = (angle/360) × circumference = (60/360) × 12π = (1/6) × 12π = 2π.',
+  steps: [
+    { note: 'Find the full circumference of the circle', math: 'C = 2πr = 2π(6) = 12π' },
+    { note: 'An arc is a fraction of the full circle. The fraction = angle / 360', math: 'fraction = 60 / 360 = 1/6' },
+    { note: 'Multiply the fraction by the circumference', math: 'arc length = (1/6) × 12π = 2π' }
+  ],
   tutor: [{ hint: 'Arc length = (central angle / 360) × full circumference. Circumference = 2πr.' }]
 },
 
@@ -3691,6 +3983,11 @@ const QUESTIONS = [
   choices: ['7/24', '7/25', '24/25', '25/7'],
   correct: 1,
   explanation: 'SOH: sin = opposite/hypotenuse = 7/25.',
+  steps: [
+    { note: 'Identify what is given', math: 'opposite = 7,   hypotenuse = 25' },
+    { note: 'Recall SOH: sin = Opposite / Hypotenuse', math: 'sin θ = opposite / hypotenuse' },
+    { note: 'Substitute', math: 'sin θ = 7 / 25' }
+  ],
   tutor: [{ hint: 'SOHCAHTOA: sin = Opposite/Hypotenuse. That\'s the S/O/H part.' }]
 },
 {
@@ -3699,6 +3996,11 @@ const QUESTIONS = [
   choices: ['8/15', '8/17', '15/17', '17/8'],
   correct: 1,
   explanation: 'CAH: cos = adjacent/hypotenuse = 8/17.',
+  steps: [
+    { note: 'Identify what is given', math: 'adjacent = 8,   hypotenuse = 17' },
+    { note: 'Recall CAH: cos = Adjacent / Hypotenuse', math: 'cos θ = adjacent / hypotenuse' },
+    { note: 'Substitute', math: 'cos θ = 8 / 17' }
+  ],
   tutor: [{ hint: 'CAH: cos = Adjacent over Hypotenuse.' }]
 },
 
@@ -3709,6 +4011,12 @@ const QUESTIONS = [
   choices: ['4', '5', '6', '7'],
   correct: 1,
   explanation: 'Sort: 2, 3, 4, 5, 7, 9, 11. Middle (4th of 7) = 5.',
+  steps: [
+    { note: 'Step 1 — Sort the numbers smallest to largest', math: '2,  3,  4,  5,  7,  9,  11' },
+    { note: 'Step 2 — Count: there are 7 numbers (odd count)', math: 'count = 7' },
+    { note: 'Step 3 — The median is the middle value. Position = (7+1)/2 = 4th', math: '2,  3,  4,  [5],  7,  9,  11' },
+    { note: 'The 4th value is the median', math: 'median = 5' }
+  ],
   tutor: [{ hint: 'Median = middle value AFTER sorting. With odd count, it\'s the single middle one.' }]
 },
 
@@ -3719,6 +4027,13 @@ const QUESTIONS = [
   choices: ['20%', '25%', '80%', '125%'],
   correct: 1,
   explanation: 'Percent change = (new - old)/old × 100 = 20/80 × 100 = 25%.',
+  steps: [
+    { note: 'Percent change formula', math: 'percent change = (new − old) / old × 100' },
+    { note: 'Identify old and new values', math: 'old = $80,   new = $100' },
+    { note: 'Find the change', math: 'change = 100 − 80 = 20' },
+    { note: 'Divide by the OLD value (not new — this is the most common mistake)', math: '20 / 80 = 0.25' },
+    { note: 'Multiply by 100', math: '0.25 × 100 = 25%' }
+  ],
   tutor: [{ hint: 'Percent change formula uses the OLD value as the denominator, not the new one.' }]
 },
 {
@@ -3727,6 +4042,11 @@ const QUESTIONS = [
   choices: ['2 hours', '2.4 hours', '5 hours', '10 hours'],
   correct: 1,
   explanation: 'Anna does 1/4 wall per hour, Ben does 1/6. Together: 1/4 + 1/6 = 3/12 + 2/12 = 5/12 wall per hour. Time = 1 / (5/12) = 12/5 = 2.4 hours.',
+  steps: [
+    { note: 'Find each person\'s rate (fraction of wall completed per hour)', math: 'Anna = 1/4 wall/hr,   Ben = 1/6 wall/hr' },
+    { note: 'Add the rates to get combined rate. Use common denominator 12', math: '1/4 + 1/6 = 3/12 + 2/12 = 5/12 wall/hr' },
+    { note: 'Time to finish 1 full wall = 1 job ÷ combined rate', math: 'time = 1 ÷ (5/12) = 12/5 = 2.4 hours' }
+  ],
   tutor: [{ hint: 'Combined work rate = sum of individual rates. Time = 1 ÷ combined rate.' }]
 },
 
@@ -3737,6 +4057,12 @@ const QUESTIONS = [
   choices: ['5/7', '5/12', '17/12', '6/12'],
   correct: 2,
   explanation: 'Common denom 12: 9/12 + 8/12 = 17/12.',
+  steps: [
+    { note: 'Find the least common denominator (LCD) of 4 and 3', math: 'LCD = 12' },
+    { note: 'Convert 3/4 to twelfths', math: '3/4 = 9/12' },
+    { note: 'Convert 2/3 to twelfths', math: '2/3 = 8/12' },
+    { note: 'Add the fractions (same denominator — add numerators only)', math: '9/12 + 8/12 = 17/12' }
+  ],
   tutor: [{ hint: 'Add fractions only AFTER finding a common denominator.' }]
 },
 {
@@ -4567,7 +4893,866 @@ const QUESTIONS = [
   correct: 2,
   explanation: 'Independent variable = what they vary (pH). Dependent = what they measure as a result (height).',
   tutor: [{ hint: '"DEPENDENT" variable depends on the independent. What\'s being measured AT THE END?' }]
+},
+
+/* ============== DAILY PACK 2026-05-06 (auto-generated, offline mode) ============== */
+{ id: 'dp-2026-05-06-math-ratio-1', concept: 'math-ratio', difficulty: 2,
+  question: 'A car travels 156 miles on 6 gallons of gas. At this rate, how many gallons of gas will it need to travel 390 miles?',
+  choices: ['A) 12 gallons', 'B) 15 gallons', 'C) 18 gallons', 'D) 20 gallons'],
+  correct: 1,
+  explanation: 'Set up a proportion: 156/6 = 390/x. Cross-multiply: 156x = 6 × 390 = 2340, so x = 2340 ÷ 156 = 15. Alternatively, find the rate: 156 ÷ 6 = 26 miles per gallon. Then 390 ÷ 26 = 15 gallons. Answer: B) 15 gallons.',
+  steps: [
+    { note: 'Find the fuel rate: miles per gallon', math: '156 ÷ 6 = 26 miles per gallon' },
+    { note: 'Divide the total trip miles by the rate', math: '390 ÷ 26 = 15 gallons' }
+  ],
+  tutor: [
+    { hint: 'The car\'s fuel efficiency stays the same throughout the trip. How would you set up an equation that compares miles to gallons in both situations?', followUp: { question: 'If 156 miles requires 6 gallons, which proportion correctly represents the unknown gallons x for 390 miles?', choices: ['A) 156/390 = x/6', 'B) 156/6 = 390/x', 'C) 6/156 = 390/x'], correct: 1 } },
+    { hint: 'Good — you have 156/6 = 390/x. Cross-multiply to get 156x = 2340. Now divide both sides by 156 to solve for x.', followUp: null },
+    { hint: 'Step-by-step: Find miles per gallon: 156 ÷ 6 = 26 mpg. Then divide total miles by mpg: 390 ÷ 26 = 15 gallons. Answer: B) 15 gallons.', followUp: null }
+  ]
+},
+{ id: 'dp-2026-05-06-math-ratio-2', concept: 'math-ratio', difficulty: 2,
+  question: 'A recipe calls for 3 cups of flour for every 2 cups of sugar. A baker decides to use 10 cups of sugar. How many cups of flour does she need?',
+  choices: ['A) 12 cups', 'B) 15 cups', 'C) 18 cups', 'D) 20 cups'],
+  correct: 1,
+  explanation: 'The ratio of flour to sugar is 3:2. Set up the proportion: 3/2 = x/10. Cross-multiply: 2x = 30, so x = 15. Answer: B) 15 cups.',
+  steps: [
+    { note: 'Set up a proportion: flour / sugar = 3 / 2', math: '3/2 = x/10' },
+    { note: 'Cross-multiply', math: '2x = 3 × 10 = 30' },
+    { note: 'Divide both sides by 2', math: 'x = 30 ÷ 2 = 15 cups of flour' }
+  ],
+  tutor: [
+    { hint: 'The flour-to-sugar ratio must stay constant. If flour:sugar = 3:2, how can you write a proportion to find the flour needed for 10 cups of sugar?', followUp: { question: 'Which equation correctly sets up this proportion (x = cups of flour)?', choices: ['A) 3/2 = x/10', 'B) 2/3 = x/10', 'C) 3/10 = x/2'], correct: 0 } },
+    { hint: 'You have 3/2 = x/10. Cross-multiply: 2x = 30. Divide by 2 to get x.', followUp: null },
+    { hint: 'Step-by-step: flour/sugar = 3/2. So x/10 = 3/2. Cross-multiply: 2x = 30, x = 15. Answer: B) 15 cups. You can also think of it as: 10 cups sugar is 5× the original 2 cups, so flour = 3 × 5 = 15.', followUp: null }
+  ]
+},
+{ id: 'dp-2026-05-06-math-sequences-1', concept: 'math-sequences', difficulty: 2,
+  question: 'The first term of an arithmetic sequence is 7 and the common difference is 4. What is the 12th term?',
+  choices: ['A) 44', 'B) 48', 'C) 51', 'D) 55'],
+  correct: 2,
+  explanation: 'For an arithmetic sequence, the nth term is a_n = a_1 + (n − 1)d. Here a_1 = 7, d = 4, n = 12. So a_12 = 7 + (12 − 1)(4) = 7 + 11 × 4 = 7 + 44 = 51. Answer: C) 51.',
+  steps: [
+    { note: 'Formula for the nth term of an arithmetic sequence', math: 'aₙ = a₁ + (n − 1)d' },
+    { note: 'Identify the values: a₁ = 7, d = 4, n = 12', math: 'a₁ = 7,   d = 4,   n = 12' },
+    { note: 'Substitute', math: 'a₁₂ = 7 + (12 − 1) × 4' },
+    { note: 'Compute 12 − 1 = 11, then 11 × 4', math: '11 × 4 = 44' },
+    { note: 'Add', math: 'a₁₂ = 7 + 44 = 51' }
+  ],
+  tutor: [
+    { hint: 'In an arithmetic sequence, each term increases by a fixed amount (the common difference). The formula for the nth term is a_n = a_1 + (n − 1)d. Can you identify a_1, d, and n from the problem?', followUp: { question: 'With a_1 = 7, d = 4, and n = 12, what does (n − 1)d equal?', choices: ['A) 40', 'B) 44', 'C) 48'], correct: 1 } },
+    { hint: 'Good — (n − 1)d = 11 × 4 = 44. Now add that to the first term: a_12 = 7 + 44.', followUp: null },
+    { hint: 'Step-by-step: a_n = a_1 + (n−1)d = 7 + (12−1)(4) = 7 + 11(4) = 7 + 44 = 51. Answer: C) 51. Remember the formula: first term + (position − 1) × common difference.', followUp: null }
+  ]
+},
+{ id: 'dp-2026-05-06-math-sequences-2', concept: 'math-sequences', difficulty: 2,
+  question: 'The first term of a geometric sequence is 3 and the common ratio is 2. What is the 6th term?',
+  choices: ['A) 48', 'B) 64', 'C) 96', 'D) 192'],
+  correct: 2,
+  explanation: 'For a geometric sequence, the nth term is a_n = a_1 × r^(n−1). Here a_1 = 3, r = 2, n = 6. So a_6 = 3 × 2^(6−1) = 3 × 2^5 = 3 × 32 = 96. Answer: C) 96.',
+  steps: [
+    { note: 'Formula for the nth term of a geometric sequence', math: 'aₙ = a₁ × r^(n − 1)' },
+    { note: 'Identify: a₁ = 3, r = 2, n = 6', math: 'a₁ = 3,   r = 2,   n = 6' },
+    { note: 'Substitute', math: 'a₆ = 3 × 2^(6 − 1) = 3 × 2⁵' },
+    { note: 'Compute 2⁵ = 2 × 2 × 2 × 2 × 2', math: '2⁵ = 32' },
+    { note: 'Multiply', math: 'a₆ = 3 × 32 = 96' }
+  ],
+  tutor: [
+    { hint: 'In a geometric sequence each term is multiplied by the common ratio. The nth term formula is a_n = a_1 × r^(n−1). What are a_1, r, and n here?', followUp: { question: 'What is 2^(6−1) = 2^5?', choices: ['A) 16', 'B) 32', 'C) 64'], correct: 1 } },
+    { hint: '2^5 = 32. Now multiply by the first term: 3 × 32 = ?', followUp: null },
+    { hint: 'Step-by-step: a_6 = 3 × 2^5 = 3 × 32 = 96. Answer: C) 96. Tip: list the terms — 3, 6, 12, 24, 48, 96 — to verify the 6th term.', followUp: null }
+  ]
+},
+{ id: 'dp-2026-05-06-eng-wordiness-1', concept: 'eng-wordiness', difficulty: 2,
+  question: 'Which of the following revisions eliminates the wordiness in the sentence below?\n\n"The reason why the project failed was because the team lacked proper planning."',
+  choices: [
+    'A) The reason the project failed was because the team lacked proper planning.',
+    'B) The project failed because the team lacked proper planning.',
+    'C) The reason why the project failed was due to the team lacking proper planning.',
+    'D) The project failed due to the fact that the team had a lack of proper planning.'
+  ],
+  correct: 1,
+  explanation: '"The reason why...was because" is doubly redundant — "reason" and "because" both signal cause. The correct revision states the cause directly: "The project failed because..." Answer: B.',
+  tutor: [
+    { hint: 'Look at the phrase "The reason why...was because." The words "reason" and "because" are doing the same job. Can you identify which part of the original sentence is completely unnecessary?', followUp: { question: 'Which phrase is redundant — meaning it repeats information already expressed?', choices: ['A) "the team lacked"', 'B) "The reason why...was"', 'C) "proper planning"'], correct: 1 } },
+    { hint: 'If you say "because," the cause is already explained. You don\'t need "the reason why...was" at all. Which answer choice cuts the most words while keeping the meaning exactly the same?', followUp: null },
+    { hint: 'The most concise version removes "The reason why...was" entirely: "The project failed because the team lacked proper planning." Answer: B. On the ACT, the shortest version that preserves meaning is almost always correct for wordiness questions.', followUp: null }
+  ]
+},
+{ id: 'dp-2026-05-06-eng-wordiness-2', concept: 'eng-wordiness', difficulty: 2,
+  question: 'Which revision most concisely expresses the same idea as the underlined portion?\n\n"At this point in time, we need to make a decision as to whether or not we will proceed."',
+  choices: [
+    'A) At this point in time, we need to decide whether or not we will proceed.',
+    'B) We need to decide whether to proceed.',
+    'C) Now, we need to make a decision as to whether we will proceed.',
+    'D) Currently, we need to make a decision about whether or not we will proceed.'
+  ],
+  correct: 1,
+  explanation: '"At this point in time" = now (3 words → 0); "make a decision" = decide (4 words → 1); "as to whether or not" = whether (5 words → 1). Answer B eliminates all three redundancies: "We need to decide whether to proceed." Answer: B.',
+  tutor: [
+    { hint: 'There are at least three wordy phrases in the original. Start with "at this point in time" — can you replace that entire phrase with one word?', followUp: { question: '"At this point in time" can be replaced by which single word?', choices: ['A) Currently', 'B) Now', 'C) Today'], correct: 1 } },
+    { hint: 'Good — "now" replaces "at this point in time." Next: "make a decision" can be shortened to one word, and "whether or not" can drop two words. What\'s left when you apply all three fixes?', followUp: null },
+    { hint: 'Full fix: "At this point in time" → (delete it); "make a decision as to" → "decide"; "whether or not" → "whether." Result: "We need to decide whether to proceed." Answer: B.', followUp: null }
+  ]
+},
+
+/* ============== DAILY PACK 2026-05-07 (auto-generated, offline mode) ============== */
+
+/* MATH: SEQUENCES (0 questions previously — filling gap) */
+{
+  id: 'dp-2026-05-07-math-sequences-1',
+  concept: 'math-sequences',
+  difficulty: 2,
+  question: 'The first term of an arithmetic sequence is 3, and each term increases by 4. What is the 20th term?',
+  choices: ['A) 75', 'B) 79', 'C) 83', 'D) 87'],
+  correct: 1,
+  explanation: 'For an arithmetic sequence, the nth term = a₁ + (n − 1)d. Here a₁ = 3, d = 4, n = 20. So: 3 + (19)(4) = 3 + 76 = 79. Answer: B.',
+  steps: [
+    { note: 'Formula for the nth term of an arithmetic sequence', math: 'aₙ = a₁ + (n − 1)d' },
+    { note: 'Identify: a₁ = 3, d = 4, n = 20', math: 'a₁ = 3,   d = 4,   n = 20' },
+    { note: 'Substitute', math: 'a₂₀ = 3 + (20 − 1) × 4' },
+    { note: 'Compute 19 × 4', math: '19 × 4 = 76' },
+    { note: 'Add', math: 'a₂₀ = 3 + 76 = 79' }
+  ],
+  tutor: [
+    {
+      hint: 'An arithmetic sequence adds the same value (called the common difference) each time. What is the common difference here, and what formula gives you the nth term?',
+      followUp: {
+        q: 'If the first term is 3 and the common difference is 4, what is the formula for the nth term?',
+        choices: ['A) aₙ = 3 + 4n', 'B) aₙ = 3 + (n − 1)(4)', 'C) aₙ = 3 × 4^(n−1)'],
+        correct: 1
+      }
+    },
+    {
+      hint: 'Good — the formula is aₙ = a₁ + (n − 1)d. Plug in a₁ = 3, d = 4, and n = 20. Careful: it\'s (n − 1), not n.',
+      followUp: null
+    },
+    {
+      hint: 'Step-by-step: a₂₀ = 3 + (20 − 1)(4) = 3 + (19)(4) = 3 + 76 = 79. Answer: B. Common mistake: using n instead of (n − 1), which would give 3 + 80 = 83 (a trap answer).',
+      followUp: null
+    }
+  ]
+},
+{
+  id: 'dp-2026-05-07-math-sequences-2',
+  concept: 'math-sequences',
+  difficulty: 2,
+  question: 'A geometric sequence starts 2, 6, 18, 54, … What is the 6th term?',
+  choices: ['A) 162', 'B) 243', 'C) 486', 'D) 729'],
+  correct: 2,
+  explanation: 'For a geometric sequence, the nth term = a₁ × r^(n − 1). Here a₁ = 2, r = 3 (each term is multiplied by 3), n = 6. So: 2 × 3^(6−1) = 2 × 3⁵ = 2 × 243 = 486. Answer: C.',
+  steps: [
+    { note: 'Find the common ratio: divide any term by the previous term', math: 'r = 6 ÷ 2 = 3' },
+    { note: 'Formula for the nth term of a geometric sequence', math: 'aₙ = a₁ × r^(n − 1)' },
+    { note: 'Identify: a₁ = 2, r = 3, n = 6', math: 'a₆ = 2 × 3^(6 − 1) = 2 × 3⁵' },
+    { note: 'Compute 3⁵', math: '3⁵ = 3 × 3 × 3 × 3 × 3 = 243' },
+    { note: 'Multiply', math: 'a₆ = 2 × 243 = 486' }
+  ],
+  tutor: [
+    {
+      hint: 'A geometric sequence MULTIPLIES by the same ratio each step. What do you multiply by to get from 2 to 6? From 6 to 18?',
+      followUp: {
+        q: 'What is the common ratio (r) in the sequence 2, 6, 18, 54?',
+        choices: ['A) 2', 'B) 3', 'C) 4'],
+        correct: 1
+      }
+    },
+    {
+      hint: 'Good — r = 3. The formula for the nth term is a₁ × r^(n−1). To find the 6th term, compute 2 × 3⁵. What is 3⁵?',
+      followUp: null
+    },
+    {
+      hint: 'Step-by-step: 3⁵ = 3 × 3 × 3 × 3 × 3 = 243. Then 2 × 243 = 486. Answer: C. (Trap: 243 itself is 3⁵ but you still need to multiply by a₁ = 2.)',
+      followUp: null
+    }
+  ]
+},
+
+/* MATH: LOGARITHMS (0 questions previously — filling gap) */
+{
+  id: 'dp-2026-05-07-math-logs-1',
+  concept: 'math-logs',
+  difficulty: 2,
+  question: 'If log₂(x) = 5, what is x?',
+  choices: ['A) 10', 'B) 25', 'C) 32', 'D) 64'],
+  correct: 2,
+  explanation: 'log₂(x) = 5 means "2 raised to the 5th power equals x." So x = 2⁵ = 32. Answer: C.',
+  steps: [
+    { note: 'Convert log to exponential form: logₐ(x) = y means aʸ = x', math: 'log₂(x) = 5  →  2⁵ = x' },
+    { note: 'Compute 2⁵ = 2 × 2 × 2 × 2 × 2', math: '2⁵ = 32' },
+    { note: 'Answer', math: 'x = 32' }
+  ],
+  tutor: [
+    {
+      hint: 'Translate the log into an exponential equation. logᵦ(x) = y is equivalent to b^y = x. What does log₂(x) = 5 become?',
+      followUp: {
+        q: 'log₂(x) = 5 is equivalent to which exponential equation?',
+        choices: ['A) 5² = x', 'B) 2⁵ = x', 'C) x² = 5'],
+        correct: 1
+      }
+    },
+    {
+      hint: 'Good — 2⁵ = x. Now compute 2⁵. Remember: 2¹=2, 2²=4, 2³=8, 2⁴=16, 2⁵=?',
+      followUp: null
+    },
+    {
+      hint: 'Step-by-step: log₂(x) = 5 → 2⁵ = x → 32 = x. Answer: C. Key rule: logᵦ(x) = y ↔ b^y = x (always convert log to exponent form).',
+      followUp: null
+    }
+  ]
+},
+{
+  id: 'dp-2026-05-07-math-logs-2',
+  concept: 'math-logs',
+  difficulty: 2,
+  question: 'What is the value of log₃(81)?',
+  choices: ['A) 2', 'B) 3', 'C) 4', 'D) 27'],
+  correct: 2,
+  explanation: 'Ask: "3 raised to what power gives 81?" 3¹=3, 3²=9, 3³=27, 3⁴=81. So log₃(81) = 4. Answer: C.',
+  steps: [
+    { note: 'Ask: 3 raised to what power equals 81?', math: 'log₃(81) = ?' },
+    { note: 'List powers of 3 until you hit 81', math: '3¹=3,  3²=9,  3³=27,  3⁴=81' },
+    { note: 'Since 3⁴ = 81, the answer is 4', math: 'log₃(81) = 4' }
+  ],
+  tutor: [
+    {
+      hint: 'To evaluate logᵦ(x), ask yourself: "b to WHAT power equals x?" What power of 3 gives 81?',
+      followUp: {
+        q: 'Compute the powers of 3: 3¹=3, 3²=9, 3³=27, 3⁴=? ',
+        choices: ['A) 54', 'B) 72', 'C) 81'],
+        correct: 2
+      }
+    },
+    {
+      hint: 'Good — 3⁴ = 81. So log₃(81) = 4 because that\'s the exponent you need. Check: does 3⁴ = 81? Yes.',
+      followUp: null
+    },
+    {
+      hint: 'Step-by-step: log₃(81) = ? → 3^? = 81 → 3⁴ = 81 → answer is 4. Answer: C. Tip: power up from 3¹ until you hit the target — it\'s usually faster than guessing.',
+      followUp: null
+    }
+  ]
+},
+
+/* ============== DAILY PACK 2026-05-08 (auto-generated, offline mode) ============== */
+
+/* MATH: MATRICES (0 questions previously — filling gap) */
+{
+  id: 'dp-2026-05-08-math-matrices-1',
+  concept: 'math-matrices',
+  difficulty: 2,
+  question: 'If A = [[2, 5], [−1, 3]] and B = [[4, −2], [7, 0]], what is A + B?\n\n(Each bracket pair represents a row: first row is [2, 5], second row is [−1, 3].)',
+  choices: ['A) [[6, 3], [6, 3]]', 'B) [[6, 7], [6, 3]]', 'C) [[6, 3], [8, 3]]', 'D) [[8, 10], [−7, 0]]'],
+  correct: 0,
+  explanation: 'To add matrices, add the corresponding entries. Row 1: 2+4=6, 5+(−2)=3 → [6, 3]. Row 2: −1+7=6, 3+0=3 → [6, 3]. Result: [[6, 3], [6, 3]]. Answer: A.',
+  steps: [
+    { note: 'Add matrices entry-by-entry. Row 1', math: 'row 1: [2+4,  5+(−2)] = [6, 3]' },
+    { note: 'Row 2', math: 'row 2: [−1+7,  3+0] = [6, 3]' },
+    { note: 'Result matrix', math: 'A + B = [[6, 3], [6, 3]]' }
+  ],
+  tutor: [
+    {
+      hint: 'Matrix addition is entry-by-entry: add the number in position (row 1, col 1) of A to the number in the same position of B, and so on. Start with the top-left entries: what is 2 + 4?',
+      followUp: {
+        q: 'After adding the top row (2+4 and 5+(−2)), what is the top row of A+B?',
+        choices: ['A) [6, 7]', 'B) [6, 3]', 'C) [6, −3]'],
+        correct: 1
+      }
+    },
+    {
+      hint: 'Top row: [2+4, 5+(−2)] = [6, 3]. Now do the bottom row the same way: −1+7 = ?, and 3+0 = ?',
+      followUp: null
+    },
+    {
+      hint: 'Step-by-step: top row → [2+4, 5+(−2)] = [6, 3]. Bottom row → [−1+7, 3+0] = [6, 3]. Final matrix: [[6, 3], [6, 3]]. Answer: A. Key rule: only matrices with the same dimensions can be added — always match positions.',
+      followUp: null
+    }
+  ]
+},
+{
+  id: 'dp-2026-05-08-math-matrices-2',
+  concept: 'math-matrices',
+  difficulty: 2,
+  question: 'If M = [[3, −1], [0, 4]], what is 2M (the scalar multiple of M by 2)?',
+  choices: ['A) [[5, 1], [2, 6]]', 'B) [[6, −2], [0, 8]]', 'C) [[6, −1], [0, 8]]', 'D) [[9, −3], [0, 12]]'],
+  correct: 1,
+  explanation: 'Scalar multiplication: multiply EVERY entry by the scalar. 2×3=6, 2×(−1)=−2, 2×0=0, 2×4=8. So 2M = [[6, −2], [0, 8]]. Answer: B. (Note: D is 3M, a common mistake when you misread the scalar.)',
+  steps: [
+    { note: 'Scalar multiplication: multiply every entry in M by 2', math: '2M = [[2×3, 2×(−1)], [2×0, 2×4]]' },
+    { note: 'Compute each entry', math: '2×3=6,   2×(−1)=−2,   2×0=0,   2×4=8' },
+    { note: 'Result matrix', math: '2M = [[6, −2], [0, 8]]' }
+  ],
+  tutor: [
+    {
+      hint: 'To multiply a matrix by a scalar (single number), multiply EVERY entry in the matrix by that number. How many entries does M have, and what is 2 times each one?',
+      followUp: {
+        q: 'What is 2 × (−1), the entry in row 1, column 2 of 2M?',
+        choices: ['A) −1', 'B) 1', 'C) −2'],
+        correct: 2
+      }
+    },
+    {
+      hint: 'Multiply each entry: 2×3=6, 2×(−1)=−2, 2×0=0, 2×4=8. Write those in the same positions they came from.',
+      followUp: null
+    },
+    {
+      hint: 'Step-by-step: top row → [2×3, 2×(−1)] = [6, −2]. Bottom row → [2×0, 2×4] = [0, 8]. Answer: B. Trap: answer D is 3M — be sure to use the right scalar.',
+      followUp: null
+    }
+  ]
+},
+
+/* READING: DETAIL (only 1 question previously — filling gap) */
+{
+  id: 'dp-2026-05-08-read-detail-1',
+  concept: 'read-detail',
+  difficulty: 1,
+  passage: 'The monarch butterfly migrates up to 3,000 miles each fall, traveling from Canada and the northern United States to its overwintering grounds in the mountains of central Mexico. Unlike other migrants, monarchs cannot survive the cold of winter anywhere in their range except these specific forests, where cool temperatures slow their metabolism and preserve their energy.',
+  question: 'According to the passage, where do monarch butterflies spend the winter?',
+  choices: ['A) The northern United States', 'B) The mountains of central Mexico', 'C) Canada', 'D) The southern United States'],
+  correct: 1,
+  explanation: 'The passage directly states that monarchs travel to "its overwintering grounds in the mountains of central Mexico." This is a literal detail — the answer is stated explicitly in the text. Answer: B.',
+  tutor: [
+    {
+      hint: 'For detail questions, go back to the passage and find where it says "overwintering" or "winter." What exact phrase does the passage use?',
+      followUp: {
+        q: 'The passage says monarchs travel to "its overwintering grounds in the mountains of ___."',
+        choices: ['A) Canada', 'B) central Mexico', 'C) the southern United States'],
+        correct: 1
+      }
+    },
+    {
+      hint: 'Detail questions are answered directly from the text — no inference needed. Skim for the key word "overwintering" or "winter," then read that sentence carefully.',
+      followUp: null
+    },
+    {
+      hint: 'Answer: B. The passage says "overwintering grounds in the mountains of central Mexico." Never choose an answer for a detail question unless you can point to the exact words in the passage that support it.',
+      followUp: null
+    }
+  ]
+},
+{
+  id: 'dp-2026-05-08-read-detail-2',
+  concept: 'read-detail',
+  difficulty: 1,
+  passage: 'In 1869, John Wesley Powell led the first documented expedition through the Grand Canyon via the Colorado River. The trip lasted 98 days and covered over 900 miles, beginning in Wyoming and ending in Nevada. Of the ten men who began the journey, only six completed it — three left partway through, and their fate was later debated by historians.',
+  question: 'How long did Powell\'s 1869 expedition last?',
+  choices: ['A) 900 miles', 'B) 10 days', 'C) 98 days', 'D) Six weeks'],
+  correct: 2,
+  explanation: 'The passage states "The trip lasted 98 days." Answer: C. Note that A (900 miles) is the distance, not the duration — a classic trap of confusing two details mentioned close together.',
+  tutor: [
+    {
+      hint: 'The question asks how long the trip lasted (duration), not how far it went (distance). The passage gives you both — make sure you pick the right one.',
+      followUp: {
+        q: 'The passage says "The trip lasted ___ days and covered over 900 miles." What number fills the blank?',
+        choices: ['A) 10', 'B) 98', 'C) 900'],
+        correct: 1
+      }
+    },
+    {
+      hint: 'Skim for the word "lasted." "The trip lasted 98 days." That is your answer. Do not be tricked by the number 900 — that is the distance in miles.',
+      followUp: null
+    },
+    {
+      hint: 'Answer: C) 98 days. Trap: A) 900 miles is the distance, not the duration. On the ACT, detail traps often put two numbers near each other — read carefully to grab the right one.',
+      followUp: null
+    }
+  ]
+},
+
+/* ENGLISH: PARALLELISM (only 1 question previously — filling gap) */
+{
+  id: 'dp-2026-05-08-eng-parallel-1',
+  concept: 'eng-parallel',
+  difficulty: 2,
+  passage: 'She enjoys swimming in the ocean, hiking through the trails, and to cook elaborate meals on weekends.',
+  question: 'Which change makes the list grammatically parallel?',
+  choices: ['A) Change "swimming" to "to swim"', 'B) Change "hiking" to "to hike"', 'C) Change "to cook" to "cooking"', 'D) No change is needed — the sentence is correct.'],
+  correct: 2,
+  explanation: 'All three items must share the same grammatical form. "Swimming" and "hiking" are gerunds (-ing nouns). "To cook" is an infinitive — it breaks the pattern. Fix: change "to cook" to "cooking." Answer: C.',
+  tutor: [
+    {
+      hint: 'Parallelism rule: items in a list must all have the same grammatical form. Look at the first two items — "swimming" and "hiking." What form are they (gerund, infinitive, noun, verb)?',
+      followUp: {
+        q: '"Swimming" and "hiking" are both what type of word form?',
+        choices: ['A) Infinitives (to + verb)', 'B) Gerunds (-ing forms used as nouns)', 'C) Past tense verbs'],
+        correct: 1
+      }
+    },
+    {
+      hint: 'Both "swimming" and "hiking" are gerunds (-ing). The third item should be a gerund too. "To cook" is an infinitive — it breaks the pattern. What would the gerund form of "cook" be?',
+      followUp: null
+    },
+    {
+      hint: 'Answer: C. Fix "to cook" → "cooking" so all three items are gerunds: swimming, hiking, cooking. Quick test: replace all items with their pattern and check they match: X-ing, X-ing, X-ing ✓',
+      followUp: null
+    }
+  ]
+},
+{
+  id: 'dp-2026-05-08-eng-parallel-2',
+  concept: 'eng-parallel',
+  difficulty: 2,
+  passage: 'The coach told the players to either arrive on time or that they should warm up before games.',
+  question: 'Which revision best corrects the faulty parallelism with "either...or"?',
+  choices: [
+    'A) either to arrive on time or that they should warm up before games',
+    'B) either arrive on time or warm up before games',
+    'C) either arriving on time or that they should warm up before games',
+    'D) No revision needed — the sentence is grammatically correct.'
+  ],
+  correct: 1,
+  explanation: 'With correlative conjunctions like "either...or," "both...and," and "not only...but also," both sides must be grammatically parallel. "To arrive" (infinitive) ≠ "that they should warm up" (noun clause). Fix: make both sides verb phrases — "either arrive...or warm up." Answer: B.',
+  tutor: [
+    {
+      hint: 'Correlative conjunctions (either...or, both...and, not only...but also) require that the structure AFTER each part matches. What comes after "either"? What comes after "or"? Are they the same form?',
+      followUp: {
+        q: 'In "either arrive on time or that they should warm up," what form comes after "either" vs. after "or"?',
+        choices: ['A) Both are verb phrases', 'B) Both are noun clauses', 'C) "arrive" is a verb; "that they should warm up" is a noun clause — they differ'],
+        correct: 2
+      }
+    },
+    {
+      hint: 'After "either" you have a bare verb: "arrive." After "or" you have a noun clause: "that they should warm up." Those don\'t match. The simplest fix is to make both bare verbs.',
+      followUp: null
+    },
+    {
+      hint: 'Answer: B. "either arrive on time or warm up before games" — both sides are bare verb phrases. Rule: with either/or, match the form exactly on both sides of the conjunction.',
+      followUp: null
+    }
+  ]
+},
+
+/* ENGLISH: MODIFIERS (only 1 question previously — filling gap) */
+{
+  id: 'dp-2026-05-07-eng-modifiers-1',
+  concept: 'eng-modifiers',
+  difficulty: 2,
+  question: 'Which sentence CORRECTLY places the modifier?',
+  choices: [
+    'A) Exhausted after the long hike, the tent seemed to take hours to set up.',
+    'B) The tent, exhausted after the long hike, took hours to set up.',
+    'C) Exhausted after the long hike, I found that the tent took hours to set up.',
+    'D) After hours, the tent was set up by an exhausted long hike.'
+  ],
+  correct: 2,
+  explanation: '"Exhausted after the long hike" describes a PERSON, not a tent. In A and B, the word right after the comma is "the tent" — which can\'t be exhausted. Only C places a person ("I") immediately after the comma, which is who is exhausted. Answer: C.',
+  tutor: [
+    {
+      hint: 'Rule for opening modifiers: the noun that does the action in the modifier must come right after the comma. Who or what is "exhausted after the long hike"?',
+      followUp: {
+        q: 'In the sentence "Covered in mud, the dog was washed by Emma," who is covered in mud?',
+        choices: ['A) Emma', 'B) The dog', 'C) Both'],
+        correct: 1
+      }
+    },
+    {
+      hint: 'The introductory phrase modifies the SUBJECT of the main clause — whoever appears right after the comma. A tent can\'t be exhausted. So you need a person there.',
+      followUp: null
+    },
+    {
+      hint: 'Answer: C. Quick test — read the phrase and ask "who is [adjective]?" Then check: is THAT word right after the comma? If not, it\'s a dangling modifier. "Exhausted... I found" → I = person, correct!',
+      followUp: null
+    }
+  ]
+},
+{
+  id: 'dp-2026-05-07-eng-modifiers-2',
+  concept: 'eng-modifiers',
+  difficulty: 2,
+  question: 'Which sentence uses the underlined modifier correctly?',
+  choices: [
+    'A) The student did good on the final exam.',
+    'B) She handled the situation very calm.',
+    'C) The new pitcher threw the ball harder than anyone expected.',
+    'D) He ran quick around the track to warm up.'
+  ],
+  correct: 2,
+  explanation: 'After an action verb ("threw"), use an ADVERB. "Harder" is already an adverb form of "hard," modifying the verb threw — correct. In A ("did good"), "good" is an adjective; "well" is the adverb form. B needs "calmly." D needs "quickly." Answer: C.',
+  tutor: [
+    {
+      hint: 'Key question: is the word modifying a VERB (action), or a NOUN/pronoun? Adverbs modify verbs; adjectives modify nouns. Look at what each underlined modifier is actually describing.',
+      followUp: {
+        q: 'In "She sang beautifully," what does "beautifully" modify?',
+        choices: ['A) She (noun)', 'B) sang (verb)', 'C) Nothing'],
+        correct: 1
+      }
+    },
+    {
+      hint: 'Common ACT traps: "did good" (should be "did well"), "ran quick" (should be "ran quickly"), "felt badly" (tricky — "felt bad" is correct). Adverbs often end in -ly.',
+      followUp: null
+    },
+    {
+      hint: 'Answer: C. "Threw harder" uses "harder" as an adverb to modify the verb "threw" — this is correct. The other choices use adjectives (good, calm, quick) where adverbs (well, calmly, quickly) are needed.',
+      followUp: null
+    }
+  ]
+},
+{
+  id: 'dp-2026-05-09-math-quadratic-1',
+  concept: 'math-quadratic',
+  difficulty: 2,
+  question: 'What are the solutions to the equation x² + 3x − 10 = 0?',
+  choices: ['A) x = −5 and x = 2', 'B) x = 5 and x = −2', 'C) x = −5 and x = −2', 'D) x = 5 and x = 2'],
+  correct: 0,
+  explanation: 'Factor the quadratic: find two numbers that multiply to −10 and add to +3. Those are +5 and −2: (x + 5)(x − 2) = 0. Setting each factor to zero gives x = −5 or x = 2. Answer: A.',
+  steps: [
+    { note: 'Find two numbers that MULTIPLY to −10 and ADD to +3', math: 'multiply to −10,   add to +3' },
+    { note: 'Test pairs: (+5)(−2) = −10 ✓ and (+5) + (−2) = +3 ✓', math: '5 × (−2) = −10 ✓,   5 + (−2) = 3 ✓' },
+    { note: 'Write the factored form', math: '(x + 5)(x − 2) = 0' },
+    { note: 'Set each factor to zero and solve', math: 'x + 5 = 0  →  x = −5\nx − 2 = 0  →  x = 2' }
+  ],
+  tutor: [
+    {
+      hint: 'To factor a quadratic ax² + bx + c, look for two numbers that multiply to c (here −10) and add to b (here +3). What two numbers work?',
+      followUp: {
+        q: 'Which pair of numbers multiplies to −10 AND adds to +3?',
+        choices: ['A) +5 and −2', 'B) −5 and +2', 'C) +10 and −1'],
+        correct: 0
+      }
+    },
+    {
+      hint: 'Good — use +5 and −2 to write (x + 5)(x − 2) = 0. Now apply the Zero Product Property: if A × B = 0, then A = 0 OR B = 0. Set each factor equal to zero.',
+      followUp: null
+    },
+    {
+      hint: 'Step-by-step: x² + 3x − 10 = 0 → (x + 5)(x − 2) = 0 → x + 5 = 0 gives x = −5; x − 2 = 0 gives x = 2. Answer: A) x = −5 and x = 2.',
+      followUp: null
+    }
+  ]
+},
+{
+  id: 'dp-2026-05-09-math-quadratic-2',
+  concept: 'math-quadratic',
+  difficulty: 2,
+  question: 'Which values of x satisfy x² − 5x − 6 = 0?',
+  choices: ['A) x = 6 and x = −1', 'B) x = −6 and x = 1', 'C) x = 2 and x = 3', 'D) x = −2 and x = −3'],
+  correct: 0,
+  explanation: 'Find two numbers that multiply to −6 and add to −5: those are −6 and +1. Factor: (x − 6)(x + 1) = 0. Solutions: x = 6 or x = −1. Answer: A. Watch the sign trap: B) flips both signs and is wrong.',
+  steps: [
+    { note: 'Find two numbers that MULTIPLY to −6 and ADD to −5', math: 'multiply to −6,   add to −5' },
+    { note: 'Test: (−6)(+1) = −6 ✓ and (−6) + (+1) = −5 ✓', math: '(−6) × 1 = −6 ✓,   (−6) + 1 = −5 ✓' },
+    { note: 'Write the factored form', math: '(x − 6)(x + 1) = 0' },
+    { note: 'Set each factor to zero and solve', math: 'x − 6 = 0  →  x = 6\nx + 1 = 0  →  x = −1' }
+  ],
+  tutor: [
+    {
+      hint: 'You need two numbers that multiply to −6 (the constant) and add to −5 (the middle coefficient). Try factor pairs of −6: (−6, +1), (+6, −1), (−3, +2), (+3, −2). Which pair adds to −5?',
+      followUp: {
+        q: 'Which pair multiplies to −6 AND adds to −5?',
+        choices: ['A) −6 and +1', 'B) +6 and −1', 'C) −3 and +2'],
+        correct: 0
+      }
+    },
+    {
+      hint: 'Use −6 and +1: write (x − 6)(x + 1) = 0. Now set each factor to zero: x − 6 = 0 → x = 6; x + 1 = 0 → x = −1.',
+      followUp: null
+    },
+    {
+      hint: 'Full solution: x² − 5x − 6 = 0 → (x − 6)(x + 1) = 0 → x = 6 or x = −1. Answer: A. If you got B, you flipped the signs — double-check by substituting x = 6 back: 36 − 30 − 6 = 0 ✓',
+      followUp: null
+    }
+  ]
+},
+{
+  id: 'dp-2026-05-09-sci-conflict-1',
+  concept: 'sci-conflict',
+  difficulty: 2,
+  question: 'Two scientists debate how honeybees navigate. Scientist 1 claims bees use the position of the sun relative to the horizon as their primary navigation cue. Scientist 2 claims bees primarily use Earth\'s magnetic field. In an experiment, researchers cover bees\' eyes with opaque film (eliminating visual cues) and find that the bees still return to the hive with 88% accuracy. Which scientist\'s view is most WEAKENED by this result?',
+  choices: ['A) Scientist 1, because bees succeeded without sun/visual cues', 'B) Scientist 2, because the magnetic field was not disrupted', 'C) Both scientists equally, because accuracy was not 100%', 'D) Neither scientist, because the bees might be using smell instead'],
+  correct: 0,
+  explanation: 'If bees navigate accurately even when they cannot see the sun, this undercuts Scientist 1\'s claim that the sun\'s position is the PRIMARY navigation cue. Scientist 2\'s magnetic-field theory is untouched — the magnetic field was not disrupted in this experiment. Answer: A.',
+  tutor: [
+    {
+      hint: 'In Conflicting Viewpoints, always identify what each scientist predicts BEFORE evaluating the evidence. Scientist 1 says the sun is primary. If bees do well WITHOUT being able to see the sun, what does that say about Scientist 1\'s claim?',
+      followUp: {
+        q: 'If Scientist 1 says the sun is the PRIMARY navigation cue, what does high accuracy with covered eyes suggest?',
+        choices: ['A) The sun must not be necessary — this weakens Scientist 1', 'B) Bees can somehow still see — this supports Scientist 1', 'C) The result is unrelated to either scientist'],
+        correct: 0
+      }
+    },
+    {
+      hint: 'Now check Scientist 2 separately. The experiment blocked visual cues but did NOT alter Earth\'s magnetic field. So Scientist 2\'s theory is not tested here — it is neither supported nor weakened by this experiment.',
+      followUp: null
+    },
+    {
+      hint: 'Answer: A. The experiment removes the exact cue Scientist 1 calls primary (sun position), yet bees still navigate well — this directly weakens Scientist 1\'s view. Scientist 2 is unaffected because the magnetic field was left intact.',
+      followUp: null
+    }
+  ]
+},
+{
+  id: 'dp-2026-05-09-sci-conflict-2',
+  concept: 'sci-conflict',
+  difficulty: 2,
+  question: 'Scientist A argues the mass extinction 66 million years ago was caused by an asteroid impact. Scientist B argues the Deccan Traps volcanic eruptions were the primary cause. Geologists discover a thin layer of iridium-enriched clay deposited worldwide at exactly the Cretaceous-Paleogene boundary. Iridium is extremely rare in Earth\'s crust but is abundant in meteorites. This evidence most strongly supports which view?',
+  choices: ['A) Scientist A, because iridium is associated with extraterrestrial impacts', 'B) Scientist B, because volcanoes can release trace minerals over time', 'C) Neither scientist, because iridium is common in ocean sediments', 'D) Both scientists equally, because the layer marks the same boundary'],
+  correct: 0,
+  explanation: 'Iridium is rare on Earth but common in meteorites/asteroids. A worldwide iridium-enriched layer at the exact extinction boundary strongly suggests a major asteroid impact — supporting Scientist A. Scientist B\'s volcanic theory cannot explain a global iridium spike, since volcanoes do not produce worldwide iridium deposits. Answer: A.',
+  tutor: [
+    {
+      hint: 'When evaluating evidence in conflicting viewpoints, ask: "Which scientist\'s mechanism would produce this specific result?" Iridium is rare on Earth but abundant in meteorites. Which scientist predicted an event from outside Earth?',
+      followUp: {
+        q: 'If iridium is found worldwide at the boundary and is abundant in meteorites, what is the most logical source?',
+        choices: ['A) An asteroid or meteorite impact', 'B) Volcanic activity', 'C) Gradual ocean upwelling'],
+        correct: 0
+      }
+    },
+    {
+      hint: 'Check Scientist B: do volcanic eruptions produce a worldwide iridium-enriched layer? Volcanoes release gases, ash, CO2, and sulfur — but iridium globally? This evidence does not fit Scientist B\'s mechanism.',
+      followUp: null
+    },
+    {
+      hint: 'Answer: A. The worldwide iridium layer matches the extraterrestrial (asteroid) source predicted by Scientist A. This is the real evidence (Alvarez et al., 1980) that established the asteroid impact theory. Key ACT skill: match evidence to mechanism, not just to the conclusion.',
+      followUp: null
+    }
+  ]
+},
+{
+  id: 'dp-2026-05-09-eng-pronouns-1',
+  concept: 'eng-pronouns',
+  difficulty: 2,
+  question: 'Choose the correct pronoun: "Neither Marcus nor _____ remembered to bring the permission slips."',
+  choices: ['A) me', 'B) I', 'C) myself', 'D) him'],
+  correct: 1,
+  explanation: 'The blank is the second part of a compound subject ("Neither Marcus nor ___"). Subjects need subject pronouns: I, he, she, they. Remove "Marcus" and test: "Me remembered" sounds wrong; "I remembered" is correct. "Myself" is reflexive and can\'t stand alone as a subject. Answer: B) I.',
+  tutor: [
+    {
+      hint: 'The blank is part of a compound subject: "Neither Marcus nor ___." What kind of pronoun do subjects need — subject form (I, he, she) or object form (me, him, her)?',
+      followUp: {
+        q: 'Which of these is a subject pronoun that can perform an action?',
+        choices: ['A) me', 'B) I', 'C) myself'],
+        correct: 1
+      }
+    },
+    {
+      hint: 'Quick trick: drop the first part and test the pronoun alone. "Me remembered to bring the slips" or "I remembered to bring the slips"? The second sounds correct. Also: "myself" is reflexive — only use it when the subject and object are the same person (e.g., "I hurt myself").',
+      followUp: null
+    },
+    {
+      hint: 'Answer: B) I. Subject pronouns: I, you, he, she, it, we, they. Object pronouns: me, him, her, us, them. In "Neither X nor ___," the blank is a subject, so you need "I." Answer: B.',
+      followUp: null
+    }
+  ]
+},
+{
+  id: 'dp-2026-05-09-eng-pronouns-2',
+  concept: 'eng-pronouns',
+  difficulty: 2,
+  question: 'Which pronoun correctly fills the blank? "The committee released _____ findings on Wednesday, but several members stated that they objected to the conclusions."',
+  choices: ['A) their', 'B) its', 'C) they\'re', 'D) there'],
+  correct: 1,
+  explanation: '"Committee" is a collective noun treated as singular in American English. Singular pronouns (it/its) apply. "Their" would require a plural antecedent. "They\'re" = "they are" — grammatically impossible here. "There" is an adverb, not a pronoun. Answer: B) its.',
+  tutor: [
+    {
+      hint: 'The pronoun must agree in number with its antecedent (the noun it refers to). What noun does the blank refer to? Is "committee" singular or plural in American English?',
+      followUp: {
+        q: 'Collective nouns like "committee," "team," and "jury" are treated as — ?',
+        choices: ['A) Singular in American English', 'B) Plural in American English', 'C) Either, with no rule'],
+        correct: 0
+      }
+    },
+    {
+      hint: 'First eliminate the clearly wrong choices: "They\'re" = "they are" — that makes no sense here. "There" is a location adverb, not a pronoun. Now choose between "their" (plural) and "its" (singular) based on whether "committee" is singular or plural.',
+      followUp: null
+    },
+    {
+      hint: 'Answer: B) its. "Committee" is a singular collective noun. The possessive singular pronoun is "its." Compare: "The team won its first game" (correct). "Their" would be correct for a plural noun: "The members released their findings." Answer: B.',
+      followUp: null
+    }
+  ]
+},
+
+/* ============== DAILY PACK 2026-05-10 (auto-generated, offline mode) ============== */
+/* Targeting 3 least-covered ACT concepts: math-logs, math-matrices, eng-wordiness */
+
+{
+  id: 'dp-2026-05-10-math-logs-1',
+  concept: 'math-logs',
+  question: 'If log₃(x) = 4, what is the value of x?',
+  choices: ['A) 12', 'B) 34', 'C) 64', 'D) 81'],
+  correct: 3,
+  explanation: 'The equation log₃(x) = 4 means "3 to the 4th power equals x." So x = 3⁴ = 3 × 3 × 3 × 3 = 81. Answer: D.',
+  steps: [
+    { note: 'Convert log to exponential form: logₐ(x) = y means aʸ = x', math: 'log₃(x) = 4  →  3⁴ = x' },
+    { note: 'Compute 3⁴ = 3 × 3 × 3 × 3', math: '3 × 3 = 9,   9 × 3 = 27,   27 × 3 = 81' },
+    { note: 'Answer', math: 'x = 81' }
+  ],
+  tutor: [
+    {
+      hint: 'Rewrite the logarithm as an exponent. log_b(x) = y means b^y = x. So log₃(x) = 4 means 3 to the power of ___ equals x?',
+      followUp: {
+        q: 'log₃(x) = 4 translates to which equation?',
+        choices: ['A) x³ = 4', 'B) 3⁴ = x', 'C) 4³ = x'],
+        correct: 1
+      }
+    },
+    {
+      hint: 'Good — so x = 3⁴. Now compute: 3 × 3 = 9, then 9 × 3 = 27, then 27 × 3 = ?',
+      followUp: null
+    },
+    {
+      hint: 'Step-by-step: log₃(x) = 4 → x = 3⁴ → 3 × 3 × 3 × 3 = 9 × 9 = 81. Answer: D) 81.',
+      followUp: null
+    }
+  ]
+},
+{
+  id: 'dp-2026-05-10-math-logs-2',
+  concept: 'math-logs',
+  question: 'What is the value of log₂(64)?',
+  choices: ['A) 4', 'B) 5', 'C) 6', 'D) 8'],
+  correct: 2,
+  explanation: 'log₂(64) asks "2 to what power equals 64?" Count up: 2¹=2, 2²=4, 2³=8, 2⁴=16, 2⁵=32, 2⁶=64. Since 2⁶ = 64, the answer is 6. Answer: C.',
+  steps: [
+    { note: 'Ask: 2 raised to what power equals 64?', math: 'log₂(64) = ?' },
+    { note: 'List powers of 2 until you reach 64', math: '2¹=2,  2²=4,  2³=8,  2⁴=16,  2⁵=32,  2⁶=64' },
+    { note: 'Since 2⁶ = 64, the answer is 6', math: 'log₂(64) = 6' }
+  ],
+  tutor: [
+    {
+      hint: 'A logarithm asks: "What exponent do I need?" log₂(64) = ? means: 2 to what power equals 64? Start listing powers of 2.',
+      followUp: {
+        q: 'Which power of 2 equals 64?',
+        choices: ['A) 2⁴ = 16', 'B) 2⁵ = 32', 'C) 2⁶ = 64'],
+        correct: 2
+      }
+    },
+    {
+      hint: 'You found 2⁶ = 64. So log₂(64) equals the exponent you used — what is that exponent?',
+      followUp: null
+    },
+    {
+      hint: 'Step-by-step: 2¹=2, 2²=4, 2³=8, 2⁴=16, 2⁵=32, 2⁶=64. The exponent is 6, so log₂(64) = 6. Answer: C.',
+      followUp: null
+    }
+  ]
+},
+{
+  id: 'dp-2026-05-10-math-matrices-1',
+  concept: 'math-matrices',
+  question: 'If A = [[3, 1], [-2, 4]] and B = [[5, -3], [2, 0]], what is A + B?',
+  choices: ['A) [[8, -2], [0, 4]]', 'B) [[8, 4], [-4, 4]]', 'C) [[15, -3], [-4, 0]]', 'D) [[8, -2], [4, 4]]'],
+  correct: 0,
+  explanation: 'To add matrices, add corresponding entries: top-left: 3+5=8, top-right: 1+(−3)=−2, bottom-left: −2+2=0, bottom-right: 4+0=4. Result: [[8, −2], [0, 4]]. Answer: A.',
+  steps: [
+    { note: 'Add matrices entry-by-entry. Row 1', math: 'row 1: [3+5,  1+(−3)] = [8, −2]' },
+    { note: 'Row 2', math: 'row 2: [−2+2,  4+0] = [0, 4]' },
+    { note: 'Result matrix', math: 'A + B = [[8, −2], [0, 4]]' }
+  ],
+  tutor: [
+    {
+      hint: 'Matrix addition is entry-by-entry. Add each position to its matching position: top-left to top-left, top-right to top-right, and so on. Start with 3 + 5.',
+      followUp: {
+        q: 'What is the top-right entry? (1 added to −3)',
+        choices: ['A) 4', 'B) −2', 'C) 2'],
+        correct: 1
+      }
+    },
+    {
+      hint: 'Great — now check the bottom row. Bottom-left: −2 + 2 = ? Bottom-right: 4 + 0 = ?',
+      followUp: null
+    },
+    {
+      hint: 'Step-by-step: [3+5=8, 1+(−3)=−2 ; −2+2=0, 4+0=4] = [[8, −2], [0, 4]]. Answer: A.',
+      followUp: null
+    }
+  ]
+},
+{
+  id: 'dp-2026-05-10-math-matrices-2',
+  concept: 'math-matrices',
+  question: 'If A = [[4, -2], [0, 3]], what is 2A?',
+  choices: ['A) [[8, -4], [0, 6]]', 'B) [[6, 0], [2, 5]]', 'C) [[4, -4], [0, 6]]', 'D) [[8, -2], [0, 3]]'],
+  correct: 0,
+  explanation: 'Scalar multiplication: multiply EVERY entry in the matrix by 2. 2×4=8, 2×(−2)=−4, 2×0=0, 2×3=6. Result: [[8, −4], [0, 6]]. Answer: A.',
+  steps: [
+    { note: 'Scalar multiplication: multiply every entry in A by 2', math: '2A = [[2×4, 2×(−2)], [2×0, 2×3]]' },
+    { note: 'Compute each entry', math: '2×4=8,   2×(−2)=−4,   2×0=0,   2×3=6' },
+    { note: 'Result matrix', math: '2A = [[8, −4], [0, 6]]' }
+  ],
+  tutor: [
+    {
+      hint: 'Scalar multiplication means multiply EVERY entry in the matrix by the scalar (the number outside). Here the scalar is 2. What is 2 × (−2)?',
+      followUp: {
+        q: 'What is 2 × (−2)?',
+        choices: ['A) −4', 'B) 4', 'C) −1'],
+        correct: 0
+      }
+    },
+    {
+      hint: 'Apply 2× to each entry one at a time: 2×4=8, 2×(−2)=−4, 2×0=0, 2×3=6. Negatives stay negative.',
+      followUp: null
+    },
+    {
+      hint: 'Step-by-step: 2A = [[2×4, 2×(−2)], [2×0, 2×3]] = [[8, −4], [0, 6]]. Answer: A. Remember: multiplying a positive by a negative gives a negative.',
+      followUp: null
+    }
+  ]
+},
+{
+  id: 'dp-2026-05-10-eng-wordiness-1',
+  concept: 'eng-wordiness',
+  question: 'Which version of the sentence is MOST concise without losing meaning? Original: "Due to the fact that it was raining, the game was postponed."',
+  choices: [
+    'A) Due to the fact that it was raining, the game was postponed.',
+    'B) The game was postponed because it was raining.',
+    'C) The game was postponed on account of the rain that was occurring.',
+    'D) Because of the rain that fell, the postponement of the game occurred.'
+  ],
+  correct: 1,
+  explanation: '"Due to the fact that" is a common ACT wordiness trap — it always means the same as "because." Choice B replaces the clunky phrase with one word and restructures cleanly. Choices C and D add even more unnecessary words. Answer: B.',
+  tutor: [
+    {
+      hint: '"Due to the fact that" is a classic wordiness trap. It can always be replaced with a single word. What single word means the same thing?',
+      followUp: {
+        q: '"Due to the fact that it rained" can be rewritten most concisely as:',
+        choices: ['A) Because it rained', 'B) Whereas it rained', 'C) Although it rained'],
+        correct: 0
+      }
+    },
+    {
+      hint: 'Once you replace "due to the fact that" with "because," compare the remaining choices. Which one uses the fewest words while keeping full meaning?',
+      followUp: null
+    },
+    {
+      hint: 'Step-by-step: Original = 13 words. Choice B = 9 words. The meaning is identical. ACT rule: if two options say the same thing, the shorter one wins. Answer: B.',
+      followUp: null
+    }
+  ]
+},
+{
+  id: 'dp-2026-05-10-eng-wordiness-2',
+  concept: 'eng-wordiness',
+  question: 'Which revision best eliminates redundancy? Original: "The students joined together as a group to complete the project."',
+  choices: [
+    'A) The students grouped together collectively to complete the project.',
+    'B) The students joined to complete the project.',
+    'C) The students joined together to complete the project.',
+    'D) No change is needed.'
+  ],
+  correct: 1,
+  explanation: '"Joined" already implies people coming together — "together" and "as a group" both repeat that idea. Choice B strips all redundancy by keeping only "joined." Choice C keeps "together" (still redundant). Choice A makes it worse. Answer: B.',
+  tutor: [
+    {
+      hint: 'Ask: what does "joined" already tell you? Does adding "together" or "as a group" add any NEW information, or are they saying the same thing twice?',
+      followUp: {
+        q: 'Which phrase is the most concise way to say "joined together as a group"?',
+        choices: ['A) united together as one group', 'B) joined', 'C) combined together collectively'],
+        correct: 1
+      }
+    },
+    {
+      hint: '"Joined" already means "came together." Every word after it just repeats that idea. The most concise answer removes all the extras. Does Choice B keep the full meaning?',
+      followUp: null
+    },
+    {
+      hint: 'Step-by-step: "joined" = came together. "Together" = redundant. "As a group" = redundant again. Keep only "joined." Answer: B. ACT tip: any time you see "join together," "combine together," or "unite together" — the second word is always extra.',
+      followUp: null
+    }
+  ]
 }
+
 ];
 
 /* ----- 2.5 SPEECH (Web Speech API) ----- */
@@ -5120,6 +6305,17 @@ function formatText(s) {
     .replace(/\n/g, '<br>');
 }
 
+function formatContext(t) {
+  // Render context strings: **text** → highlighted focus span
+  if (!t) return '';
+  return t
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\*\*([^*]+)\*\*/g, '<span class="step-focus">$1</span>')
+    .replace(/\n/g, '<br>');
+}
+
 // Render concept guide as collapsible HTML; `expanded` controls default open
 function renderConceptGuideHTML(conceptId, opts = {}) {
   const guide = getConceptGuide(conceptId);
@@ -5139,8 +6335,9 @@ function renderConceptGuideHTML(conceptId, opts = {}) {
 // falls back to aggressively-parsed explanation.
 function renderSolutionStepsHTML(explanationOrQ, maybeSteps) {
   // Allow caller to pass a question object or (explanation, steps)
-  let explanation, steps;
+  let explanation, steps, qObj;
   if (typeof explanationOrQ === 'object' && explanationOrQ !== null) {
+    qObj = explanationOrQ;
     explanation = explanationOrQ.explanation;
     steps = explanationOrQ.steps;
   } else {
@@ -5148,17 +6345,40 @@ function renderSolutionStepsHTML(explanationOrQ, maybeSteps) {
     steps = maybeSteps;
   }
 
+  // Build optional formula card (shown before steps when concept has a formula)
+  function buildFormulaCard(q) {
+    if (!q) return '';
+    const fData = (q.formula) || (FORMULA_GUIDES && q.concept && FORMULA_GUIDES[q.concept]) || null;
+    if (!fData) return '';
+    const mnemonicHTML = fData.mnemonic
+      ? `<span class="formula-card-mnemonic">${fData.mnemonic}</span>`
+      : '';
+    return `<div class="formula-card">
+      <div class="formula-card-header">
+        <span class="formula-card-name">📐 ${fData.name}</span>
+        ${mnemonicHTML}
+      </div>
+      <div class="formula-card-template">${formatText(fData.template)}</div>
+    </div>`;
+  }
+
   // PATH A: explicit steps provided (best — show as worksheet)
   if (steps && Array.isArray(steps) && steps.length > 0) {
     return `
+      ${buildFormulaCard(qObj)}
       <div class="solution-steps">
         <h5>Step-by-step solution</h5>
         <ol class="solution-list">
           ${steps.map((s, i) => {
             const item = (typeof s === 'string') ? { math: s } : s;
             const note = item.note || item.label || '';
+            const context = item.context || '';
+            const contextHTML = context
+              ? `<div class="step-context"><span class="step-context-label">Working on ↓</span>${formatContext(context)}</div>`
+              : '';
             return `<li>
               <span class="step-label">Step ${i + 1}${note ? ' — ' + formatText(note) : ''}</span>
+              ${contextHTML}
               ${item.math ? `<div class="step-math">${formatText(item.math)}</div>` : ''}
               ${item.text && !item.math ? `<div class="step-note">${formatText(item.text)}</div>` : ''}
             </li>`;
@@ -5245,6 +6465,7 @@ function selectChoice(i) {
         </h4>
         <p>${formatText(q.explanation)}</p>
       </div>
+      ${renderSolutionStepsHTML(q)}
       <div class="btn-row" style="margin-top: 12px;">
         <button class="btn" onclick="nextQuestion()">Next →</button>
       </div>`;
@@ -5354,7 +6575,7 @@ function renderFollowUp(fu) {
   return `
     <div style="margin-top: 12px;">
       <p style="font-weight: 600; margin: 0 0 8px;">Quick check:</p>
-      <p style="margin: 0 0 10px;">${formatText(fu.question)}</p>
+      <p style="margin: 0 0 10px;">${formatText(fu.question || fu.q || '')}</p>
       <div class="choices">
         ${fu.choices.map((c, i) => `
           <button class="choice" onclick="selectFollowUp(${i})">
@@ -5481,6 +6702,7 @@ function selectReQuiz(i) {
         <p>Still tricky. The correct answer was <strong>${String.fromCharCode(65 + q.correct)}</strong>.</p>
         <p style="margin-top: 6px;">${formatText(q.explanation)}</p>
       </div>
+      ${renderSolutionStepsHTML(q)}
       <div class="btn-row" style="margin-top: 12px;">
         <button class="btn" onclick="renderReQuiz(getCurrentContainer())">Try another →</button>
       </div>`;
@@ -5496,8 +6718,8 @@ function showFinalExplanation(container) {
       <div class="feedback correct">
         <h4>Walkthrough complete</h4>
         <p>${formatText(q.explanation)}</p>
-        <p style="margin-top: 8px;">Add more questions on this concept by extending the question bank.</p>
       </div>
+      ${renderSolutionStepsHTML(q)}
       <div class="btn-row" style="margin-top: 12px;">
         <button class="btn" onclick="exitTutorAndContinue()">Continue session →</button>
       </div>
@@ -6248,181 +7470,4 @@ const QUESTION_TEMPLATES = {
       return {
         id: `gen-sys-${Date.now()}-${Math.random().toString(36).slice(2,6)}`,
         concept: 'math-systems',
-        question: `Solve the system:\n  x + y = ${s1}\n  x − y = ${s2}`,
-        choices: shuffleWith([`(${x}, ${y})`,`(${y}, ${x})`,`(${x+1}, ${y})`,`(${x}, ${y+1})`], `(${x}, ${y})`),
-        correct: 0,
-        explanation: `Add the equations: 2x = ${s1+s2} → x = ${x}. Then y = ${s1} − ${x} = ${y}.`,
-        steps: [
-          { note: 'Add the two equations (y cancels)', math: `2x = ${s1+s2}` },
-          { note: 'Solve for x', math: `x = ${x}` },
-          { note: 'Substitute back', math: `y = ${s1} − ${x} = ${y}` },
-        ],
-        tutor: [{ hint: 'Add the two equations together — the y terms cancel out.' }],
-        _generated: true,
-      };
-    },
-  ],
-
-  'math-fractions': [
-    () => {
-      const whole = rndInt(20,200), pct = [10,20,25,30,40,50,60,75][rndInt(0,7)];
-      const ans = Math.round(whole * pct / 100);
-      const wrong1 = whole - ans, wrong2 = ans + rndInt(5,20), wrong3 = Math.round(whole / pct);
-      return {
-        id: `gen-pct-${Date.now()}-${Math.random().toString(36).slice(2,6)}`,
-        concept: 'math-fractions',
-        question: `What is ${pct}% of ${whole}?`,
-        choices: shuffleWith([ans, wrong1, wrong2, wrong3].map(String), ans),
-        correct: 0,
-        explanation: `${pct}% = ${pct}/100 = ${pct/100}. Multiply: ${pct/100} × ${whole} = ${ans}.`,
-        steps: [
-          { note: 'Convert percent to decimal', math: `${pct}% = ${pct/100}` },
-          { note: 'Multiply', math: `${pct/100} × ${whole} = ${ans}` },
-        ],
-        tutor: [{ hint: '"Of" means multiply. Convert the percent to a decimal first (divide by 100).' }],
-        _generated: true,
-      };
-    },
-  ],
-
-  'math-stats': [
-    () => {
-      const nums = Array.from({length: 4}, () => rndInt(60,95));
-      const mean = Math.round(rndInt(70,90));
-      const knownSum = nums.reduce((a,b)=>a+b,0);
-      const totalNeeded = mean * (nums.length+1);
-      const missing = totalNeeded - knownSum;
-      if (missing < 50 || missing > 100) return null;
-      return {
-        id: `gen-stats-${Date.now()}-${Math.random().toString(36).slice(2,6)}`,
-        concept: 'math-stats',
-        question: `A student's scores are ${nums.join(', ')}, and x. The mean is ${mean}. Find x.`,
-        choices: shuffleWith([missing, missing+5, missing-4, missing+8].map(String), missing),
-        correct: 0,
-        explanation: `Mean × count = total. ${mean} × ${nums.length+1} = ${totalNeeded}. Known sum = ${knownSum}. x = ${totalNeeded} − ${knownSum} = ${missing}.`,
-        steps: [
-          { note: 'Find total needed',  math: `${mean} × ${nums.length+1} = ${totalNeeded}` },
-          { note: 'Find known sum',     math: `${nums.join(' + ')} = ${knownSum}` },
-          { note: 'Subtract',           math: `x = ${totalNeeded} − ${knownSum} = ${missing}` },
-        ],
-        tutor: [{ hint: 'Mean × number of values = total sum. Find the total you need, then subtract the known values.' }],
-        _generated: true,
-      };
-    },
-  ],
-
-  'math-exponents': [
-    () => {
-      const base = ['x','y','a','m'][rndInt(0,3)];
-      const p1 = rndInt(2,6), p2 = rndInt(2,5);
-      const ans = p1+p2;
-      return {
-        id: `gen-exp-${Date.now()}-${Math.random().toString(36).slice(2,6)}`,
-        concept: 'math-exponents',
-        question: `Simplify:  ${base}^${p1} · ${base}^${p2}`,
-        choices: shuffleWith([`${base}^${ans}`, `${base}^${p1*p2}`, `${base}^${Math.abs(p1-p2)}`, `${base}^${ans+1}`], `${base}^${ans}`),
-        correct: 0,
-        explanation: `Same base, multiplying → ADD the exponents: ${p1} + ${p2} = ${ans}. Answer: ${base}^${ans}.`,
-        steps: [{ note: 'Same base, multiplying → add exponents', math: `${base}^${p1} · ${base}^${p2} = ${base}^${ans}` }],
-        tutor: [{ hint: 'When multiplying with the same base, add the exponents.' }],
-        _generated: true,
-      };
-    },
-  ],
-
-  'math-word': [
-    () => {
-      const rate = rndInt(10,40), hours = rndInt(3,10), bonus = rndInt(20,100);
-      const ans = rate*hours + bonus;
-      return {
-        id: `gen-word-${Date.now()}-${Math.random().toString(36).slice(2,6)}`,
-        concept: 'math-word',
-        question: `Maya earns $${rate} per hour and a $${bonus} bonus. If she works ${hours} hours, how much does she earn?`,
-        choices: shuffleWith([`$${ans}`, `$${rate*hours}`, `$${ans+bonus}`, `$${rate*(hours+1)+bonus}`], `$${ans}`),
-        correct: 0,
-        explanation: `Hourly pay: ${rate} × ${hours} = $${rate*hours}. Add bonus: ${rate*hours} + ${bonus} = $${ans}.`,
-        steps: [
-          { note: 'Calculate hourly earnings', math: `$${rate} × ${hours} hrs = $${rate*hours}` },
-          { note: 'Add bonus', math: `$${rate*hours} + $${bonus} = $${ans}` },
-        ],
-        tutor: [{ hint: 'Break it into parts: hourly pay first, then add the bonus.' }],
-        _generated: true,
-      };
-    },
-  ],
-};
-
-function rndInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function shuffleWith(arr, keepFirst) {
-  // keepFirst is guaranteed to be at index 0 in the returned array
-  // (correct index = 0 in generated questions; the caller handles labeling)
-  // Actually, we shuffle but track where keepFirst lands
-  const others = arr.filter(x => String(x) !== String(keepFirst));
-  const shuffled = [keepFirst.toString()];
-  while (others.length > 0 && shuffled.length < 4) {
-    const i = Math.floor(Math.random() * others.length);
-    shuffled.push(String(others.splice(i, 1)[0]));
-  }
-  // Shuffle the full array and record where the correct answer (index 0 before shuffle) lands
-  const indices = [0,1,2,3].slice(0, shuffled.length);
-  for (let i = indices.length-1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i+1));
-    [indices[i], indices[j]] = [indices[j], indices[i]];
-  }
-  const result = indices.map(i => shuffled[i]);
-  result._correctIdx = indices.indexOf(0); // where did the correct answer land?
-  return result;
-}
-
-function generateQuestionsForConcept(conceptId, count = 2) {
-  const templates = QUESTION_TEMPLATES[conceptId];
-  if (!templates || templates.length === 0) return [];
-  const generated = [];
-  let attempts = 0;
-  while (generated.length < count && attempts < 20) {
-    attempts++;
-    const tmpl = templates[Math.floor(Math.random() * templates.length)];
-    const q = tmpl();
-    if (!q) continue;
-    // Fix correct index — shuffleWith puts correct at index 0 before shuffle
-    if (Array.isArray(q.choices) && q.choices._correctIdx !== undefined) {
-      q.correct = q.choices._correctIdx;
-      delete q.choices._correctIdx;
-    }
-    generated.push(q);
-  }
-  return generated;
-}
-
-// Generate questions for the N weakest concepts that have templates available
-function generateAdaptiveQuestions(count = 4) {
-  const allConcepts = Object.keys(CONCEPTS);
-  // Score each templateable concept by weakness
-  const scored = allConcepts
-    .filter(id => QUESTION_TEMPLATES[id])
-    .map(id => {
-      const c = state.concepts[id];
-      const pct = getMasteryPct(id);
-      const status = getConceptStatus(id).cls;
-      // Lower pct = higher priority; also boost untested ones slightly
-      const score = status === 'untested' ? 40 : pct;
-      return { id, score };
-    })
-    .sort((a, b) => a.score - b.score);
-
-  const questions = [];
-  for (const { id } of scored) {
-    if (questions.length >= count) break;
-    const newQs = generateQuestionsForConcept(id, 1);
-    questions.push(...newQs);
-  }
-  return questions;
-}
-
-</script>
-
-</body>
-</html>
+       
