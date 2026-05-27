@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patrick's Tutor Videos 🎓</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #1a1a2e;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  /* ══ MENU ══ */
+  #menu {
+    width: 100%;
+    max-width: 720px;
+    padding: 36px 24px 40px;
+  }
+  #menu h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+    background: linear-gradient(90deg, #f9ca24, #f0932b, #eb4d4b, #6ab04c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  #menu .subtitle { color: #888; font-size: .95rem; margin-bottom: 28px; }
+
+  .topic-card {
+    background: #16213e;
+    border: 1px solid #0f3460;
+    border-radius: 18px;
+    padding: 0;
+    margin-bottom: 14px;
+    overflow: hidden;
+    transition: border-color .2s, transform .2s;
+    cursor: pointer;
+  }
+  .topic-card:hover { border-color: #e94560; transform: translateY(-2px); }
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 20px;
+  }
+  .card-icon { font-size: 2rem; flex-shrink: 0; }
+  .card-info { flex: 1; }
+  .card-title { font-size: 1.05rem; font-weight: 700; }
+  .card-sub { font-size: .82rem; color: #888; margin-top: 3px; }
+  .card-badge {
+    font-size: .72rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; padding: 3px 10px; border-radius: 20px;
+  }
+  .badge-math    { background: rgba(79,195,247,.15); color: #4fc3f7; }
+  .badge-english { background: rgba(129,199,132,.15); color: #81c784; }
+
+  .all-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #e94560, #0f3460);
+    border: none; border-radius: 16px; padding: 18px;
+    cursor: pointer; font-size: 1rem; font-weight: 700; color: #fff;
+    margin-top: 8px; transition: all .2s;
+  }
+  .all-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(233,69,96,.4); }
+
+  /* ══ PLAYER ══ */
+  #player { display: none; width: 100%; max-width: 900px; min-height: 100vh; flex-direction: column; }
+
+  .top-bar {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 20px; background: #16213e;
+    border-bottom: 1px solid #0f3460;
+    position: sticky; top: 0; z-index: 10;
+  }
+  .back-btn {
+    background: none; border: 1px solid #444; border-radius: 8px;
+    color: #aaa; padding: 5px 14px; cursor: pointer; font-size: .85rem;
+    transition: all .2s; white-space: nowrap;
+  }
+  .back-btn:hover { border-color: #fff; color: #fff; }
+  .lesson-title { font-weight: 700; font-size: .95rem; flex: 1; }
+
+  .progress-track { height: 4px; background: #0f3460; }
+  .progress-fill  { height: 100%; background: linear-gradient(90deg,#e94560,#f9ca24); transition: width .4s; }
+
+  /* Tab strip */
+  .concept-tabs {
+    display: flex; gap: 8px; padding: 12px 20px;
+    overflow-x: auto; background: #16213e;
+    border-bottom: 1px solid #0f3460; scrollbar-width: none;
+  }
+  .concept-tabs::-webkit-scrollbar { display: none; }
+  .c-tab {
+    background: #0f3460; border: none; border-radius: 20px;
+    color: #888; padding: 6px 14px; font-size: .78rem; font-weight: 600;
+    cursor: pointer; white-space: nowrap; transition: all .2s;
+  }
+  .c-tab:hover { color: #fff; }
+  .c-tab.active { background: #e94560; color: #fff; }
+
+  /* ══ CONTENT ══ */
+  .content-area { flex: 1; padding: 20px; overflow-y: auto; }
+  .lesson-block { display: none; }
+  .lesson-block.active { display: block; }
+
+  /* ── VIDEO BUTTON ── */
+  .video-section { margin-bottom: 28px; }
+  .video-section .sec-label {
+    font-size: .72rem; text-transform: uppercase; letter-spacing: 1.5px;
+    color: #888; margin-bottom: 12px;
+  }
+
+  .video-play-btn {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: #000;
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    width: 100%;
+    cursor: pointer;
+    text-align: left;
+    transition: transform .2s, box-shadow .2s;
+    position: relative;
+    text-decoration: none;
+    color: #fff;
+  }
+  .video-play-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,.6); }
+
+  .yt-direct-link {
+    display: block;
+    margin-top: 10px;
+    padding: 12px 20px;
+    background: #FF0000;
+    color: #fff !important;
+    font-weight: 700;
+    font-size: 1rem;
+    text-align: center;
+    border-radius: 10px;
+    text-decoration: none !important;
+    letter-spacing: .5px;
+  }
+  .yt-direct-link:hover { background: #cc0000; }
+
+  /* Embedded YouTube player */
+  .yt-embed-wrap {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+    aspect-ratio: 16 / 9;
+    margin-bottom: 10px;
+  }
+  .yt-embed-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  .thumb-wrap {
+    position: relative;
+    flex-shrink: 0;
+    width: 200px;
+    height: 112px;
+    overflow: hidden;
+    background: #111;
+  }
+  .thumb-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .play-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,.45);
+  }
+  .play-circle {
+    width: 48px; height: 48px;
+    background: #e94560;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    box-shadow: 0 4px 16px rgba(233,69,96,.6);
+    transition: transform .2s;
+  }
+  .video-play-btn:hover .play-circle { transform: scale(1.1); }
+
+  .video-info { padding: 14px 18px 14px 4px; }
+  .video-info .v-title { font-size: 1rem; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
+  .video-info .v-sub { font-size: .82rem; color: #aaa; margin-bottom: 10px; }
+  .video-info .v-cta {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #e94560; border-radius: 8px;
+    padding: 6px 14px; font-size: .82rem; font-weight: 700; color: #fff;
+  }
+
+  /* ── NOTES ── */
+  .slides-section h3 {
+    font-size: .8rem; text-transform: uppercase; letter-spacing: 1.5px;
+    color: #888; margin-bottom: 14px;
+  }
+  .slide-card {
+    background: #16213e; border: 1px solid #0f3460;
+    border-radius: 14px; padding: 20px 22px; margin-bottom: 12px;
+  }
+  .slide-card .sc-heading {
+    font-size: 1.05rem; font-weight: 700; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .slide-card .sc-body { font-size: .95rem; line-height: 1.65; color: #ccc; }
+  .slide-card .sc-body strong { color: #fff; }
+
+  .slide-tag {
+    font-size: .7rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.5px; padding: 3px 10px; border-radius: 20px; flex-shrink: 0;
+  }
+  .tag-math    { background: rgba(79,195,247,.15); color: #4fc3f7; }
+  .tag-english { background: rgba(129,199,132,.15); color: #81c784; }
+
+  /* helpers */
+  .marbles { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+  .marble  { width: 34px; height: 34px; border-radius: 50%; box-shadow: inset -3px -3px 6px rgba(0,0,0,.4); }
+  .marble.red  { background: radial-gradient(circle at 35% 35%, #ff6b6b, #c0392b); }
+  .marble.blue { background: radial-gradient(circle at 35% 35%, #74b9ff, #2980b9); }
+
+  .formula-card {
+    background: linear-gradient(135deg,#0f3460,#16213e);
+    border: 2px solid #4fc3f7; border-radius: 12px;
+    padding: 14px 20px; margin: 12px 0;
+    font-size: 1.2rem; font-family: 'Courier New', monospace;
+    font-weight: 700; color: #4fc3f7; text-align: center;
+  }
+  .formula-card.green  { border-color: #81c784; color: #81c784; }
+  .formula-card.yellow { border-color: #f9ca24; color: #f9ca24; }
+
+  .analogy {
+    background: rgba(249,202,36,.08); border-left: 4px solid #f9ca24;
+    border-radius: 0 10px 10px 0; padding: 12px 16px; margin: 12px 0;
+    font-size: .92rem; color: #f9ca24;
+  }
+  .analogy::before { content: '💡 '; }
+
+  .example-box {
+    background: #0d1b2a; border: 1px solid #1e3a5f; border-radius: 10px;
+    padding: 14px 18px; margin: 12px 0; font-size: .92rem; line-height: 1.7;
+  }
+  .good { color: #81c784; font-family: monospace; }
+  .bad  { color: #e55; font-family: monospace; text-decoration: line-through; }
+
+  ul.check-list { list-style: none; padding: 0; }
+  ul.check-list li { padding: 8px 0; border-bottom: 1px solid #1e3a5f; font-size: .93rem; color: #ccc; }
+  ul.check-list li:last-child { border-bottom: none; }
+  ul.check-list .ck::before { content: '✅ '; }
+  ul.check-list .xk::before { content: '❌ '; }
+
+  /* ══ BOTTOM NAV ══ */
+  .bottom-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px; background: #16213e; border-top: 1px solid #0f3460;
+    position: sticky; bottom: 0;
+  }
+  .nav-btn {
+    background: #0f3460; border: none; border-radius: 50px;
+    color: #fff; padding: 10px 24px; font-size: .9rem; font-weight: 600;
+    cursor: pointer; transition: all .2s;
+  }
+  .nav-btn:hover:not(:disabled) { background: #e94560; }
+  .nav-btn:disabled { opacity: .3; cursor: default; }
+  .nav-btn.primary { background: #e94560; }
+  #lessonDots { color: #888; font-size: .85rem; }
+</style>
+</head>
+<body>
+
+<!-- ══════════ MENU ══════════ -->
+<div id="menu">
+  <h1>🎓 Patrick's Tutor Videos</h1>
+  <p class="subtitle">Pick a topic — each one has a real video + quick notes. Click to watch!</p>
+
+  <div class="topic-card" onclick="openLesson('ratio')">
+    <div class="card-header">
+      <div class="card-icon">🪨</div>
+      <div class="card-info">
+        <div class="card-title">Ratios &amp; Fractions</div>
+        <div class="card-sub">Parts vs. the whole thing</div>
+      </div>
+      <span class="card-badge badge-math">Math</span>
+    </div>
+  </div>
+
+  <div class="topic-card" onclick="openLesson('logs')">
+    <div class="card-header">
+      <div class="card-icon">🔢</div>
+      <div class="card-info">
+        <div class="card-title">Logarithms</div>
+        <div class="card-sub">What power gets me there?</div>
+      </div>
+      <span class="card-badge badge-math">Math</span>
+    </div>
+  </div>
+
+  <div class="topic-card" onclick="openLesson('wordiness')">
+    <div class="card-header">
+      <div class="card-icon">✂️</div>
+      <div class="card-info">
+        <div class="card-title">Wordiness &amp; Conciseness</div>
+        <div class="card-sub">Say it shorter!</div>
+      </div>
+      <span class="card-badge badge-english">English</span>
+    </div>
+  </div>
+
+  <div class="topic-card" onclick="openLesson('semicolon')">
+    <div class="card-header">
+      <div class="card-icon">📝</div>
+      <div class="card-info">
+        <div class="card-title">Semicolons</div>
+        <div class="card-sub">Two full sentences, one dot-comma</div>
+      </div>
+      <span class="card-badge badge-english">English</span>
+    </div>
+  </div>
+
+  <div class="topic-card" onclick="openLesson('lines')">
+    <div class="card-header">
+      <div class="card-icon">📈</div>
+      <div class="card-info">
+        <div class="card-title">Slope &amp; Lines</div>
+        <div class="card-sub">Rise over run — how steep is it?</div>
+      </div>
+      <span class="card-badge badge-math">Math</span>
+    </div>
+  </div>
+
+  <button class="all-btn" onclick="openLesson('all')">▶ Watch All 5 Lessons Together</button>
+</div>
+
+<!-- ══════════ PLAYER ══════════ -->
+<div id="player">
+  <div class="top-bar">
+    <button class="back-btn" onclick="goToMenu()">← Menu</button>
+    <span class="lesson-title" id="lessonTitle">Lesson</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
+  <div class="concept-tabs" id="conceptTabs" style="display:none">
+    <button class="c-tab" data-key="ratio"     onclick="jumpToLesson('ratio')">🪨 Ratios</button>
+    <button class="c-tab" data-key="logs"      onclick="jumpToLesson('logs')">🔢 Logs</button>
+    <button class="c-tab" data-key="wordiness" onclick="jumpToLesson('wordiness')">✂️ Wordiness</button>
+    <button class="c-tab" data-key="semicolon" onclick="jumpToLesson('semicolon')">📝 Semicolons</button>
+    <button class="c-tab" data-key="lines"     onclick="jumpToLesson('lines')">📈 Slope</button>
+  </div>
+
+  <div class="content-area" id="contentArea">
+
+    <!-- ─────────── RATIO ─────────── -->
+    <div class="lesson-block" id="block-ratio">
+      <div class="video-section">
+        <div class="sec-label">▶ Step 1 — Watch the video</div>
+        <div class="yt-embed-wrap">
+          <iframe src="https://www.youtube.com/embed/3eJDRmHlfvs" title="What Is Ratio?" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+      </div>
+      <div class="slides-section">
+        <h3>📖 Step 2 — Quick Notes (read after the video)</h3>
+        <div class="slide-card">
+          <div class="sc-heading"><span class="slide-tag tag-math">Math</span> What is a ratio?</div>
+          <div class="sc-body">
+            A ratio compares <strong>how many of one thing</strong> you have compared to <strong>everything else</strong>. Think of sorting your candy bag — just counting parts.
+          </div>
+        </div>
+        <div class="slide-card">
+          <div class="sc-heading"><span class="slide-tag tag-math">Math</span> The Marble Example 🔴🔵</div>
+          <div class="sc-body">
+            3 red + 2 blue = <strong>5 total</strong>.
+            <div class="marbles">
+              <div class="marble red"></div><div class="marble red"></div><div class="marble red"></div>
+              <div class="marble blue"></div><div class="marble blue"></div>
+            </div>
+            <strong>What fraction are red?</strong> → Put what you want on top, total on bottom: <strong>3/5</strong>
+            <div class="analogy">Like pizza slices — 3 of 5 have pepperoni, so 3/5 of the pizza is pepperoni!</div>
+          </div>
+        </div>
+        <div class="slide-card">
+          <div class="sc-heading"><span class="slide-tag tag-math">Math</span> Solving a Proportion</div>
+          <div class="sc-body">
+            Ratio of boys to girls = 2:3. There are 12 boys. How many girls?
+            <div class="formula-card" style="font-size:.95rem;">2/3 = 12/girls → cross-multiply → girls = 18</div>
+            <ul class="check-list">
+              <li class="ck"><strong>Part / Whole</strong> → fraction of the whole group</li>
+              <li class="ck">Cross multiply to solve a proportion</li>
+              <li class="xk">Don't forget to add the parts to get the <strong>total first!</strong></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────── LOGS ─────────── -->
+    <div class="lesson-block" id="block-logs">
+      <div class="video-section">
+        <div class="sec-label">▶ Step 1 — Watch the video</div>
+        <div class="yt-embed-wrap">
+          <iframe src="https://www.youtube.com/embed/zzu2POfYv0Y" title="Logarithms Explained" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+      </div>
+      <div class="slides-section">
+        <h3>📖 Step 2 — Quick Notes (read after the video)</h3>
+        <div class="slide-card">
+          <div class="sc-heading"><span class="slide-tag tag-math">Math</span> Logs look scary. They're not.</div>
+          <div class="sc-body">
+            A log asks one question: <strong>"What power do I raise this number to?"</strong><br><br>
+            You know 2³ = 8. A log asks the same thing <em>backwards</em>: "What power of 2 gives me 8?"
+            <div class="formula-card" style="font-size:.95rem;">2³ = 8 &nbsp;↔&nbsp; log₂(8) = 3</div>
+          </div>
+        </div>
+        <div class="slide-card">
+          <div class="sc-heading"><span class="slide-tag tag-math">Math</span> Try it: log₂(32)</div>
+          <div class="sc-body">
+            Ask: <strong>2 to what power = 32?</strong> Just count up!
+            <div class="example-box">2¹=2 · 2²=4 · 2³=8 · 2⁴=16 · 2⁵=<strong>32 ← stop!</strong></div>
+            <div class="formula-card" style="font-size:.95rem;">log₂(32) = <strong>5</strong> ✅</div>
+            <div class="analogy">Logs are like stairs — count how many steps to reach the top floor.</div>
+          </div>
+        </div>
+        <div class="slide-card">
+          <div class="sc-heading"><span class="slide-tag tag-math">Math</span> 3-Step Log Method</div>
+          <div class="sc-body">
+            <ul class="check-list">
+              <li class="ck"><strong>Step 1:</strong> Find the base (little subscript number)</li>
+              <li class="ck"><strong>Step 2:</strong> Count up: base¹, base²… until you hit the big number</li>
+              <li class="ck"><strong>Step 3:</strong> That count = your answer</li>
+              <li class="xk">Don't panic — "log" just means <em>what power?</em></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────── WORDINESS ─────────── -->
+    <div class="lesson-block" id="block-wordiness">
+      <div class="video-section">
+        <div class="sec-label">▶ Step 1 — Watch the video</div>
+        <div class="yt-embed-wrap">
+          <iframe src="https://www.youtube.com/embed/39JOSLF4FuM" title="ACT English Wordiness" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+      </div>
+      <div class="slides-section">
+        <h3>📖 Step 2 — Quick Notes (read after the video)</h3>
+        <div class="slide-card">
+          <div class="sc-heading"><span class="slide-tag tag-english">English</span> The Golden Rule: Shorter = Better</div>
+          <div class="sc-body">
+            On ACT English, the <strong>shortest correct answer</strong> is almost always right. If two answers mean the same thing, always pick fewer words.
+            <div class="analogy">Like texting — you'd say "meet at the mall," not "proceed to the location of the mall."</div>
+          </div>
+        </div>
+        <div class="slide-card">
+          <div class="sc-heading"><span class="slide-tag tag-english">English</span> Stacked Synonyms — Cut One</div>
+          <div class="sc-body">
+            When two words mean the same thing side-by-side, one has to go.
+            <div class="example-box">
+              <span class="bad">"today's modern society"</span><br>
+              ↓ Both words mean "right now" — delete one!<br><br>
+              <span class="good">"today's society"</span> ✅
+            </div>
+          </div>
+        </div>
+        <div class="slide-card">
+          <div class="sc-heading"><span class="slide-tag tag-english">English</span> Bloated Phrases → One Word</div>
+          <div class="sc-body">
+            <div class="example-box">
+              <span class="bad">"was of the opinion that"</span> → <span class="good">"believed"</span><br>
+              <span class="bad">"in the event that"</span> → <span class="good">"if"</span><br>
+              <span class="bad">"due to the fact that"</span> → <span class="good">"because"</span>
+            </div>
+            <ul class="check-list">
+              <li class="ck">Cut it if the sentence still makes sense without it</li>
+              <li class="ck">"OMIT the underlined portion" is often the right answer</li>
+              <li class="xk">Never pick longer just because it sounds fancier</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────── SEMICOLON ─────────── -->
+    <div class="lesson-block" id="block-semicolon">
+      <div class="video-section">
+        <div class="sec-label">▶ Step 1 — Watch the video</div>
+        <div class="yt-embed-wrap">
+          <iframe src="https://www.youtube.com/embed/th-zyfvwDdI" title="How to Use a Semicolon" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+      </div>
+      <div class="slides-section">
+        <h3>📖 Step 2 — Quick Notes (read after the video)</h3>
+        <div class="slide-card">
+          <div class="sc-heading"><span class="slide-tag tag-english">English</span> The Golden Rule of Semicolons</div>
+          <div class="sc-body">
+            Both sides of a semicolon <strong>MUST be a complete sentence</strong> (subject + verb, makes sense alone).
+            <div class="example-box">
+              <span class="good">"I studied hard; I aced the test."</span> ✅<br>
+              Both sides = complete sentences ✅<br><br>
+              <span class="bad">"I studied hard; because I wanted an A."</span><br>
+              ❌ "because I wanted an A" is NOT a complete sentence
+            </div>
+          </div>
+        </div>
+        <div class="slide-card">
+          <div class="sc-heading"><span class="slide-tag tag-english">English</span> The "Then" Trap 🚦</div>
+          <div class="sc-body">
+            <strong>"Then"</strong> is an adverb — NOT a conjunction. You can't join two sentences with just comma + "then."
+            <div class="example-box">
+              <span class="bad">"I ate dinner, then I watched TV."</span> ❌<br><br>
+              <span class="good">"I ate dinner; then I watched TV."</span> ✅<br>
+              <span class="good">"I ate dinner, and then I watched TV."</span> ✅
+            </div>
+            <div class="analogy">A semicolon is a seesaw — both sides must be equal (complete sentences) or it tips over! ⚖️</div>
+          </div>
+        </div>
+        <div class="slide-card">
+          <div class="sc-heading"><span class="slide-tag tag-english">English</span> How to Test a Semicolon on the ACT</div>
+          <div class="sc-body">
+            <ul class="check-list">
+              <li class="ck">Read LEFT side. Is it a complete sentence? ✅</li>
+              <li class="ck">Read RIGHT side. Is it a complete sentence? ✅</li>
+              <li class="ck">Both pass → semicolon is correct!</li>
+              <li class="xk">Either side fails → semicolon is wrong. Use a comma or rewrite.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────── SLOPE ─────────── -->
+    <div class="lesson-block" id="block-lines">
+      <div class="video-section">
+        <div class="sec-label">▶ Step 1 — Watch the video</div>
+        <div class="yt-embed-wrap">
+          <iframe src="https://www.youtube.com/embed/gUdYGdoxcFU" title="Slope Simplified" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+      </div>
+      <div class="slides-section">
+        <h3>📖 Step 2 — Quick Notes (read after the video)</h3>
+        <div class="slide-card">
+          <div class="sc-heading"><span class="slide-tag tag-math">Math</span> Slope = How Steep is the Hill? 🏔️</div>
+          <div class="sc-body">
+            Slope tells you how steep a line is. Steep hill = big slope. Flat path = zero slope.
+            <div class="formula-card green">slope (m) = (y₂ – y₁) / (x₂ – x₁)</div>
+            <div class="analogy">A staircase: Rise = how tall each step is. Run = how deep. Slope = rise/run.</div>
+          </div>
+        </div>
+        <div class="slide-card">
+          <div class="sc-heading"><span class="slide-tag tag-math">Math</span> Example: Points (1, 2) and (4, 8)</div>
+          <div class="sc-body">
+            <div class="example-box">
+              slope = (8 – 2) / (4 – 1) = 6 / 3 = <strong>2</strong> ✅<br><br>
+              For every 1 step right → 2 steps up. That's a slope of 2!
+            </div>
+          </div>
+        </div>
+        <div class="slide-card">
+          <div class="sc-heading"><span class="slide-tag tag-math">Math</span> Reading y = mx + b Instantly</div>
+          <div class="sc-body">
+            <div class="formula-card yellow">y = mx + b</div>
+            <div class="example-box">
+              <strong>m</strong> = slope (number in front of x)<br>
+              <strong>b</strong> = y-intercept (where it crosses the y-axis)<br><br>
+              y = 3x + 5 → slope = <strong>3</strong>, y-intercept = <strong>5</strong>
+            </div>
+            <ul class="check-list">
+              <li class="ck">Positive slope ↗ uphill | Negative slope ↘ downhill</li>
+              <li class="xk">Don't flip it! Rise on TOP, run on bottom. Always.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content-area -->
+
+  <div class="bottom-nav">
+    <button class="nav-btn" id="prevLessonBtn" onclick="shiftLesson(-1)" disabled>← Prev</button>
+    <span id="lessonDots"></span>
+    <button class="nav-btn primary" id="nextLessonBtn" onclick="shiftLesson(1)">Next →</button>
+  </div>
+</div>
+
+<script>
+const ORDER  = ['ratio','logs','wordiness','semicolon','lines'];
+const LABELS = {
+  ratio:'🪨 Ratios & Fractions', logs:'🔢 Logarithms',
+  wordiness:'✂️ Wordiness', semicolon:'📝 Semicolons', lines:'📈 Slope & Lines'
+};
+let currentKey = 'ratio';
+let allMode    = false;
+
+// Reliable cross-browser video opener — bypasses popup blockers
+function openVideo(url) {
+  const a = document.createElement('a');
+  a.href = url;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+// Auto-open lesson from URL param e.g. ?lesson=semicolon
+window.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  const lesson = params.get('lesson');
+  if (lesson && ORDER.includes(lesson)) {
+    openLesson(lesson);
+  }
+});
+
+function openLesson(key) {
+  allMode = key === 'all';
+  document.getElementById('menu').style.display   = 'none';
+  document.getElementById('player').style.display = 'flex';
+  document.getElementById('conceptTabs').style.display = allMode ? 'flex' : 'none';
+  showBlock(allMode ? ORDER[0] : key);
+}
+
+function showBlock(key) {
+  document.querySelectorAll('.lesson-block').forEach(b => b.classList.remove('active'));
+  document.getElementById('block-' + key).classList.add('active');
+  currentKey = key;
+  document.getElementById('contentArea').scrollTop = 0;
+  updateUI();
+}
+
+function jumpToLesson(key) { showBlock(key); }
+
+function shiftLesson(dir) {
+  const idx  = ORDER.indexOf(currentKey);
+  const next = idx + dir;
+  if (next < 0 || next >= ORDER.length) { goToMenu(); return; }
+  showBlock(ORDER[next]);
+}
+
+function goToMenu() {
+  document.getElementById('player').style.display = 'none';
+  document.getElementById('menu').style.display   = 'block';
+}
+
+function updateUI() {
+  const idx = ORDER.indexOf(currentKey);
+  document.getElementById('lessonTitle').textContent =
+    allMode ? `🎓 All 5 Lessons — ${LABELS[currentKey]}` : LABELS[currentKey];
+  document.getElementById('progressFill').style.width =
+    `${((idx + 1) / ORDER.length) * 100}%`;
+
+  const prevBtn = document.getElementById('prevLessonBtn');
+  const nextBtn = document.getElementById('nextLessonBtn');
+
+  if (allMode) {
+    prevBtn.disabled   = false;
+    prevBtn.textContent = idx === 0 ? '← Menu' : '← Prev';
+    nextBtn.textContent = idx === ORDER.length - 1 ? '🏠 Menu' : 'Next →';
+    document.getElementById('lessonDots').textContent =
+      ORDER.map((k,i) => i===idx ? '●' : '○').join(' ');
+  } else {
+    prevBtn.disabled   = true;
+    nextBtn.textContent = '🏠 Menu';
+    nextBtn.onclick    = goToMenu;
+    document.getElementById('lessonDots').textContent = '';
+  }
+  if (allMode) {
+    nextBtn.onclick = () => shiftLesson(1);
+    prevBtn.onclick = () => shiftLesson(-1);
+  }
+
+  document.querySelectorAll('.c-tab').forEach(t =>
+    t.classList.toggle('active', t.dataset.key === currentKey)
+  );
+}
+</script>
+</body>
+</html>

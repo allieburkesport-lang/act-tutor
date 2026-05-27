@@ -9552,6 +9552,28 @@ function renderConceptGuideHTML(conceptId, opts = {}) {
 
 // Render solution as worksheet-style steps. Prefers explicit `steps` array,
 // falls back to aggressively-parsed explanation.
+/* ── TUTOR SUPPORT BUTTON ──────────────────────────────────────────
+   Maps ACT concept IDs to lessons in patrick-tutor-video.html.
+   Only shows the button when a video lesson exists for that concept.
+*/
+const TUTOR_VIDEO_MAP = {
+  'eng-semicolon': 'semicolon',
+  'math-lines':    'lines',
+  'math-ratio':    'ratio',
+  'math-logs':     'logs',
+  'eng-wordiness': 'wordiness',
+};
+function getTutorSupportBtn(conceptId) {
+  const lesson = TUTOR_VIDEO_MAP[conceptId];
+  if (!lesson) return '';
+  return `<a class="btn"
+    href="patrick-tutor-video.html?lesson=${lesson}"
+    target="_blank"
+    style="background:#7c3aed; display:inline-flex; align-items:center; gap:6px; text-decoration:none;">
+    📺 Tutor Support
+  </a>`;
+}
+
 function renderSolutionStepsHTML(explanationOrQ, maybeSteps) {
   // Allow caller to pass a question object or (explanation, steps)
   let explanation, steps, qObj;
@@ -9711,6 +9733,7 @@ function selectChoice(i) {
       ${renderConceptGuideHTML(q.concept, { expanded: true, label: `📖 ${(getConceptGuide(q.concept) || {}).title || 'Concept review'}` })}
       <div class="btn-row" style="margin-top: 12px;">
         <button class="btn" onclick="enterTutorMode()">Walk me through it (Tutor mode) →</button>
+        ${getTutorSupportBtn(q.concept)}
         <button class="btn secondary" onclick="nextQuestion()">Got it, next question</button>
       </div>`;
     if (Voice.enabled) setTimeout(() => Voice.speak("Not quite. The correct answer was " + correctLetter + ". " + q.explanation), 250);
@@ -9933,6 +9956,7 @@ function selectReQuiz(i) {
       ${renderSolutionStepsHTML(q)}
       <div class="btn-row" style="margin-top: 12px;">
         <button class="btn" onclick="renderReQuiz(getCurrentContainer())">Try another →</button>
+        ${getTutorSupportBtn(q.concept)}
       </div>`;
   }
 }
