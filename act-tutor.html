@@ -9552,26 +9552,87 @@ function renderConceptGuideHTML(conceptId, opts = {}) {
 
 // Render solution as worksheet-style steps. Prefers explicit `steps` array,
 // falls back to aggressively-parsed explanation.
-/* ── TUTOR SUPPORT BUTTON ──────────────────────────────────────────
-   Maps ACT concept IDs to lessons in patrick-tutor-video.html.
-   Only shows the button when a video lesson exists for that concept.
+/* ── TUTOR SUPPORT — inline video + quick notes ─────────────────────
+   Shows an expandable panel with a YouTube embed and key concept notes
+   right inside the app when Patrick gets a question wrong.
 */
-const TUTOR_VIDEO_MAP = {
-  'eng-semicolon': 'semicolon',
-  'math-lines':    'lines',
-  'math-ratio':    'ratio',
-  'math-logs':     'logs',
-  'eng-wordiness': 'wordiness',
+const TUTOR_LESSONS = {
+  'math-ratio': {
+    ytId: '3eJDRmHlfvs',
+    title: '🪨 Ratios & Fractions',
+    notes: [
+      { head: 'Ratio vs Fraction', body: 'A ratio compares parts to each other (3:2). A fraction compares a part to the <strong>whole</strong>. ACT always asks for the fraction — so add the parts first!' },
+      { head: 'The Chocolate Milk Rule 🥛', body: '3 chocolate + 2 protein = 5 total. Chocolate <em>fraction</em> = 3/5 (not 3/2).' },
+      { head: 'Scaling with Cross-Multiply', body: 'Set up 3/5 = 15/X → cross-multiply → 3X = 75 → X = 25. Works every time.' },
+    ]
+  },
+  'math-logs': {
+    ytId: 'zzu2POfYv0Y',
+    title: '🔢 Logarithms',
+    notes: [
+      { head: 'A log is just a question', body: 'log₂(32) asks: <strong>"2 to what power = 32?"</strong> That\'s it.' },
+      { head: 'Count up on your fingers 🖐️', body: '2¹=2, 2²=4, 2³=8, 2⁴=16, 2⁵=<strong>32 ← stop!</strong> Answer = 5.' },
+      { head: 'The pattern', body: '2³ = 8 ↔ log₂(8) = 3. The log just reverses the exponent.' },
+    ]
+  },
+  'eng-wordiness': {
+    ytId: '39JOSLF4FuM',
+    title: '✂️ Wordiness & Conciseness',
+    notes: [
+      { head: 'Shorter = Better on ACT English', body: 'The ACT rewards concise writing. If two answers mean the same thing, always pick fewer words.' },
+      { head: 'Red-flag phrases to cut', body: '"due to the fact that" → <strong>because</strong> &nbsp;|&nbsp; "in order to" → <strong>to</strong> &nbsp;|&nbsp; "at this point in time" → <strong>now</strong>' },
+      { head: 'Stacked synonyms', body: '"today\'s modern society" → cut one. "future plans" → just "plans." If two words mean the same thing, delete one.' },
+    ]
+  },
+  'eng-semicolon': {
+    ytId: 'th-zyfvwDdI',
+    title: '📝 Semicolons',
+    notes: [
+      { head: 'The Golden Rule', body: 'Both sides of a semicolon <strong>must be a complete sentence</strong> (subject + verb, makes sense alone).' },
+      { head: 'The "Then" Trap 🚦', body: '"Then" is an adverb — not a conjunction. <br><span style="color:#f87171">❌ "I ate; then left."</span> → "then left" isn\'t a sentence. <br><span style="color:#4ade80">✅ "I ate; then I left."</span>' },
+      { head: 'Quick check', body: 'Cover the right side — complete sentence? Cover the left — complete sentence? Both yes = semicolon is correct.' },
+    ]
+  },
+  'math-lines': {
+    ytId: 'gUdYGdoxcFU',
+    title: '📈 Slope & Lines',
+    notes: [
+      { head: 'Slope = Rise ÷ Run', body: 'How many steps up ÷ how many steps across. Subtract Y-values on top, X-values on bottom.' },
+      { head: 'y = mx + b cheat code', body: '<strong>m</strong> = slope (steepness) &nbsp;|&nbsp; <strong>b</strong> = y-intercept (where it crosses the y-axis). Read them right off the equation — no math needed.' },
+      { head: 'Parallel vs Perpendicular', body: 'Parallel lines = <strong>same slope</strong>. Perpendicular lines = <strong>negative reciprocal</strong> slope (flip and negate: 2 → −½).' },
+    ]
+  },
 };
+
+let _tutorPanelOpen = {};
+
 function getTutorSupportBtn(conceptId) {
-  const lesson = TUTOR_VIDEO_MAP[conceptId];
+  const lesson = TUTOR_LESSONS[conceptId];
   if (!lesson) return '';
-  return `<a class="btn"
-    href="patrick-tutor-video.html?lesson=${lesson}"
-    target="_blank"
-    style="background:#7c3aed; display:inline-flex; align-items:center; gap:6px; text-decoration:none;">
-    📺 Tutor Support
-  </a>`;
+  const panelId = 'tutor-panel-' + conceptId + '-' + Math.random().toString(36).slice(2,7);
+  const notesHtml = lesson.notes.map(n => `
+    <div style="background:#1e293b;border-radius:10px;padding:12px 14px;margin-bottom:8px;">
+      <div style="font-weight:700;font-size:.85rem;color:#f9ca24;margin-bottom:4px;">${n.head}</div>
+      <div style="font-size:.88rem;color:#cbd5e1;line-height:1.5;">${n.body}</div>
+    </div>`).join('');
+  return `
+<div style="margin-top:14px;border-radius:14px;overflow:hidden;border:1px solid #7c3aed;background:#0f0a1e;">
+  <button onclick="
+    var p=document.getElementById('${panelId}');
+    var arr=this.querySelector('.arr');
+    if(p.style.display==='none'||p.style.display===''){p.style.display='block';arr.textContent='▲';}
+    else{p.style.display='none';arr.textContent='▼';}
+  " style="width:100%;background:linear-gradient(135deg,#7c3aed,#4f46e5);border:none;color:#fff;padding:12px 16px;font-size:.95rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;text-align:left;">
+    📺 Watch Video Lesson — ${lesson.title} <span class="arr" style="margin-left:auto">▼</span>
+  </button>
+  <div id="${panelId}" style="display:none;padding:14px;">
+    <div style="border-radius:10px;overflow:hidden;aspect-ratio:16/9;margin-bottom:14px;background:#000;">
+      <iframe width="100%" height="100%" src="https://www.youtube.com/embed/${lesson.ytId}" title="${lesson.title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display:block;"></iframe>
+    </div>
+    <div style="font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;margin-bottom:8px;">📖 Quick Notes</div>
+    ${notesHtml}
+  </div>
+</div>`;
 }
 
 function renderSolutionStepsHTML(explanationOrQ, maybeSteps) {
