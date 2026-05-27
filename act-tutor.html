@@ -9190,11 +9190,14 @@ function renderDashboard() {
   } else {
     weakEl.innerHTML = weakConcepts.map(c => {
       const satTag = satPriority(c.id) === 'high' ? '<span class="badge sat-focus" title="SAT diagnostic flagged this area">SAT focus</span>' : '';
+      const lesson = TUTOR_LESSONS[c.id];
+      const videoBtn = lesson ? `<a class="small-btn" href="https://youtu.be/${lesson.ytId}" target="_blank" rel="noopener" style="text-decoration:none;">📺 Video</a>` : '';
       return `
       <div class="concept-item">
         <div class="concept-name">${CONCEPTS[c.id].name}${satTag}</div>
         <div class="concept-stats">${c.stats.correct}/${c.stats.attempts}</div>
         <span class="badge ${c.status.cls}">${c.status.label}</span>
+        ${videoBtn}
       </div>`;
     }).join('');
   }
@@ -9239,8 +9242,6 @@ function startPractice() {
   // ~30 minutes of work: assume ~1.5 min per question on average
   // (fast for easy ones, longer when tutor mode kicks in on wrong answers)
   const TARGET_QUESTIONS = 30;
-  // Generate 2–3 adaptive questions from templates targeting weakest concepts
-  const _generatedQs = generateAdaptiveQuestions(3);
   const questions = [];
   const usedIds = new Set();
 
@@ -10217,6 +10218,7 @@ function renderConcepts() {
               </div>
               <span class="badge ${status.cls}">${status.label}</span>
               <button class="small-btn primary" onclick="practiceSingleConcept('${id}')">Drill</button>
+              ${TUTOR_LESSONS[id] ? `<a class="small-btn" href="https://youtu.be/${TUTOR_LESSONS[id].ytId}" target="_blank" rel="noopener" style="text-decoration:none;">📺 Video</a>` : ''}
             </div>`;
         }).join('')}
       </div>
