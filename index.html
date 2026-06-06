@@ -9273,21 +9273,81 @@ function renderDashboard() {
   const masteredEl = document.getElementById('recently-mastered');
   const masteredList = Object.keys(CONCEPTS)
     .filter(id => state.concepts[id]?.mastered)
-    .sort((a, b) => new Date(state.concepts[b].masteredDate) - new Date(state.concepts[a].masteredDate))
-    .slice(0, 6);
+    .sort((a, b) => new Date(state.concepts[b].masteredDate) - new Date(state.concepts[a].masteredDate));
   if (masteredList.length === 0) {
     masteredEl.innerHTML = '<div class="empty"><div class="empty-icon">🎯</div><p>Get 5 in a row right on a concept to master it.</p></div>';
   } else {
     masteredEl.innerHTML = masteredList.map(id => {
       const days = getMasteryDays(id);
-      return `<div class="concept-item">
-        <div class="concept-name">${CONCEPTS[id].name}</div>
-        <div class="concept-stats">held ${days}d</div>
-        <span class="badge mastered">Mastered</span>
-      </div>`;
+      const sectionColors = { english: '#2563eb', math: '#16a34a', reading: '#ea580c', science: '#0891b2' };
+      const sec = CONCEPTS[id].section;
+      return `
+        <div class="concept-item" style="flex-direction:column;align-items:stretch;cursor:pointer;" onclick="toggleMasteredQuestions('${id}', this)">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="flex:1;">
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:${sectionColors[sec]||'#666'};margin-bottom:1px;">${sec}</div>
+              <div class="concept-name" style="margin:0;">${CONCEPTS[id].name}</div>
+            </div>
+            <div class="concept-stats">held ${days}d</div>
+            <span class="badge mastered">Mastered</span>
+            <span style="font-size:16px;color:#9ca3af;" class="mastered-toggle-icon">▼</span>
+          </div>
+          <div class="mastered-questions-panel" id="mqp-${id}" style="display:none;margin-top:10px;border-top:1px solid #e5e7eb;padding-top:10px;"></div>
+        </div>`;
     }).join('');
   }
   renderSkillsMasteryTracker();
+}
+
+/* ----- 8b. MASTERED QUESTIONS EXPAND ----- */
+function toggleMasteredQuestions(conceptId, rowEl) {
+  const panel = document.getElementById('mqp-' + conceptId);
+  const icon  = rowEl.querySelector('.mastered-toggle-icon');
+  if (!panel) return;
+
+  const isOpen = panel.style.display !== 'none';
+  panel.style.display = isOpen ? 'none' : 'block';
+  if (icon) icon.textContent = isOpen ? '▼' : '▲';
+  if (isOpen) return;
+
+  // Find all qIds answered correctly for this concept
+  const correctQIds = new Set(
+    (state.history || [])
+      .filter(h => h.concept === conceptId && h.correct)
+      .map(h => h.qId)
+  );
+
+  // Look up those questions from QUESTIONS array
+  const qs = (QUESTIONS || []).filter(q => q.concept === conceptId && correctQIds.has(q.id));
+
+  if (qs.length === 0) {
+    panel.innerHTML = '<p style="font-size:12px;color:#6b7280;margin:0;">No question details available — practice more to record answers.</p>';
+    return;
+  }
+
+  const letters = ['A', 'B', 'C', 'D', 'E'];
+  panel.innerHTML = qs.map((q, qi) => {
+    const passageHtml = q.passage
+      ? `<div style="font-size:12px;color:#374151;background:#f9fafb;border-left:3px solid #d1d5db;padding:8px 10px;margin-bottom:8px;border-radius:4px;font-style:italic;">${q.passage}</div>`
+      : '';
+    const choicesHtml = (q.choices || []).map((ch, ci) => {
+      const isCorrect = ci === q.correct;
+      const style = isCorrect
+        ? 'background:#d1fae5;border:1.5px solid #16a34a;color:#065f46;font-weight:600;'
+        : 'background:#f9fafb;border:1px solid #e5e7eb;color:#374151;';
+      return `<div style="${style}border-radius:6px;padding:6px 10px;margin-bottom:4px;font-size:12px;display:flex;gap:8px;align-items:flex-start;">
+        <span style="font-weight:700;min-width:16px;">${letters[ci]}.</span>
+        <span>${ch}</span>
+        ${isCorrect ? '<span style="margin-left:auto;">✓</span>' : ''}
+      </div>`;
+    }).join('');
+
+    return `<div style="margin-bottom:${qi < qs.length - 1 ? '14px' : '0'};padding-bottom:${qi < qs.length - 1 ? '14px' : '0'};border-bottom:${qi < qs.length - 1 ? '1px solid #f3f4f6' : 'none'};">
+      ${passageHtml}
+      <div style="font-size:13px;font-weight:600;color:#111;margin-bottom:8px;line-height:1.4;">${qi + 1}. ${q.question}</div>
+      ${choicesHtml}
+    </div>`;
+  }).join('');
 }
 
 /* ----- 8. PRACTICE / SESSION FLOW ----- */
