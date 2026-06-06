@@ -10527,13 +10527,19 @@ function renderDailyReportWidget() {
     html += past.map(d => {
       const r = ratingFor(d.acc);
       const conceptKeys = Object.keys(d.concepts);
+      const secColors = { english:'#2563eb', math:'#16a34a', reading:'#ea580c', science:'#0891b2' };
+      const secLabels = { english:'English', math:'Math', reading:'Reading', science:'Science' };
       const conceptDetail = conceptKeys.map(cid => {
         const c = d.concepts[cid];
         const acc = c.total > 0 ? Math.round(100*c.correct/c.total) : 0;
         const col = acc >= 70 ? '#16a34a' : acc >= 50 ? '#d97706' : '#dc2626';
         const name = CONCEPTS[cid]?.name || cid;
-        return `<div style="display:flex;justify-content:space-between;font-size:11px;color:#374151;padding:2px 0;">
-          <span>${name}</span><span style="font-weight:700;color:${col};">${c.correct}/${c.total}</span>
+        const sec = CONCEPTS[cid]?.section;
+        const tag = sec
+          ? `<span style="font-size:9px;font-weight:800;color:${secColors[sec]||'#9ca3af'};text-transform:uppercase;margin-right:5px;">${secLabels[sec]||sec}</span>`
+          : '';
+        return `<div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#374151;padding:3px 0;border-bottom:1px solid #f9fafb;">
+          <span>${tag}${name}</span><span style="font-weight:700;color:${col};white-space:nowrap;margin-left:8px;">${c.correct}/${c.total}</span>
         </div>`;
       }).join('');
 
@@ -11169,6 +11175,85 @@ function renderScorePrediction() {
 
   const SAT_BASELINE = { english: 17, math: 20, reading: 18, science: 19, composite: 20 };
 
+  // Per-section recent accuracy — lastAttempts (last 10 per concept) or all-time if fewer
+  function sectionRecentAcc(section) {
+    const ids = Object.keys(CONCEPTS).filter(id => CONCEPTS[id].section === section);
+    let mastered = 0, accSum = 0, count = 0;
+    ids.forEach(id => {
+      const c = state.concepts[id];
+      if (!c) return;
+      if (c.mastered) mastered++;
+      const recent = (c.lastAttempts && c.lastAttempts.length >= 3) ? c.lastAttempts : null;
+      if (recent) { accSum += recent.reduce((s,x)=>s+x,0)/recent.length; count++; }
+      else if (c.attempts > 0) { accSum += c.correct/c.attempts; count++; }
+    });
+    return { acc: count > 0 ? accSum/count : 0, mastered, total: ids.length };
+  }
+
+  const eng  = sectionRecentAcc('english');
+  const math = sectionRecentAcc('math');
+  const read = sectionRecentAcc('reading');
+  const sci  = sectionRecentAcc('science');
+
+  // Score = recent accuracy * 36 (same scale as trend chart, no artificial bonuses)
+  function toACT(acc) { return Math.round(acc * 36); }
+  const engScore  = toACT(eng.acc);
+  const mathScore = toACT(math.acc);
+  const readScore = toACT(read.acc);
+  const sciAttempts = Object.keys(state.concepts)
+    .filter(k => CONCEPTS[k]?.section==='science' && (state.concepts[k]?.attempts||0) > 0)
+    .reduce((s,k) => s+(state.concepts[k]?.attempts||0), 0);
+  const sciScore = sciAttempts >= 10 ? toACT(sci.acc) : SAT_BASELINE.science;
+  const composite = Math.round((engScore+mathScore+readScore+sciScore)/4);
+
+  // Trend direction from last 7 UTC practice days
+  const byDay = {};
+  (state.history||[]).forEach(h => {
+    const ts = h.ts||h.t; if (!ts) return;
+    const d = new Date(ts).toISOString().slice(0,10);
+    if (!byDay[d]) byDay[d]={total:0,correct:0};
+    byDay[d].total++;
+    if (h.correct) byDay[d].correct++;
+  });
+  const rDays = Object.keys(byDay).sort().slice(-7);
+  const rAccs = rDays.map(d => byDay[d].correct/byDay[d].total);
+  const avg = arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : 0;
+  const l3 = avg(rAccs.slice(-3)), p3 = avg(rAccs.slice(-6,-3));
+  const trendDir = rAccs.slice(-6,-3).length===0 ? '→'
+    : l3-p3>0.03 ? '↑' : l3-p3<-0.03 ? '↓' : '→';
+  const trendColor = trendDir==='↑'?'#16a34a':trendDir==='↓'?'#dc2626':'#d97706';
+
+  function range(n) { return n+'–'+(n+2); }
+  function box(label, baseline, score, color, sub) {
+    const gain=score-baseline;
+    const gs=gain>0?`+${gain} vs start`:gain<0?`${gain} vs start`:'at baseline';
+    const gc=gain>0?'#16a34a':gain<0?'#dc2626':'#6b7280';
+    return `<div style="background:#fff;border:2px solid ${color};border-radius:10px;padding:10px 8px;text-align:center;">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#6b7280;margin-bottom:2px;">${label}</div>
+      <div style="font-size:10px;color:#6b7280;margin-bottom:3px;">Start: <strong style="color:#111">${baseline}</strong></div>
+      <div style="font-size:26px;font-weight:800;color:${color};line-height:1.1;">${range(score)}</div>
+      <div style="font-size:10px;color:${gc};font-weight:600;margin-top:2px;">${gs}</div>
+      <div style="font-size:10px;color:#6b7280;margin-top:1px;">${sub}</div>
+    </div>`;
+  }
+
+  boxEl.innerHTML =
+    box('Composite',SAT_BASELINE.composite,composite,'#1e3a5f',
+      `<span style="color:${trendColor};font-weight:700;">${trendDir} ${Math.round(l3*100)}% recent</span>`) +
+    box('English',SAT_BASELINE.english,engScore,'#2563eb',
+      `${Math.round(eng.acc*100)}% recent · ${eng.mastered}/${eng.total} mastered`) +
+    box('Math',SAT_BASELINE.math,mathScore,'#16a34a',
+      `${Math.round(math.acc*100)}% recent · ${math.mastered}/${math.total} mastered`) +
+    box('Science',SAT_BASELINE.science,sciScore,'#0891b2',
+      sciAttempts>=10?`${Math.round(sci.acc*100)}% recent`:`limited data (${sciAttempts} attempts)`);
+}
+
+function renderScorePrediction() {
+  const boxEl = document.getElementById('score-boxes');
+  if (!boxEl) return;
+
+  const SAT_BASELINE = { english: 17, math: 20, reading: 18, science: 19, composite: 20 };
+
   // ── COMPOSITE BOX: trend from recent sessions ──
   // Build daily accuracy sorted newest-first
   const byDay = {};
@@ -11269,19 +11354,25 @@ function toggleScoreTrend() {
 
   if (!showing && (!_scoreTrendChart || typeof Chart === 'undefined')) {
     _scoreTrendChart = null; // reset if Chart.js wasn't ready last time
-    // Build daily accuracy from history, map to composite estimate
-    const byDay = {};
+    // Build daily accuracy from history — use UTC dates to avoid timezone shifts
+    const byDayUTC = {};
     state.history.forEach(h => {
       const ts = h.ts || h.t;
       if (!ts) return;
-      const day = new Date(ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      if (!byDay[day]) byDay[day] = { total: 0, correct: 0 };
-      byDay[day].total++;
-      if (h.correct) byDay[day].correct++;
+      const isoDay = new Date(ts).toISOString().slice(0, 10); // YYYY-MM-DD UTC — avoids local TZ shift
+      if (!byDayUTC[isoDay]) byDayUTC[isoDay] = { total: 0, correct: 0 };
+      byDayUTC[isoDay].total++;
+      if (h.correct) byDayUTC[isoDay].correct++;
     });
-    const days = Object.keys(byDay).slice(-20); // last 20 active days
-    const accPcts = days.map(d => Math.round(100 * byDay[d].correct / byDay[d].total));
-    const scores  = accPcts.map(acc => Math.round((acc / 100) * 36)); // 70%→25, 80%→29, 60%→22 — direct % of 36
+    // Sort chronologically then take last 20 days
+    const sortedKeys = Object.keys(byDayUTC).sort().slice(-20);
+    const days = sortedKeys.map(d => {
+      const dt = new Date(d + 'T12:00:00'); // noon local = safe for display
+      return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    });
+    const accPcts = sortedKeys.map(d => Math.round(100 * byDayUTC[d].correct / byDayUTC[d].total));
+    // Direct mapping: acc% of 36 — 56%→20, 70%→25, 80%→29
+    const scores = accPcts.map(acc => Math.round((acc / 100) * 36));
 
     const ctx = document.getElementById('scoreTrendChart');
     if (!ctx) return;
