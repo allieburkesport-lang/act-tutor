@@ -1042,6 +1042,19 @@
       <div id="section-progress"></div>
     </div>
 
+    <div class="card" id="score-prediction-card" style="cursor:pointer;" onclick="toggleScoreTrend()">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <h3 style="margin:0;">🎯 Score Prediction</h3>
+        <span id="score-trend-toggle" style="font-size:12px;color:var(--primary);font-weight:600;">📈 Show Trend ▼</span>
+      </div>
+      <div id="score-boxes" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:4px;"></div>
+      <div id="score-trend-panel" style="display:none;margin-top:14px;">
+        <div style="height:160px;"><canvas id="scoreTrendChart"></canvas></div>
+        <p style="font-size:11px;color:var(--muted);margin-top:6px;text-align:center;">Rolling accuracy mapped to estimated composite — each dot = one practice day</p>
+      </div>
+      <p style="font-size:11px;color:var(--muted);margin-top:6px;">Based on accuracy + mastery rate per section. Tap to see trend over time.</p>
+    </div>
+
     <div class="card" id="skills-mastery-card">
       <h3>📊 Skills Mastery Path</h3>
       <p style="font-size:12px;color:var(--muted);margin:-6px 0 12px;">Each bar shows how close he is to mastering each skill. Green&nbsp;bar&nbsp;full&nbsp;=&nbsp;5-in-a-row mastered.</p>
@@ -9077,33 +9090,58 @@ function sortBySatPriority(ids) {
 }
 
 function pickConceptsForToday(numConcepts = 6) {
-  // Priority: untested > weak > needs work > strong (for retention) > mastered (light retention)
-  // Within each bucket, SAT-flagged weak domains are picked first.
+  // Rules:
+  // 1. NEVER include mastered concepts — only unmastered
+  // 2. Always include at least 1 science concept if any are unmastered
+  // 3. Priority within unmastered: weak > needs-work > untested > strong
+  // 4. Within each bucket, SAT-priority concepts surface first EXCEPT
+  //    science gets a guaranteed slot so it's never crowded out
+
   const allConcepts = Object.keys(CONCEPTS);
-  const buckets = { untested: [], weak: [], needsWork: [], strong: [], mastered: [] };
-  allConcepts.forEach(id => {
+
+  // Split into science and non-science unmastered
+  const unmastered = allConcepts.filter(id => !state.concepts[id]?.mastered);
+  const sciUnmastered = unmastered.filter(id => CONCEPTS[id].section === 'science');
+  const nonSciUnmastered = unmastered.filter(id => CONCEPTS[id].section !== 'science');
+
+  // Bucket non-science unmastered by status
+  const buckets = { weak: [], needsWork: [], untested: [], strong: [] };
+  nonSciUnmastered.forEach(id => {
     const status = getConceptStatus(id);
-    if (status.cls === 'untested') buckets.untested.push(id);
-    else if (status.cls === 'weak') buckets.weak.push(id);
+    if (status.cls === 'weak') buckets.weak.push(id);
     else if (status.cls === 'needs-work') buckets.needsWork.push(id);
-    else if (status.cls === 'strong') buckets.strong.push(id);
-    else buckets.mastered.push(id);
+    else if (status.cls === 'untested') buckets.untested.push(id);
+    else buckets.strong.push(id);
   });
 
-  // Apply SAT priority sort within each bucket
-  const weakSorted   = sortBySatPriority(buckets.weak);
-  const needsSorted  = sortBySatPriority(buckets.needsWork);
-  const untestSorted = sortBySatPriority(buckets.untested);
+  // Bucket science unmastered by status
+  const sciBuckets = { weak: [], needsWork: [], untested: [], strong: [] };
+  sciUnmastered.forEach(id => {
+    const status = getConceptStatus(id);
+    if (status.cls === 'weak') sciBuckets.weak.push(id);
+    else if (status.cls === 'needs-work') sciBuckets.needsWork.push(id);
+    else if (status.cls === 'untested') sciBuckets.untested.push(id);
+    else sciBuckets.strong.push(id);
+  });
 
-  // Take 2 weak, 2 needs-work, 2 untested — SAT-priority concepts surface first
   const picked = [];
+
+  // Guarantee 1–2 science concepts (weakest first)
+  const sciPriority = [...sciBuckets.weak, ...sciBuckets.needsWork, ...sciBuckets.untested, ...sciBuckets.strong];
+  picked.push(...sciPriority.slice(0, Math.min(2, sciPriority.length)));
+
+  // Fill remaining slots with non-science: 2 weak, 2 needs-work, 2 untested
+  const weakSorted  = sortBySatPriority(buckets.weak);
+  const needsSorted = sortBySatPriority(buckets.needsWork);
+  const untestSorted = sortBySatPriority(buckets.untested);
   picked.push(...weakSorted.slice(0, 2));
   picked.push(...needsSorted.slice(0, 2));
   picked.push(...untestSorted.slice(0, 2));
 
-  // Fill remaining slots; still favor SAT priority among any leftovers
+  // Fill any remaining slots (never mastered — already filtered above)
   const fill = sortBySatPriority(
-    [...buckets.untested, ...buckets.needsWork, ...buckets.weak, ...buckets.strong, ...buckets.mastered]
+    [...buckets.untested, ...buckets.needsWork, ...buckets.weak, ...buckets.strong,
+     ...sciBuckets.untested, ...sciBuckets.needsWork, ...sciBuckets.weak, ...sciBuckets.strong]
       .filter(c => !picked.includes(c))
   );
   for (const c of fill) {
@@ -9183,6 +9221,9 @@ function renderDashboard() {
     const names = todayConcepts.map(c => CONCEPTS[c].name).slice(0, 5);
     plan.innerHTML = `<p style="margin: 8px 0;">Today's set covers: <strong>${names.join(', ')}</strong>${todayConcepts.length > 5 ? ', and more' : ''}. About 12 questions, 15-20 minutes.</p>`;
   }
+
+  // Score prediction
+  renderScorePrediction();
 
   // Weak concepts to focus on
   const weakEl = document.getElementById('weak-concepts');
@@ -10570,9 +10611,9 @@ function renderSkillsMasteryTracker() {
     );
 
     html += `<div class="mastery-section">
-      <div class="mastery-section-hdr">
+      <div class="mastery-section-hdr" onclick="setConceptFilter('${key}'); switchView('concepts')" style="cursor:pointer;" title="Tap to drill ${label} concepts">
         <span class="sec-label" style="color:${color};font-size:14px;">${label}</span>
-        <span class="sec-pct">${masteredCount} / ${ids.length} mastered &nbsp;·&nbsp; ${overallPct}%</span>
+        <span class="sec-pct">${masteredCount} / ${ids.length} mastered &nbsp;·&nbsp; ${overallPct}% &nbsp;<span style="color:var(--primary);">›</span></span>
       </div>`;
 
     sorted.forEach(id => {
@@ -10580,6 +10621,7 @@ function renderSkillsMasteryTracker() {
       const status = getConceptStatus(id);
       const c = state.concepts[id];
       const fillCls = fillMap[status.cls] || 'fill-untested';
+      const drillable = status.cls !== 'mastered';
 
       // Hint text: tells him exactly what he needs next
       let hint = 'not started';
@@ -10593,7 +10635,7 @@ function renderSkillsMasteryTracker() {
         hint = `${c.correct} / ${c.attempts} correct`;
       }
 
-      html += `<div class="skill-row">
+      html += `<div class="skill-row" ${drillable ? `onclick="practiceSingleConcept('${id}')" style="cursor:pointer;" title="Tap to drill"` : ''}>
         <div class="skill-name">${CONCEPTS[id].name}</div>
         <div class="skill-bar-wrap">
           <div class="skill-bar">
@@ -10602,6 +10644,7 @@ function renderSkillsMasteryTracker() {
         </div>
         <div class="skill-hint">${hint}</div>
         <span class="badge ${status.cls}">${status.label}</span>
+        ${drillable ? '<span style="font-size:16px;color:var(--primary);margin-left:4px;">›</span>' : ''}
       </div>`;
     });
 
@@ -10609,6 +10652,120 @@ function renderSkillsMasteryTracker() {
   });
 
   el.innerHTML = html;
+}
+
+/* ----- SCORE PREDICTION ----- */
+let _scoreTrendChart = null;
+
+function renderScorePrediction() {
+  const boxEl = document.getElementById('score-boxes');
+  if (!boxEl) return;
+
+  // Compute per-section accuracy and mastery
+  function sectionStats(prefix, total) {
+    const ids = Object.keys(CONCEPTS).filter(id => CONCEPTS[id].section === prefix);
+    let acc = 0, count = 0, mastered = 0;
+    ids.forEach(id => {
+      const c = state.concepts[id];
+      if (!c) return;
+      if (c.mastered) mastered++;
+      if (c.attempts > 0) { acc += c.correct / c.attempts; count++; }
+    });
+    const avgAcc = count > 0 ? acc / count : 0;
+    return { avgAcc, mastered, total };
+  }
+
+  const eng  = sectionStats('english', 12);
+  const math = sectionStats('math', 13);
+  const sci  = sectionStats('science', 5);
+  const read = sectionStats('reading', 5);
+
+  // Score formula: base + accuracy component + mastery component
+  function predict(s, base, accWeight, mastWeight) {
+    const score = Math.round(base + (s.avgAcc * accWeight) + (s.mastered / s.total * mastWeight));
+    return Math.min(36, Math.max(base, score));
+  }
+
+  const engScore  = predict(eng,  12, 16, 8);
+  const mathScore = predict(math, 10, 18, 8);
+  const sciScore  = sci.total > 0 && (Object.values(state.concepts).filter(c => c && CONCEPTS[Object.keys(CONCEPTS).find(k=>k.startsWith('sci'))]?.section==='science').length > 0) ? predict(sci, 10, 18, 8) : 22;
+  const readScore = predict(read, 14, 14, 8);
+  const composite = Math.round((engScore + mathScore + sciScore + readScore) / 4);
+
+  function box(label, score, color) {
+    const lo = Math.max(1, score - 2), hi = Math.min(36, score + 2);
+    return `<div style="background:var(--card);border:2px solid ${color};border-radius:10px;padding:10px;text-align:center;cursor:pointer;" onclick="toggleScoreTrend()">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:2px;">${label}</div>
+      <div style="font-size:22px;font-weight:800;color:${color};">${lo}–${hi}</div>
+      <div style="font-size:10px;color:var(--muted);">of 36</div>
+    </div>`;
+  }
+
+  boxEl.innerHTML =
+    box('Composite', composite, 'var(--text)') +
+    box('English',   engScore,  'var(--primary)') +
+    box('Math',      mathScore, '#16a34a') +
+    box('Science',   sciScore,  '#0891b2');
+}
+
+function toggleScoreTrend() {
+  const panel = document.getElementById('score-trend-panel');
+  const toggle = document.getElementById('score-trend-toggle');
+  if (!panel) return;
+  const showing = panel.style.display !== 'none';
+  panel.style.display = showing ? 'none' : 'block';
+  toggle.textContent = showing ? '📈 Show Trend ▼' : '📉 Hide Trend ▲';
+
+  if (!showing && !_scoreTrendChart) {
+    // Build daily accuracy from history, map to composite estimate
+    const byDay = {};
+    state.history.forEach(h => {
+      const ts = h.ts || h.t;
+      if (!ts) return;
+      const day = new Date(ts).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      if (!byDay[day]) byDay[day] = { total: 0, correct: 0 };
+      byDay[day].total++;
+      if (h.correct) byDay[day].correct++;
+    });
+    const days = Object.keys(byDay).slice(-20); // last 20 active days
+    const scores = days.map(d => {
+      const acc = byDay[d].correct / byDay[d].total;
+      return Math.round(14 + acc * 14); // maps 0%→14, 100%→28, rough composite
+    });
+
+    const ctx = document.getElementById('scoreTrendChart');
+    if (!ctx) return;
+    // Use Chart.js if available, else simple bars
+    if (typeof Chart !== 'undefined') {
+      _scoreTrendChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: days,
+          datasets: [{
+            label: 'Est. Composite',
+            data: scores,
+            borderColor: 'var(--primary)',
+            backgroundColor: 'rgba(37,99,235,0.08)',
+            borderWidth: 2, fill: true, tension: 0.3,
+            pointBackgroundColor: 'var(--primary)', pointRadius: 4
+          }, {
+            label: 'Target (31)',
+            data: days.map(() => 31),
+            borderColor: 'rgba(220,38,38,0.4)', borderWidth: 1,
+            borderDash: [6, 4], pointRadius: 0, fill: false
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } },
+          scales: {
+            y: { min: 10, max: 36, ticks: { stepSize: 4 }, grid: { color: '#f0f0f0' } },
+            x: { ticks: { font: { size: 10 } }, grid: { display: false } }
+          }
+        }
+      });
+    }
+  }
 }
 
 /* Save progress snapshot for the Claude daily analysis task */
