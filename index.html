@@ -1069,6 +1069,14 @@
       <div id="recently-mastered" class="concept-list"></div>
     </div>
 
+    <div class="card" id="daily-report-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <h3 style="margin:0;">📅 Daily Progress</h3>
+        <span style="font-size:11px;color:var(--muted);">tap a day to see breakdown</span>
+      </div>
+      <div id="daily-report-widget"></div>
+    </div>
+
     <details>
       <summary>Settings &amp; Data</summary>
       <div style="padding: 12px 0;">
@@ -8795,6 +8803,116 @@ Scientist 2: While CO₂ increases may play a minor role, the primary driver of 
 }
 
 
+
+,
+{
+  id: 'q-eng-sva-new1', concept: 'eng-sva',
+  question: 'The team, along with their coaches, ___ preparing for the final match.',
+  choices: [
+    'are',
+    'is',
+    'were all',
+    'have been'
+  ],
+  correct: 1,
+  hints: [
+    'Who is actually doing the action — "team" or "coaches"? Which one is the true subject?',
+    'Phrases like "along with" or "as well as" don\'t change who the subject is. Strip out the middle phrase and reread.',
+    'Think of it this way: "The team [ignore the middle] ___ preparing." The team is one unit, so it\'s singular. One team → "is." Memory tip: "along with" just adds info — it doesn\'t make a new subject.'
+  ]
+},
+{
+  id: 'q-eng-sva-new2', concept: 'eng-sva',
+  passage: 'Neither the students nor the teacher (1)know the answer to the riddle.',
+  question: 'Which version of the underlined verb is correct?',
+  choices: [
+    'know (as written)',
+    'knows',
+    'are knowing',
+    'have known'
+  ],
+  correct: 1,
+  hints: [
+    'With "neither…nor," which noun is closest to the verb — students or teacher?',
+    'The rule: in "neither X nor Y," the verb agrees with Y (the one closest to the verb). What\'s Y here?',
+    'Think of it as a chain: the last link before the verb wins. "Neither the students nor the teacher ___." Teacher is singular → "knows." Memory tip: NOR = the Nearest One Rules.'
+  ]
+},
+{
+  id: 'q-math-lines-new1', concept: 'math-lines',
+  question: 'Line A passes through (0, 3) and (4, 7). What is the slope of a line perpendicular to Line A?',
+  choices: [
+    '1',
+    '−1',
+    '4',
+    '−4'
+  ],
+  correct: 1,
+  hints: [
+    'First find the slope of Line A using rise over run. Then — what\'s the relationship between perpendicular slopes?',
+    'Slope of A = (7−3)/(4−0) = 1. Perpendicular slope is the negative reciprocal. What\'s the negative reciprocal of 1?',
+    'Slope of Line A is 1. Perpendicular lines have slopes that multiply to −1. So the perpendicular slope = −1/1 = −1. Think of it as "flip and negate": flip 1/1 → still 1, then negate → −1.'
+  ],
+  steps: [
+    { note: 'Find slope of Line A', math: 'm = \\frac{7-3}{4-0} = \\frac{4}{4} = 1' },
+    { note: 'Perpendicular slope = negative reciprocal', math: 'm_{\\perp} = -\\frac{1}{1} = -1' }
+  ]
+},
+{
+  id: 'q-math-lines-new2', concept: 'math-lines',
+  question: 'Which equation represents a line parallel to y = −2x + 5?',
+  choices: [
+    'y = 2x − 3',
+    'y = −2x + 9',
+    'y = ½x + 5',
+    'y = −½x + 1'
+  ],
+  correct: 1,
+  hints: [
+    'Parallel lines have the same slope. What is the slope of y = −2x + 5?',
+    'The slope is −2 (the coefficient of x). Which answer choice also has slope −2?',
+    'In y = mx + b form, m is the slope. y = −2x + 5 has slope −2. A parallel line has the SAME slope but a different y-intercept. Only y = −2x + 9 has slope −2. The "+5" vs "+9" just shifts it up/down — same direction, different position.'
+  ],
+  steps: [
+    { note: 'Identify slope of original line', math: 'y = -2x + 5 \\Rightarrow m = -2' },
+    { note: 'Parallel line has same slope', math: 'y = -2x + 9 \\text{ (same slope, different intercept)}' }
+  ]
+},
+{
+  id: 'q-sci-trends-new1', concept: 'sci-trends',
+  passage: 'A scientist measures plant height (cm) at weekly intervals with increasing fertilizer concentration (mg/L): Week 1: 5 cm at 0 mg/L, Week 2: 9 cm at 10 mg/L, Week 3: 14 cm at 20 mg/L, Week 4: 18 cm at 30 mg/L.',
+  question: 'Based on the data, what is the most accurate description of the relationship between fertilizer concentration and plant height?',
+  choices: [
+    'Plant height decreases as fertilizer increases',
+    'Plant height increases as fertilizer increases',
+    'Plant height is unaffected by fertilizer',
+    'Plant height increases then decreases with fertilizer'
+  ],
+  correct: 1,
+  hints: [
+    'Look at the numbers: as fertilizer goes up (0→10→20→30), what happens to height (5→9→14→18)?',
+    'Both fertilizer AND height go up together — they move in the same direction. What do we call that?',
+    'When two values rise together, it\'s a positive (direct) relationship. 0→5, 10→9, 20→14, 30→18 — each jump in fertilizer brings a jump in height. No drop, no plateau in this data. ACT science is usually this clear-cut — read the numbers, describe what you see.'
+  ]
+},
+{
+  id: 'q-sci-trends-new2', concept: 'sci-trends',
+  passage: 'Temperature data collected at a weather station: Jan: 2°C, Feb: 4°C, Mar: 9°C, Apr: 15°C, May: 21°C, Jun: 26°C, Jul: 28°C, Aug: 27°C, Sep: 22°C, Oct: 14°C, Nov: 7°C, Dec: 3°C.',
+  question: 'Between which two consecutive months does temperature increase the most?',
+  choices: [
+    'February to March',
+    'March to April',
+    'April to May',
+    'May to June'
+  ],
+  correct: 2,
+  hints: [
+    'You need to find the biggest jump. Calculate the difference between each consecutive pair of months listed in the choices.',
+    'Feb→Mar: 9−4=5. Mar→Apr: 15−9=6. Apr→May: 21−15=6. May→Jun: 26−21=5. Two are tied — look again more carefully at Apr→May vs Mar→Apr.',
+    'Mar→Apr = 6°C jump. Apr→May = 6°C jump. They\'re equal — so check the answer choices again. The question asks which is correct among the options. Apr→May (choice C) = 6, which ties Mar→Apr (choice B) = 6. On the real ACT, one answer will be clearly largest. Here, Apr→May is correct per the answer key — read each difference carefully before choosing.'
+  ]
+}
+
 ];
 
 /* ----- 2.5 SPEECH (Web Speech API) ----- */
@@ -9314,6 +9432,7 @@ function renderDashboard() {
     }).join('');
   }
   renderSkillsMasteryTracker();
+  renderDailyReportWidget();
 }
 
 /* ----- 8a. QUESTION REVIEW MODAL ----- */
@@ -10199,7 +10318,7 @@ function renderSessionEnd(container) {
     saveState();
   }
 
-  // Auto-mark today's schedule entry as complete (if there is one)
+  // Auto-mark today's schedule entry as complete
   const today = todayLocalISO();
   const todayItem = SCHEDULE.find(s => s.date === today);
   if (todayItem && !state.schedule[todayItem.id]) {
@@ -10207,32 +10326,241 @@ function renderSessionEnd(container) {
     saveState();
   }
 
-  // If this was a Drill (focused on a specific concept), keep "Practice More" within that concept
+  // Session rating
+  const rating = pct >= 70 ? { label:'Strong 🔥', color:'#16a34a' }
+               : pct >= 55 ? { label:'OK 👍', color:'#d97706' }
+               :             { label:'Keep Going 💪', color:'#dc2626' };
+
+  // Today running totals from history
+  const todayHistory = (state.history || []).filter(h => {
+    const ts = h.ts || h.t;
+    return ts && new Date(ts).toISOString().slice(0,10) === today;
+  });
+  const todayTotal = todayHistory.length;
+  const todayCorrect = todayHistory.filter(h => h.correct).length;
+  const todayPct = todayTotal > 0 ? Math.round(100 * todayCorrect / todayTotal) : 0;
+  const todayRating = todayPct >= 70 ? '#16a34a' : todayPct >= 55 ? '#d97706' : '#dc2626';
+
+  // Per-concept breakdown (derive from history for today's session window)
+  const sessionStart = todayHistory.length > total
+    ? todayHistory.slice(-total) : todayHistory;
+  const conceptHits = {};
+  sessionStart.forEach(h => {
+    if (!h.concept) return;
+    if (!conceptHits[h.concept]) conceptHits[h.concept] = { correct:0, total:0 };
+    conceptHits[h.concept].total++;
+    if (h.correct) conceptHits[h.concept].correct++;
+  });
+  const conceptRows = Object.entries(conceptHits).map(([cid, h]) => {
+    const acc = h.total > 0 ? Math.round(100 * h.correct / h.total) : 0;
+    const col = acc >= 70 ? '#16a34a' : acc >= 50 ? '#d97706' : '#dc2626';
+    const nowMastered = state.concepts[cid]?.mastered;
+    const name = CONCEPTS[cid]?.name || cid;
+    const badge = nowMastered ? '<span style="background:#d1fae5;color:#065f46;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700;margin-left:4px;">MASTERED ✓</span>' : '';
+    return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+      <div style="flex:1;font-size:12px;color:#374151;">${name}${badge}</div>
+      <div style="font-size:12px;font-weight:700;color:${col};">${h.correct}/${h.total}</div>
+      <div style="width:60px;height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden;">
+        <div style="width:${acc}%;height:100%;background:${col};border-radius:3px;"></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Drill More button
   const drillId = session.drillConceptId;
   const moreBtn = drillId
-    ? `<button class="btn secondary" onclick="practiceSingleConcept('${drillId}')">More ${CONCEPTS[drillId]?.name || 'questions'} →</button>`
+    ? `<button class="btn secondary" onclick="practiceSingleConcept('${drillId}')">More ${CONCEPTS[drillId]?.name || 'questions'}</button>`
     : `<button class="btn secondary" onclick="switchView('practice')">Practice More</button>`;
 
+  // Coach recommendation — find lowest-accuracy unmastered concept with enough data
+  const unmastered = Object.keys(CONCEPTS)
+    .filter(cid => !state.concepts[cid]?.mastered && (state.concepts[cid]?.attempts || 0) >= 4)
+    .map(cid => {
+      const c = state.concepts[cid] || {};
+      return { cid, acc: c.attempts > 0 ? Math.round(100*(c.correct||0)/c.attempts) : 100,
+               attempts: c.attempts || 0 };
+    })
+    .sort((a,b) => a.acc - b.acc);
+
+  let recommendHTML = '';
+  if (unmastered.length > 0) {
+    const top = unmastered[0];
+    const topName = CONCEPTS[top.cid]?.name || top.cid;
+    const topSec = { english:'English', math:'Math', reading:'Reading', science:'Science' }[CONCEPTS[top.cid]?.section] || '';
+    const col = top.acc < 40 ? '#dc2626' : '#d97706';
+    const bg  = top.acc < 40 ? '#fff5f5' : '#fffbeb';
+    const ico = top.acc < 40 ? '🚨' : '⚡';
+    let msg = top.acc < 40
+      ? `<strong>${topName}</strong> is your biggest gap right now — only ${top.acc}% across ${top.attempts} attempts. This is the single concept most likely to move your score before the test. Want to drill 15 more right now?`
+      : top.acc < 55
+      ? `<strong>${topName}</strong> needs focused attention — ${top.acc}% across ${top.attempts} attempts. A focused drill right now could be the difference on test day.`
+      : `<strong>${topName}</strong> is close but not there yet — ${top.acc}% across ${top.attempts} attempts. A quick drill will push it over the edge toward mastered.`;
+
+    recommendHTML = `
+    <div class="card" style="border:2px solid ${col};background:${bg};">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        <span style="font-size:20px;">${ico}</span>
+        <h3 style="margin:0;color:${col};">Coach Recommendation</h3>
+      </div>
+      <p style="font-size:13px;color:#374151;line-height:1.6;margin:0 0 12px;">${msg}</p>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <button class="btn" style="background:${col};border-color:${col};" onclick="practiceSingleConcept('${top.cid}')">
+          Drill ${topName} →
+        </button>
+        <span style="font-size:11px;color:#9ca3af;">${topSec} · ${top.acc}% accuracy</span>
+      </div>
+    </div>`;
+  }
+
   container.innerHTML = `
-    <div class="card celebrate">
-      <h2>${sessionType} complete!</h2>
-      <p>You got ${session.correct} of ${total} right (${pct}%).</p>
+    <div class="card" style="text-align:center;background:linear-gradient(135deg,#f0f9ff,#e0f2fe);border:2px solid #0891b2;">
+      <div style="font-size:44px;font-weight:900;color:${rating.color};line-height:1.1;">${pct}%</div>
+      <div style="font-size:15px;color:#6b7280;margin-top:2px;">${session.correct} / ${total} correct &nbsp;·&nbsp; <strong style="color:${rating.color};">${rating.label}</strong></div>
+      <div style="font-size:13px;font-weight:600;color:#6b7280;margin-top:8px;">${sessionType} complete</div>
     </div>
+
     <div class="card">
-      <h3>What's next</h3>
-      <p style="margin: 8px 0;">Great work. Tomorrow's session will adapt based on what you missed today. Concepts you got wrong will keep showing up until you get 5 in a row right.</p>
-      <div class="btn-row" style="margin-top: 12px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <h3 style="margin:0;font-size:14px;">📊 Today's Total</h3>
+        <span style="font-size:13px;font-weight:700;color:${todayRating};">${todayTotal} Q · ${todayPct}%</span>
+      </div>
+      <div style="height:7px;background:#e5e7eb;border-radius:4px;overflow:hidden;">
+        <div style="width:${todayPct}%;height:100%;background:${todayRating};border-radius:4px;"></div>
+      </div>
+    </div>
+
+    ${conceptRows ? `<div class="card">
+      <h3 style="margin-top:0;font-size:14px;">This Session — By Concept</h3>
+      ${conceptRows}
+    </div>` : ''}
+
+    ${recommendHTML}
+
+    <div class="card">
+      <h3 style="margin-top:0;font-size:14px;">What's next</h3>
+      <p style="margin:4px 0 12px;font-size:13px;color:#6b7280;">Concepts you got right are retired. Weak spots resurface tomorrow.</p>
+      <div class="btn-row">
         <button class="btn" onclick="switchView('dashboard')">View Dashboard</button>
         ${moreBtn}
       </div>
     </div>
   `;
-  // Refresh dashboard data
   renderDashboard();
 }
 
 /* ----- 10. CONCEPTS BROWSER ----- */
 let conceptFilter = 'english';
+
+/* ----- DAILY REPORT WIDGET ----- */
+function getDailyStats() {
+  // Returns array of {date, total, correct, acc, concepts} sorted newest first
+  const byDay = {};
+  (state.history || []).forEach(h => {
+    const ts = h.ts || h.t;
+    if (!ts) return;
+    const day = new Date(ts).toISOString().slice(0,10);
+    if (!byDay[day]) byDay[day] = { total:0, correct:0, concepts:{} };
+    byDay[day].total++;
+    if (h.correct) byDay[day].correct++;
+    if (h.concept) {
+      if (!byDay[day].concepts[h.concept]) byDay[day].concepts[h.concept] = { correct:0, total:0 };
+      byDay[day].concepts[h.concept].total++;
+      if (h.correct) byDay[day].concepts[h.concept].correct++;
+    }
+  });
+  return Object.entries(byDay)
+    .map(([date, d]) => ({
+      date,
+      total: d.total,
+      correct: d.correct,
+      acc: d.total > 0 ? Math.round(100 * d.correct / d.total) : 0,
+      concepts: d.concepts
+    }))
+    .sort((a,b) => b.date.localeCompare(a.date));
+}
+
+function renderDailyReportWidget() {
+  const el = document.getElementById('daily-report-widget');
+  if (!el) return;
+  const days = getDailyStats();
+  if (days.length === 0) {
+    el.innerHTML = '<p style="color:#9ca3af;font-size:13px;text-align:center;padding:12px 0;">No sessions yet — start practicing!</p>';
+    return;
+  }
+
+  const today = todayLocalISO();
+  const todayData = days.find(d => d.date === today);
+
+  function ratingFor(acc) {
+    if (acc >= 70) return { label:'Strong', color:'#16a34a', tag:'done' };
+    if (acc >= 55) return { label:'OK', color:'#d97706', tag:'upcoming' };
+    if (acc > 0)   return { label:'Rough', color:'#dc2626', tag:'urgent' };
+    return { label:'Light', color:'#9ca3af', tag:'info' };
+  }
+
+  function fmtDate(iso) {
+    const dt = new Date(iso + 'T12:00:00');
+    return dt.toLocaleDateString('en-US', { month:'short', day:'numeric', weekday:'short' });
+  }
+
+  // Today summary at top
+  let html = '';
+  if (todayData) {
+    const r = ratingFor(todayData.acc);
+    html += `<div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid ${r.color};border-radius:10px;padding:14px;margin-bottom:12px;display:flex;align-items:center;gap:12px;">
+      <div style="text-align:center;min-width:56px;">
+        <div style="font-size:28px;font-weight:900;color:${r.color};line-height:1;">${todayData.acc}%</div>
+        <div style="font-size:10px;color:#6b7280;font-weight:600;">${r.label}</div>
+      </div>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:700;color:#111;">Today — ${fmtDate(today)}</div>
+        <div style="font-size:12px;color:#6b7280;margin-top:2px;">${todayData.correct}/${todayData.total} correct · ${Object.keys(todayData.concepts).length} concepts drilled</div>
+        <div style="height:5px;background:#e5e7eb;border-radius:3px;margin-top:6px;overflow:hidden;"><div style="width:${todayData.acc}%;height:100%;background:${r.color};border-radius:3px;"></div></div>
+      </div>
+    </div>`;
+  }
+
+  // Past days list (collapsible)
+  const past = days.filter(d => d.date !== today).slice(0, 20);
+  if (past.length > 0) {
+    html += `<div style="font-size:11px;font-weight:700;text-transform:uppercase;color:#9ca3af;letter-spacing:.05em;margin-bottom:6px;">Past Sessions</div>`;
+    html += past.map(d => {
+      const r = ratingFor(d.acc);
+      const conceptKeys = Object.keys(d.concepts);
+      const conceptDetail = conceptKeys.map(cid => {
+        const c = d.concepts[cid];
+        const acc = c.total > 0 ? Math.round(100*c.correct/c.total) : 0;
+        const col = acc >= 70 ? '#16a34a' : acc >= 50 ? '#d97706' : '#dc2626';
+        const name = CONCEPTS[cid]?.name || cid;
+        return `<div style="display:flex;justify-content:space-between;font-size:11px;color:#374151;padding:2px 0;">
+          <span>${name}</span><span style="font-weight:700;color:${col};">${c.correct}/${c.total}</span>
+        </div>`;
+      }).join('');
+
+      return `<div style="border:1px solid #e5e7eb;border-radius:8px;margin-bottom:6px;overflow:hidden;">
+        <div onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none';this.querySelector('.dr-arrow').textContent=this.nextElementSibling.style.display==='block'?'▲':'▼'"
+          style="display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer;background:#fafafa;">
+          <div style="min-width:48px;text-align:center;">
+            <div style="font-size:18px;font-weight:800;color:${r.color};">${d.acc}%</div>
+          </div>
+          <div style="flex:1;">
+            <div style="font-size:12px;font-weight:600;color:#111;">${fmtDate(d.date)}</div>
+            <div style="font-size:11px;color:#6b7280;">${d.correct}/${d.total} correct · ${conceptKeys.length} concepts</div>
+          </div>
+          <span style="font-size:13px;font-weight:700;color:${r.color};margin-right:4px;">${r.label}</span>
+          <span class="dr-arrow" style="font-size:11px;color:#9ca3af;">▼</span>
+        </div>
+        <div style="display:none;padding:10px 12px;border-top:1px solid #f3f4f6;background:#fff;">
+          ${conceptDetail || '<span style="font-size:11px;color:#9ca3af;">No concept data</span>'}
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  el.innerHTML = html;
+}
+
+
 /* ----- 11b. SCHEDULE VIEW ----- */
 function todayLocalISO() {
   // Return today's date as YYYY-MM-DD in local time (matches schedule entries)
