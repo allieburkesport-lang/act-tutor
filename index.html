@@ -11281,7 +11281,7 @@ function toggleScoreTrend() {
     });
     const days = Object.keys(byDay).slice(-20); // last 20 active days
     const accPcts = days.map(d => Math.round(100 * byDay[d].correct / byDay[d].total));
-    const scores  = accPcts.map(acc => Math.round(15 + (acc / 100) * 10)); // 50%→20, 60%→21, 70%→22, 80%→23
+    const scores  = accPcts.map(acc => Math.round((acc / 100) * 36)); // 70%→25, 80%→29, 60%→22 — direct % of 36
 
     const ctx = document.getElementById('scoreTrendChart');
     if (!ctx) return;
@@ -11359,5 +11359,18 @@ function exportForClaude() {
       masteryPct: pct,
     };
   });
+  // Build download
+  const blob = new Blob([JSON.stringify(snap, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'patrick-act-progress-' + new Date().toISOString().slice(0,10) + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
 
-  
+</script>
+</body>
+</html>
