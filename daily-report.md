@@ -1,47 +1,52 @@
-# ACT Daily Report — June 6, 2026
-**7 days to ACT (June 13) · 35 days to July 11 retake**
+# ACT Daily Report — June 6, 2026 (Evening Update)
+**7 days to ACT June 13 · 35 days to July 11 retake**
 
 ---
 
-## Today's Session
-- **30 questions · 70% accuracy (21/30 correct)** — his best accuracy in weeks
-- Strong day, well above the 61% overall average
-- Completes Week 5 / full practice test window
+## Today's Session — Final Numbers
+- **60 questions · 72% accuracy (43/60 correct)** — his best session this cycle
+- Strong all day: morning session 70%, evening session pushed it to 72% combined
+- **🆕 sci-conflict MASTERED** — Conflicting Viewpoints at 100%, 5/5 streak
 
 ## Cumulative Stats
 | Metric | Value |
 |---|---|
-| Total questions answered | 512 |
+| Total questions | 542 |
 | Overall accuracy | 61% |
-| Concepts mastered | 13 / 35 (37%) |
+| Concepts mastered | **14 / 35 (40%)** |
 | English mastered | 5 / 12 |
 | Math mastered | 5 / 13 |
 | Reading mastered | 3 / 5 |
-| Science mastered | 0 / 5 |
+| Science mastered | **1 / 5** ← new |
 
-## Almost Mastered — Close to Breakthrough
-- **Quadratics & Factoring** — 80% · 4/5 streak 🔥 (one more correct = mastered)
-- Apostrophes — 50% · 3/5 streak
-- Science Conflicting Viewpoints — 100% · 3/5 streak (only 3 attempts)
+## Almost Mastered — Tomorrow's Targets
+| Concept | Accuracy | Streak |
+|---|---|---|
+| Quadratics & Factoring | 80% | 4/5 🔥 ONE MORE |
+| Main Idea & Author Purpose | 73% | 3/5 |
+| Science Conflicting Viewpoints | ✅ JUST MASTERED | — |
+| Science Data Synthesis | 100% | 3/5 (only 3 attempts) |
 
-## Biggest Weak Spots
+## Top Weak Spots (needs work before June 13)
 | Concept | Accuracy | Attempts |
 |---|---|---|
 | Subject-Verb Agreement | 20% | 10 |
-| Lines & Slope | 28% | 18 |
-| Science Trends | 40% | 5 |
-| Triangles & Pythagorean | 48% | 27 |
+| Lines & Slope | 30% | 20 |
+| Triangles & Pythagorean | 48% | 29 |
 | Fragments & Run-ons | 50% | 18 |
+| Science Trends | 50% | 6 |
 
 ## New Questions Added Tonight
-6 new questions across the 3 weakest concepts:
-- **Subject-Verb Agreement** (2) — "along with" distractor trap, neither/nor rule
-- **Lines & Slope** (2) — perpendicular slopes, identifying parallel lines
-- **Science Trends** (2) — reading positive relationships from a table, finding largest change
+- **Subject-Verb Agreement** (2) — reinforcing "along with" trap + neither/nor rule
+- **Lines & Slope** (2) — perpendicular/parallel identification
+- **Science Trends** (2) — reading data tables accurately
+- **Quadratics & Factoring** (2) — push him over the 5/5 streak finish line
 
 ## Recommendation for Allie
-**Subject-Verb Agreement is the single most important thing to address before June 13.** At 20% with 10 attempts, Patrick isn't getting unlucky — he's missing the core rule. The tutor should spend 10 focused minutes on: (1) cross out prepositional phrases to find the true subject, (2) "along with / as well as" don't create a new subject, (3) with neither/nor, the verb agrees with the CLOSEST noun. This alone could be worth 2–3 raw points.
+Two things to flag for the tutor meeting:
 
-Lines & Slope (28%, 18 attempts) is the same situation in Math — foundational and heavily tested. Perpendicular/parallel slope rules + slope formula before test day.
+1. **Quadratics is ONE question away from mastered** — if the tutor opens with a quick Quadratics drill, Patrick could mark that off before test week starts. It's at 4/5 streak.
 
-Good news: today's 70% is a positive signal. If he can hold that accuracy under timed conditions, he's trending in the right direction.
+2. **Subject-Verb Agreement (20%) is the biggest risk to the English score.** 10 attempts and still at 20% means the rule isn't sticking. The tutor should explicitly teach the two traps he's hitting: (a) "along with/as well as" doesn't change the subject, (b) neither/nor verb agrees with the NEAREST noun. These are reliably tested on ACT English.
+
+Today was a genuinely strong day — 72% across 60 questions with a new Science mastery. He's trending up heading into test week.
