@@ -1122,6 +1122,23 @@
   </section>
 </main>
 
+<!-- ═══ QUESTION REVIEW MODAL ═══ -->
+<div id="review-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.55);overflow-y:auto;" onclick="if(event.target===this)closeReviewModal()">
+  <div style="background:#fff;max-width:640px;margin:24px auto;border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+    <!-- Header -->
+    <div id="review-modal-header" style="padding:18px 20px 14px;border-bottom:1px solid #e5e7eb;display:flex;justify-content:space-between;align-items:flex-start;">
+      <div>
+        <div id="review-modal-section" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;"></div>
+        <div id="review-modal-title" style="font-size:18px;font-weight:800;color:#111;"></div>
+        <div id="review-modal-sub" style="font-size:12px;color:#6b7280;margin-top:2px;"></div>
+      </div>
+      <button onclick="closeReviewModal()" style="background:none;border:none;font-size:22px;color:#9ca3af;cursor:pointer;line-height:1;padding:0 0 0 12px;">✕</button>
+    </div>
+    <!-- Body -->
+    <div id="review-modal-body" style="padding:20px;"></div>
+  </div>
+</div>
+
 <!-- Sign-in modal (cloud sync) -->
 <div id="auth-modal" class="modal-backdrop">
   <div class="modal">
@@ -9299,6 +9316,82 @@ function renderDashboard() {
   renderSkillsMasteryTracker();
 }
 
+/* ----- 8a. QUESTION REVIEW MODAL ----- */
+function reviewMasteredConcept(conceptId) {
+  const concept = CONCEPTS[conceptId];
+  if (!concept) return;
+
+  const sectionColors = { english: '#2563eb', math: '#16a34a', reading: '#ea580c', science: '#0891b2' };
+  const sectionNames  = { english: 'English', math: 'Math', reading: 'Reading', science: 'Science' };
+  const color = sectionColors[concept.section] || '#6b7280';
+  const secName = sectionNames[concept.section] || concept.section;
+
+  // All questions for this concept
+  const allQs = (QUESTIONS || []).filter(q => q.concept === conceptId);
+
+  // Which ones did he answer correctly at some point?
+  const correctQIds = new Set(
+    (state.history || []).filter(h => h.concept === conceptId && h.correct).map(h => h.qId)
+  );
+
+  const letters = ['A', 'B', 'C', 'D', 'E'];
+  const days = getMasteryDays(conceptId);
+  const stats = state.concepts[conceptId] || {};
+
+  // Header
+  document.getElementById('review-modal-section').textContent = secName;
+  document.getElementById('review-modal-section').style.color = color;
+  document.getElementById('review-modal-title').textContent = concept.name;
+  document.getElementById('review-modal-sub').textContent =
+    `Mastered ${days}d ago · ${stats.correct || 0}/${stats.attempts || 0} correct · ${allQs.length} question${allQs.length !== 1 ? 's' : ''} in this concept`;
+
+  // Body — show all questions; highlight correct answer; mark which ones he answered correctly
+  if (allQs.length === 0) {
+    document.getElementById('review-modal-body').innerHTML =
+      '<p style="color:#6b7280;text-align:center;padding:20px 0;">No questions available yet.</p>';
+  } else {
+    document.getElementById('review-modal-body').innerHTML = allQs.map((q, qi) => {
+      const heGotIt = correctQIds.has(q.id);
+      const passageHtml = q.passage
+        ? `<div style="font-size:13px;color:#374151;background:#f9fafb;border-left:3px solid #d1d5db;padding:10px 12px;margin-bottom:10px;border-radius:6px;font-style:italic;line-height:1.5;">${q.passage}</div>`
+        : '';
+      const choicesHtml = (q.choices || []).map((ch, ci) => {
+        const isCorrect = ci === q.correct;
+        const bg    = isCorrect ? '#d1fae5' : '#f9fafb';
+        const border = isCorrect ? '2px solid #16a34a' : '1px solid #e5e7eb';
+        const txtColor = isCorrect ? '#065f46' : '#374151';
+        const fw    = isCorrect ? '600' : '400';
+        return `<div style="background:${bg};border:${border};border-radius:8px;padding:8px 12px;margin-bottom:5px;font-size:13px;display:flex;gap:10px;align-items:flex-start;color:${txtColor};font-weight:${fw};">
+          <span style="font-weight:700;min-width:18px;">${letters[ci]}.</span>
+          <span style="flex:1;line-height:1.4;">${ch}</span>
+          ${isCorrect ? '<span>✓</span>' : ''}
+        </div>`;
+      }).join('');
+      const answeredBadge = heGotIt
+        ? '<span style="font-size:11px;background:#d1fae5;color:#065f46;border-radius:12px;padding:2px 8px;font-weight:600;">✓ He answered this correctly</span>'
+        : '<span style="font-size:11px;background:#f3f4f6;color:#6b7280;border-radius:12px;padding:2px 8px;">Not yet answered correctly</span>';
+      const divider = qi < allQs.length - 1 ? 'border-bottom:1px solid #f3f4f6;margin-bottom:20px;padding-bottom:20px;' : '';
+      return `<div style="${divider}">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span style="font-size:12px;font-weight:700;color:#9ca3af;">Q${qi + 1}</span>
+          ${answeredBadge}
+        </div>
+        ${passageHtml}
+        <div style="font-size:14px;font-weight:600;color:#111;margin-bottom:10px;line-height:1.5;">${q.question}</div>
+        ${choicesHtml}
+      </div>`;
+    }).join('');
+  }
+
+  document.getElementById('review-modal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeReviewModal() {
+  document.getElementById('review-modal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
 /* ----- 8b. MASTERED QUESTIONS EXPAND ----- */
 function toggleMasteredQuestions(conceptId, rowEl) {
   const panel = document.getElementById('mqp-' + conceptId);
@@ -10264,13 +10357,17 @@ function renderConcepts() {
           const status = getConceptStatus(id);
           const days = status.cls === 'mastered' ? getMasteryDays(id) : null;
           const satTag = satPriority(id) === 'high' ? '<span class="badge sat-focus" title="SAT diagnostic flagged this area">SAT focus</span>' : '';
+          const reviewBtn = status.cls === 'mastered'
+            ? `<button class="small-btn" onclick="reviewMasteredConcept('${id}')" style="background:#f0fdf4;color:#16a34a;border:1.5px solid #16a34a;font-weight:700;">📋 Review</button>`
+            : '';
           return `
             <div class="concept-item">
               <div style="flex: 1;">
                 <div class="concept-name">${CONCEPTS[id].name}${satTag}</div>
-                <div class="concept-stats">${stats.correct}/${stats.attempts} correct${days !== null ? ` · mastered ${days}d` : ''}</div>
+                <div class="concept-stats">${stats.correct}/${stats.attempts} correct${days !== null ? ` · held ${days}d` : ''}</div>
               </div>
               <span class="badge ${status.cls}">${status.label}</span>
+              ${reviewBtn}
               <button class="small-btn primary" onclick="practiceSingleConcept('${id}')">Drill</button>
             </div>`;
         }).join('')}
