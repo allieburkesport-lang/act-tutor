@@ -8912,7 +8912,61 @@ Scientist 2: While CO₂ increases may play a minor role, the primary driver of 
     'Mar→Apr = 6°C jump. Apr→May = 6°C jump. They\'re equal — so check the answer choices again. The question asks which is correct among the options. Apr→May (choice C) = 6, which ties Mar→Apr (choice B) = 6. On the real ACT, one answer will be clearly largest. Here, Apr→May is correct per the answer key — read each difference carefully before choosing.'
   ]
 }
-
+,
+{
+  id: 'q-math-quadratic-new1', concept: 'math-quadratic',
+  question: 'Which of the following is a factor of x\u00b2 \u2212 5x + 6?',
+  choices: ['(x + 2)', '(x \u2212 2)', '(x + 3)', '(x \u2212 6)'],
+  correct: 1,
+  hints: [
+    'Find two numbers that multiply to 6 AND add to \u22125. What pairs multiply to 6?',
+    'Pairs: (1,6), (2,3), (\u22121,\u22126), (\u22122,\u22123). Which pair adds to \u22125?',
+    '\u22122 \u00d7 \u22123 = 6 and \u22122 + (\u22123) = \u22125. So x\u00b2 \u2212 5x + 6 = (x\u22122)(x\u22123). The factors are (x\u22122) and (x\u22123).'
+  ],
+  steps: [
+    { note: 'Product = 6, sum = \u22125', math: '-2 \\times -3 = 6,\\; -2+(-3)=-5' },
+    { note: 'Factored form', math: 'x^2-5x+6=(x-2)(x-3)' }
+  ]
+},
+{
+  id: 'q-eng-sva-new3', concept: 'eng-sva',
+  question: 'Each of the students in the three classes ___ required to submit a portfolio.',
+  choices: ['are', 'is', 'were', 'have been'],
+  correct: 1,
+  hints: [
+    'Cross out the prepositional phrases and read what remains. What is the actual subject?',
+    '"Each ___ required." Each is always singular — think "each one."',
+    '"Each" always takes a singular verb. No matter how many students follow, "Each is required." Memory trick: EACH = one at a time.'
+  ]
+},
+{
+  id: 'q-math-lines-new3', concept: 'math-lines',
+  question: 'A line passes through (1, 4) and (3, 10). What is the equation of this line?',
+  choices: ['y = 3x + 1', 'y = 3x \u2212 1', 'y = 2x + 2', 'y = 6x \u2212 2'],
+  correct: 0,
+  hints: [
+    'First find the slope using the two points, then find the y-intercept.',
+    'Slope = (10\u22124)/(3\u22121) = 6/2 = 3. Now plug into y = mx + b using point (1, 4).',
+    '4 = 3(1) + b \u2192 b = 1. Equation: y = 3x + 1. Check with (3,10): 3(3)+1 = 10 \u2713'
+  ],
+  steps: [
+    { note: 'Find slope', math: 'm=\\frac{10-4}{3-1}=3' },
+    { note: 'Solve for b', math: '4=3(1)+b \\Rightarrow b=1' },
+    { note: 'Equation', math: 'y=3x+1' }
+  ]
+},
+{
+  id: 'q-sci-trends-new3', concept: 'sci-trends',
+  passage: 'Table 1: Enzyme activity vs temperature. 20\u00b0C: 12, 30\u00b0C: 28, 40\u00b0C: 45, 50\u00b0C: 31, 60\u00b0C: 8 (units).',
+  question: 'At which temperature range does enzyme activity increase the most?',
+  choices: ['20\u00b0C to 30\u00b0C', '30\u00b0C to 40\u00b0C', '40\u00b0C to 50\u00b0C', '50\u00b0C to 60\u00b0C'],
+  correct: 1,
+  hints: [
+    'Calculate the change in activity for each consecutive range listed.',
+    '20\u219230: 28\u221212=16. 30\u219240: 45\u221228=17. 40\u219250: 31\u221245=\u221214. Which is the largest increase?',
+    '30\u00b0C to 40\u00b0C = +17 units, the biggest increase. After 40\u00b0C it drops. No biology needed \u2014 just find the largest positive difference in the table.'
+  ]
+}
 ];
 
 /* ----- 2.5 SPEECH (Web Speech API) ----- */
@@ -10351,20 +10405,45 @@ function renderSessionEnd(container) {
     conceptHits[h.concept].total++;
     if (h.correct) conceptHits[h.concept].correct++;
   });
-  const conceptRows = Object.entries(conceptHits).map(([cid, h]) => {
-    const acc = h.total > 0 ? Math.round(100 * h.correct / h.total) : 0;
-    const col = acc >= 70 ? '#16a34a' : acc >= 50 ? '#d97706' : '#dc2626';
-    const nowMastered = state.concepts[cid]?.mastered;
-    const name = CONCEPTS[cid]?.name || cid;
-    const badge = nowMastered ? '<span style="background:#d1fae5;color:#065f46;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700;margin-left:4px;">MASTERED ✓</span>' : '';
-    return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
-      <div style="flex:1;font-size:12px;color:#374151;">${name}${badge}</div>
-      <div style="font-size:12px;font-weight:700;color:${col};">${h.correct}/${h.total}</div>
-      <div style="width:60px;height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden;">
-        <div style="width:${acc}%;height:100%;background:${col};border-radius:3px;"></div>
-      </div>
+  // Group concept hits by section for organized display
+  const secOrder = ['english','math','reading','science'];
+  const secMeta = { english:{name:'English',color:'#2563eb'}, math:{name:'Math',color:'#16a34a'},
+                    reading:{name:'Reading',color:'#ea580c'}, science:{name:'Science',color:'#0891b2'} };
+  const bySection = {};
+  Object.entries(conceptHits).forEach(([cid, h]) => {
+    const sec = CONCEPTS[cid]?.section || 'other';
+    if (!bySection[sec]) bySection[sec] = [];
+    bySection[sec].push({ cid, h });
+  });
+
+  let conceptRows = '';
+  secOrder.forEach(sec => {
+    if (!bySection[sec] || bySection[sec].length === 0) return;
+    const sm = secMeta[sec];
+    // Section header with overall section accuracy
+    const secTotal = bySection[sec].reduce((s,x)=>s+x.h.total,0);
+    const secCorrect = bySection[sec].reduce((s,x)=>s+x.h.correct,0);
+    const secAcc = secTotal > 0 ? Math.round(100*secCorrect/secTotal) : 0;
+    const secCol = secAcc>=70?'#16a34a':secAcc>=55?'#d97706':'#dc2626';
+    conceptRows += `<div style="display:flex;justify-content:space-between;align-items:center;margin:10px 0 4px;">
+      <span style="font-size:11px;font-weight:800;text-transform:uppercase;color:${sm.color};letter-spacing:.05em;">${sm.name}</span>
+      <span style="font-size:11px;font-weight:700;color:${secCol};">${secCorrect}/${secTotal} · ${secAcc}%</span>
     </div>`;
-  }).join('');
+    bySection[sec].forEach(({cid, h}) => {
+      const acc = h.total > 0 ? Math.round(100*h.correct/h.total) : 0;
+      const col = acc>=70?'#16a34a':acc>=50?'#d97706':'#dc2626';
+      const name = CONCEPTS[cid]?.name || cid;
+      const badge = state.concepts[cid]?.mastered
+        ? '<span style="background:#d1fae5;color:#065f46;border-radius:8px;padding:1px 6px;font-size:10px;font-weight:700;margin-left:4px;">MASTERED ✓</span>' : '';
+      conceptRows += `<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;padding-left:8px;">
+        <div style="flex:1;font-size:12px;color:#374151;">${name}${badge}</div>
+        <div style="font-size:12px;font-weight:700;color:${col};">${h.correct}/${h.total}</div>
+        <div style="width:50px;height:5px;background:#e5e7eb;border-radius:3px;overflow:hidden;">
+          <div style="width:${acc}%;height:100%;background:${col};border-radius:3px;"></div>
+        </div>
+      </div>`;
+    });
+  });
 
   // Drill More button
   const drillId = session.drillConceptId;
