@@ -10531,13 +10531,76 @@ function renderSessionEnd(container) {
 let conceptFilter = 'english';
 
 /* ----- DAILY REPORT WIDGET ----- */
+
+// Split history entries into sessions — a gap > gapMs means a new session started.
+function splitHistoryIntoSessions(items, gapMs) {
+  gapMs = gapMs || 30 * 60 * 1000; // 30 min
+  const sorted = [...items].sort((a, b) => (a.ts||a.t||0) - (b.ts||b.t||0));
+  const sessions = [];
+  let cur = null;
+  sorted.forEach(h => {
+    const ts = h.ts || h.t;
+    if (!ts) return;
+    if (!cur || (ts - cur.lastTs) > gapMs) {
+      cur = { entries: [], lastTs: ts, startTs: ts };
+      sessions.push(cur);
+    }
+    cur.entries.push(h);
+    cur.lastTs = ts;
+  });
+  return sessions;
+}
+
+function sessionEntriesToStats(entries, date) {
+  const concepts = {};
+  let total = 0, correct = 0;
+  entries.forEach(h => {
+    total++;
+    if (h.correct) correct++;
+    if (h.concept) {
+      if (!concepts[h.concept]) concepts[h.concept] = { correct:0, total:0 };
+      concepts[h.concept].total++;
+      if (h.correct) concepts[h.concept].correct++;
+    }
+  });
+  return { date, total, correct, acc: total > 0 ? Math.round(100*correct/total) : 0, concepts };
+}
+
+function getDailySessionsList() {
+  // Returns array of per-session stats sorted newest first.
+  // Each entry: { date, total, correct, acc, concepts, startTs, sessionNum, totalSessionsForDay }
+  const history = state.history || [];
+  const byDay = {};
+  history.forEach(h => {
+    const ts = h.ts || h.t;
+    if (!ts) return;
+    const dt = new Date(ts);
+    const day = `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
+    if (!byDay[day]) byDay[day] = [];
+    byDay[day].push(h);
+  });
+  const all = [];
+  Object.entries(byDay).forEach(([date, items]) => {
+    const daySessions = splitHistoryIntoSessions(items);
+    daySessions.forEach((s, i) => {
+      const stats = sessionEntriesToStats(s.entries, date);
+      stats.startTs = s.startTs;
+      stats.sessionNum = i + 1;
+      stats.totalSessionsForDay = daySessions.length;
+      all.push(stats);
+    });
+  });
+  return all.sort((a, b) => (b.startTs||0) - (a.startTs||0));
+}
+
+// Keep getDailyStats() for any callers that use the per-day aggregate.
 function getDailyStats() {
-  // Returns array of {date, total, correct, acc, concepts} sorted newest first
   const byDay = {};
   (state.history || []).forEach(h => {
     const ts = h.ts || h.t;
     if (!ts) return;
-    const day = new Date(ts).toISOString().slice(0,10);
+    const dt = new Date(ts);
+    const day = `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
     if (!byDay[day]) byDay[day] = { total:0, correct:0, concepts:{} };
     byDay[day].total++;
     if (h.correct) byDay[day].correct++;
@@ -10548,33 +10611,26 @@ function getDailyStats() {
     }
   });
   return Object.entries(byDay)
-    .map(([date, d]) => ({
-      date,
-      total: d.total,
-      correct: d.correct,
-      acc: d.total > 0 ? Math.round(100 * d.correct / d.total) : 0,
-      concepts: d.concepts
-    }))
+    .map(([date, d]) => ({ date, total:d.total, correct:d.correct, acc: d.total>0 ? Math.round(100*d.correct/d.total):0, concepts:d.concepts }))
     .sort((a,b) => b.date.localeCompare(a.date));
 }
 
 function renderDailyReportWidget() {
   const el = document.getElementById('daily-report-widget');
   if (!el) return;
-  const days = getDailyStats();
-  if (days.length === 0) {
+  const sessions = getDailySessionsList();
+  if (sessions.length === 0) {
     el.innerHTML = '<p style="color:#9ca3af;font-size:13px;text-align:center;padding:12px 0;">No sessions yet — start practicing!</p>';
     return;
   }
 
   const today = todayLocalISO();
-  const todayData = days.find(d => d.date === today);
 
   function ratingFor(acc) {
-    if (acc >= 70) return { label:'Strong', color:'#16a34a', tag:'done' };
-    if (acc >= 55) return { label:'OK', color:'#d97706', tag:'upcoming' };
-    if (acc > 0)   return { label:'Rough', color:'#dc2626', tag:'urgent' };
-    return { label:'Light', color:'#9ca3af', tag:'info' };
+    if (acc >= 70) return { label:'Strong', color:'#16a34a' };
+    if (acc >= 55) return { label:'OK', color:'#d97706' };
+    if (acc > 0)   return { label:'Rough', color:'#dc2626' };
+    return { label:'Light', color:'#9ca3af' };
   }
 
   function fmtDate(iso) {
@@ -10582,61 +10638,111 @@ function renderDailyReportWidget() {
     return dt.toLocaleDateString('en-US', { month:'short', day:'numeric', weekday:'short' });
   }
 
-  // Today summary at top
-  let html = '';
-  if (todayData) {
-    const r = ratingFor(todayData.acc);
-    html += `<div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid ${r.color};border-radius:10px;padding:14px;margin-bottom:12px;display:flex;align-items:center;gap:12px;">
-      <div style="text-align:center;min-width:56px;">
-        <div style="font-size:28px;font-weight:900;color:${r.color};line-height:1;">${todayData.acc}%</div>
-        <div style="font-size:10px;color:#6b7280;font-weight:600;">${r.label}</div>
-      </div>
-      <div style="flex:1;">
-        <div style="font-size:13px;font-weight:700;color:#111;">Today — ${fmtDate(today)}</div>
-        <div style="font-size:12px;color:#6b7280;margin-top:2px;">${todayData.correct}/${todayData.total} correct · ${Object.keys(todayData.concepts).length} concepts drilled</div>
-        <div style="height:5px;background:#e5e7eb;border-radius:3px;margin-top:6px;overflow:hidden;"><div style="width:${todayData.acc}%;height:100%;background:${r.color};border-radius:3px;"></div></div>
-      </div>
-    </div>`;
+  function fmtTime(ts) {
+    if (!ts) return '';
+    return new Date(ts).toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit' });
   }
 
-  // Past days list (collapsible)
-  const past = days.filter(d => d.date !== today).slice(0, 20);
-  if (past.length > 0) {
-    html += `<div style="font-size:11px;font-weight:700;text-transform:uppercase;color:#9ca3af;letter-spacing:.05em;margin-bottom:6px;">Past Sessions</div>`;
-    html += past.map(d => {
-      const r = ratingFor(d.acc);
-      const conceptKeys = Object.keys(d.concepts);
-      const secColors = { english:'#2563eb', math:'#16a34a', reading:'#ea580c', science:'#0891b2' };
-      const secLabels = { english:'English', math:'Math', reading:'Reading', science:'Science' };
-      const conceptDetail = conceptKeys.map(cid => {
-        const c = d.concepts[cid];
-        const acc = c.total > 0 ? Math.round(100*c.correct/c.total) : 0;
-        const col = acc >= 70 ? '#16a34a' : acc >= 50 ? '#d97706' : '#dc2626';
-        const name = CONCEPTS[cid]?.name || cid;
-        const sec = CONCEPTS[cid]?.section;
-        const tag = sec
-          ? `<span style="font-size:9px;font-weight:800;color:${secColors[sec]||'#9ca3af'};text-transform:uppercase;margin-right:5px;">${secLabels[sec]||sec}</span>`
-          : '';
-        return `<div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#374151;padding:3px 0;border-bottom:1px solid #f9fafb;">
-          <span>${tag}${name}</span><span style="font-weight:700;color:${col};white-space:nowrap;margin-left:8px;">${c.correct}/${c.total}</span>
-        </div>`;
-      }).join('');
+  function buildConceptDetail(concepts) {
+    const secColors = { english:'#2563eb', math:'#16a34a', reading:'#ea580c', science:'#0891b2' };
+    const secLabels = { english:'English', math:'Math', reading:'Reading', science:'Science' };
+    return Object.keys(concepts).map(cid => {
+      const c = concepts[cid];
+      const acc = c.total > 0 ? Math.round(100*c.correct/c.total) : 0;
+      const col = acc >= 70 ? '#16a34a' : acc >= 50 ? '#d97706' : '#dc2626';
+      const name = CONCEPTS[cid]?.name || cid;
+      const sec = CONCEPTS[cid]?.section;
+      const tag = sec
+        ? `<span style="font-size:9px;font-weight:800;color:${secColors[sec]||'#9ca3af'};text-transform:uppercase;margin-right:5px;">${secLabels[sec]||sec}</span>`
+        : '';
+      return `<div style="display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#374151;padding:3px 0;border-bottom:1px solid #f9fafb;">
+        <span>${tag}${name}</span><span style="font-weight:700;color:${col};white-space:nowrap;margin-left:8px;">${c.correct}/${c.total}</span>
+      </div>`;
+    }).join('') || '<span style="font-size:11px;color:#9ca3af;">No concept data</span>';
+  }
 
+  const todaySessions = sessions.filter(s => s.date === today);
+  const pastSessions  = sessions.filter(s => s.date !== today).slice(0, 30);
+
+  let html = '';
+
+  // ── TODAY ──
+  if (todaySessions.length > 0) {
+    // If multiple sessions today, show a combined summary line first
+    if (todaySessions.length > 1) {
+      const allCorrect = todaySessions.reduce((s, x) => s + x.correct, 0);
+      const allTotal   = todaySessions.reduce((s, x) => s + x.total, 0);
+      const allAcc     = allTotal > 0 ? Math.round(100 * allCorrect / allTotal) : 0;
+      const allConcepts = new Set(todaySessions.flatMap(s => Object.keys(s.concepts))).size;
+      const r = ratingFor(allAcc);
+      html += `<div style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1.5px solid #2563eb;border-radius:10px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;">
+        <div style="text-align:center;min-width:52px;">
+          <div style="font-size:22px;font-weight:900;color:#2563eb;line-height:1;">${allAcc}%</div>
+          <div style="font-size:9px;color:#6b7280;font-weight:700;">combined</div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:700;color:#111;">Today — ${fmtDate(today)} <span style="font-size:11px;font-weight:600;color:#2563eb;">(${todaySessions.length} sessions)</span></div>
+          <div style="font-size:11px;color:#6b7280;margin-top:2px;">${allCorrect}/${allTotal} correct · ${allConcepts} concepts drilled</div>
+          <div style="height:4px;background:#e5e7eb;border-radius:3px;margin-top:6px;overflow:hidden;"><div style="width:${allAcc}%;height:100%;background:#2563eb;border-radius:3px;"></div></div>
+        </div>
+      </div>`;
+    }
+
+    // Individual session cards for today
+    todaySessions.forEach((s, idx) => {
+      const r = ratingFor(s.acc);
+      const sessionLabel = todaySessions.length > 1
+        ? `Session ${idx + 1} of ${todaySessions.length} · ${fmtTime(s.startTs)}`
+        : `Today — ${fmtDate(today)}`;
+      const conceptCount = Object.keys(s.concepts).length;
+      const isGreen = todaySessions.length === 1;
+      const bg = isGreen ? 'linear-gradient(135deg,#f0fdf4,#dcfce7)' : '#fafafa';
+      const border = isGreen ? `1.5px solid ${r.color}` : `1px solid #e5e7eb`;
+      html += `<div style="background:${bg};border:${border};border-radius:10px;overflow:hidden;margin-bottom:6px;">
+        <div onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none';this.querySelector('.dr-arrow').textContent=this.nextElementSibling.style.display==='block'?'▲':'▼'"
+          style="display:flex;align-items:center;gap:12px;padding:12px 14px;cursor:pointer;">
+          <div style="text-align:center;min-width:52px;">
+            <div style="font-size:${isGreen?'28':'20'}px;font-weight:900;color:${r.color};line-height:1;">${s.acc}%</div>
+            <div style="font-size:9px;color:#6b7280;font-weight:600;">${r.label}</div>
+          </div>
+          <div style="flex:1;">
+            <div style="font-size:${isGreen?'13':'12'}px;font-weight:700;color:#111;">${sessionLabel}</div>
+            <div style="font-size:11px;color:#6b7280;margin-top:2px;">${s.correct}/${s.total} correct · ${conceptCount} concepts drilled</div>
+            <div style="height:4px;background:#e5e7eb;border-radius:3px;margin-top:5px;overflow:hidden;"><div style="width:${s.acc}%;height:100%;background:${r.color};border-radius:3px;"></div></div>
+          </div>
+          <span class="dr-arrow" style="font-size:11px;color:#9ca3af;">▼</span>
+        </div>
+        <div style="display:none;padding:10px 14px;border-top:1px solid #f3f4f6;background:#fff;">
+          ${buildConceptDetail(s.concepts)}
+        </div>
+      </div>`;
+    });
+  }
+
+  // ── PAST SESSIONS ──
+  if (pastSessions.length > 0) {
+    html += `<div style="font-size:11px;font-weight:700;text-transform:uppercase;color:#9ca3af;letter-spacing:.05em;margin:10px 0 6px;">Past Sessions</div>`;
+    html += pastSessions.map(s => {
+      const r = ratingFor(s.acc);
+      const conceptCount = Object.keys(s.concepts).length;
+      const sessionLabel = s.totalSessionsForDay > 1
+        ? `${fmtDate(s.date)} · Session ${s.sessionNum} of ${s.totalSessionsForDay}`
+        : fmtDate(s.date);
       return `<div style="border:1px solid #e5e7eb;border-radius:8px;margin-bottom:6px;overflow:hidden;">
         <div onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none';this.querySelector('.dr-arrow').textContent=this.nextElementSibling.style.display==='block'?'▲':'▼'"
           style="display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer;background:#fafafa;">
           <div style="min-width:48px;text-align:center;">
-            <div style="font-size:18px;font-weight:800;color:${r.color};">${d.acc}%</div>
+            <div style="font-size:18px;font-weight:800;color:${r.color};">${s.acc}%</div>
           </div>
           <div style="flex:1;">
-            <div style="font-size:12px;font-weight:600;color:#111;">${fmtDate(d.date)}</div>
-            <div style="font-size:11px;color:#6b7280;">${d.correct}/${d.total} correct · ${conceptKeys.length} concepts</div>
+            <div style="font-size:12px;font-weight:600;color:#111;">${sessionLabel}</div>
+            <div style="font-size:11px;color:#6b7280;">${s.correct}/${s.total} correct · ${conceptCount} concepts</div>
           </div>
           <span style="font-size:13px;font-weight:700;color:${r.color};margin-right:4px;">${r.label}</span>
           <span class="dr-arrow" style="font-size:11px;color:#9ca3af;">▼</span>
         </div>
         <div style="display:none;padding:10px 12px;border-top:1px solid #f3f4f6;background:#fff;">
-          ${conceptDetail || '<span style="font-size:11px;color:#9ca3af;">No concept data</span>'}
+          ${buildConceptDetail(s.concepts)}
         </div>
       </div>`;
     }).join('');
@@ -11489,7 +11595,7 @@ function toggleScoreTrend() {
             }
           },
           scales: {
-            y: { min: 10, max: 36, ticks: { stepSize: 4 }, grid: { color: '#f0f0f0' } },
+            y: { min: 10, max: 40, ticks: { stepSize: 4 }, grid: { color: '#f0f0f0' } },
             x: { ticks: { font: { size: 10 } }, grid: { display: false } }
           }
         }
