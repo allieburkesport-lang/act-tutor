@@ -9234,20 +9234,34 @@ function renderDashboard() {
     .map(id => ({ id, status: getConceptStatus(id), stats: state.concepts[id] }))
     .filter(c => c.status.cls === 'weak' || c.status.cls === 'needs-work')
     .sort((a, b) => {
+      // Sort: weak before needs-work, then by lowest accuracy
+      if (a.status.cls !== b.status.cls) {
+        const order = { weak: 0, 'needs-work': 1 };
+        return (order[a.status.cls] ?? 2) - (order[b.status.cls] ?? 2);
+      }
       const aRate = a.stats?.lastAttempts.reduce((s, x) => s + x, 0) / (a.stats?.lastAttempts.length || 1);
       const bRate = b.stats?.lastAttempts.reduce((s, x) => s + x, 0) / (b.stats?.lastAttempts.length || 1);
       return aRate - bRate;
-    })
-    .slice(0, 6);
+    });
+  // No slice — show ALL concepts that need work
+
+  const sectionColors = { english: '#2563eb', math: '#16a34a', reading: '#ea580c', science: '#0891b2' };
+  const sectionNames  = { english: 'English', math: 'Math', reading: 'Reading', science: 'Science' };
 
   if (weakConcepts.length === 0) {
     weakEl.innerHTML = '<div class="empty"><div class="empty-icon">✨</div><p>No weak concepts identified yet. Take the diagnostic to find areas to focus on.</p></div>';
   } else {
     weakEl.innerHTML = weakConcepts.map(c => {
       const satTag = satPriority(c.id) === 'high' ? '<span class="badge sat-focus" title="SAT diagnostic flagged this area">SAT focus</span>' : '';
+      const section = CONCEPTS[c.id].section;
+      const secColor = sectionColors[section] || 'var(--muted)';
+      const secName  = sectionNames[section]  || section;
       return `
       <div class="concept-item" onclick="practiceSingleConcept('${c.id}')" style="cursor:pointer;" title="Tap to drill this concept">
-        <div class="concept-name">${CONCEPTS[c.id].name}${satTag}</div>
+        <div style="display:flex;flex-direction:column;flex:1;min-width:0;">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:${secColor};letter-spacing:.05em;margin-bottom:2px;">${secName}</div>
+          <div class="concept-name" style="margin:0;">${CONCEPTS[c.id].name}${satTag}</div>
+        </div>
         <div class="concept-stats">${c.stats.correct}/${c.stats.attempts}</div>
         <span class="badge ${c.status.cls}">${c.status.label}</span>
         <span style="font-size:18px;color:var(--primary);margin-left:4px;">›</span>
@@ -10683,24 +10697,25 @@ function renderScorePrediction() {
   const sci  = sectionStats('science', 5);
   const read = sectionStats('reading', 5);
 
-  // Score formula: base + accuracy component + mastery component
-  function predict(s, base, accWeight, mastWeight) {
-    const score = Math.round(base + (s.avgAcc * accWeight) + (s.mastered / s.total * mastWeight));
-    return Math.min(36, Math.max(base, score));
+  // Score formula: consistent across ACT app and USNA dashboard
+  // base=15, accuracy weight=12, mastery weight=9
+  function predict(s) {
+    const score = Math.round(15 + (s.avgAcc * 12) + (s.mastered / s.total * 9));
+    return Math.min(36, Math.max(15, score));
   }
 
-  const engScore  = predict(eng,  12, 16, 8);
-  const mathScore = predict(math, 10, 18, 8);
-  const sciScore  = sci.total > 0 && (Object.values(state.concepts).filter(c => c && CONCEPTS[Object.keys(CONCEPTS).find(k=>k.startsWith('sci'))]?.section==='science').length > 0) ? predict(sci, 10, 18, 8) : 22;
-  const readScore = predict(read, 14, 14, 8);
+  const engScore  = predict(eng);
+  const mathScore = predict(math);
+  const sciScore  = Object.keys(state.concepts).some(k => k.startsWith('sci') && state.concepts[k]?.attempts > 2)
+    ? predict(sci) : Math.round(15 + (0.6 * 12)); // 22 if limited data
+  const readScore = predict(read);
   const composite = Math.round((engScore + mathScore + sciScore + readScore) / 4);
 
   function box(label, score, color) {
-    const lo = Math.max(1, score - 2), hi = Math.min(36, score + 2);
     return `<div style="background:var(--card);border:2px solid ${color};border-radius:10px;padding:10px;text-align:center;">
       <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:2px;">${label}</div>
-      <div style="font-size:22px;font-weight:800;color:${color};">${lo}–${hi}</div>
-      <div style="font-size:10px;color:var(--muted);">of 36</div>
+      <div style="font-size:28px;font-weight:800;color:${color};">${score}</div>
+      <div style="font-size:10px;color:var(--muted);">of 36 · target 31</div>
     </div>`;
   }
 
@@ -10719,7 +10734,8 @@ function toggleScoreTrend() {
   panel.style.display = showing ? 'none' : 'block';
   toggle.textContent = showing ? '📈 Show Trend ▼' : '📉 Hide Trend ▲';
 
-  if (!showing && !_scoreTrendChart) {
+  if (!showing && (!_scoreTrendChart || typeof Chart === 'undefined')) {
+    _scoreTrendChart = null; // reset if Chart.js wasn't ready last time
     // Build daily accuracy from history, map to composite estimate
     const byDay = {};
     state.history.forEach(h => {

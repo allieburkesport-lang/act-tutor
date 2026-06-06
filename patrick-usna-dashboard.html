@@ -1437,22 +1437,22 @@
     <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px;">
       <div style="background:var(--gray-50); border-radius:10px; padding:14px; text-align:center; border:2px solid var(--navy);">
         <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--gray-500); margin-bottom:4px;">Composite</div>
-        <div style="font-size:28px; font-weight:800; color:var(--navy);">24–26</div>
+        <div style="font-size:36px; font-weight:800; color:var(--navy);">25</div>
         <div style="font-size:11px; color:var(--gray-500); margin-top:2px;">Target: 31</div>
       </div>
       <div style="background:var(--gray-50); border-radius:10px; padding:14px; text-align:center; border:2px solid var(--blue);">
         <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--gray-500); margin-bottom:4px;">English</div>
-        <div style="font-size:28px; font-weight:800; color:var(--blue);">23–27</div>
+        <div style="font-size:36px; font-weight:800; color:var(--blue);">26</div>
         <div style="font-size:11px; color:var(--gray-500); margin-top:2px;">5/12 mastered · 58% acc.</div>
       </div>
       <div style="background:var(--gray-50); border-radius:10px; padding:14px; text-align:center; border:2px solid var(--green);">
         <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--gray-500); margin-bottom:4px;">Math</div>
-        <div style="font-size:28px; font-weight:800; color:var(--green);">21–25</div>
+        <div style="font-size:36px; font-weight:800; color:var(--green);">25</div>
         <div style="font-size:11px; color:var(--gray-500); margin-top:2px;">5/13 mastered · 57% acc.</div>
       </div>
       <div style="background:var(--gray-50); border-radius:10px; padding:14px; text-align:center; border:2px solid var(--yellow);">
         <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--gray-500); margin-bottom:4px;">Science</div>
-        <div style="font-size:28px; font-weight:800; color:var(--yellow);">22–25</div>
+        <div style="font-size:36px; font-weight:800; color:var(--yellow);">22</div>
         <div style="font-size:11px; color:var(--gray-500); margin-top:2px;">0/5 mastered · limited data</div>
       </div>
     </div>
@@ -3932,154 +3932,4 @@
           <div style="font-size:12px;font-weight:800;color:#00204e;">🏈 Athletics</div>
           <span style="background:${confColor};color:#fff;font-size:10px;font-weight:700;padding:2px 9px;border-radius:10px;letter-spacing:0.3px;">${sports.conf}</span>
         </div>
-        <div style="font-size:12px;color:#495057;line-height:1.7;">⭐ ${sports.fact}</div>
-      </div>`;
-    }
-
-    const detailHTML = `<tr class="detail-row"><td colspan="10">
-      <div class="detail-panel">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
-          <div>
-            <div style="font-size:15px;font-weight:800;color:var(--navy);">${name} &mdash; <span style="font-weight:500;color:var(--gray-500);">${state}</span> &nbsp;${fitBadge}</div>
-            <div style="margin-top:5px;">${branches}</div>
-          </div>
-          <div style="font-size:11px;color:var(--gray-500);cursor:pointer;" onclick="this.closest('tr').previousElementSibling.click()">▲ Click to close</div>
-        </div>
-        ${sportsHTML}${nrotcHTML}${marineHTML}${arotcHTML}${schoolHTML}
-      </div>
-    </td></tr>`;
-
-    tr.insertAdjacentHTML('afterend', detailHTML);
-  }
-
-  // ── Replace ✓/✗ symbols with readable text in branch columns ──
-  function formatBranchCells() {
-    document.querySelectorAll('#school-deadline-table tbody tr:not(.detail-row)').forEach(tr => {
-      const cells = tr.querySelectorAll('td');
-      if (cells.length < 6) return;
-      const col = [
-        [3, tr.dataset.nrotc   === 'y', 'NROTC',  '#00204E', '#e7f1ff'],
-        [4, tr.dataset.arotc   === 'y', 'AROTC',  '#166534', '#e8f5ee'],
-        [5, tr.dataset.marine  === 'y', 'Marine', '#991b1b', '#fef2f2'],
-      ];
-      col.forEach(([idx, has, label, color, bg]) => {
-        cells[idx].style.textAlign = 'center';
-        cells[idx].style.padding = '6px 4px';
-        cells[idx].innerHTML = has
-          ? `<span style="display:inline-block;background:${bg};color:${color};font-size:10px;font-weight:800;padding:2px 7px;border-radius:10px;letter-spacing:0.3px;white-space:nowrap;">${label}</span>`
-          : '<span style="color:#ced4da;font-size:13px;">—</span>';
-      });
-    });
-  }
-
-  // ── Add click handlers to school rows on init ──
-  function initSchoolRows() {
-    document.querySelectorAll('#school-deadline-table tbody tr').forEach(tr => {
-      if (tr.dataset.fit !== 'primary') {
-        tr.classList.add('school-row');
-        tr.addEventListener('click', function(e) {
-          if (e.target.closest('.star-btn')) return;
-          toggleSchoolDetail(this);
-        });
-      }
-    });
-  }
-
-  // ── Per-school scholarship timeline ──
-  let _schFilter = 'all';
-
-  function buildScholarshipTimeline(filter) {
-    _schFilter = filter || _schFilter;
-    const rows = document.querySelectorAll('#school-deadline-table tbody tr:not(.detail-row)');
-    const schools = [];
-    rows.forEach(tr => {
-      if (tr.dataset.fit === 'primary') return; // skip USNA row
-      const cells = tr.querySelectorAll('td');
-      if (cells.length < 9) return;
-      const name   = cells[1].textContent.trim();
-      const state  = cells[2].textContent.trim();
-      const nrotc  = tr.dataset.nrotc === 'y';
-      const arotc  = tr.dataset.arotc === 'y';
-      const marine = tr.dataset.marine === 'y';
-      const fit    = tr.dataset.fit || '';
-      const ea     = cells[6].textContent.trim();
-      const rd     = cells[7].textContent.trim();
-      if (_schFilter === 'nrotc' && !nrotc) return;
-      if (_schFilter === 'arotc' && !arotc) return;
-      if (_schFilter === 'both' && !(nrotc && arotc)) return;
-      schools.push({ name, state, nrotc, arotc, marine, fit, ea, rd });
-    });
-
-    const fitOrder = { match: 0, target: 1, reach: 2 };
-    schools.sort((a, b) => (fitOrder[a.fit] ?? 9) - (fitOrder[b.fit] ?? 9) || a.name.localeCompare(b.name));
-
-    const fitColors = { match:'#dcfce7', target:'#fef9c3', reach:'#fee2e2' };
-    const fitText   = { match:'Match', target:'Target', reach:'Reach' };
-
-    let html = '<table class="congress" style="font-size:12px;min-width:700px;">';
-    html += '<thead><tr>';
-    html += '<th>School</th>';
-    html += '<th>State</th>';
-    html += '<th>Fit</th>';
-    html += '<th>Programs</th>';
-    html += '<th>EA Deadline<br><span style="font-weight:400;font-size:10px;">(school app)</span></th>';
-    html += '<th>RD Deadline<br><span style="font-weight:400;font-size:10px;">(school app)</span></th>';
-    html += '<th>NROTC Scholarship<br><span style="font-weight:400;font-size:10px;">national deadline</span></th>';
-    html += '<th>AROTC Scholarship<br><span style="font-weight:400;font-size:10px;">national deadline</span></th>';
-    html += '</tr></thead><tbody>';
-
-    schools.forEach(s => {
-      const fitBg = fitColors[s.fit] || '#fff';
-      const fitLabel = fitText[s.fit] || s.fit;
-      const programs = [
-        s.nrotc  ? '<span style="display:inline-block;background:#e7f1ff;color:#00204E;font-size:9px;font-weight:800;padding:1px 5px;border-radius:8px;margin:1px;">NROTC</span>' : '',
-        s.marine ? '<span style="display:inline-block;background:#fef2f2;color:#991b1b;font-size:9px;font-weight:800;padding:1px 5px;border-radius:8px;margin:1px;">Marine</span>' : '',
-        s.arotc  ? '<span style="display:inline-block;background:#e8f5ee;color:#166534;font-size:9px;font-weight:800;padding:1px 5px;border-radius:8px;margin:1px;">AROTC</span>' : '',
-      ].filter(Boolean).join(' ');
-      const nrotcDL = s.nrotc ? '<strong style="color:#991b1b;">Jan 31, 2027</strong>' : '<span style="color:#ced4da;">—</span>';
-      const arotcDL = s.arotc ? '<strong style="color:#166534;">Feb 5, 2027</strong>'  : '<span style="color:#ced4da;">—</span>';
-      const eaDisplay = s.ea && s.ea !== '—' ? `<strong>${s.ea}</strong>` : '<span style="color:#ced4da;">—</span>';
-      const rdDisplay = s.rd && s.rd !== '—' ? s.rd : '<span style="color:#ced4da;">—</span>';
-      html += `<tr>
-        <td><strong>${s.name}</strong></td>
-        <td>${s.state}</td>
-        <td><span style="background:${fitBg};padding:2px 7px;border-radius:8px;font-size:10px;font-weight:700;">${fitLabel}</span></td>
-        <td>${programs}</td>
-        <td>${eaDisplay}</td>
-        <td>${rdDisplay}</td>
-        <td>${nrotcDL}</td>
-        <td>${arotcDL}</td>
-      </tr>`;
-    });
-
-    if (schools.length === 0) {
-      html += '<tr><td colspan="8" style="text-align:center;color:#94a3b8;padding:20px;">No schools match this filter.</td></tr>';
-    }
-    html += '</tbody></table>';
-    html += `<div style="margin-top:8px;font-size:11px;color:#64748b;">${schools.length} school${schools.length!==1?'s':''} shown. Note: School application deadlines are independent from ROTC scholarship deadlines — both must be submitted separately.</div>`;
-
-    const container = document.getElementById('sch-timeline-container');
-    if (container) container.innerHTML = html;
-  }
-
-  function filterSchTimeline(filter, btn) {
-    if (btn) {
-      document.querySelectorAll('#panel-scholarships .rotc-filter').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    }
-    buildScholarshipTimeline(filter);
-  }
-
-  // ── Init ──
-  loadChecks();
-  loadStars();
-  applyFilters();
-  updateCountdown();
-  renderChart();
-  initSchoolRows();
-  formatBranchCells();
-  buildScholarshipTimeline('all');
-</script>
-</body>
-</html>
-            <div style
+        <div style="font-size:12px;color:#495057;line-height:1.7;"
