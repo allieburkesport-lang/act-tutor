@@ -10697,25 +10697,35 @@ function renderScorePrediction() {
   const sci  = sectionStats('science', 5);
   const read = sectionStats('reading', 5);
 
-  // Score formula: consistent across ACT app and USNA dashboard
-  // base=15, accuracy weight=12, mastery weight=9
-  function predict(s) {
-    const score = Math.round(15 + (s.avgAcc * 12) + (s.mastered / s.total * 9));
-    return Math.min(36, Math.max(15, score));
+  // Baselines from SAT concordance (SAT R&W 470, Math 520)
+  const SAT_BASELINE = { english: 17, math: 20, reading: 18, science: 19, composite: 19 };
+
+  // Improvement from practice: based on accuracy above 50% + mastery count
+  // Capped at +4 (realistic for 5 weeks of untimed app prep)
+  function improvement(s) {
+    const accGain = Math.floor((s.avgAcc - 0.50) * 8); // 0 at 50%, ~2 at 75%
+    const mastGain = Math.floor(s.mastered / 3);        // +1 per 3 concepts mastered
+    return Math.max(0, Math.min(4, accGain + mastGain));
   }
 
-  const engScore  = predict(eng);
-  const mathScore = predict(math);
-  const sciScore  = Object.keys(state.concepts).some(k => k.startsWith('sci') && state.concepts[k]?.attempts > 2)
-    ? predict(sci) : Math.round(15 + (0.6 * 12)); // 22 if limited data
-  const readScore = predict(read);
+  const engScore  = SAT_BASELINE.english  + improvement(eng);
+  const mathScore = SAT_BASELINE.math     + improvement(math);
+  const readScore = SAT_BASELINE.reading  + improvement(read);
+  // Science: very limited data — only count improvement if >10 attempts
+  const sciAttempts = Object.keys(state.concepts).filter(k => k.startsWith('sci') && (state.concepts[k]?.attempts||0) > 3).length;
+  const sciScore  = SAT_BASELINE.science  + (sciAttempts >= 3 ? improvement(sci) : 0);
   const composite = Math.round((engScore + mathScore + sciScore + readScore) / 4);
 
-  function box(label, score, color) {
+  function box(label, baseline, current, color) {
+    const delta = current - baseline;
+    const deltaStr = delta > 0 ? `+${delta}` : `${delta}`;
+    const deltaColor = delta > 0 ? 'var(--success)' : 'var(--muted)';
     return `<div style="background:var(--card);border:2px solid ${color};border-radius:10px;padding:10px;text-align:center;">
-      <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:2px;">${label}</div>
-      <div style="font-size:28px;font-weight:800;color:${color};">${score}</div>
-      <div style="font-size:10px;color:var(--muted);">of 36 · target 31</div>
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">${label}</div>
+      <div style="font-size:11px;color:var(--muted);margin-bottom:2px;">SAT baseline: <strong>${baseline}</strong></div>
+      <div style="font-size:28px;font-weight:800;color:${color};line-height:1;">${current}</div>
+      <div style="font-size:11px;color:${deltaColor};font-weight:700;margin-top:2px;">${deltaStr} from baseline</div>
+      <div style="font-size:10px;color:var(--muted);margin-top:1px;">target 31</div>
     </div>`;
   }
 
