@@ -1428,32 +1428,40 @@
 
   <div class="card">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-      <h2 style="margin:0;">🎯 Score Prediction — Based on Practice Data</h2>
+      <h2 style="margin:0;">🎯 Score Estimate — Based on Practice Data</h2>
       <button onclick="toggleScoreHistory()" id="score-history-btn" style="background:var(--navy); color:#fff; border:none; border-radius:6px; padding:6px 12px; font-size:12px; font-weight:600; cursor:pointer;">📈 Show History</button>
     </div>
-    <p style="font-size:12px; color:var(--gray-500); margin-bottom:16px;">Estimated ACT scores based on concept accuracy, mastery rate, and practice volume. Updated nightly. Click "Show History" to see trajectory.</p>
+    <p style="font-size:12px; color:var(--gray-500); margin-bottom:16px;">Starting point = SAT concordance (SAT 990 → ACT ~20). Current range = untimed app practice data. Real timed test typically runs 2–3 pts lower.</p>
 
     <!-- Score boxes -->
     <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px;">
       <div style="background:var(--gray-50); border-radius:10px; padding:14px; text-align:center; border:2px solid var(--navy);">
-        <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--gray-500); margin-bottom:4px;">Composite</div>
-        <div style="font-size:36px; font-weight:800; color:var(--navy);">25</div>
-        <div style="font-size:11px; color:var(--gray-500); margin-top:2px;">Target: 31</div>
+        <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--gray-500); margin-bottom:2px;">Composite</div>
+        <div style="font-size:11px; color:var(--gray-500); margin-bottom:4px;">SAT start: <strong style="color:var(--navy);">20</strong></div>
+        <div style="font-size:30px; font-weight:800; color:var(--navy); line-height:1.1;">20–22</div>
+        <div style="font-size:10px; color:#16a34a; font-weight:600; margin-top:2px;">+0–2 vs start</div>
+        <div style="font-size:10px; color:var(--gray-500); margin-top:1px;">Target: 31</div>
       </div>
       <div style="background:var(--gray-50); border-radius:10px; padding:14px; text-align:center; border:2px solid var(--blue);">
-        <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--gray-500); margin-bottom:4px;">English</div>
-        <div style="font-size:36px; font-weight:800; color:var(--blue);">26</div>
-        <div style="font-size:11px; color:var(--gray-500); margin-top:2px;">5/12 mastered · 58% acc.</div>
+        <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--gray-500); margin-bottom:2px;">English</div>
+        <div style="font-size:11px; color:var(--gray-500); margin-bottom:4px;">SAT start: <strong style="color:var(--blue);">17</strong></div>
+        <div style="font-size:30px; font-weight:800; color:var(--blue); line-height:1.1;">18–20</div>
+        <div style="font-size:10px; color:#16a34a; font-weight:600; margin-top:2px;">+1 vs start · 58% acc.</div>
+        <div style="font-size:10px; color:var(--gray-500); margin-top:1px;">5/12 mastered</div>
       </div>
       <div style="background:var(--gray-50); border-radius:10px; padding:14px; text-align:center; border:2px solid var(--green);">
-        <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--gray-500); margin-bottom:4px;">Math</div>
-        <div style="font-size:36px; font-weight:800; color:var(--green);">25</div>
-        <div style="font-size:11px; color:var(--gray-500); margin-top:2px;">5/13 mastered · 57% acc.</div>
+        <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--gray-500); margin-bottom:2px;">Math</div>
+        <div style="font-size:11px; color:var(--gray-500); margin-bottom:4px;">SAT start: <strong style="color:var(--green);">20</strong></div>
+        <div style="font-size:30px; font-weight:800; color:var(--green); line-height:1.1;">21–23</div>
+        <div style="font-size:10px; color:#16a34a; font-weight:600; margin-top:2px;">+1 vs start · 57% acc.</div>
+        <div style="font-size:10px; color:var(--gray-500); margin-top:1px;">5/13 mastered</div>
       </div>
       <div style="background:var(--gray-50); border-radius:10px; padding:14px; text-align:center; border:2px solid var(--yellow);">
-        <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--gray-500); margin-bottom:4px;">Science</div>
-        <div style="font-size:36px; font-weight:800; color:var(--yellow);">22</div>
-        <div style="font-size:11px; color:var(--gray-500); margin-top:2px;">0/5 mastered · limited data</div>
+        <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--gray-500); margin-bottom:2px;">Science</div>
+        <div style="font-size:11px; color:var(--gray-500); margin-bottom:4px;">SAT start: <strong style="color:var(--yellow);">19</strong></div>
+        <div style="font-size:30px; font-weight:800; color:var(--yellow); line-height:1.1;">19–21</div>
+        <div style="font-size:10px; color:var(--gray-500); font-weight:600; margin-top:2px;">at baseline</div>
+        <div style="font-size:10px; color:var(--gray-500); margin-top:1px;">limited data</div>
       </div>
     </div>
 
@@ -1466,7 +1474,7 @@
     </div>
 
     <div style="background:var(--blue-bg); border-left:3px solid var(--blue); border-radius:6px; padding:10px 14px; font-size:12px; color:var(--gray-700); line-height:1.6;">
-      <strong>How this is calculated:</strong> English score maps concept mastery % + average accuracy across 12 English concepts. Math maps the same across 13 concepts. Science is estimated from limited data. Composite averages all four sections. Scores are estimates — actual ACT scores depend on time pressure and passage-based questions.
+      <strong>How this is calculated:</strong> Starting point is SAT concordance (R&amp;W 470 → English ~17, Reading ~18; Math 520 → Math ~20; Science ~19 estimated). Practice improvement is modest — at 57–60% untimed accuracy with 5 concepts mastered per section, realistic gain is +1–2 pts above baseline. Ranges reflect test variability. A full timed practice test is the only reliable predictor.
     </div>
   </div>
 
