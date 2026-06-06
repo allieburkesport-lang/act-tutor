@@ -10679,8 +10679,8 @@ function renderScorePrediction() {
   if (!boxEl) return;
 
   // Compute per-section accuracy and mastery
-  function sectionStats(prefix, total) {
-    const ids = Object.keys(CONCEPTS).filter(id => CONCEPTS[id].section === prefix);
+  function sectionStats(section) {
+    const ids = Object.keys(CONCEPTS).filter(id => CONCEPTS[id].section === section);
     let acc = 0, count = 0, mastered = 0;
     ids.forEach(id => {
       const c = state.concepts[id];
@@ -10689,21 +10689,23 @@ function renderScorePrediction() {
       if (c.attempts > 0) { acc += c.correct / c.attempts; count++; }
     });
     const avgAcc = count > 0 ? acc / count : 0;
-    return { avgAcc, mastered, total };
+    return { avgAcc, mastered, total: ids.length, count };
   }
 
-  const eng  = sectionStats('english', 12);
-  const math = sectionStats('math', 13);
-  const sci  = sectionStats('science', 5);
-  const read = sectionStats('reading', 5);
+  const eng  = sectionStats('english');
+  const math = sectionStats('math');
+  const sci  = sectionStats('science');
+  const read = sectionStats('reading');
 
-  // Baselines from SAT concordance (SAT R&W 470, Math 520)
-  const SAT_BASELINE = { english: 17, math: 20, reading: 18, science: 19, composite: 19 };
+  // SAT concordance baselines (SAT 990 total; R&W 470 → English/Reading; Math 520 → Math)
+  const SAT_BASELINE = { english: 17, math: 20, reading: 18, science: 19, composite: 20 };
 
-  // Improvement from practice: based on accuracy above 50% + mastery count
-  // Capped at +4 (realistic for 5 weeks of untimed app prep)
+  // Honest improvement above SAT baseline from app practice (untimed drills only).
+  // At 60% acc + 5 mastered: +1 pt. At 70%+ acc + 8 mastered: +3-4 pts. Max +4.
+  // Real timed test typically runs 2-3 pts lower than this estimate.
   function improvement(s) {
-    const accGain = Math.floor((s.avgAcc - 0.50) * 8); // 0 at 50%, ~2 at 75%
+    if (s.count < 2) return 0; // not enough data to estimate
+    const accGain = Math.floor((s.avgAcc - 0.50) * 8); // 0 at 58%, 1 at 63%, 2 at 75%
     const mastGain = Math.floor(s.mastered / 3);        // +1 per 3 concepts mastered
     return Math.max(0, Math.min(4, accGain + mastGain));
   }
@@ -10711,29 +10713,31 @@ function renderScorePrediction() {
   const engScore  = SAT_BASELINE.english  + improvement(eng);
   const mathScore = SAT_BASELINE.math     + improvement(math);
   const readScore = SAT_BASELINE.reading  + improvement(read);
-  // Science: very limited data — only count improvement if >10 attempts
-  const sciAttempts = Object.keys(state.concepts).filter(k => k.startsWith('sci') && (state.concepts[k]?.attempts||0) > 3).length;
+  const sciAttempts = Object.keys(state.concepts).filter(k => CONCEPTS[k]?.section === 'science' && (state.concepts[k]?.attempts||0) > 3).length;
   const sciScore  = SAT_BASELINE.science  + (sciAttempts >= 3 ? improvement(sci) : 0);
-  const composite = Math.round((engScore + mathScore + sciScore + readScore) / 4);
+  const composite = Math.round((engScore + mathScore + readScore + sciScore) / 4);
 
-  function box(label, baseline, current, color) {
-    const delta = current - baseline;
-    const deltaStr = delta > 0 ? `+${delta}` : `${delta}`;
-    const deltaColor = delta > 0 ? 'var(--success)' : 'var(--muted)';
-    return `<div style="background:var(--card);border:2px solid ${color};border-radius:10px;padding:10px;text-align:center;">
-      <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">${label}</div>
-      <div style="font-size:11px;color:var(--muted);margin-bottom:2px;">SAT baseline: <strong>${baseline}</strong></div>
-      <div style="font-size:28px;font-weight:800;color:${color};line-height:1;">${current}</div>
-      <div style="font-size:11px;color:${deltaColor};font-weight:700;margin-top:2px;">${deltaStr} from baseline</div>
-      <div style="font-size:10px;color:var(--muted);margin-top:1px;">target 31</div>
+  // Show as range (score to score+2) to reflect real-test variability
+  function range(n) { return n + '–' + (n + 2); }
+
+  function box(label, baseline, score, color) {
+    const gain = score - baseline;
+    const gainStr = gain > 0 ? `+${gain} vs start` : 'at baseline';
+    const gainColor = gain > 0 ? '#16a34a' : '#6b7280';
+    return `<div style="background:#fff;border:2px solid ${color};border-radius:10px;padding:10px 8px;text-align:center;">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#6b7280;margin-bottom:2px;">${label}</div>
+      <div style="font-size:10px;color:#6b7280;margin-bottom:3px;">Start: <strong style="color:#111">${baseline}</strong></div>
+      <div style="font-size:26px;font-weight:800;color:${color};line-height:1.1;">${range(score)}</div>
+      <div style="font-size:10px;color:${gainColor};font-weight:600;margin-top:2px;">${gainStr}</div>
+      <div style="font-size:10px;color:#6b7280;margin-top:1px;">target 31</div>
     </div>`;
   }
 
   boxEl.innerHTML =
-    box('Composite', composite, 'var(--text)') +
-    box('English',   engScore,  'var(--primary)') +
-    box('Math',      mathScore, '#16a34a') +
-    box('Science',   sciScore,  '#0891b2');
+    box('Composite', SAT_BASELINE.composite, composite,  '#1e3a5f') +
+    box('English',   SAT_BASELINE.english,   engScore,   '#2563eb') +
+    box('Math',      SAT_BASELINE.math,       mathScore,  '#16a34a') +
+    box('Science',   SAT_BASELINE.science,    sciScore,   '#0891b2');
 }
 
 function toggleScoreTrend() {
@@ -10759,7 +10763,7 @@ function toggleScoreTrend() {
     const days = Object.keys(byDay).slice(-20); // last 20 active days
     const scores = days.map(d => {
       const acc = byDay[d].correct / byDay[d].total;
-      return Math.round(14 + acc * 14); // maps 0%→14, 100%→28, rough composite
+      return Math.round(15 + acc * 10); // maps 50%→20, 60%→21, 70%→22, 80%→23 — anchored to SAT baseline
     });
 
     const ctx = document.getElementById('scoreTrendChart');
