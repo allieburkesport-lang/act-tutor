@@ -8751,6 +8751,194 @@ Scientist 2: While CO₂ increases may play a minor role, the primary driver of 
 }
 
 
+/* ============== NEW QUESTIONS (added 2026-06-06) ============== */
+
+/* math-lines: x/y-intercepts and parallel lines */
+,{
+  id: 'q-math-lines-16', concept: 'math-lines', difficulty: 1,
+  question: 'What are the x-intercept and y-intercept of the line 3x − 2y = 12?',
+  choices: ['A) x-int: (4,0), y-int: (0,−6)', 'B) x-int: (6,0), y-int: (0,−4)', 'C) x-int: (4,0), y-int: (0,6)', 'D) x-int: (3,0), y-int: (0,−2)'],
+  correct: 0,
+  explanation: 'The trick here is to plug in the right zero each time. For the x-intercept, set y = 0: 3x = 12 → x = 4. For the y-intercept, set x = 0: −2y = 12 → y = −6. Think of intercepts as "what happens when one coordinate goes to zero."',
+  steps: [
+    { note: 'X-intercept: set y = 0', math: '3x − 2(0) = 12 → 3x = 12 → x = 4', latex: '3x = 12 \\Rightarrow x = 4' },
+    { note: 'X-intercept point', math: '(4, 0)' },
+    { note: 'Y-intercept: set x = 0', math: '3(0) − 2y = 12 → −2y = 12 → y = −6', latex: '-2y = 12 \\Rightarrow y = -6' },
+    { note: 'Y-intercept point', math: '(0, −6)' }
+  ],
+  tutor: [
+    { hint: 'To find each intercept, which variable do you set to zero?', followUp: { q: 'To find the x-intercept of a line, you set ___ = 0:', choices: ['A) x', 'B) y', 'C) both'], correct: 1 } },
+    { hint: 'For x-intercept plug y = 0: 3x = 12. For y-intercept plug x = 0: −2y = 12.', followUp: null },
+    { hint: 'Think of it like a cross — the line crosses the x-axis where y = 0, and the y-axis where x = 0. Just zero out one variable at a time and solve. Memory tip: "x-intercept → y = 0; y-intercept → x = 0."', followUp: null }
+  ]
+}
+,{
+  id: 'q-math-lines-17', concept: 'math-lines', difficulty: 2,
+  question: 'What is the equation of the line parallel to y = 3x − 5 that passes through (1, 7)?',
+  choices: ['A) y = 3x + 4', 'B) y = 3x − 2', 'C) y = −(1/3)x + 7', 'D) y = 3x + 7'],
+  correct: 0,
+  explanation: 'The trick here is that parallel lines have the SAME slope. The given slope is 3, so the new line also has slope 3. Use point-slope: y − 7 = 3(x − 1) → y = 3x − 3 + 7 = 3x + 4. Think of parallel lines as train tracks — same direction, different position.',
+  steps: [
+    { note: 'Parallel lines share the same slope', math: 'm = 3' },
+    { note: 'Point-slope form using (1, 7)', math: 'y − 7 = 3(x − 1)', latex: 'y - 7 = 3(x - 1)' },
+    { note: 'Distribute', math: 'y − 7 = 3x − 3' },
+    { note: 'Add 7 to both sides', math: 'y = 3x + 4' }
+  ],
+  tutor: [
+    { hint: 'Parallel lines have the same slope. What is the slope of y = 3x − 5?', followUp: { q: 'Slope of y = 3x − 5:', choices: ['A) −5', 'B) 3', 'C) 1/3'], correct: 1 } },
+    { hint: 'Slope is 3. Now use point-slope with (1, 7): y − 7 = 3(x − 1).', followUp: null },
+    { hint: 'Like train tracks — parallel means same direction (same slope), just offset. y − 7 = 3(x − 1) → y = 3x − 3 + 7 = 3x + 4. Memory tip: "parallel = same slope, different b."', followUp: null }
+  ]
+}
+
+/* math-coord: midpoint */
+,{
+  id: 'q-math-coord-23', concept: 'math-coord', difficulty: 1,
+  question: 'What is the midpoint of the segment with endpoints (2, 8) and (6, −2)?',
+  choices: ['A) (4, 3)', 'B) (4, 5)', 'C) (8, 6)', 'D) (2, 3)'],
+  correct: 0,
+  explanation: 'The trick here is that the midpoint formula is just the average of each coordinate. Average x: (2 + 6)/2 = 4. Average y: (8 + (−2))/2 = 3. So the midpoint is (4, 3). Think of it as meeting halfway — like splitting the difference.',
+  steps: [
+    { note: 'Midpoint formula', math: 'M = ((x₁+x₂)/2, (y₁+y₂)/2)', latex: 'M = \\left(\\frac{x_1+x_2}{2}, \\frac{y_1+y_2}{2}\\right)' },
+    { note: 'Average the x-coordinates', math: '(2 + 6)/2 = 8/2 = 4' },
+    { note: 'Average the y-coordinates', math: '(8 + (−2))/2 = 6/2 = 3' },
+    { note: 'Midpoint', math: '(4, 3)' }
+  ],
+  tutor: [
+    { hint: 'The midpoint is the average of the two x-values and the average of the two y-values. How do you find an average?', followUp: { q: 'Average of 2 and 6 is:', choices: ['A) 4', 'B) 8', 'C) 3'], correct: 0 } },
+    { hint: 'x-average: (2+6)/2 = 4. y-average: (8+(−2))/2 = 3.', followUp: null },
+    { hint: 'Midpoint just means "meet in the middle" — add both coordinates, divide by 2. (2+6)/2 = 4 and (8−2)/2 = 3. Memory tip: "midpoint = average each coordinate separately."', followUp: null }
+  ]
+}
+,{
+  id: 'q-math-coord-24', concept: 'math-coord', difficulty: 2,
+  question: 'The midpoint of segment AB is (3, −1). Point A is at (−1, 4). What are the coordinates of point B?',
+  choices: ['A) (7, −6)', 'B) (1, 1)', 'C) (7, 1)', 'D) (4, −5)'],
+  correct: 0,
+  explanation: 'The trick here is to work backwards from the midpoint formula. If (x₁ + x₂)/2 = 3 and x₁ = −1, then −1 + x₂ = 6, so x₂ = 7. Same idea for y: (4 + y₂)/2 = −1 → y₂ = −6. Think of it like the midpoint is the "average" — double it and subtract the known endpoint.',
+  steps: [
+    { note: 'Use midpoint formula for x: (x₁ + x₂)/2 = 3', math: '(−1 + x₂)/2 = 3', latex: '\\frac{-1 + x_2}{2} = 3' },
+    { note: 'Multiply both sides by 2', math: '−1 + x₂ = 6' },
+    { note: 'Add 1', math: 'x₂ = 7' },
+    { note: 'Use midpoint formula for y: (4 + y₂)/2 = −1', math: '4 + y₂ = −2 → y₂ = −6', latex: '4 + y_2 = -2 \\Rightarrow y_2 = -6' },
+    { note: 'Point B', math: '(7, −6)' }
+  ],
+  tutor: [
+    { hint: 'The midpoint formula says (x₁ + x₂)/2 = midpoint x. You know x₁ = −1 and midpoint x = 3 — can you solve for x₂?', followUp: { q: 'If (−1 + x₂)/2 = 3, then x₂ = ?', choices: ['A) 4', 'B) 5', 'C) 7'], correct: 2 } },
+    { hint: 'x₂ = 2(3) − (−1) = 7. Now do the same: y₂ = 2(−1) − 4 = −6.', followUp: null },
+    { hint: 'Reverse the midpoint formula: B = 2 × midpoint − A. For x: 2(3) − (−1) = 7. For y: 2(−1) − 4 = −6. Memory tip: "double the midpoint, subtract the known endpoint."', followUp: null }
+  ]
+}
+
+/* math-functions: composition and solving */
+,{
+  id: 'q-math-func-9', concept: 'math-functions', difficulty: 2,
+  question: 'If f(x) = 2x + 1 and g(x) = x², what is f(g(3))?',
+  choices: ['A) 19', 'B) 25', 'C) 37', 'D) 49'],
+  correct: 0,
+  explanation: 'The trick here is to work from the inside out. First find g(3) = 3² = 9. Then plug that into f: f(9) = 2(9) + 1 = 19. Think of function composition like a two-step machine: the first machine gives you an output, then you feed that into the second machine.',
+  steps: [
+    { note: 'Evaluate the inner function first: g(3)', math: 'g(3) = 3² = 9' },
+    { note: 'Plug the result into the outer function f', math: 'f(9) = 2(9) + 1', latex: 'f(9) = 2(9) + 1' },
+    { note: 'Simplify', math: '= 18 + 1 = 19' }
+  ],
+  tutor: [
+    { hint: 'f(g(3)) means: first apply g to 3, then apply f to the result. What is g(3)?', followUp: { q: 'g(3) = 3² = ?', choices: ['A) 6', 'B) 9', 'C) 27'], correct: 1 } },
+    { hint: 'g(3) = 9. Now plug 9 into f: f(9) = 2(9) + 1.', followUp: null },
+    { hint: 'Inside out: g(3) = 9, then f(9) = 19. Think of two vending machines — first machine gives you 9, you feed 9 into the second machine and get 19. Memory tip: "f(g(x)) — do the inner function FIRST."', followUp: null }
+  ]
+}
+,{
+  id: 'q-math-func-10', concept: 'math-functions', difficulty: 2,
+  question: 'If f(x) = x² − 4 and g(x) = 3x, for what values of x does f(x) = g(x)?',
+  choices: ['A) x = 4 only', 'B) x = −1 and x = 4', 'C) x = −1 only', 'D) x = 0 and x = 3'],
+  correct: 1,
+  explanation: 'The trick here is to set the two functions equal and solve. x² − 4 = 3x → x² − 3x − 4 = 0 → (x − 4)(x + 1) = 0 → x = 4 or x = −1. Think of it as "where do the two graphs meet?"',
+  steps: [
+    { note: 'Set f(x) = g(x)', math: 'x² − 4 = 3x' },
+    { note: 'Move all terms to one side', math: 'x² − 3x − 4 = 0' },
+    { note: 'Factor', math: '(x − 4)(x + 1) = 0', latex: '(x-4)(x+1) = 0' },
+    { note: 'Solve each factor', math: 'x = 4  or  x = −1' }
+  ],
+  tutor: [
+    { hint: 'To find where f(x) = g(x), set the two expressions equal. What do you get?', followUp: { q: 'Setting x² − 4 = 3x and rearranging gives:', choices: ['A) x² − 3x − 4 = 0', 'B) x² + 3x − 4 = 0', 'C) x² + 3x + 4 = 0'], correct: 0 } },
+    { hint: 'x² − 3x − 4 = 0. Find two numbers that multiply to −4 and add to −3: that\'s −4 and +1.', followUp: null },
+    { hint: 'Set them equal → x² − 3x − 4 = 0 → (x − 4)(x + 1) = 0. Like asking "where do two roller coasters cross?" — both solutions (4 and −1) are valid crossing points. Memory tip: "f = g means subtract and factor."', followUp: null }
+  ]
+}
+
+/* math-exponents: fractional exponents and product rule */
+,{
+  id: 'q-math-exp-9', concept: 'math-exponents', difficulty: 2,
+  question: 'Which of the following is equal to x^(2/3)?',
+  choices: ['A) ∛(x²)', 'B) x² / 3', 'C) (x²)³', 'D) √(x³)'],
+  correct: 0,
+  explanation: 'The trick here is the fractional exponent rule: x^(m/n) = the nth root of x^m. So x^(2/3) = ∛(x²) — the denominator is the root index and the numerator is the power. Think of the fraction as "power over root."',
+  steps: [
+    { note: 'Fractional exponent rule', math: 'x^(m/n) = ⁿ√(xᵐ)', latex: 'x^{m/n} = \\sqrt[n]{x^m}' },
+    { note: 'Apply to x^(2/3): numerator = power, denominator = root', math: 'x^(2/3) = ∛(x²)', latex: 'x^{2/3} = \\sqrt[3]{x^2}' }
+  ],
+  tutor: [
+    { hint: 'In a fractional exponent like x^(2/3), what does the denominator tell you to do?', followUp: { q: 'In x^(m/n), the denominator n means:', choices: ['A) raise to the nth power', 'B) take the nth root', 'C) divide by n'], correct: 1 } },
+    { hint: 'The denominator (3) is the root, the numerator (2) is the power. So it\'s the cube root of x².', followUp: null },
+    { hint: 'Remember "power over root" — the top number is the power, the bottom is the root index. x^(2/3) = ∛(x²). Memory tip: "denominator = root index, numerator = power."', followUp: null }
+  ]
+}
+,{
+  id: 'q-math-exp-10', concept: 'math-exponents', difficulty: 2,
+  question: 'Simplify: (3x²y)(4x³y⁵)',
+  choices: ['A) 7x⁵y⁶', 'B) 12x⁵y⁵', 'C) 12x⁶y⁵', 'D) 12x⁵y⁶'],
+  correct: 3,
+  explanation: 'The trick here is to multiply coefficients together and add exponents for matching bases. 3 × 4 = 12. x²·x³ = x^(2+3) = x⁵. y·y⁵ = y^(1+5) = y⁶. Final: 12x⁵y⁶. Think of exponents like counting how many of each base you have.',
+  steps: [
+    { note: 'Multiply coefficients', math: '3 × 4 = 12' },
+    { note: 'Multiply x-terms: add exponents (product rule)', math: 'x² · x³ = x^(2+3) = x⁵', latex: 'x^2 \\cdot x^3 = x^5' },
+    { note: 'Multiply y-terms: y = y¹', math: 'y¹ · y⁵ = y^(1+5) = y⁶', latex: 'y^1 \\cdot y^5 = y^6' },
+    { note: 'Combine', math: '12x⁵y⁶' }
+  ],
+  tutor: [
+    { hint: 'When you multiply two terms with the same base, what do you do with the exponents?', followUp: { q: 'x² · x³ = ?', choices: ['A) x⁶', 'B) x⁵', 'C) 2x³'], correct: 1 } },
+    { hint: 'Multiply the numbers (3 × 4 = 12), add x exponents (2 + 3 = 5), add y exponents (1 + 5 = 6).', followUp: null },
+    { hint: 'Like stacking bricks — if you have x² and x³ side by side, you have five x\'s total. 3 × 4 = 12, x² × x³ = x⁵, y¹ × y⁵ = y⁶. Memory tip: "multiply → add exponents."', followUp: null }
+  ]
+}
+
+/* math-circles: standard form and arc length */
+,{
+  id: 'q-math-circ-9', concept: 'math-circles', difficulty: 1,
+  question: 'What is the center and radius of the circle (x − 3)² + (y + 1)² = 25?',
+  choices: ['A) center (3, −1), radius 5', 'B) center (−3, 1), radius 5', 'C) center (3, −1), radius 25', 'D) center (3, 1), radius 5'],
+  correct: 0,
+  explanation: 'The trick here is reading the standard form carefully. (x − h)² + (y − k)² = r² means center = (h, k) and radius = √r². Watch the sign: (y + 1)² = (y − (−1))², so k = −1. Radius = √25 = 5.',
+  steps: [
+    { note: 'Standard form of a circle', math: '(x − h)² + (y − k)² = r²', latex: '(x-h)^2 + (y-k)^2 = r^2' },
+    { note: 'Match with (x − 3)² + (y + 1)² = 25', math: 'h = 3, k = −1, r² = 25' },
+    { note: 'Center and radius', math: 'center = (3, −1), radius = √25 = 5' }
+  ],
+  tutor: [
+    { hint: 'In (x − h)² + (y − k)² = r², what do h, k, and r represent?', followUp: { q: 'Center of (x − 3)² + (y + 1)² = 25 is:', choices: ['A) (−3, 1)', 'B) (3, −1)', 'C) (3, 1)'], correct: 1 } },
+    { hint: 'The signs flip: (y + 1) = (y − (−1)), so the y-coordinate of the center is −1. Radius = √25 = 5.', followUp: null },
+    { hint: 'The formula is (x − h)² + (y − k)² = r². Whatever is being subtracted from x and y is the center — but (y + 1) is really (y − (−1)), so the center y is −1, not +1. Memory tip: "center signs flip; radius is √(right side)."', followUp: null }
+  ]
+}
+,{
+  id: 'q-math-circ-10', concept: 'math-circles', difficulty: 2,
+  question: 'A circle has radius 6. A central angle of 90° cuts out an arc. What is the length of that arc? (Leave answer in terms of π)',
+  choices: ['A) 3π', 'B) 6π', 'C) 9π', 'D) 12π'],
+  correct: 0,
+  explanation: 'The trick here is using the arc length formula: arc = (central angle / 360°) × 2πr. That is (90/360) × 2π(6) = (1/4) × 12π = 3π.',
+  steps: [
+    { note: 'Arc length formula', math: 'arc = (θ/360°) × 2πr', latex: 'arc = \\frac{\\theta}{360^\\circ} \\times 2\\pi r' },
+    { note: 'Plug in θ = 90°, r = 6', math: 'arc = (90/360) × 2π(6)', latex: 'arc = \\frac{90}{360} \\times 2\\pi(6)' },
+    { note: 'Simplify 90/360 = 1/4', math: 'arc = (1/4) × 12π = 3π', latex: 'arc = \\frac{1}{4} \\times 12\\pi = 3\\pi' }
+  ],
+  tutor: [
+    { hint: 'Arc length is a fraction of the full circumference. What fraction of 360° is 90°?', followUp: { q: '90° is what fraction of 360°?', choices: ['A) 1/2', 'B) 1/3', 'C) 1/4'], correct: 2 } },
+    { hint: '90° is 1/4 of the circle. Full circumference = 2π(6) = 12π. Take 1/4 of that.', followUp: null },
+    { hint: 'Arc = (part/whole) × full circumference = (90/360) × 2π(6) = (1/4)(12π) = 3π. Like cutting a pizza — a 90° slice is 1/4 of the pie, so the crust is 1/4 of the full circle. Memory tip: "arc = angle fraction × circumference."', followUp: null }
+  ]
+}
+
 ];
 
 /* ----- 2.5 SPEECH (Web Speech API) ----- */
@@ -9601,6 +9789,78 @@ const TUTOR_LESSONS = {
       { head: 'Slope = Rise ÷ Run', body: 'How many steps up ÷ how many steps across. Subtract Y-values on top, X-values on bottom.' },
       { head: 'y = mx + b cheat code', body: '<strong>m</strong> = slope (steepness) &nbsp;|&nbsp; <strong>b</strong> = y-intercept (where it crosses the y-axis). Read them right off the equation — no math needed.' },
       { head: 'Parallel vs Perpendicular', body: 'Parallel lines = <strong>same slope</strong>. Perpendicular lines = <strong>negative reciprocal</strong> slope (flip and negate: 2 → −½).' },
+    ]
+  },
+  'eng-commas': {
+    ytId: 'gQm4UwgUyU0',
+    title: '✏️ Comma Rules',
+    notes: [
+      { head: 'Opener → Comma', body: 'Any introductory phrase or clause gets a comma after it. "After winning the game, she celebrated." Cover the opener — if the rest is a full sentence, add the comma.' },
+      { head: 'Non-essential info = two commas', body: 'Info you could delete without breaking the sentence gets a comma on each side — like parentheses. "My dog, a golden retriever, loves fetch." Remove the middle part — still works? Two commas.' },
+      { head: 'Never split subject from verb', body: 'One lone comma between a subject and its verb is almost always wrong. "The team, won." ❌ Don\'t let a long subject trick you into adding a comma before the verb.' },
+    ]
+  },
+  'eng-transitions': {
+    ytId: 'Dx9W5uKcqUU',
+    title: '🔗 Transition Words',
+    notes: [
+      { head: 'Three relationship types', body: '<strong>Adding:</strong> also, furthermore, in addition. <strong>Contrasting:</strong> however, but, although. <strong>Cause/Effect:</strong> therefore, as a result, consequently. Pick the category first, then the word.' },
+      { head: 'Read both sentences before choosing', body: 'Are the two ideas agreeing, disagreeing, or is one causing the other? That answer tells you which transition word fits. Don\'t pick a word just because it "sounds smart."' },
+      { head: 'The pivot trick 🔄', body: 'If the second idea surprises you or goes against the first, you need a contrast word (however, yet, still). If the second idea follows naturally, you need an addition or cause/effect word.' },
+    ]
+  },
+  'eng-apostrophes': {
+    ytId: 'UchUZCupw1A',
+    title: '🔑 Apostrophes',
+    notes: [
+      { head: "It's vs Its — the biggest trap", body: '<strong>It\'s = it is</strong> (contraction). <strong>Its = belonging to it</strong> (possessive). Test it: replace with "it is" — if it makes sense, use it\'s. If not, use its. No exceptions.' },
+      { head: 'Possessives: where does the apostrophe go?', body: 'One owner → add \'s: <em>the dog\'s bone</em>. Multiple owners → s comes first, then \': <em>the dogs\' bone</em>. Ask yourself: how many owners are there?' },
+      { head: 'Apostrophes ≠ plurals', body: 'Never use an apostrophe just to make something plural. "Two apple\'s" ❌ → "Two apples" ✅. Apostrophes show ownership or contraction — that\'s it.' },
+    ]
+  },
+  'eng-sva': {
+    ytId: 'ujnEnvaxVvQ',
+    title: '🤝 Subject-Verb Agreement',
+    notes: [
+      { head: 'Find the REAL subject — ignore the middle', body: 'Cross out everything between the commas or between "of the ___." What\'s left? That\'s your subject. "The bag of chips <em>is</em> open." Chips didn\'t open the bag — the bag did.' },
+      { head: 'Collective nouns are singular', body: '"The team," "the group," "the committee" — all singular, even though they\'re made of many people. "The team <strong>is</strong> ready." Not "are."' },
+      { head: 'Flip the sentence to check', body: 'When the verb comes before the subject (like in questions), flip it around. "There <em>are</em> three problems." → "Three problems <em>are</em> there." Now it\'s obvious.' },
+    ]
+  },
+  'eng-fragments': {
+    ytId: '_659UhLThN8',
+    title: '🔨 Fragments & Run-ons',
+    notes: [
+      { head: 'A sentence needs three things', body: 'A <strong>subject</strong> (who/what), a <strong>verb</strong> (action/state), and it must <strong>make sense alone</strong>. Missing any one of those = fragment.' },
+      { head: 'Watch the -ing trap', body: '"Running to school every morning." ❌ — no subject doing the running. Fix it: "He runs to school every morning." ✅ An -ing word needs a helper verb to be the main verb.' },
+      { head: 'Run-on fix: use a period, semicolon, or conjunction', body: 'Two full sentences jammed together = run-on. Fix with a period, a semicolon, or add "and/but/so." "I was tired I went to bed." → "I was tired, so I went to bed." ✅' },
+    ]
+  },
+  'eng-purpose': {
+    ytId: 'qRRXUPJDH48',
+    title: '🎯 Author\'s Purpose',
+    notes: [
+      { head: 'Ask WHY, not WHAT', body: 'The question is never "what does this sentence say?" — it\'s "why did the author put it here?" Common purposes: to illustrate a point, to contrast, to introduce, to summarize, to provide evidence.' },
+      { head: 'Off-topic = always wrong', body: 'If an answer adds information that\'s true but unrelated to the passage\'s main point, eliminate it. The ACT rewards staying on topic above everything else.' },
+      { head: 'Does it DO the job?', body: 'Read the question stem: "Which addition would best support the claim in the previous sentence?" Then ask — does each choice actually support that specific claim? Only one will.' },
+    ]
+  },
+  'eng-redundancy': {
+    ytId: 'fjOdLo5KkkI',
+    title: '✂️ Redundancy',
+    notes: [
+      { head: 'Two words, same meaning → delete one', body: '"Past history" → just "history." "Future plans" → just "plans." "End result" → "result." History is always past. Plans are always future. The extra word is wasted space.' },
+      { head: 'Shortest answer wins (usually)', body: 'On the ACT, if two choices say the same thing, the shorter one is correct. The test rewards cutting words, not adding them. If you can delete it without losing meaning — delete it.' },
+      { head: 'Red-flag phrases to memorize', body: '"The reason why is because" → "The reason is." "At this point in time" → "now." "In order to" → "to." Spot these patterns and you\'ll get easy points.' },
+    ]
+  },
+  'eng-pronouns': {
+    ytId: '17qDe9zy8iU',
+    title: '👤 Pronouns',
+    notes: [
+      { head: 'Pronoun must match its noun in number', body: 'Singular noun → singular pronoun. Plural noun → plural pronoun. Tricky: "Everyone," "anyone," "each," "nobody" are all <strong>singular</strong>. "Everyone brought <em>his or her</em> lunch." (Not "their" on ACT.)' },
+      { head: 'Who vs Whom: the he/him swap', body: 'Replace with he or him — if <em>he</em> fits, use <strong>who</strong>. If <em>him</em> fits, use <strong>whom</strong>. "Who called?" → "He called." ✅ "To whom did you speak?" → "I spoke to him." ✅' },
+      { head: 'Pronoun must refer to a clear noun', body: 'If it\'s not obvious what the pronoun refers to, the ACT will make you fix it. "Sarah told Maria she was wrong." Who\'s wrong? Rewrite to name the person: "Sarah told Maria that Maria was wrong."' },
     ]
   },
 };
