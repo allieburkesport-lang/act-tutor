@@ -10,6 +10,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
 
+<!-- Chart.js: score trend chart -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
 <!-- Firebase: cloud sync so progress follows the user across devices -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
@@ -10694,7 +10697,7 @@ function renderScorePrediction() {
 
   function box(label, score, color) {
     const lo = Math.max(1, score - 2), hi = Math.min(36, score + 2);
-    return `<div style="background:var(--card);border:2px solid ${color};border-radius:10px;padding:10px;text-align:center;cursor:pointer;" onclick="toggleScoreTrend()">
+    return `<div style="background:var(--card);border:2px solid ${color};border-radius:10px;padding:10px;text-align:center;">
       <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:2px;">${label}</div>
       <div style="font-size:22px;font-weight:800;color:${color};">${lo}–${hi}</div>
       <div style="font-size:10px;color:var(--muted);">of 36</div>
