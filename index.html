@@ -1064,17 +1064,17 @@
       <div id="skills-mastery-tracker" class="mastery-path"></div>
     </div>
 
-    <div class="card">
-      <h3>Recently Mastered</h3>
-      <div id="recently-mastered" class="concept-list"></div>
-    </div>
-
     <div class="card" id="daily-report-card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
         <h3 style="margin:0;">📅 Daily Progress</h3>
         <span style="font-size:11px;color:var(--muted);">tap a day to see breakdown</span>
       </div>
       <div id="daily-report-widget"></div>
+    </div>
+
+    <div class="card">
+      <h3>Recently Mastered</h3>
+      <div id="recently-mastered" class="concept-list"></div>
     </div>
 
     <details>
@@ -11167,49 +11167,74 @@ function renderScorePrediction() {
   const boxEl = document.getElementById('score-boxes');
   if (!boxEl) return;
 
-  // Compute per-section accuracy and mastery
-  function sectionStats(section) {
+  const SAT_BASELINE = { english: 17, math: 20, reading: 18, science: 19, composite: 20 };
+
+  // ── COMPOSITE BOX: trend from recent sessions ──
+  // Build daily accuracy sorted newest-first
+  const byDay = {};
+  (state.history || []).forEach(h => {
+    const ts = h.ts || h.t; if (!ts) return;
+    const day = new Date(ts).toISOString().slice(0,10);
+    if (!byDay[day]) byDay[day] = { total:0, correct:0 };
+    byDay[day].total++;
+    if (h.correct) byDay[day].correct++;
+  });
+  const recentDays = Object.keys(byDay).sort().reverse().slice(0, 7);
+  // Weighted average: most recent day = weight 7, next = 6 … down to 1
+  let wSum = 0, wTotal = 0;
+  recentDays.forEach((day, idx) => {
+    const w = recentDays.length - idx; // 7,6,5,4,3,2,1
+    const acc = byDay[day].correct / byDay[day].total;
+    wSum += acc * w; wTotal += w;
+  });
+  const trendAcc = wTotal > 0 ? wSum / wTotal : 0.6;
+
+  // Trend direction: compare avg of last 3 days vs 3 before that
+  const last3  = recentDays.slice(0,3).map(d => byDay[d].correct/byDay[d].total);
+  const prev3  = recentDays.slice(3,6).map(d => byDay[d].correct/byDay[d].total);
+  const avg3   = arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : null;
+  const trendDir = (avg3(last3) !== null && avg3(prev3) !== null)
+    ? (avg3(last3) - avg3(prev3) > 0.03 ? '↑' : avg3(last3) - avg3(prev3) < -0.03 ? '↓' : '→')
+    : '→';
+  const trendColor = trendDir === '↑' ? '#16a34a' : trendDir === '↓' ? '#dc2626' : '#d97706';
+
+  // Mastery count for composite bonus
+  const totalMastered = Object.values(state.concepts).filter(c => c?.mastered).length;
+  const mastBonus = Math.floor(totalMastered / 5); // +1 per 5 mastered
+  const trendImp = Math.max(0, Math.min(5, Math.floor((trendAcc - 0.50) * 12) + mastBonus));
+  const compositeScore = SAT_BASELINE.composite + trendImp;
+
+  // ── SECTION BOXES: per-section recent accuracy ──
+  function sectionTrend(section) {
     const ids = Object.keys(CONCEPTS).filter(id => CONCEPTS[id].section === section);
-    let acc = 0, count = 0, mastered = 0;
+    let mastered = 0;
+    // Use lastAttempts (last 10 per concept) — recent performance
+    let acc = 0, count = 0;
     ids.forEach(id => {
       const c = state.concepts[id];
       if (!c) return;
       if (c.mastered) mastered++;
-      if (c.attempts > 0) { acc += c.correct / c.attempts; count++; }
+      const recent = c.lastAttempts && c.lastAttempts.length >= 3 ? c.lastAttempts : null;
+      if (recent) { acc += recent.reduce((s,x)=>s+x,0)/recent.length; count++; }
+      else if (c.attempts > 0) { acc += c.correct/c.attempts; count++; }
     });
-    const avgAcc = count > 0 ? acc / count : 0;
-    return { avgAcc, mastered, total: ids.length, count };
+    const avgAcc = count > 0 ? acc/count : 0;
+    const imp = count < 2 ? 0 : Math.max(0, Math.min(4,
+      Math.floor((avgAcc - 0.50) * 8) + Math.floor(mastered/3)
+    ));
+    return { score: SAT_BASELINE[section] + imp, mastered, avgAcc };
   }
 
-  const eng  = sectionStats('english');
-  const math = sectionStats('math');
-  const sci  = sectionStats('science');
-  const read = sectionStats('reading');
+  const eng  = sectionTrend('english');
+  const math = sectionTrend('math');
+  const read = sectionTrend('reading');
+  const sciCount = Object.keys(state.concepts).filter(k => CONCEPTS[k]?.section==='science' && (state.concepts[k]?.attempts||0)>3).length;
+  const sci  = sectionTrend('science');
+  const sciScore = SAT_BASELINE.science + (sciCount >= 3 ? sci.score - SAT_BASELINE.science : 0);
 
-  // SAT concordance baselines (SAT 990 total; R&W 470 → English/Reading; Math 520 → Math)
-  const SAT_BASELINE = { english: 17, math: 20, reading: 18, science: 19, composite: 20 };
+  function range(n) { return n + '\u2013' + (n + 2); }
 
-  // Honest improvement above SAT baseline from app practice (untimed drills only).
-  // At 60% acc + 5 mastered: +1 pt. At 70%+ acc + 8 mastered: +3-4 pts. Max +4.
-  // Real timed test typically runs 2-3 pts lower than this estimate.
-  function improvement(s) {
-    if (s.count < 2) return 0; // not enough data to estimate
-    const accGain = Math.floor((s.avgAcc - 0.50) * 8); // 0 at 58%, 1 at 63%, 2 at 75%
-    const mastGain = Math.floor(s.mastered / 3);        // +1 per 3 concepts mastered
-    return Math.max(0, Math.min(4, accGain + mastGain));
-  }
-
-  const engScore  = SAT_BASELINE.english  + improvement(eng);
-  const mathScore = SAT_BASELINE.math     + improvement(math);
-  const readScore = SAT_BASELINE.reading  + improvement(read);
-  const sciAttempts = Object.keys(state.concepts).filter(k => CONCEPTS[k]?.section === 'science' && (state.concepts[k]?.attempts||0) > 3).length;
-  const sciScore  = SAT_BASELINE.science  + (sciAttempts >= 3 ? improvement(sci) : 0);
-  const composite = Math.round((engScore + mathScore + readScore + sciScore) / 4);
-
-  // Show as range (score to score+2) to reflect real-test variability
-  function range(n) { return n + '–' + (n + 2); }
-
-  function box(label, baseline, score, color) {
+  function box(label, baseline, score, color, sub) {
     const gain = score - baseline;
     const gainStr = gain > 0 ? `+${gain} vs start` : 'at baseline';
     const gainColor = gain > 0 ? '#16a34a' : '#6b7280';
@@ -11218,15 +11243,20 @@ function renderScorePrediction() {
       <div style="font-size:10px;color:#6b7280;margin-bottom:3px;">Start: <strong style="color:#111">${baseline}</strong></div>
       <div style="font-size:26px;font-weight:800;color:${color};line-height:1.1;">${range(score)}</div>
       <div style="font-size:10px;color:${gainColor};font-weight:600;margin-top:2px;">${gainStr}</div>
-      <div style="font-size:10px;color:#6b7280;margin-top:1px;">target 31</div>
+      <div style="font-size:10px;color:#6b7280;margin-top:1px;">${sub}</div>
     </div>`;
   }
 
+  const trendAccPct = Math.round(trendAcc * 100);
   boxEl.innerHTML =
-    box('Composite', SAT_BASELINE.composite, composite,  '#1e3a5f') +
-    box('English',   SAT_BASELINE.english,   engScore,   '#2563eb') +
-    box('Math',      SAT_BASELINE.math,       mathScore,  '#16a34a') +
-    box('Science',   SAT_BASELINE.science,    sciScore,   '#0891b2');
+    box('Composite', SAT_BASELINE.composite, compositeScore, '#1e3a5f',
+        `<span style="color:${trendColor};font-weight:700;">${trendDir} trending ${trendAccPct}%</span>`) +
+    box('English',   SAT_BASELINE.english,   eng.score,  '#2563eb',
+        `recent ${Math.round(eng.avgAcc*100)}% · ${eng.mastered}/12 mastered`) +
+    box('Math',      SAT_BASELINE.math,       math.score, '#16a34a',
+        `recent ${Math.round(math.avgAcc*100)}% · ${math.mastered}/13 mastered`) +
+    box('Science',   SAT_BASELINE.science,    sciScore,   '#0891b2',
+        sciCount >= 3 ? `recent ${Math.round(sci.avgAcc*100)}%` : 'limited data');
 }
 
 function toggleScoreTrend() {
@@ -11250,14 +11280,11 @@ function toggleScoreTrend() {
       if (h.correct) byDay[day].correct++;
     });
     const days = Object.keys(byDay).slice(-20); // last 20 active days
-    const scores = days.map(d => {
-      const acc = byDay[d].correct / byDay[d].total;
-      return Math.round(15 + acc * 10); // maps 50%→20, 60%→21, 70%→22, 80%→23 — anchored to SAT baseline
-    });
+    const accPcts = days.map(d => Math.round(100 * byDay[d].correct / byDay[d].total));
+    const scores  = accPcts.map(acc => Math.round(15 + (acc / 100) * 10)); // 50%→20, 60%→21, 70%→22, 80%→23
 
     const ctx = document.getElementById('scoreTrendChart');
     if (!ctx) return;
-    // Use Chart.js if available, else simple bars
     if (typeof Chart !== 'undefined') {
       _scoreTrendChart = new Chart(ctx, {
         type: 'line',
@@ -11279,7 +11306,18 @@ function toggleScoreTrend() {
         },
         options: {
           responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } },
+          plugins: {
+            legend: { position: 'bottom', labels: { font: { size: 11 } } },
+            tooltip: {
+              callbacks: {
+                label: function(ctx) {
+                  if (ctx.datasetIndex === 1) return 'Target: 31';
+                  const i = ctx.dataIndex;
+                  return `Est. Composite: ${ctx.parsed.y}  ·  ${accPcts[i]}% accuracy that day`;
+                }
+              }
+            }
+          },
           scales: {
             y: { min: 10, max: 36, ticks: { stepSize: 4 }, grid: { color: '#f0f0f0' } },
             x: { ticks: { font: { size: 10 } }, grid: { display: false } }
@@ -11322,15 +11360,4 @@ function exportForClaude() {
     };
   });
 
-  const blob = new Blob([JSON.stringify(snap, null, 2)], { type: 'application/json' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'progress.json';
-  a.click();
-  alert('Saved! Move progress.json into your ACT folder so the daily Claude task can read it.');
-}
-
-</script>
-
-</body>
-</html>                                                                                                                                                                                                                                                                                                                                                                                          
+  
