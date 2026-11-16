@@ -90,11 +90,11 @@ function prog(){const s=store.get();const m=C.filter(c=>s[c.id]&&s[c.id].mastere
  document.getElementById('plab').textContent=m+' of '+C.length+' mastered';document.getElementById('pbar').style.width=(100*m/C.length)+'%';
  const parts=[...new Set(C.map(c=>c.part))];
  document.getElementById('groups').innerHTML=parts.map(p=>'<div class="grp"><div class="lab">'+p+'</div><div class="chips">'+
-  C.map((c,i)=>c.part!==p?'':`<button class="chip${c.math?' m':''}${s[c.id]&&s[c.id].mastered?' done':''}${i===cur?' now':''}" data-go="${i}"><b>${c.L}</b>${c.title.split(':')[0]}</button>`).join('')+'</div></div>').join('');}
+  C.map((c,i)=>c.part!==p?'':`<button class="chip${c.math?' m':''}${s[c.id]&&s[c.id].mastered?' done':''}${i===cur?' now':''}" data-go="${i}"><b>${i+1}</b>${c.L} · ${c.title.split(':')[0]}</button>`).join('')+'</div></div>').join('');}
 
 function open(i,st){cur=i;step=st||0;exN=1;tqShown={};dr=null;saidShown=false;render();prog();}
 
-function head(c){return `<div class="lesson"><div class="big">${c.L}</div><div><div class="part">${c.part}</div><h2>${c.title}</h2></div></div>
+function head(c){return `<div class="lesson"><div class="big">${c.L}</div><div><div class="part">Drill Zone #${cur+1} · ${c.part}</div><h2>${c.title}</h2></div></div>
  <div class="steps">${STEPS.map((s,i)=>`<button class="${i===step?'on':(i<step?'fin':'')}" data-step="${i}">${i+1} · ${s}</button>`).join('')}</div>`;}
 
 function render(){
