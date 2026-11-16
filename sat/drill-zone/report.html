@@ -1,0 +1,59 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SAT Drill Zone Report</title>
+<style>
+:root{--ink:#1f2a44;--muted:#4a5568;--line:#cbd5e1;--blue:#2f6fb5;--blue-t:#1f4e8a;--green:#2e7d4f;--green-t:#1f6b40;--green-bg:#e2f3e8;--yellow:#e0b020;--yellow-t:#6b4e00;--yellow-bg:#fdf3cf;--red:#c0392b;--red-t:#9a2e25;--red-bg:#fbe3e0;color-scheme:light}
+*{box-sizing:border-box}body{margin:0;background:#fff;color:var(--ink);font-family:'DejaVu Sans',Verdana,Geneva,'Segoe UI',sans-serif;font-size:15px;line-height:1.45}
+.wrap{max-width:1320px;margin:0 auto;padding:18px 24px 60px;display:flex;flex-direction:column;gap:14px}
+header{border-bottom:3px solid var(--ink);padding-bottom:8px}h1{margin:0;font-size:26px}.sub{color:var(--muted);margin:2px 0 0;font-size:14px}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}select,button{font:inherit;padding:6px 10px;border:1.5px solid var(--line);border-radius:6px;background:#fff;color:var(--ink)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.tile{border:1px solid var(--line);border-radius:8px;padding:10px 14px}.tile .v{font-size:28px;font-weight:700;font-variant-numeric:tabular-nums}.lab{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+h2{font-size:18px;margin:8px 0 0;border-bottom:2px solid var(--ink);padding-bottom:3px}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}th,td{border:1px solid #d3dae5;padding:5px 8px;text-align:left;vertical-align:top}th{background:#f4f2ec}td.num{text-align:right;font-variant-numeric:tabular-nums}
+.pill{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;font-weight:700}
+.ok{background:var(--green-bg);color:var(--green-t)}.mid{background:var(--yellow-bg);color:var(--yellow-t)}.bad{background:var(--red-bg);color:var(--red-t)}.none{background:#eef1f5;color:var(--muted)}
+.meter{height:8px;background:#e5e9f0;border-radius:4px;overflow:hidden;min-width:80px}.meter i{display:block;height:100%}
+a{color:var(--blue-t)}
+@media (max-width:600px){.wrap{padding:14px 16px 40px}}
+</style></head><body><div class="wrap">
+<header><h1>SAT Drill Zone Report</h1><p class="sub">First-try scores from the <a href="./">SAT Drill Zone</a>, by section and by concept. Green 80%+ · yellow 50–79% · red under 50%.</p></header>
+<div class="bar"><label for="who"><b>Student</b></label><select id="who"></select><label for="rng"><b>Dates</b></label>
+<select id="rng"><option value="0">All time</option><option value="1">Today</option><option value="7">Last 7 days</option><option value="30">Last 30 days</option></select><button id="reload">Refresh</button><span id="status" class="sub"></span></div>
+<div class="tiles" id="tiles"></div>
+<h2>By section</h2><div class="tw"><table id="parts"></table></div>
+<h2>By concept</h2><div class="tw"><table id="concepts"></table></div>
+<h2>Questions missed on the first try</h2><div class="tw"><table id="misses"></table></div>
+</div>
+<script>
+const META=[{"id": "s1", "no": 1, "title": "Sentences: joining two full sentences", "part": "SNAPS · Grammar", "n": 3}, {"id": "s2", "no": 2, "title": "No wall: no punctuation between teammates", "part": "SNAPS · Grammar", "n": 3}, {"id": "s3", "no": 3, "title": "Apostrophes and pronouns", "part": "SNAPS · Grammar", "n": 3}, {"id": "s4", "no": 4, "title": "Pairs: matching marks around extra info", "part": "SNAPS · Grammar", "n": 3}, {"id": "s5", "no": 5, "title": "Subject X-ray and verb form", "part": "SNAPS · Grammar", "n": 3}, {"id": "s6", "no": 6, "title": "CARE: how do the two sentences connect?", "part": "CARE · Transitions", "n": 3}, {"id": "r1", "no": 7, "title": "Words in context", "part": "CLUE · Reading", "n": 3}, {"id": "r2", "no": 8, "title": "Main idea", "part": "CLUE · Reading", "n": 2}, {"id": "r3", "no": 9, "title": "Inferences: finish the thought", "part": "CLUE · Reading", "n": 2}, {"id": "r4", "no": 10, "title": "Evidence: support, weaken, illustrate", "part": "CLUE · Reading", "n": 2}, {"id": "r5", "no": 11, "title": "Purpose, structure, and two texts", "part": "CLUE · Reading", "n": 2}, {"id": "r6", "no": 12, "title": "Notes questions: do exactly the goal", "part": "CLUE · Reading", "n": 2}, {"id": "m1", "no": 13, "title": "Define FIND", "part": "DRIVE · Math", "n": 3}, {"id": "m2", "no": 14, "title": "Read the trap words", "part": "DRIVE · Math", "n": 3}, {"id": "m3", "no": 15, "title": "Input: put it in Desmos", "part": "DRIVE · Math", "n": 3}, {"id": "m4", "no": 16, "title": "Verify and check edge numbers", "part": "DRIVE · Math", "n": 3}, {"id": "m5", "no": 17, "title": "Every minute: use the whole clock", "part": "DRIVE · Math", "n": 3}, {"id": "t1", "no": 18, "title": "Lines, slopes, tables and how many solutions", "part": "Math traps", "n": 4}, {"id": "t2", "no": 19, "title": "Exponents and equivalent expressions", "part": "Math traps", "n": 4}, {"id": "t3", "no": 20, "title": "Circles, volume and trig", "part": "Math traps", "n": 4}, {"id": "g1", "no": 21, "title": "Modifiers: the doer goes right after the comma", "part": "SNAPS+ · More grammar", "n": 3}, {"id": "g2", "no": 22, "title": "Lists and pairs must match", "part": "SNAPS+ · More grammar", "n": 3}, {"id": "g3", "no": 23, "title": "Verb tense and form", "part": "SNAPS+ · More grammar", "n": 3}, {"id": "a1", "no": 24, "title": "Quadratics: zeros, vertex, how many solutions", "part": "Algebra+ · More math", "n": 4}, {"id": "a2", "no": 25, "title": "Systems: words to equations, then solve", "part": "Algebra+ · More math", "n": 3}, {"id": "a3", "no": 26, "title": "Functions and rearranging formulas", "part": "Algebra+ · More math", "n": 3}, {"id": "a4", "no": 27, "title": "Absolute value", "part": "Algebra+ · More math", "n": 3}, {"id": "a5", "no": 28, "title": "Inequalities from words and graphs", "part": "Algebra+ · More math", "n": 3}, {"id": "a6", "no": 29, "title": "Ratios, rates and unit conversions", "part": "Algebra+ · More math", "n": 3}, {"id": "d1", "no": 30, "title": "Mean, median and spread", "part": "Data", "n": 3}, {"id": "d2", "no": 31, "title": "Probability and two-way tables", "part": "Data", "n": 3}, {"id": "d3", "no": 32, "title": "Scatterplots, models and residuals", "part": "Data", "n": 3}, {"id": "e1", "no": 33, "title": "Similar shapes: sides, perimeter, area, volume", "part": "Geometry", "n": 3}, {"id": "e2", "no": 34, "title": "Angles, triangles and parallel lines", "part": "Geometry", "n": 3}], SB='https://wsoevgmculmcnxymivbp.supabase.co/rest/v1/answers', SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indzb2V2Z21jdWxtY254eW1pdmJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ3OTIwMTAsImV4cCI6MjExMDM2ODAxMH0.wl408Zf5rJjh-uhPbPuykvUtETHinQXQdttAJPvn1Jk';
+const H={apikey:SK,Authorization:'Bearer '+SK};
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pct=(a,b)=>b?Math.round(100*a/b):null;
+const pill=p=>p===null?'<span class="pill none">not started</span>':`<span class="pill ${p>=80?'ok':p>=50?'mid':'bad'}">${p}%</span>`;
+const meter=p=>p===null?'':`<div class="meter"><i style="width:${p}%;background:${p>=80?'var(--green)':p>=50?'var(--yellow)':'var(--red)'}"></i></div>`;
+async function students(){const r=await fetch(SB+'?select=student&order=student',{headers:H});const j=await r.json();return [...new Set(j.map(x=>x.student))];}
+async function load(){
+ const who=document.getElementById('who').value, days=+document.getElementById('rng').value, st=document.getElementById('status');
+ if(!who){st.textContent='No answers saved yet. Type a name on the Drill Zone page and answer a drill question.';return}
+ st.textContent='Loading…';
+ let url=SB+'?select=*&order=created_at.desc&limit=5000&student=eq.'+encodeURIComponent(who);
+ if(days){const d=new Date();d.setHours(0,0,0,0);d.setDate(d.getDate()-(days-1));url+='&created_at=gte.'+d.toISOString();}
+ let rows=[];try{rows=await (await fetch(url,{headers:H})).json();}catch(e){st.textContent='Could not load scores. Check the internet connection and press Refresh.';return}
+ st.textContent=rows.length+' saved answers';
+ const firsts=rows.filter(r=>r.kind==='drill'&&r.attempt===1), said=new Set(rows.filter(r=>r.kind==='say').map(r=>r.concept_id));
+ const right=firsts.filter(r=>r.correct).length, secs=firsts.map(r=>r.seconds).filter(x=>x!=null);
+ const avg=secs.length?Math.round(secs.reduce((a,b)=>a+b,0)/secs.length):null, last=rows[0]?new Date(rows[0].created_at).toLocaleString():'—';
+ const by={}; firsts.forEach(r=>{(by[r.concept_id]=by[r.concept_id]||[]).push(r)});
+ const mastered=META.filter(m=>{const a=by[m.id]||[];const okq=new Set(a.filter(r=>r.correct).map(r=>r.question_no));return okq.size>=m.n&&said.has(m.id)}).length;
+ document.getElementById('tiles').innerHTML=[['Questions answered',firsts.length],['Right on the first try',firsts.length?pct(right,firsts.length)+'%':'—'],['Concepts practiced',Object.keys(by).length+' of '+META.length],['Concepts mastered',mastered],['Avg. seconds per question',avg??'—'],['Last practice',last]].map(([l,v])=>`<div class="tile"><div class="lab">${l}</div><div class="v" style="${l==='Last practice'?'font-size:15px':''}">${v}</div></div>`).join('');
+ const parts=[...new Set(META.map(m=>m.part))];
+ document.getElementById('parts').innerHTML='<tr><th>Section</th><th>Answered</th><th>Right first try</th><th>Score</th><th style="width:22%"></th></tr>'+parts.map(p=>{const ids=META.filter(m=>m.part===p).map(m=>m.id);const a=firsts.filter(r=>ids.includes(r.concept_id));const ok=a.filter(r=>r.correct).length;const pc=pct(ok,a.length);return `<tr><td><b>${esc(p)}</b></td><td class="num">${a.length}</td><td class="num">${ok}</td><td>${pill(pc)}</td><td>${meter(pc)}</td></tr>`}).join('');
+ document.getElementById('concepts').innerHTML='<tr><th>#</th><th>Concept</th><th>Section</th><th>Answered</th><th>Right first try</th><th>Score</th><th>Said the rule</th><th>Last practiced</th></tr>'+META.map(m=>{const a=by[m.id]||[];const ok=a.filter(r=>r.correct).length;const pc=pct(ok,a.length);const lp=a[0]?new Date(a[0].created_at).toLocaleDateString():'—';return `<tr><td class="num">${m.no}</td><td><a href="./#${m.id}">${esc(m.title)}</a></td><td>${esc(m.part)}</td><td class="num">${a.length}</td><td class="num">${ok}</td><td>${pill(pc)}</td><td>${said.has(m.id)?'✓':''}</td><td>${lp}</td></tr>`}).join('');
+ const miss=firsts.filter(r=>!r.correct);
+ document.getElementById('misses').innerHTML=miss.length?'<tr><th>When</th><th>#</th><th>Concept</th><th>Question</th><th>Picked</th><th>Seconds</th></tr>'+miss.map(r=>`<tr><td>${new Date(r.created_at).toLocaleString()}</td><td class="num">${r.concept_no??''}</td><td>${esc(r.concept_title)}</td><td>${esc(r.question)}</td><td style="color:var(--red-t)">✗ ${esc(r.picked)}</td><td class="num">${r.seconds??''}</td></tr>`).join(''):'<tr><td>No first-try misses in this date range.</td></tr>';
+}
+(async()=>{const sel=document.getElementById('who');let names=[];try{names=await students();}catch(e){}
+ let pref='';try{pref=localStorage.getItem('satname')||''}catch(e){}
+ sel.innerHTML=names.map(n=>`<option${n===pref?' selected':''}>${esc(n)}</option>`).join('')||'<option value="">(no one yet)</option>';
+ sel.onchange=load;document.getElementById('rng').onchange=load;document.getElementById('reload').onclick=load;load();})();
+</script></body></html>
