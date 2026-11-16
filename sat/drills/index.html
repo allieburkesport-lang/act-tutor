@@ -1,83 +1,82 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>SAT Drill Zone</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@500&display=swap">
 <style>
-/* Layout: one column like a playbook page. One step on screen at a time. Colors follow the course key. */
-:root{
- --bg:#f2f4f8;--paper:#fff;--ink:#1d2740;--muted:#5b6475;--line:#d6dce7;
- --blue:#2f6fb5;--blue-bg:#e3eef9;--green:#2e7d4f;--green-bg:#e2f3e8;--red:#c0392b;--red-bg:#fbe3e0;
- --yellow:#a87908;--yellow-bg:#fdf3cf;--purple:#6a3fa0;--purple-bg:#eee6f7;
- --body:'Atkinson Hyperlegible',system-ui,-apple-system,'Segoe UI',sans-serif;--mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+/* Same look as Patrick's AP Gov and Chemistry study guides: white page, navy ink, outlined navy lesson header, the 5-color key. */
+:root{--ink:#1f2a44;--muted:#4a5568;--line:#cbd5e1;--paper:#fff;--bg:#fff;
+ --blue:#2f6fb5;--blue-t:#1f4e8a;--blue-bg:#e3eef9;--green:#2e7d4f;--green-t:#1f6b40;--green-bg:#e2f3e8;
+ --yellow:#e0b020;--yellow-t:#6b4e00;--yellow-bg:#fdf3cf;--red:#c0392b;--red-t:#9a2e25;--red-bg:#fbe3e0;
+ --purple:#7b4fa0;--purple-t:#5a3290;--purple-bg:#eee6f7;
+ --body:'DejaVu Sans',Verdana,Geneva,'Segoe UI',sans-serif;color-scheme:light;
  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#11161f;--paper:#1a2130;--ink:#e8ecf3;--muted:#9aa5b8;--line:#2e3a4f;
- --blue:#83b4ec;--blue-bg:#1c2c44;--green:#72d29b;--green-bg:#163225;--red:#f28b7f;--red-bg:#3a1f1d;--yellow:#f1c75d;--yellow-bg:#342b12;--purple:#bc9de8;--purple-bg:#29203f;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#11161f;--paper:#1a2130;--ink:#e8ecf3;--muted:#9aa5b8;--line:#2e3a4f;
- --blue:#83b4ec;--blue-bg:#1c2c44;--green:#72d29b;--green-bg:#163225;--red:#f28b7f;--red-bg:#3a1f1d;--yellow:#f1c75d;--yellow-bg:#342b12;--purple:#bc9de8;--purple-bg:#29203f;color-scheme:dark}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5}
-.wrap{max-width:780px;margin:0 auto;padding-block:18px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:14px}
-h1{margin:0;font-size:28px;line-height:1.15}
-.sub{color:var(--muted);margin:2px 0 0}
-.bar{height:10px;background:var(--line);border-radius:5px;overflow:hidden}.bar i{display:block;height:100%;background:var(--green);width:0}
-.lab{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-details.nav{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45}
+.wrap{max-width:780px;margin:0 auto;padding-block:18px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:12px}
+header{border-bottom:3px solid var(--ink);padding-bottom:8px}
+h1{margin:0;font-size:27px;line-height:1.15}
+.sub{color:var(--muted);margin:3px 0 0;font-size:14px}
+.key{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}
+.key b{font-size:11px;padding:2px 6px;border-radius:4px;margin-right:4px;letter-spacing:.5px}
+.kb{background:var(--blue-bg);color:var(--blue-t)}.kg{background:var(--green-bg);color:var(--green-t)}.ky{background:var(--yellow-bg);color:var(--yellow-t)}.kr{background:var(--red-bg);color:var(--red-t)}.kp{background:var(--purple-bg);color:var(--purple-t)}
+.bar{height:9px;background:#e5e9f0;border-radius:5px;overflow:hidden}.bar i{display:block;height:100%;background:var(--green);width:0}
+.lab{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.muted{color:var(--muted)}
+details.nav{border:1px solid var(--line);border-radius:8px;padding:9px 13px}
 details.nav summary{cursor:pointer;font-weight:700}
 .grp{margin-top:10px}.grp .lab{color:var(--muted)}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-.chip{font:inherit;font-size:14px;display:flex;align-items:center;gap:6px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:4px 10px 4px 4px;cursor:pointer}
-.chip b{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--blue-bg);color:var(--blue);font-size:13px}
-.chip.m b{background:var(--purple-bg);color:var(--purple)}
-.chip.done{border-color:var(--green)}.chip.done b{background:var(--green);color:var(--paper)}
+.chip{font:inherit;font-size:13px;display:flex;align-items:center;gap:6px;border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;padding:3px 10px 3px 3px;cursor:pointer}
+.chip b{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--blue-t);color:#fff;font-size:12px}
+.chip.done{border-color:var(--green)}.chip.done b{background:var(--green)}
 .chip.now{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
-.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0}
-.top{display:flex;gap:14px;align-items:center}
-.big{flex:0 0 56px;height:56px;border-radius:12px;display:grid;place-items:center;font-size:30px;font-weight:700;background:var(--blue-bg);color:var(--blue)}
-.big.m{background:var(--purple-bg);color:var(--purple)}
-.top h2{margin:0;font-size:22px;line-height:1.2;text-wrap:balance}
-.top .part{color:var(--muted);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.card{display:flex;flex-direction:column;gap:12px;min-width:0}
+.lesson{border:3px solid var(--ink);border-radius:8px;padding:9px 14px 10px;display:flex;gap:14px;align-items:center}
+.big{flex:0 0 48px;height:48px;border-radius:50%;display:grid;place-items:center;font-size:24px;font-weight:700;background:var(--ink);color:#fff}
+.lesson .part{color:var(--muted);font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase}
+.lesson h2{margin:2px 0 0;font-size:20px;line-height:1.2;text-wrap:balance}
 .steps{display:flex;flex-wrap:wrap;gap:6px}
-.steps button{font:inherit;font-size:13px;font-weight:700;border:1.5px solid var(--line);background:transparent;color:var(--muted);border-radius:999px;padding:4px 11px;cursor:pointer}
-.steps button.on{border-color:var(--ink);color:var(--ink)}.steps button.fin{border-color:var(--green);color:var(--green)}
-.box{border-left:5px solid;border-radius:0 10px 10px 0;padding:10px 14px;display:flex;flex-direction:column;gap:4px}
+.steps button{font:inherit;font-size:12px;font-weight:700;border:1.5px solid var(--line);background:#fff;color:var(--muted);border-radius:999px;padding:4px 10px;cursor:pointer}
+.steps button.on{border-color:var(--ink);background:var(--ink);color:#fff}.steps button.fin{border-color:var(--green);color:var(--green-t)}
+.box{border-left:5px solid;border-radius:0 6px 6px 0;padding:9px 13px;display:flex;flex-direction:column;gap:4px}
 .box p{margin:0}
-.b-def{background:var(--blue-bg);border-color:var(--blue)}.b-def .lab{color:var(--blue)}
-.b-ok{background:var(--green-bg);border-color:var(--green)}.b-ok .lab{color:var(--green)}
-.b-trap{background:var(--red-bg);border-color:var(--red)}.b-trap .lab{color:var(--red)}
-.b-rem{background:var(--yellow-bg);border-color:var(--yellow)}.b-rem .lab{color:var(--yellow)}
-.b-math{background:var(--purple-bg);border-color:var(--purple)}.b-math .lab{color:var(--purple)}
-ol.how{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:4px}
-.ex{border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
-.ex .ok{color:var(--green)}.ex .no{color:var(--red)}.ex .why{color:var(--muted);font-size:15px}
-.ex .ok::before{content:"✓ ";font-weight:700}.ex .no::before{content:"✗ ";font-weight:700}
-.tq{border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
-.tq .where{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.tq .his{color:var(--red)}.tq .his::before{content:"You picked ✗ ";font-weight:700}
-.q{font-size:20px;line-height:1.45;margin:0}
-.opts{display:grid;gap:10px}
-.opt{font:inherit;font-size:17px;text-align:left;display:flex;gap:12px;align-items:flex-start;padding:11px 14px;border-radius:10px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer;min-width:0}
+.b-def{background:var(--blue-bg);border-color:var(--blue)}.b-def .lab{color:var(--blue-t)}
+.b-ok{background:var(--green-bg);border-color:var(--green)}.b-ok .lab{color:var(--green-t)}
+.b-trap{background:var(--red-bg);border-color:var(--red)}.b-trap .lab{color:var(--red-t)}
+.b-rem{background:var(--yellow-bg);border-color:var(--yellow)}.b-rem .lab{color:var(--yellow-t)}
+.b-math{background:var(--purple-bg);border-color:var(--purple)}.b-math .lab{color:var(--purple-t)}
+.how{display:flex;flex-direction:column;gap:6px}
+.how .st{display:flex;gap:9px;align-items:flex-start}
+.how .n{flex:0 0 24px;height:24px;border-radius:50%;background:var(--blue-t);color:#fff;font-weight:700;font-size:13px;display:grid;place-items:center}
+.ex{border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:7px}
+.ex .why{color:var(--muted);font-size:14px}
+.tq{border:1px solid var(--line);border-radius:8px;padding:11px 13px;display:flex;flex-direction:column;gap:7px}
+.tq .where{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--purple-t)}
+.q{font-size:18px;line-height:1.45;margin:0}
+.qcard{border:1px solid var(--line);border-radius:8px;padding:13px 14px;display:flex;flex-direction:column;gap:12px}
+.opts{display:grid;gap:9px}
+.opt{font:inherit;font-size:16px;text-align:left;display:flex;gap:11px;align-items:flex-start;padding:10px 13px;border-radius:8px;border:1.5px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;min-width:0}
 .opt:hover:not(:disabled){border-color:var(--ink)}
-.opt .L{flex:0 0 30px;height:30px;border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;font-weight:700;font-size:15px}
+.opt .L{flex:0 0 28px;height:28px;border-radius:50%;border:1.5px solid currentColor;display:grid;place-items:center;font-weight:700;font-size:14px}
 .opt .T{min-width:0;overflow-wrap:anywhere;padding-top:2px}
-.opt.x{background:var(--red-bg);border-color:var(--red);color:var(--muted)}.opt.x .T{text-decoration:line-through;text-decoration-color:var(--red)}.opt.x .L{color:var(--red)}
-.opt.right{background:var(--green-bg);border-color:var(--green);font-weight:700}.opt.right .L{color:var(--green)}
+.opt.x{background:var(--red-bg);border-color:var(--red);color:var(--muted)}.opt.x .T{text-decoration:line-through;text-decoration-color:var(--red)}.opt.x .L{color:var(--red-t)}
+.opt.right{background:var(--green-bg);border-color:var(--green);font-weight:700}.opt.right .L{color:var(--green-t)}
 .opt:disabled{cursor:default}
+.yt{background:#f3faf5;border:2px dashed var(--green);border-radius:8px;padding:10px 14px;display:flex;flex-direction:column;gap:4px}.yt .lab{color:var(--green-t)}.yt p{margin:0}
 .actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.btn{font:inherit;font-weight:700;font-size:16px;padding:10px 18px;border-radius:10px;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);cursor:pointer}
-.btn.ghost{background:transparent;color:var(--ink)}
-.btn:disabled{opacity:.45;cursor:default}
+.btn{font:inherit;font-weight:700;font-size:15px;padding:10px 17px;border-radius:8px;border:2px solid var(--ink);background:var(--ink);color:#fff;cursor:pointer}
+.btn.ghost{background:#fff;color:var(--ink)}
 button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
-.dots{display:flex;gap:5px}.dot{width:22px;height:8px;border-radius:4px;background:var(--line)}.dot.ok{background:var(--green)}.dot.miss{background:var(--red)}.dot.now{background:var(--ink)}
-.score{font-size:36px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
-.muted{color:var(--muted)}
-footer{font-size:13px;color:var(--muted)}
-@media (prefers-reduced-motion:no-preference){.fade{animation:in .22s ease-out}@keyframes in{from{opacity:.4;transform:translateY(6px)}to{opacity:1;transform:none}}}
-@media (max-width:480px){.q{font-size:18px}h1{font-size:24px}.top h2{font-size:19px}}
+.dots{display:flex;gap:5px}.dot{width:22px;height:8px;border-radius:4px;background:#e5e9f0}.dot.ok{background:var(--green)}.dot.miss{background:var(--red)}.dot.now{background:var(--ink)}
+.score{font-size:34px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+footer{font-size:12px;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){.fade{animation:in .2s ease-out}@keyframes in{from{opacity:.5;transform:translateY(5px)}to{opacity:1;transform:none}}}
+@media (max-width:480px){.q{font-size:17px}h1{font-size:23px}.lesson h2{font-size:18px}}
 </style></head><body>
 <div class="wrap">
  <header><h1>SAT Drill Zone</h1><p class="sub">SNAPS · CARE · CLUE · DRIVE. Learn it, see it, fix your test misses, drill it, say it.</p></header>
+ <div class="key"><span><b class="kb">BLUE</b>Rules</span><span><b class="kg">GREEN</b>Examples + memory hooks</span><span><b class="ky">YELLOW</b>Remember this</span><span><b class="kr">RED</b>Traps</span><span><b class="kp">PURPLE</b>Numbers + worked math</span></div>
  <div><div class="actions" style="justify-content:space-between"><span class="lab muted" id="plab">0 of 20 mastered</span></div><div class="bar"><i id="pbar"></i></div></div>
  <details class="nav" id="nav"><summary>All 20 concepts</summary><div id="groups"></div></details>
- <main class="card fade" id="main" aria-live="polite"></main>
+ <main class="card" id="main" aria-live="polite"></main>
  <footer>Mastered = every drill right on the first try + you said the rule out loud. Progress saves in this browser.</footer>
 </div>
 <script>
@@ -95,22 +94,23 @@ function prog(){const s=store.get();const m=C.filter(c=>s[c.id]&&s[c.id].mastere
 
 function open(i,st){cur=i;step=st||0;exN=1;tqShown={};dr=null;saidShown=false;render();prog();}
 
-function head(c){return `<div class="top"><div class="big${c.math?' m':''}">${c.L}</div><div><div class="part">${c.part}</div><h2>${c.title}</h2></div></div>
+function head(c){return `<div class="lesson"><div class="big">${c.L}</div><div><div class="part">${c.part}</div><h2>${c.title}</h2></div></div>
  <div class="steps">${STEPS.map((s,i)=>`<button class="${i===step?'on':(i<step?'fin':'')}" data-step="${i}">${i+1} · ${s}</button>`).join('')}</div>`;}
 
 function render(){
  const c=C[cur], m=document.getElementById('main'); let h=head(c);
  if(step===0){
-  h+=`<div class="box ${c.math?'b-math':'b-def'}"><span class="lab">The rule</span><p>${c.learn}</p></div>
+  h+=`<div class="box b-def"><span class="lab">The rule</span><p>${c.learn}</p></div>
    <div class="box b-ok"><span class="lab">Memory hook</span><p>${c.hook}</p></div>
-   <div class="box b-rem"><span class="lab">Do this every time</span><ol class="how">${c.how.map(x=>'<li>'+x+'</li>').join('')}</ol></div>
+   <div><div class="lab muted" style="margin-bottom:6px">Do this every time</div><div class="how">${c.how.map((x,i)=>'<div class="st"><span class="n">'+(i+1)+'</span><div>'+x+'</div></div>').join('')}</div></div>
+   <div class="box b-rem"><span class="lab">Remember this</span><p><b>${c.key}</b></p></div>
    <div class="actions"><button class="btn" data-step="1">See examples</button></div>`;
  } else if(step===1){
-  h+=c.examples.slice(0,exN).map(([ok,no,why],i)=>`<div class="ex fade"><span class="lab muted">Example ${i+1} of ${c.examples.length}</span><div class="ok">${ok}</div><div class="no">${no}</div><div class="why">${why}</div></div>`).join('');
+  h+=c.examples.slice(0,exN).map(([ok,no,why],i)=>`<div class="ex fade"><span class="lab muted">Example ${i+1} of ${c.examples.length}</span><div class="box ${c.math?'b-math':'b-ok'}"><span class="lab">${c.math?'Worked math ✓':'Right ✓'}</span><p>${ok}</p></div><div class="box b-trap"><span class="lab">Trap ✗</span><p>${no}</p></div><div class="why">${why}</div></div>`).join('');
   h+=`<div class="actions">${exN<c.examples.length?'<button class="btn" id="moreex">Next example</button>':'<button class="btn" data-step="2">Your test misses</button>'}</div>`;
  } else if(step===2){
   h+=`<p class="muted" style="margin:0">Read the question. <b>Say the right answer out loud first</b>, then tap to check.</p>`;
-  h+=c.test.map(([where,q,his,right,why],i)=>`<div class="tq"><span class="where">${where}</span><div>${q}</div><div class="his">${his}</div>${tqShown[i]?`<div class="box b-ok fade"><span class="lab">Right answer</span><p><b>${right}</b>. ${why}</p></div>`:`<div><button class="btn ghost" data-tq="${i}">Show the right answer</button></div>`}</div>`).join('');
+  h+=c.test.map(([where,q,his,right,why],i)=>`<div class="tq"><span class="where">${where}</span><div>${q}</div><div class="box b-trap"><span class="lab">You picked ✗</span><p>${his}</p></div>${tqShown[i]?`<div class="box b-ok fade"><span class="lab">Right answer</span><p><b>${right}</b>. ${why}</p></div>`:`<div><button class="btn ghost" data-tq="${i}">Show the right answer</button></div>`}</div>`).join('');
   h+=`<div class="actions"><button class="btn" data-step="3">Start the drill</button></div>`;
  } else if(step===3){
   if(!dr) dr={i:0,tried:[],first:[],done:false};
@@ -123,14 +123,14 @@ function render(){
   } else {
    const q=c.drills[dr.i], last=dr.tried[dr.tried.length-1], solved=dr.tried.some(t=>q.ch[t][1]);
    h+=`<div class="dots">${c.drills.map((_,j)=>`<span class="dot ${j<dr.i?(dr.first[j]?'ok':'miss'):(j===dr.i?'now':'')}"></span>`).join('')}</div>
-    <p class="q">${q.q}</p><div class="opts">${q.ch.map((ch,j)=>{const x=dr.tried.includes(j)&&!ch[1], ok=solved&&ch[1];
-     return `<button class="opt${x?' x':''}${ok?' right':''}" data-a="${j}" ${solved||x||dr.lock?'disabled':''}><span class="L">${L[j]}</span><span class="T">${ch[0]}</span></button>`}).join('')}</div>`;
+    <div class="qcard"><p class="q">${q.q}</p><div class="opts">${q.ch.map((ch,j)=>{const x=dr.tried.includes(j)&&!ch[1], ok=solved&&ch[1];
+     return `<button class="opt${x?' x':''}${ok?' right':''}" data-a="${j}" ${solved||x||dr.lock?'disabled':''}><span class="L">${L[j]}</span><span class="T">${ch[0]}</span></button>`}).join('')}</div></div>`;
    if(last!==undefined && !q.ch[last][1]) h+=`<div class="box b-trap fade"><span class="lab">${L[last]} is a trap</span><p>${q.ch[last][2]}</p></div>${dr.lock?'<div class="actions"><button class="btn" id="unlock">I read why. Let me try again</button></div>':''}`;
    if(solved) h+=`<div class="box b-ok fade"><span class="lab">${dr.tried.length===1?'Right on the first try':'Got it'}</span><p>${q.ch[last][2]}</p></div><div class="actions"><button class="btn" id="nextq">${dr.i+1<c.drills.length?'Next question':'See my score'}</button></div>`;
   }
  } else {
-  h+=`<div class="box b-rem"><span class="lab">Say it out loud</span><p><b>${c.say}</b><br>Then give a football or real-life example of the rule.</p></div>`;
-  h+= saidShown?`<div class="box b-ok fade"><span class="lab">You should have said</span><p>${c.key}</p></div><div class="actions"><button class="btn" id="said">I said it right</button><button class="btn ghost" data-step="0">I missed part. Show the rule</button></div>`
+  h+=`<div class="yt"><span class="lab">Your Turn · say it out loud (no writing)</span><p><b>${c.say}</b><br>Then give a football or real-life example of the rule.</p></div>`;
+  h+= saidShown?`<div class="box b-rem fade"><span class="lab">Remember this · you should have said</span><p>${c.key}</p></div><div class="actions"><button class="btn" id="said">I said it right</button><button class="btn ghost" data-step="0">I missed part. Show the rule</button></div>`
      :`<div class="actions"><button class="btn" id="showsay">Check what I said</button></div>`;
  }
  m.innerHTML=h; m.classList.remove('fade'); void m.offsetWidth; m.classList.add('fade');
