@@ -195,7 +195,7 @@ function prog(){const s=store.get();const m=C.filter(c=>s[c.id]&&s[c.id].mastere
  document.getElementById('groups').innerHTML=parts.map(p=>'<div class="grp"><div class="lab">'+p+'</div><div class="chips">'+
   C.map((c,i)=>c.part!==p?'':`<button class="chip${c.math?' m':''}${s[c.id]&&s[c.id].mastered?' done':''}${i===cur?' now':''}" data-go="${i}"><b>${i+1}</b>${c.L} · ${c.title.split(':')[0]}</button>`).join('')+'</div></div>').join('');}
 
-function open(i,st){cur=i;step=st||0;exN=1;tqShown={};dr=null;saidShown=false;render();prog();}
+function open(i,st){cur=i;step=st||0;pg=0;rv={};pr={};exN=1;tqShown={};dr=null;saidShown=false;render();prog();}
 
 function head(c){return `<div class="lesson"><div class="big">${c.L}</div><div><div class="part">Drill Zone #${cur+1} · ${c.part}</div><h2>${c.title}</h2></div></div>
  <div class="steps">${STEPS.map((s,i)=>`<button class="${i===step?'on':(i<step?'fin':'')}" data-step="${i}">${i+1} · ${s}</button>`).join('')}</div>`;}
@@ -216,32 +216,91 @@ function useHTML(u,i,ty,ls){const m=ls.math;
    <div class="rl">Why ${ls.whyType&&ty&&ty.n?`it's ${ty.n.toLowerCase()}`:'it works'}</div><div class="rv">${u.why}</div>
    ${u.trap?`<div class="rl tp">Trap ✗<br>${u.trap.w?'"'+u.trap.w+'"':''}</div><div class="rv tp"><div class="ls-tg">${u.trap.rows.map(r=>`<span class="tk">${r[0]}</span><span>${TW(r[1])}</span>`).join('')}</div></div>`:''}
   </div></div></div>`;}
-function lessonHTML(c){const ls=c.ls; let h='<div class="ls-wrap">'; let sec=1;
- const v=ls.vis||[];
- h+=`<div class="ls-h"><span class="pn">${sec++}</span>The concept: ${ls.q}</div>
-  <div class="ls-bigidea"><div class="bl">The big idea · learn this first</div><div class="bt">${ls.big}</div>
-  ${v.length?`<div class="ls-bridge">${v.map((x,i)=>{const [a,b]=x.split('|');return (i?'<div class="ar">→</div>':'')+`<div class="bx${i===1&&v.length===3?' mid':''}">${a}${b?'<span>'+b+'</span>':''}</div>`}).join('')}</div>`:''}</div>
-  <div class="box b-def"><span class="lab">Definition</span><p>${ls.defn}</p></div>`;
- if(ls.ex) h+=`<div class="ls-rows${ls.math?' m':''}"><div class="rl sn">Example</div><div class="rv sn">${TW(ls.ex.s)}</div>${ls.ex.parts?`<div class="rl">The parts</div><div class="rv"><div class="ls-bd">${ls.ex.parts.map(p=>`<span class="who">${p[0]}</span><span>${TW(p[1])}</span><span class="tag">${p[2]||''}</span>`).join('')}</div></div>`:''}</div>`;
- if(ls.sat) h+=`<div class="ls-job"><b>On the SAT:</b> ${ls.sat}</div>`;
- h+=`<div class="box b-ok"><span class="lab">Memory hook</span><p>${c.hook}</p></div>`;
- const T=ls.types, typed=T.length>1||(T[0]&&T[0].k);
- if(typed){
-  h+=`<div class="ls-h"><span class="pn">${sec++}</span>The ${T.length} types at a glance</div>
-   <table class="ls-tbl"><tr><th>Type</th><th>What it means</th><th>Ask yourself</th>${T.some(t=>t.words)?'<th>Words</th>':''}</tr>${T.map(t=>`<tr><td><span class="ls-k">${t.k}</span><b>${t.n}</b></td><td>${t.m}</td><td>${t.ask||''}</td>${T.some(x=>x.words)?`<td>${(t.words||[]).map(w=>`<span class="tw" style="display:inline-block;margin:2px 4px 2px 0;font-weight:700">${w}</span>`).join('')}</td>`:''}</tr>`).join('')}</table>`;
-  h+=`<div class="ls-h"><span class="pn">${sec++}</span>Each type, every situation it shows up in</div>`;
-  T.forEach(t=>{h+=`<div class="ls-type"><div class="top"><div class="k">${t.k}</div><div><div class="n">${t.n}</div><div class="mm">${t.m}</div></div></div><div class="bd">
-   ${t.defn?`<div class="box b-def"><span class="lab">Definition</span><p>${t.defn}</p></div>`:''}
-   ${t.words||t.hook?`<div class="ls-2">${t.words?`<div class="ls-words"><div class="lab">${t.n} words</div>${t.words.map(w=>`<span class="w">${w}</span>`).join('')}</div>`:'<div></div>'}${t.hook?`<div class="box b-ok"><span class="lab">Memory hook</span><p>${t.hook}</p></div>`:''}</div>`:''}
-   <div class="ls-uh">${t.n} shows up in ${t.uses.length} situation${t.uses.length>1?'s':''}</div>
-   <div>${t.uses.map((u,i)=>useHTML(u,i,t,ls)).join('')}</div></div></div>`;});
- } else {
-  h+=`<div class="ls-h"><span class="pn">${sec++}</span>Every situation it shows up in (${T[0].uses.length})</div><div>${T[0].uses.map((u,i)=>useHTML(u,i,null,ls)).join('')}</div>`;
- }
- h+=`<div class="ls-h"><span class="pn">${sec++}</span>Do this every time</div><div class="how">${c.how.map((x,i)=>'<div class="st"><span class="n">'+(i+1)+'</span><div>'+x+'</div></div>').join('')}</div>
-  <div class="box b-rem"><span class="lab">Remember this</span><p><b>${c.rem}</b></p></div>
-  <div class="ls-h"><span class="pn">${sec++}</span>Watch me do one</div>${watchHTML(c)}</div>`;
- return h;}
+// ---- Paged lesson: teach ONE example at a time, steps hidden, practice right under it ----
+let pg=0, rv={}, pr={}, LP={};
+fetch('lesson_practice.json').then(r=>r.json()).then(j=>{LP=j;if(step===0)render()}).catch(()=>{});
+function flatUses(c){const out=[];c.ls.types.forEach(t=>t.uses.forEach(u=>out.push({u,t})));return out}
+function practiceFor(c,idx,n){
+  if(LP[c.id]&&LP[c.id][idx])return LP[c.id][idx];
+  // until this lesson has its own example practice: spread the lesson's drill questions across the examples
+  const D=c.drills||[];const mine=D.map((d,i)=>[d,i]).filter(([d,i])=>Math.floor(i*n/D.length)===idx);
+  return mine.map(([d])=>({q:d.q,ch:d.ch.map(x=>x[0]),a:d.ch.findIndex(x=>x[1]),steps:[d.ch.find(x=>x[1])[2]],trap:''}));
+}
+const HIDE=t=>(t||'').replace(/\[\[(.+?)\]\]/g,'<span class="tw" style="min-width:60px;display:inline-block">&nbsp;?&nbsp;</span>');
+function splitStep(s){const i=s.indexOf(': ');return i>0?[s.slice(0,i),s.slice(i+2)]:[s,null]}
+function practiceHTML(c,idx,qs){
+  if(!qs.length)return '';
+  let h=`<div class="ls-h" style="margin-top:14px"><span class="pn">✎</span>Now you try (${qs.length})</div>`;
+  qs.forEach((q,k)=>{const key=c.id+'|'+idx+'|'+k, st=pr[key]||(pr[key]={tried:[],ok:false,coach:-1});
+    h+=`<div class="tq"><span class="where">Try it ${k+1} of ${qs.length}</span><div style="margin:6px 0 8px">${q.q}</div><div class="wch">${q.ch.map((x,j)=>{const t=st.tried.includes(j);
+      const cls=t?(j===q.a?'right':'dim'):(st.ok&&j===q.a?'right':'');
+      return `<button class="wc ${cls}" data-pa="${key}|${j}" ${t||st.ok?'disabled':''} style="text-align:left;cursor:pointer"><span class="L">${L[j]}</span><span>${x}</span></button>`}).join('')}</div>`;
+    if(st.ok)h+=`<div class="box b-ok"><span class="lab">${st.tried.length===1&&st.coach<0?'Right on the first try ✓':'Got it ✓'}</span><p>${q.trap||q.steps[q.steps.length-1]}</p></div>`;
+    else if(st.tried.length){
+      h+=`<div class="box b-trap"><span class="lab">Not yet</span><p>Try again, or work it out one step at a time.</p></div>`;
+      if(st.coach<0)h+=`<button class="btn" data-pc="${key}">🧑‍🏫 Coach me up</button>`;
+      else{h+=`<div class="box b-def"><span class="lab">Coach me up · one step at a time</span>`;
+        q.steps.forEach((s,i)=>{if(i>st.coach)return;const [d,r]=splitStep(s);
+          h+=`<div class="st" style="margin:6px 0"><span class="n">${i+1}</span><div>${d}${r?(i<st.coach||st.open===i?` → <b>${r}</b>`:` <button class="btn ghost" data-pso="${key}|${i}" style="padding:2px 8px;font-size:13px">Do it on paper, then tap to check</button>`):''}</div></div>`});
+        const lastOpen=st.open===st.coach||!splitStep(q.steps[st.coach])[1];
+        if(st.coach<q.steps.length-1&&lastOpen)h+=`<button class="btn" data-pcn="${key}">Open step ${st.coach+2} ▾</button>`;
+        if(st.coach===q.steps.length-1&&lastOpen)h+=`<p><b>Now pick your answer above.</b></p>`;
+        h+='</div>';}
+    }
+    h+='</div>';});
+  return h;
+}
+function situationHTML(c,idx,n){
+  const {u,t}=flatUses(c)[idx], ls=c.ls, m=ls.math, parts=u.parts||[], shown=rv[idx]||0, done=shown>=parts.length;
+  let h='';
+  const typed=ls.types.length>1||(ls.types[0]&&ls.types[0].k);
+  if(typed&&t.uses[0]===u)h+=`<div class="ls-type"><div class="top"><div class="k">${t.k}</div><div><div class="n">${t.n}</div><div class="mm">${t.m}</div></div></div><div class="bd">
+    ${t.defn?`<div class="box b-def"><span class="lab">Definition</span><p>${t.defn}</p></div>`:''}${t.hook?`<div class="box b-ok"><span class="lab">Memory hook</span><p>${t.hook}</p></div>`:''}
+    ${t.words?`<div class="ls-words"><div class="lab">${t.n} words</div>${t.words.map(w=>`<span class="w">${w}</span>`).join('')}</div>`:''}</div></div>`;
+  h+=`<div class="ls-use"><span class="num">${idx+1}</span><div><div class="ut">${u.t}${typed?`<span class="tg">${t.k} · ${t.n}</span>`:''}</div>${u.d?`<div class="ud">${u.d}</div>`:''}
+   <div class="ls-rows${m?' m':''}"><div class="rl sn">${ls.sl||(m?'The problem':'The sentence')}</div><div class="rv sn">${m||done?TW(u.s):HIDE(u.s)}</div>`;
+  if(parts.length){h+=`<div class="rl">${ls.bl||(m?'Work it':'Break it down')}</div><div class="rv"><p class="muted" style="margin:0 0 6px">Do each step yourself first (say it or write it), then tap to check.</p><div class="ls-bd">`;
+    parts.forEach((p,i)=>{if(i<shown)h+=`<span class="who">${p[0]}</span><span>${TW(p[1])}</span><span class="tag">${p[2]||''}</span>`;
+      else if(i===shown)h+=`<span class="who">${p[0]}</span><span><button class="btn" data-rv="${idx}" style="padding:4px 10px;font-size:14px">I did ${p[0].toLowerCase()} · check it</button></span><span></span>`;});
+    h+='</div></div>';}
+  if(done){h+=`<div class="rl">Why it works</div><div class="rv">${u.why}</div>`;
+    if(u.trap)h+=`<div class="rl tp">Trap ✗<br>${u.trap.w?'"'+u.trap.w+'"':''}</div><div class="rv tp"><div class="ls-tg">${u.trap.rows.map(r=>`<span class="tk">${r[0]}</span><span>${TW(r[1])}</span>`).join('')}</div></div>`;}
+  h+='</div></div></div>';
+  if(done)h+=practiceHTML(c,idx,practiceFor(c,idx,n));
+  return h;
+}
+function lessonHTML(c){const ls=c.ls, U=flatUses(c), n=U.length, last=n+1; let h='<div class="ls-wrap">';
+  const nav=`<div class="actions" style="justify-content:space-between;align-items:center"><span class="muted"><b>Part ${pg+1} of ${last+1}</b> · ${pg===0?'Learn the idea':pg===last?'Wrap-up':'Example '+pg+' of '+n}</span>
+    <span>${pg>0?`<button class="btn ghost" data-pg="${pg-1}">← Back</button> `:''}${pg<last?`<button class="btn" data-pg="${pg+1}">${pg===0?'Start example 1 →':pg===n?'Wrap-up →':'Next example →'}</button>`:''}</span></div>`;
+  const bar=`<div class="pbar" style="height:8px;background:#e5e9f0;border-radius:4px;overflow:hidden;margin:4px 0 10px"><i style="display:block;height:100%;width:${100*pg/last}%;background:var(--blue)"></i></div>`;
+  h+=bar;
+  if(pg===0){const v=ls.vis||[];
+    h+=`<div class="ls-h"><span class="pn">1</span>The concept: ${ls.q}</div>
+    <div class="ls-bigidea"><div class="bl">The big idea · learn this first</div><div class="bt">${ls.big}</div>
+    ${v.length?`<div class="ls-bridge">${v.map((x,i)=>{const [a,b]=x.split('|');return (i?'<div class="ar">→</div>':'')+`<div class="bx${i===1&&v.length===3?' mid':''}">${a}${b?'<span>'+b+'</span>':''}</div>`}).join('')}</div>`:''}</div>
+    <div class="box b-def"><span class="lab">Definition</span><p>${ls.defn}</p></div>`;
+    if(ls.sat)h+=`<div class="ls-job"><b>On the SAT:</b> ${ls.sat}</div>`;
+    h+=`<div class="box b-ok"><span class="lab">Memory hook</span><p>${c.hook}</p></div>
+     <div class="box b-rem"><span class="lab">Next</span><p>You'll do <b>${n} examples, one at a time</b>. Each one: work the steps yourself, check each step, then try ${LP[c.id]?'2 questions':'a question'} just like it.</p></div>`;
+  } else if(pg<=n){h+=situationHTML(c,pg-1,n)}
+  else{h+=`<div class="ls-h"><span class="pn">✓</span>Do this every time</div><div class="how">${c.how.map((x,i)=>'<div class="st"><span class="n">'+(i+1)+'</span><div>'+x+'</div></div>').join('')}</div>
+    <div class="box b-rem"><span class="lab">Remember this</span><p><b>${c.rem}</b></p></div>
+    <div class="ls-h"><span class="pn">★</span>One real SAT-style question</div>${watchHTML(c)}`;}
+  h+=nav+'</div>';
+  if(pg===last)h+=`<div class="actions"><button class="btn" data-step="1">Next: your test misses</button><button class="btn ghost" data-step="2">Skip to the drill</button></div>`;
+  return h;}
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled)return;const c=C[cur];
+  if(b.dataset.pg!==undefined){pg=+b.dataset.pg;render();window.scrollTo({top:0});return}
+  if(b.dataset.rv!==undefined){const i=+b.dataset.rv;rv[i]=(rv[i]||0)+1;render();return}
+  if(b.dataset.pa){const [cid,idx,k,j]=b.dataset.pa.split('|');const key=[cid,idx,k].join('|'),q=practiceFor(c,+idx,flatUses(c).length)[+k],st=pr[key];
+    st.tried.push(+j);if(+j===q.a)st.ok=true;
+    rec({kind:'lesson',concept_id:c.id,concept_no:cur+1,concept_title:plain(c.title).slice(0,120),part:c.part.slice(0,60)+' · example '+(+idx+1),question_no:+k+1,question:plain(q.q).slice(0,600),picked:plain(q.ch[+j]).slice(0,300),correct:+j===q.a,first_try:st.tried.length===1&&+j===q.a&&st.coach<0,attempt:st.tried.length,seconds:null});
+    render();return}
+  if(b.dataset.pc){pr[b.dataset.pc].coach=0;pr[b.dataset.pc].open=-1;render();return}
+  if(b.dataset.pso){const p=b.dataset.pso.split('|');const key=p.slice(0,3).join('|');pr[key].open=+p[3];render();return}
+  if(b.dataset.pcn){const st=pr[b.dataset.pcn];st.coach++;st.open=-1;render();return}
+});
+
 function render(){
  const c=C[cur], m=document.getElementById('main'); let h=head(c);
  if(step===0){
@@ -251,7 +310,7 @@ function render(){
    <div><div class="lab muted" style="margin-bottom:6px">Do this every time</div><div class="how">${c.how.map((x,i)=>'<div class="st"><span class="n">'+(i+1)+'</span><div>'+x+'</div></div>').join('')}</div></div>
    <div class="box b-rem"><span class="lab">Remember this</span><p><b>${c.rem}</b></p></div>`+
    c.examples.map(([sc,ok,no,why],i)=>`<div class="ex"><div class="exh"><span class="exn">Example ${i+1} of ${c.examples.length}</span>${sc}</div><div class="exgrid"><div class="exr${c.math?' m':''}"><span class="lab">${c.math?'Worked math ✓':'Right ✓'}</span><p class="ln" style="margin:0">${ok}</p></div>${no?`<div class="ext"><span class="lab">Trap ✗</span><p class="ln" style="margin:0">${no}</p></div>`:''}</div><div class="why">${why}</div></div>`).join('');
-  h+=`<div class="actions"><button class="btn" data-step="1">Next: your test misses</button><button class="btn ghost" data-step="2">Skip to the drill</button></div>`;
+  if(!c.ls)h+=`<div class="actions"><button class="btn" data-step="1">Next: your test misses</button><button class="btn ghost" data-step="2">Skip to the drill</button></div>`;
  } else if(step===1){
   h+=`<p class="muted" style="margin:0">Read the question. <b>Say the right answer out loud first</b>, then tap to check.</p>`;
   if(!c.test.length) h+=`<div class="box b-def"><span class="lab">No misses on this type yet</span><p>You haven\'t had this type in practice yet. It is on the SAT, so learn it now and drill it next.</p></div>`;
