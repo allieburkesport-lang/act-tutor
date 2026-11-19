@@ -57,6 +57,7 @@ input[type=text]{font:inherit;font-size:18px;padding:8px 10px;border:2px solid v
 <div class="key"><span><span class="pill" style="background:var(--blue-bg);color:var(--blue-t)">BLUE</span> rules</span><span><span class="pill ok">GREEN</span> examples + tricks</span><span><span class="pill mid">YELLOW</span> remember this</span><span><span class="pill bad">RED</span> traps</span><span><span class="pill" style="background:var(--purple-bg);color:var(--purple-t)">PURPLE</span> math steps</span></div>
 <main id="main"><p>Loading…</p></main>
 </div>
+<script src="tools.js"></script>
 <script>
 const SB='https://wsoevgmculmcnxymivbp.supabase.co/rest/v1/answers', SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indzb2V2Z21jdWxtY254eW1pdmJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ3OTIwMTAsImV4cCI6MjExMDM2ODAxMH0.wl408Zf5rJjh-uhPbPuykvUtETHinQXQdttAJPvn1Jk';
 const H={apikey:SK,Authorization:'Bearer '+SK};
@@ -229,6 +230,7 @@ function render(){
     ${c.findOk===false?'<p class="wrong-t">Not quite. Read the LAST line of the question again, then pick.</p>':''}</div>`;
   } else {
     if(q.find)h+=`<p class="sub">✓ FIND: ${esc(q.find.opts[q.find.ok])}</p>`;
+    if(s.sec==='Math'&&TOOLS&&TOOLS.S[q.skill]){const x=TOOLS.S[q.skill];h+=toolHTML({m:x[0],alt:x[1],why:x[2]+' For this question: '+q.tool},q.id+'|'+drill.i,false)}
     const solved=c.done;
     if(q.ch){h+=`<div class="opts">${q.ch.map((o,j)=>{const t=c.tried.includes(j);const cls=t?(j===q.ans?'right':'wrong'):(solved&&j===q.ans?'right':'');
       return `<button class="opt ${cls}" data-a="${j}" ${t||solved?'disabled':''}><span class="L">${L[j]}</span><span>${o}</span></button>`}).join('')}</div>`}
