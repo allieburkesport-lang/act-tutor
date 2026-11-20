@@ -71,6 +71,7 @@ function toFn(t){let s=String(t).replace(/−/g,'-').replace(/[×·]/g,'*').repl
  if(/[^0-9x+\-*/().\sA-Za-z]/.test(s.replace(/sqrt|PI|abs/g,'')))return null;
  if(/[a-wyzA-Z]/.test(s.replace(/sqrt|PI|abs/g,'')))return null;
  try{const f=new Function('x','const {sqrt,PI,abs}=Math;return '+s);const v=f(1.234);return isFinite(v)?f:null}catch(e){return null}}
+function toFnXY(t){let s=String(t).replace(/−/g,'-').replace(/[×·]/g,'*').replace(/÷/g,'/').replace(/²/g,'^2');s=s.replace(/(\d|\)|x|y)\s*(?=\(|x|y)/g,'$1*').replace(/\^/g,'**');if(/[^0-9xy+\-*/().\s]/.test(s))return null;try{const f=new Function('x','y','return '+s);return isFinite(f(1.1,2.2))?f:null}catch(e){return null}}
 function parseDesmos(steps){const lines=[];
  steps.forEach(st=>{let m=st.match(/(?:Type|type)\s+(.+?)(?:\s*→.*)?$/);if(!m)return;let t=m[1].replace(/[.,;]\s*$/,'').replace(/\s+\(.*\)$/,'').trim();
   const stat=t.match(/^(mean|median)\(\[([^\]]+)\]\)/);
@@ -79,6 +80,7 @@ function parseDesmos(steps){const lines=[];
   if(parts.length===2){const L=parts[0].trim(),R=parts[1].trim();
     if(/^(y|f\(x\)|g\(x\))$/.test(L)){const f=toFn(R);lines.push({txt:t,f});return;}
     const fl=toFn(L),fr=toFn(R);if(fl&&fr&&/x/.test(L+R)){lines.push({txt:'y = '+L,f:fl});lines.push({txt:'y = '+R,f:fr});return;}}
+  if(parts.length===2&&/y/.test(t)&&!/[<>≤≥]/.test(t)){const g=toFnXY(parts[0]+'-('+parts[1]+')');if(g){const f=x=>{const a=g(x,0),b=g(x,1);return -a/(b-a)};if(isFinite(f(1.3))){lines.push({txt:t,f});return;}}}
   if(/[<>≤≥]/.test(t)){lines.push({txt:t});return;}
   const f=toFn(t);if(f&&!/x/.test(t)){lines.push({txt:t,val:'= '+(+f(0).toFixed(4))});return;}
   if(f)lines.push({txt:'y = '+t,f});else lines.push({txt:t});});
