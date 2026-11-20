@@ -37,7 +37,7 @@ table{width:100%;border-collapse:collapse;font-size:15px}th,td{border:1.5px soli
 <div class="stats" id="stats"></div>
 <div class="box b-def"><div class="lab">How the plan works</div>
  <b>29 concepts</b> are on the SAT (19 math, 10 English). Each learning day teaches <b>3 new concepts: 2 math + 1 English</b> (math first). Every day is about <b>65% math / 35% English</b>, because the Naval Academy weighs math more. For each one: open the <b>lesson</b>, then do the <b>10-question drill</b>.<br>
- Then the <b>review drill</b>: 1 question from <b>every</b> concept already covered, and a 2nd one for each concept he's under 60% on. It grows each day, so nothing gets forgotten.<br>
+ Then the <b>review drill</b>: 1 question from <b>every</b> concept already covered, plus extra questions for his weakest concepts (math first, to keep the day at 65% math). It grows each day, so nothing gets forgotten.<br>
  <b>Every night at midnight</b> the plan checks yesterday's answers. Concepts he didn't practise move to the next day, review shifts to his weakest concepts, and Dec 2–3 fill with his weakest ones.</div>
 <div id="changes"></div>
 <div id="today"></div>
@@ -70,7 +70,7 @@ function steps(d,big){
       <div>Drill: <a class="btn" href="${c.drill}" target="_blank" rel="noopener">▶ ${esc(c.name)} · 10 questions</a></div></div>`});
     h+='</div></div>';}
   if(d.review&&d.review.length){const tot=d.review.reduce((a,r)=>a+r[1],0);
-    h+=`<div class="step"><span class="n">${n++}</span><div><h3>Review drill: ${tot} questions from earlier concepts</h3><p>${d.review_names.map(r=>esc(r[0])+(r[1]>1?' ×2':'')).join(' · ')}</p><a class="btn" href="${d.review_url}" target="_blank" rel="noopener">▶ Start the review drill</a></div></div>`;}
+    h+=`<div class="step"><span class="n">${n++}</span><div><h3>Review drill: ${tot} questions from earlier concepts</h3><p>${d.review_names.map(r=>esc(r[0])+(r[1]>1?' ×'+r[1]:'')).join(' · ')}</p><a class="btn" href="${d.review_url}" target="_blank" rel="noopener">▶ Start the review drill</a></div></div>`;}
   h+=`<div class="step"><span class="n">${n++}</span><div><h3>Redo my misses</h3><p>Every question he missed comes back until he gets it right twice.</p><a class="btn ghost" href="https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=miss:x" target="_blank" rel="noopener">▶ Redo my misses</a></div></div>`;
   if(d.note)h+=`<p class="box b-rem" style="margin-top:6px">${esc(d.note)}</p>`;
   return h;}
