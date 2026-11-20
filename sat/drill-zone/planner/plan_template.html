@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Patrick's SAT Daily Plan</title>
+<style>
+:root{--ink:#1f2a44;--mut:#4a5568;--line:#cbd5e1;--bl:#e3eef9;--blb:#2f6fb5;--gr:#e2f3e8;--grb:#2e7d4f;--rd:#fbe3e0;--rdb:#c0392b;--pu:#eee6f7;--pub:#7b4fa0;--ye:#fdf3cf;--yeb:#e0b020}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:#fff;font-size:16px;line-height:1.45}
+.wrap{max-width:1100px;margin:0 auto;padding:20px 22px 60px;display:flex;flex-direction:column;gap:16px}
+h1{margin:0;font-size:28px}.sub{color:var(--mut);margin:2px 0 0}
+.key{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--mut)}.key b{font-size:11px;padding:1px 6px;border-radius:4px;margin-right:4px;letter-spacing:.8px}
+.kb{background:var(--bl);color:#1f4e8a}.kg{background:var(--gr);color:#1f6b40}.ky{background:var(--ye);color:#6b4e00}.kr{background:var(--rd);color:#9a2e25}.kp{background:var(--pu);color:#5a3290}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{border:2px solid var(--ink);border-radius:10px;padding:10px 14px}.stat .v{font-size:28px;font-weight:800;line-height:1.1}.stat .l{font-size:12px;font-weight:700;letter-spacing:1px;color:var(--mut);text-transform:uppercase}
+.box{border-left:5px solid;border-radius:0 8px 8px 0;padding:10px 14px}.box .lab{font-size:12px;font-weight:800;letter-spacing:1.3px;margin-bottom:4px;text-transform:uppercase}
+.b-def{background:var(--bl);border-color:var(--blb)}.b-def .lab{color:#1f4e8a}.b-ok{background:var(--gr);border-color:var(--grb)}.b-ok .lab{color:#1f6b40}
+.b-rem{background:var(--ye);border-color:var(--yeb)}.b-rem .lab{color:#6b4e00}.b-trap{background:var(--rd);border-color:var(--rdb)}.b-trap .lab{color:#9a2e25}
+.today{border:4px solid var(--ink);border-radius:14px;padding:16px 18px}
+.today h2{margin:0 0 2px;font-size:24px}.today .when{color:var(--mut);margin-bottom:10px}
+.step{display:grid;grid-template-columns:40px 1fr;gap:12px;padding:12px 0;border-top:2px solid var(--line)}
+.step .n{width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;font-weight:800;display:grid;place-items:center}
+.step h3{margin:0 0 4px;font-size:18px}.step p{margin:2px 0 6px;color:var(--mut)}
+a.btn{display:inline-block;font-weight:700;font-size:15px;padding:8px 14px;border-radius:8px;border:2px solid var(--ink);background:var(--ink);color:#fff;text-decoration:none;margin:4px 6px 4px 0}
+a.btn.ghost{background:#fff;color:var(--ink)}a.btn.m{background:var(--pub);border-color:var(--pub)}
+.concept{border:2px solid var(--line);border-radius:10px;padding:10px 12px;margin:8px 0}
+.concept .t{font-weight:800;font-size:17px}.pill{display:inline-block;font-size:12px;font-weight:700;border-radius:10px;padding:1px 8px;margin-left:6px;border:1.5px solid var(--line)}
+.ok{background:var(--gr);border-color:var(--grb)}.mid{background:var(--ye);border-color:var(--yeb)}.bad{background:var(--rd);border-color:var(--rdb)}.none{background:#f1f3f7}
+details.day{border:2px solid var(--line);border-radius:10px;padding:0 14px}details.day[open]{border-color:var(--ink)}
+details.day summary{cursor:pointer;padding:11px 0;display:flex;gap:12px;align-items:center;flex-wrap:wrap;list-style:none}details.day summary::-webkit-details-marker{display:none}
+details.day summary .d{font-weight:800;min-width:96px}.tag{font-size:12px;font-weight:800;letter-spacing:1px;border-radius:12px;padding:2px 9px;text-transform:uppercase}
+.tag.learn{background:var(--bl);color:#1f4e8a}.tag.test{background:var(--pu);color:#5a3290}.tag.off,.tag.light{background:#f1f3f7;color:var(--mut)}.tag.weak{background:var(--rd);color:#9a2e25}.tag.sat{background:var(--ink);color:#fff}
+.tag.done{background:var(--gr);color:#1f6b40}.tag.partly{background:var(--ye);color:#6b4e00}.tag.notdone{background:var(--rd);color:#9a2e25}
+.isToday{background:#fffbe9}
+table{width:100%;border-collapse:collapse;font-size:15px}th,td{border:1.5px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}th{background:#f4f2ec;font-size:12px;letter-spacing:1px;text-transform:uppercase}
+.bar{height:10px;background:#e5e9f0;border-radius:5px;overflow:hidden;min-width:80px}.bar i{display:block;height:100%}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
+</style></head><body><div class="wrap">
+<header><h1>Patrick's SAT Daily Plan</h1><p class="sub" id="sub"></p></header>
+<div class="key"><span><b class="kb">BLUE</b>how it works</span><span><b class="kg">GREEN</b>done / strong</span><span><b class="ky">YELLOW</b>remember / partly</span><span><b class="kr">RED</b>weak / missed</span><span><b class="kp">PURPLE</b>practice tests</span></div>
+<div class="stats" id="stats"></div>
+<div class="box b-def"><div class="lab">How the plan works</div>
+ <b>29 concepts</b> are on the SAT (19 math, 10 English). Each learning day teaches <b>3 new concepts: 2 math + 1 English</b> (math first). For each one: open the <b>lesson</b>, then do the <b>10-question drill</b>.<br>
+ Then the <b>review drill</b>: 1 question from <b>every</b> concept already covered, and a 2nd one for each concept he's under 60% on. It grows each day, so nothing gets forgotten.<br>
+ <b>Every night at midnight</b> the plan checks yesterday's answers. Concepts he didn't practise move to the next day, review shifts to his weakest concepts, and Dec 2–3 fill with his weakest ones.</div>
+<div id="changes"></div>
+<div id="today"></div>
+<h2 style="margin:6px 0 0">Every day to Dec 5</h2>
+<div id="days"></div>
+<h2 style="margin:6px 0 0">All 29 concepts</h2>
+<div id="skills"></div>
+</div>
+<script>
+const P=__PLAN__;
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const cls=p=>p===null||p===undefined?'none':p>=80?'ok':p>=60?'mid':'bad';
+const pct=p=>p===null||p===undefined?'not tried':p+'%';
+let today=P.today;try{today=new Date().toLocaleDateString('en-CA',{timeZone:'America/New_York'})}catch(e){}
+const T=P.days.find(d=>d.date===today)||P.days.find(d=>d.date>today)||P.days[P.days.length-1];
+const left=Math.max(0,Math.round((new Date(P.test+'T12:00:00')-new Date(today+'T12:00:00'))/864e5));
+document.getElementById('sub').textContent=`Test day: Sat Dec 5 · ${left} day${left===1?'':'s'} to go · plan last updated ${P.updated}${P.online?'':' (offline: results not loaded)'}`;
+const strong=P.skills.filter(s=>s.acc>=80).length, weak=P.skills.filter(s=>s.acc!==null&&s.acc<60).length, none=P.skills.filter(s=>s.acc===null).length;
+document.getElementById('stats').innerHTML=[[P.total_concepts,'concepts on the SAT'],[3,'new concepts a day'],[strong,'strong (80%+)'],[weak+none,'weak or not tried']].map(([v,l])=>`<div class="stat"><div class="v">${v}</div><div class="l">${l}</div></div>`).join('');
+if(P.changes&&P.changes.length)document.getElementById('changes').innerHTML=`<div class="box b-rem"><div class="lab">Last night's update changed the plan</div>${P.changes.map(esc).join('<br>')}</div>`;
+function steps(d,big){
+  if(d.kind==='off')return `<p>${esc(d.note)}</p>`;
+  if(d.kind==='sat')return `<div class="box b-ok"><div class="lab">Test day</div>${esc(d.note)}. Bring: laptop (charged, Bluebook exam downloaded), charger, admission ticket, photo ID, pencils, calculator, snack, water.</div>`;
+  if(d.kind==='test')return `<div class="step"><span class="n">1</span><div><h3>Full practice test</h3><p>${esc(d.note)}</p><a class="btn m" href="https://bluebook.collegeboard.org/" target="_blank" rel="noopener">Open Bluebook</a></div></div>`;
+  let h='',n=1;
+  h+=`<div class="step"><span class="n">${n++}</span><div><h3>Warm-up: 10 real SAT questions</h3><p>Open <b>Official SAT Warm-up</b> on his laptop (the file you saved; private, not online). 10 new questions every time, weakest concepts first.</p></div></div>`;
+  if(d.concepts.length){h+=`<div class="step"><span class="n">${n++}</span><div><h3>Learn today's ${d.concepts.length} new concept${d.concepts.length>1?'s':''}, then drill each one</h3><p>Open each lesson and go through it, then click its drill (10 questions).</p>`;
+    d.concepts.forEach(c=>{h+=`<div class="concept"><div class="t">${c.sec==='Math'?'🧮':'📖'} ${esc(c.name)}<span class="pill ${cls(c.acc)}">${pct(c.acc)}${c.tried?' of '+c.tried:''}</span><span class="pill none">${c.share}% of ${c.sec}</span></div>
+      <div>Lesson: ${c.lessons.map(l=>`<a class="btn ghost" href="${l.url}" target="_blank" rel="noopener">${esc(l.title)}</a>`).join('')}</div>
+      <div>Drill: <a class="btn" href="${c.drill}" target="_blank" rel="noopener">▶ ${esc(c.name)} · 10 questions</a></div></div>`});
+    h+='</div></div>';}
+  if(d.review&&d.review.length){const tot=d.review.reduce((a,r)=>a+r[1],0);
+    h+=`<div class="step"><span class="n">${n++}</span><div><h3>Review drill: ${tot} questions from earlier concepts</h3><p>${d.review_names.map(r=>esc(r[0])+(r[1]>1?' ×2':'')).join(' · ')}</p><a class="btn" href="${d.review_url}" target="_blank" rel="noopener">▶ Start the review drill</a></div></div>`;}
+  h+=`<div class="step"><span class="n">${n++}</span><div><h3>Redo my misses</h3><p>Every question he missed comes back until he gets it right twice.</p><a class="btn ghost" href="https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=miss:x" target="_blank" rel="noopener">▶ Redo my misses</a></div></div>`;
+  if(d.note)h+=`<p class="box b-rem" style="margin-top:6px">${esc(d.note)}</p>`;
+  return h;}
+function result(d){const r=d.result;if(!r)return '';
+  if(!r.questions&&!r.lessons)return `<div class="box b-trap"><div class="lab">Result</div>No questions answered this day.</div>`;
+  return `<div class="box ${r.pct>=80?'b-ok':r.pct>=60?'b-rem':'b-trap'}"><div class="lab">Result</div>${r.questions} drill questions · ${r.first_try} right on the first try (${pct(r.pct)}) · ${r.lessons} lesson answers${Object.keys(r.by_skill).length?'<br>'+Object.entries(r.by_skill).map(([k,v])=>`${esc(k)}: ${v[1]}/${v[0]}`).join(' · '):''}</div>`;}
+document.getElementById('today').innerHTML=`<div class="today"><h2>${T.date===today?'Today':'Next'}: ${esc(T.label)}</h2><div class="when">${T.kind==='learn'||T.kind==='weak'?`About ${T.n_questions+10} questions plus the lessons · about 2 hours with breaks`:esc(T.note)}</div>${steps(T,true)}${result(T)}</div>`;
+const KL={learn:'Learn',test:'Practice test',off:'Off',light:'Light',weak:'Weakest',sat:'SAT'};
+document.getElementById('days').innerHTML=P.days.map(d=>{const st=d.status?`<span class="tag ${d.status.replace(' ','')}">${d.status}</span>`:'';
+ return `<details class="day ${d.date===today?'isToday':''}" ><summary><span class="d">${esc(d.label)}${d.date===today?' ← today':''}</span><span class="tag ${d.kind}">${KL[d.kind]}</span>${st}<span>${d.concepts.map(c=>esc(c.name)).join(' · ')||esc(d.note)}</span>${d.review&&d.review.length?`<span class="pill none">+ ${d.review.reduce((a,r)=>a+r[1],0)} review</span>`:''}</summary>${steps(d)}${result(d)}</details>`}).join('');
+document.getElementById('skills').innerHTML=`<table><tr><th>Concept</th><th>Section</th><th>Share of section</th><th>Patrick (first try)</th><th>Day</th></tr>${P.skills.slice().sort((a,b)=>b.share-a.share).map(s=>{const d=P.days.find(x=>x.concepts.some(c=>c.skill===s.skill));
+ return `<tr><td><b>${esc(s.name)}</b></td><td>${s.sec}</td><td>${s.share}%</td><td><div style="display:flex;gap:8px;align-items:center"><div class="bar"><i style="width:${s.acc||0}%;background:${s.acc>=80?'#2e7d4f':s.acc>=60?'#e0b020':'#c0392b'}"></i></div>${pct(s.acc)}${s.tried?` (${s.tried} tried)`:''}</div></td><td>${d?esc(d.label):''}</td></tr>`}).join('')}</table>`;
+</script></body></html>

@@ -192,6 +192,7 @@ function pickQueue(mode,arg){
   if(mode==='skill'){const l=BANK.qs.filter(q=>q.skill===arg).sort((a,b)=>order(a)-order(b));
     return fresh(l).sort((a,b)=>(seen.has(a.id)-seen.has(b.id))||order(a)-order(b)).slice(0,10)}
   if(mode==='miss')return misses().map(id=>QBY[id]).slice(0,15);
+  if(mode==='review'){const out=[];arg.split(',').forEach(p=>{const [sk,n]=p.split('.');const l=fresh(BANK.qs.filter(q=>q.skill===sk&&!out.includes(q)));out.push(...l.slice(0,+n||1))});return out}
   // mixed: weakest skills get more questions
   const sk=BANK.skills.filter(s=>s.sec===arg).map(s=>[s,level(s,st).p??0]).sort((a,b)=>a[1]-b[1]);
   const want=arg==='Math'?20:10, out=[];let k=0;
@@ -200,9 +201,10 @@ function pickQueue(mode,arg){
     if(c.length)out.push(c[0]);k++}
   return out;
 }
+function goHash(){const v=decodeURIComponent(location.hash.slice(4));const i=v.indexOf(':');if(i<0)return;start(v.slice(0,i),v.slice(i+1));}
 function start(mode,arg){
   const qs=pickQueue(mode,arg); if(!qs.length){alert('No questions found.');return}
-  drill={mode,arg,qs,i:0,right:0,title:mode==='skill'?SKILL[arg].name:mode==='miss'?'Redo my misses':'Mixed '+arg};
+  drill={mode,arg,qs,i:0,right:0,title:mode==='skill'?SKILL[arg].name:mode==='miss'?'Redo my misses':mode==='review'?'Review: earlier concepts':'Mixed '+arg};
   location.hash='drill';newQ();
 }
 function newQ(){const q=drill.qs[drill.i];drill.cur={q,t0:Date.now(),tried:[],findOk:q.find?null:true,coach:null,coached:false,done:false};render();window.scrollTo({top:0})}
@@ -305,14 +307,15 @@ function finish(){
    <div class="go"><button class="big pri" id="again">Another set</button><button class="big" id="home">Dashboard</button></div></div>`;
   const m=drill.mode,a=drill.arg;document.getElementById('again').onclick=()=>start(m,a);document.getElementById('home').onclick=()=>{location.hash=''};drill=null;
 }
-window.addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(/^[srmtgade]\d$/.test(h)){location.replace('learn.html#'+h);return}if(h!=='drill')dash()});
+window.addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(h.startsWith('go=')){goHash();return}if(/^[srmtgade]\d$/.test(h)){location.replace('learn.html#'+h);return}if(h!=='drill')dash()});
 document.getElementById('n-dash').onclick=e=>{e.preventDefault();location.hash='';dash()};
 (async()=>{
   try{[BANK,BP]=await Promise.all([fetch('bank.json').then(r=>r.json()),fetch('blueprint.json').then(r=>r.json())])}
   catch(e){document.getElementById('main').innerHTML='<p>Could not load the questions. Check the internet connection and refresh.</p>';return}
   BANK.skills.forEach(s=>SKILL[s.id]=s);BANK.qs.forEach(q=>QBY[q.id]=q);
+  try{const PJ=await fetch('plan.json?'+Date.now()).then(r=>r.json());PLAN.splice(0,PLAN.length,...PJ.days.map(d=>[d.date,d.label,d.learn.filter(k=>SKILL[k]&&SKILL[k].sec==='Math'),d.learn.filter(k=>SKILL[k]&&SKILL[k].sec==='English'),d.note]));}catch(e){}
   LOG=store.get('satbank_log',[]);try{localStorage.setItem('satname',WHO)}catch(e){}
   if(location.hash==='#drill')location.hash='';
-  dash();await pullOnline();if(!drill)dash();
+  dash();await pullOnline();if(location.hash.startsWith('#go=')){goHash();return}if(!drill)dash();
 })();
 </script></body></html>
