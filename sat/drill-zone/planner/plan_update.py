@@ -36,8 +36,8 @@ BASE = [
  ('2026-11-28','test',[],"Practice Test 4 in Bluebook (full test, timed). Send the score report afterward."),
  ('2026-11-29','learn',['data1','data2','inf'],""),
  ('2026-11-30','learn',['sys','ineq','coe'],""),
- ('2026-12-01','learn',['lin1','equiv','tsp','cross'],"Also: download the exam in Bluebook and charge the laptop"),
- ('2026-12-02','weak',['infer','claims'],"Small topics + his 2 weakest concepts so far"),
+ ('2026-12-01','learn',['lin1','equiv','tsp'],"Also: download the exam in Bluebook and charge the laptop"),
+ ('2026-12-02','weak',['infer','claims','cross'],"Small topics + his weakest math concept so far"),
  ('2026-12-03','weak',[],"His weakest concepts + mixed set at SAT pace"),
  ('2026-12-04','light',[],"Light: redo my misses, pack the bag, early bed"),
  ('2026-12-05','sat',[],"SAT · check in by 7:45 AM"),
@@ -108,9 +108,10 @@ def main():
     for day in days:
         if day['kind'] == 'weak' and datetime.date.fromisoformat(day['date']) >= today:
             base = [s for s in day['learn']]
-            need_m = 2; need_e = 1
+            have_e = sum(1 for x in base if x not in MATH)
+            need_e = max(0, 1 - have_e); need_m = 4 - len(base) - need_e
             pick = [s for s in ranked_m if s not in base][:need_m] + [s for s in ranked_e if s not in base][:need_e]
-            if day['date'] == '2026-12-03': pick = ranked_m[:2] + ranked_e[:2]; base = []
+            if day['date'] == '2026-12-03': pick = ranked_m[:3] + ranked_e[:1]; base = []
             day['learn'] = (base + pick)[:4]
     # --- cumulative review: each earlier concept gets 1 question (2 if under 60%), max 12, weakest first
     seen = []
@@ -118,13 +119,29 @@ def main():
         if day['kind'] in ('learn', 'weak', 'light'):
             pool = [s for s in seen if s not in day['learn']]
             pool.sort(key=lambda s: (acc(s)[0] if acc(s)[0] is not None else 50))
-            # 1 question from EVERY earlier concept; weakest (<60%) get a 2nd one, review capped at 24
-            rev = [[s, 1] for s in pool]; extra = 24 - len(rev)
-            for r in rev:
-                if extra <= 0: break
-                if (acc(r[0])[0] if acc(r[0])[0] is not None else 50) < 60: r[1] = 2; extra -= 1
+            # 1 question from EVERY earlier concept; extra questions go to math first so the whole day
+            # (warm-up 6 math + 4 English, new concepts, review) is about 65% math / 35% English (USNA weights math)
+            rev = [[s, 1] for s in pool]
+            def mshare():
+                m = 6 + 10 * sum(1 for x in day['learn'] if x in MATH) + sum(n for s2, n in rev if s2 in MATH)
+                t = 10 + 10 * len(day['learn']) + sum(n for _, n in rev)
+                return m / t, t
+            CAP = 24
+            a = lambda s2: acc(s2)[0] if acc(s2)[0] is not None else 50
+            math_order = sorted([r for r in rev if r[0] in MATH], key=lambda r: a(r[0]))
+            eng_weak = sorted([r for r in rev if r[0] not in MATH and a(r[0]) < 60], key=lambda r: a(r[0]))
+            k = 0
+            while sum(n for _, n in rev) < CAP and math_order:
+                sh, _ = mshare()
+                if sh < 0.65 or not eng_weak:
+                    r = math_order[k % len(math_order)]
+                    if r[1] >= 3: break
+                    r[1] += 1; k += 1
+                else:
+                    eng_weak.pop(0)[1] += 1
+            day['math_share'] = round(100 * mshare()[0])
             day['review'] = rev
-        else: day['review'] = []
+        else: day['review'] = []; day['math_share'] = None
         for s in day['learn']:
             if s not in seen: seen.append(s)
     # --- what to click
