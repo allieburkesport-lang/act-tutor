@@ -165,6 +165,7 @@ def main():
     json.dump(out, open(os.path.join(DZ, 'plan.json'), 'w'), indent=1)
     tpl = open(os.path.join(HERE, 'plan_template.html'), encoding='utf-8').read()
     open(os.path.join(HERE, 'plan_artifact.html'), 'w', encoding='utf-8').write(tpl.replace('__PLAN__', json.dumps(out).replace('</', '<\\/')))
+    open(os.path.join(DZ, 'plan.html'), 'w', encoding='utf-8').write(tpl.replace('__PLAN__', json.dumps(out).replace('</', '<\\/')))
     print('plan updated', out['updated'], 'rows', len(rows), 'changes', changes)
 
 if __name__ == '__main__': main()
