@@ -32,7 +32,7 @@ const FLY={key:null};
 function flyable(card){if(!TOOLS||!card)return false;const M=TOOLS.M[card.m];return (M&&M.tool!=='By hand')||(card.alt&&TOOLS.M[card.alt]&&TOOLS.M[card.alt].tool!=='By hand');}
 (function(){const st=document.createElement('style');st.textContent=`
 #flyp{position:fixed;top:0;right:0;height:100vh;width:min(500px,42vw);background:#fff;border-left:4px solid #7b4fa0;box-shadow:-8px 0 24px rgba(31,42,68,.18);z-index:50;overflow-y:auto;transform:translateX(105%);transition:transform .3s ease;padding:16px 18px 40px;font-family:inherit;color:#1f2a44}
-#flyp.on{transform:none}
+#flyp.on{transform:none}#flyp.wide{width:min(900px,56vw)}body.flyon.flywide .wrap{margin-right:calc(min(900px,56vw) + 16px)!important}#flyp iframe{width:100%;height:calc(100vh - 90px);border:2px solid #cbd5e1;border-radius:8px}
 body.flyon .wrap{margin-right:calc(min(500px,42vw) + 16px)!important;margin-left:16px!important}
 #flyp h3{margin:0 0 2px;font-size:20px}#flyp .sub{color:#4a5568;font-size:14px;margin-bottom:10px}
 #flyp .x{position:absolute;top:10px;right:12px;font:inherit;font-size:20px;font-weight:700;border:2px solid #1f2a44;border-radius:8px;background:#fff;width:38px;height:38px;cursor:pointer}
@@ -58,7 +58,10 @@ body.flyon .wrap{margin-right:calc(min(500px,42vw) + 16px)!important;margin-left
  const p=document.createElement('aside');p.id='flyp';p.setAttribute('aria-label','Calculator picture');document.addEventListener('DOMContentLoaded',()=>document.body.appendChild(p));if(document.body)document.body.appendChild(p);})();
 function flyOpen(key){FLY.key=key;document.body.classList.add('flyon');flyDraw();document.getElementById('flyp').classList.add('on');}
 function flyHTML(html){const p=document.getElementById('flyp');if(!p)return;FLY.key='__html';FLY.dismissed=false;document.body.classList.add('flyon');p.innerHTML='<button class="x" aria-label="Close">✕</button>'+html;p.classList.add('on');}
-function flyClose(){if(FLY.key==='__html')FLY.dismissed=true;FLY.key=null;document.body.classList.remove('flyon');const p=document.getElementById('flyp');if(p)p.classList.remove('on');}
+function flyFrame(url,title,tabs){const p=document.getElementById('flyp');if(!p)return;FLY.key='__frame';document.body.classList.add('flyon','flywide');p.classList.add('wide');
+ p.innerHTML='<button class="x" aria-label="Close">✕</button><div style="font-size:12px;font-weight:800;letter-spacing:1.3px;color:#5a3290;margin:4px 0 6px">'+tEsc(title)+'</div>'+(tabs&&tabs.length>1?'<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px">'+tabs.map(t=>'<button data-ffu="'+tEsc(t[1])+'" style="font:inherit;font-size:13px;font-weight:700;padding:3px 10px;border:2px solid #1f2a44;border-radius:8px;background:#fff;cursor:pointer">'+tEsc(t[0])+'</button>').join('')+'</div>':'')+'<iframe src="'+url+'" title="'+tEsc(title)+'"></iframe>';p.classList.add('on');}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-ffu]');if(b){const f=document.querySelector('#flyp iframe');if(f)f.src=b.dataset.ffu;}});
+function flyClose(){document.body.classList.remove('flywide');const pp=document.getElementById('flyp');if(pp)pp.classList.remove('wide');if(FLY.key==='__html')FLY.dismissed=true;FLY.key=null;document.body.classList.remove('flyon');const p=document.getElementById('flyp');if(p)p.classList.remove('on');}
 document.addEventListener('click',e=>{if(e.target.closest('#flyp .x')){flyClose();if(typeof render==='function')render();}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&FLY.key){flyClose();if(typeof render==='function')render();}});
 

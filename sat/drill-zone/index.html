@@ -51,7 +51,7 @@ input[type=text]{font:inherit;font-size:18px;padding:8px 10px;border:2px solid v
 .hide{display:none}
 .right-t{color:var(--green-t);font-weight:700}.wrong-t{color:var(--red-t);font-weight:700}
 @media(max-width:640px){nav a{margin:0 12px 0 0}.big{width:100%}td,th{padding:5px}}
-</style></head><body><div class="wrap">
+.embed header,.embed .key{display:none}.embed .wrap{padding-top:6px}</style></head><body><div class="wrap">
 <header><div><h1>SAT Drill Zone</h1><p class="sub">Patrick · Test day: Sat Dec 5 · Every answer saves automatically</p></div>
 <nav><a href="#" id="n-dash">Dashboard</a><a href="learn.html">Lessons</a><a href="report.html">Report</a></nav></header>
 <div class="key"><span><span class="pill" style="background:var(--blue-bg);color:var(--blue-t)">BLUE</span> rules</span><span><span class="pill ok">GREEN</span> examples + tricks</span><span><span class="pill mid">YELLOW</span> remember this</span><span><span class="pill bad">RED</span> traps</span><span><span class="pill" style="background:var(--purple-bg);color:var(--purple-t)">PURPLE</span> math steps</span></div>
@@ -61,6 +61,8 @@ input[type=text]{font:inherit;font-size:18px;padding:8px 10px;border:2px solid v
 <script>
 const SB='https://wsoevgmculmcnxymivbp.supabase.co/rest/v1/answers', SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indzb2V2Z21jdWxtY254eW1pdmJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ3OTIwMTAsImV4cCI6MjExMDM2ODAxMH0.wl408Zf5rJjh-uhPbPuykvUtETHinQXQdttAJPvn1Jk';
 const H={apikey:SK,Authorization:'Bearer '+SK};
+if(location.search.includes('embed=1'))document.documentElement.classList.add('embed');
+const LESSONS_OF={"lin1": ["m1", "m4"], "lin2": ["t1"], "linf": ["t1", "a3"], "sys": ["a2"], "ineq": ["a5"], "equiv": ["t2"], "nleq": ["a1", "a4"], "nlf": ["t2", "a1", "a3"], "ratio": ["a6"], "pct": ["m2"], "data1": ["d1"], "data2": ["d3"], "prob": ["d2"], "infer": ["m2"], "claims": ["d3"], "area": ["t3", "e1"], "lat": ["e2"], "trig": ["t3"], "circ": ["t3"], "wic": ["r1"], "tsp": ["r5"], "cross": ["r5"], "cid": ["r2"], "coe": ["r4"], "inf": ["r3"], "bound": ["s1", "s2", "s4"], "fss": ["s3", "s5", "g1", "g2", "g3"], "trans": ["s6"], "syn": ["r6"]};
 const WHO='Patrick', GOAL={Math:25,English:10}, PACE={Math:95,English:70};
 const L=['A','B','C','D'], DIFF={E:'Easy',M:'Medium',H:'Hard'};
 const PLAN=[ // math first: 2 math skills + 1 English skill a day (about 70/30)
@@ -225,7 +227,7 @@ function render(){
   clearInterval(tick);
   const c=drill.cur,q=c.q,s=SKILL[q.skill],n=drill.qs.length;
   let h=`<div class="meta"><b>${esc(drill.title)}</b> · Question ${drill.i+1} of ${n} · <span class="pill none">${esc(s.name)}</span> <span class="pill ${q.diff==='E'?'ok':q.diff==='M'?'mid':'bad'}">${DIFF[q.diff]}</span>
-   · <span class="timer" id="tm">0:00</span> <span class="sub">(SAT pace ≈ ${PACE[s.sec]} s)</span> <span style="flex:1"></span><button class="sm" id="quit">✕ Back to dashboard</button></div>
+   · <span class="timer" id="tm">0:00</span> <span class="sub">(SAT pace ≈ ${PACE[s.sec]} s)</span> <span style="flex:1"></span>${LESSONS_OF[q.skill]&&!document.documentElement.classList.contains('embed')?`<button class="sm" id="poplesson" style="border-color:#7b4fa0;color:#5a3290;font-weight:700">📘 Open the lesson on the right</button>`:''}<button class="sm" id="quit">✕ Back to dashboard</button></div>
    <div class="prog"><i style="width:${100*drill.i/n}%"></i></div><div class="card"><div class="q">${q.q}</div>`;
   if(q.find&&c.findOk!==true){
     h+=`<div class="box b-blue find"><b class="t">STEP 1 · FIND: WHAT IS THIS QUESTION ASKING FOR?</b><div class="opts">${q.find.opts.map((o,j)=>`<button class="opt" data-find="${j}"><span class="L">${j+1}</span><span>${esc(o)}</span></button>`).join('')}</div>
@@ -286,6 +288,7 @@ document.addEventListener('click',e=>{
   if(b.dataset.a!==undefined){const j=+b.dataset.a;c.tried.push(j);answer(j===q.ans,plain(q.ch[j]));return}
   if(b.id==='gsub'){const v=document.getElementById('gin').value.trim();if(!v)return;c.tried.push(v);c.lastGrid=v;answer(gridOk(q,v),v);return}
   if(b.id==='coach'){c.coach={open:0,state:{}};c.coached=true;FLY.dismissed=false;if(FLY.key&&FLY.key!=='__html')flyClose();render();return}
+  if(b.id==='poplesson'){const ls=LESSONS_OF[drill.cur.q.skill];flyFrame('learn.html?embed=1#'+ls[0],'LESSON · '+SKILL[drill.cur.q.skill].name,ls.map(x=>[x.toUpperCase(),'learn.html?embed=1#'+x]));return}
   if(b.id==='coachshow'){FLY.dismissed=false;if(FLY.key&&FLY.key!=='__html')flyClose();render();return}
   if(b.dataset.cs!==undefined){const k=+b.dataset.cs,v=document.getElementById('cs'+k).value.trim();if(!v)return;
     const res=stepParts(q.steps[k],q.steps[k-1])[1],a=numOf(res),u=numOf(v);

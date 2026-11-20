@@ -163,7 +163,7 @@ details.ansd[open] .sbody{animation:slide .35s ease-out}
 @media (max-width:900px){.exgrid,.wch{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:no-preference){.fade{animation:in .2s ease-out}@keyframes in{from{opacity:.5;transform:translateY(5px)}to{opacity:1;transform:none}}}
 @media (max-width:480px){.q{font-size:17px}h1{font-size:23px}.lesson h2{font-size:18px}}
-</style></head><body>
+.embed header,.embed .wrap>header,.embed .key,.embed #nav,.embed #whobar,.embed .wrap>div:has(#plab){display:none}.embed .wrap{padding-top:6px}</style></head><body>
 <div class="wrap">
  <header><h1>SAT Drill Zone · Lessons</h1><p class="sub"><a href="./" style="font-weight:700">← Dashboard and question drills</a></p><p class="sub">SNAPS · CARE · CLUE · DRIVE + every other SAT skill. Learn it, see it, fix your test misses, drill it, say it.</p></header>
  <div class="key"><span><b class="kb">BLUE</b>Rules</span><span><b class="kg">GREEN</b>Examples + memory hooks</span><span><b class="ky">YELLOW</b>Remember this</span><span><b class="kr">RED</b>Traps</span><span><b class="kp">PURPLE</b>Numbers + worked math</span></div>
@@ -199,7 +199,7 @@ function prog(){const s=store.get();const m=C.filter(c=>s[c.id]&&s[c.id].mastere
 function open(i,st){cur=i;step=st||0;pg=0;rv={};pr={};exN=1;tqShown={};dr=null;saidShown=false;render();prog();}
 
 function head(c){return `<div class="lesson"><div class="big">${c.L}</div><div><div class="part">Drill Zone #${cur+1} · ${c.part}</div><h2>${c.title}</h2></div></div>
- <div class="steps">${STEPS.map((s,i)=>`<button class="${i===step?'on':(i<step?'fin':'')}" data-step="${i}">${i+1} · ${s}</button>`).join('')}</div>`;}
+ <div class="steps">${STEPS.map((s,i)=>`<button class="${i===step?'on':(i<step?'fin':'')}" data-step="${i}">${i+1} · ${s}</button>`).join('')}${EMBED?'':`<button data-popdrill="1" style="margin-left:auto;font:inherit;font-size:13px;font-weight:700;border:2px solid #1f2a44;background:#1f2a44;color:#fff;border-radius:999px;padding:4px 12px;cursor:pointer">▶ Open the drill on the right</button>`}</div>`;}
 
 const TW=t=>(t||'').replace(/\[\[(.+?)\]\]/g,'<span class="tw">$1</span>');
 function watchHTML(c){return `<div class="watch"><span class="lab">Watch me do a real SAT-style question · ${c.title}</span>
@@ -233,6 +233,8 @@ function practiceFor(c,idx,n){
 }
 const HIDE=t=>(t||'').replace(/\[\[(.+?)\]\]/g,'<span class="tw" style="min-width:60px;display:inline-block">&nbsp;?&nbsp;</span>');
 function splitStep(s){const i=s.indexOf(': ');return i>0?[s.slice(0,i),s.slice(i+2)]:[s,null]}
+const EMBED=location.search.includes('embed=1');if(EMBED)document.documentElement.classList.add('embed');
+const SKILL_OF={"m1": "lin1", "m4": "lin1", "t1": "lin2", "a3": "linf", "a2": "sys", "a5": "ineq", "t2": "equiv", "a1": "nleq", "a4": "nleq", "a6": "ratio", "m2": "pct", "d1": "data1", "d3": "data2", "d2": "prob", "t3": "area", "e1": "area", "e2": "lat", "r1": "wic", "r5": "tsp", "r2": "cid", "r4": "coe", "r3": "inf", "s1": "bound", "s2": "bound", "s4": "bound", "s3": "fss", "s5": "fss", "g1": "fss", "g2": "fss", "g3": "fss", "s6": "trans", "r6": "syn"};
 let COACHBLK={},LCOACH=null;
 function practiceHTML(c,idx,qs){
   if(!qs.length)return '';
@@ -355,7 +357,8 @@ function render(){
  COACHBLK={};
 }
 
-document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const c=C[cur];
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.popdrill){const c=C[cur],sk=SKILL_OF[c.id];flyFrame('index.html?embed=1#go='+(sk?'skill:'+sk:'mixed:'+(c.math?'Math':'English')),'DRILL · '+(sk?'10 questions on this concept':'mixed questions'));return}const c=C[cur];
  if(b.id==='savewho'){const v=document.getElementById('whoin').value.trim();if(v)setWho(v);return}
  if(b.id==='chgwho'){try{localStorage.removeItem('satname')}catch(e){}drawWho();return}
  if(b.dataset.go!==undefined){location.hash=C[+b.dataset.go].id;document.getElementById('nav').open=false;return}
