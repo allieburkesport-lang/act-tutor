@@ -237,7 +237,7 @@ function render(){
     else{h+=`<p><b>Type your answer</b> (fractions like 7/2 are fine):</p><input type="text" id="gin" inputmode="decimal" ${solved?'disabled':''} value="${esc(c.lastGrid||'')}"> <button id="gsub" ${solved?'disabled':''}>Check</button>
       ${c.tried.length&&!solved?`<p class="wrong-t">${esc(c.lastGrid)} is not right.</p>`:''}${solved?`<p class="right-t">✓ ${esc(q.show)}</p>`:''}`}
     if(c.tried.length&&!solved&&!c.coach)h+=`<div class="box b-red"><b class="t">NOT YET</b>Try again, or let's work it out together.<div class="go" style="margin-top:8px"><button class="big pri" id="coach">🧑‍🏫 Coach me up</button></div></div>`;
-    if(c.coach)h+=coachHTML();
+    if(c.coach)h+=`<div class="box b-purple"><b class="t">🧑‍🏫 COACH IS OPEN ON THE RIGHT →</b>Do each step in the panel, then answer here. <button class="sm" id="coachshow">Show the coach</button></div>`;
     if(solved){
       h+=`<div class="box b-green"><b class="t">${c.tried.length===1&&!c.coached?'RIGHT ON THE FIRST TRY ✓':'GOT IT ✓'}</b>${esc(q.tool)}</div>`;
       if(!c.coach)h+=`<details><summary><b>See the steps</b></summary>${q.steps.map((x,k)=>`<div class="step"><h4>Step ${k+1}</h4>${esc(x)}</div>`).join('')}</details>`;
@@ -246,6 +246,7 @@ function render(){
   }
   h+='</div>';
   document.getElementById('main').innerHTML=h;
+  if(c.coach&&(FLY.key===null||FLY.key==='__html')&&!FLY.dismissed)flyHTML(coachHTML());else if(!c.coach&&FLY.key==='__html')flyClose();
   const tm=document.getElementById('tm');
   if(!c.done)tick=setInterval(()=>{const sec=Math.round((Date.now()-c.t0)/1000);tm.textContent=Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0');tm.className='timer'+(sec>PACE[s.sec]*1.5?' slow':'')},1000);
 }
@@ -282,7 +283,8 @@ document.addEventListener('click',e=>{
   if(b.dataset.find!==undefined){const j=+b.dataset.find;if(j===q.find.ok){c.findOk=true}else{c.findOk=false;c.findMiss=true}render();return}
   if(b.dataset.a!==undefined){const j=+b.dataset.a;c.tried.push(j);answer(j===q.ans,plain(q.ch[j]));return}
   if(b.id==='gsub'){const v=document.getElementById('gin').value.trim();if(!v)return;c.tried.push(v);c.lastGrid=v;answer(gridOk(q,v),v);return}
-  if(b.id==='coach'){c.coach={open:0,state:{}};c.coached=true;render();return}
+  if(b.id==='coach'){c.coach={open:0,state:{}};c.coached=true;FLY.dismissed=false;if(FLY.key&&FLY.key!=='__html')flyClose();render();return}
+  if(b.id==='coachshow'){FLY.dismissed=false;if(FLY.key&&FLY.key!=='__html')flyClose();render();return}
   if(b.dataset.cs!==undefined){const k=+b.dataset.cs,v=document.getElementById('cs'+k).value.trim();if(!v)return;
     const res=stepParts(q.steps[k],q.steps[k-1])[1],a=numOf(res),u=numOf(v);
     const ok=(a!==null&&u!==null&&Math.abs(a-u)<1e-6)||res.toLowerCase().replace(/[^a-z0-9]/g,'').includes(v.toLowerCase().replace(/[^a-z0-9]/g,''))&&v.length>2;

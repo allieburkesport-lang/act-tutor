@@ -52,10 +52,13 @@ body.flyon .wrap{margin-right:calc(min(500px,42vw) + 16px)!important;margin-left
 .kc.y{background:#e9edf3;color:#1f2a44;border-color:#cbd5e1;box-shadow:0 3px 0 #94a3b8}.kc.b{background:#2f6fb5;border-color:#1f4e8a}
 .kc.num{background:#5b6270}.kc.soft{background:#7b4fa0;border-color:#5a3290}
 .ti-type{font-family:ui-monospace,Menlo,Consolas,monospace;background:#fff;color:#1f2a44;border-radius:6px;padding:3px 8px;font-size:14px}
+#flyp .st{display:flex;gap:10px;align-items:flex-start;margin:8px 0;font-size:16px}#flyp .st .n{flex:0 0 26px;height:26px;border-radius:50%;background:#1f2a44;color:#fff;font-weight:700;font-size:13px;display:grid;place-items:center}
+#flyp .box{margin-top:44px;font-size:16px}#flyp .step{font-size:16px}
 @media (max-width:1000px){#flyp{width:92vw}body.flyon .wrap{margin-right:auto!important}}`;document.head.appendChild(st);
  const p=document.createElement('aside');p.id='flyp';p.setAttribute('aria-label','Calculator picture');document.addEventListener('DOMContentLoaded',()=>document.body.appendChild(p));if(document.body)document.body.appendChild(p);})();
 function flyOpen(key){FLY.key=key;document.body.classList.add('flyon');flyDraw();document.getElementById('flyp').classList.add('on');}
-function flyClose(){FLY.key=null;document.body.classList.remove('flyon');const p=document.getElementById('flyp');if(p)p.classList.remove('on');}
+function flyHTML(html){const p=document.getElementById('flyp');if(!p)return;FLY.key='__html';FLY.dismissed=false;document.body.classList.add('flyon');p.innerHTML='<button class="x" aria-label="Close">✕</button>'+html;p.classList.add('on');}
+function flyClose(){if(FLY.key==='__html')FLY.dismissed=true;FLY.key=null;document.body.classList.remove('flyon');const p=document.getElementById('flyp');if(p)p.classList.remove('on');}
 document.addEventListener('click',e=>{if(e.target.closest('#flyp .x')){flyClose();if(typeof render==='function')render();}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&FLY.key){flyClose();if(typeof render==='function')render();}});
 

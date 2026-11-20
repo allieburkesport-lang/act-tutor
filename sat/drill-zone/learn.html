@@ -233,6 +233,7 @@ function practiceFor(c,idx,n){
 }
 const HIDE=t=>(t||'').replace(/\[\[(.+?)\]\]/g,'<span class="tw" style="min-width:60px;display:inline-block">&nbsp;?&nbsp;</span>');
 function splitStep(s){const i=s.indexOf(': ');return i>0?[s.slice(0,i),s.slice(i+2)]:[s,null]}
+let COACHBLK={},LCOACH=null;
 function practiceHTML(c,idx,qs){
   if(!qs.length)return '';
   let h=`<div class="ls-h" style="margin-top:14px"><span class="pn">✎</span>Now you try (${qs.length})</div>`;
@@ -246,13 +247,13 @@ function practiceHTML(c,idx,qs){
     else if(st.tried.length){
       h+=`<div class="box b-trap"><span class="lab">Not yet</span><p>Try again, or work it out one step at a time.</p></div>`;
       if(st.coach<0)h+=`<button class="btn" data-pc="${key}">🧑‍🏫 Coach me up</button>`;
-      else{h+=`<div class="box b-def"><span class="lab">Coach me up · one step at a time</span>`;
+      else{h+=`<div class="box b-def"><span class="lab">🧑‍🏫 Coach is open on the right →</span><p>Do each step in the panel, then pick your answer here. <button class="btn ghost" data-pcshow="${key}" style="padding:2px 8px;font-size:13px">Show the coach</button></p></div>`;const ch0=h.length;h+=`<div class="box b-def"><span class="lab">Coach me up · one step at a time</span><div style="margin:4px 0 8px">${q.q}</div>`;
         q.steps.forEach((s,i)=>{if(i>st.coach)return;const [d,r]=splitStep(s);
           h+=`<div class="st" style="margin:6px 0"><span class="n">${i+1}</span><div>${d}${r?(i<st.coach||st.open===i?` → <b>${r}</b>`:` <button class="btn ghost" data-pso="${key}|${i}" style="padding:2px 8px;font-size:13px">Do it on paper, then tap to check</button>`):''}</div></div>`});
         const lastOpen=st.open===st.coach||!splitStep(q.steps[st.coach])[1];
         if(st.coach<q.steps.length-1&&lastOpen)h+=`<button class="btn" data-pcn="${key}">Open step ${st.coach+2} ▾</button>`;
-        if(st.coach===q.steps.length-1&&lastOpen)h+=`<p><b>Now pick your answer above.</b></p>`;
-        h+='</div>';}
+        if(st.coach===q.steps.length-1&&lastOpen)h+=`<p><b>Now pick your answer on the left.</b></p>`;
+        h+='</div>';COACHBLK[key]=h.slice(ch0);h=h.slice(0,ch0);}
     }
     h+='</div>';});
   return h;
@@ -304,7 +305,8 @@ document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||
     st.tried.push(+j);if(+j===q.a)st.ok=true;
     rec({kind:'lesson',concept_id:c.id,concept_no:cur+1,concept_title:plain(c.title).slice(0,120),part:c.part.slice(0,60)+' · example '+(+idx+1),question_no:+k+1,question:plain(q.q).slice(0,600),picked:plain(q.ch[+j]).slice(0,300),correct:+j===q.a,first_try:st.tried.length===1&&+j===q.a&&st.coach<0,attempt:st.tried.length,seconds:null});
     render();return}
-  if(b.dataset.pc){pr[b.dataset.pc].coach=0;pr[b.dataset.pc].open=-1;render();return}
+  if(b.dataset.pc){pr[b.dataset.pc].coach=0;pr[b.dataset.pc].open=-1;LCOACH=b.dataset.pc;FLY.dismissed=false;if(FLY.key&&FLY.key!=='__html')flyClose();render();return}
+  if(b.dataset.pcshow){LCOACH=b.dataset.pcshow;FLY.dismissed=false;if(FLY.key&&FLY.key!=='__html')flyClose();render();return}
   if(b.dataset.pso){const p=b.dataset.pso.split('|');const key=p.slice(0,3).join('|');pr[key].open=+p[3];render();return}
   if(b.dataset.pcn){const st=pr[b.dataset.pcn];st.coach++;st.open=-1;render();return}
 });
@@ -349,6 +351,8 @@ function render(){
      :`<div class="actions"><button class="btn" id="showsay">Check what I said</button></div>`;
  }
  m.innerHTML=h; m.classList.remove('fade'); void m.offsetWidth; m.classList.add('fade');
+ if(LCOACH&&COACHBLK[LCOACH]&&!(pr[LCOACH]&&pr[LCOACH].ok)&&(FLY.key===null||FLY.key==='__html')&&!FLY.dismissed)flyHTML(COACHBLK[LCOACH]);else if(FLY.key==='__html'&&(!LCOACH||!COACHBLK[LCOACH]||(pr[LCOACH]&&pr[LCOACH].ok)))flyClose();
+ COACHBLK={};
 }
 
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const c=C[cur];
