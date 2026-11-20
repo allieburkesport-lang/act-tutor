@@ -235,6 +235,36 @@ const HIDE=t=>(t||'').replace(/\[\[(.+?)\]\]/g,'<span class="tw" style="min-widt
 function splitStep(s){const i=s.indexOf(': ');return i>0?[s.slice(0,i),s.slice(i+2)]:[s,null]}
 const EMBED=location.search.includes('embed=1');if(EMBED)document.documentElement.classList.add('embed');
 const SKILL_OF={"m1": "lin1", "m4": "lin1", "t1": "lin2", "a3": "linf", "a2": "sys", "a5": "ineq", "t2": "equiv", "a1": "nleq", "a4": "nleq", "a6": "ratio", "m2": "pct", "d1": "data1", "d3": "data2", "d2": "prob", "t3": "area", "e1": "area", "e2": "lat", "r1": "wic", "r5": "tsp", "r2": "cid", "r4": "coe", "r3": "inf", "s1": "bound", "s2": "bound", "s4": "bound", "s3": "fss", "s5": "fss", "g1": "fss", "g2": "fss", "g3": "fss", "s6": "trans", "r6": "syn"};
+
+/* ---- a check question for every lesson step ---- */
+let SQ={};
+const sqNorm=s=>String(s??'').replace(/<[^>]+>/g,'').replace(/\[\[|\]\]/g,'').replace(/[−–]/g,'-').replace(/\s+/g,'').replace(/[“”"]/g,'').toLowerCase();
+const sqNum=s=>{s=sqNorm(s).replace(/[a-z]+=/,'');if(/^-?\d*\.?\d+\/-?\d*\.?\d+$/.test(s)){const [a,b]=s.split('/').map(Number);return a/b}const v=Number(s.replace(/,/g,''));return isNaN(v)?null:v};
+function lessonTags(c){const t=new Set();c.ls.types.forEach(T=>T.uses.forEach(u=>(u.parts||[]).forEach(p=>{if(p[2]&&p[2].length<=22)t.add(p[2])})));return [...t]}
+function lessonBoxes(c){const b=new Set();c.ls.types.forEach(T=>T.uses.forEach(u=>{(u.s.match(/\[\[(.+?)\]\]/g)||[]).forEach(x=>b.add(x.slice(2,-2)));}));return [...b]}
+function shuffleSeed(a,seed){a=a.slice();let s=seed;for(let i=a.length-1;i>0;i--){s=(s*9301+49297)%233280;const j=Math.floor(s/233280*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function stepQ(c,idx,u,i){const p=u.parts[i],txt=p[1]||'',tag=p[2]||'',m=c.math,seed=(idx+1)*31+i*7+c.id.charCodeAt(1);
+  const box=txt.match(/\[\[(.+?)\]\]/);
+  if(m){ // math: hide the result, he types it
+    if(box)return {k:'in',prompt:TW(txt.replace(box[0],'<b>?</b>')),ans:box[1]};
+    let j=txt.lastIndexOf('→');if(j>0)return {k:'in',prompt:txt.slice(0,j)+'→ <b>?</b>',ans:txt.slice(j+1).trim()};
+    j=txt.lastIndexOf('=');if(j>0&&txt.slice(j+1).trim().length<=24)return {k:'in',prompt:txt.slice(0,j)+'= <b>?</b>',ans:txt.slice(j+1).trim()};
+    if(tag)return {k:'mc',prompt:TW(txt)+' · what is this?',ans:tag,ch:shuffleSeed([tag,...shuffleSeed(lessonTags(c).filter(x=>x!==tag),seed).slice(0,2)],seed)};
+    return {k:'none'};}
+  // grammar / reading
+  if(box){const others=lessonBoxes(c).filter(x=>x!==box[1]);const tw=u.trap&&u.trap.w&&u.trap.w.length<=24?[u.trap.w]:[];
+    return {k:'mc',prompt:`Which goes here? ${TW(txt.replace(box[0],'<b>___</b>'))||''}`,ans:box[1],ch:shuffleSeed([box[1],...[...new Set(tw.concat(shuffleSeed(others,seed)))].filter(x=>x!==box[1]).slice(0,2)],seed)};}
+  const OPP={'full':'not full','not full':'full','one':'many','many':'one','good':'bad','bad':'good','cause':'effect','effect':'cause','general':'one case','one case':'general','new':'not new','not new':'new','strength':'weakness','weakness':'strength','owner':'thing owned','plural':'owner','extra info':'needed'};
+  if(tag){const o=OPP[tag.toLowerCase()];const pool=lessonTags(c).filter(x=>x!==tag&&x!==o);if(o)return {k:'mc',prompt:`“${TW(txt)}” · what is this part?`,ans:tag,ch:shuffleSeed([tag,o,...shuffleSeed(pool,seed).slice(0,1)],seed)};return {k:'mc',prompt:`“${TW(txt)}” · what is this part?`,ans:tag,ch:shuffleSeed([tag,...shuffleSeed(pool,seed).slice(0,2)],seed)};}
+  return {k:'none'};}
+function stepQHTML(c,idx,u,i){const q=stepQ(c,idx,u,i),key=c.id+'|'+idx+'|'+i,st=SQ[key]||{};
+  if(q.k==='none')return `<button class="btn" data-rv="${idx}" style="padding:4px 10px;font-size:14px">I did this step · check it</button>`;
+  let h=`<div style="font-weight:600;margin-bottom:4px">✎ Your turn: ${q.prompt}</div>`;
+  if(q.k==='mc')h+=q.ch.map((x,j)=>`<button class="btn ghost" data-sqa="${key}|${j}" style="padding:4px 12px;font-size:14px;margin:2px 6px 2px 0;${(st.wrong||[]).includes(j)?'background:#fbe3e0;border-color:#c0392b;text-decoration:line-through':''}">${TW(x)}</button>`).join('');
+  else h+=`<input id="sqin-${idx}-${i}" placeholder="your answer" style="font:inherit;padding:4px 8px;border:2px solid #1f2a44;border-radius:6px;width:150px"> <button class="btn" data-sqc="${key}" style="padding:4px 12px;font-size:14px">Check</button>`;
+  if(st.miss)h+=`<div style="color:#9a2e25;font-weight:700;margin-top:4px">Not quite. Look at the step again and try once more. <button class="btn ghost" data-rv="${idx}" data-sqshow="${key}" style="padding:2px 8px;font-size:13px">Show me</button></div>`;
+  return h;}
+
 let COACHBLK={},LCOACH=null;
 function practiceHTML(c,idx,qs){
   if(!qs.length)return '';
@@ -272,7 +302,7 @@ function situationHTML(c,idx,n){
   if(m&&TOOLS&&TOOLS.L[c.id]&&TOOLS.L[c.id][idx])h+=`<div class="rl" style="color:#5a3290">Pick your tool<br><span style="font-weight:600;letter-spacing:0;text-transform:none">Desmos, calculator, or by hand</span></div><div class="rv">${toolHTML(TOOLS.L[c.id][idx],c.id+'|ex|'+idx,true).replace('margin:10px 0','margin:0')}</div>`;
   if(parts.length){h+=`<div class="rl">${ls.bl||(m?'Work it':'Break it down')}</div><div class="rv"><p class="muted" style="margin:0 0 6px">Do each step yourself first (say it or write it), then tap to check.</p><div class="ls-bd">`;
     parts.forEach((p,i)=>{if(i<shown)h+=`<span class="who">${p[0]}</span><span>${TW(p[1])}</span><span class="tag">${p[2]||''}</span>`;
-      else if(i===shown)h+=`<span class="who">${p[0]}</span><span><button class="btn" data-rv="${idx}" style="padding:4px 10px;font-size:14px">I did ${p[0].toLowerCase()} · check it</button></span><span></span>`;});
+      else if(i===shown)h+=`<span class="who">${p[0]}</span><span>${stepQHTML(c,idx,u,i)}</span><span></span>`;});
     h+='</div></div>';}
   if(done){h+=`<div class="rl">Why it works</div><div class="rv">${u.why}</div>`;
     if(u.trap)h+=`<div class="rl tp">Trap ✗<br>${u.trap.w?'"'+u.trap.w+'"':''}</div><div class="rv tp"><div class="ls-tg">${u.trap.rows.map(r=>`<span class="tk">${r[0]}</span><span>${TW(r[1])}</span>`).join('')}</div></div>`;}
@@ -358,6 +388,14 @@ function render(){
 }
 
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+
+ if(b.dataset.sqa){const [cid,idx,i,j]=b.dataset.sqa.split('|');const c=C[cur],u=flatUses(c)[+idx].u,q=stepQ(c,+idx,u,+i),key=cid+'|'+idx+'|'+i,st=SQ[key]||(SQ[key]={});
+   if(sqNorm(q.ch[+j])===sqNorm(q.ans)){rv[+idx]=(rv[+idx]||0)+1;delete SQ[key];}else{st.miss=true;st.wrong=(st.wrong||[]).concat(+j);}render();return}
+ if(b.dataset.sqc){const [cid,idx,i]=b.dataset.sqc.split('|');const c=C[cur],u=flatUses(c)[+idx].u,q=stepQ(c,+idx,u,+i),key=b.dataset.sqc,st=SQ[key]||(SQ[key]={});
+   const v=(document.getElementById('sqin-'+idx+'-'+i)||{}).value||'';if(!v.trim())return;
+   const ok=sqNorm(v)===sqNorm(q.ans)||(sqNum(v)!==null&&sqNum(q.ans)!==null&&Math.abs(sqNum(v)-sqNum(q.ans))<0.01)||sqNorm(q.ans).split(',').some(a=>a&&a===sqNorm(v));
+   if(ok){rv[+idx]=(rv[+idx]||0)+1;delete SQ[key];}else st.miss=true;render();return}
+ if(b.dataset.sqshow){delete SQ[b.dataset.sqshow];}
  if(b.dataset.popdrill){const c=C[cur],sk=SKILL_OF[c.id];flyFrame('index.html?embed=1#go='+(sk?'skill:'+sk:'mixed:'+(c.math?'Math':'English')),'DRILL · '+(sk?'10 questions on this concept':'mixed questions'));return}const c=C[cur];
  if(b.id==='savewho'){const v=document.getElementById('whoin').value.trim();if(v)setWho(v);return}
  if(b.id==='chgwho'){try{localStorage.removeItem('satname')}catch(e){}drawWho();return}
