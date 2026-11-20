@@ -266,6 +266,7 @@ function situationHTML(c,idx,n){
     ${t.words?`<div class="ls-words"><div class="lab">${t.n} words</div>${t.words.map(w=>`<span class="w">${w}</span>`).join('')}</div>`:''}</div></div>`;
   h+=`<div class="ls-use"><span class="num">${idx+1}</span><div><div class="ut">${u.t}${typed?`<span class="tg">${t.k} · ${t.n}</span>`:''}</div>${u.d?`<div class="ud">${u.d}</div>`:''}
    <div class="ls-rows${m?' m':''}"><div class="rl sn">${ls.sl||(m?'The problem':'The sentence')}</div><div class="rv sn">${m||done?TW(u.s):HIDE(u.s)}</div>`;
+  if(m&&TOOLS&&TOOLS.L[c.id]&&TOOLS.L[c.id][idx])h+=`<div class="rl" style="color:#5a3290">Pick your tool<br><span style="font-weight:600;letter-spacing:0;text-transform:none">Desmos, calculator, or by hand</span></div><div class="rv">${toolHTML(TOOLS.L[c.id][idx],c.id+'|ex|'+idx,true).replace('margin:10px 0','margin:0')}</div>`;
   if(parts.length){h+=`<div class="rl">${ls.bl||(m?'Work it':'Break it down')}</div><div class="rv"><p class="muted" style="margin:0 0 6px">Do each step yourself first (say it or write it), then tap to check.</p><div class="ls-bd">`;
     parts.forEach((p,i)=>{if(i<shown)h+=`<span class="who">${p[0]}</span><span>${TW(p[1])}</span><span class="tag">${p[2]||''}</span>`;
       else if(i===shown)h+=`<span class="who">${p[0]}</span><span><button class="btn" data-rv="${idx}" style="padding:4px 10px;font-size:14px">I did ${p[0].toLowerCase()} · check it</button></span><span></span>`;});
@@ -273,7 +274,6 @@ function situationHTML(c,idx,n){
   if(done){h+=`<div class="rl">Why it works</div><div class="rv">${u.why}</div>`;
     if(u.trap)h+=`<div class="rl tp">Trap ✗<br>${u.trap.w?'"'+u.trap.w+'"':''}</div><div class="rv tp"><div class="ls-tg">${u.trap.rows.map(r=>`<span class="tk">${r[0]}</span><span>${TW(r[1])}</span>`).join('')}</div></div>`;}
   h+='</div></div></div>';
-  if(done&&c.math&&TOOLS&&TOOLS.L[c.id]&&TOOLS.L[c.id][idx])h+=toolHTML(TOOLS.L[c.id][idx],c.id+'|ex|'+idx,false);
   if(done)h+=practiceHTML(c,idx,practiceFor(c,idx,n));
   return h;
 }
