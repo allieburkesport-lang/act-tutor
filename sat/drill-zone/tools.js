@@ -68,8 +68,8 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&FLY.key){flyClose()
 /* math text -> JS function of x */
 function toFn(t){let s=String(t).replace(/−/g,'-').replace(/[×·]/g,'*').replace(/÷/g,'/').replace(/²/g,'^2').replace(/³/g,'^3').replace(/π/g,'(PI)').replace(/√\s*\(/g,'sqrt(').replace(/√\s*(\d+(\.\d+)?)/g,'sqrt($1)');
  s=s.replace(/(\d|\)|x)\s*(?=\(|x|sqrt|\(PI\))/g,'$1*').replace(/\^/g,'**');
- if(/[^0-9x+\-*/().\sA-Za-z]/.test(s.replace(/sqrt|PI/g,'')))return null;
- if(/[a-wyzA-Z]/.test(s.replace(/sqrt|PI/g,'')))return null;
+ if(/[^0-9x+\-*/().\sA-Za-z]/.test(s.replace(/sqrt|PI|abs/g,'')))return null;
+ if(/[a-wyzA-Z]/.test(s.replace(/sqrt|PI|abs/g,'')))return null;
  try{const f=new Function('x','const {sqrt,PI,abs}=Math;return '+s);const v=f(1.234);return isFinite(v)?f:null}catch(e){return null}}
 function parseDesmos(steps){const lines=[];
  steps.forEach(st=>{let m=st.match(/(?:Type|type)\s+(.+?)(?:\s*→.*)?$/);if(!m)return;let t=m[1].replace(/[.,;]\s*$/,'').replace(/\s+\(.*\)$/,'').trim();
@@ -108,7 +108,7 @@ function desmosPic(steps){const lines=parseDesmos(steps);if(!lines.length)return
  return `<div class="fl-lab">What your Desmos screen looks like</div><div class="ds"><div class="ds-top">Desmos · built into Bluebook (Calculator button, top right)</div>${lines.map((l,i)=>`<div class="ds-ex"><span class="ln">${i+1}</span>${l.f?`<span class="dot" style="background:${COLS[lines.slice(0,i).filter(z=>z.f).length%4]}"></span>`:''}<span>${tEsc(l.txt)}</span>${l.val?`<span class="val">${tEsc(l.val)}</span>`:''}</div>`).join('')}${graphSVG(lines)}</div>`;}
 const KEYRX=/(2nd|enter|clear|sto→|X,T,θ,n|mode|graph|trace|y=|\(−\)|x²|n\/d|alpha|del|math|table|window|⌂|top-row key under [A-Z]+)/g;
 function seqcaps(t){const m=t.match(/^Type\s+[^:]+:\s*(.+)$/);if(!m)return '';
- return m[1].split(/,\s*(?![^()]*\))/).map(ch=>{const hint=(ch.match(/\(([^)]*)\)/)||[])[1];ch=ch.replace(/\([^)]*\)/,'').trim();
+ return (m[1].includes(' › ')?m[1].split(' › '):m[1].split(/,\s*(?![^()]*\))/)).map(ch=>{const hint=(ch.match(/\(([^)]*)\)/)||[])[1];ch=ch.replace(/\([^)]*\)/,'').trim();
   return ch.split(/\s+/).filter(Boolean).map(k=>`<span class="kc ${/^\d+$/.test(k)?'num':(k==='enter'?'':'y')}">${tEsc(k)}</span>`).join('')+(hint?`<span style="font-size:12px;color:#cbd5e1">(${tEsc(hint)})</span>`:'');}).join('<span style="color:#94a3b8">›</span>');}
 function keycaps(t){const sq=seqcaps(t);if(sq)return sq;const out=[];let m;KEYRX.lastIndex=0;while((m=KEYRX.exec(t))){let k=m[1];const soft=k.startsWith('top-row');out.push(`<span class="kc ${soft?'soft':(/^(2nd)$/.test(k)?'b':(k==='⌂'?'y':''))}">${tEsc(soft?k.replace('top-row key under ',''):k)}</span>`);}
  const d=t.match(/⌂,?\s*then\s*(\d)|⌂\s*(\d)/);if(d)out.splice(1,0,`<span class="kc num">${d[1]||d[2]}</span>`);return out.join('');}
