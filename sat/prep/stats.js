@@ -1,5 +1,6 @@
 /* ---------- STATS: BI dashboard (#/stats, #/stats/<skill>, #/stats/sec:Math) ---------- */
-const ST = {period: 'all', sec: 'all'};
+const ST = {period: 'all', sec: 'all', bp: true, site: true};
+const SITE_NAME = 'SAT Prep';
 const SCOL = {Math: '#1e3a8a', English: '#0f766e'};
 let CH = [];
 function dkey(d) { return d.toLocaleDateString('en-CA') }
@@ -38,6 +39,7 @@ function ensureChartJs(cb) { if (typeof Chart !== 'undefined') return cb(); cons
 function filters() {
   const b = (k, v, t) => `<button class="btn sm ${ST[k] === v ? '' : 'g'}" data-st="${k}:${v}">${t}</button>`;
   return `<div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center"><div style="display:flex;gap:6px;align-items:center"><span style="font-size:13px;color:var(--mute);font-weight:600">PERIOD</span>${b('period', 'day', 'Today')}${b('period', 'week', 'Last 7 days')}${b('period', 'month', 'Last 30 days')}${b('period', 'all', 'All time')}</div>
+   <div style="display:flex;gap:6px;align-items:center"><span style="font-size:13px;color:var(--mute);font-weight:600">DATA</span><button class="btn sm ${ST.site ? '' : 'g'}" data-src="site">${ST.site ? '☑' : '☐'} ${SITE_NAME}</button><button class="btn sm ${ST.bp ? '' : 'g'}" data-src="bp">${ST.bp ? '☑' : '☐'} 1500 Blueprint</button></div>
    <div style="display:flex;gap:6px;align-items:center"><span style="font-size:13px;color:var(--mute);font-weight:600">SECTION</span>${b('sec', 'all', 'Both')}${b('sec', 'Math', 'Math')}${b('sec', 'English', 'Reading & Writing')}</div></div>`
 }
 function statsPage(arg) {
@@ -48,20 +50,24 @@ function statsPage(arg) {
 function drawStats() {
   killCharts();
   let all = firstTries(); if (ST.sec !== 'all') all = all.filter(r => r.s.sec === ST.sec);
-  const rows = inPeriod(all, ST.period), prev = prevPeriod(all, ST.period);
+  const rows = ST.site ? inPeriod(all, ST.period) : [], prev = ST.site ? prevPeriod(all, ST.period) : [];
   const acc = pct(rows), pacc = pct(prev), avg = avgSec(rows), pace = paceOf(rows);
   const days = new Set(all.map(r => r.day)); let streak = 0; const d = new Date(); while (days.has(dkey(d))) { streak++; d.setDate(d.getDate() - 1) }
   const skills = BANK.skills.filter(s => ST.sec === 'all' || s.sec === ST.sec);
-  const per = skills.map(s => { const r = rows.filter(x => x.q.skill === s.id), b = BPS[s.id] || {n: 0, ok: 0}; return {s, n: r.length, ok: r.filter(x => x.ok).length, acc: pct(r), base: b.n ? Math.round(100 * b.ok / b.n) : null, bn: b.n, avg: avgSec(r)} });
+  const useBpCat = ST.bp && ST.period === 'all';
+  const per = skills.map(s => { const r = rows.filter(x => x.q.skill === s.id), b = BPS[s.id] || {n: 0, ok: 0}; const sn = r.length, sok = r.filter(x => x.ok).length; const n = sn + (useBpCat ? b.n : 0), ok = sok + (useBpCat ? b.ok : 0);
+    return {s, n, ok, acc: n ? Math.round(100 * ok / n) : null, sn, sok, sacc: sn ? Math.round(100 * sok / sn) : null, base: b.n ? Math.round(100 * b.ok / b.n) : null, bn: b.n, avg: avgSec(r)} });
   const strong = per.filter(p => p.n >= 3 && p.acc >= 70).length;
   const gran = 'day';
   const from = ST.period === 'all' ? '0000' : (() => { const n = ST.period === 'day' ? 1 : ST.period === 'week' ? 7 : 30; const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - (n - 1)); return dkey(d) })();
-  const bpd = (typeof BPD !== 'undefined' ? BPD : []).filter(x => x.day >= from).map(x => ({day: x.day, n: ST.sec === 'all' ? x.n : ST.sec === 'Math' ? (x.math ? x.math.n : 0) : (x.rw ? x.rw.n : 0), acc: ST.sec === 'all' ? x.acc : ST.sec === 'Math' ? (x.math ? x.math.acc : null) : (x.rw ? x.rw.acc : null)})).filter(x => x.n);
+  const bpd = (!ST.bp || typeof BPD === 'undefined' ? [] : BPD).filter(x => x.day >= from).map(x => ({day: x.day, n: ST.sec === 'all' ? x.n : ST.sec === 'Math' ? (x.math ? x.math.n : 0) : (x.rw ? x.rw.n : 0), acc: ST.sec === 'all' ? x.acc : ST.sec === 'Math' ? (x.math ? x.math.acc : null) : (x.rw ? x.rw.acc : null)})).filter(x => x.n);
   const dz = series(rows, 'day'); const days2 = [...new Set([...dz.keys, ...bpd.map(x => x.day)])].sort();
   const pick = (arr) => days2.map(d => { const i = dz.keys.indexOf(d); return i < 0 ? null : arr[i] });
   const se = {lab: days2.map(k => new Date(k + 'T12:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'})), accM: pick(dz.accM), accE: pick(dz.accE), m: pick(dz.m).map(x => x || 0), e: pick(dz.e).map(x => x || 0),
     bpA: days2.map(d => { const x = bpd.find(y => y.day === d); return x ? x.acc : null }), bpN: days2.map(d => { const x = bpd.find(y => y.day === d); return x ? x.n : 0 })};
   const bpTot = bpd.reduce((a, x) => a + x.n, 0), bpOk = Math.round(bpd.reduce((a, x) => a + x.n * (x.acc || 0) / 100, 0));
+  const sOk = rows.filter(r => r.ok).length, tot = rows.length + bpTot, tOk = sOk + bpOk, tAcc = tot ? Math.round(100 * tOk / tot) : null;
+  se.comb = days2.map((d, i) => { const sr = rows.filter(r => r.day === d), x = bpd.find(y => y.day === d); const n = sr.length + (x ? x.n : 0); return n ? Math.round(100 * (sr.filter(r => r.ok).length + (x ? x.n * (x.acc || 0) / 100 : 0)) / n) : null });
   const diff = ['E', 'M', 'H'].map(k => ({k, M: pct(rows.filter(r => r.q.diff === k && r.s.sec === 'Math')), E: pct(rows.filter(r => r.q.diff === k && r.s.sec !== 'Math')), n: rows.filter(r => r.q.diff === k).length}));
   // week x skill heat
   const wks = [...new Set(all.map(r => bucketKey(r.day, 'week')))].sort().slice(-6);
@@ -71,40 +77,41 @@ function drawStats() {
   const missed = rows.filter(r => !r.ok).slice(-12).reverse();
   app().innerHTML = topbar('stats') + `<div class="page" style="gap:18px"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;align-items:flex-end"><div><h1 class="hd" style="margin:0;font-size:30px">Stats</h1><div style="color:var(--mute);font-size:14px">First try on each question, on this site plus his 1500 Blueprint days. Click any category to see why.</div></div>${filters()}</div>
    <section class="stats" style="grid-template-columns:repeat(6,minmax(0,1fr))">
-    ${kpi('Questions', rows.length, ST.period === 'all' ? `${days.size} days of practice` : `prev period: ${prev.length}`)}
-    ${kpi('Right on first try', acc == null ? '—' : acc + '%', pacc == null ? '' : 'prev ' + pacc + '%', delta(acc, pacc))}
-    ${kpi('Right / wrong', rows.length ? `${rows.filter(r => r.ok).length} / ${rows.filter(r => !r.ok).length}` : '—', '')}
+    ${kpi('Questions', tot, [ST.site ? SITE_NAME + ' ' + rows.length : '', ST.bp ? 'Blueprint ' + bpTot : ''].filter(Boolean).join(' · '))}
+    ${kpi('Right on first try', tAcc == null ? '—' : tAcc + '%', ST.site && ST.bp ? 'combined' : ST.site ? SITE_NAME : '1500 Blueprint', ST.site && !ST.bp ? delta(acc, pacc) : '')}
+    ${kpi('Right / wrong', tot ? `${tOk} / ${tot - tOk}` : '—', '')}
     ${kpi('Avg time / question', mmss(avg), 'SAT pace ' + mmss(pace), avg && pace ? (avg <= pace ? '<span style="color:#15803d;font-weight:700">on pace</span>' : '<span style="color:#b91c1c;font-weight:700">slow</span>') : '')}
     ${kpi('Strong categories', strong + ' / ' + skills.length, '70%+ with 3+ questions')}
-    ${kpi('1500 Blueprint (tutor site)', bpTot ? Math.round(100 * bpOk / bpTot) + '%' : '—', bpTot ? bpTot + ' questions in this period' : 'none in this period')}
+    ${kpi('By source', `<span style="font-size:20px">${ST.site ? SITE_NAME + ' ' + (acc == null ? '—' : acc + '%') : ''}${ST.site && ST.bp ? '<br>' : ''}${ST.bp ? 'Blueprint ' + (bpTot ? Math.round(100 * bpOk / bpTot) + '%' : '—') : ''}</span>`, '')}
    </section>
    <div class="cols" style="grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)">
     <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 6px;font-size:19px">Accuracy over time</h2><div style="height:260px"><canvas id="c1"></canvas></div></section>
     <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 6px;font-size:19px">Questions per ${gran}</h2><div style="height:260px"><canvas id="c2"></canvas></div></section>
    </div>
    <div class="cols" style="grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)">
-    <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 2px;font-size:19px">By category <span style="font-size:13px;color:var(--mute);font-weight:500">· weakest first · bar = now, ◆ = 1500 Blueprint before · click a bar</span></h2><div style="height:${Math.max(220, 30 * order.length + 40)}px"><canvas id="c3"></canvas></div></section>
+    <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 2px;font-size:19px">By category <span style="font-size:13px;color:var(--mute);font-weight:500">· weakest first · bar = ${ST.site && useBpCat ? 'combined' : ST.site ? SITE_NAME : 'Blueprint'}${ST.bp && !useBpCat ? ' (Blueprint categories are all-time only)' : ''} · ◆ = Blueprint · click a bar</span></h2><div style="height:${Math.max(220, 30 * order.length + 40)}px"><canvas id="c3"></canvas></div></section>
     <div style="display:flex;flex-direction:column;gap:18px">
-     <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 6px;font-size:19px">By difficulty</h2><div style="height:200px"><canvas id="c4"></canvas></div></section>
-     <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 6px;font-size:19px">Time per question vs SAT pace</h2><div style="height:${Math.max(180, 24 * order.length)}px"><canvas id="c5"></canvas></div></section>
+     <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 6px;font-size:19px">By difficulty <span style="font-size:13px;color:var(--mute);font-weight:500">· ${SITE_NAME} only (Blueprint gives no per-question data)</span></h2><div style="height:200px"><canvas id="c4"></canvas></div></section>
+     <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 6px;font-size:19px">Time per question vs SAT pace <span style="font-size:13px;color:var(--mute);font-weight:500">· ${SITE_NAME} only</span></h2><div style="height:${Math.max(180, 24 * order.length)}px"><canvas id="c5"></canvas></div></section>
     </div>
    </div>
    <section class="card" style="padding:16px 18px;overflow-x:auto"><h2 class="hd" style="margin:0 0 8px;font-size:19px">Category × week <span style="font-size:13px;color:var(--mute);font-weight:500">red under 50% · yellow 50–69% · green 70%+</span></h2>
     ${heat.length ? `<table class="rep"><thead><tr><th>Category</th>${wks.map(w => `<th>wk of ${new Date(w + 'T12:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'})}</th>`).join('')}</tr></thead><tbody>${heat.map(h => `<tr style="cursor:pointer" data-go="#/stats/${h.s.id}"><td><b>${esc(h.s.name)}</b></td>${h.cells.map(c => `<td style="background:${hc(c.a)};text-align:center;font-weight:700">${c.n ? c.a + '%<div style="font-size:11px;font-weight:500;color:var(--mute)">' + c.n + ' Qs</div>' : ''}</td>`).join('')}</tr>`).join('')}</tbody></table>` : '<div style="color:var(--mute)">No practice yet in this view.</div>'}</section>
    <section class="card" style="padding:16px 18px;overflow-x:auto"><h2 class="hd" style="margin:0 0 8px;font-size:19px">Every category</h2>
-    <table class="rep"><thead><tr><th>Category</th><th>Section</th><th>% of SAT (est.)</th><th>Qs</th><th>Right</th><th>Wrong</th><th>Score</th><th>Blueprint before</th><th>Change</th><th>Avg time</th><th></th></tr></thead><tbody>
-    ${per.sort((a, b) => (b.s.share || 0) - (a.s.share || 0)).map(p => { const lv = level(p.acc, p.n); return `<tr style="cursor:pointer" data-go="#/stats/${p.s.id}"><td><b>${esc(p.s.name)}</b></td><td>${p.s.sec === 'Math' ? 'Math' : 'R&W'}</td><td>${Math.round(p.s.share || 0)}%</td><td>${p.n}</td><td style="color:#15803d;font-weight:700">${p.ok}</td><td style="color:#b91c1c;font-weight:700">${p.n - p.ok}</td><td>${p.n ? `<span class="pill" style="color:${lv[1]};background:${lv[2]}">${p.acc}%</span>` : '—'}</td><td>${p.base == null ? '—' : p.base + '% <span style="color:var(--mute);font-size:12px">(' + p.bn + ')</span>'}</td><td>${p.n && p.base != null ? delta(p.acc, p.base) : ''}</td><td>${mmss(p.avg)}</td><td><button class="btn g sm" data-go="#/stats/${p.s.id}">Details →</button></td></tr>` }).join('')}</tbody></table></section>
+    <table class="rep"><thead><tr><th>Category</th><th>Section</th><th>% of SAT (est.)</th><th>Qs</th><th>Right</th><th>Wrong</th><th>Score</th><th>${SITE_NAME}</th><th>Blueprint</th><th>Change</th><th>Avg time</th><th></th></tr></thead><tbody>
+    ${per.sort((a, b) => (b.s.share || 0) - (a.s.share || 0)).map(p => { const lv = level(p.acc, p.n); return `<tr style="cursor:pointer" data-go="#/stats/${p.s.id}"><td><b>${esc(p.s.name)}</b></td><td>${p.s.sec === 'Math' ? 'Math' : 'R&W'}</td><td>${Math.round(p.s.share || 0)}%</td><td>${p.n}</td><td style="color:#15803d;font-weight:700">${p.ok}</td><td style="color:#b91c1c;font-weight:700">${p.n - p.ok}</td><td>${p.n ? `<span class="pill" style="color:${lv[1]};background:${lv[2]}">${p.acc}%</span>` : '—'}</td><td>${p.sacc == null ? '—' : p.sacc + '% <span style="color:var(--mute);font-size:12px">(' + p.sn + ')</span>'}</td><td>${p.base == null ? '—' : p.base + '% <span style="color:var(--mute);font-size:12px">(' + p.bn + ')</span>'}</td><td>${p.sn && p.base != null ? delta(p.sacc, p.base) : ''}</td><td>${mmss(p.avg)}</td><td><button class="btn g sm" data-go="#/stats/${p.s.id}">Details →</button></td></tr>` }).join('')}</tbody></table></section>
    <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 8px;font-size:19px">Latest misses</h2>${missed.length ? missed.map(missRow).join('') : '<div style="color:var(--mute)">None in this period.</div>'}</section>
   </div>`;
   window.scrollTo(0, 0);
   const tick = {font: {family: 'Inter', size: 12}};
   chart('c1', {type: 'line', data: {labels: se.lab, datasets: [
-    ST.sec !== 'English' ? {label: 'Math', data: se.accM, borderColor: SCOL.Math, backgroundColor: SCOL.Math, tension: .3, spanGaps: true} : null,
-    ST.sec !== 'Math' ? {label: 'Reading & Writing', data: se.accE, borderColor: SCOL.English, backgroundColor: SCOL.English, tension: .3, spanGaps: true} : null,
-    {label: '1500 Blueprint', data: se.bpA, borderColor: '#9ca3af', backgroundColor: '#9ca3af', borderDash: [4, 4], tension: .3, spanGaps: true},
+    ST.site && ST.sec !== 'English' ? {label: 'Math', data: se.accM, borderColor: SCOL.Math, backgroundColor: SCOL.Math, tension: .3, spanGaps: true} : null,
+    ST.site && ST.sec !== 'Math' ? {label: 'Reading & Writing', data: se.accE, borderColor: SCOL.English, backgroundColor: SCOL.English, tension: .3, spanGaps: true} : null,
+    ST.bp ? {label: '1500 Blueprint', data: se.bpA, borderColor: '#9ca3af', backgroundColor: '#9ca3af', borderDash: [4, 4], tension: .3, spanGaps: true} : null,
+    ST.bp && ST.site ? {label: 'Combined', data: se.comb, borderColor: '#111827', backgroundColor: '#111827', borderWidth: 3, tension: .3, spanGaps: true} : null,
     {label: 'Goal (1300 ≈ 75%)', data: se.lab.map(() => 75), borderColor: '#ca8a04', borderDash: [6, 6], pointRadius: 0}].filter(Boolean)},
     options: {maintainAspectRatio: false, scales: {y: {min: 0, max: 100, ticks: {...tick, callback: v => v + '%'}}, x: {ticks: tick}}, plugins: {legend: {labels: tick}}}});
-  chart('c2', {type: 'bar', data: {labels: se.lab, datasets: [ST.sec !== 'English' ? {label: 'Math', data: se.m, backgroundColor: SCOL.Math} : null, ST.sec !== 'Math' ? {label: 'Reading & Writing', data: se.e, backgroundColor: SCOL.English} : null, {label: '1500 Blueprint', data: se.bpN, backgroundColor: '#cbd5e1'}].filter(Boolean)},
+  chart('c2', {type: 'bar', data: {labels: se.lab, datasets: [ST.sec !== 'English' ? {label: 'Math', data: se.m, backgroundColor: SCOL.Math} : null, ST.sec !== 'Math' ? {label: 'Reading & Writing', data: se.e, backgroundColor: SCOL.English} : null, ST.bp ? {label: '1500 Blueprint', data: se.bpN, backgroundColor: '#cbd5e1'} : null].filter(Boolean)},
     options: {maintainAspectRatio: false, scales: {x: {stacked: true, ticks: tick}, y: {stacked: true, ticks: tick}}, plugins: {legend: {labels: tick}}}});
   chart('c3', {type: 'bar', data: {labels: order.map(p => p.s.name), datasets: [
     {label: 'Now', data: order.map(p => p.acc), backgroundColor: order.map(p => p.acc < 50 ? '#f87171' : p.acc < 70 ? '#fbbf24' : '#4ade80')},
@@ -127,7 +134,7 @@ function missRow(r) {
 }
 function skillStats(id) {
   killCharts(); const s = SK2[id]; if (!s) return drawStats();
-  const all = firstTries().filter(r => r.q.skill === id), rows = inPeriod(all, ST.period);
+  const all = firstTries().filter(r => r.q.skill === id), rows = ST.site ? inPeriod(all, ST.period) : [];
   const acc = pct(rows), b = BPS[id] || {n: 0, ok: 0}, base = b.n ? Math.round(100 * b.ok / b.n) : null, avg = avgSec(rows);
   const se = series(rows, 'day');
   const diff = ['E', 'M', 'H'].map(k => { const r = rows.filter(x => x.q.diff === k); return {k, n: r.length, ok: r.filter(x => x.ok).length, a: pct(r)} });
@@ -149,10 +156,10 @@ function skillStats(id) {
   const lv = level(acc, rows.length);
   app().innerHTML = topbar('stats') + `<div class="page" style="gap:18px"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;align-items:flex-end"><div><a href="#/stats">← All stats</a><h1 class="hd" style="margin:4px 0 0;font-size:30px">${esc(s.name)}</h1><div style="color:var(--mute);font-size:14px">${s.sec === 'Math' ? 'Math' : 'Reading & Writing'} · about ${Math.round(s.share || 0)}% of the section (est.)</div></div>${filters()}</div>
    <section class="stats" style="grid-template-columns:repeat(5,minmax(0,1fr))">
-    ${kpi('Score now', acc == null ? '—' : `<span style="color:${lv[1]}">${acc}%</span>`, `${rows.filter(r => r.ok).length} right of ${rows.length}`)}
+    ${(() => { const sn = rows.length, so = rows.filter(r => r.ok).length, bn = ST.bp ? b.n : 0, bo = ST.bp ? b.ok : 0, n = sn + bn, c = n ? Math.round(100 * (so + bo) / n) : null, l2 = level(c, n); return kpi(ST.site && ST.bp ? 'Combined score' : ST.site ? SITE_NAME + ' score' : 'Blueprint score', c == null ? '—' : `<span style="color:${l2[1]}">${c}%</span>`, `${so + bo} right of ${n}`) })()}
+    ${kpi(ST.site ? SITE_NAME + ' only' : '1500 Blueprint', ST.site ? (acc == null ? '—' : acc + '%') : (base == null ? '—' : base + '%'), ST.site ? rows.filter(r => r.ok).length + ' of ' + rows.length : (b.n ? b.ok + ' of ' + b.n : ''))}
     ${kpi('1500 Blueprint before', base == null ? '—' : base + '%', b.n ? `${b.ok} of ${b.n}` : '', acc != null && base != null ? delta(acc, base) : '')}
-    ${kpi('Wrong', rows.length - rows.filter(r => r.ok).length, 'first tries missed')}
-    ${kpi('Avg time / question', mmss(avg), 'SAT pace ' + mmss(PACE[s.sec]))}
+        ${kpi('Avg time / question', mmss(avg), 'SAT pace ' + mmss(PACE[s.sec]))}
     ${kpi('Next step', `<span style="font-size:18px">${acc == null || acc < 50 ? 'Learn it, then drill' : acc < 70 ? 'Drill + redo misses' : 'Keep it warm'}</span>`, '')}
    </section>
    <section class="card" style="padding:16px 18px;border-left:6px solid #b91c1c"><h2 class="hd" style="margin:0 0 6px;font-size:19px">Why the score is ${acc == null ? '—' : acc + '%'}</h2>${why.length ? `<ul style="margin:0;padding-left:20px;display:grid;gap:6px">${why.map(w => `<li>${esc(w)}</li>`).join('')}</ul>` : '<div>Nothing stands out. Keep practicing.</div>'}
@@ -173,4 +180,4 @@ function skillStats(id) {
   chart('k2', {type: 'bar', data: {labels: diff.map(d => ({E: 'Easy', M: 'Medium', H: 'Hard'})[d.k] + ` (${d.ok}/${d.n})`), datasets: [{label: 'Accuracy', data: diff.map(d => d.a), backgroundColor: diff.map(d => d.a == null ? '#e5e7eb' : d.a < 50 ? '#f87171' : d.a < 70 ? '#fbbf24' : '#4ade80')}]},
     options: {maintainAspectRatio: false, scales: {y: {min: 0, max: 100, ticks: {...tick, callback: v => v + '%'}}, x: {ticks: tick}}, plugins: {legend: {display: false}}}});
 }
-document.addEventListener('click', e => { const b = e.target.closest('[data-st]'); if (!b) return; const [k, v] = b.dataset.st.split(':'); ST[k] = v; const h = decodeURIComponent(location.hash.slice(1)); const a = h.split('/')[2]; if (a && SK2[a]) skillStats(a); else drawStats() });
+document.addEventListener('click', e => { const t = e.target.closest('[data-src]'); if (t) { const k = t.dataset.src; ST[k] = !ST[k]; if (!ST.bp && !ST.site) ST[k === 'bp' ? 'site' : 'bp'] = true; const h = decodeURIComponent(location.hash.slice(1)); const a = h.split('/')[2]; if (a && SK2[a]) skillStats(a); else drawStats(); return } const b = e.target.closest('[data-st]'); if (!b) return; const [k, v] = b.dataset.st.split(':'); ST[k] = v; const h = decodeURIComponent(location.hash.slice(1)); const a = h.split('/')[2]; if (a && SK2[a]) skillStats(a); else drawStats() });
