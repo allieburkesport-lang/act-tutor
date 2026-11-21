@@ -108,13 +108,36 @@ iframe.desmos{width:100%;height:calc(100vh - 190px);border:1px solid var(--line)
 <body>
 <div id="app"><p style="padding:30px">Loading…</p></div>
 <script src="../drill-zone/mathhelp.js"></script>
+<script src="../drill-zone/tools.js"></script>
 <script>
 const SB='https://wsoevgmculmcnxymivbp.supabase.co/rest/v1/answers', SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indzb2V2Z21jdWxtY254eW1pdmJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ3OTIwMTAsImV4cCI6MjExMDM2ODAxMH0.wl408Zf5rJjh-uhPbPuykvUtETHinQXQdttAJPvn1Jk';
 const H={apikey:SK,Authorization:'Bearer '+SK}, WHO='Patrick', TEST='2026-12-05', PACE={Math:95,English:71}, SET=10;
 const LESSONS_OF={"lin1":["m1","m4"],"lin2":["t1"],"linf":["t1","a3"],"sys":["a2"],"ineq":["a5"],"equiv":["t2"],"nleq":["a1","a4"],"nlf":["t2","a1","a3"],"ratio":["a6"],"pct":["m2"],"data1":["d1"],"data2":["d3"],"prob":["d2"],"infer":["m2"],"claims":["d3"],"area":["t3","e1"],"lat":["e2"],"trig":["t3"],"circ":["t3"],"wic":["r1"],"tsp":["r5"],"cross":["r5"],"cid":["r2"],"coe":["r4"],"inf":["r3"],"bound":["s1","s4"],"fss":["s5","g3"],"trans":["s6"],"syn":["r6"]};
+
+const SKF={ // formula + what each letter means, per math skill (R = on the SAT reference sheet)
+lin1:[['Solve for x','undo + and − first, then × and ÷',[['x','the unknown number you want']],'rule']],
+lin2:[['Linear equation in two letters','ax + by = c',[['x, y','the two amounts (here, how many of each thing)'],['a, b','price or rate of each'],['c','the total']],'rule'],['Plug in','put the number you know in for its letter, then solve',[],'rule']],
+linf:[['Slope-intercept form','y = mx + b',[['m','slope: change in y when x goes up 1'],['b','y-intercept: y when x = 0']],'rule'],['Slope from two points','m = (y₂ − y₁) ÷ (x₂ − x₁)',[['(x₁, y₁), (x₂, y₂)','the two points (across, up)']],'rule'],['Slope from Ax + By = C','m = −A ÷ B',[['A','number in front of x'],['B','number in front of y']],'rule']],
+sys:[['System of two equations','the answer is where the two lines CROSS',[['(x, y)','the crossing point']],'rule'],['Substitution','put one equation into the other',[],'rule']],
+ineq:[['Solve like an equation','but FLIP the sign when you × or ÷ by a negative',[['≤ ≥','“at most” = ≤, “at least” = ≥']],'rule']],
+equiv:[['FOIL','(a + b)(c + d) = ac + ad + bc + bd',[['F, O, I, L','first, outer, inner, last']],'rule'],['Perfect square','(a + b)² = a² + 2ab + b²',[],'rule']],
+nleq:[['Square root both sides','x² = k gives x = √k or x = −√k',[['k','the number x² equals']],'rule'],['Quadratic formula','x = (−b ± √(b² − 4ac)) ÷ 2a',[['a, b, c','numbers in ax² + bx + c = 0']],'rule'],['Discriminant','b² − 4ac: positive = 2 answers, 0 = 1, negative = 0',[],'rule']],
+nlf:[['Function value','f(3): put 3 everywhere you see x',[['f(x)','the output'],['x','the input']],'rule'],['Vertex form','y = a(x − h)² + k has vertex (h, k)',[['h','x of the turning point (sign flips)'],['k','y of the turning point = the min or max VALUE']],'rule'],['Vertex x from standard form','x = −b ÷ 2a',[['a','number in front of x²'],['b','number in front of x']],'rule'],['Exponential','y = a · bˣ',[['a','the starting amount'],['b','the multiplier each step (above 1 grows, below 1 shrinks)']],'rule']],
+ratio:[['Proportion','a/b = c/d, then cross-multiply',[],'rule'],['Rate','distance = rate × time',[['rate','amount per 1 unit (per hour, per second)']],'rule']],
+pct:[['Percent of','part = percent (as a decimal) × whole',[['20%','0.20']],'rule'],['Percent change','(new − old) ÷ old',[['old','the starting value']],'rule'],['Up or down by a percent','up 20% = × 1.20 · down 20% = × 0.80',[],'rule']],
+data1:[['Mean','sum ÷ how many',[],'rule'],['Median','the middle number when in order (even count: average the middle two)',[],'rule']],
+data2:[['Line of best fit','y = mx + b',[['m','predicted change in y for +1 x'],['b','predicted y when x = 0']],'rule'],['Residual','actual − predicted',[],'rule']],
+prob:[['Probability','P = what you want ÷ total',[],'rule'],['“Given that”','only use that row or column as the total',[],'rule']],
+infer:[['Estimate a population','sample fraction × population size',[],'rule'],['Margin of error','bigger random sample = smaller margin of error',[],'rule']],
+claims:[['Cause or just a link?','random ASSIGNMENT → cause · random SAMPLE → applies to that population',[],'rule']],
+area:[['Rectangle','A = ℓw · perimeter = 2(ℓ + w)',[['ℓ, w','length, width']],'R'],['Triangle','A = ½bh',[['b','base'],['h','height (straight up from the base)']],'R'],['Cylinder','V = πr²h',[['r','radius of the circle base'],['h','height']],'R'],['Scale rule','lengths × k → area × k² → volume × k³',[['k','scale factor']],'rule']],
+lat:[['Triangle','angles add to 180°',[],'R'],['Straight line','angles add to 180°',[],'rule'],['Vertical angles','angles across from each other are equal',[],'rule']],
+trig:[['Pythagorean theorem','a² + b² = c²',[['a, b','the two legs'],['c','hypotenuse (longest side, across from the right angle)']],'R'],['SOH-CAH-TOA','sin = opp ÷ hyp · cos = adj ÷ hyp · tan = opp ÷ adj',[['opp','side across from the angle'],['adj','side next to the angle (not the hypotenuse)']],'rule'],['Co-function','sin A = cos B when A + B = 90°',[],'rule'],['Special right triangles','30-60-90: x, x√3, 2x · 45-45-90: s, s, s√2',[],'R']],
+circ:[['Area','A = πr²',[['r','radius: center to edge']],'R'],['Circumference','C = 2πr',[['C','distance around']],'R'],['Diameter','d = 2r',[['d','all the way across']],'rule'],['Pythagorean theorem','a² + b² = c² (a radius and a tangent line meet at 90°)',[],'R']],
+};
 const VIDEOS={}; // lesson id -> {src, chapters:[[sec,label]]}; filled as chalkboard videos are made
 const L='ABCD', DIFF={E:'Easy',M:'Medium',H:'Hard'};
-let BPS={},BANK,PLAN,LES,SK2={},QBY={},LOG=[],D=null,UI={panel:null};
+let QH={},BPS={},BANK,PLAN,LES,SK2={},QBY={},LOG=[],D=null,UI={panel:null};
 const $=s=>document.querySelector(s), app=()=>document.getElementById('app');
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const plain=h=>{const d=document.createElement('div');d.innerHTML=h;return d.textContent.replace(/\s+/g,' ').trim()};
@@ -123,7 +146,7 @@ const today=()=>new Date().toLocaleDateString('en-CA');
 
 /* ---------- data ---------- */
 async function load(){
-  const [b,p,l,bpj]=await Promise.all([fetch('../drill-zone/bank.json').then(r=>r.json()),fetch('../drill-zone/plan.json').then(r=>r.json()).catch(()=>null),fetch('lessons.json').then(r=>r.json()),fetch('../drill-zone/blueprint.json').then(r=>r.json()).catch(()=>({skills:{}}))]);BPS=bpj.skills||{};
+  const [b,p,l,bpj,qh]=await Promise.all([fetch('../drill-zone/bank.json').then(r=>r.json()),fetch('../drill-zone/plan.json').then(r=>r.json()).catch(()=>null),fetch('lessons.json').then(r=>r.json()),fetch('../drill-zone/blueprint.json').then(r=>r.json()).catch(()=>({skills:{}})),fetch('qhelp.json').then(r=>r.json()).catch(()=>({}))]);BPS=bpj.skills||{};QH=qh||{};
   BANK=b;PLAN=p;LES=l;b.skills.forEach(s=>SK2[s.id]=s);b.qs.forEach(q=>QBY[q.id]=q);
   if(p)p.skills.forEach(s=>{if(SK2[s.skill])SK2[s.skill].share=s.share});
   LOG=store.get('satbank_log',[]);
@@ -193,7 +216,7 @@ function order(qs){const last={};LOG.forEach(x=>{last[x.id]=x});
   const score=q=>{const l=last[q.id];if(!l)return 1;if(!l.ok||!l.first)return 0;return 2+(l.ts/1e13)};
   return qs.slice().sort((a,b)=>score(a)-score(b)||(a.diff>b.diff?1:-1))}
 function startDrill(arg){if(!arg)return home();if(!arg.startsWith('review:')&&!SK2[arg])return home();const p=pickQs(arg);
-  D={...p,arg,i:0,st:p.qs.map(()=>({tried:[],ok:false,shown:0,t0:0,coached:false})),t0:Date.now(),done:false};UI.panel=null;showQ();}
+  UI.dtab=null;D={...p,arg,i:0,st:p.qs.map(()=>({tried:[],ok:false,shown:0,t0:0,coached:false})),t0:Date.now(),done:false};UI.panel=null;showQ();}
 function cur(){return D.qs[D.i]} function sec(q){return SK2[q.skill].sec}
 function showQ(){const q=cur(),st=D.st[D.i];if(!st.t0)st.t0=Date.now();drawDrill();}
 function drawDrill(){if(D.done)return drawEnd();const q=cur(),st=D.st[D.i],s=SK2[q.skill],eng=s.sec==='English';
@@ -203,7 +226,7 @@ function drawDrill(){if(D.done)return drawEnd();const q=cur(),st=D.st[D.i],s=SK2
   else chs=`<div class="grid-in"><label for="gin" style="font-weight:600">Your answer</label><input id="gin" ${fin?'disabled':''} value="${fin?esc(q.show||q.grid[0]):''}" autocomplete="off"><button class="btn" data-grid="1" ${fin?'disabled':''}>Check</button></div>`;
   let fb='';if(fin)fb=`<div class="fb ok"><b>${st.tried.length===1&&!st.coached?'Right on the first try ✓':'Got it ✓'}</b> ${esc(q.trap?'Trap to watch: '+q.trap:'')}</div>`;
   else if(st.tried.length)fb=`<div class="fb no"><b>Not quite.</b> Try another answer, or press <b>Show me how</b>.</div>`;
-  const help=[['show','Show me how'],['learn','Learn it'],['video','Video']].map(([k,t])=>`<button class="b ${UI.panel===k?'on':''}" data-pan="${k}">${t}</button>`).join('');
+  const help=(eng?[['show','Show me how'],['learn','Learn it'],['video','Video']]:[['show','Show me how'],['desm','Desmos / calculator'],['form','Formula'],['learn','Learn it'],['video','Video']]).map(([k,t])=>`<button class="b ${UI.panel===k?'on':''}" data-pan="${k}">${t}</button>`).join('');
   const left=Math.max(0,D.qs.length*PACE[s.sec]-Math.round((Date.now()-D.t0)/1000));
   app().innerHTML=`<div class="dr"><div class="bar1"><div><div style="font-weight:700;font-size:17px">${esc(s.sec==='English'?'Reading and Writing':'Math')} · ${esc(D.title)}</div><a href="#/" style="font-size:14px">← Home</a></div>
    <div class="timer" id="tmr" aria-label="Time left">${fmt(left)}</div>
@@ -246,6 +269,19 @@ function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
     return head('Show me how','This question, one step at a time')+q.steps.slice(0,n).map((x,i)=>stepHTML(x,i,res)).join('')+
      (n<q.steps.length?`<button class="btn" data-next="1" style="align-self:flex-start">Show the next step (${n+1} of ${q.steps.length})</button>`:`<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(q.trap)}</div></div>`)+
      `<div class="box b-blue"><div class="lab">${s.sec==='Math'?'Desmos or calculator':'Strategy'}</div><div class="c">${esc(q.tool)}</div></div>`+(s.sec==='Math'?formulaBox(q.skill):'');}
+
+  if(k==='desm'){const h=QH[q.id]||{d:[],c:[]};const tab=UI.dtab||(h.d.length?'d':'c');
+    const list=a=>a.map((x,i)=>`<div class="step"><span class="n">${i+1}</span><div class="c">${esc(x)}</div></div>`).join('');
+    let b=head('Desmos / calculator','Exactly what to type for this question');
+    b+=`<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ${tab==='d'?'':'g'} sm" data-dtab="d">Desmos</button><button class="btn ${tab==='c'?'':'g'} sm" data-dtab="c">TI-84 Evo calculator</button><button class="btn ${tab==='live'?'':'g'} sm" data-dtab="live">Open real Desmos</button></div>`;
+    if(tab==='live')return b+`<iframe class="desmos" src="https://www.desmos.com/calculator" title="Desmos graphing calculator"></iframe>`;
+    if(tab==='d'){if(!h.d.length)return b+`<div class="box b-yel"><div class="lab">No Desmos needed</div><div class="c">${esc(q.tool)}</div></div>`;
+      return b+(typeof desmosPic==='function'?desmosPic(h.d):'')+`<div class="box b-blue"><div class="lab">Type these, one per line</div><div class="c">Desmos is the Calculator button at the top right of the test.${h.n?'<br><b>'+esc(h.n)+'</b>':''}</div></div>`+list(h.d)+`<div class="box b-green"><div class="lab">Tip</div><div class="c">${esc(q.tool)}</div></div>`;}
+    if(!h.c.length)return b+`<div class="box b-yel"><div class="lab">No calculator math here</div><div class="c">${esc(q.tool)}</div></div>`;
+    return b+(typeof tiPic==='function'?tiPic(h.c,h.c.length):'')+list(h.c);}
+  if(k==='form'){const fs=SKF[q.skill]||[];const use=q.steps[0]||'';
+    return head('Formula','What to use, and what each letter means')+(fs.length?fs.map(f=>`<div class="box b-pur"><div class="lab">${esc(f[0])} · ${f[3]==='R'?'on the Reference sheet':'learn it (not on the sheet)'}</div><div class="c"><div style="font-size:21px;font-weight:700;font-family:Georgia,serif;margin:2px 0 6px">${esc(f[1])}</div>${f[2].length?`<table style="border-collapse:collapse;font-size:15px">${f[2].map(r=>`<tr><td style="border:1px solid #e9d5ff;padding:3px 8px;background:#fff"><b>${esc(r[0])}</b></td><td style="border:1px solid #e9d5ff;padding:3px 8px;background:#fff">${esc(r[1])}</td></tr>`).join('')}</table>`:''}</div></div>`).join(''):'<div class="box b-yel"><div class="c">No formula for this one: it is a rule. Open Learn it.</div></div>')+
+     `<div class="box b-green"><div class="lab">In this question, step 1</div><div class="c">${esc(use)}</div></div><button class="btn o" data-pan="show" style="align-self:flex-start">Show me every step</button>`;}
   if(k==='learn'){const ls=lessonData(q.skill);if(!ls)return head('Learn it',esc(s.name))+'<div class="box b-yel"><div class="c">Use Show me how for this one.</div></div>';const ex=ls.ex[0];
     return head('Learn it · '+esc(s.name),'How to do this type of question')+
      `<div class="box b-yel"><div class="lab">Big idea</div><div class="c">${ls.big}</div></div>`+
@@ -276,12 +312,13 @@ document.addEventListener('click',e=>{const b=e.target.closest('button,[data-go]
   if(d.pick!==undefined){const j=+d.pick;if(st.tried.includes(j)||st.ok)return;st.tried.push(j);answer(j===q.ans,q.ch[j]);return}
   if(d.grid)return gridCheck();
   if(d.pan){UI.panel=UI.panel===d.pan?null:d.pan;if(UI.panel==='show'){st.coached=st.coached||!st.ok;if(!st.shown)st.shown=1}return drawDrill()}
+  if(d.dtab){UI.dtab=d.dtab;return drawDrill()}
   if(d.next){st.shown=(st.shown||1)+1;return drawDrill()}
   if(d.seek){UI.seek=+d.seek;const v=document.querySelector('video');if(v){v.currentTime=+d.seek;v.play().catch(()=>{})}return}
   if(d.mark){st.mark=!st.mark;return drawDrill()}
   if(d.navg){UI.nav=!UI.nav;return drawDrill()}
-  if(d.jump!==undefined){D.i=+d.jump;UI.nav=false;return showQ()}
-  if(d.mv){const n=D.i+(+d.mv);if(n>=D.qs.length){D.done=true;return drawEnd()}if(n>=0){D.i=n;UI.nav=false;if(UI.panel==='show')UI.panel=null;showQ()}return}
+  if(d.jump!==undefined){D.i=+d.jump;UI.nav=false;UI.dtab=null;return showQ()}
+  if(d.mv){const n=D.i+(+d.mv);if(n>=D.qs.length){D.done=true;return drawEnd()}if(n>=0){D.i=n;UI.nav=false;if(UI.panel==='show')UI.panel=null;UI.dtab=null;showQ()}return}
   if(d.redo){const miss=D.qs.filter((q,k)=>!(D.st[k].ok&&D.st[k].tried.length===1));D={...D,qs:miss,i:0,st:miss.map(()=>({tried:[],ok:false,shown:0,t0:0,coached:false})),t0:Date.now(),done:false,title:D.title+' · redo'};return showQ()}
 });
 load().then(route);

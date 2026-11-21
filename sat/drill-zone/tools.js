@@ -73,7 +73,7 @@ function toFn(t){let s=String(t).replace(/−/g,'-').replace(/[×·]/g,'*').repl
  try{const f=new Function('x','const {sqrt,PI,abs}=Math;return '+s);const v=f(1.234);return isFinite(v)?f:null}catch(e){return null}}
 function toFnXY(t){let s=String(t).replace(/−/g,'-').replace(/[×·]/g,'*').replace(/÷/g,'/').replace(/²/g,'^2');s=s.replace(/(\d|\)|x|y)\s*(?=\(|x|y)/g,'$1*').replace(/\^/g,'**');if(/[^0-9xy+\-*/().\s]/.test(s))return null;try{const f=new Function('x','y','return '+s);return isFinite(f(1.1,2.2))?f:null}catch(e){return null}}
 function parseDesmos(steps){const lines=[];
- steps.forEach(st=>{let m=st.match(/(?:Type|type)\s+(.+?)(?:\s*→.*)?$/);if(!m)return;let t=m[1].replace(/[.,;]\s*$/,'').replace(/\s+\(.*\)$/,'').trim();
+ steps.forEach(st=>{let m=st.match(/(?:Type|type)\s+(.+?)(?:\s*→.*)?$/);if(!m)return;let t=m[1].replace(/[.,;]\s*$/,'').replace(/\s+\((?=[^()]*[a-z]{3})[^()]*\)$/,'').trim();
   const stat=t.match(/^(mean|median)\(\[([^\]]+)\]\)/);
   if(stat){const a=stat[2].split(',').map(Number).sort((p,q)=>p-q);const v=stat[1]==='mean'?a.reduce((p,q)=>p+q,0)/a.length:(a.length%2?a[(a.length-1)/2]:(a[a.length/2-1]+a[a.length/2])/2);lines.push({txt:t,val:'= '+(+v.toFixed(4))});return;}
   const parts=t.split(/=(?![=])/);
@@ -85,7 +85,7 @@ function parseDesmos(steps){const lines=[];
   const f=toFn(t);if(f&&!/x/.test(t)){lines.push({txt:t,val:'= '+(+f(0).toFixed(4))});return;}
   if(f)lines.push({txt:'y = '+t,f});else lines.push({txt:t});});
  return lines;}
-function keyPoints(fs){const pts=[];const xs=[];for(let x=-60;x<=60;x+=0.05)xs.push(+x.toFixed(2));
+function keyPoints(fs){const pts=[];if(fs.length>2)return pts;const xs=[];for(let x=-60;x<=60;x+=0.05)xs.push(+x.toFixed(2));
  const root=(g,a,b)=>{for(let i=0;i<60;i++){const m=(a+b)/2;(g(a)*g(m)<=0)?b=m:a=m;}return (a+b)/2;};
  const add=(x,y,kind)=>{if(isFinite(x)&&isFinite(y)&&!pts.some(p=>Math.abs(p.x-x)<1e-3))pts.push({x:Math.round(x*1000)/1000,y:Math.round(y*1000)/1000,kind});};
  if(fs.length>=2){const g=x=>fs[0](x)-fs[1](x);for(let i=1;i<xs.length;i++){const a=g(xs[i-1]),b=g(xs[i]);if(a===0)add(xs[i-1],fs[0](xs[i-1]),'cross');else if(a*b<0){const r=root(g,xs[i-1],xs[i]);add(r,fs[0](r),'cross');}}}
