@@ -176,8 +176,19 @@ async function unlockBP(code){code=code||store.get('helm_code','');if(!code||!wi
   try{const qs=await open('bpretry.enc.json');store.set('helm_code',code);BPR=qs;add(qs)}catch(x){return await unlockCBM(code)}
   // the official College Board Reading & Writing question bank (1,501 text-only questions), private the same way
   try{CBQ=await open('cbrw.enc.json');add(CBQ)}catch(x){}
+  // official College Board math, typed by HELM (text and choices typed; graphs and diagrams are pictures, each one encrypted)
+  try{const e=await fetch('../drill-zone/cbmath2.enc.json?'+Date.now()).then(r=>r.json());const qs=await open('cbmath2.enc.json');add(qs);
+    const base=await crypto.subtle.importKey('raw',new TextEncoder().encode(code),'PBKDF2',false,['deriveKey']);
+    CBFKEY=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b(e.salt),iterations:200000,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);cbFigs()}catch(x){}
   await unlockCBM(code);
   return true}
+let CBFKEY=null;
+async function cbFigs(){if(!CBFKEY)return;const b=x=>Uint8Array.from(atob(x),c=>c.charCodeAt(0));
+  for(const el of document.querySelectorAll('.cbfig[data-f]:not([data-ok])')){el.dataset.ok='1';try{
+    const e=await fetch('../drill-zone/cbfig/'+el.dataset.f+'.json').then(r=>r.json());
+    const buf=await crypto.subtle.decrypt({name:'AES-GCM',iv:b(e.iv)},CBFKEY,b(e.ct));
+    el.innerHTML='<img alt="Figure for this question" style="max-width:100%;max-height:420px;display:block;margin:0 auto 10px" src="'+URL.createObjectURL(new Blob([buf],{type:'image/webp'}))+'">'}catch(x){el.dataset.ok=''}}}
+new MutationObserver(()=>{if(CBFKEY&&document.querySelector('.cbfig[data-f]:not([data-ok])'))cbFigs()}).observe(document.documentElement,{childList:true,subtree:true});
 // Official College Board math, typed out (not pictures) so every choice is clickable. Private: decrypted only on a device that has the unlock code.
 let CBM=[];
 async function unlockCBM(code){if(!window.crypto||!crypto.subtle)return false;const b=x=>Uint8Array.from(atob(x),c=>c.charCodeAt(0));
