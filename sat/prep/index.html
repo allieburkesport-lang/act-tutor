@@ -187,13 +187,14 @@ function todayCard(){const d=PLAN&&PLAN.days.find(x=>x.date===today());
   const names=d.concepts.map(c=>c.name).join(' · ');const rv=(d.review||[]).map(r=>r[0]+'.'+r[1]).join(',');
   return `<section class="today"><div><div class="k">Today · ${dn}</div><div class="t hd">${esc(names)}</div><div class="s">For each one: Learn it, then Drill (10 questions).${rv?' Then a short review of earlier skills.':''} ${esc(d.note||'')}</div></div>
    <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" data-go="#/drill/${d.concepts[0].skill}">Start: ${esc(d.concepts[0].name)}</button>${rv?`<button class="btn o" style="background:transparent;color:#fff;border-color:#fff" data-go="#/drill/review:${rv}">Review</button>`:''}</div></section>`}
-function alignHeads(){document.querySelectorAll('.sec').forEach(sec=>{const h=sec.querySelector('.row.hd2'),r=sec.querySelector('.row:not(.hd2)');if(h&&r){h.style.gridTemplateColumns='';if(getComputedStyle(r).display==='grid')h.style.gridTemplateColumns=getComputedStyle(r).gridTemplateColumns}})}
+function alignHeads(){document.querySelectorAll('.sec').forEach(sec=>{const h=sec.querySelector('.row.hd2'),r=sec.querySelector('.row:not(.hd2)');if(h&&r){h.style.gridTemplateColumns='';if(getComputedStyle(r).display==='grid')h.style.gridTemplateColumns=getComputedStyle(r).gridTemplateColumns;
+    const o=h.querySelector('.oh'),v=r.querySelector('.acts button:nth-child(2)');if(o&&v){o.style.marginLeft='0';const ob=o.getBoundingClientRect(),vb=v.getBoundingClientRect();o.style.display='inline-block';o.style.marginLeft=Math.max(0,(vb.left+vb.width/2)-(ob.left+ob.width/2))+'px'}}})}
 window.addEventListener('resize',alignHeads);
 function home(){const all=BANK.skills;let tot=0,ok=0;all.forEach(k=>{const t=stats(k.id),b=BPS[k.id]||{n:0,ok:0};tot+=t.n;ok+=b.ok+t.dok});
   const tday=LOG.filter(x=>x.day===today()&&x.first).length;
   const sec=(name,key)=>{const rows=all.filter(s=>s.sec===key).sort((a,b)=>(b.share||0)-(a.share||0));
    return `<section class="card sec"><div class="h"><h2 class="hd">${name}</h2><div style="font-size:14px;color:var(--mute)">Biggest share of the test first</div></div>
-   <div class="row hd2"><div>Skill</div><div>Share of section</div><div>Patrick</div><div>Status</div><div style="text-align:right">Open</div></div>`+
+   <div class="row hd2"><div>Skill</div><div>Share of section</div><div>Patrick</div><div style="padding-left:10px">Status</div><div><span class="oh">Open</span></div></div>`+
    rows.map(s=>{const st=stats(s.id),lv=level(st.acc,st.n),sh=s.share||0;return `<div class="row"><div class="nm">${esc(s.name)}</div>
     <div style="display:flex;align-items:center;gap:8px"><div class="bar"><i style="width:${Math.min(100,sh*5)}%"></i></div><span style="font-size:14px;font-weight:600;min-width:34px">${Math.round(sh)}%</span></div>
     <div><div style="font-weight:700">${st.acc==null?'—':st.acc+'%'}</div><div style="font-size:12px;color:var(--mute)">${st.n} done</div></div>
