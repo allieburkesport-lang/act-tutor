@@ -17,11 +17,14 @@
   let resolve; window.HELM_AUTH = new Promise(r => resolve = r);
   const setH = t => { try { if (typeof H === 'object' && H && 'Authorization' in H) H.Authorization = 'Bearer ' + t } catch (e) {} };
   // pages without the HELM menu bar get a small 'Signed in as' pill in the top-right corner
-  const pill = s => setTimeout(() => { if (document.querySelector('header.top nav') || document.querySelector('.helm-who')) return;
+  // a thin row across the very top of every page: who is signed in + Sign out (it pushes the page down, so it never covers buttons)
+  const pill = s => { if (document.querySelector('.helm-who')) return;
     const u = s.user || {}, m = u.user_metadata || {}; let n = m.name || (u.email || '').split('@')[0].replace(/[^a-z]+.*$/i, ''); n = n ? n[0].toUpperCase() + n.slice(1) : '';
-    const d = document.createElement('div'); d.className = 'helm-who'; d.style.cssText = 'position:fixed;top:10px;right:12px;z-index:9000;background:#fff;border:1px solid #cbd5e1;border-radius:999px;padding:5px 12px;font:600 13px Helvetica,Arial,sans-serif;color:#0f172a;box-shadow:0 2px 8px rgba(15,23,42,.08)';
-    d.innerHTML = `<span style="color:#047857">●</span> Signed in as ${n} · <a href="#" style="color:#13315C">Sign out</a>`; d.querySelector('a').onclick = e => { e.preventDefault(); window.HELM_SIGNOUT() }; document.body.appendChild(d) }, 800);
-  const unlock = s => { window.HELM_SESSION = s; window.HELM_TOKEN = s.access_token; setH(s.access_token); document.documentElement.classList.remove('helm-locked'); const w = document.querySelector('.tl-wrap'); if (w) w.remove(); resolve(s); pill(s) };
+    const d = document.createElement('div'); d.className = 'helm-who';
+    d.style.cssText = 'display:flex;justify-content:flex-end;align-items:center;gap:10px;padding:4px 18px;background:#F1F5F9;border-bottom:1px solid #E2E8F0;font:600 13px Helvetica,Arial,sans-serif;color:#0f172a;position:relative;z-index:50';
+    d.innerHTML = `<span><span style="color:#047857">●</span> Signed in as ${n}</span><a href="#" style="color:#13315C">Sign out</a>`;
+    d.querySelector('a').onclick = e => { e.preventDefault(); window.HELM_SIGNOUT() }; document.body.prepend(d) };
+  const unlock = s => { window.HELM_SESSION = s; window.HELM_TOKEN = s.access_token; setH(s.access_token); document.documentElement.classList.remove('helm-locked'); const w = document.querySelector('.tl-wrap'); if (w) w.remove(); resolve(s); const go = () => document.body ? pill(s) : setTimeout(go, 50); go() };
   function card(sb) {
     if (document.querySelector('.tl-wrap')) return;
     const w = document.createElement('div'); w.className = 'tl-wrap';

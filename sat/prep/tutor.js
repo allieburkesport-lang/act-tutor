@@ -29,7 +29,7 @@
   // sign-in itself is in auth.js; here: Sign out link + turn on the private question bundles
   let sb = null, session = null;
   function whoName() { const u = session && session.user; if (!u) return ''; const m = u.user_metadata || {}; const n = m.name || m.full_name || (u.email || '').split('@')[0].replace(/[^a-z]+.*$/i, ''); return n ? n[0].toUpperCase() + n.slice(1) : 'you' }
-  function signOutLink() {
+  function signOutLink() { return;
     const nav = document.querySelector('header.top nav'); if (!nav || nav.querySelector('[data-signout]')) return;
     const n = whoName(); if (!n) return;
     const w = document.createElement('span'); w.className = 'tc-who'; w.title = 'Signed in as ' + (session.user.email || n); w.innerHTML = `<i>${n[0]}</i><span>${n}<br><b>● Signed in</b></span>`;
