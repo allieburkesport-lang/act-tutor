@@ -162,11 +162,19 @@ async function load(){
 }
 let BPR=[];
 async function unlockBP(code){code=code||store.get('helm_code','');if(!code||!window.crypto||!crypto.subtle)return false;
-  try{const e=await fetch('../drill-zone/bpretry.enc.json?'+Date.now()).then(r=>r.json());const b=x=>Uint8Array.from(atob(x),c=>c.charCodeAt(0));
+  const b=x=>Uint8Array.from(atob(x),c=>c.charCodeAt(0));
+  const open=async f=>{const e=await fetch('../drill-zone/'+f+'?'+Date.now()).then(r=>r.json());
     const base=await crypto.subtle.importKey('raw',new TextEncoder().encode(code),'PBKDF2',false,['deriveKey']);
     const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b(e.salt),iterations:200000,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);
-    const qs=JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:b(e.iv)},key,b(e.ct))));
-    store.set('helm_code',code);BPR=qs;qs.forEach(q=>{if(!QBY[q.id]){BANK.qs.push(q);QBY[q.id]=q}});return true}catch(x){return false}}
+    let buf=await crypto.subtle.decrypt({name:'AES-GCM',iv:b(e.iv)},key,b(e.ct));
+    if(e.gz)buf=await new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+    return JSON.parse(new TextDecoder().decode(buf))};
+  const add=qs=>qs.forEach(q=>{if(!QBY[q.id]){BANK.qs.push(q);QBY[q.id]=q}});
+  try{const qs=await open('bpretry.enc.json');store.set('helm_code',code);BPR=qs;add(qs)}catch(x){return false}
+  // the official College Board Reading & Writing question bank (1,501 text-only questions), private the same way
+  try{CBQ=await open('cbrw.enc.json');add(CBQ)}catch(x){}
+  return true}
+let CBQ=[];
 async function pullOnline(){try{const r=await fetch(SB+'?select=question,part,correct,first_try,attempt,seconds,created_at&kind=eq.bank&student=eq.'+WHO+'&order=created_at.asc&limit=10000',{headers:H});const rows=await r.json();if(!Array.isArray(rows))return;
   const near=(id,t)=>LOG.some(x=>x.id===id&&Math.abs(x.ts-t)<120000);let add=0;
   rows.forEach(w=>{const id=(w.question||'').split(' ')[0];if(!QBY[id])return;const t=Date.parse(w.created_at);if(near(id,t))return;add++;const pm=/plan (\d{4}-\d\d-\d\d)/.exec(w.part||''),hm=/help ([a-z+]+)/.exec(w.part||'');LOG.push({id,ts:t,day:new Date(t).toLocaleDateString('en-CA'),ok:w.correct,first:w.first_try,attempt:w.attempt,sec:w.seconds,picked:'',plan:pm?pm[1]:undefined,help:hm?hm[1].split('+'):(/coached/.test(w.part||'')?['show']:[]),helpFirst:(w.attempt||1)===1?(hm?hm[1].split('+'):(/coached/.test(w.part||'')?['show']:[])):undefined});});
@@ -181,7 +189,7 @@ function level(a,n){if(!n)return ['Not tried','#374151','#eef0f3'];if(a<50)retur
 
 /* ---------- router ---------- */
 function route(){const h=decodeURIComponent(location.hash.slice(1)||'/');const [_,v,a]=h.split('/');UI.nav=false;
-  if(v==='unlock'){unlockBP(a).then(ok=>{app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">${ok?'Blueprint retries unlocked':'That link did not work'}</h1><p>${ok?BPR.length+' Blueprint questions he missed are now in his drills on this device.':'Check the link and try again.'}</p><button class="btn" data-go="#/">Home</button></div>`});return}
+  if(v==='unlock'){unlockBP(a).then(ok=>{app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">${ok?'Blueprint retries unlocked':'That link did not work'}</h1><p>${ok?BPR.length+' Blueprint questions he missed'+(CBQ.length?' and '+CBQ.length.toLocaleString()+' official College Board Reading & Writing questions':'')+' are now in his drills on this device.':'Check the link and try again.'}</p><button class="btn" data-go="#/">Home</button></div>`});return}
   if(v==='drill')return startDrill(a);if(v==='day')return startDay(a);if(v==='report')return dayReport(a);if(v==='learn')return learnPage(a);if(v==='video')return videoPage(a);if(v==='stats')return statsPage(a);if(v==='videos')return videosPage();D=null;home();}
 window.addEventListener('hashchange',route);
 setInterval(()=>{if(!D&&/^#\/(stats|report|$)/.test(location.hash||'#/')&&!document.querySelector('.drw.open'))pullOnline()},60000);
@@ -404,7 +412,7 @@ function lowStock(){const S=seenIds(),o={};BANK.qs.forEach(q=>{if(!S.has(q.id))o
 function order(qs){qs=fresh(qs);if(!qs.length)return qs;const sk=qs[0].skill,a=skAcc(sk,today());
   const pat=a==null||a<.5?['M','E','M','H','M','E']:a<.75?['M','H','M','H','E','M','H']:['H','M','H','H','M','H','E'];
   const seed=[...(today()+sk)].reduce((h,c)=>(h*31+c.charCodeAt(0))>>>0,7),rnd=i=>((Math.sin(seed+i*97.13)*1e4)%1+1)%1;
-  const by={E:[],M:[],H:[]};qs.map((q,i)=>[rnd(i),q]).sort((x,y)=>x[0]-y[0]).forEach(([,q])=>(by[q.diff]||by.M).push(q));
+  const by={E:[],M:[],H:[]};qs.map((q,i)=>[rnd(i)-(q.src==='cb'?1:0),q]).sort((x,y)=>x[0]-y[0]).forEach(([,q])=>(by[q.diff]||by.M).push(q));
   const out=[];let i=0;while(out.length<qs.length&&i<qs.length*4){const want=pat[i%pat.length];const k=by[want].length?want:['M','H','E'].find(x=>by[x].length);out.push(by[k].shift());i++}return out}
 function startDrill(arg){if(!arg)return home();if(arg!=='bpr'&&!arg.startsWith('review:')&&!arg.startsWith('ids:')&&!SK2[arg])return home();const p=pickQs(arg);if(!p.qs.length){app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">All caught up</h1><p>He has already done every question here. Fresh ones are added each night, so check back tomorrow, or redo his misses from the Stats page.</p><button class="btn" data-go="#/">Home</button></div>`;return}
   UI.dtab=null;D={...p,arg,i:0,st:p.qs.map(()=>({tried:[],ok:false,shown:0,t0:0,coached:false})),t0:Date.now(),done:false};UI.panel=null;showQ();}
@@ -557,6 +565,6 @@ document.addEventListener('click',e=>{const b=e.target.closest('button,[data-go]
 });
 load().then(route);
 </script>
-<script src="stats.js?v=11"></script><script src="bi.js?v=4"></script>
+<script src="stats.js?v=11"></script><script src="bi.js?v=5"></script>
 </body>
 </html>

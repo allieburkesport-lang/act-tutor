@@ -2,7 +2,7 @@
    One record set feeds every number: HELM first tries (1 row per question), Blueprint daily section totals (dated),
    and Blueprint skill totals (undated, Nov 6–20). Cross-filters, drill-down, inspector drawer with search, sort and CSV. */
 const BI = {range: 'today', from: '', to: '', src: {helm: true, bp: true}, f: {}, gran: 'day', dark: false, sort: {k: 'lost', d: -1}, drawer: null, dq: '', dsort: {k: 'date', d: -1}};
-const BI_BP_FROM = '2026-11-06', BI_BP_TO = '2026-11-20';
+const BI_BP_FROM = '2026-08-31', BI_BP_TO = '2026-11-20';
 const BI_LEVELS = [['sec', 'Section'], ['dom', 'Domain'], ['skill', 'Skill'], ['diff', 'Difficulty']];
 const BI_SEC = {Math: 'Math', English: 'Reading & Writing'};
 const BI_DIFF = {E: 'Easy', M: 'Medium', H: 'Hard'};
@@ -62,8 +62,8 @@ function biRecords() {
       pace: PACE[s.sec], qid: q.id, question: plain(q.q), picked: r.picked || '', answer: q.ch ? q.ch[q.ans] : (q.show || (q.grid || [])[0] || ''), trap: q.trap || '', share: s.share || 0}) });
   if (BI.src.bp) {
     (BPD || []).forEach(d => { const parts = [['Math', d.math], ['Reading & Writing', d.rw]]; let used = 0, usedOk = 0;
-      parts.forEach(([sec, p]) => { if (p && p.n) { const ok = Math.round(p.n * p.acc / 100); used += p.n; usedOk += ok; R.push({src: 'Blueprint', date: d.day, sec, dom: 'Blueprint (not itemized)', skill: 'Blueprint daily work', diff: '—', n: p.n, ok, secs: null, kind: 'daily'}) } });
-      const rest = (d.n || 0) - used; if (rest > 0) R.push({src: 'Blueprint', date: d.day, sec: 'Mixed', dom: 'Blueprint course quizzes', skill: 'Blueprint course quizzes', diff: '—', n: rest, ok: Math.max(0, Math.round(d.n * d.acc / 100) - usedOk), secs: null, kind: 'daily'}) });
+      parts.forEach(([sec, p]) => { if (p && p.n) { const ok = Math.round(p.n * p.acc / 100); used += p.n; usedOk += ok; R.push({src: 'Blueprint', date: d.day, sec, dom: 'Blueprint (not itemized)', skill: 'Blueprint daily work', diff: '—', n: p.n, ok, secs: null, kind: 'daily', week: !!d.week}) } });
+      const rest = (d.n || 0) - used; if (rest > 0) R.push({src: 'Blueprint', date: d.day, sec: 'Mixed', dom: 'Blueprint course quizzes', skill: 'Blueprint course quizzes', diff: '—', n: rest, ok: Math.max(0, Math.round(d.n * d.acc / 100) - usedOk), secs: null, kind: 'daily', week: !!d.week}) });
     Object.entries(BPS || {}).forEach(([id, b]) => { const s = SK2[id]; if (!s || !b.n) return;
       R.push({src: 'Blueprint', date: null, sec: BI_SEC[s.sec], dom: s.dom || '—', skill: s.name, skillId: id, diff: '—', n: b.n, ok: b.ok, secs: null, kind: 'skill', share: s.share || 0}) });
   }
@@ -180,7 +180,7 @@ function biPivot(R, rg) {
   const maxLost = Math.max(1, ...list.map(x => x.lost));
   const H = [['skill', 'Skill'], ['sec', 'Section'], ['share', '% of section'], ['n', 'Qs'], ['ok', 'Right'], ['wrong', 'Wrong'], ['acc', 'Accuracy'], ['helm', 'HELM'], ['bp', 'Blueprint'], ['chg', 'vs. prev.'], ['dm', 'Difficulty (right / asked)'], ['secs', 'Avg time'], ['lost', 'Points at stake'], ['go', '']];
   const el = document.getElementById('bi-pv'); if (!el) return;
-  if (!list.length) { el.innerHTML = '<div style="color:var(--mu);padding:16px 0">No skill-level records in this range. (Blueprint skill totals appear when the range covers Nov 6–20, e.g. All time.)</div>'; return }
+  if (!list.length) { el.innerHTML = '<div style="color:var(--mu);padding:16px 0">No skill-level records in this range. (Blueprint skill totals appear when the range covers Aug 31–Nov 20, e.g. All time.)</div>'; return }
   const accCol = a => a == null ? HC.steel : a >= 70 ? HC.green : a >= 50 ? HC.amber : HC.rose;
   el.innerHTML = `<table class="pv"><thead><tr>${H.map(([k, t]) => k === 'go' || k === 'dm' ? `<th>${t}</th>` : `<th data-bi="sort:${k}">${t}${S.k === k ? (S.d > 0 ? ' ▲' : ' ▼') : ''}</th>`).join('')}</tr></thead><tbody>${list.map(x => `<tr data-bi="row:${esc(x.skill)}" style="cursor:pointer" title="See every question in this skill">
     <td class="c" data-bi="row:${esc(x.skill)}"><b>${esc(x.skill)}</b><div style="font-size:12px;color:var(--mu)">${esc(x.dom)}</div></td><td>${x.sec === 'Reading & Writing' ? 'R&W' : x.sec}</td><td>${x.share ? Math.round(x.share) + '%' : '—'}</td>
@@ -209,7 +209,7 @@ function biOpen(spec, keep) {
     <div style="display:flex;gap:8px"><button class="xbtn pr" data-bi="csv">⬇ Export to CSV</button><button class="xbtn" data-bi="close" aria-label="Close">✕</button></div></div>
     <div style="padding:10px 18px;border-bottom:1px solid var(--bd)"><input id="bi-dq" placeholder="Search records (skill, date, question text…)" value="${esc(BI.dq)}" style="width:100%;font:inherit;padding:9px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--tx)"></div>
     <div class="bd"><table class="pv"><thead><tr>${H.map(([k, t]) => `<th data-bi="dsort:${k}">${t}${S.k === k ? (S.d > 0 ? ' ▲' : ' ▼') : ''}</th>`).join('')}</tr></thead><tbody>
-    ${rows.slice(0, 500).map((r, i) => `<tr${r.qid ? ` class="c" data-bi="dq:${i}" style="cursor:pointer"` : ''}><td>${r.date || 'Nov 6–20'}</td><td>${r.src}${r.kind === 'skill' ? ' <span style="color:var(--mu);font-size:12px">(skill total)</span>' : r.kind === 'daily' ? ' <span style="color:var(--mu);font-size:12px">(day total)</span>' : ''}</td><td>${r.sec === 'Reading & Writing' ? 'R&W' : r.sec}</td><td>${esc(r.skill)}</td><td>${r.diff}</td><td>${r.n}</td>
+    ${rows.slice(0, 500).map((r, i) => `<tr${r.qid ? ` class="c" data-bi="dq:${i}" style="cursor:pointer"` : ''}><td>${r.date ? (r.week ? 'Week of ' + r.date : r.date) : 'Aug 31–Nov 20'}</td><td>${r.src}${r.kind === 'skill' ? ' <span style="color:var(--mu);font-size:12px">(skill total)</span>' : r.kind === 'daily' ? ` <span style="color:var(--mu);font-size:12px">(${r.week ? 'week' : 'day'} total)</span>` : ''}</td><td>${r.sec === 'Reading & Writing' ? 'R&W' : r.sec}</td><td>${esc(r.skill)}</td><td>${r.diff}</td><td>${r.n}</td>
       <td style="font-weight:700;color:${r.ok === r.n ? 'var(--up)' : r.ok === 0 ? 'var(--dn)' : 'var(--tx)'}">${r.n === 1 ? (r.ok ? '✓' : '✗') : r.ok}</td><td>${r.secs == null ? '—' : mmss(r.secs)}</td><td style="white-space:normal;min-width:240px;font-size:13px">${r.question ? esc(r.question.slice(0, 120)) + (r.question.length > 120 ? '…' : '') : '<span style="color:var(--mu)">not itemized by Blueprint</span>'}</td></tr>
       ${r.qid && BI.dopen === i ? `<tr><td colspan="9" style="white-space:normal;background:var(--hv)"><div style="display:grid;gap:6px;padding:4px 0"><div><b style="color:var(--dn)">He picked:</b> ${r.picked || '(not recorded)'} &nbsp; <b style="color:var(--up)">Right answer:</b> ${r.answer}</div>
         <div style="font-size:13px">${(QBY[r.qid].steps || []).map((s, j) => (j + 1) + '. ' + esc(s)).join('<br>')}</div>${r.trap ? `<div style="font-size:13px"><b style="color:var(--dn)">Trap:</b> ${esc(r.trap)}</div>` : ''}<div><button class="btn sm" data-go="#/drill/ids:${r.qid}">Try it again</button></div></div></td></tr>` : ''}`).join('')}
@@ -219,7 +219,7 @@ function biOpen(spec, keep) {
 }
 function biCsv() {
   const cols = ['date', 'src', 'sec', 'dom', 'skill', 'diff', 'n', 'ok', 'secs', 'qid', 'question', 'picked', 'answer'], q = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
-  const csv = [cols.join(',')].concat((BI.drows || []).map(r => cols.map(c => q(c === 'date' && !r.date ? 'Nov 6-20 (Blueprint skill total)' : r[c])).join(','))).join('\n');
+  const csv = [cols.join(',')].concat((BI.drows || []).map(r => cols.map(c => q(c === 'date' && !r.date ? 'Aug 31-Nov 20 (Blueprint skill total)' : r[c])).join(','))).join('\n');
   const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], {type: 'text/csv'})); a.download = `helm-stats-${dkey(new Date())}.csv`; document.body.appendChild(a); a.click(); a.remove()
 }
 
@@ -259,7 +259,7 @@ function biDaysTable(R) {
     const rows = dated.filter(r => r.date === d), h = biAgg(rows.filter(r => r.src === 'HELM')), b = biAgg(rows.filter(r => r.src === 'Blueprint')), c = biAgg(rows);
     const hx = rows.filter(r => r.src === 'HELM'), hard = hx.length ? Math.round(100 * hx.filter(r => r.diff === 'Hard').length / hx.length) : null;
     const nh = ft.filter(x => x.day === d && !(x.helpFirst || []).length), nhp = nh.length ? Math.round(100 * nh.filter(x => x.ok).length / nh.length) : null;
-    const lab = new Date(d + 'T12:00').toLocaleDateString('en-US', {weekday: 'short', month: 'short', day: 'numeric'});
+    const isWk = rows.some(r => r.week), lab = (isWk ? 'Week of ' : '') + new Date(d + 'T12:00').toLocaleDateString('en-US', {weekday: isWk ? undefined : 'short', month: 'short', day: 'numeric'});
     return `<tr data-bi="day:${d}|${lab}" style="cursor:pointer"><td><b>${lab}</b></td><td>${cell(h)}</td><td>${cell(b)}</td><td>${cell(c)}</td><td>${hard == null ? '—' : bar(hard, HC.navy)}</td><td>${nhp == null ? '—' : bar(nhp, nhp >= 70 ? HC.green : nhp >= 50 ? HC.amber : HC.rose)}</td><td>${h.secs == null ? '—' : `<span style="color:${h.secs > h.pace ? 'var(--dn)' : 'var(--up)'}">${mmss(h.secs)}</span> <span style="color:var(--mu);font-size:12px">/ ${mmss(h.pace)}</span>`}</td></tr>` }).join('')}</tbody></table>`
 }
 document.addEventListener('click', e => { const t = e.target.closest('[data-bi^="day:"]'); if (!t || !document.getElementById('bi')) return; const [d, lab] = t.dataset.bi.slice(4).split('|'); BI.f.date = d; BI.f.dateG = 'day'; BI.f.dateL = lab; if (BI.range !== 'all' && !(d >= biRange()[0] && d <= biRange()[1])) BI.range = 'all'; drawStats() }, true);

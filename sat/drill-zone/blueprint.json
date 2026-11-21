@@ -6,52 +6,52 @@
    "ok": 3
   },
   "tsp": {
-   "n": 3,
-   "ok": 1
+   "n": 11,
+   "ok": 3
   },
   "wic": {
-   "n": 31,
-   "ok": 17
+   "n": 54,
+   "ok": 31
   },
   "syn": {
-   "n": 3,
-   "ok": 2
+   "n": 11,
+   "ok": 4
   },
   "trans": {
-   "n": 34,
-   "ok": 15
+   "n": 63,
+   "ok": 31
   },
   "cid": {
    "n": 21,
    "ok": 12
   },
   "coe": {
-   "n": 35,
-   "ok": 23
+   "n": 70,
+   "ok": 47
   },
   "inf": {
-   "n": 24,
-   "ok": 11
+   "n": 44,
+   "ok": 22
   },
   "bound": {
-   "n": 31,
-   "ok": 17
-  },
-  "fss": {
-   "n": 39,
-   "ok": 18
-  },
-  "lin1": {
    "n": 52,
    "ok": 26
+  },
+  "fss": {
+   "n": 58,
+   "ok": 24
+  },
+  "lin1": {
+   "n": 83,
+   "ok": 42
   },
   "lin2": {
    "n": 33,
    "ok": 18
   },
   "linf": {
-   "n": 16,
-   "ok": 7
+   "n": 30,
+   "ok": 12
   },
   "sys": {
    "n": 25,
@@ -66,12 +66,12 @@
    "ok": 18
   },
   "nleq": {
-   "n": 28,
-   "ok": 10
+   "n": 45,
+   "ok": 20
   },
   "nlf": {
-   "n": 42,
-   "ok": 17
+   "n": 63,
+   "ok": 26
   },
   "ratio": {
    "n": 7,
@@ -274,8 +274,214 @@
    "time": "13s"
   }
  ],
- "note": "Nov 21: added Nov 19 course quiz (two-variable data 4/7) and Nov 20 (Question Bank area 4/7, vocab drill words in context 7/7, percents quiz 4/7, converting units quiz 2/7; the 4-second-per-question retake of the units quiz, 6/7, is left out as a repeat).",
+ "note": "Nov 21: added Nov 19 course quiz (two-variable data 4/7) and Nov 20 (Question Bank area 4/7, vocab drill words in context 7/7, percents quiz 4/7, converting units quiz 2/7; the 4-second-per-question retake of the units quiz, 6/7, is left out as a repeat). Nov 21: added Blueprint history from the Drive folder: daily totals Oct 24–Nov 5, weekly totals Aug 31–Oct 23, and per-skill totals Aug 31–Nov 7 for the 12 skills Blueprint lists (Nov 6–7 overlap is about 11 questions).",
  "daily": [
+  {
+   "day": "2026-08-31",
+   "n": 19,
+   "acc": 100,
+   "rw": null,
+   "math": null,
+   "week": true
+  },
+  {
+   "day": "2026-09-07",
+   "n": 64,
+   "acc": 56,
+   "rw": {
+    "acc": 22,
+    "n": 9
+   },
+   "math": {
+    "acc": 58,
+    "n": 24
+   },
+   "week": true
+  },
+  {
+   "day": "2026-09-14",
+   "n": 16,
+   "acc": 75,
+   "rw": null,
+   "math": null,
+   "week": true
+  },
+  {
+   "day": "2026-09-21",
+   "n": 36,
+   "acc": 47,
+   "rw": null,
+   "math": {
+    "acc": 30,
+    "n": 10
+   },
+   "week": true
+  },
+  {
+   "day": "2026-09-28",
+   "n": 6,
+   "acc": 50,
+   "rw": {
+    "acc": 50,
+    "n": 6
+   },
+   "math": null,
+   "week": true
+  },
+  {
+   "day": "2026-10-05",
+   "n": 19,
+   "acc": 47,
+   "rw": {
+    "acc": 47,
+    "n": 19
+   },
+   "math": null,
+   "week": true
+  },
+  {
+   "day": "2026-10-12",
+   "n": 58,
+   "acc": 66,
+   "rw": {
+    "acc": 69,
+    "n": 26
+   },
+   "math": {
+    "acc": 50,
+    "n": 2
+   },
+   "week": true
+  },
+  {
+   "day": "2026-10-19",
+   "n": 42,
+   "acc": 57,
+   "rw": {
+    "acc": 60,
+    "n": 5
+   },
+   "math": {
+    "acc": 61,
+    "n": 18
+   },
+   "week": true
+  },
+  {
+   "day": "2026-10-24",
+   "n": 1,
+   "acc": 0,
+   "rw": null,
+   "math": {
+    "acc": 0,
+    "n": 1
+   }
+  },
+  {
+   "day": "2026-10-25",
+   "n": 19,
+   "acc": 63,
+   "rw": {
+    "acc": 58,
+    "n": 12
+   },
+   "math": {
+    "acc": 71,
+    "n": 7
+   }
+  },
+  {
+   "day": "2026-10-26",
+   "n": 16,
+   "acc": 44,
+   "rw": {
+    "acc": 60,
+    "n": 10
+   },
+   "math": {
+    "acc": 17,
+    "n": 6
+   }
+  },
+  {
+   "day": "2026-10-28",
+   "n": 17,
+   "acc": 53,
+   "rw": {
+    "acc": 50,
+    "n": 12
+   },
+   "math": {
+    "acc": 60,
+    "n": 5
+   }
+  },
+  {
+   "day": "2026-10-29",
+   "n": 17,
+   "acc": 47,
+   "rw": {
+    "acc": 50,
+    "n": 10
+   },
+   "math": {
+    "acc": 43,
+    "n": 7
+   }
+  },
+  {
+   "day": "2026-10-31",
+   "n": 98,
+   "acc": 51,
+   "rw": {
+    "acc": 50,
+    "n": 54
+   },
+   "math": {
+    "acc": 52,
+    "n": 44
+   }
+  },
+  {
+   "day": "2026-11-01",
+   "n": 10,
+   "acc": 60,
+   "rw": {
+    "acc": 60,
+    "n": 10
+   },
+   "math": null
+  },
+  {
+   "day": "2026-11-03",
+   "n": 18,
+   "acc": 56,
+   "rw": null,
+   "math": {
+    "acc": 56,
+    "n": 18
+   }
+  },
+  {
+   "day": "2026-11-04",
+   "n": 18,
+   "acc": 33,
+   "rw": null,
+   "math": {
+    "acc": 33,
+    "n": 18
+   }
+  },
+  {
+   "day": "2026-11-05",
+   "n": 16,
+   "acc": 75,
+   "rw": null,
+   "math": {
+    "acc": 75,
+    "n": 16
+   }
+  },
   {
    "day": "2026-11-06",
    "n": 8,
@@ -432,5 +638,55 @@
    }
   }
  ],
- "daily_note": "From the 1500 Blueprint daily report (all question sources: Question Bank, drills, course quizzes). R&W/Math split covers Question Bank + drills only."
+ "daily_note": "From the 1500 Blueprint daily report (all question sources: Question Bank, drills, course quizzes). R&W/Math split covers Question Bank + drills only. Rows marked week:true are weekly totals (dated the Monday) for weeks before Oct 24.",
+ "skills_hist": {
+  "lin1": {
+   "n": 31,
+   "ok": 16
+  },
+  "fss": {
+   "n": 19,
+   "ok": 6
+  },
+  "trans": {
+   "n": 29,
+   "ok": 16
+  },
+  "bound": {
+   "n": 21,
+   "ok": 9
+  },
+  "nlf": {
+   "n": 21,
+   "ok": 9
+  },
+  "coe": {
+   "n": 35,
+   "ok": 24
+  },
+  "linf": {
+   "n": 14,
+   "ok": 5
+  },
+  "inf": {
+   "n": 20,
+   "ok": 11
+  },
+  "wic": {
+   "n": 23,
+   "ok": 14
+  },
+  "nleq": {
+   "n": 17,
+   "ok": 10
+  },
+  "syn": {
+   "n": 8,
+   "ok": 2
+  },
+  "tsp": {
+   "n": 8,
+   "ok": 2
+  }
+ }
 }
