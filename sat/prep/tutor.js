@@ -77,9 +77,13 @@
     if (role === 't') { const m = text.match(/<svg[\s\S]*?<\/svg>/i); if (m) { svg = cleanSvg(m[0]); text = text.replace(/```(?:svg|html|xml)?\s*<svg[\s\S]*?<\/svg>\s*```|<svg[\s\S]*?<\/svg>/i, '').trim() } b.textContent = pretty(text) } else b.textContent = text;
     if (svg) { const f = document.createElement('div'); f.className = 'tc-fig'; f.innerHTML = svg + '<button class="tc-big" type="button">⤢ Open big</button>'; f.onclick = () => bigPic(svg, 'Tutor drawing'); b.appendChild(f) }
     box.appendChild(b); box.scrollTop = box.scrollHeight; return b }
-  async function openChat() {
+  // One chat per question: the tutor only ever sees THIS question and THIS question's messages.
+  // If Patrick moves to another question with the chat open, the chat switches to the new question (fresh, nothing from the old one is sent).
+  let chatFor = null;
+  async function openChat(switched) {
     if (typeof D === 'undefined' || !D) return;
-    const q = cur(), st = D.st[D.i]; const key = st.tried && st.tried.length ? 'ha' : 'hb'; st[key] = st[key] || []; if (!st[key].includes('tutor')) st[key].push('tutor');
+    const q = cur(), st = D.st[D.i]; chatFor = q.id;
+    if (!switched) { const key = st.tried && st.tried.length ? 'ha' : 'hb'; st[key] = st[key] || []; if (!st[key].includes('tutor')) st[key].push('tutor') }
     let p = document.querySelector('.tc'); if (p) p.remove();
     p = document.createElement('div'); p.className = 'tc'; p.setAttribute('role', 'dialog'); p.setAttribute('aria-label', 'Ask the tutor');
     p.innerHTML = `<div class="tc-h"><div><div style="font-weight:800;font-size:18px">Ask the tutor</div><div style="font-size:13px;color:#64748b">About question ${D.i + 1} · ${pl((SK2[q.skill] || {}).name || '')}</div></div><button class="tl-btn g" data-tcx="1" aria-label="Close">✕</button></div>
@@ -90,7 +94,7 @@
     if (!sb || !session) { bubble(box, 'e', 'Please sign in to use the tutor.'); return }
     const {data} = await sb.from('tutor_messages').select('role,content').eq('conversation_id', id).order('created_at', {ascending: true});
     (data || []).forEach(m => bubble(box, m.role === 'tutor' ? 't' : 's', m.content));
-    if (!data || !data.length) bubble(box, 't', 'Hi Patrick. What part of this question is confusing? Tell me what you tried, even if it was a guess.');
+    if (!data || !data.length) bubble(box, 't', switched ? `Now on question ${D.i + 1}. What part of this one is confusing?` : 'Hi Patrick. What part of this question is confusing? Tell me what you tried, even if it was a guess.');
     const send = async text => {
       text = (text || '').trim(); if (!text) return; ta.value = ''; bubble(box, 's', text); const wait = bubble(box, 't', 'Tutor is thinking…');
       const {data: r, error} = await sb.functions.invoke('tutor-chat', {body: {conversation_id: id, question_id: q.id, message: text, question: ctx()}});
@@ -101,7 +105,7 @@
     p.querySelector('form').onsubmit = e => { e.preventDefault(); send(ta.value) };
     ta.onkeydown = e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(ta.value) } };
     p.querySelectorAll('[data-tcq]').forEach(b => b.onclick = () => send(b.dataset.tcq));
-    p.querySelector('[data-tcx]').onclick = () => p.remove();
+    p.querySelector('[data-tcx]').onclick = () => { p.remove(); chatFor = null };
     setTimeout(() => ta.focus(), 50);
   }
   // add the button to every question's help row, and a nudge under "Show me how"
@@ -109,7 +113,8 @@
     const help = document.querySelector('.dr .help');
     if (help && !help.querySelector('[data-tutor]')) { const b = document.createElement('button'); b.className = 'b'; b.dataset.tutor = '1'; b.textContent = 'Ask the tutor'; help.appendChild(b) }
     document.querySelectorAll('.dr .box.b-blue').forEach(x => { const side = x.parentElement; if (side && !side.querySelector('[data-tutor2]') && /Show me how/.test(side.textContent.slice(0, 40))) { const d = document.createElement('div'); d.dataset.tutor2 = '1'; d.className = 'box b-green'; d.innerHTML = '<div class="lab">Still confused?</div><div class="c"><button class="btn sm" data-tutor="1">Ask the tutor</button></div>'; side.appendChild(d) } });
-    if (!document.querySelector('.dr')) { const p = document.querySelector('.tc'); if (p) p.remove() }
+    if (!document.querySelector('.dr')) { const p = document.querySelector('.tc'); if (p) p.remove(); chatFor = null }
+    else if (chatFor && document.querySelector('.tc') && typeof D !== 'undefined' && D && cur() && cur().id !== chatFor) { chatFor = cur().id; openChat(true) }
     signOutLink();
   }).observe(document.body, {childList: true, subtree: true});
   document.addEventListener('click', e => { if (e.target.closest('[data-tutor]')) { e.preventDefault(); openChat() } }, true);
