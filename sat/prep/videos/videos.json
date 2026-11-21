@@ -420,5 +420,43 @@
 "Say it out loud"
 ]
 ]
+},
+"a6": {
+"src": "videos/a6.mp4",
+"poster": "videos/a6.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+15,
+"The rules"
+],
+[
+30,
+"Example 1: Proportion"
+],
+[
+63,
+"Example 2: Unit conversion"
+],
+[
+100,
+"Example 3: Split by a ratio"
+],
+[
+135,
+"Example 4: Rate × time"
+],
+[
+163,
+"Your turn: pause and pick"
+],
+[
+185,
+"Say it out loud"
+]
+]
 }
 }
