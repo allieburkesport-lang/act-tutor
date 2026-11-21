@@ -161,11 +161,11 @@ async function load(){
 }
 async function pullOnline(){try{const r=await fetch(SB+'?select=question,part,correct,first_try,attempt,seconds,created_at&kind=eq.bank&student=eq.'+WHO+'&order=created_at.asc&limit=10000',{headers:H});const rows=await r.json();if(!Array.isArray(rows))return;
   const near=(id,t)=>LOG.some(x=>x.id===id&&Math.abs(x.ts-t)<120000);let add=0;
-  rows.forEach(w=>{const id=(w.question||'').split(' ')[0];if(!QBY[id])return;const t=Date.parse(w.created_at);if(near(id,t))return;add++;const pm=/plan (\d{4}-\d\d-\d\d)/.exec(w.part||'');LOG.push({id,ts:t,day:new Date(t).toLocaleDateString('en-CA'),ok:w.correct,first:w.first_try,attempt:w.attempt,sec:w.seconds,picked:'',plan:pm?pm[1]:undefined});});
+  rows.forEach(w=>{const id=(w.question||'').split(' ')[0];if(!QBY[id])return;const t=Date.parse(w.created_at);if(near(id,t))return;add++;const pm=/plan (\d{4}-\d\d-\d\d)/.exec(w.part||''),hm=/help ([a-z+]+)/.exec(w.part||'');LOG.push({id,ts:t,day:new Date(t).toLocaleDateString('en-CA'),ok:w.correct,first:w.first_try,attempt:w.attempt,sec:w.seconds,picked:'',plan:pm?pm[1]:undefined,help:hm?hm[1].split('+'):(/coached/.test(w.part||'')?['show']:[]),helpFirst:(w.attempt||1)===1?(hm?hm[1].split('+'):(/coached/.test(w.part||'')?['show']:[])):undefined});});
   if(add){LOG.sort((a,b)=>a.ts-b.ts);store.set('satbank_log',LOG.slice(-5000));if(!D)route();}}catch(e){}}
 function save(row){LOG.push(row);store.set('satbank_log',LOG.slice(-5000));const q=QBY[row.id],s=SK2[q.skill];
   fetch(SB,{method:'POST',headers:Object.assign({'Content-Type':'application/json',Prefer:'return=minimal'},H),body:JSON.stringify({student:WHO,kind:'bank',concept_id:q.skill,concept_no:BANK.skills.indexOf(s)+1,concept_title:s.name,
-   part:`${s.sec} · ${DIFF[q.diff]}${row.coached?' · coached':''} · new site${row.plan?' · plan '+row.plan:''}`,question_no:+row.id.split('-').pop(),question:(row.id+' '+plain(q.q)).slice(0,600),picked:String(row.picked).slice(0,300),correct:row.ok,first_try:row.first,attempt:row.attempt,seconds:row.sec})}).catch(()=>{});}
+   part:`${s.sec} · ${DIFF[q.diff]}${row.coached?' · coached':''} · new site${row.plan?' · plan '+row.plan:''}${row.help&&row.help.length?' · help '+row.help.join('+'):''}`,question_no:+row.id.split('-').pop(),question:(row.id+' '+plain(q.q)).slice(0,600),picked:String(row.picked).slice(0,300),correct:row.ok,first_try:row.first,attempt:row.attempt,seconds:row.sec})}).catch(()=>{});}
 function stats(skill){// same blend as the nightly plan: earlier practice (Blueprint) + Drill Zone first tries counted double
   const firsts=LOG.filter(x=>x.first&&QBY[x.id]&&QBY[x.id].skill===skill);const dn=firsts.length,dok=firsts.filter(x=>x.ok).length;const b=BPS[skill]||{n:0,ok:0};
   const n=b.n+2*dn,ok=b.ok+2*dok;return {n:b.n+dn,dn,dok,acc:n?Math.round(100*ok/n):null}}
@@ -233,7 +233,7 @@ function buildDay(d,all){const ord=all?(qs=>qs):order;const used=new Set(),qs=[]
   (d.learn||[]).forEach((s,k)=>{if(SK2[s])add(ord(BANK.qs.filter(q=>q.skill===s)).slice(0,SET),`New skill ${k+1}/${d.learn.length}: ${SK2[s].name}`)});
   (d.review||[]).forEach(([s,n])=>{if(SK2[s])add(ord(BANK.qs.filter(q=>q.skill===s&&!used.has(q.id))).slice(0,n),`Review: ${SK2[s].name}`)});
   return {qs,secs}}
-function dayStore(done){if(!D||!D.date)return;store.set('dayrun_'+D.date,{ids:D.qs.map(q=>q.id),secs:D.secs,i:D.i,st:D.st.map(t=>({tried:t.tried,ok:t.ok,coached:t.coached})),done:!!done})}
+function dayStore(done){if(!D||!D.date)return;store.set('dayrun_'+D.date,{ids:D.qs.map(q=>q.id),secs:D.secs,i:D.i,st:D.st.map(t=>({tried:t.tried,ok:t.ok,coached:t.coached,hb:t.hb,ha:t.ha})),done:!!done})}
 function startDay(date){const d=PLAN&&PLAN.days.find(x=>x.date===date);if(!d)return home();
   const run=store.get('dayrun_'+date,null);let qs,secs,st,i=0;
   if(run&&!run.done&&run.ids.every(id=>QBY[id])){qs=run.ids.map(id=>QBY[id]);secs=run.secs;st=run.st.map(t=>({...t,shown:0,t0:0}));
@@ -296,6 +296,23 @@ function outlook(date,by,before){
     ${bars.map(b=>`<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%"><div style="font-size:12px;font-weight:700">${b.v}</div><div style="width:70%;max-width:46px;height:${y(b.v)}%;background:${b.d==='sat'?'#94a3b8':'#1e3a8a'};border-radius:6px 6px 0 0"></div></div>`).join('')}</div>
    <div style="display:flex;gap:10px">${bars.map(b=>`<div style="flex:1;text-align:center;font-size:11px;color:var(--mute)">${b.l}</div>`).join('')}</div>
    <div style="font-size:12px;color:var(--mute);margin-top:8px">Rough estimate, not an official score. It blends all three official SATs (newest counts most) with his practice accuracy from Blueprint and HELM, weighted by how often each category shows up on the SAT. The real test is adaptive, so treat this as a direction, not a promise.</div></section>`}
+const HELPN={show:'Show me how',desm:'Desmos / calculator',form:'Formula',learn:'Learn it',video:'Video',desmos:'Desmos (top bar)',ref:'Reference sheet'};
+function helpReport(date,f){const all=dayLog(date),tracked=all.some(x=>Array.isArray(x.help)&&x.plan!==undefined&&x.helpFirst!==undefined||x.help&&x.help.length);
+  const ids=[...new Set(all.map(x=>x.id))],used=id=>{const s=new Set();all.filter(x=>x.id===id).forEach(x=>(x.help||[]).forEach(h=>s.add(h)));return [...s]};
+  const before=id=>{const x=f.find(y=>y.id===id);return x&&x.helpFirst?x.helpFirst:[]},after=id=>used(id).filter(h=>!before(id).includes(h));
+  const firstOk=id=>{const x=f.find(y=>y.id===id);return x?!!x.ok:null};
+  const noHelp=f.filter(x=>!(x.helpFirst||[]).length),withHelp=f.filter(x=>(x.helpFirst||[]).length);
+  const counts=Object.keys(HELPN).map(k=>{const q=ids.filter(id=>used(id).includes(k));return {k,n:q.length,ok:q.filter(id=>firstOk(id)).length}}).filter(x=>x.n);
+  const chip=(h,c)=>`<span class="pill" style="background:${c};font-size:12px;margin:1px 3px 1px 0">${esc(HELPN[h]||h)}</span>`;
+  return `<section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 8px;font-size:22px">Help he used</h2>
+   ${!tracked?`<div class="box b-yel"><div class="lab">Starts with his next session</div><div class="c">Help tracking was added after this set. Earlier answers only record whether he opened Show me how before answering.</div></div>`:''}
+   <div style="display:flex;gap:28px;flex-wrap:wrap;margin:8px 0 12px"><div><div style="font-size:13px;color:var(--mute)">Right on the first try with NO help</div><div class="hd" style="font-size:28px;font-weight:800">${noHelp.filter(x=>x.ok).length} <span style="font-size:16px;color:var(--mute)">of ${noHelp.length}</span></div></div>
+    <div><div style="font-size:13px;color:var(--mute)">Opened help before answering</div><div class="hd" style="font-size:28px;font-weight:800">${withHelp.length} <span style="font-size:16px;color:var(--mute)">questions · ${withHelp.filter(x=>x.ok).length} right</span></div></div>
+    ${counts.map(c=>`<div><div style="font-size:13px;color:var(--mute)">${esc(HELPN[c.k])}</div><div class="hd" style="font-size:22px;font-weight:800">${c.n} <span style="font-size:14px;color:var(--mute)">Qs · ${c.ok} right 1st try</span></div></div>`).join('')}</div>
+   <div style="overflow-x:auto"><table class="rep"><thead><tr><th>#</th><th>Question</th><th>Diff.</th><th>First try</th><th>Help before answering</th><th>Help after a miss</th></tr></thead><tbody>
+   ${ids.map((id,i)=>{const q=QBY[id],b=before(id),a=after(id),ok=firstOk(id);return `<tr><td>${i+1}</td><td><b>${esc(SK2[q.skill].name)}</b><div style="font-size:12px;color:var(--mute);max-width:420px;white-space:normal">${esc(plain(q.q).slice(0,90))}${plain(q.q).length>90?'…':''}</div></td><td>${DIFF[q.diff]}</td>
+     <td style="font-weight:700;color:${ok?'#15803d':'#b91c1c'}">${ok==null?'—':ok?'✓':'✗'}</td><td>${b.length?b.map(h=>chip(h,'#dbeafe')).join(''):'<span style="color:var(--mute)">none</span>'}</td><td>${a.length?a.map(h=>chip(h,'#fef3c7')).join(''):'<span style="color:var(--mute)">—</span>'}</td></tr>`}).join('')}</tbody></table></div>
+   <div style="font-size:12px;color:var(--mute);margin-top:8px">"Before answering" = he opened it before his first pick, so the first try had help. "After a miss" = he opened it to fix a wrong answer.</div></section>`}
 function dayReport(date){const f=dayFirst(date),all=dayLog(date);const lab=new Date(date+'T12:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
   if(!f.length){app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">${esc(lab)}</h1><p>No questions answered this day yet.</p><button class="btn" data-go="#/day/${date}">Start the day</button><button class="btn g" data-go="#/">Home</button></div>`;return}
   const later=id=>all.some(x=>x.id===id&&x.ok&&(x.attempt||1)>1);
@@ -321,6 +338,7 @@ function dayReport(date){const f=dayFirst(date),all=dayLog(date);const lab=new D
     <div class="card stat"><div class="l">Wrong first, fixed on retry</div><div class="v hd">${fixed} <span style="font-size:18px;color:var(--mute)">of ${tot-right}</span></div></div>
     <div class="card stat"><div class="l">Time · SAT pace for these</div><div class="v hd"><span class="${spent>paceAll?'slow':'fast'}">${mins(spent)}</span> <span style="font-size:18px;color:var(--mute)">/ ${mins(paceAll)}</span></div></div></section>
    ${outlook(date,by,before)}
+   ${helpReport(date,f)}
    <section class="card" style="padding:16px 18px;overflow-x:auto"><h2 class="hd" style="margin:0 0 8px;font-size:22px">By category <span style="font-size:14px;color:var(--mute);font-weight:500">weakest first</span></h2>
     <table class="rep"><thead><tr><th>Category</th><th>% of SAT section (est.)</th><th>Qs</th><th>Right</th><th>Wrong</th><th>Score</th><th class="hide">By difficulty (right/total)</th><th>Avg time / Q</th><th class="hide">Vs. before today</th><th></th></tr></thead><tbody>${sk.map(row).join('')}</tbody></table>
     <div style="font-size:12px;color:var(--mute);margin-top:8px">Right/wrong count first tries only. Time is per question; SAT pace is about 1:35 per Math question and 1:11 per Reading & Writing question. Green = at or under pace, orange = slower.</div></section>
@@ -363,9 +381,13 @@ function pickQs(arg){let pool=[];
 function seenIds(){const S=new Set(LOG.map(x=>x.id));store.get('shown_ex',[]).forEach(i=>S.add(i));return S}
 function fresh(qs,keep){const S=seenIds();return qs.filter(q=>!S.has(q.id)||(keep&&keep.has(q.id)))}
 function lowStock(){const S=seenIds(),o={};BANK.qs.forEach(q=>{if(!S.has(q.id))o[q.skill]=(o[q.skill]||0)+1});return o}
-function order(qs){qs=fresh(qs);const last={};LOG.forEach(x=>{last[x.id]=x});
-  const score=q=>{const l=last[q.id];if(!l)return 1;if(!l.ok||!l.first)return 0;return 2+(l.ts/1e13)};
-  return qs.slice().sort((a,b)=>score(a)-score(b)||(a.diff>b.diff?1:-1))}
+// Adaptive difficulty: unseen questions only, mixed by how he is doing on that skill (Blueprint + HELM first tries).
+// Weak (<50%): mostly Medium with some Easy; getting there (50–74%): Medium/Hard; strong (75%+): mostly Hard. Templates are shuffled so it is never 4 of the same kind in a row.
+function order(qs){qs=fresh(qs);if(!qs.length)return qs;const sk=qs[0].skill,a=skAcc(sk,today());
+  const pat=a==null||a<.5?['M','E','M','H','M','E']:a<.75?['M','H','M','H','E','M','H']:['H','M','H','H','M','H','E'];
+  const seed=[...(today()+sk)].reduce((h,c)=>(h*31+c.charCodeAt(0))>>>0,7),rnd=i=>((Math.sin(seed+i*97.13)*1e4)%1+1)%1;
+  const by={E:[],M:[],H:[]};qs.map((q,i)=>[rnd(i),q]).sort((x,y)=>x[0]-y[0]).forEach(([,q])=>(by[q.diff]||by.M).push(q));
+  const out=[];let i=0;while(out.length<qs.length&&i<qs.length*4){const want=pat[i%pat.length];const k=by[want].length?want:['M','H','E'].find(x=>by[x].length);out.push(by[k].shift());i++}return out}
 function startDrill(arg){if(!arg)return home();if(!arg.startsWith('review:')&&!arg.startsWith('ids:')&&!SK2[arg])return home();const p=pickQs(arg);if(!p.qs.length){app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">All caught up</h1><p>He has already done every question here. Fresh ones are added each night, so check back tomorrow, or redo his misses from the Stats page.</p><button class="btn" data-go="#/">Home</button></div>`;return}
   UI.dtab=null;D={...p,arg,i:0,st:p.qs.map(()=>({tried:[],ok:false,shown:0,t0:0,coached:false})),t0:Date.now(),done:false};UI.panel=null;showQ();}
 function cur(){return D.qs[D.i]} function sec(q){return SK2[q.skill].sec}
@@ -403,7 +425,7 @@ function pauseOff(){if(!D||!D.paused){const o=$('#pauseov');if(o)o.remove();retu
 setInterval(()=>{const pt=$('#pausetm');if(pt&&D&&D.paused)pt.textContent='Paused '+fmt(Math.round((Date.now()-D.paused)/1000))},1000);
 setInterval(()=>{const t=$('#tmr');if(t&&D&&!D.done&&!D.paused){const s=SK2[cur().skill];t.textContent=fmt(Math.max(0,D.qs.length*PACE[s.sec]-Math.round((Date.now()-D.t0)/1000)))}},1000);
 function answer(ok,picked){const q=cur(),st=D.st[D.i];const first=st.tried.length===1&&!st.coached;
-  save({id:q.id,ts:Date.now(),day:today(),ok,first:st.tried.length===1,attempt:st.tried.length,sec:st.t0?Math.min(1800,Math.round((Date.now()-st.t0)/1000)):null,picked,coached:st.coached,plan:D.date||undefined});
+  save({id:q.id,ts:Date.now(),day:today(),ok,first:st.tried.length===1,attempt:st.tried.length,sec:st.t0?Math.min(1800,Math.round((Date.now()-st.t0)/1000)):null,picked,coached:st.coached,plan:D.date||undefined,help:[...new Set([...(st.hb||[]),...(st.ha||[])])],helpFirst:st.tried.length===1?[...(st.hb||[])]:undefined});
   if(ok)st.ok=true;dayStore();drawDrill();}
 function gridCheck(){const q=cur(),st=D.st[D.i],v=($('#gin').value||'').trim();if(!v)return;const norm=x=>String(x).replace(/\s/g,'').replace(/−/g,'-').toLowerCase();
   const num=x=>{x=norm(x);if(/^-?\d*\.?\d+\/\d+$/.test(x)){const [a,b]=x.split('/');return a/b}return parseFloat(x)};
@@ -505,7 +527,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('button,[data-go]
   const q=D.done?null:cur(),st=D.done?null:D.st[D.i];
   if(d.pick!==undefined){const j=+d.pick;if(st.tried.includes(j)||st.ok)return;st.tried.push(j);answer(j===q.ans,q.ch[j]);return}
   if(d.grid)return gridCheck();
-  if(d.pan){UI.panel=UI.panel===d.pan?null:d.pan;if(UI.panel==='show'){st.coached=st.coached||!st.ok;if(!st.shown)st.shown=1}return drawDrill()}
+  if(d.pan){UI.panel=UI.panel===d.pan?null:d.pan;if(UI.panel){const key=st.tried.length?'ha':'hb';st[key]=st[key]||[];if(!st[key].includes(UI.panel))st[key].push(UI.panel)}if(UI.panel==='show'){st.coached=st.coached||!st.ok;if(!st.shown)st.shown=1}return drawDrill()}
   if(d.dtab){UI.dtab=d.dtab;return drawDrill()}
   if(d.next){st.shown=(st.shown||1)+1;return drawDrill()}
   if(d.seek){UI.seek=+d.seek;const v=document.querySelector('video');if(v){v.currentTime=+d.seek;v.play().catch(()=>{})}return}
