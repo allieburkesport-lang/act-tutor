@@ -1,0 +1,86 @@
+{
+"t3": {
+"src": "videos/t3.mp4",
+"poster": "videos/t3.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+24,
+"The formulas"
+],
+[
+54,
+"Example 1: area to circumference"
+],
+[
+96,
+"Example 1: the trap and the calculator"
+],
+[
+111,
+"Example 2: scale the radius"
+],
+[
+141,
+"Example 3: cone volume"
+],
+[
+177,
+"Example 4: sin and cos"
+],
+[
+204,
+"Example 5: radians to degrees"
+],
+[
+226,
+"Your turn: pause and pick"
+],
+[
+267,
+"Say it out loud"
+]
+]
+},
+"a3": {
+"src": "videos/a3.mp4",
+"poster": "videos/a3.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+20,
+"The rules"
+],
+[
+38,
+"Example 1: Find f(number)"
+],
+[
+66,
+"Example 2: Given the output"
+],
+[
+99,
+"Example 3: Missing constant"
+],
+[
+137,
+"Example 4: Rearrange a formula"
+],
+[
+162,
+"Your turn: pause and pick"
+],
+[
+205,
+"Say it out loud"
+]
+]
+}
+}

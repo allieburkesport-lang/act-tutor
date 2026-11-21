@@ -135,7 +135,7 @@ lat:[['Triangle','angles add to 180°',[],'R'],['Straight line','angles add to 1
 trig:[['Pythagorean theorem','a² + b² = c²',[['a, b','the two legs'],['c','hypotenuse (longest side, across from the right angle)']],'R'],['SOH-CAH-TOA','sin = opp ÷ hyp · cos = adj ÷ hyp · tan = opp ÷ adj',[['opp','side across from the angle'],['adj','side next to the angle (not the hypotenuse)']],'rule'],['Co-function','sin A = cos B when A + B = 90°',[],'rule'],['Special right triangles','30-60-90: x, x√3, 2x · 45-45-90: s, s, s√2',[],'R']],
 circ:[['Area','A = πr²',[['r','radius: center to edge']],'R'],['Circumference','C = 2πr',[['C','distance around']],'R'],['Diameter','d = 2r',[['d','all the way across']],'rule'],['Pythagorean theorem','a² + b² = c² (a radius and a tangent line meet at 90°)',[],'R']],
 };
-const VIDEOS={t3:{src:'videos/t3.mp4',poster:'videos/t3.jpg',chapters:[[0,'Start'],[24,'The formulas'],[54,'Example 1: area to circumference'],[96,'Example 1: the trap and the calculator'],[111,'Example 2: scale the radius'],[141,'Example 3: cone volume'],[177,'Example 4: sin and cos'],[204,'Example 5: radians to degrees'],[226,'Your turn: pause and pick'],[267,'Say it out loud']]}}; // lesson id -> {src, chapters:[[sec,label]]}; filled as chalkboard videos are made
+let VIDEOS={}; // filled from videos/videos.json // lesson id -> {src, chapters:[[sec,label]]}; filled as chalkboard videos are made
 const L='ABCD', DIFF={E:'Easy',M:'Medium',H:'Hard'};
 let QH={},BPS={},BANK,PLAN,LES,SK2={},QBY={},LOG=[],D=null,UI={panel:null};
 const $=s=>document.querySelector(s), app=()=>document.getElementById('app');
@@ -146,7 +146,7 @@ const today=()=>new Date().toLocaleDateString('en-CA');
 
 /* ---------- data ---------- */
 async function load(){
-  const [b,p,l,bpj,qh]=await Promise.all([fetch('../drill-zone/bank.json').then(r=>r.json()),fetch('../drill-zone/plan.json').then(r=>r.json()).catch(()=>null),fetch('lessons.json').then(r=>r.json()),fetch('../drill-zone/blueprint.json').then(r=>r.json()).catch(()=>({skills:{}})),fetch('qhelp.json').then(r=>r.json()).catch(()=>({}))]);BPS=bpj.skills||{};QH=qh||{};
+  const [b,p,l,bpj,qh,vj]=await Promise.all([fetch('../drill-zone/bank.json').then(r=>r.json()),fetch('../drill-zone/plan.json').then(r=>r.json()).catch(()=>null),fetch('lessons.json').then(r=>r.json()),fetch('../drill-zone/blueprint.json').then(r=>r.json()).catch(()=>({skills:{}})),fetch('qhelp.json').then(r=>r.json()).catch(()=>({})),fetch('videos/videos.json?'+Date.now()).then(r=>r.json()).catch(()=>({}))]);VIDEOS=vj||{};BPS=bpj.skills||{};QH=qh||{};
   BANK=b;PLAN=p;LES=l;b.skills.forEach(s=>SK2[s.id]=s);b.qs.forEach(q=>QBY[q.id]=q);
   if(p)p.skills.forEach(s=>{if(SK2[s.skill])SK2[s.skill].share=s.share});
   LOG=store.get('satbank_log',[]);
