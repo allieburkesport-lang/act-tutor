@@ -176,6 +176,8 @@ async function unlockBP(code){code=code||store.get('helm_code','');if(!code||!wi
   try{const qs=await open('bpretry.enc.json');store.set('helm_code',code);BPR=qs;add(qs)}catch(x){return await unlockCBM(code)}
   // the official College Board Reading & Writing question bank (1,501 text-only questions), private the same way
   try{CBQ=await open('cbrw.enc.json');add(CBQ)}catch(x){}
+  // official Practice Tests 5-11 Reading & Writing (Test 4 is kept unseen for the full timed test)
+  try{add(await open('ptrw.enc.json'))}catch(x){}
   // official College Board math, typed by HELM (text and choices typed; graphs and diagrams are pictures, each one encrypted)
   try{const e=await fetch('../drill-zone/cbmath2.enc.json?'+Date.now()).then(r=>r.json());const qs=await open('cbmath2.enc.json');add(qs);
     const base=await crypto.subtle.importKey('raw',new TextEncoder().encode(code),'PBKDF2',false,['deriveKey']);
