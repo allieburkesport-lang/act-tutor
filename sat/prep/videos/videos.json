@@ -568,5 +568,43 @@
 "Say it out loud"
 ]
 ]
+},
+"a4": {
+"src": "videos/a4.mp4",
+"poster": "videos/a4.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+17,
+"The rules"
+],
+[
+36,
+"Example 1: Two answers"
+],
+[
+77,
+"Example 2: Equals a negative"
+],
+[
+106,
+"Example 3: Equals 0"
+],
+[
+134,
+"Example 4: “Within” in words"
+],
+[
+176,
+"Your turn: pause and pick"
+],
+[
+202,
+"Say it out loud"
+]
+]
 }
 }
