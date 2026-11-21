@@ -228,7 +228,7 @@ function scoresChart() {
   chart('c0', {data: {labels, datasets: [
     {type: 'bar', label: 'Math', data: pts.map(p => p.M).concat([null]), backgroundColor: pts.map(p => p.ss ? '#6d28d9' : p.off ? '#1e3a8a' : '#60a5fa').concat(['#000']), stack: 's', order: 2},
     {type: 'bar', label: 'Reading & Writing', data: pts.map(p => p.R).concat([null]), backgroundColor: pts.map(p => p.ss ? '#c4b5fd' : p.off ? '#c2410c' : '#fdba74').concat(['#000']), stack: 's', order: 2},
-    {type: 'line', label: `Trend (${slope >= 0 ? '+' : ''}${Math.round(slope * 7)} pts/week)`, data: trend, borderColor: '#111827', borderDash: [6, 4], borderWidth: 2, pointRadius: trend.map((_, i) => i === trend.length - 1 ? 6 : 0), pointBackgroundColor: '#111827', order: 0, stack: 'trend', spanGaps: true},
+    {type: 'line', label: `Trend (${slope >= 0 ? '+' : ''}${Math.round(slope * 7)} pts/week)`, data: trend, borderColor: (typeof BI !== 'undefined' && BI.dark) ? '#e2e8f0' : '#111827', borderDash: [6, 4], borderWidth: 2, pointRadius: trend.map((_, i) => i === trend.length - 1 ? 6 : 0), pointBackgroundColor: (typeof BI !== 'undefined' && BI.dark) ? '#e2e8f0' : '#111827', order: 0, stack: 'trend', spanGaps: true},
     {type: 'line', label: 'Goal ' + GOAL, data: labels.map(() => GOAL), borderColor: '#15803d', borderWidth: 2, pointRadius: 0, order: 1, stack: 'goal'}]},
     options: {maintainAspectRatio: false, plugins: {legend: {position: 'bottom'}, tooltip: {callbacks: {footer: it => { const i = it[0].dataIndex; return i < pts.length ? 'Total: ' + (pts[i].M + pts[i].R) : '' }}}},
       scales: {x: {stacked: true}, y: {stacked: true, min: 0, suggestedMax: 1400, title: {display: true, text: 'SAT score'}}}}})
