@@ -268,5 +268,43 @@
 "Say it out loud"
 ]
 ]
+},
+"e1": {
+"src": "videos/e1.mp4",
+"poster": "videos/e1.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+18,
+"The rules"
+],
+[
+33,
+"Example 1: Sides"
+],
+[
+54,
+"Example 2: Area"
+],
+[
+81,
+"Example 3: Volume"
+],
+[
+109,
+"Example 4: Backward from area"
+],
+[
+139,
+"Your turn: pause and pick"
+],
+[
+167,
+"Say it out loud"
+]
+]
 }
 }
