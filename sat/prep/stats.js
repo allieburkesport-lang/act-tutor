@@ -78,6 +78,7 @@ function drawStats() {
   const order = per.filter(p => p.n).sort((a, b) => a.acc - b.acc || (b.s.share || 0) - (a.s.share || 0));
   const missed = rows.filter(r => !r.ok).slice(-12).reverse();
   app().innerHTML = topbar('stats') + `<div class="page" style="gap:18px"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;align-items:flex-end"><div><h1 class="hd" style="margin:0;font-size:30px">Stats</h1><div style="color:var(--mute);font-size:14px">First try on each question, on this site plus his 1500 Blueprint days. Click any category to see why.</div></div>${filters()}</div>
+   ${scoresBlock()}
    <section class="stats" style="grid-template-columns:repeat(6,minmax(0,1fr))">
     ${kpi('Questions', tot, [ST.site ? SITE_NAME + ' ' + rows.length : '', ST.bp ? 'Blueprint ' + bpTot : ''].filter(Boolean).join(' · '))}
     ${kpi('Right on first try', tAcc == null ? '—' : tAcc + '%', ST.site && ST.bp ? 'combined' : ST.site ? SITE_NAME : '1500 Blueprint', ST.site && !ST.bp ? delta(acc, pacc) : '')}
@@ -106,6 +107,7 @@ function drawStats() {
   </div>`;
   window.scrollTo(0, 0);
   const tick = {font: {family: 'Inter', size: 12}};
+  scoresChart();
   chart('c1', {type: 'line', data: {labels: se.lab, datasets: [
     ST.site && ST.sec !== 'English' ? {label: 'Math', data: se.accM, borderColor: SCOL.Math, backgroundColor: SCOL.Math, tension: .3, spanGaps: true} : null,
     ST.site && ST.sec !== 'Math' ? {label: 'Reading & Writing', data: se.accE, borderColor: SCOL.English, backgroundColor: SCOL.English, tension: .3, spanGaps: true} : null,
@@ -190,3 +192,30 @@ document.addEventListener('change', e => {
   if (e.target.id === 'stfrom') { ST.from = e.target.value; stRedraw() }
   if (e.target.id === 'stto') { ST.to = e.target.value; stRedraw() }
 });
+
+// ---------- Scores: official SATs + where he is trending ----------
+function scoreDays() { return [...new Set(LOG.filter(x => x.first).map(x => x.day))].sort() }
+function scoresBlock() {
+  const L = SAT_LAST(), t = new Date(); const tk = dkey(t), now = proj(tk), days = scoreDays(), prevD = days.filter(d => d < tk).pop(), prev = prevD ? proj(prevD) : null;
+  const arrow = (a, b) => a > b ? `<span style="color:#15803d">▲ +${a - b}</span>` : a < b ? `<span style="color:#c2410c">▼ ${a - b}</span>` : '<span style="color:var(--mute)">±0</span>';
+  const box = (lab, v, last, sub) => `<div class="card" style="padding:14px 16px;${lab === 'Combined' ? 'border:2px solid #1e3a8a' : ''}"><div style="font-size:13px;color:var(--mute);font-weight:600">${lab} (projected)</div>
+    <div class="hd" style="font-size:${lab === 'Combined' ? 44 : 36}px;font-weight:800;line-height:1.1">${v.toLocaleString()}</div><div style="font-size:13px">${arrow(v, last)} vs. ${esc(L.label)} SAT (${last})</div>${sub ? `<div style="font-size:13px;color:var(--mute)">${sub}</div>` : ''}</div>`;
+  const offi = SAT_OFFICIAL.slice().reverse().map(o => `<tr><td><b>${esc(o.label)}, ${o.date.slice(0, 4)}</b></td><td>${o.Math}</td><td>${o['R&W']}</td><td><b>${o.total.toLocaleString()}</b></td></tr>`).join('');
+  return `<section class="card" style="padding:16px 18px;border-left:5px solid #1e3a8a"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:baseline"><h2 class="hd" style="margin:0;font-size:24px">Scores</h2>
+    <div style="font-size:13px;color:var(--mute)">As of right now · goal ${GOAL} on Dec 5 · ${now.total >= GOAL ? '<b style="color:#15803d">on target</b>' : `<b>${GOAL - now.total}</b> points to go`}${prev ? ` · since yesterday ${arrow(now.total, prev.total)}` : ''}</div></div>
+   <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px">${box('Math', now.Math, L.Math)}${box('Reading & Writing', now['R&W'], L['R&W'])}${box('Combined', now.total, L.total, `Goal ${GOAL}`)}</div>
+   <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:16px;margin-top:14px;align-items:start">
+    <div><h3 class="hd" style="margin:0 0 6px;font-size:17px">Official SAT scores</h3><table class="rep" style="width:100%"><thead><tr><th>Test</th><th>Math</th><th>R&W</th><th>Total</th></tr></thead><tbody>${offi}</tbody></table></div>
+    <div><h3 class="hd" style="margin:0 0 6px;font-size:17px">Trend: official scores, then the daily projection</h3><div style="height:220px"><canvas id="c0"></canvas></div></div></div>
+   <div style="font-size:12px;color:var(--mute);margin-top:8px">The projection is an estimate, not an official score. It starts from his latest official SAT (${esc(L.label)}) and adds the change in his category accuracy since then (1500 Blueprint plus first tries here). Each category is weighted by how often it shows up on the SAT. The real test is adaptive, so read it as a direction.</div></section>`
+}
+function scoresChart() {
+  const days = scoreDays().filter(d => d > SAT_LAST().date), pts = SAT_OFFICIAL.map(o => ({l: o.label + ' SAT', o})).concat(days.map(d => ({l: new Date(d + 'T12:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'}), p: proj(d)})));
+  const v = (x, k) => x.o ? x.o[k] : x.p[k];
+  chart('c0', {type: 'line', data: {labels: pts.map(x => x.l), datasets: [
+    {label: 'Combined', data: pts.map(x => v(x, 'total')), borderColor: '#111827', backgroundColor: '#111827', borderWidth: 3, pointRadius: pts.map(x => x.o ? 6 : 3), pointStyle: pts.map(x => x.o ? 'rectRot' : 'circle'), yAxisID: 'y'},
+    {label: 'Math', data: pts.map(x => v(x, 'Math')), borderColor: '#1e40af', backgroundColor: '#1e40af', pointRadius: 3, yAxisID: 'y2'},
+    {label: 'R&W', data: pts.map(x => v(x, 'R&W')), borderColor: '#b45309', backgroundColor: '#b45309', pointRadius: 3, yAxisID: 'y2'},
+    {label: 'Goal ' + GOAL, data: pts.map(() => GOAL), borderColor: '#15803d', borderDash: [6, 4], pointRadius: 0, yAxisID: 'y'}]},
+    options: {maintainAspectRatio: false, plugins: {legend: {position: 'bottom'}}, scales: {y: {position: 'left', suggestedMin: 900, suggestedMax: 1350, title: {display: true, text: 'Total'}}, y2: {position: 'right', suggestedMin: 400, suggestedMax: 700, grid: {drawOnChartArea: false}, title: {display: true, text: 'Section'}}}}})
+}

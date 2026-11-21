@@ -247,6 +247,44 @@ function startDay(date){const d=PLAN&&PLAN.days.find(x=>x.date===date);if(!d)ret
   if(!qs.length){app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">${esc(KIND[d.kind]||'')}</h1><p>${esc(d.note||'Nothing to drill today.')}</p><button class="btn" data-go="#/">Home</button></div>`;return}
   const lab=new Date(date+'T12:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
   UI.dtab=null;UI.panel=null;D={qs,secs,title:lab+' plan',skill:null,date,arg:'day:'+date,i,st,t0:Date.now(),done:false};dayStore();showQ();}
+
+// ---- score outlook: skill accuracy (Blueprint + this site's first tries, counted double) weighted by each skill's share of its SAT section
+const GOAL=1300;
+// official scores (newest last). The projection starts from the newest official score and adds what his practice says he has gained since.
+const SAT_OFFICIAL=[{date:'2026-09-12',label:'Sep 12',Math:510,'R&W':500,total:1010},{date:'2026-10-03',label:'Oct 3',Math:550,'R&W':440,total:990}];
+const SAT_LAST=()=>SAT_OFFICIAL[SAT_OFFICIAL.length-1];
+function skAcc(sk,upto){const b=BPS[sk]||{n:0,ok:0};const f=LOG.filter(x=>x.first&&x.day<=upto&&QBY[x.id]&&QBY[x.id].skill===sk);const n=b.n+2*f.length,ok=b.ok+2*f.filter(x=>x.ok).length;return n>=3?ok/n:null}
+function projRaw(upto){const out={};[['Math','Math'],['English','R&W']].forEach(([sec,lab])=>{const sks=Object.values(SK2).filter(s=>s.sec===sec);const kn=sks.map(s=>skAcc(s.id,upto)).filter(v=>v!=null);const avg=kn.length?kn.reduce((a,b)=>a+b,0)/kn.length:.5;
+  let w=0,t=0;sks.forEach(s=>{const a=skAcc(s.id,upto),sh=s.share||1;w+=sh;t+=sh*(a==null?avg:a)});out[lab]=Math.round((200+600*t/w)/10)*10});out.total=out.Math+out['R&W'];return out}
+function proj(upto){const L=SAT_LAST(),a=projRaw(upto),b=projRaw('0000'),c=v=>Math.max(200,Math.min(800,Math.round(v/10)*10));const o={Math:c(L.Math+a.Math-b.Math),'R&W':c(L['R&W']+a['R&W']-b['R&W'])};o.total=o.Math+o['R&W'];return o}
+function skPct(sk,day){const f=LOG.filter(x=>x.first&&(x.plan||x.day)===day&&QBY[x.id]&&QBY[x.id].skill===sk);return f.length>=2?{p:Math.round(100*f.filter(x=>x.ok).length/f.length),n:f.length}:null}
+function prevDayFor(sk,date){const ds=[...new Set(LOG.filter(x=>x.first&&(x.plan||x.day)<date&&QBY[x.id]&&QBY[x.id].skill===sk).map(x=>x.plan||x.day))].sort();for(let i=ds.length-1;i>=0;i--){const v=skPct(sk,ds[i]);if(v)return {d:ds[i],...v}}return null}
+function outlook(date,by,before){
+  const wins=[];Object.keys(by).forEach(k=>{const xs=by[k];if(xs.length<3)return;const p=Math.round(100*xs.filter(x=>x.ok).length/xs.length),s=SK2[k],pts=d=>Math.round(600*(s.share||0)/100*d/100);
+    const pd=prevDayFor(k,date),b=before(k);
+    if(pd&&p-pd.p>=15)wins.push({k,txt:`${pd.p}% → ${p}% vs. ${new Date(pd.d+'T12:00').toLocaleDateString('en-US',{weekday:'short'})}`,d:p-pd.p,pts:pts(p-pd.p),s});
+    else if(b!=null&&p-b>=15)wins.push({k,txt:`${b}% overall before today → ${p}% today`,d:p-b,pts:pts(p-b),s})});
+  wins.sort((a,b)=>b.pts-a.pts);
+  const now=proj(date),prevD=[...new Set(LOG.filter(x=>x.first&&x.day<date).map(x=>x.day))].sort().pop(),prev=prevD?proj(prevD):null,base=SAT_LAST();
+  const days=[...new Set(LOG.filter(x=>x.first&&x.day<=date).map(x=>x.day))].sort().slice(-7);const tr=days.map(d=>({d,v:proj(d).total}));
+  const lo=Math.min(...tr.map(x=>x.v),base.total)-150,hi=Math.max(GOAL,...tr.map(x=>x.v))+20,y=v=>Math.round(100*(v-lo)/(hi-lo));
+  const arrow=(a,b)=>a>b?`<span style="color:#15803d">▲ +${a-b}</span>`:a<b?`<span style="color:#c2410c">▼ ${a-b}</span>`:'<span style="color:var(--mute)">no change</span>';
+  const bars=[{d:'sat',v:base.total,l:base.label+' SAT'}].concat(tr.map(x=>({...x,l:new Date(x.d+'T12:00').toLocaleDateString('en-US',{month:'short',day:'numeric'})})));
+  return `<section class="card" style="padding:16px 18px;border-left:5px solid #15803d"><h2 class="hd" style="margin:0 0 10px;font-size:22px">Big improvements today</h2>
+   ${wins.length?`<div style="display:flex;flex-direction:column;gap:8px">${wins.map(w=>`<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><b style="min-width:220px">${esc(w.s.name)}</b><span>${w.txt} <b style="color:#15803d">(+${w.d} points of accuracy)</b></span><span class="pill" style="background:#dcfce7;color:#14532d">≈ +${w.pts} SAT points if he keeps it</span></div>`).join('')}</div>
+   <div style="font-size:12px;color:var(--mute);margin-top:8px">SAT points = accuracy gain × that category's share of its section × 600 (the section's 200–800 range).</div>`
+   :`<div>No category jumped 15+ points today. Steady work still moves the projection below.</div>`}</section>
+  <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 6px;font-size:22px">Where he's trending on the SAT</h2>
+   <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-end"><div><div style="font-size:13px;color:var(--mute)">Projected total (est.)</div><div class="hd" style="font-size:40px;font-weight:800">${now.total.toLocaleString()}</div></div>
+    <div><div style="font-size:13px;color:var(--mute)">Math · R&W</div><div class="hd" style="font-size:22px;font-weight:700">${now.Math} · ${now['R&W']}</div></div>
+    <div><div style="font-size:13px;color:var(--mute)">vs. yesterday</div><div style="font-size:20px;font-weight:700">${prev?arrow(now.total,prev.total):'—'}</div></div>
+    <div><div style="font-size:13px;color:var(--mute)">vs. ${base.label} SAT (${base.total})</div><div style="font-size:20px;font-weight:700">${arrow(now.total,base.total)}</div></div>
+    <div><div style="font-size:13px;color:var(--mute)">To the ${GOAL} goal</div><div style="font-size:20px;font-weight:700">${now.total>=GOAL?'<span style="color:#15803d">On target</span>':`${GOAL-now.total} to go`}</div></div></div>
+   <div style="display:flex;gap:10px;align-items:flex-end;height:140px;margin-top:14px;border-bottom:1px solid #e5e7eb;position:relative">
+    <div style="position:absolute;left:0;right:0;bottom:${y(GOAL)}%;border-top:2px dashed #15803d;font-size:11px;color:#15803d">&nbsp;Goal ${GOAL}</div>
+    ${bars.map(b=>`<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%"><div style="font-size:12px;font-weight:700">${b.v}</div><div style="width:70%;max-width:46px;height:${y(b.v)}%;background:${b.d==='sat'?'#94a3b8':'#1e3a8a'};border-radius:6px 6px 0 0"></div></div>`).join('')}</div>
+   <div style="display:flex;gap:10px">${bars.map(b=>`<div style="flex:1;text-align:center;font-size:11px;color:var(--mute)">${b.l}</div>`).join('')}</div>
+   <div style="font-size:12px;color:var(--mute);margin-top:8px">Rough estimate, not an official score. It starts from his latest official SAT and adds the change in his category accuracy since (1500 Blueprint plus first tries here), weighted by how often each category shows up on the SAT. The real test is adaptive, so treat this as a direction, not a promise.</div></section>`}
 function dayReport(date){const f=dayFirst(date),all=dayLog(date);const lab=new Date(date+'T12:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
   if(!f.length){app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">${esc(lab)}</h1><p>No questions answered this day yet.</p><button class="btn" data-go="#/day/${date}">Start the day</button><button class="btn g" data-go="#/">Home</button></div>`;return}
   const later=id=>all.some(x=>x.id===id&&x.ok&&(x.attempt||1)>1);
@@ -271,6 +309,7 @@ function dayReport(date){const f=dayFirst(date),all=dayLog(date);const lab=new D
    <section class="stats"><div class="card stat"><div class="l">Questions</div><div class="v hd">${tot}</div></div><div class="card stat"><div class="l">Right on the first try</div><div class="v hd">${right} <span style="font-size:18px;color:var(--mute)">(${Math.round(100*right/tot)}%)</span></div></div>
     <div class="card stat"><div class="l">Wrong first, fixed on retry</div><div class="v hd">${fixed} <span style="font-size:18px;color:var(--mute)">of ${tot-right}</span></div></div>
     <div class="card stat"><div class="l">Time · SAT pace for these</div><div class="v hd"><span class="${spent>paceAll?'slow':'fast'}">${mins(spent)}</span> <span style="font-size:18px;color:var(--mute)">/ ${mins(paceAll)}</span></div></div></section>
+   ${outlook(date,by,before)}
    <section class="card" style="padding:16px 18px;overflow-x:auto"><h2 class="hd" style="margin:0 0 8px;font-size:22px">By category <span style="font-size:14px;color:var(--mute);font-weight:500">weakest first</span></h2>
     <table class="rep"><thead><tr><th>Category</th><th>% of SAT section (est.)</th><th>Qs</th><th>Right</th><th>Wrong</th><th>Score</th><th class="hide">By difficulty (right/total)</th><th>Avg time / Q</th><th class="hide">Vs. before today</th><th></th></tr></thead><tbody>${sk.map(row).join('')}</tbody></table>
     <div style="font-size:12px;color:var(--mute);margin-top:8px">Right/wrong count first tries only. Time is per question; SAT pace is about 1:35 per Math question and 1:11 per Reading & Writing question. Green = at or under pace, orange = slower.</div></section>
@@ -346,7 +385,7 @@ function drawDrill(){if(D.done)return drawEnd();const q=cur(),st=D.st[D.i],s=SK2
 const fmt=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
 setInterval(()=>{const t=$('#tmr');if(t&&D&&!D.done){const s=SK2[cur().skill];t.textContent=fmt(Math.max(0,D.qs.length*PACE[s.sec]-Math.round((Date.now()-D.t0)/1000)))}},1000);
 function answer(ok,picked){const q=cur(),st=D.st[D.i];const first=st.tried.length===1&&!st.coached;
-  save({id:q.id,ts:Date.now(),day:today(),ok,first:st.tried.length===1,attempt:st.tried.length,sec:Math.round((Date.now()-st.t0)/1000),picked,coached:st.coached,plan:D.date||undefined});
+  save({id:q.id,ts:Date.now(),day:today(),ok,first:st.tried.length===1,attempt:st.tried.length,sec:st.t0?Math.min(1800,Math.round((Date.now()-st.t0)/1000)):null,picked,coached:st.coached,plan:D.date||undefined});
   if(ok)st.ok=true;dayStore();drawDrill();}
 function gridCheck(){const q=cur(),st=D.st[D.i],v=($('#gin').value||'').trim();if(!v)return;const norm=x=>String(x).replace(/\s/g,'').replace(/−/g,'-').toLowerCase();
   const num=x=>{x=norm(x);if(/^-?\d*\.?\d+\/\d+$/.test(x)){const [a,b]=x.split('/');return a/b}return parseFloat(x)};
@@ -460,6 +499,6 @@ document.addEventListener('click',e=>{const b=e.target.closest('button,[data-go]
 });
 load().then(route);
 </script>
-<script src="stats.js?v=4"></script>
+<script src="stats.js?v=5"></script>
 </body>
 </html>
