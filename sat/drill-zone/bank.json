@@ -1263,7 +1263,8 @@
 "steps": [
 "Set x = 0 (the start).",
 "y = 300 − 6(0) = 300",
-"So 300 is the starting amount."
+"So 300 is the starting amount.",
+"Answer: B) The number of gallons of water left in a tank at the start"
 ],
 "trap": "6 is the rate. The lone number is the start.",
 "ch": [
@@ -1293,7 +1294,8 @@
 "steps": [
 "y = 240 − 6x is y = b + mx form.",
 "The number with x (6) changes y every 1 coffees bought.",
-"So 6 = cost of one coffee."
+"So 6 = cost of one coffee.",
+"Answer: A) The cost of one coffee"
 ],
 "trap": "240 is the starting amount (when x = 0), not the rate.",
 "ch": [
@@ -1323,7 +1325,8 @@
 "steps": [
 "y = 150 − 5x is y = b + mx form.",
 "The number with x (5) changes y every 1 minute.",
-"So 5 = feet climbed down each minute."
+"So 5 = feet climbed down each minute.",
+"Answer: D) The feet climbed down each minute"
 ],
 "trap": "150 is the starting amount (when x = 0), not the rate.",
 "ch": [
@@ -1353,7 +1356,8 @@
 "steps": [
 "Set x = 0 (the start).",
 "y = 300 − 4(0) = 300",
-"So 300 is the starting amount."
+"So 300 is the starting amount.",
+"Answer: D) The number of pages left to read at the start"
 ],
 "trap": "4 is the rate. The lone number is the start.",
 "ch": [
@@ -1383,7 +1387,8 @@
 "steps": [
 "Set x = 0 (the start).",
 "y = 480 − 5(0) = 480",
-"So 480 is the starting amount."
+"So 480 is the starting amount.",
+"Answer: A) The number of dollars still owed on a loan at the start"
 ],
 "trap": "5 is the rate. The lone number is the start.",
 "ch": [
@@ -1413,7 +1418,8 @@
 "steps": [
 "y = 480 − 12x is y = b + mx form.",
 "The number with x (12) changes y every 1 hour.",
-"So 12 = liters used each hour."
+"So 12 = liters used each hour.",
+"Answer: B) The liters used each hour"
 ],
 "trap": "480 is the starting amount (when x = 0), not the rate.",
 "ch": [
@@ -1443,7 +1449,8 @@
 "steps": [
 "Set x = 0 (the start).",
 "y = 300 − 6(0) = 300",
-"So 300 is the starting amount."
+"So 300 is the starting amount.",
+"Answer: C) The number of seats still open on a flight at the start"
 ],
 "trap": "6 is the rate. The lone number is the start.",
 "ch": [
@@ -2069,7 +2076,8 @@
 "steps": [
 "Replace y in the second equation: x + (3x + 12) = −4",
 "4x = −16 → x = −4",
-"y = 3(−4) + 12 = 0"
+"y = 3(−4) + 12 = 0",
+"Answer: D) (−4, 0)"
 ],
 "trap": "Order matters: (x, y). Swapped coordinates are a planted trap.",
 "ch": [
@@ -2098,7 +2106,8 @@
 "steps": [
 "Replace y in the second equation: x + (2x − 15) = 6",
 "3x = 21 → x = 7",
-"y = 2(7) − 15 = −1"
+"y = 2(7) − 15 = −1",
+"Answer: B) (7, −1)"
 ],
 "trap": "Order matters: (x, y). Swapped coordinates are a planted trap.",
 "ch": [
@@ -2127,7 +2136,8 @@
 "steps": [
 "Replace y in the second equation: x + (3x + 7) = −1",
 "4x = −8 → x = −2",
-"y = 3(−2) + 7 = 1"
+"y = 3(−2) + 7 = 1",
+"Answer: A) (−2, 1)"
 ],
 "trap": "Order matters: (x, y). Swapped coordinates are a planted trap.",
 "ch": [
@@ -2156,7 +2166,8 @@
 "steps": [
 "Replace y in the second equation: x + (−2x − 8) = −5",
 "−1x = 3 → x = −3",
-"y = −2(−3) − 8 = −2"
+"y = −2(−3) − 8 = −2",
+"Answer: C) (−3, −2)"
 ],
 "trap": "Order matters: (x, y). Swapped coordinates are a planted trap.",
 "ch": [
@@ -3717,7 +3728,8 @@
 "tool": "Rule: the root number goes on the BOTTOM of the fraction exponent.",
 "steps": [
 "The 4th root = power 1/4",
-"(x^3)^(1/4) = x^(3/4)"
+"(x^3)^(1/4) = x^(3/4)",
+"Answer: C) x^3/4"
 ],
 "trap": "Power on top, root on the bottom (\"power over root\").",
 "ch": [
@@ -3746,7 +3758,8 @@
 "tool": "Rule: the root number goes on the BOTTOM of the fraction exponent.",
 "steps": [
 "The 3th root = power 1/3",
-"(x^7)^(1/3) = x^(7/3)"
+"(x^7)^(1/3) = x^(7/3)",
+"Answer: D) x^7/3"
 ],
 "trap": "Power on top, root on the bottom (\"power over root\").",
 "ch": [
@@ -3775,7 +3788,8 @@
 "tool": "Rule: the root number goes on the BOTTOM of the fraction exponent.",
 "steps": [
 "The 4th root = power 1/4",
-"(x^5)^(1/4) = x^(5/4)"
+"(x^5)^(1/4) = x^(5/4)",
+"Answer: A) x^5/4"
 ],
 "trap": "Power on top, root on the bottom (\"power over root\").",
 "ch": [
@@ -3804,7 +3818,8 @@
 "tool": "Rule: the root number goes on the BOTTOM of the fraction exponent.",
 "steps": [
 "The 5th root = power 1/5",
-"(x^2)^(1/5) = x^(2/5)"
+"(x^2)^(1/5) = x^(2/5)",
+"Answer: B) x^2/5"
 ],
 "trap": "Power on top, root on the bottom (\"power over root\").",
 "ch": [
@@ -4094,7 +4109,8 @@
 "steps": [
 "The parabola opens up and its lowest point (vertex) is at y = −3.",
 "The flat line is at y = 1.",
-"Above the vertex: 2 crossings."
+"Above the vertex: 2 crossings.",
+"Answer: B) exactly two"
 ],
 "trap": "A parabola can cross a flat line 0, 1 or 2 times, never infinitely many.",
 "ch": [
@@ -4123,7 +4139,8 @@
 "steps": [
 "The parabola opens up and its lowest point (vertex) is at y = −4.",
 "The flat line is at y = −4.",
-"At the vertex: 1 crossing."
+"At the vertex: 1 crossing.",
+"Answer: C) exactly one"
 ],
 "trap": "A parabola can cross a flat line 0, 1 or 2 times, never infinitely many.",
 "ch": [
@@ -4152,7 +4169,8 @@
 "steps": [
 "The parabola opens up and its lowest point (vertex) is at y = −4.",
 "The flat line is at y = −7.",
-"Below the vertex: 0 crossings."
+"Below the vertex: 0 crossings.",
+"Answer: A) zero"
 ],
 "trap": "A parabola can cross a flat line 0, 1 or 2 times, never infinitely many.",
 "ch": [
@@ -5836,7 +5854,8 @@
 "tool": "Desmos: 80(1 − 0.1)(1 − 0.2).",
 "steps": [
 "First markdown: 80 × 0.9 = 72",
-"Second markdown: 72 × 0.8 = 57.6"
+"Second markdown: 72 × 0.8 = 57.6",
+"Answer: D) $57.60"
 ],
 "trap": "Two markdowns do NOT add to 30%. The second one is taken off the smaller price.",
 "ch": [
@@ -5892,7 +5911,8 @@
 "tool": "Desmos: 120(1 − 0.25)(1 − 0.25).",
 "steps": [
 "First markdown: 120 × 0.75 = 90",
-"Second markdown: 90 × 0.75 = 67.5"
+"Second markdown: 90 × 0.75 = 67.5",
+"Answer: B) $67.50"
 ],
 "trap": "Two markdowns do NOT add to 50%. The second one is taken off the smaller price.",
 "ch": [
@@ -6490,7 +6510,8 @@
 "110 is far above the rest: an outlier.",
 "Removing a big outlier pulls the MEAN down a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: B) The mean decreases, and the median decreases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "ch": [
@@ -6521,7 +6542,8 @@
 "95 is far above the rest: an outlier.",
 "Removing a big outlier pulls the MEAN down a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: D) The mean decreases, and the median decreases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "ch": [
@@ -6552,7 +6574,8 @@
 "110 is far above the rest: an outlier.",
 "Removing a big outlier pulls the MEAN down a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: C) The mean decreases, and the median decreases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "ch": [
@@ -6583,7 +6606,8 @@
 "95 is far above the rest: an outlier.",
 "Removing a big outlier pulls the MEAN down a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: A) The mean decreases, and the median decreases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "ch": [
@@ -6877,7 +6901,8 @@
 "steps": [
 "y = 1.2x + 8: slope is 1.2",
 "Slope = change in y for each 1-unit increase in x",
-"Best fit lines are predictions (\"predicted\"), not exact rules."
+"Best fit lines are predictions (\"predicted\"), not exact rules.",
+"Answer: B) For each increase of 1 in x, y is predicted to increase by 1.2."
 ],
 "trap": "\"Always\" is too strong; a best-fit line only predicts.",
 "ch": [
@@ -6906,7 +6931,8 @@
 "steps": [
 "y = 4.5x + 8: slope is 4.5",
 "Slope = change in y for each 1-unit increase in x",
-"Best fit lines are predictions (\"predicted\"), not exact rules."
+"Best fit lines are predictions (\"predicted\"), not exact rules.",
+"Answer: C) For each increase of 1 in x, y is predicted to increase by 4.5."
 ],
 "trap": "\"Always\" is too strong; a best-fit line only predicts.",
 "ch": [
@@ -6935,7 +6961,8 @@
 "steps": [
 "y = 2.5x + 15: slope is 2.5",
 "Slope = change in y for each 1-unit increase in x",
-"Best fit lines are predictions (\"predicted\"), not exact rules."
+"Best fit lines are predictions (\"predicted\"), not exact rules.",
+"Answer: A) For each increase of 1 in x, y is predicted to increase by 2.5."
 ],
 "trap": "\"Always\" is too strong; a best-fit line only predicts.",
 "ch": [
@@ -6964,7 +6991,8 @@
 "steps": [
 "y = 4.5x + 15: slope is 4.5",
 "Slope = change in y for each 1-unit increase in x",
-"Best fit lines are predictions (\"predicted\"), not exact rules."
+"Best fit lines are predictions (\"predicted\"), not exact rules.",
+"Answer: C) For each increase of 1 in x, y is predicted to increase by 4.5."
 ],
 "trap": "\"Always\" is too strong; a best-fit line only predicts.",
 "ch": [
@@ -6993,7 +7021,8 @@
 "steps": [
 "y = 2.5x + 3: slope is 2.5",
 "Slope = change in y for each 1-unit increase in x",
-"Best fit lines are predictions (\"predicted\"), not exact rules."
+"Best fit lines are predictions (\"predicted\"), not exact rules.",
+"Answer: D) For each increase of 1 in x, y is predicted to increase by 2.5."
 ],
 "trap": "\"Always\" is too strong; a best-fit line only predicts.",
 "ch": [
@@ -7167,7 +7196,8 @@
 "steps": [
 "Differences: 100, 200, 400",
 "Ratios: 2, 2, 2",
-"Same difference = linear. Same ratio = exponential."
+"Same difference = linear. Same ratio = exponential.",
+"Answer: C) Exponential growth, because the number is multiplied by the same factor each week"
 ],
 "trap": "Growing fast is not enough. Check differences vs. ratios.",
 "ch": [
@@ -7197,7 +7227,8 @@
 "steps": [
 "Differences: 500, 1000, 2000",
 "Ratios: 2, 2, 2",
-"Same difference = linear. Same ratio = exponential."
+"Same difference = linear. Same ratio = exponential.",
+"Answer: C) Exponential growth, because the number is multiplied by the same factor each week"
 ],
 "trap": "Growing fast is not enough. Check differences vs. ratios.",
 "ch": [
@@ -7227,7 +7258,8 @@
 "steps": [
 "Differences: 50, 50, 50",
 "Ratios: 1.5, 1.33333, 1.25",
-"Same difference = linear. Same ratio = exponential."
+"Same difference = linear. Same ratio = exponential.",
+"Answer: B) Linear growth, because the same amount is added each week"
 ],
 "trap": "Growing fast is not enough. Check differences vs. ratios.",
 "ch": [
@@ -7257,7 +7289,8 @@
 "steps": [
 "Differences: 20, 20, 20",
 "Ratios: 1.1, 1.09091, 1.08333",
-"Same difference = linear. Same ratio = exponential."
+"Same difference = linear. Same ratio = exponential.",
+"Answer: D) Linear growth, because the same amount is added each week"
 ],
 "trap": "Growing fast is not enough. Check differences vs. ratios.",
 "ch": [
@@ -7287,7 +7320,8 @@
 "steps": [
 "Differences: 200, 400, 800",
 "Ratios: 2, 2, 2",
-"Same difference = linear. Same ratio = exponential."
+"Same difference = linear. Same ratio = exponential.",
+"Answer: A) Exponential growth, because the number is multiplied by the same factor each week"
 ],
 "trap": "Growing fast is not enough. Check differences vs. ratios.",
 "ch": [
@@ -7553,7 +7587,9 @@
 "steps": [
 "\"A student who chose pizza\" = only look at that column. Total: 54",
 "Of those, juniors: 40",
-"Probability = 40/54"
+"Probability = 40/54",
+"Simplify: 40/54 = 20/27",
+"Answer: A) 20/27"
 ],
 "trap": "The group after \"if\" is the denominator.",
 "ch": [
@@ -7787,6 +7823,7 @@
 "q": "The probability that a randomly chosen customer buys a drink is 1/5. Out of 100 customers, how many would you expect to buy a drink?",
 "tool": "By hand: probability × number of trials.",
 "steps": [
+"Rule: expected number = probability × how many times it happens.",
 "1/5 × 100 = 20"
 ],
 "trap": "Expected count = probability × total.",
@@ -7812,6 +7849,7 @@
 "q": "The probability that a randomly chosen customer buys a drink is 3/10. Out of 200 customers, how many would you expect to buy a drink?",
 "tool": "By hand: probability × number of trials.",
 "steps": [
+"Rule: expected number = probability × how many times it happens.",
 "3/10 × 200 = 60"
 ],
 "trap": "Expected count = probability × total.",
@@ -7837,6 +7875,7 @@
 "q": "The probability that a randomly chosen customer buys a drink is 2/5. Out of 150 customers, how many would you expect to buy a drink?",
 "tool": "By hand: probability × number of trials.",
 "steps": [
+"Rule: expected number = probability × how many times it happens.",
 "2/5 × 150 = 60"
 ],
 "trap": "Expected count = probability × total.",
@@ -7862,6 +7901,7 @@
 "q": "The probability that a randomly chosen customer buys a drink is 1/4. Out of 120 customers, how many would you expect to buy a drink?",
 "tool": "By hand: probability × number of trials.",
 "steps": [
+"Rule: expected number = probability × how many times it happens.",
 "1/4 × 120 = 30"
 ],
 "trap": "Expected count = probability × total.",
@@ -8179,7 +8219,8 @@
 "steps": [
 "Margin of error depends mostly on sample size.",
 "More data = less uncertainty.",
-"Volunteers make it biased, not more precise."
+"Volunteers make it biased, not more precise.",
+"Answer: B) Use a larger random sample."
 ],
 "trap": "Smaller samples make the margin BIGGER.",
 "ch": [
@@ -8209,7 +8250,8 @@
 "steps": [
 "Margin of error depends mostly on sample size.",
 "More data = less uncertainty.",
-"Volunteers make it biased, not more precise."
+"Volunteers make it biased, not more precise.",
+"Answer: C) Use a larger random sample."
 ],
 "trap": "Smaller samples make the margin BIGGER.",
 "ch": [
@@ -8239,7 +8281,8 @@
 "steps": [
 "Margin of error depends mostly on sample size.",
 "More data = less uncertainty.",
-"Volunteers make it biased, not more precise."
+"Volunteers make it biased, not more precise.",
+"Answer: C) Use a larger random sample."
 ],
 "trap": "Smaller samples make the margin BIGGER.",
 "ch": [
@@ -8269,7 +8312,8 @@
 "steps": [
 "Margin of error depends mostly on sample size.",
 "More data = less uncertainty.",
-"Volunteers make it biased, not more precise."
+"Volunteers make it biased, not more precise.",
+"Answer: D) Use a larger random sample."
 ],
 "trap": "Smaller samples make the margin BIGGER.",
 "ch": [
@@ -8299,7 +8343,8 @@
 "steps": [
 "Margin of error depends mostly on sample size.",
 "More data = less uncertainty.",
-"Volunteers make it biased, not more precise."
+"Volunteers make it biased, not more precise.",
+"Answer: A) Use a larger random sample."
 ],
 "trap": "Smaller samples make the margin BIGGER.",
 "ch": [
@@ -8479,7 +8524,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: C) Listening to music while studying likely caused higher test scores among students in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "ch": [
@@ -8508,7 +8554,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: D) There is an association between drinking green tea before bed and better sleep, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "ch": [
@@ -8537,7 +8584,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: B) A 4-day work week likely caused higher productivity among workers in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "ch": [
@@ -8566,7 +8614,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: A) There is an association between a new running shoe and faster mile times, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "ch": [
@@ -8595,7 +8644,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: D) A daily stretching program likely caused less back pain among patients in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "ch": [
@@ -8624,7 +8674,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: B) There is an association between putting phones away at night and higher grades, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "ch": [
@@ -8653,7 +8704,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: C) A new store layout likely caused more spending among shoppers in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "ch": [
@@ -8683,7 +8735,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: A) There is an association between a dashboard safety alert and faster braking, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "ch": [
@@ -8713,7 +8766,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: A) Standing desks likely caused fewer sick days among employees in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "ch": [
@@ -8743,7 +8797,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: C) There is an association between a new warm-up routine and faster lap times, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "ch": [
@@ -8773,7 +8828,8 @@
 "steps": [
 "Cause needs an experiment.",
 "Random assignment makes the groups alike except for the treatment.",
-"A comparison group is required."
+"A comparison group is required.",
+"Answer: B) Randomly assign students to listening to music while studying or to no change, then compare the groups."
 ],
 "trap": "People choosing their own group = observational = no cause.",
 "ch": [
@@ -8803,7 +8859,8 @@
 "steps": [
 "Cause needs an experiment.",
 "Random assignment makes the groups alike except for the treatment.",
-"A comparison group is required."
+"A comparison group is required.",
+"Answer: D) Randomly assign adults to drinking green tea before bed or to no change, then compare the groups."
 ],
 "trap": "People choosing their own group = observational = no cause.",
 "ch": [
@@ -8833,7 +8890,8 @@
 "steps": [
 "Cause needs an experiment.",
 "Random assignment makes the groups alike except for the treatment.",
-"A comparison group is required."
+"A comparison group is required.",
+"Answer: B) Randomly assign workers to a 4-day work week or to no change, then compare the groups."
 ],
 "trap": "People choosing their own group = observational = no cause.",
 "ch": [
@@ -8863,7 +8921,8 @@
 "steps": [
 "Cause needs an experiment.",
 "Random assignment makes the groups alike except for the treatment.",
-"A comparison group is required."
+"A comparison group is required.",
+"Answer: C) Randomly assign runners to a new running shoe or to no change, then compare the groups."
 ],
 "trap": "People choosing their own group = observational = no cause.",
 "ch": [
@@ -8893,7 +8952,8 @@
 "steps": [
 "Cause needs an experiment.",
 "Random assignment makes the groups alike except for the treatment.",
-"A comparison group is required."
+"A comparison group is required.",
+"Answer: D) Randomly assign patients to a daily stretching program or to no change, then compare the groups."
 ],
 "trap": "People choosing their own group = observational = no cause.",
 "ch": [
@@ -8923,7 +8983,8 @@
 "steps": [
 "Cause needs an experiment.",
 "Random assignment makes the groups alike except for the treatment.",
-"A comparison group is required."
+"A comparison group is required.",
+"Answer: A) Randomly assign teens to putting phones away at night or to no change, then compare the groups."
 ],
 "trap": "People choosing their own group = observational = no cause.",
 "ch": [
@@ -8953,7 +9014,8 @@
 "steps": [
 "Cause needs an experiment.",
 "Random assignment makes the groups alike except for the treatment.",
-"A comparison group is required."
+"A comparison group is required.",
+"Answer: A) Randomly assign shoppers to a new store layout or to no change, then compare the groups."
 ],
 "trap": "People choosing their own group = observational = no cause.",
 "ch": [
@@ -8983,7 +9045,8 @@
 "steps": [
 "Cause needs an experiment.",
 "Random assignment makes the groups alike except for the treatment.",
-"A comparison group is required."
+"A comparison group is required.",
+"Answer: D) Randomly assign drivers to a dashboard safety alert or to no change, then compare the groups."
 ],
 "trap": "People choosing their own group = observational = no cause.",
 "ch": [
@@ -9013,7 +9076,8 @@
 "steps": [
 "Cause needs an experiment.",
 "Random assignment makes the groups alike except for the treatment.",
-"A comparison group is required."
+"A comparison group is required.",
+"Answer: B) Randomly assign employees to standing desks or to no change, then compare the groups."
 ],
 "trap": "People choosing their own group = observational = no cause.",
 "ch": [
@@ -9043,7 +9107,8 @@
 "steps": [
 "Cause needs an experiment.",
 "Random assignment makes the groups alike except for the treatment.",
-"A comparison group is required."
+"A comparison group is required.",
+"Answer: C) Randomly assign swimmers to a new warm-up routine or to no change, then compare the groups."
 ],
 "trap": "People choosing their own group = observational = no cause.",
 "ch": [
@@ -10645,13 +10710,14 @@
 "skill": "trig",
 "diff": "M",
 "q": "In right triangle ABC, angle C is the right angle and sin(A) = 7/25. What is cos(B)?",
-"tool": "Rule: sin(A) = cos(B) when A + B = 90°. By hand is fastest.",
+"tool": "Rule: when A + B = 90°, sin(A) = cos(B). The picture shows why: it is the same side.",
 "steps": [
-"Angles A and B add to 90° (the right angle is C): they are complementary",
-"sin of one acute angle = cos of the other",
-"cos(B) = sin(A) = 7/25"
+"Draw it: right angle at C. The hypotenuse AB = 25 is across from the right angle.",
+"sin(A) = opposite A ÷ hypotenuse. The side across from A is BC, so BC = 7.",
+"cos(B) = adjacent to B ÷ hypotenuse. Stand at B: the leg touching B is BC (the same side!).",
+"So cos(B) = BC ÷ AB = 7/25. Same two sides, same fraction."
 ],
-"trap": "Do not find any angle. In a right triangle, sin(A) = cos(B) because A and B add to 90°.",
+"trap": "24/25 is cos(A) (the third side, 24, comes from 25² − 7²). They asked for cos(B).",
 "ch": [
 "18/25",
 "25/7",
@@ -10675,13 +10741,14 @@
 "skill": "trig",
 "diff": "M",
 "q": "In right triangle ABC, angle C is the right angle and sin(A) = 7/25. What is cos(B)?",
-"tool": "Rule: sin(A) = cos(B) when A + B = 90°. By hand is fastest.",
+"tool": "Rule: when A + B = 90°, sin(A) = cos(B). The picture shows why: it is the same side.",
 "steps": [
-"Angles A and B add to 90° (the right angle is C): they are complementary",
-"sin of one acute angle = cos of the other",
-"cos(B) = sin(A) = 7/25"
+"Draw it: right angle at C. The hypotenuse AB = 25 is across from the right angle.",
+"sin(A) = opposite A ÷ hypotenuse. The side across from A is BC, so BC = 7.",
+"cos(B) = adjacent to B ÷ hypotenuse. Stand at B: the leg touching B is BC (the same side!).",
+"So cos(B) = BC ÷ AB = 7/25. Same two sides, same fraction."
 ],
-"trap": "Do not find any angle. In a right triangle, sin(A) = cos(B) because A and B add to 90°.",
+"trap": "24/25 is cos(A) (the third side, 24, comes from 25² − 7²). They asked for cos(B).",
 "ch": [
 "18/25",
 "25/7",
@@ -10695,7 +10762,7 @@
 "cos(A)",
 "sin(B)"
 ],
-"ok": 1
+"ok": 0
 },
 "diff_old": "H",
 "src": "helm"
@@ -10705,13 +10772,14 @@
 "skill": "trig",
 "diff": "M",
 "q": "In right triangle ABC, angle C is the right angle and sin(A) = 5/13. What is cos(B)?",
-"tool": "Rule: sin(A) = cos(B) when A + B = 90°. By hand is fastest.",
+"tool": "Rule: when A + B = 90°, sin(A) = cos(B). The picture shows why: it is the same side.",
 "steps": [
-"Angles A and B add to 90° (the right angle is C): they are complementary",
-"sin of one acute angle = cos of the other",
-"cos(B) = sin(A) = 5/13"
+"Draw it: right angle at C. The hypotenuse AB = 13 is across from the right angle.",
+"sin(A) = opposite A ÷ hypotenuse. The side across from A is BC, so BC = 5.",
+"cos(B) = adjacent to B ÷ hypotenuse. Stand at B: the leg touching B is BC (the same side!).",
+"So cos(B) = BC ÷ AB = 5/13. Same two sides, same fraction."
 ],
-"trap": "Do not find any angle. In a right triangle, sin(A) = cos(B) because A and B add to 90°.",
+"trap": "12/13 is cos(A) (the third side, 12, comes from 13² − 5²). They asked for cos(B).",
 "ch": [
 "8/13",
 "13/5",
@@ -10725,7 +10793,7 @@
 "cos(A)",
 "sin(B)"
 ],
-"ok": 2
+"ok": 0
 },
 "diff_old": "H",
 "src": "helm"
@@ -11407,7 +11475,8 @@
 "What changes in the choices?: Only the punctuation, so this is a punctuation rule.",
 "Is the part before the blank a full sentence?: Yes: 'The storm knocked out power across the city.'",
 "Is the part after it a full sentence?: Yes: 'Utility crews worked through the night.'",
-"Two full sentences need a period, a semicolon, or comma + FANBOYS: the semicolon works"
+"Two full sentences need a period, a semicolon, or comma + FANBOYS: the semicolon works",
+"Answer: B) city; utility"
 ],
 "trap": "A comma alone between two full sentences is a comma splice.",
 "ch": [
@@ -11437,7 +11506,8 @@
 "What changes in the choices?: The punctuation between 'underwater' and 'In'.",
 "Before the blank a full sentence?: Yes: 'Earle has spent more than 7,000 hours underwater.'",
 "After it a full sentence?: Yes: 'In her career, she has led over 100 expeditions.'",
-"Two full sentences: a period works"
+"Two full sentences: a period works",
+"Answer: D) hours underwater. In"
 ],
 "trap": "Two full sentences cannot be joined with only a comma.",
 "ch": [
@@ -11466,7 +11536,8 @@
 "steps": [
 "What comes after the blank?: A list of the three artifacts.",
 "Is the part before the blank a full sentence?: Yes: 'The exhibit features three artifacts.'",
-"Full sentence + list: a colon (the drumroll) introduces it"
+"Full sentence + list: a colon (the drumroll) introduces it",
+"Answer: C) artifacts:"
 ],
 "trap": "A semicolon needs a full sentence on BOTH sides; the list is not a sentence.",
 "ch": [
@@ -11526,7 +11597,8 @@
 "Is 'Many desert plants store water in thick stems' a full sentence?: Yes.",
 "Is 'the saguaro cactus can hold hundreds of gallons' a full sentence?: Yes.",
 "Two full sentences need a semicolon (or period) before the transition: 'stems;'",
-"'For example' starts the second sentence, so a comma follows it: 'for example,'"
+"'For example' starts the second sentence, so a comma follows it: 'for example,'",
+"Answer: C) stems; for example,"
 ],
 "trap": "'For example' is not FANBOYS, so a comma alone cannot join the sentences.",
 "ch": [
@@ -11615,7 +11687,8 @@
 "steps": [
 "Is the first part a full sentence?: Yes: 'Fleming noticed that mold had killed the bacteria in one of his dishes.'",
 "Is 'this discovery led to penicillin' a full sentence?: Yes.",
-"Two full sentences: a period"
+"Two full sentences: a period",
+"Answer: A) dishes. This"
 ],
 "trap": "'dishes, and this,' adds a comma after 'this' that splits the subject from its verb.",
 "ch": [
@@ -11645,7 +11718,8 @@
 "steps": [
 "Find the extra information: 'who began playing at age four and gave her first concert at nine'.",
 "How does it open?: With a dash.",
-"Close it with the same mark: a dash"
+"Close it with the same mark: a dash",
+"Answer: C) nine—"
 ],
 "trap": "Don't mix a dash with a comma. Pairs must match.",
 "ch": [
@@ -11675,7 +11749,8 @@
 "steps": [
 "Is 'the footage revealed something surprising' a full sentence?: Yes.",
 "What comes after it?: An explanation of the surprising thing.",
-"Full sentence + explanation: a colon (the drumroll)"
+"Full sentence + explanation: a colon (the drumroll)",
+"Answer: D) surprising:"
 ],
 "trap": "A semicolon is already used earlier in the sentence; a colon introduces the explanation.",
 "ch": [
@@ -11792,7 +11867,8 @@
 "steps": [
 "Who is doing the walking?: The botanist.",
 "The doer goes right after the comma.",
-"Pick the choice that starts with 'the botanist'"
+"Pick the choice that starts with 'the botanist'",
+"Answer: C) the botanist noticed a fern that had not been seen in the region for decades."
 ],
 "trap": "A fern cannot walk through a greenhouse (dangling modifier).",
 "ch": [
@@ -12298,7 +12374,8 @@
 "steps": [
 "Read the goal only: emphasize a DIFFERENCE.",
 "Which choice compares the two?: Only the height choice.",
-"Check it against the notes: 29,032 − 28,251 ≈ 800 ✓"
+"Check it against the notes: 29,032 − 28,251 ≈ 800 ✓",
+"Answer: B) At 29,032 feet, Mount Everest is about 800 feet taller than K2."
 ],
 "trap": "A true fact that does not show a difference does not meet the goal.",
 "ch": [
@@ -12327,7 +12404,8 @@
 "steps": [
 "Goal: the PURPOSE (why it was built).",
 "Which choice gives a reason?: 'to protect against invasions'.",
-"Pick it"
+"Pick it",
+"Answer: A) The Great Wall of China was built to protect against invasions."
 ],
 "trap": "Length and age are true but are not the purpose.",
 "ch": [
@@ -12356,7 +12434,8 @@
 "steps": [
 "Goal: introduce the NOVEL to someone who does not know it.",
 "They need: title, author, and what it is.",
-"Only one choice gives all three"
+"Only one choice gives all three",
+"Answer: D) Their Eyes Were Watching God , a 1937 novel set in Florida by American author Zora Neale Hurston, is a classic of the Harlem Renaissance."
 ],
 "trap": "A new audience needs the title AND who wrote it.",
 "ch": [
@@ -12416,7 +12495,8 @@
 "steps": [
 "Goal: the FINDING (what the study discovered).",
 "Finding = bikers had lower stress than drivers.",
-"Pick the choice that states that result"
+"Pick the choice that states that result",
+"Answer: B) A 2021 study of 500 commuters found that those who biked to work reported lower stress than those who drove."
 ],
 "trap": "Describing the study without its result misses the goal.",
 "ch": [
@@ -12446,7 +12526,8 @@
 "steps": [
 "Goal: a GENERALIZATION (a big statement about the whole topic).",
 "Which choice sums up the notes?: 'highly recyclable' + support.",
-"Pick it"
+"Pick it",
+"Answer: D) Aluminum is highly recyclable: it can be reused endlessly, and most of it ever made is still in use."
 ],
 "trap": "One single fact is not a generalization.",
 "ch": [
@@ -12476,7 +12557,8 @@
 "steps": [
 "Goal: WHY the samples matter.",
 "Which note gives the reason?: signs of ancient life.",
-"Pick the choice using that note"
+"Pick the choice using that note",
+"Answer: C) Scientists hope the rock samples collected by Perseverance will show signs of ancient life on Mars."
 ],
 "trap": "Dates and descriptions do not explain why it matters.",
 "ch": [
@@ -12506,7 +12588,8 @@
 "steps": [
 "Goal: a SPECIFIC EXAMPLE.",
 "Which choice names a specific investment?: cryptocurrency.",
-"Pick it"
+"Pick it",
+"Answer: A) Cryptocurrency, whose price can change by 20% in a single day, is one example of a high-risk investment."
 ],
 "trap": "The general rule about risk is not an example.",
 "ch": [
@@ -12536,7 +12619,8 @@
 "steps": [
 "Goal: her METHOD (how she made her art).",
 "Which note describes how?: painting + fabric + stories.",
-"Pick that choice"
+"Pick that choice",
+"Answer: B) Faith Ringgold made story quilts that combine painting, fabric, and written stories."
 ],
 "trap": "A famous work is not a method.",
 "ch": [
@@ -12566,7 +12650,8 @@
 "steps": [
 "Goal: CONTRAST the results.",
 "Results: 2°F vs. 5°F.",
-"Pick the choice that puts them side by side with a contrast word ('While')"
+"Pick the choice that puts them side by side with a contrast word ('While')",
+"Answer: C) While Study A found that green spaces lowered city temperatures by 2°F, Study B found a drop of 5°F."
 ],
 "trap": "What the studies share is a similarity, not a contrast.",
 "ch": [
@@ -12896,7 +12981,8 @@
 "steps": [
 "What does the first sentence do?: States a belief ('bats are blind').",
 "What does the rest do?: Shows it is wrong ('In fact...').",
-"Structure: belief → correction"
+"Structure: belief → correction",
+"Answer: B) It states a common belief and then corrects it with evidence."
 ],
 "trap": "'In fact' signals a correction.",
 "ch": [
@@ -12925,7 +13011,8 @@
 "steps": [
 "Look for signal words: First, Next, Finally.",
 "Those show order in time.",
-"Structure: steps in order"
+"Structure: steps in order",
+"Answer: A) It lists the steps of a project in time order."
 ],
 "trap": "Don't add an argument the text never makes.",
 "ch": [
@@ -12954,7 +13041,8 @@
 "steps": [
 "What does the author describe?: An empty house with a candle that appears every night.",
 "What feeling does that create?: Something strange is going on.",
-"Purpose: build mystery"
+"Purpose: build mystery",
+"Answer: D) To create a sense of mystery about the house"
 ],
 "trap": "The text never says who owns it; don't add information.",
 "ch": [
@@ -12984,7 +13072,8 @@
 "steps": [
 "Sentence 1: one explanation (war).",
 "Sentence 2 starts with 'However' and gives drought evidence.",
-"Function: a different explanation"
+"Function: a different explanation",
+"Answer: C) It presents evidence that supports a different explanation."
 ],
 "trap": "'However' means the second sentence pushes against the first.",
 "ch": [
@@ -13014,7 +13103,8 @@
 "steps": [
 "Signal words: 'for example'.",
 "The wave roof is one case of her flowing style.",
-"Function: an example"
+"Function: an example",
+"Answer: B) It gives an example of the style described in the first sentence."
 ],
 "trap": "Signal words tell you the function.",
 "ch": [
@@ -13044,7 +13134,8 @@
 "steps": [
 "Part 1: a story about one family.",
 "Part 2: proposed law changes for families like them.",
-"Purpose: the story supports the proposals"
+"Purpose: the story supports the proposals",
+"Answer: D) To show how the senator uses a personal story to support policy changes"
 ],
 "trap": "Pick the purpose of the WHOLE text, not one part.",
 "ch": [
@@ -13074,7 +13165,8 @@
 "steps": [
 "Part 1: what they expected.",
 "Part 2: results matched only for sandy soil (partly).",
-"Part 3: more tests planned"
+"Part 3: more tests planned",
+"Answer: C) It states an expectation, presents results that only partly support it, and notes a next step."
 ],
 "trap": "'Proves it completely' is too extreme.",
 "ch": [
@@ -13104,7 +13196,8 @@
 "steps": [
 "She waited months for news: she wanted it.",
 "Now she cannot open it: she is afraid or unsure.",
-"Purpose: mixed feelings"
+"Purpose: mixed feelings",
+"Answer: A) To show Jane's mixed feelings about receiving the letter"
 ],
 "trap": "She clearly cares, so 'does not care' is wrong.",
 "ch": [
@@ -13134,7 +13227,8 @@
 "steps": [
 "Sentence 1: the usual measure.",
 "Sentence 2: 'leaves out important things'.",
-"Function: criticism"
+"Function: criticism",
+"Answer: B) It introduces a criticism of the measure described in the first sentence."
 ],
 "trap": "'Leaves out' signals a weakness.",
 "ch": [
@@ -13164,7 +13258,8 @@
 "steps": [
 "Sentence 1: her topic (everyday life).",
 "Sentence 2: examples.",
-"Sentence 3: what the scenes show (dignity). Purpose: explain that"
+"Sentence 3: what the scenes show (dignity). Purpose: explain that",
+"Answer: C) To explain how Brooks used everyday scenes to show the dignity of ordinary people"
 ],
 "trap": "'Only about children' is too narrow.",
 "ch": [
@@ -13194,7 +13289,8 @@
 "steps": [
 "Text 1 in one sentence: homework every night.",
 "Text 2 in one sentence: a few short assignments a week.",
-"Response: disagree with every night, but still some homework"
+"Response: disagree with every night, but still some homework",
+"Answer: B) By arguing that daily homework is too much"
 ],
 "trap": "'Banned completely' is too extreme.",
 "ch": [
@@ -13223,7 +13319,8 @@
 "steps": [
 "Text 1: bike lanes → safer.",
 "Text 2: 'good idea, but' also lower speed limits.",
-"Response: agree + add a condition"
+"Response: agree + add a condition",
+"Answer: D) By agreeing but saying bike lanes alone are not enough"
 ],
 "trap": "'Good idea, but...' = agree with a condition.",
 "ch": [
@@ -13252,7 +13349,8 @@
 "steps": [
 "Text 1: cold-blooded.",
 "Text 2: fast growth suggests warm-blooded.",
-"Response: disagree using bone evidence"
+"Response: disagree using bone evidence",
+"Answer: C) By citing evidence that many dinosaurs were warm-blooded"
 ],
 "trap": "Use only what Text 2 actually says.",
 "ch": [
@@ -13282,7 +13380,8 @@
 "steps": [
 "Text 1: benefits.",
 "Text 2: heavy use → anxiety.",
-"Response: warn about heavy use"
+"Response: warn about heavy use",
+"Answer: A) By noting that heavy use may have negative effects"
 ],
 "trap": "Text 2 does not say ALL use is harmful.",
 "ch": [
@@ -13312,7 +13411,8 @@
 "steps": [
 "Text 1: all plays alone.",
 "Text 2: worked with others on SEVERAL.",
-"So Text 1 is wrong for those plays"
+"So Text 1 is wrong for those plays",
+"Answer: C) As incorrect for at least some of the plays"
 ],
 "trap": "'Did not exist' is wildly beyond Text 2.",
 "ch": [
@@ -13342,7 +13442,8 @@
 "steps": [
 "Text 1: zoos protect animals.",
 "Text 2: 'Zoos help some species, but...'",
-"Shared ground: zoos help some species"
+"Shared ground: zoos help some species",
+"Answer: B) zoos can help some endangered species."
 ],
 "trap": "Find what BOTH would accept.",
 "ch": [
@@ -13372,7 +13473,8 @@
 "steps": [
 "Text 1: hopeful because she returns.",
 "Text 2: she returns BUT feels like a stranger → loss.",
-"Response: less hopeful than it seems"
+"Response: less hopeful than it seems",
+"Answer: D) By arguing that the return home is less hopeful than it seems"
 ],
 "trap": "Text 2 admits she returns, so 'never returns' is wrong.",
 "ch": [
@@ -13402,7 +13504,8 @@
 "steps": [
 "Text 1: fewer workers hired.",
 "Text 2: employment stayed about the same; some hours cut.",
-"Response: mostly not, with some effects"
+"Response: mostly not, with some effects",
+"Answer: A) By suggesting the predicted job losses did not clearly happen, though there were some effects"
 ],
 "trap": "'Not affected at all' ignores the reduced hours.",
 "ch": [
@@ -13432,7 +13535,8 @@
 "steps": [
 "Text 1: online loses discussion → worse.",
 "Text 2: online WITH live discussion → similar results.",
-"Response: they can match, if they include discussion"
+"Response: they can match, if they include discussion",
+"Answer: C) By arguing that online classes with live discussion can match in-person teaching"
 ],
 "trap": "Text 2 never says discussion does not matter; it keeps it.",
 "ch": [
@@ -13462,7 +13566,8 @@
 "steps": [
 "Text 1: dark colors = grief over the brother.",
 "Text 2: she used dark colors before he died.",
-"Response: the link is doubtful"
+"Response: the link is doubtful",
+"Answer: D) By questioning whether the dark colors are really linked to the brother's death"
 ],
 "trap": "Text 2 weakens the cause, it does not deny the colors.",
 "ch": [
@@ -13492,7 +13597,8 @@
 "steps": [
 "What is the text mostly about?: Otters using rocks as tools.",
 "Why does it matter?: Few mammals do this.",
-"Main idea covers both"
+"Main idea covers both",
+"Answer: B) Sea otters are unusual among mammals because they use tools to eat."
 ],
 "trap": "'Float on their backs' is only a detail.",
 "ch": [
@@ -13521,7 +13627,8 @@
 "steps": [
 "First sentence: libraries offer more than books.",
 "The rest: examples.",
-"Main idea = the first sentence's point"
+"Main idea = the first sentence's point",
+"Answer: A) Modern libraries offer many services beyond lending books."
 ],
 "trap": "One example is too narrow.",
 "ch": [
@@ -13550,7 +13657,8 @@
 "steps": [
 "What changed?: green → desert.",
 "Why?: Shifts in rainfall from Earth's orbit.",
-"Main idea: both parts"
+"Main idea: both parts",
+"Answer: D) The Sahara was once green but became a desert because of changes in rainfall."
 ],
 "trap": "The text corrects the 'always a desert' belief.",
 "ch": [
@@ -13580,7 +13688,8 @@
 "steps": [
 "Clues: saved for a year, waving to everyone, grinning until his cheeks ached.",
 "Those show happiness and pride.",
-"Pick: proud and joyful"
+"Pick: proud and joyful",
+"Answer: C) He is proud and joyful about his bicycle."
 ],
 "trap": "Answer from the clues, not from a guess.",
 "ch": [
@@ -13610,7 +13719,8 @@
 "steps": [
 "Who was faster?: Crows that watched first.",
 "What does that show?: They learned by watching.",
-"Check: 'All birds' is too broad"
+"Check: 'All birds' is too broad",
+"Answer: B) Crows can learn by watching other crows."
 ],
 "trap": "Stay with crows; the text says nothing about all birds.",
 "ch": [
@@ -13640,7 +13750,8 @@
 "steps": [
 "Find the 'how' in the text: 'dams and channels to collect rainwater, allowing...'",
 "That is the reason they could live there.",
-"Pick that choice"
+"Pick that choice",
+"Answer: D) They built systems to collect rainwater."
 ],
 "trap": "The cliffs are true but don't answer HOW they survived.",
 "ch": [
@@ -13670,7 +13781,8 @@
 "steps": [
 "Belief: shared resources are overused.",
 "Ostrom's finding: communities often manage them well.",
-"Main idea: her finding challenges the belief"
+"Main idea: her finding challenges the belief",
+"Answer: C) Ostrom showed that communities can manage shared resources well, challenging a common belief."
 ],
 "trap": "The belief she disproved is a trap.",
 "ch": [
@@ -13700,7 +13812,8 @@
 "steps": [
 "Clues: half-washed dishes, bread left out, chair pushed back in a hurry.",
 "Last line: 'would not return'.",
-"Main idea: a sudden departure"
+"Main idea: a sudden departure",
+"Answer: A) The kitchen suggests that someone left suddenly."
 ],
 "trap": "'About to come home' contradicts 'would not return'.",
 "ch": [
@@ -13730,7 +13843,8 @@
 "steps": [
 "What changes?: Song pitch in cities.",
 "Possible reason: be heard over traffic.",
-"Note the hedge 'may help': keep 'possibly'"
+"Note the hedge 'may help': keep 'possibly'",
+"Answer: B) Some birds change their songs in cities, possibly to be heard over traffic."
 ],
 "trap": "'Cannot sing high notes' is not supported.",
 "ch": [
@@ -13760,7 +13874,8 @@
 "steps": [
 "Who trusted whom?: Glenn trusted Johnson's math.",
 "Over what?: The new computers.",
-"Main idea: her math was trusted that much"
+"Main idea: her math was trusted that much",
+"Answer: C) Johnson's math was so trusted that an astronaut relied on her to check the computer."
 ],
 "trap": "'Never used' is too extreme; computers were used.",
 "ch": [
@@ -13790,7 +13905,8 @@
 "steps": [
 "Claim: attendance IMPROVED.",
 "Need: before vs. after.",
-"Pick: 88% → 94%"
+"Pick: 88% → 94%",
+"Answer: B) Average attendance rose from 88% to 94% after the new schedule began."
 ],
 "trap": "One number alone cannot show an improvement.",
 "ch": [
@@ -13819,7 +13935,8 @@
 "steps": [
 "Claim: ladybugs HELP gardens.",
 "Which choice shows a benefit to plants?: eating harmful aphids.",
-"Pick it"
+"Pick it",
+"Answer: A) Ladybugs eat aphids, insects that damage garden plants."
 ],
 "trap": "True but doesn't answer: color and flying don't help gardens.",
 "ch": [
@@ -13848,7 +13965,8 @@
 "steps": [
 "Claim: GENEROUS.",
 "Which quote shows giving to others?: giving her only coat.",
-"Pick it"
+"Pick it",
+"Answer: D) \"She gave her only coat to the shivering stranger and walked home in the snow.\""
 ],
 "trap": "Quotes about the setting don't show a trait.",
 "ch": [
@@ -13878,7 +13996,8 @@
 "steps": [
 "Claim: taller → more seeds.",
 "Need a comparison of tall vs. short.",
-"Pick the choice with both heights and seed counts"
+"Pick the choice with both heights and seed counts",
+"Answer: C) The 200 cm sunflower produced 1,450 seeds, while the 120 cm sunflower produced 800."
 ],
 "trap": "A single row cannot show a pattern.",
 "ch": [
@@ -13908,7 +14027,8 @@
 "steps": [
 "Claim: grew quickly AFTER 1870.",
 "Which years are after?: 1870 → 1880.",
-"Pick that change"
+"Pick that change",
+"Answer: B) The population rose from 1,000 in 1870 to 4,200 in 1880."
 ],
 "trap": "1860 → 1870 is BEFORE the railroad.",
 "ch": [
@@ -13938,7 +14058,8 @@
 "steps": [
 "Claim: nature is CALMING.",
 "Which quote shows nature calming the speaker?: troubled thoughts grow still beneath the pines.",
-"Pick it"
+"Pick it",
+"Answer: D) \"Beneath the quiet pines my troubled thoughts grow still.\""
 ],
 "trap": "Thunder is nature, but not calming.",
 "ch": [
@@ -13968,7 +14089,8 @@
 "steps": [
 "Claim compares two groups.",
 "Need both numbers.",
-"Pick the comparison: 84 vs. 76"
+"Pick the comparison: 84 vs. 76",
+"Answer: C) Students who ate breakfast averaged 84, compared with 76 for those who skipped it."
 ],
 "trap": "One group's score alone doesn't support a comparison.",
 "ch": [
@@ -13998,7 +14120,8 @@
 "steps": [
 "Claim: works BETTER in warm than in cool.",
 "Compare the fertilizer's effect in each: warm 30 − 10 = 20; cool 12 − 8 = 4.",
-"Pick the choice that compares both"
+"Pick the choice that compares both",
+"Answer: A) The fertilizer added 20 percentage points of growth in warm weather but only 4 in cool weather."
 ],
 "trap": "Check every part of the answer against the table.",
 "ch": [
@@ -14028,7 +14151,8 @@
 "steps": [
 "Claim: frogs AVOID fish ponds.",
 "Weaken = show frogs DO use fish ponds.",
-"Pick: eggs found in ponds with fish"
+"Pick: eggs found in ponds with fish",
+"Answer: B) Researchers found frog eggs in nearly every pond that contained fish."
 ],
 "trap": "Read the question word: weaken, not support.",
 "ch": [
@@ -14058,7 +14182,8 @@
 "steps": [
 "Claim: selfish → kind (a CHANGE).",
 "Need: selfish early AND kind late.",
-"Pick the pair that shows both"
+"Pick the pair that shows both",
+"Answer: C) Early: \"He kept the bread for himself.\" Late: \"He handed his last loaf to the hungry child.\""
 ],
 "trap": "Kind both times shows no change.",
 "ch": [
@@ -14088,7 +14213,8 @@
 "steps": [
 "What was different?: Light vs. dark.",
 "What happened?: Light = healthy; dark = weak.",
-"Logical finish: they need light"
+"Logical finish: they need light",
+"Answer: B) This suggests that the plants need light to stay healthy."
 ],
 "trap": "Pick what MUST be true, not what could be.",
 "ch": [
@@ -14117,7 +14243,8 @@
 "steps": [
 "Clue: sold out early, even after doubling.",
 "That means lots of people want it.",
-"Logical finish: high demand"
+"Logical finish: high demand",
+"Answer: A) The bakery's bread is in high demand."
 ],
 "trap": "The opposite meaning is a planted trap.",
 "ch": [
@@ -14146,7 +14273,8 @@
 "steps": [
 "Compare: A = 40% rust, B = 5% rust.",
 "Less rust = better protection.",
-"Finish: B protects better"
+"Finish: B protects better",
+"Answer: D) These results suggest that Paint B protects against rust better than Paint A."
 ],
 "trap": "Cost is never mentioned.",
 "ch": [
@@ -14176,7 +14304,8 @@
 "steps": [
 "Change: exhibit moved out of the main hall.",
 "Effect: main hall visitors dropped.",
-"Logical link: people came for the exhibit"
+"Logical link: people came for the exhibit",
+"Answer: C) Many visitors likely came to the main hall to see the dinosaur exhibit."
 ],
 "trap": "Don't invent future events.",
 "ch": [
@@ -14206,7 +14335,8 @@
 "steps": [
 "Compare: 90% vs. 88%: almost the same.",
 "So stretching didn't change much.",
-"Finish: little difference"
+"Finish: little difference",
+"Answer: B) Stretching may make little difference in preventing injuries for these runners."
 ],
 "trap": "'Prevents almost all' ignores the 88% group.",
 "ch": [
@@ -14236,7 +14366,8 @@
 "steps": [
 "Clues: fish bones, hooks, a lake next door, ocean far away.",
 "Most likely source of fish?: the lake.",
-"Finish: they fished in the lake"
+"Finish: they fished in the lake",
+"Answer: D) The villagers likely caught fish in the nearby lake."
 ],
 "trap": "Daily 200-mile trips are not supported.",
 "ch": [
@@ -14266,7 +14397,8 @@
 "steps": [
 "What caused the belief?: blurry early lenses.",
 "What fixed it?: sharper images.",
-"Finish: the belief came from limited technology"
+"Finish: the belief came from limited technology",
+"Answer: C) The belief in Martian canals was likely based on the limits of early technology."
 ],
 "trap": "The text corrects the canal idea; don't bring it back.",
 "ch": [
@@ -14296,7 +14428,8 @@
 "steps": [
 "First finding: flexible → 15% more tasks.",
 "After the change: tasks rose for everyone.",
-"Finish: flexible hours may have helped (careful wording)"
+"Finish: flexible hours may have helped (careful wording)",
+"Answer: A) Flexible hours may have helped workers get more done."
 ],
 "trap": "'Do no work' is too extreme.",
 "ch": [
@@ -14326,7 +14459,8 @@
 "steps": [
 "Clues: read it twice, kept it safe, hummed all day.",
 "Those show happiness.",
-"Finish: good news"
+"Finish: good news",
+"Answer: B) The letter likely contained news that made Clara happy."
 ],
 "trap": "She read it twice, so 'did not read' is wrong.",
 "ch": [
@@ -14356,7 +14490,8 @@
 "steps": [
 "Change: moths became darker as bark became darker.",
 "Why would that help?: camouflage from predators.",
-"Finish: darker moths were harder to see (hedged)"
+"Finish: darker moths were harder to see (hedged)",
+"Answer: C) Darker moths may have been harder for predators to see on the darkened bark."
 ],
 "trap": "Contradicts the text: light moths became LESS common.",
 "ch": [
@@ -16247,7 +16382,8 @@
 "steps": [
 "Set x = 0 (the start).",
 "y = 477 − 9(0) = 477",
-"So 477 is the starting amount."
+"So 477 is the starting amount.",
+"Answer: C) The number of pounds of birdseed left in a feeder at the start"
 ],
 "trap": "9 is the rate. The lone number is the start.",
 "find": {
@@ -16579,7 +16715,8 @@
 "steps": [
 "Set x = 0 (the start).",
 "y = 87 − 3(0) = 87",
-"So 87 is the starting amount."
+"So 87 is the starting amount.",
+"Answer: C) The number of seats still open on a flight at the start"
 ],
 "trap": "3 is the rate. The lone number is the start.",
 "find": {
@@ -16700,7 +16837,8 @@
 "steps": [
 "Set x = 0 (the start).",
 "y = 306 − 6(0) = 306",
-"So 306 is the starting amount."
+"So 306 is the starting amount.",
+"Answer: A) The number of dollars left on a gift card at the start"
 ],
 "trap": "6 is the rate. The lone number is the start.",
 "find": {
@@ -16821,7 +16959,8 @@
 "steps": [
 "Set x = 0 (the start).",
 "y = 285 − 15(0) = 285",
-"So 285 is the starting amount."
+"So 285 is the starting amount.",
+"Answer: C) The number of gallons of water left in a tank at the start"
 ],
 "trap": "15 is the rate. The lone number is the start.",
 "find": {
@@ -17063,7 +17202,8 @@
 "steps": [
 "Set x = 0 (the start).",
 "y = 840 − 14(0) = 840",
-"So 840 is the starting amount."
+"So 840 is the starting amount.",
+"Answer: B) The number of pages left to read at the start"
 ],
 "trap": "14 is the rate. The lone number is the start.",
 "find": {
@@ -17274,7 +17414,8 @@
 "steps": [
 "Set x = 0 (the start).",
 "y = 470 − 10(0) = 470",
-"So 470 is the starting amount."
+"So 470 is the starting amount.",
+"Answer: B) The number of liters of fuel in a generator at the start"
 ],
 "trap": "10 is the rate. The lone number is the start.",
 "find": {
@@ -17395,7 +17536,8 @@
 "steps": [
 "Set x = 0 (the start).",
 "y = 30 − 2(0) = 30",
-"So 30 is the starting amount."
+"So 30 is the starting amount.",
+"Answer: C) The number of seats still open on a flight at the start"
 ],
 "trap": "2 is the rate. The lone number is the start.",
 "find": {
@@ -17516,7 +17658,8 @@
 "steps": [
 "Set x = 0 (the start).",
 "y = 648 − 12(0) = 648",
-"So 648 is the starting amount."
+"So 648 is the starting amount.",
+"Answer: C) The number of liters of fuel in a generator at the start"
 ],
 "trap": "12 is the rate. The lone number is the start.",
 "find": {
@@ -17907,7 +18050,8 @@
 "steps": [
 "Set x = 0 (the start).",
 "y = 450 − 10(0) = 450",
-"So 450 is the starting amount."
+"So 450 is the starting amount.",
+"Answer: D) The number of pounds of birdseed left in a feeder at the start"
 ],
 "trap": "10 is the rate. The lone number is the start.",
 "find": {
@@ -19872,7 +20016,8 @@
 "steps": [
 "Replace y in the second equation: x + (5x − 18) = 0",
 "6x = 18 → x = 3",
-"y = 5(3) − 18 = −3"
+"y = 5(3) − 18 = −3",
+"Answer: D) (3, −3)"
 ],
 "trap": "Order matters: (x, y). Swapped coordinates are a planted trap.",
 "find": {
@@ -19990,7 +20135,8 @@
 "steps": [
 "Replace y in the second equation: x + (5x + 16) = −2",
 "6x = −18 → x = −3",
-"y = 5(−3) + 16 = 1"
+"y = 5(−3) + 16 = 1",
+"Answer: D) (−3, 1)"
 ],
 "trap": "Order matters: (x, y). Swapped coordinates are a planted trap.",
 "find": {
@@ -20107,7 +20253,8 @@
 "steps": [
 "Replace y in the second equation: x + (2x + 5) = −4",
 "3x = −9 → x = −3",
-"y = 2(−3) + 5 = −1"
+"y = 2(−3) + 5 = −1",
+"Answer: C) (−3, −1)"
 ],
 "trap": "Order matters: (x, y). Swapped coordinates are a planted trap.",
 "find": {
@@ -20254,7 +20401,8 @@
 "steps": [
 "Replace y in the second equation: x + (3x + 19) = −1",
 "4x = −20 → x = −5",
-"y = 3(−5) + 19 = 4"
+"y = 3(−5) + 19 = 4",
+"Answer: C) (−5, 4)"
 ],
 "trap": "Order matters: (x, y). Swapped coordinates are a planted trap.",
 "find": {
@@ -20401,7 +20549,8 @@
 "steps": [
 "Replace y in the second equation: x + (3x + 11) = 3",
 "4x = −8 → x = −2",
-"y = 3(−2) + 11 = 5"
+"y = 3(−2) + 11 = 5",
+"Answer: C) (−2, 5)"
 ],
 "trap": "Order matters: (x, y). Swapped coordinates are a planted trap.",
 "find": {
@@ -20548,7 +20697,8 @@
 "steps": [
 "Replace y in the second equation: x + (3x + 2) = 6",
 "4x = 4 → x = 1",
-"y = 3(1) + 2 = 5"
+"y = 3(1) + 2 = 5",
+"Answer: C) (1, 5)"
 ],
 "trap": "Order matters: (x, y). Swapped coordinates are a planted trap.",
 "find": {
@@ -20695,7 +20845,8 @@
 "steps": [
 "Replace y in the second equation: x + (5x + 31) = −5",
 "6x = −36 → x = −6",
-"y = 5(−6) + 31 = 1"
+"y = 5(−6) + 31 = 1",
+"Answer: D) (−6, 1)"
 ],
 "trap": "Order matters: (x, y). Swapped coordinates are a planted trap.",
 "find": {
@@ -20783,7 +20934,8 @@
 "steps": [
 "Replace y in the second equation: x + (5x + 26) = −4",
 "6x = −30 → x = −5",
-"y = 5(−5) + 26 = 1"
+"y = 5(−5) + 26 = 1",
+"Answer: B) (−5, 1)"
 ],
 "trap": "Order matters: (x, y). Swapped coordinates are a planted trap.",
 "find": {
@@ -20930,7 +21082,8 @@
 "steps": [
 "Replace y in the second equation: x + (5x − 24) = 6",
 "6x = 30 → x = 5",
-"y = 5(5) − 24 = 1"
+"y = 5(5) − 24 = 1",
+"Answer: B) (5, 1)"
 ],
 "trap": "Order matters: (x, y). Swapped coordinates are a planted trap.",
 "find": {
@@ -21077,7 +21230,8 @@
 "steps": [
 "Replace y in the second equation: x + (5x + 7) = −5",
 "6x = −12 → x = −2",
-"y = 5(−2) + 7 = −3"
+"y = 5(−2) + 7 = −3",
+"Answer: D) (−2, −3)"
 ],
 "trap": "Order matters: (x, y). Swapped coordinates are a planted trap.",
 "find": {
@@ -21224,7 +21378,8 @@
 "steps": [
 "Replace y in the second equation: x + (3x + 14) = 6",
 "4x = −8 → x = −2",
-"y = 3(−2) + 14 = 8"
+"y = 3(−2) + 14 = 8",
+"Answer: C) (−2, 8)"
 ],
 "trap": "Order matters: (x, y). Swapped coordinates are a planted trap.",
 "find": {
@@ -21342,7 +21497,8 @@
 "steps": [
 "Replace y in the second equation: x + (4x + 2) = 2",
 "5x = 0 → x = 0",
-"y = 4(0) + 2 = 2"
+"y = 4(0) + 2 = 2",
+"Answer: C) (0, 2)"
 ],
 "trap": "Order matters: (x, y). Swapped coordinates are a planted trap.",
 "find": {
@@ -21489,7 +21645,8 @@
 "steps": [
 "Replace y in the second equation: x + (5x + 10) = 4",
 "6x = −6 → x = −1",
-"y = 5(−1) + 10 = 5"
+"y = 5(−1) + 10 = 5",
+"Answer: A) (−1, 5)"
 ],
 "trap": "Order matters: (x, y). Swapped coordinates are a planted trap.",
 "find": {
@@ -23403,7 +23560,8 @@
 "tool": "Rule: the root number goes on the BOTTOM of the fraction exponent.",
 "steps": [
 "The fifth root = power 1/5",
-"(x^8)^(1/5) = x^(8/5)"
+"(x^8)^(1/5) = x^(8/5)",
+"Answer: C) x^8/5"
 ],
 "trap": "Power on top, root on the bottom (\"power over root\").",
 "find": {
@@ -23702,7 +23860,8 @@
 "tool": "Rule: the root number goes on the BOTTOM of the fraction exponent.",
 "steps": [
 "The cube root = power 1/3",
-"(x^4)^(1/3) = x^(4/3)"
+"(x^4)^(1/3) = x^(4/3)",
+"Answer: D) x^4/3"
 ],
 "trap": "Power on top, root on the bottom (\"power over root\").",
 "find": {
@@ -23850,7 +24009,8 @@
 "tool": "Rule: the root number goes on the BOTTOM of the fraction exponent.",
 "steps": [
 "The fifth root = power 1/5",
-"(x^4)^(1/5) = x^(4/5)"
+"(x^4)^(1/5) = x^(4/5)",
+"Answer: D) x^4/5"
 ],
 "trap": "Power on top, root on the bottom (\"power over root\").",
 "find": {
@@ -24029,7 +24189,8 @@
 "tool": "Rule: the root number goes on the BOTTOM of the fraction exponent.",
 "steps": [
 "The fifth root = power 1/5",
-"(x^9)^(1/5) = x^(9/5)"
+"(x^9)^(1/5) = x^(9/5)",
+"Answer: B) x^9/5"
 ],
 "trap": "Power on top, root on the bottom (\"power over root\").",
 "find": {
@@ -24208,7 +24369,8 @@
 "tool": "Rule: the root number goes on the BOTTOM of the fraction exponent.",
 "steps": [
 "The fourth root = power 1/4",
-"(x^7)^(1/4) = x^(7/4)"
+"(x^7)^(1/4) = x^(7/4)",
+"Answer: C) x^7/4"
 ],
 "trap": "Power on top, root on the bottom (\"power over root\").",
 "find": {
@@ -24567,7 +24729,8 @@
 "tool": "Rule: the root number goes on the BOTTOM of the fraction exponent.",
 "steps": [
 "The fourth root = power 1/4",
-"(x^9)^(1/4) = x^(9/4)"
+"(x^9)^(1/4) = x^(9/4)",
+"Answer: D) x^9/4"
 ],
 "trap": "Power on top, root on the bottom (\"power over root\").",
 "find": {
@@ -24746,7 +24909,8 @@
 "tool": "Rule: the root number goes on the BOTTOM of the fraction exponent.",
 "steps": [
 "The cube root = power 1/3",
-"(x^5)^(1/3) = x^(5/3)"
+"(x^5)^(1/3) = x^(5/3)",
+"Answer: B) x^5/3"
 ],
 "trap": "Power on top, root on the bottom (\"power over root\").",
 "find": {
@@ -24985,7 +25149,8 @@
 "tool": "Rule: the root number goes on the BOTTOM of the fraction exponent.",
 "steps": [
 "The cube root = power 1/3",
-"(x^8)^(1/3) = x^(8/3)"
+"(x^8)^(1/3) = x^(8/3)",
+"Answer: B) x^8/3"
 ],
 "trap": "Power on top, root on the bottom (\"power over root\").",
 "find": {
@@ -25104,7 +25269,8 @@
 "steps": [
 "The parabola opens up and its lowest point (vertex) is at y = −8.",
 "The flat line is at y = −5.",
-"Above the vertex: 2 crossings."
+"Above the vertex: 2 crossings.",
+"Answer: A) exactly two"
 ],
 "trap": "A parabola can cross a flat line 0, 1 or 2 times, never infinitely many.",
 "find": {
@@ -25219,7 +25385,8 @@
 "steps": [
 "The parabola opens up and its lowest point (vertex) is at y = −8.",
 "The flat line is at y = −5.",
-"Above the vertex: 2 crossings."
+"Above the vertex: 2 crossings.",
+"Answer: C) exactly two"
 ],
 "trap": "A parabola can cross a flat line 0, 1 or 2 times, never infinitely many.",
 "find": {
@@ -25305,7 +25472,8 @@
 "steps": [
 "The parabola opens up and its lowest point (vertex) is at y = −1.",
 "The flat line is at y = −1.",
-"It touches the vertex: 1 crossing."
+"It touches the vertex: 1 crossing.",
+"Answer: B) exactly one"
 ],
 "trap": "A parabola can cross a flat line 0, 1 or 2 times, never infinitely many.",
 "find": {
@@ -25420,7 +25588,8 @@
 "steps": [
 "The parabola opens up and its lowest point (vertex) is at y = −8.",
 "The flat line is at y = −11.",
-"Below the vertex: 0 crossings."
+"Below the vertex: 0 crossings.",
+"Answer: C) zero"
 ],
 "trap": "A parabola can cross a flat line 0, 1 or 2 times, never infinitely many.",
 "find": {
@@ -25537,7 +25706,8 @@
 "steps": [
 "The parabola opens up and its lowest point (vertex) is at y = −1.",
 "The flat line is at y = −6.",
-"Below the vertex: 0 crossings."
+"Below the vertex: 0 crossings.",
+"Answer: B) zero"
 ],
 "trap": "A parabola can cross a flat line 0, 1 or 2 times, never infinitely many.",
 "find": {
@@ -25655,7 +25825,8 @@
 "steps": [
 "The parabola opens up and its lowest point (vertex) is at y = −1.",
 "The flat line is at y = −1.",
-"It touches the vertex: 1 crossing."
+"It touches the vertex: 1 crossing.",
+"Answer: C) exactly one"
 ],
 "trap": "A parabola can cross a flat line 0, 1 or 2 times, never infinitely many.",
 "find": {
@@ -25742,7 +25913,8 @@
 "steps": [
 "The parabola opens up and its lowest point (vertex) is at y = −5.",
 "The flat line is at y = −2.",
-"Above the vertex: 2 crossings."
+"Above the vertex: 2 crossings.",
+"Answer: A) exactly two"
 ],
 "trap": "A parabola can cross a flat line 0, 1 or 2 times, never infinitely many.",
 "find": {
@@ -25888,7 +26060,8 @@
 "steps": [
 "The parabola opens up and its lowest point (vertex) is at y = −3.",
 "The flat line is at y = 4.",
-"Above the vertex: 2 crossings."
+"Above the vertex: 2 crossings.",
+"Answer: D) exactly two"
 ],
 "trap": "A parabola can cross a flat line 0, 1 or 2 times, never infinitely many.",
 "find": {
@@ -25946,7 +26119,8 @@
 "steps": [
 "The parabola opens up and its lowest point (vertex) is at y = −6.",
 "The flat line is at y = −6.",
-"It touches the vertex: 1 crossing."
+"It touches the vertex: 1 crossing.",
+"Answer: D) exactly one"
 ],
 "trap": "A parabola can cross a flat line 0, 1 or 2 times, never infinitely many.",
 "find": {
@@ -26064,7 +26238,8 @@
 "steps": [
 "The parabola opens up and its lowest point (vertex) is at y = −4.",
 "The flat line is at y = −4.",
-"It touches the vertex: 1 crossing."
+"It touches the vertex: 1 crossing.",
+"Answer: D) exactly one"
 ],
 "trap": "A parabola can cross a flat line 0, 1 or 2 times, never infinitely many.",
 "find": {
@@ -26210,7 +26385,8 @@
 "steps": [
 "The parabola opens up and its lowest point (vertex) is at y = −4.",
 "The flat line is at y = −2.",
-"Above the vertex: 2 crossings."
+"Above the vertex: 2 crossings.",
+"Answer: D) exactly two"
 ],
 "trap": "A parabola can cross a flat line 0, 1 or 2 times, never infinitely many.",
 "find": {
@@ -26327,7 +26503,8 @@
 "steps": [
 "The parabola opens up and its lowest point (vertex) is at y = −1.",
 "The flat line is at y = 4.",
-"Above the vertex: 2 crossings."
+"Above the vertex: 2 crossings.",
+"Answer: A) exactly two"
 ],
 "trap": "A parabola can cross a flat line 0, 1 or 2 times, never infinitely many.",
 "find": {
@@ -26473,7 +26650,8 @@
 "steps": [
 "The parabola opens up and its lowest point (vertex) is at y = −8.",
 "The flat line is at y = −13.",
-"Below the vertex: 0 crossings."
+"Below the vertex: 0 crossings.",
+"Answer: C) zero"
 ],
 "trap": "A parabola can cross a flat line 0, 1 or 2 times, never infinitely many.",
 "find": {
@@ -26591,7 +26769,8 @@
 "steps": [
 "The parabola opens up and its lowest point (vertex) is at y = −3.",
 "The flat line is at y = 3.",
-"Above the vertex: 2 crossings."
+"Above the vertex: 2 crossings.",
+"Answer: C) exactly two"
 ],
 "trap": "A parabola can cross a flat line 0, 1 or 2 times, never infinitely many.",
 "find": {
@@ -26680,7 +26859,8 @@
 "steps": [
 "The parabola opens up and its lowest point (vertex) is at y = −8.",
 "The flat line is at y = −4.",
-"Above the vertex: 2 crossings."
+"Above the vertex: 2 crossings.",
+"Answer: C) exactly two"
 ],
 "trap": "A parabola can cross a flat line 0, 1 or 2 times, never infinitely many.",
 "find": {
@@ -26798,7 +26978,8 @@
 "steps": [
 "The parabola opens up and its lowest point (vertex) is at y = −9.",
 "The flat line is at y = −7.",
-"Above the vertex: 2 crossings."
+"Above the vertex: 2 crossings.",
+"Answer: B) exactly two"
 ],
 "trap": "A parabola can cross a flat line 0, 1 or 2 times, never infinitely many.",
 "find": {
@@ -32080,7 +32261,8 @@
 "118 is far above the rest: an outlier.",
 "Removing a big outlier pulls the MEAN down a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: D) The mean decreases, and the median decreases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "find": {
@@ -32171,7 +32353,8 @@
 "107 is far above the rest: an outlier.",
 "Removing a big outlier pulls the MEAN down a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: A) The mean decreases, and the median decreases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "find": {
@@ -32231,7 +32414,8 @@
 "95 is far above the rest: an outlier.",
 "Removing a big outlier pulls the MEAN down a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: A) The mean decreases, and the median decreases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "find": {
@@ -32290,7 +32474,8 @@
 "108 is far above the rest: an outlier.",
 "Removing a big outlier pulls the MEAN down a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: A) The mean decreases, and the median decreases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "find": {
@@ -32378,7 +32563,8 @@
 "137 is far above the rest: an outlier.",
 "Removing a big outlier pulls the MEAN down a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: D) The mean decreases, and the median decreases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "find": {
@@ -32438,7 +32624,8 @@
 "0 is far below the rest: an outlier.",
 "Removing a very small outlier pulls the MEAN up a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: B) The mean increases, and the median increases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "find": {
@@ -32526,7 +32713,8 @@
 "0 is far below the rest: an outlier.",
 "Removing a very small outlier pulls the MEAN up a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: D) The mean increases, and the median increases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "find": {
@@ -32583,7 +32771,8 @@
 "90 is far above the rest: an outlier.",
 "Removing a big outlier pulls the MEAN down a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: A) The mean decreases, and the median decreases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "find": {
@@ -32614,7 +32803,8 @@
 "1 is far below the rest: an outlier.",
 "Removing a very small outlier pulls the MEAN up a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: D) The mean increases, and the median increases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "find": {
@@ -32733,7 +32923,8 @@
 "3 is far below the rest: an outlier.",
 "Removing a very small outlier pulls the MEAN up a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: D) The mean increases, and the median increases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "find": {
@@ -32850,7 +33041,8 @@
 "124 is far above the rest: an outlier.",
 "Removing a big outlier pulls the MEAN down a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: C) The mean decreases, and the median decreases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "find": {
@@ -32909,7 +33101,8 @@
 "136 is far above the rest: an outlier.",
 "Removing a big outlier pulls the MEAN down a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: C) The mean decreases, and the median decreases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "find": {
@@ -33025,7 +33218,8 @@
 "128 is far above the rest: an outlier.",
 "Removing a big outlier pulls the MEAN down a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: A) The mean decreases, and the median decreases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "find": {
@@ -33056,7 +33250,8 @@
 "3 is far below the rest: an outlier.",
 "Removing a very small outlier pulls the MEAN up a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: B) The mean increases, and the median increases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "find": {
@@ -33142,7 +33337,8 @@
 "103 is far above the rest: an outlier.",
 "Removing a big outlier pulls the MEAN down a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: A) The mean decreases, and the median decreases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "find": {
@@ -33256,7 +33452,8 @@
 "129 is far above the rest: an outlier.",
 "Removing a big outlier pulls the MEAN down a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: D) The mean decreases, and the median decreases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "find": {
@@ -33344,7 +33541,8 @@
 "3 is far below the rest: an outlier.",
 "Removing a very small outlier pulls the MEAN up a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: C) The mean increases, and the median increases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "find": {
@@ -33401,7 +33599,8 @@
 "3 is far below the rest: an outlier.",
 "Removing a very small outlier pulls the MEAN up a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: A) The mean increases, and the median increases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "find": {
@@ -33432,7 +33631,8 @@
 "3 is far below the rest: an outlier.",
 "Removing a very small outlier pulls the MEAN up a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: D) The mean increases, and the median increases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "find": {
@@ -33518,7 +33718,8 @@
 "136 is far above the rest: an outlier.",
 "Removing a big outlier pulls the MEAN down a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: D) The mean decreases, and the median decreases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "find": {
@@ -33632,7 +33833,8 @@
 "0 is far below the rest: an outlier.",
 "Removing a very small outlier pulls the MEAN up a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: C) The mean increases, and the median increases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "find": {
@@ -33720,7 +33922,8 @@
 "89 is far above the rest: an outlier.",
 "Removing a big outlier pulls the MEAN down a lot.",
 "The median moves at most a little (it only shifts one spot).",
-"Spread (standard deviation) gets smaller."
+"Spread (standard deviation) gets smaller.",
+"Answer: C) The mean decreases, and the median decreases slightly or stays close."
 ],
 "trap": "Outliers move the mean a lot and the median very little.",
 "find": {
@@ -33809,7 +34012,8 @@
 "steps": [
 "y = 3.4x + 40: the y-intercept is 40",
 "Set x = 0: y = 40",
-"So it is the predicted y when x is 0."
+"So it is the predicted y when x is 0.",
+"Answer: D) When x is 0, y is predicted to be 40."
 ],
 "trap": "The number with x is the rate; the lone number is the start.",
 "find": {
@@ -33867,7 +34071,8 @@
 "steps": [
 "Differences: 50, 50, 50",
 "Ratios: 13/8, 18/13, 23/18",
-"Same difference = linear. Same ratio = exponential."
+"Same difference = linear. Same ratio = exponential.",
+"Answer: A) Linear growth, because the same amount is added each week"
 ],
 "trap": "Growing fast is not enough. Check differences vs. ratios.",
 "find": {
@@ -33925,7 +34130,8 @@
 "steps": [
 "y = 1.5x + 3: the y-intercept is 3",
 "Set x = 0: y = 3",
-"So it is the predicted y when x is 0."
+"So it is the predicted y when x is 0.",
+"Answer: B) When x is 0, y is predicted to be 3."
 ],
 "trap": "The number with x is the rate; the lone number is the start.",
 "find": {
@@ -33983,7 +34189,8 @@
 "steps": [
 "Differences: 40, 40, 40",
 "Ratios: 6/5, 7/6, 8/7",
-"Same difference = linear. Same ratio = exponential."
+"Same difference = linear. Same ratio = exponential.",
+"Answer: C) Linear growth, because the same amount is added each week"
 ],
 "trap": "Growing fast is not enough. Check differences vs. ratios.",
 "find": {
@@ -34013,7 +34220,8 @@
 "steps": [
 "y = 0.9x + 6: slope is 0.9",
 "Slope = change in y for each 1-unit increase in x",
-"Best fit lines are predictions (\"predicted\"), not exact rules."
+"Best fit lines are predictions (\"predicted\"), not exact rules.",
+"Answer: C) For each increase of 1 in x, y is predicted to increase by 0.9."
 ],
 "trap": "\"Always\" is too strong; a best-fit line only predicts.",
 "find": {
@@ -34042,7 +34250,8 @@
 "steps": [
 "Differences: 50, 100, 200",
 "Ratios: 2, 2, 2",
-"Same difference = linear. Same ratio = exponential."
+"Same difference = linear. Same ratio = exponential.",
+"Answer: C) Exponential growth, because the number is multiplied by the same factor each week"
 ],
 "trap": "Growing fast is not enough. Check differences vs. ratios.",
 "find": {
@@ -34100,7 +34309,8 @@
 "steps": [
 "y = 1.5x + 19: the y-intercept is 19",
 "Set x = 0: y = 19",
-"So it is the predicted y when x is 0."
+"So it is the predicted y when x is 0.",
+"Answer: C) When x is 0, y is predicted to be 19."
 ],
 "trap": "The number with x is the rate; the lone number is the start.",
 "find": {
@@ -34158,7 +34368,8 @@
 "steps": [
 "Differences: −20, −20, −20",
 "Ratios: 12/13, 11/12, 10/11",
-"Same difference = linear. Same ratio = exponential."
+"Same difference = linear. Same ratio = exponential.",
+"Answer: B) Linear decay, because the number goes down by the same amount each week"
 ],
 "trap": "Growing fast is not enough. Check differences vs. ratios.",
 "find": {
@@ -34216,7 +34427,8 @@
 "steps": [
 "y = 1.5x + 17: slope is 1.5",
 "Slope = change in y for each 1-unit increase in x",
-"Best fit lines are predictions (\"predicted\"), not exact rules."
+"Best fit lines are predictions (\"predicted\"), not exact rules.",
+"Answer: C) For each increase of 1 in x, y is predicted to increase by 1.5."
 ],
 "trap": "\"Always\" is too strong; a best-fit line only predicts.",
 "find": {
@@ -34274,7 +34486,8 @@
 "steps": [
 "Differences: 60, 60, 60",
 "Ratios: 13/10, 16/13, 19/16",
-"Same difference = linear. Same ratio = exponential."
+"Same difference = linear. Same ratio = exponential.",
+"Answer: C) Linear growth, because the same amount is added each week"
 ],
 "trap": "Growing fast is not enough. Check differences vs. ratios.",
 "find": {
@@ -34332,7 +34545,8 @@
 "steps": [
 "y = 0.9x + 38: slope is 0.9",
 "Slope = change in y for each 1-unit increase in x",
-"Best fit lines are predictions (\"predicted\"), not exact rules."
+"Best fit lines are predictions (\"predicted\"), not exact rules.",
+"Answer: D) For each increase of 1 in x, y is predicted to increase by 0.9."
 ],
 "trap": "\"Always\" is too strong; a best-fit line only predicts.",
 "find": {
@@ -34390,7 +34604,8 @@
 "steps": [
 "Differences: 160, 480, 1,440",
 "Ratios: 3, 3, 3",
-"Same difference = linear. Same ratio = exponential."
+"Same difference = linear. Same ratio = exponential.",
+"Answer: D) Exponential growth, because the number is multiplied by the same factor each week"
 ],
 "trap": "Growing fast is not enough. Check differences vs. ratios.",
 "find": {
@@ -34448,7 +34663,8 @@
 "steps": [
 "y = 1.2x + 25: the y-intercept is 25",
 "Set x = 0: y = 25",
-"So it is the predicted y when x is 0."
+"So it is the predicted y when x is 0.",
+"Answer: C) When x is 0, y is predicted to be 25."
 ],
 "trap": "The number with x is the rate; the lone number is the start.",
 "find": {
@@ -34506,7 +34722,8 @@
 "steps": [
 "Differences: −25, −25, −25",
 "Ratios: 6/7, 5/6, 4/5",
-"Same difference = linear. Same ratio = exponential."
+"Same difference = linear. Same ratio = exponential.",
+"Answer: D) Linear decay, because the number goes down by the same amount each week"
 ],
 "trap": "Growing fast is not enough. Check differences vs. ratios.",
 "find": {
@@ -34564,7 +34781,8 @@
 "steps": [
 "y = 1.2x + 13: the y-intercept is 13",
 "Set x = 0: y = 13",
-"So it is the predicted y when x is 0."
+"So it is the predicted y when x is 0.",
+"Answer: C) When x is 0, y is predicted to be 13."
 ],
 "trap": "The number with x is the rate; the lone number is the start.",
 "find": {
@@ -34622,7 +34840,8 @@
 "steps": [
 "Differences: 20, 20, 20",
 "Ratios: 7/5, 9/7, 11/9",
-"Same difference = linear. Same ratio = exponential."
+"Same difference = linear. Same ratio = exponential.",
+"Answer: B) Linear growth, because the same amount is added each week"
 ],
 "trap": "Growing fast is not enough. Check differences vs. ratios.",
 "find": {
@@ -34680,7 +34899,8 @@
 "steps": [
 "y = 1.2x + 12: the y-intercept is 12",
 "Set x = 0: y = 12",
-"So it is the predicted y when x is 0."
+"So it is the predicted y when x is 0.",
+"Answer: B) When x is 0, y is predicted to be 12."
 ],
 "trap": "The number with x is the rate; the lone number is the start.",
 "find": {
@@ -34738,7 +34958,8 @@
 "steps": [
 "Differences: 20, 20, 20",
 "Ratios: 5/4, 6/5, 7/6",
-"Same difference = linear. Same ratio = exponential."
+"Same difference = linear. Same ratio = exponential.",
+"Answer: A) Linear growth, because the same amount is added each week"
 ],
 "trap": "Growing fast is not enough. Check differences vs. ratios.",
 "find": {
@@ -34796,7 +35017,8 @@
 "steps": [
 "y = 1.2x + 31: the y-intercept is 31",
 "Set x = 0: y = 31",
-"So it is the predicted y when x is 0."
+"So it is the predicted y when x is 0.",
+"Answer: B) When x is 0, y is predicted to be 31."
 ],
 "trap": "The number with x is the rate; the lone number is the start.",
 "find": {
@@ -34825,7 +35047,8 @@
 "steps": [
 "Differences: 300, 900, 2,700",
 "Ratios: 3, 3, 3",
-"Same difference = linear. Same ratio = exponential."
+"Same difference = linear. Same ratio = exponential.",
+"Answer: C) Exponential growth, because the number is multiplied by the same factor each week"
 ],
 "trap": "Growing fast is not enough. Check differences vs. ratios.",
 "find": {
@@ -34883,7 +35106,8 @@
 "steps": [
 "y = 3.4x + 33: the y-intercept is 33",
 "Set x = 0: y = 33",
-"So it is the predicted y when x is 0."
+"So it is the predicted y when x is 0.",
+"Answer: C) When x is 0, y is predicted to be 33."
 ],
 "trap": "The number with x is the rate; the lone number is the start.",
 "find": {
@@ -34969,7 +35193,8 @@
 "steps": [
 "y = 0.9x + 14: slope is 0.9",
 "Slope = change in y for each 1-unit increase in x",
-"Best fit lines are predictions (\"predicted\"), not exact rules."
+"Best fit lines are predictions (\"predicted\"), not exact rules.",
+"Answer: D) For each increase of 1 in x, y is predicted to increase by 0.9."
 ],
 "trap": "\"Always\" is too strong; a best-fit line only predicts.",
 "find": {
@@ -35027,7 +35252,8 @@
 "steps": [
 "Differences: 40, 40, 40",
 "Ratios: 7/5, 9/7, 11/9",
-"Same difference = linear. Same ratio = exponential."
+"Same difference = linear. Same ratio = exponential.",
+"Answer: A) Linear growth, because the same amount is added each week"
 ],
 "trap": "Growing fast is not enough. Check differences vs. ratios.",
 "find": {
@@ -35085,7 +35311,8 @@
 "steps": [
 "y = 1.5x + 7: slope is 1.5",
 "Slope = change in y for each 1-unit increase in x",
-"Best fit lines are predictions (\"predicted\"), not exact rules."
+"Best fit lines are predictions (\"predicted\"), not exact rules.",
+"Answer: A) For each increase of 1 in x, y is predicted to increase by 1.5."
 ],
 "trap": "\"Always\" is too strong; a best-fit line only predicts.",
 "find": {
@@ -35171,7 +35398,8 @@
 "steps": [
 "y = 0.4x + 4: slope is 0.4",
 "Slope = change in y for each 1-unit increase in x",
-"Best fit lines are predictions (\"predicted\"), not exact rules."
+"Best fit lines are predictions (\"predicted\"), not exact rules.",
+"Answer: A) For each increase of 1 in x, y is predicted to increase by 0.4."
 ],
 "trap": "\"Always\" is too strong; a best-fit line only predicts.",
 "find": {
@@ -35229,7 +35457,8 @@
 "steps": [
 "Differences: 150, 300, 600",
 "Ratios: 2, 2, 2",
-"Same difference = linear. Same ratio = exponential."
+"Same difference = linear. Same ratio = exponential.",
+"Answer: C) Exponential growth, because the number is multiplied by the same factor each week"
 ],
 "trap": "Growing fast is not enough. Check differences vs. ratios.",
 "find": {
@@ -35287,7 +35516,8 @@
 "steps": [
 "y = 0.6x + 14: slope is 0.6",
 "Slope = change in y for each 1-unit increase in x",
-"Best fit lines are predictions (\"predicted\"), not exact rules."
+"Best fit lines are predictions (\"predicted\"), not exact rules.",
+"Answer: C) For each increase of 1 in x, y is predicted to increase by 0.6."
 ],
 "trap": "\"Always\" is too strong; a best-fit line only predicts.",
 "find": {
@@ -35345,7 +35575,8 @@
 "steps": [
 "Differences: 300, 600, 1,200",
 "Ratios: 2, 2, 2",
-"Same difference = linear. Same ratio = exponential."
+"Same difference = linear. Same ratio = exponential.",
+"Answer: B) Exponential growth, because the number is multiplied by the same factor each week"
 ],
 "trap": "Growing fast is not enough. Check differences vs. ratios.",
 "find": {
@@ -35403,7 +35634,8 @@
 "steps": [
 "y = 0.9x + 15: the y-intercept is 15",
 "Set x = 0: y = 15",
-"So it is the predicted y when x is 0."
+"So it is the predicted y when x is 0.",
+"Answer: C) When x is 0, y is predicted to be 15."
 ],
 "trap": "The number with x is the rate; the lone number is the start.",
 "find": {
@@ -35489,7 +35721,8 @@
 "steps": [
 "y = 0.9x + 20: the y-intercept is 20",
 "Set x = 0: y = 20",
-"So it is the predicted y when x is 0."
+"So it is the predicted y when x is 0.",
+"Answer: C) When x is 0, y is predicted to be 20."
 ],
 "trap": "The number with x is the rate; the lone number is the start.",
 "find": {
@@ -35518,7 +35751,8 @@
 "steps": [
 "Differences: −15, −15, −15",
 "Ratios: 26/29, 23/26, 20/23",
-"Same difference = linear. Same ratio = exponential."
+"Same difference = linear. Same ratio = exponential.",
+"Answer: B) Linear decay, because the number goes down by the same amount each week"
 ],
 "trap": "Growing fast is not enough. Check differences vs. ratios.",
 "find": {
@@ -35576,6 +35810,7 @@
 "q": "The probability that a randomly chosen customer buys a drink is 2/3. Out of 177 customers, how many would you expect to buy a drink?",
 "tool": "By hand: probability × number of trials.",
 "steps": [
+"Rule: expected number = probability × how many times it happens.",
 "2/3 × 177 = 118"
 ],
 "trap": "Expected count = probability × total.",
@@ -35689,6 +35924,7 @@
 "q": "The probability that a randomly chosen customer buys a drink is 1/8. Out of 376 customers, how many would you expect to buy a drink?",
 "tool": "By hand: probability × number of trials.",
 "steps": [
+"Rule: expected number = probability × how many times it happens.",
 "1/8 × 376 = 47"
 ],
 "trap": "Expected count = probability × total.",
@@ -35745,7 +35981,9 @@
 "steps": [
 "\"A student who chose pizza\" = only look at that column. Total: 57",
 "Of those, juniors: 38",
-"Probability = 38/57"
+"Probability = 38/57",
+"Simplify: 38/57 = 2/3",
+"Answer: C) 2/3"
 ],
 "trap": "The group after \"if\" is the denominator.",
 "find": {
@@ -35803,6 +36041,7 @@
 "q": "The probability that a randomly chosen customer buys a drink is 1/4. Out of 128 customers, how many would you expect to buy a drink?",
 "tool": "By hand: probability × number of trials.",
 "steps": [
+"Rule: expected number = probability × how many times it happens.",
 "1/4 × 128 = 32"
 ],
 "trap": "Expected count = probability × total.",
@@ -35916,6 +36155,7 @@
 "q": "The probability that a randomly chosen customer buys a drink is 2/3. Out of 54 customers, how many would you expect to buy a drink?",
 "tool": "By hand: probability × number of trials.",
 "steps": [
+"Rule: expected number = probability × how many times it happens.",
 "2/3 × 54 = 36"
 ],
 "trap": "Expected count = probability × total.",
@@ -35972,7 +36212,9 @@
 "steps": [
 "\"One of the seniors\" = only look at that row. Total: 50",
 "Of those, chose pizza: 26",
-"Probability = 26/50"
+"Probability = 26/50",
+"Simplify: 26/50 = 13/25",
+"Answer: B) 13/25"
 ],
 "trap": "The group after \"if\" is the denominator.",
 "find": {
@@ -36029,6 +36271,7 @@
 "q": "The probability that a randomly chosen customer buys a drink is 1/6. Out of 114 customers, how many would you expect to buy a drink?",
 "tool": "By hand: probability × number of trials.",
 "steps": [
+"Rule: expected number = probability × how many times it happens.",
 "1/6 × 114 = 19"
 ],
 "trap": "Expected count = probability × total.",
@@ -36142,6 +36385,7 @@
 "q": "The probability that a randomly chosen customer buys a drink is 3/4. Out of 152 customers, how many would you expect to buy a drink?",
 "tool": "By hand: probability × number of trials.",
 "steps": [
+"Rule: expected number = probability × how many times it happens.",
 "3/4 × 152 = 114"
 ],
 "trap": "Expected count = probability × total.",
@@ -36198,7 +36442,9 @@
 "steps": [
 "\"A student who chose tacos\" = only look at that column. Total: 45",
 "Of those, seniors: 27",
-"Probability = 27/45"
+"Probability = 27/45",
+"Simplify: 27/45 = 3/5",
+"Answer: A) 3/5"
 ],
 "trap": "The group after \"if\" is the denominator.",
 "find": {
@@ -36255,6 +36501,7 @@
 "q": "The probability that a randomly chosen customer buys a drink is 3/4. Out of 48 customers, how many would you expect to buy a drink?",
 "tool": "By hand: probability × number of trials.",
 "steps": [
+"Rule: expected number = probability × how many times it happens.",
 "3/4 × 48 = 36"
 ],
 "trap": "Expected count = probability × total.",
@@ -36311,7 +36558,9 @@
 "steps": [
 "\"One of the juniors\" = only look at that row. Total: 62",
 "Of those, chose pizza: 24",
-"Probability = 24/62"
+"Probability = 24/62",
+"Simplify: 24/62 = 12/31",
+"Answer: C) 12/31"
 ],
 "trap": "The group after \"if\" is the denominator.",
 "find": {
@@ -36368,6 +36617,7 @@
 "q": "The probability that a randomly chosen customer buys a drink is 3/10. Out of 100 customers, how many would you expect to buy a drink?",
 "tool": "By hand: probability × number of trials.",
 "steps": [
+"Rule: expected number = probability × how many times it happens.",
 "3/10 × 100 = 30"
 ],
 "trap": "Expected count = probability × total.",
@@ -36481,6 +36731,7 @@
 "q": "The probability that a randomly chosen customer buys a drink is 1/8. Out of 72 customers, how many would you expect to buy a drink?",
 "tool": "By hand: probability × number of trials.",
 "steps": [
+"Rule: expected number = probability × how many times it happens.",
 "1/8 × 72 = 9"
 ],
 "trap": "Expected count = probability × total.",
@@ -36537,7 +36788,9 @@
 "steps": [
 "\"One of the seniors\" = only look at that row. Total: 36",
 "Of those, chose tacos: 14",
-"Probability = 14/36"
+"Probability = 14/36",
+"Simplify: 14/36 = 7/18",
+"Answer: C) 7/18"
 ],
 "trap": "The group after \"if\" is the denominator.",
 "find": {
@@ -36594,6 +36847,7 @@
 "q": "The probability that a randomly chosen customer buys a drink is 2/3. Out of 63 customers, how many would you expect to buy a drink?",
 "tool": "By hand: probability × number of trials.",
 "steps": [
+"Rule: expected number = probability × how many times it happens.",
 "2/3 × 63 = 42"
 ],
 "trap": "Expected count = probability × total.",
@@ -36707,6 +36961,7 @@
 "q": "The probability that a randomly chosen customer buys a drink is 3/10. Out of 140 customers, how many would you expect to buy a drink?",
 "tool": "By hand: probability × number of trials.",
 "steps": [
+"Rule: expected number = probability × how many times it happens.",
 "3/10 × 140 = 42"
 ],
 "trap": "Expected count = probability × total.",
@@ -36763,7 +37018,9 @@
 "steps": [
 "\"One of the juniors\" = only look at that row. Total: 72",
 "Of those, chose pizza: 48",
-"Probability = 48/72"
+"Probability = 48/72",
+"Simplify: 48/72 = 2/3",
+"Answer: A) 2/3"
 ],
 "trap": "The group after \"if\" is the denominator.",
 "find": {
@@ -36820,6 +37077,7 @@
 "q": "The probability that a randomly chosen customer buys a drink is 2/3. Out of 180 customers, how many would you expect to buy a drink?",
 "tool": "By hand: probability × number of trials.",
 "steps": [
+"Rule: expected number = probability × how many times it happens.",
 "2/3 × 180 = 120"
 ],
 "trap": "Expected count = probability × total.",
@@ -36876,7 +37134,9 @@
 "steps": [
 "\"One of the seniors\" = only look at that row. Total: 86",
 "Of those, chose pizza: 50",
-"Probability = 50/86"
+"Probability = 50/86",
+"Simplify: 50/86 = 25/43",
+"Answer: A) 25/43"
 ],
 "trap": "The group after \"if\" is the denominator.",
 "find": {
@@ -36933,6 +37193,7 @@
 "q": "The probability that a randomly chosen customer buys a drink is 3/4. Out of 240 customers, how many would you expect to buy a drink?",
 "tool": "By hand: probability × number of trials.",
 "steps": [
+"Rule: expected number = probability × how many times it happens.",
 "3/4 × 240 = 180"
 ],
 "trap": "Expected count = probability × total.",
@@ -36989,7 +37250,9 @@
 "steps": [
 "\"A student who chose tacos\" = only look at that column. Total: 70",
 "Of those, seniors: 42",
-"Probability = 42/70"
+"Probability = 42/70",
+"Simplify: 42/70 = 3/5",
+"Answer: B) 3/5"
 ],
 "trap": "The group after \"if\" is the denominator.",
 "find": {
@@ -37047,6 +37310,7 @@
 "q": "The probability that a randomly chosen customer buys a drink is 1/6. Out of 264 customers, how many would you expect to buy a drink?",
 "tool": "By hand: probability × number of trials.",
 "steps": [
+"Rule: expected number = probability × how many times it happens.",
 "1/6 × 264 = 44"
 ],
 "trap": "Expected count = probability × total.",
@@ -37160,6 +37424,7 @@
 "q": "The probability that a randomly chosen customer buys a drink is 3/4. Out of 124 customers, how many would you expect to buy a drink?",
 "tool": "By hand: probability × number of trials.",
 "steps": [
+"Rule: expected number = probability × how many times it happens.",
 "3/4 × 124 = 93"
 ],
 "trap": "Expected count = probability × total.",
@@ -37216,7 +37481,9 @@
 "steps": [
 "\"A student who chose pizza\" = only look at that column. Total: 86",
 "Of those, seniors: 46",
-"Probability = 46/86"
+"Probability = 46/86",
+"Simplify: 46/86 = 23/43",
+"Answer: D) 23/43"
 ],
 "trap": "The group after \"if\" is the denominator.",
 "find": {
@@ -37276,7 +37543,8 @@
 "steps": [
 "Margin of error depends mostly on sample size.",
 "More data = less uncertainty.",
-"Volunteers make it biased, not more precise."
+"Volunteers make it biased, not more precise.",
+"Answer: A) Use a larger random sample."
 ],
 "trap": "Smaller samples make the margin BIGGER.",
 "find": {
@@ -37364,7 +37632,8 @@
 "steps": [
 "Margin of error depends mostly on sample size.",
 "More data = less uncertainty.",
-"Volunteers make it biased, not more precise."
+"Volunteers make it biased, not more precise.",
+"Answer: A) Use a larger random sample."
 ],
 "trap": "Smaller samples make the margin BIGGER.",
 "find": {
@@ -37452,7 +37721,8 @@
 "steps": [
 "Margin of error depends mostly on sample size.",
 "More data = less uncertainty.",
-"Volunteers make it biased, not more precise."
+"Volunteers make it biased, not more precise.",
+"Answer: B) Use a larger random sample."
 ],
 "trap": "Smaller samples make the margin BIGGER.",
 "find": {
@@ -37540,7 +37810,8 @@
 "steps": [
 "Margin of error depends mostly on sample size.",
 "More data = less uncertainty.",
-"Volunteers make it biased, not more precise."
+"Volunteers make it biased, not more precise.",
+"Answer: B) Use a larger random sample."
 ],
 "trap": "Smaller samples make the margin BIGGER.",
 "find": {
@@ -37746,7 +38017,8 @@
 "steps": [
 "Margin of error depends mostly on sample size.",
 "More data = less uncertainty.",
-"Volunteers make it biased, not more precise."
+"Volunteers make it biased, not more precise.",
+"Answer: D) Use a larger random sample."
 ],
 "trap": "Smaller samples make the margin BIGGER.",
 "find": {
@@ -38126,7 +38398,8 @@
 "steps": [
 "Margin of error depends mostly on sample size.",
 "More data = less uncertainty.",
-"Volunteers make it biased, not more precise."
+"Volunteers make it biased, not more precise.",
+"Answer: B) Use a larger random sample."
 ],
 "trap": "Smaller samples make the margin BIGGER.",
 "find": {
@@ -38562,7 +38835,8 @@
 "steps": [
 "Margin of error depends mostly on sample size.",
 "More data = less uncertainty.",
-"Volunteers make it biased, not more precise."
+"Volunteers make it biased, not more precise.",
+"Answer: A) Use a larger random sample."
 ],
 "trap": "Smaller samples make the margin BIGGER.",
 "find": {
@@ -38998,7 +39272,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: D) There is an association between a new fertilizer and taller tomato plants, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "find": {
@@ -39027,7 +39302,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: B) There is an association between a dashboard safety alert and faster braking, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "find": {
@@ -39056,7 +39332,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: C) There is an association between a 4-day work week and higher productivity, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "find": {
@@ -39085,7 +39362,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: A) There is an association between a free tutoring program and higher math scores, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "find": {
@@ -39114,7 +39392,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: D) There is an association between standing desks and fewer sick days, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "find": {
@@ -39143,7 +39422,8 @@
 "steps": [
 "Cause needs an experiment.",
 "Random assignment makes the groups alike except for the treatment.",
-"A comparison group is required."
+"A comparison group is required.",
+"Answer: D) Randomly assign children to a daily reading app or to no change, then compare the groups."
 ],
 "trap": "People choosing their own group = observational = no cause.",
 "find": {
@@ -39172,7 +39452,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: C) A daily stretching program likely caused less back pain among patients in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -39201,7 +39482,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: C) A 10-minute meditation break likely caused fewer mistakes among pilots in training in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -39230,7 +39512,8 @@
 "steps": [
 "Cause needs an experiment.",
 "Random assignment makes the groups alike except for the treatment.",
-"A comparison group is required."
+"A comparison group is required.",
+"Answer: B) Randomly assign office workers to a plant-based lunch menu or to no change, then compare the groups."
 ],
 "trap": "People choosing their own group = observational = no cause.",
 "find": {
@@ -39259,7 +39542,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: C) A 10-minute meditation break likely caused fewer mistakes among pilots in training in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -39288,7 +39572,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: B) A 4-day work week likely caused higher productivity among workers in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -39317,7 +39602,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: C) There is an association between a 4-day work week and higher productivity, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "find": {
@@ -39346,7 +39632,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: B) Listening to music while studying likely caused higher test scores among students in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -39375,7 +39662,8 @@
 "steps": [
 "Cause needs an experiment.",
 "Random assignment makes the groups alike except for the treatment.",
-"A comparison group is required."
+"A comparison group is required.",
+"Answer: D) Randomly assign students to a free tutoring program or to no change, then compare the groups."
 ],
 "trap": "People choosing their own group = observational = no cause.",
 "find": {
@@ -39404,7 +39692,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: B) There is an association between putting phones away at night and higher grades, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "find": {
@@ -39433,7 +39722,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: B) A dashboard safety alert likely caused faster braking among drivers in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -39462,7 +39752,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: D) A new fertilizer likely caused taller tomato plants among gardeners in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -39491,7 +39782,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: B) A 4-day work week likely caused higher productivity among workers in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -39520,7 +39812,8 @@
 "steps": [
 "Cause needs an experiment.",
 "Random assignment makes the groups alike except for the treatment.",
-"A comparison group is required."
+"A comparison group is required.",
+"Answer: B) Randomly assign pilots in training to a 10-minute meditation break or to no change, then compare the groups."
 ],
 "trap": "People choosing their own group = observational = no cause.",
 "find": {
@@ -39549,7 +39842,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: C) Listening to music while studying likely caused higher test scores among students in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -39578,7 +39872,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: D) There is an association between a new fertilizer and taller tomato plants, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "find": {
@@ -39607,7 +39902,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: A) A dashboard safety alert likely caused faster braking among drivers in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -39636,7 +39932,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: B) A new fertilizer likely caused taller tomato plants among gardeners in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -39665,7 +39962,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: D) There is an association between a dashboard safety alert and faster braking, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "find": {
@@ -39694,7 +39992,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: C) A plant-based lunch menu likely caused more energy in the afternoon among office workers in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -39723,7 +40022,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: C) A new warm-up routine likely caused faster lap times among swimmers in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -39752,7 +40052,8 @@
 "steps": [
 "Cause needs an experiment.",
 "Random assignment makes the groups alike except for the treatment.",
-"A comparison group is required."
+"A comparison group is required.",
+"Answer: B) Randomly assign gardeners to a new fertilizer or to no change, then compare the groups."
 ],
 "trap": "People choosing their own group = observational = no cause.",
 "find": {
@@ -39781,7 +40082,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: D) A free tutoring program likely caused higher math scores among students in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -39810,7 +40112,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: C) A new warm-up routine likely caused faster lap times among swimmers in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -39839,7 +40142,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: B) Drinking green tea before bed likely caused better sleep among adults in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -39868,7 +40172,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: D) There is an association between standing desks and fewer sick days, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "find": {
@@ -39897,7 +40202,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: C) Standing desks likely caused fewer sick days among employees in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -39926,7 +40232,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: B) A daily reading app likely caused larger vocabularies among children in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -39955,7 +40262,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: A) There is an association between a dashboard safety alert and faster braking, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "find": {
@@ -39984,7 +40292,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: B) A new fertilizer likely caused taller tomato plants among gardeners in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -40013,7 +40322,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: D) There is an association between a morning walk and lower stress, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "find": {
@@ -40042,7 +40352,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: C) A new fertilizer likely caused taller tomato plants among gardeners in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -40071,7 +40382,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: C) There is an association between a dashboard safety alert and faster braking, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "find": {
@@ -40100,7 +40412,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: C) Listening to music while studying likely caused higher test scores among students in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -40129,7 +40442,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: B) A new warm-up routine likely caused faster lap times among swimmers in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -40158,7 +40472,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: A) There is an association between a new running shoe and faster mile times, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "find": {
@@ -40187,7 +40502,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: D) There is an association between a daily stretching program and less back pain, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "find": {
@@ -40216,7 +40532,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: A) There is an association between a new fertilizer and taller tomato plants, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "find": {
@@ -40245,7 +40562,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: D) There is an association between putting phones away at night and higher grades, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "find": {
@@ -40274,7 +40592,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: B) Standing desks likely caused fewer sick days among employees in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -40303,7 +40622,8 @@
 "steps": [
 "Cause needs an experiment.",
 "Random assignment makes the groups alike except for the treatment.",
-"A comparison group is required."
+"A comparison group is required.",
+"Answer: A) Randomly assign nurses to a morning walk or to no change, then compare the groups."
 ],
 "trap": "People choosing their own group = observational = no cause.",
 "find": {
@@ -40332,7 +40652,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: D) A 4-day work week likely caused higher productivity among workers in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -40361,7 +40682,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: D) There is an association between drinking green tea before bed and better sleep, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "find": {
@@ -40390,7 +40712,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: B) A daily stretching program likely caused less back pain among patients in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -40419,7 +40742,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: A) Listening to music while studying likely caused higher test scores among students in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -40448,7 +40772,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: B) There is an association between a plant-based lunch menu and more energy in the afternoon, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "find": {
@@ -40477,7 +40802,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: D) A new fertilizer likely caused taller tomato plants among gardeners in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -40506,7 +40832,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: B) Listening to music while studying likely caused higher test scores among students in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -40535,7 +40862,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: A) A daily reading app likely caused larger vocabularies among children in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -40564,7 +40892,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: B) There is an association between a daily stretching program and less back pain, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "find": {
@@ -40593,7 +40922,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: B) A free tutoring program likely caused higher math scores among students in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -40622,7 +40952,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: A) There is an association between a new fertilizer and taller tomato plants, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "find": {
@@ -40651,7 +40982,8 @@
 "steps": [
 "People chose their own group → observational study.",
 "Other differences could explain the result.",
-"So: an association, not proof of cause."
+"So: an association, not proof of cause.",
+"Answer: B) There is an association between drinking green tea before bed and better sleep, but cause cannot be determined."
 ],
 "trap": "Without random assignment, never pick \"causes\".",
 "find": {
@@ -40680,7 +41012,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: B) A new store layout likely caused more spending among shoppers in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -40709,7 +41042,8 @@
 "steps": [
 "Random sample from the city → can generalize to that city.",
 "Random assignment → can say it CAUSED the difference.",
-"Both → cause, for that city only."
+"Both → cause, for that city only.",
+"Answer: B) A daily reading app likely caused larger vocabularies among children in that city."
 ],
 "trap": "\"Everywhere\" goes beyond the population that was sampled.",
 "find": {
@@ -44293,20 +44627,21 @@
 "skill": "trig",
 "diff": "M",
 "q": "In right triangle ABC, angle C is the right angle and sin(A) = 33/65. What is cos(B)?",
-"tool": "Rule: sin(A) = cos(B) when A + B = 90°. By hand is fastest.",
+"tool": "Rule: when A + B = 90°, sin(A) = cos(B). The picture shows why: it is the same side.",
 "steps": [
-"Angles A and B add to 90° (the right angle is C): they are complementary",
-"sin of one acute angle = cos of the other",
-"cos(B) = sin(A) = 33/65"
+"Draw it: right angle at C. The hypotenuse AB = 65 is across from the right angle.",
+"sin(A) = opposite A ÷ hypotenuse. The side across from A is BC, so BC = 33.",
+"cos(B) = adjacent to B ÷ hypotenuse. Stand at B: the leg touching B is BC (the same side!).",
+"So cos(B) = BC ÷ AB = 33/65. Same two sides, same fraction."
 ],
-"trap": "Do not find any angle. In a right triangle, sin(A) = cos(B) because A and B add to 90°.",
+"trap": "56/65 is cos(A) (the third side, 56, comes from 65² − 33²). They asked for cos(B).",
 "find": {
 "opts": [
 "cos(B)",
 "cos(A)",
 "sin(B)"
 ],
-"ok": 1
+"ok": 0
 },
 "ch": [
 "56/65",
@@ -44411,20 +44746,21 @@
 "skill": "trig",
 "diff": "M",
 "q": "In right triangle ABC, angle C is the right angle and sin(A) = 20/29. What is cos(B)?",
-"tool": "Rule: sin(A) = cos(B) when A + B = 90°. By hand is fastest.",
+"tool": "Rule: when A + B = 90°, sin(A) = cos(B). The picture shows why: it is the same side.",
 "steps": [
-"Angles A and B add to 90° (the right angle is C): they are complementary",
-"sin of one acute angle = cos of the other",
-"cos(B) = sin(A) = 20/29"
+"Draw it: right angle at C. The hypotenuse AB = 29 is across from the right angle.",
+"sin(A) = opposite A ÷ hypotenuse. The side across from A is BC, so BC = 20.",
+"cos(B) = adjacent to B ÷ hypotenuse. Stand at B: the leg touching B is BC (the same side!).",
+"So cos(B) = BC ÷ AB = 20/29. Same two sides, same fraction."
 ],
-"trap": "Do not find any angle. In a right triangle, sin(A) = cos(B) because A and B add to 90°.",
+"trap": "21/29 is cos(A) (the third side, 21, comes from 29² − 20²). They asked for cos(B).",
 "find": {
 "opts": [
 "cos(B)",
 "cos(A)",
 "sin(B)"
 ],
-"ok": 1
+"ok": 0
 },
 "ch": [
 "20/29",
@@ -44557,20 +44893,21 @@
 "skill": "trig",
 "diff": "M",
 "q": "In right triangle ABC, angle C is the right angle and sin(A) = 8/17. What is cos(B)?",
-"tool": "Rule: sin(A) = cos(B) when A + B = 90°. By hand is fastest.",
+"tool": "Rule: when A + B = 90°, sin(A) = cos(B). The picture shows why: it is the same side.",
 "steps": [
-"Angles A and B add to 90° (the right angle is C): they are complementary",
-"sin of one acute angle = cos of the other",
-"cos(B) = sin(A) = 8/17"
+"Draw it: right angle at C. The hypotenuse AB = 17 is across from the right angle.",
+"sin(A) = opposite A ÷ hypotenuse. The side across from A is BC, so BC = 8.",
+"cos(B) = adjacent to B ÷ hypotenuse. Stand at B: the leg touching B is BC (the same side!).",
+"So cos(B) = BC ÷ AB = 8/17. Same two sides, same fraction."
 ],
-"trap": "Do not find any angle. In a right triangle, sin(A) = cos(B) because A and B add to 90°.",
+"trap": "15/17 is cos(A) (the third side, 15, comes from 17² − 8²). They asked for cos(B).",
 "find": {
 "opts": [
 "cos(B)",
 "cos(A)",
 "sin(B)"
 ],
-"ok": 1
+"ok": 0
 },
 "ch": [
 "8/17",
@@ -44704,20 +45041,21 @@
 "skill": "trig",
 "diff": "M",
 "q": "In right triangle ABC, angle C is the right angle and sin(A) = 20/29. What is cos(B)?",
-"tool": "Rule: sin(A) = cos(B) when A + B = 90°. By hand is fastest.",
+"tool": "Rule: when A + B = 90°, sin(A) = cos(B). The picture shows why: it is the same side.",
 "steps": [
-"Angles A and B add to 90° (the right angle is C): they are complementary",
-"sin of one acute angle = cos of the other",
-"cos(B) = sin(A) = 20/29"
+"Draw it: right angle at C. The hypotenuse AB = 29 is across from the right angle.",
+"sin(A) = opposite A ÷ hypotenuse. The side across from A is BC, so BC = 20.",
+"cos(B) = adjacent to B ÷ hypotenuse. Stand at B: the leg touching B is BC (the same side!).",
+"So cos(B) = BC ÷ AB = 20/29. Same two sides, same fraction."
 ],
-"trap": "Do not find any angle. In a right triangle, sin(A) = cos(B) because A and B add to 90°.",
+"trap": "21/29 is cos(A) (the third side, 21, comes from 29² − 20²). They asked for cos(B).",
 "find": {
 "opts": [
 "cos(B)",
 "cos(A)",
 "sin(B)"
 ],
-"ok": 1
+"ok": 0
 },
 "ch": [
 "21/29",
@@ -44822,20 +45160,21 @@
 "skill": "trig",
 "diff": "M",
 "q": "In right triangle ABC, angle C is the right angle and sin(A) = 12/37. What is cos(B)?",
-"tool": "Rule: sin(A) = cos(B) when A + B = 90°. By hand is fastest.",
+"tool": "Rule: when A + B = 90°, sin(A) = cos(B). The picture shows why: it is the same side.",
 "steps": [
-"Angles A and B add to 90° (the right angle is C): they are complementary",
-"sin of one acute angle = cos of the other",
-"cos(B) = sin(A) = 12/37"
+"Draw it: right angle at C. The hypotenuse AB = 37 is across from the right angle.",
+"sin(A) = opposite A ÷ hypotenuse. The side across from A is BC, so BC = 12.",
+"cos(B) = adjacent to B ÷ hypotenuse. Stand at B: the leg touching B is BC (the same side!).",
+"So cos(B) = BC ÷ AB = 12/37. Same two sides, same fraction."
 ],
-"trap": "Do not find any angle. In a right triangle, sin(A) = cos(B) because A and B add to 90°.",
+"trap": "35/37 is cos(A) (the third side, 35, comes from 37² − 12²). They asked for cos(B).",
 "find": {
 "opts": [
 "cos(B)",
 "cos(A)",
 "sin(B)"
 ],
-"ok": 2
+"ok": 0
 },
 "ch": [
 "35/37",
@@ -44969,20 +45308,21 @@
 "skill": "trig",
 "diff": "M",
 "q": "In right triangle ABC, angle C is the right angle and sin(A) = 5/13. What is cos(B)?",
-"tool": "Rule: sin(A) = cos(B) when A + B = 90°. By hand is fastest.",
+"tool": "Rule: when A + B = 90°, sin(A) = cos(B). The picture shows why: it is the same side.",
 "steps": [
-"Angles A and B add to 90° (the right angle is C): they are complementary",
-"sin of one acute angle = cos of the other",
-"cos(B) = sin(A) = 5/13"
+"Draw it: right angle at C. The hypotenuse AB = 13 is across from the right angle.",
+"sin(A) = opposite A ÷ hypotenuse. The side across from A is BC, so BC = 5.",
+"cos(B) = adjacent to B ÷ hypotenuse. Stand at B: the leg touching B is BC (the same side!).",
+"So cos(B) = BC ÷ AB = 5/13. Same two sides, same fraction."
 ],
-"trap": "Do not find any angle. In a right triangle, sin(A) = cos(B) because A and B add to 90°.",
+"trap": "12/13 is cos(A) (the third side, 12, comes from 13² − 5²). They asked for cos(B).",
 "find": {
 "opts": [
 "cos(B)",
 "cos(A)",
 "sin(B)"
 ],
-"ok": 2
+"ok": 0
 },
 "ch": [
 "12/13",
@@ -45144,13 +45484,14 @@
 "skill": "trig",
 "diff": "M",
 "q": "In right triangle ABC, angle C is the right angle and sin(A) = 8/17. What is cos(B)?",
-"tool": "Rule: sin(A) = cos(B) when A + B = 90°. By hand is fastest.",
+"tool": "Rule: when A + B = 90°, sin(A) = cos(B). The picture shows why: it is the same side.",
 "steps": [
-"Angles A and B add to 90° (the right angle is C): they are complementary",
-"sin of one acute angle = cos of the other",
-"cos(B) = sin(A) = 8/17"
+"Draw it: right angle at C. The hypotenuse AB = 17 is across from the right angle.",
+"sin(A) = opposite A ÷ hypotenuse. The side across from A is BC, so BC = 8.",
+"cos(B) = adjacent to B ÷ hypotenuse. Stand at B: the leg touching B is BC (the same side!).",
+"So cos(B) = BC ÷ AB = 8/17. Same two sides, same fraction."
 ],
-"trap": "Do not find any angle. In a right triangle, sin(A) = cos(B) because A and B add to 90°.",
+"trap": "15/17 is cos(A) (the third side, 15, comes from 17² − 8²). They asked for cos(B).",
 "find": {
 "opts": [
 "cos(B)",
@@ -45261,20 +45602,21 @@
 "skill": "trig",
 "diff": "M",
 "q": "In right triangle ABC, angle C is the right angle and sin(A) = 33/65. What is cos(B)?",
-"tool": "Rule: sin(A) = cos(B) when A + B = 90°. By hand is fastest.",
+"tool": "Rule: when A + B = 90°, sin(A) = cos(B). The picture shows why: it is the same side.",
 "steps": [
-"Angles A and B add to 90° (the right angle is C): they are complementary",
-"sin of one acute angle = cos of the other",
-"cos(B) = sin(A) = 33/65"
+"Draw it: right angle at C. The hypotenuse AB = 65 is across from the right angle.",
+"sin(A) = opposite A ÷ hypotenuse. The side across from A is BC, so BC = 33.",
+"cos(B) = adjacent to B ÷ hypotenuse. Stand at B: the leg touching B is BC (the same side!).",
+"So cos(B) = BC ÷ AB = 33/65. Same two sides, same fraction."
 ],
-"trap": "Do not find any angle. In a right triangle, sin(A) = cos(B) because A and B add to 90°.",
+"trap": "56/65 is cos(A) (the third side, 56, comes from 65² − 33²). They asked for cos(B).",
 "find": {
 "opts": [
 "cos(B)",
 "cos(A)",
 "sin(B)"
 ],
-"ok": 2
+"ok": 0
 },
 "ch": [
 "56/65",
@@ -45407,20 +45749,21 @@
 "skill": "trig",
 "diff": "M",
 "q": "In right triangle ABC, angle C is the right angle and sin(A) = 9/41. What is cos(B)?",
-"tool": "Rule: sin(A) = cos(B) when A + B = 90°. By hand is fastest.",
+"tool": "Rule: when A + B = 90°, sin(A) = cos(B). The picture shows why: it is the same side.",
 "steps": [
-"Angles A and B add to 90° (the right angle is C): they are complementary",
-"sin of one acute angle = cos of the other",
-"cos(B) = sin(A) = 9/41"
+"Draw it: right angle at C. The hypotenuse AB = 41 is across from the right angle.",
+"sin(A) = opposite A ÷ hypotenuse. The side across from A is BC, so BC = 9.",
+"cos(B) = adjacent to B ÷ hypotenuse. Stand at B: the leg touching B is BC (the same side!).",
+"So cos(B) = BC ÷ AB = 9/41. Same two sides, same fraction."
 ],
-"trap": "Do not find any angle. In a right triangle, sin(A) = cos(B) because A and B add to 90°.",
+"trap": "40/41 is cos(A) (the third side, 40, comes from 41² − 9²). They asked for cos(B).",
 "find": {
 "opts": [
 "cos(B)",
 "cos(A)",
 "sin(B)"
 ],
-"ok": 2
+"ok": 0
 },
 "ch": [
 "40/41",
@@ -45584,20 +45927,21 @@
 "skill": "trig",
 "diff": "M",
 "q": "In right triangle ABC, angle C is the right angle and sin(A) = 20/29. What is cos(B)?",
-"tool": "Rule: sin(A) = cos(B) when A + B = 90°. By hand is fastest.",
+"tool": "Rule: when A + B = 90°, sin(A) = cos(B). The picture shows why: it is the same side.",
 "steps": [
-"Angles A and B add to 90° (the right angle is C): they are complementary",
-"sin of one acute angle = cos of the other",
-"cos(B) = sin(A) = 20/29"
+"Draw it: right angle at C. The hypotenuse AB = 29 is across from the right angle.",
+"sin(A) = opposite A ÷ hypotenuse. The side across from A is BC, so BC = 20.",
+"cos(B) = adjacent to B ÷ hypotenuse. Stand at B: the leg touching B is BC (the same side!).",
+"So cos(B) = BC ÷ AB = 20/29. Same two sides, same fraction."
 ],
-"trap": "Do not find any angle. In a right triangle, sin(A) = cos(B) because A and B add to 90°.",
+"trap": "21/29 is cos(A) (the third side, 21, comes from 29² − 20²). They asked for cos(B).",
 "find": {
 "opts": [
 "cos(B)",
 "cos(A)",
 "sin(B)"
 ],
-"ok": 1
+"ok": 0
 },
 "ch": [
 "21/29",
@@ -45673,20 +46017,21 @@
 "skill": "trig",
 "diff": "M",
 "q": "In right triangle ABC, angle C is the right angle and sin(A) = 28/53. What is cos(B)?",
-"tool": "Rule: sin(A) = cos(B) when A + B = 90°. By hand is fastest.",
+"tool": "Rule: when A + B = 90°, sin(A) = cos(B). The picture shows why: it is the same side.",
 "steps": [
-"Angles A and B add to 90° (the right angle is C): they are complementary",
-"sin of one acute angle = cos of the other",
-"cos(B) = sin(A) = 28/53"
+"Draw it: right angle at C. The hypotenuse AB = 53 is across from the right angle.",
+"sin(A) = opposite A ÷ hypotenuse. The side across from A is BC, so BC = 28.",
+"cos(B) = adjacent to B ÷ hypotenuse. Stand at B: the leg touching B is BC (the same side!).",
+"So cos(B) = BC ÷ AB = 28/53. Same two sides, same fraction."
 ],
-"trap": "Do not find any angle. In a right triangle, sin(A) = cos(B) because A and B add to 90°.",
+"trap": "45/53 is cos(A) (the third side, 45, comes from 53² − 28²). They asked for cos(B).",
 "find": {
 "opts": [
 "cos(B)",
 "cos(A)",
 "sin(B)"
 ],
-"ok": 1
+"ok": 0
 },
 "ch": [
 "45/53",
@@ -45790,20 +46135,21 @@
 "skill": "trig",
 "diff": "M",
 "q": "In right triangle ABC, angle C is the right angle and sin(A) = 11/61. What is cos(B)?",
-"tool": "Rule: sin(A) = cos(B) when A + B = 90°. By hand is fastest.",
+"tool": "Rule: when A + B = 90°, sin(A) = cos(B). The picture shows why: it is the same side.",
 "steps": [
-"Angles A and B add to 90° (the right angle is C): they are complementary",
-"sin of one acute angle = cos of the other",
-"cos(B) = sin(A) = 11/61"
+"Draw it: right angle at C. The hypotenuse AB = 61 is across from the right angle.",
+"sin(A) = opposite A ÷ hypotenuse. The side across from A is BC, so BC = 11.",
+"cos(B) = adjacent to B ÷ hypotenuse. Stand at B: the leg touching B is BC (the same side!).",
+"So cos(B) = BC ÷ AB = 11/61. Same two sides, same fraction."
 ],
-"trap": "Do not find any angle. In a right triangle, sin(A) = cos(B) because A and B add to 90°.",
+"trap": "60/61 is cos(A) (the third side, 60, comes from 61² − 11²). They asked for cos(B).",
 "find": {
 "opts": [
 "cos(B)",
 "cos(A)",
 "sin(B)"
 ],
-"ok": 1
+"ok": 0
 },
 "ch": [
 "11/61",
@@ -45879,20 +46225,21 @@
 "skill": "trig",
 "diff": "M",
 "q": "In right triangle ABC, angle C is the right angle and sin(A) = 8/17. What is cos(B)?",
-"tool": "Rule: sin(A) = cos(B) when A + B = 90°. By hand is fastest.",
+"tool": "Rule: when A + B = 90°, sin(A) = cos(B). The picture shows why: it is the same side.",
 "steps": [
-"Angles A and B add to 90° (the right angle is C): they are complementary",
-"sin of one acute angle = cos of the other",
-"cos(B) = sin(A) = 8/17"
+"Draw it: right angle at C. The hypotenuse AB = 17 is across from the right angle.",
+"sin(A) = opposite A ÷ hypotenuse. The side across from A is BC, so BC = 8.",
+"cos(B) = adjacent to B ÷ hypotenuse. Stand at B: the leg touching B is BC (the same side!).",
+"So cos(B) = BC ÷ AB = 8/17. Same two sides, same fraction."
 ],
-"trap": "Do not find any angle. In a right triangle, sin(A) = cos(B) because A and B add to 90°.",
+"trap": "15/17 is cos(A) (the third side, 15, comes from 17² − 8²). They asked for cos(B).",
 "find": {
 "opts": [
 "cos(B)",
 "cos(A)",
 "sin(B)"
 ],
-"ok": 1
+"ok": 0
 },
 "ch": [
 "15/17",

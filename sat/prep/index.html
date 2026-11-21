@@ -551,7 +551,7 @@ function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
   const head=(t,sub)=>`<div class="ph"><div><div class="t hd">${t}</div><div class="s">${sub}</div></div><button class="x" aria-label="Close panel" data-pan="${k}">✕</button></div>`;
   if(k==='show'){const res=carried(q,q.steps);const n=Math.max(1,st.shown);
     const seen=new Set();const wfs=q.steps.map((x,i)=>s.sec==='Math'?whereFrom(q,x,i,seen):'');
-    return head('Show me how','This question, one step at a time')+(s.sec==='Math'?qCards(q):'')+q.steps.slice(0,n).map((x,i)=>stepHTML(x,i,res,wfs[i])).join('')+
+    return head('Show me how','This question, one step at a time')+(typeof figFor==='function'?figFor(q):'')+(s.sec==='Math'?qCards(q):'')+q.steps.slice(0,n).map((x,i)=>stepHTML(x,i,res,wfs[i])).join('')+
      (n<q.steps.length?`<button class="btn" data-next="1" style="align-self:flex-start">Show the next step (${n+1} of ${q.steps.length})</button>`:`<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(q.trap)}</div></div>`)+
      `<div class="box b-blue"><div class="lab">${s.sec==='Math'?'Desmos or calculator':'Strategy'}</div><div class="c">${esc(q.tool)}</div></div>`;}
 
@@ -565,10 +565,10 @@ function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
     if(!h.c.length)return b+`<div class="box b-yel"><div class="lab">No calculator math here</div><div class="c">${esc(q.tool)}</div></div>`;
     return b+(typeof tiPic==='function'?tiPic(h.c,h.c.length):'')+list(h.c);}
   if(k==='form'){const use=q.steps[0]||'';const c=qCards(q);
-    return head('Formula','What this question uses, and what each letter means')+(c||'<div class="box b-yel"><div class="c">No formula needed for this one. Use Show me how.</div></div>')+
+    return head('Formula','What this question uses, and what each letter means')+(typeof figFor==='function'?figFor(q):'')+(c||'<div class="box b-yel"><div class="c">No formula needed for this one. Use Show me how.</div></div>')+
      `<button class="btn o" data-pan="show" style="align-self:flex-start">Show me every step</button>`;}
   if(k==='learn'&&s.sec==='Math'&&QF[q.id]){const _S=seenIds(),_c=BANK.qs.filter(x=>x.id!==q.id&&QT[x.id]===QT[q.id]&&!(D&&D.qs.some(y=>y.id===x.id)));const sib=_c.find(x=>_S.has(x.id))||_c.find(x=>!_S.has(x.id));if(sib&&!_S.has(sib.id)){const sh=store.get('shown_ex',[]);sh.push(sib.id);store.set('shown_ex',sh)}const nm=(QF[q.id][0]||{}).n||s.name;
-    let ex='';if(sib){const res=carried(sib,sib.steps),seen=new Set();ex=`<div class="box b-green"><div class="lab">Worked example · same type, different numbers</div><div class="c" style="font-family:'Source Serif 4',Georgia,serif;font-size:17px">${sib.q}</div></div>`+sib.steps.map((x,i)=>stepHTML(x,i,res,whereFrom(sib,x,i,seen))).join('')+(sib.trap?`<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(sib.trap)}</div></div>`:'');}
+    let ex='';if(sib){const res=carried(sib,sib.steps),seen=new Set();ex=`<div class="box b-green"><div class="lab">Worked example · same type, different numbers</div><div class="c" style="font-family:'Source Serif 4',Georgia,serif;font-size:17px">${sib.q}</div></div>`+(typeof figFor==='function'?figFor(sib):'')+sib.steps.map((x,i)=>stepHTML(x,i,res,whereFrom(sib,x,i,seen))).join('')+(sib.trap?`<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(sib.trap)}</div></div>`:'');}
     return head('Learn it · '+esc(nm),'How to do this type of question')+`<button class="btn o" data-pan="video" style="align-self:flex-start">▶ Watch the video</button>`+qCards(q)+ex+`<div class="box b-yel"><div class="lab">Now you</div><div class="c">Do the same steps with the numbers in your question.</div></div><a class="btn o" style="align-self:flex-start;text-decoration:none" href="#/learn/${q.skill}">Open the full lesson</a>`;}
   if(k==='learn'){const ls=lessonData(q.skill);if(!ls)return head('Learn it',esc(s.name))+'<div class="box b-yel"><div class="c">Use Show me how for this one.</div></div>';const ex=ls.ex[0];
     return head('Learn it · '+esc(s.name),'How to do this type of question')+`<button class="btn o" data-pan="video" style="align-self:flex-start">▶ Watch the video</button>`+
@@ -617,6 +617,6 @@ document.addEventListener('click',e=>{const b=e.target.closest('button,[data-go]
 HELM_AUTH.then(s=>{H.Authorization='Bearer '+s.access_token;return load()}).then(route);
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=11"></script><script src="bi.js?v=5"></script><script src="tutor.js?v=2"></script>
+<script src="stats.js?v=11"></script><script src="bi.js?v=5"></script><script src="tutor.js?v=2"></script><script src="figs.js?v=2"></script>
 </body>
 </html>
