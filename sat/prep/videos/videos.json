@@ -1,1242 +1,1286 @@
 {
-"t3": {
-"src": "videos/t3.mp4",
-"poster": "videos/t3.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-24,
-"The formulas"
-],
-[
-54,
-"Example 1: area to circumference"
-],
-[
-96,
-"Example 1: the trap and the calculator"
-],
-[
-111,
-"Example 2: scale the radius"
-],
-[
-141,
-"Example 3: cone volume"
-],
-[
-177,
-"Example 4: sin and cos"
-],
-[
-204,
-"Example 5: radians to degrees"
-],
-[
-226,
-"Your turn: pause and pick"
-],
-[
-267,
-"Say it out loud"
-]
-]
-},
-"a3": {
-"src": "videos/a3.mp4",
-"poster": "videos/a3.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-20,
-"The rules"
-],
-[
-38,
-"Example 1: Find f(number)"
-],
-[
-66,
-"Example 2: Given the output"
-],
-[
-99,
-"Example 3: Missing constant"
-],
-[
-137,
-"Example 4: Rearrange a formula"
-],
-[
-162,
-"Your turn: pause and pick"
-],
-[
-205,
-"Say it out loud"
-]
-]
-},
-"a1": {
-"src": "videos/a1.mp4",
-"poster": "videos/a1.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-18,
-"The rules"
-],
-[
-43,
-"Example 1: Zeros from factored form"
-],
-[
-81,
-"Example 2: Vertex from vertex form"
-],
-[
-119,
-"Example 3: y-intercept from standard form"
-],
-[
-150,
-"Example 4: Vertex x from standard form"
-],
-[
-188,
-"Your turn: pause and pick"
-],
-[
-215,
-"Say it out loud"
-]
-]
-},
-"t1": {
-"src": "videos/t1.mp4",
-"poster": "videos/t1.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-19,
-"The rules"
-],
-[
-36,
-"Example 1: Slope from Ax + By = C"
-],
-[
-66,
-"Example 2: Perpendicular slope"
-],
-[
-98,
-"Example 3: x-intercept"
-],
-[
-125,
-"Example 4: Slope from a table"
-],
-[
-161,
-"Your turn: pause and pick"
-],
-[
-187,
-"Say it out loud"
-]
-]
-},
-"t2": {
-"src": "videos/t2.mp4",
-"poster": "videos/t2.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-18,
-"The rules"
-],
-[
-34,
-"Example 1: Growth or decay"
-],
-[
-76,
-"Example 2: Doubling time"
-],
-[
-108,
-"Example 3: Table test"
-],
-[
-140,
-"Example 4: Factor the common chunk"
-],
-[
-180,
-"Your turn: pause and pick"
-],
-[
-210,
-"Say it out loud"
-]
-]
-},
-"a2": {
-"src": "videos/a2.mp4",
-"poster": "videos/a2.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-18,
-"The rules"
-],
-[
-29,
-"Example 1: Words → two equations"
-],
-[
-69,
-"Example 2: “Times as many”"
-],
-[
-107,
-"Example 3: Elimination"
-],
-[
-141,
-"Your turn: pause and pick"
-],
-[
-166,
-"Say it out loud"
-]
-]
-},
-"m1": {
-"src": "videos/m1.mp4",
-"poster": "videos/m1.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-18,
-"The rules"
-],
-[
-34,
-"Example 1: Asks for an expression, not x"
-],
-[
-72,
-"Example 2: Asks for 2x"
-],
-[
-102,
-"Example 3: Diameter, not radius"
-],
-[
-145,
-"Example 4: The other part"
-],
-[
-184,
-"Your turn: pause and pick"
-],
-[
-210,
-"Say it out loud"
-]
-]
-},
-"e1": {
-"src": "videos/e1.mp4",
-"poster": "videos/e1.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-18,
-"The rules"
-],
-[
-33,
-"Example 1: Sides"
-],
-[
-54,
-"Example 2: Area"
-],
-[
-81,
-"Example 3: Volume"
-],
-[
-109,
-"Example 4: Backward from area"
-],
-[
-139,
-"Your turn: pause and pick"
-],
-[
-167,
-"Say it out loud"
-]
-]
-},
-"a5": {
-"src": "videos/a5.mp4",
-"poster": "videos/a5.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-22,
-"The rules"
-],
-[
-37,
-"Example 1: Words → symbol"
-],
-[
-71,
-"Example 2: Flip for a negative"
-],
-[
-100,
-"Example 3: Test a point"
-],
-[
-131,
-"Example 4: Cost terms"
-],
-[
-161,
-"Your turn: pause and pick"
-],
-[
-195,
-"Say it out loud"
-]
-]
-},
-"e2": {
-"src": "videos/e2.mp4",
-"poster": "videos/e2.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-21,
-"The rules"
-],
-[
-44,
-"Example 1: Triangle sum"
-],
-[
-69,
-"Example 2: Straight line"
-],
-[
-97,
-"Example 3: Vertical angles"
-],
-[
-119,
-"Example 4: Parallel lines"
-],
-[
-151,
-"Your turn: pause and pick"
-],
-[
-178,
-"Say it out loud"
-]
-]
-},
-"m2": {
-"src": "videos/m2.mp4",
-"poster": "videos/m2.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-15,
-"The rules"
-],
-[
-24,
-"Example 1: Percent increase"
-],
-[
-63,
-"Example 2: Increase vs. total"
-],
-[
-116,
-"Example 3: Square units"
-],
-[
-161,
-"Example 4: “Additional”"
-],
-[
-206,
-"Your turn: pause and pick"
-],
-[
-232,
-"Say it out loud"
-]
-]
-},
-"a6": {
-"src": "videos/a6.mp4",
-"poster": "videos/a6.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-15,
-"The rules"
-],
-[
-30,
-"Example 1: Proportion"
-],
-[
-63,
-"Example 2: Unit conversion"
-],
-[
-100,
-"Example 3: Split by a ratio"
-],
-[
-135,
-"Example 4: Rate × time"
-],
-[
-163,
-"Your turn: pause and pick"
-],
-[
-185,
-"Say it out loud"
-]
-]
-},
-"d1": {
-"src": "videos/d1.mp4",
-"poster": "videos/d1.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-17,
-"The rules"
-],
-[
-34,
-"Example 1: Mean and median"
-],
-[
-74,
-"Example 2: Outlier"
-],
-[
-126,
-"Example 3: Add the same to every value"
-],
-[
-155,
-"Example 4: Find a missing value"
-],
-[
-190,
-"Your turn: pause and pick"
-],
-[
-222,
-"Say it out loud"
-]
-]
-},
-"d3": {
-"src": "videos/d3.mp4",
-"poster": "videos/d3.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-19,
-"The rules"
-],
-[
-35,
-"Example 1: Slope meaning"
-],
-[
-69,
-"Example 2: Intercept meaning"
-],
-[
-100,
-"Example 3: Predict"
-],
-[
-129,
-"Example 4: Residual"
-],
-[
-161,
-"Your turn: pause and pick"
-],
-[
-193,
-"Say it out loud"
-]
-]
-},
-"d2": {
-"src": "videos/d2.mp4",
-"poster": "videos/d2.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-18,
-"The rules"
-],
-[
-39,
-"Example 1: Simple probability"
-],
-[
-68,
-"Example 2: “Given that”"
-],
-[
-108,
-"Example 3: Expected number"
-],
-[
-140,
-"Your turn: pause and pick"
-],
-[
-169,
-"Say it out loud"
-]
-]
-},
-"a4": {
-"src": "videos/a4.mp4",
-"poster": "videos/a4.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-17,
-"The rules"
-],
-[
-36,
-"Example 1: Two answers"
-],
-[
-77,
-"Example 2: Equals a negative"
-],
-[
-106,
-"Example 3: Equals 0"
-],
-[
-134,
-"Example 4: “Within” in words"
-],
-[
-176,
-"Your turn: pause and pick"
-],
-[
-202,
-"Say it out loud"
-]
-]
-},
-"m3": {
-"src": "videos/m3.mp4",
-"poster": "videos/m3.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-15,
-"The rules"
-],
-[
-26,
-"Example 1: Solve an equation"
-],
-[
-62,
-"Example 2: Minimum or maximum"
-],
-[
-103,
-"Example 3: Zeros"
-],
-[
-146,
-"Example 4: Vertex from zeros"
-],
-[
-178,
-"Say it out loud"
-]
-]
-},
-"m4": {
-"src": "videos/m4.mp4",
-"poster": "videos/m4.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-16,
-"The rules"
-],
-[
-29,
-"Example 1: Plug the point in"
-],
-[
-69,
-"Example 2: Edge number in an inequality"
-],
-[
-115,
-"Example 3: No solution vs. infinitely many"
-],
-[
-159,
-"Your turn: pause and pick"
-],
-[
-184,
-"Say it out loud"
-]
-]
-},
-"m5": {
-"src": "videos/m5.mp4",
-"poster": "videos/m5.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-13,
-"The rules"
-],
-[
-30,
-"Example 1: Finished early"
-],
-[
-52,
-"Example 2: Stuck past 3 minutes"
-],
-[
-73,
-"Example 3: Never leave a blank"
-],
-[
-90,
-"Say it out loud"
-]
-]
-},
-"s1": {
-"src": "videos/s1.mp4",
-"poster": "videos/s1.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-19,
-"The rules"
-],
-[
-38,
-"Example 1: Period"
-],
-[
-83,
-"Example 2: Semicolon"
-],
-[
-125,
-"Example 3: Comma + FANBOYS"
-],
-[
-171,
-"Example 4: Semicolon + however"
-],
-[
-219,
-"Your turn: pause and pick"
-],
-[
-255,
-"Say it out loud"
-]
-]
-},
-"s4": {
-"src": "videos/s4.mp4",
-"poster": "videos/s4.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-17,
-"The rules"
-],
-[
-34,
-"Example 1: Two commas"
-],
-[
-80,
-"Example 2: Two dashes"
-],
-[
-122,
-"Example 3: Two parentheses"
-],
-[
-170,
-"Example 4: Extra info at the start"
-],
-[
-213,
-"Your turn: pause and pick"
-],
-[
-244,
-"Say it out loud"
-]
-]
-},
-"s5": {
-"src": "videos/s5.mp4",
-"poster": "videos/s5.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-21,
-"The rules"
-],
-[
-46,
-"Example 1: “Of” phrase in the middle"
-],
-[
-85,
-"Example 2: Dashes or commas in the middle"
-],
-[
-121,
-"Example 3: Two subjects with “and”"
-],
-[
-148,
-"Example 4: “Along with” / “as well as”"
-],
-[
-182,
-"Your turn: pause and pick"
-],
-[
-214,
-"Say it out loud"
-]
-]
-},
-"s6": {
-"src": "videos/s6.mp4",
-"poster": "videos/s6.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-17,
-"The rules"
-],
-[
-28,
-"Example 1: Pushback"
-],
-[
-68,
-"Example 2: Replaces"
-],
-[
-112,
-"Example 3: Still true anyway"
-],
-[
-158,
-"Example 4: Admits a weakness"
-],
-[
-193,
-"Your turn: pause and pick"
-],
-[
-220,
-"Say it out loud"
-]
-]
-},
-"r1": {
-"src": "videos/r1.mp4",
-"poster": "videos/r1.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-16,
-"The rules"
-],
-[
-30,
-"Example 1: Example clue"
-],
-[
-60,
-"Example 2: Colon clue"
-],
-[
-93,
-"Example 3: Describing clue"
-],
-[
-123,
-"Example 4: “Whereas” clue"
-],
-[
-155,
-"Your turn: pause and pick"
-],
-[
-183,
-"Say it out loud"
-]
-]
-},
-"r2": {
-"src": "videos/r2.mp4",
-"poster": "videos/r2.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-13,
-"The rules"
-],
-[
-24,
-"Example 1: Old belief → new finding"
-],
-[
-52,
-"Example 2: “Some think X. However, Y argues Z.”"
-],
-[
-85,
-"Example 3: Change over time"
-],
-[
-123,
-"Example 4: Process with steps"
-],
-[
-158,
-"Say it out loud"
-]
-]
-},
-"r3": {
-"src": "videos/r3.mp4",
-"poster": "videos/r3.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-17,
-"The rules"
-],
-[
-29,
-"Example 1: “This suggests that…”"
-],
-[
-67,
-"Example 2: Trap: goes too far"
-],
-[
-96,
-"Example 3: “Proves that” (what was shown)"
-],
-[
-135,
-"Example 4: Ruling things out"
-],
-[
-170,
-"Say it out loud"
-]
-]
-},
-"s2": {
-"src": "videos/s2.mp4",
-"poster": "videos/s2.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-17,
-"The rules"
-],
-[
-30,
-"Example 1: Who | did"
-],
-[
-65,
-"Example 2: Did | what"
-],
-[
-97,
-"Example 3: Little word | its words"
-],
-[
-134,
-"Example 4: Title right before a name"
-],
-[
-175,
-"Say it out loud"
-]
-]
-},
-"s3": {
-"src": "videos/s3.mp4",
-"poster": "videos/s3.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-16,
-"The rules"
-],
-[
-35,
-"Example 1: One owner"
-],
-[
-70,
-"Example 2: Many owners ending in s"
-],
-[
-108,
-"Example 3: Plural that doesn’t end in s"
-],
-[
-137,
-"Example 4: Just more than one (no owning)"
-],
-[
-170,
-"Say it out loud"
-]
-]
-},
-"r4": {
-"src": "videos/r4.mp4",
-"poster": "videos/r4.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-17,
-"The rules"
-],
-[
-33,
-"Example 1: Support a claim"
-],
-[
-66,
-"Example 2: Weaken a claim"
-],
-[
-101,
-"Example 3: Challenge with the opposite case"
-],
-[
-136,
-"Example 4: Illustrate with a quotation"
-],
-[
-175,
-"Say it out loud"
-]
-]
-},
-"r5": {
-"src": "videos/r5.mp4",
-"poster": "videos/r5.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-18,
-"The rules"
-],
-[
-33,
-"Example 1: Main purpose"
-],
-[
-75,
-"Example 2: Sets up contrasting views"
-],
-[
-110,
-"Example 3: Agrees + adds"
-],
-[
-152,
-"Example 4: Extends with a similar case"
-],
-[
-190,
-"Say it out loud"
-]
-]
-},
-"r6": {
-"src": "videos/r6.mp4",
-"poster": "videos/r6.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-17,
-"The rules"
-],
-[
-32,
-"Example 1: Emphasize something"
-],
-[
-67,
-"Example 2: Explain an outcome"
-],
-[
-96,
-"Example 3: Specify a number"
-],
-[
-127,
-"Example 4: Emphasize a similarity"
-],
-[
-156,
-"Say it out loud"
-]
-]
-},
-"g1": {
-"src": "videos/g1.mp4",
-"poster": "videos/g1.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-17,
-"The rules"
-],
-[
-31,
-"Example 1: -ing opening"
-],
-[
-65,
-"Example 2: -ed opening"
-],
-[
-98,
-"Example 3: After / while + -ing"
-],
-[
-128,
-"Example 4: “As a …” opening"
-],
-[
-160,
-"Say it out loud"
-]
-]
-},
-"g2": {
-"src": "videos/g2.mp4",
-"poster": "videos/g2.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-14,
-"The rules"
-],
-[
-29,
-"Example 1: -ing list"
-],
-[
-65,
-"Example 2: One “to” + plain verbs"
-],
-[
-100,
-"Example 3: Noun list"
-],
-[
-131,
-"Example 4: Not only … but also"
-],
-[
-158,
-"Say it out loud"
-]
-]
-},
-"g3": {
-"src": "videos/g3.mp4",
-"poster": "videos/g3.jpg",
-"chapters": [
-[
-0,
-"Start"
-],
-[
-15,
-"The rules"
-],
-[
-30,
-"Example 1: A past date → past"
-],
-[
-57,
-"Example 2: “Since” → has / have"
-],
-[
-87,
-"Example 3: “By the time” → had"
-],
-[
-120,
-"Example 4: In the middle of it → was / were + -ing"
-],
-[
-152,
-"Your turn: pause and pick"
-],
-[
-176,
-"Say it out loud"
-]
-]
-}
+ "circ": {
+  "src": "videos/circ.mp4",
+  "poster": "videos/circ.jpg",
+  "chapters": [
+   [
+    0,
+    "The big idea: find r"
+   ],
+   [
+    8,
+    "Dog on a leash: radius and diameter"
+   ],
+   [
+    38,
+    "Circumference: unroll the crust"
+   ],
+   [
+    65,
+    "Area: pizza slices"
+   ],
+   [
+    92,
+    "Plot twist: double r = 4\u00d7 area"
+   ],
+   [
+    109,
+    "Arcs and sectors"
+   ],
+   [
+    126,
+    "SAT question"
+   ],
+   [
+    165,
+    "Your turn"
+   ],
+   [
+    186,
+    "Lock it in"
+   ]
+  ],
+  "title": "Circles (new animated lesson)",
+  "math": true
+ },
+ "t3": {
+  "src": "videos/t3.mp4",
+  "poster": "videos/t3.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    24,
+    "The formulas"
+   ],
+   [
+    54,
+    "Example 1: area to circumference"
+   ],
+   [
+    96,
+    "Example 1: the trap and the calculator"
+   ],
+   [
+    111,
+    "Example 2: scale the radius"
+   ],
+   [
+    141,
+    "Example 3: cone volume"
+   ],
+   [
+    177,
+    "Example 4: sin and cos"
+   ],
+   [
+    204,
+    "Example 5: radians to degrees"
+   ],
+   [
+    226,
+    "Your turn: pause and pick"
+   ],
+   [
+    267,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "a3": {
+  "src": "videos/a3.mp4",
+  "poster": "videos/a3.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    20,
+    "The rules"
+   ],
+   [
+    38,
+    "Example 1: Find f(number)"
+   ],
+   [
+    66,
+    "Example 2: Given the output"
+   ],
+   [
+    99,
+    "Example 3: Missing constant"
+   ],
+   [
+    137,
+    "Example 4: Rearrange a formula"
+   ],
+   [
+    162,
+    "Your turn: pause and pick"
+   ],
+   [
+    205,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "a1": {
+  "src": "videos/a1.mp4",
+  "poster": "videos/a1.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    18,
+    "The rules"
+   ],
+   [
+    43,
+    "Example 1: Zeros from factored form"
+   ],
+   [
+    81,
+    "Example 2: Vertex from vertex form"
+   ],
+   [
+    119,
+    "Example 3: y-intercept from standard form"
+   ],
+   [
+    150,
+    "Example 4: Vertex x from standard form"
+   ],
+   [
+    188,
+    "Your turn: pause and pick"
+   ],
+   [
+    215,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "t1": {
+  "src": "videos/t1.mp4",
+  "poster": "videos/t1.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    19,
+    "The rules"
+   ],
+   [
+    36,
+    "Example 1: Slope from Ax + By = C"
+   ],
+   [
+    66,
+    "Example 2: Perpendicular slope"
+   ],
+   [
+    98,
+    "Example 3: x-intercept"
+   ],
+   [
+    125,
+    "Example 4: Slope from a table"
+   ],
+   [
+    161,
+    "Your turn: pause and pick"
+   ],
+   [
+    187,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "t2": {
+  "src": "videos/t2.mp4",
+  "poster": "videos/t2.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    18,
+    "The rules"
+   ],
+   [
+    34,
+    "Example 1: Growth or decay"
+   ],
+   [
+    76,
+    "Example 2: Doubling time"
+   ],
+   [
+    108,
+    "Example 3: Table test"
+   ],
+   [
+    140,
+    "Example 4: Factor the common chunk"
+   ],
+   [
+    180,
+    "Your turn: pause and pick"
+   ],
+   [
+    210,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "a2": {
+  "src": "videos/a2.mp4",
+  "poster": "videos/a2.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    18,
+    "The rules"
+   ],
+   [
+    29,
+    "Example 1: Words \u2192 two equations"
+   ],
+   [
+    69,
+    "Example 2: \u201cTimes as many\u201d"
+   ],
+   [
+    107,
+    "Example 3: Elimination"
+   ],
+   [
+    141,
+    "Your turn: pause and pick"
+   ],
+   [
+    166,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "m1": {
+  "src": "videos/m1.mp4",
+  "poster": "videos/m1.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    18,
+    "The rules"
+   ],
+   [
+    34,
+    "Example 1: Asks for an expression, not x"
+   ],
+   [
+    72,
+    "Example 2: Asks for 2x"
+   ],
+   [
+    102,
+    "Example 3: Diameter, not radius"
+   ],
+   [
+    145,
+    "Example 4: The other part"
+   ],
+   [
+    184,
+    "Your turn: pause and pick"
+   ],
+   [
+    210,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "e1": {
+  "src": "videos/e1.mp4",
+  "poster": "videos/e1.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    18,
+    "The rules"
+   ],
+   [
+    33,
+    "Example 1: Sides"
+   ],
+   [
+    54,
+    "Example 2: Area"
+   ],
+   [
+    81,
+    "Example 3: Volume"
+   ],
+   [
+    109,
+    "Example 4: Backward from area"
+   ],
+   [
+    139,
+    "Your turn: pause and pick"
+   ],
+   [
+    167,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "a5": {
+  "src": "videos/a5.mp4",
+  "poster": "videos/a5.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    22,
+    "The rules"
+   ],
+   [
+    37,
+    "Example 1: Words \u2192 symbol"
+   ],
+   [
+    71,
+    "Example 2: Flip for a negative"
+   ],
+   [
+    100,
+    "Example 3: Test a point"
+   ],
+   [
+    131,
+    "Example 4: Cost terms"
+   ],
+   [
+    161,
+    "Your turn: pause and pick"
+   ],
+   [
+    195,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "e2": {
+  "src": "videos/e2.mp4",
+  "poster": "videos/e2.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    21,
+    "The rules"
+   ],
+   [
+    44,
+    "Example 1: Triangle sum"
+   ],
+   [
+    69,
+    "Example 2: Straight line"
+   ],
+   [
+    97,
+    "Example 3: Vertical angles"
+   ],
+   [
+    119,
+    "Example 4: Parallel lines"
+   ],
+   [
+    151,
+    "Your turn: pause and pick"
+   ],
+   [
+    178,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "m2": {
+  "src": "videos/m2.mp4",
+  "poster": "videos/m2.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    15,
+    "The rules"
+   ],
+   [
+    24,
+    "Example 1: Percent increase"
+   ],
+   [
+    63,
+    "Example 2: Increase vs. total"
+   ],
+   [
+    116,
+    "Example 3: Square units"
+   ],
+   [
+    161,
+    "Example 4: \u201cAdditional\u201d"
+   ],
+   [
+    206,
+    "Your turn: pause and pick"
+   ],
+   [
+    232,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "a6": {
+  "src": "videos/a6.mp4",
+  "poster": "videos/a6.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    15,
+    "The rules"
+   ],
+   [
+    30,
+    "Example 1: Proportion"
+   ],
+   [
+    63,
+    "Example 2: Unit conversion"
+   ],
+   [
+    100,
+    "Example 3: Split by a ratio"
+   ],
+   [
+    135,
+    "Example 4: Rate \u00d7 time"
+   ],
+   [
+    163,
+    "Your turn: pause and pick"
+   ],
+   [
+    185,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "d1": {
+  "src": "videos/d1.mp4",
+  "poster": "videos/d1.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    17,
+    "The rules"
+   ],
+   [
+    34,
+    "Example 1: Mean and median"
+   ],
+   [
+    74,
+    "Example 2: Outlier"
+   ],
+   [
+    126,
+    "Example 3: Add the same to every value"
+   ],
+   [
+    155,
+    "Example 4: Find a missing value"
+   ],
+   [
+    190,
+    "Your turn: pause and pick"
+   ],
+   [
+    222,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "d3": {
+  "src": "videos/d3.mp4",
+  "poster": "videos/d3.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    19,
+    "The rules"
+   ],
+   [
+    35,
+    "Example 1: Slope meaning"
+   ],
+   [
+    69,
+    "Example 2: Intercept meaning"
+   ],
+   [
+    100,
+    "Example 3: Predict"
+   ],
+   [
+    129,
+    "Example 4: Residual"
+   ],
+   [
+    161,
+    "Your turn: pause and pick"
+   ],
+   [
+    193,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "d2": {
+  "src": "videos/d2.mp4",
+  "poster": "videos/d2.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    18,
+    "The rules"
+   ],
+   [
+    39,
+    "Example 1: Simple probability"
+   ],
+   [
+    68,
+    "Example 2: \u201cGiven that\u201d"
+   ],
+   [
+    108,
+    "Example 3: Expected number"
+   ],
+   [
+    140,
+    "Your turn: pause and pick"
+   ],
+   [
+    169,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "a4": {
+  "src": "videos/a4.mp4",
+  "poster": "videos/a4.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    17,
+    "The rules"
+   ],
+   [
+    36,
+    "Example 1: Two answers"
+   ],
+   [
+    77,
+    "Example 2: Equals a negative"
+   ],
+   [
+    106,
+    "Example 3: Equals 0"
+   ],
+   [
+    134,
+    "Example 4: \u201cWithin\u201d in words"
+   ],
+   [
+    176,
+    "Your turn: pause and pick"
+   ],
+   [
+    202,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "m3": {
+  "src": "videos/m3.mp4",
+  "poster": "videos/m3.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    15,
+    "The rules"
+   ],
+   [
+    26,
+    "Example 1: Solve an equation"
+   ],
+   [
+    62,
+    "Example 2: Minimum or maximum"
+   ],
+   [
+    103,
+    "Example 3: Zeros"
+   ],
+   [
+    146,
+    "Example 4: Vertex from zeros"
+   ],
+   [
+    178,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "m4": {
+  "src": "videos/m4.mp4",
+  "poster": "videos/m4.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    16,
+    "The rules"
+   ],
+   [
+    29,
+    "Example 1: Plug the point in"
+   ],
+   [
+    69,
+    "Example 2: Edge number in an inequality"
+   ],
+   [
+    115,
+    "Example 3: No solution vs. infinitely many"
+   ],
+   [
+    159,
+    "Your turn: pause and pick"
+   ],
+   [
+    184,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "m5": {
+  "src": "videos/m5.mp4",
+  "poster": "videos/m5.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    13,
+    "The rules"
+   ],
+   [
+    30,
+    "Example 1: Finished early"
+   ],
+   [
+    52,
+    "Example 2: Stuck past 3 minutes"
+   ],
+   [
+    73,
+    "Example 3: Never leave a blank"
+   ],
+   [
+    90,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "s1": {
+  "src": "videos/s1.mp4",
+  "poster": "videos/s1.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    19,
+    "The rules"
+   ],
+   [
+    38,
+    "Example 1: Period"
+   ],
+   [
+    83,
+    "Example 2: Semicolon"
+   ],
+   [
+    125,
+    "Example 3: Comma + FANBOYS"
+   ],
+   [
+    171,
+    "Example 4: Semicolon + however"
+   ],
+   [
+    219,
+    "Your turn: pause and pick"
+   ],
+   [
+    255,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "s4": {
+  "src": "videos/s4.mp4",
+  "poster": "videos/s4.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    17,
+    "The rules"
+   ],
+   [
+    34,
+    "Example 1: Two commas"
+   ],
+   [
+    80,
+    "Example 2: Two dashes"
+   ],
+   [
+    122,
+    "Example 3: Two parentheses"
+   ],
+   [
+    170,
+    "Example 4: Extra info at the start"
+   ],
+   [
+    213,
+    "Your turn: pause and pick"
+   ],
+   [
+    244,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "s5": {
+  "src": "videos/s5.mp4",
+  "poster": "videos/s5.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    21,
+    "The rules"
+   ],
+   [
+    46,
+    "Example 1: \u201cOf\u201d phrase in the middle"
+   ],
+   [
+    85,
+    "Example 2: Dashes or commas in the middle"
+   ],
+   [
+    121,
+    "Example 3: Two subjects with \u201cand\u201d"
+   ],
+   [
+    148,
+    "Example 4: \u201cAlong with\u201d / \u201cas well as\u201d"
+   ],
+   [
+    182,
+    "Your turn: pause and pick"
+   ],
+   [
+    214,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "s6": {
+  "src": "videos/s6.mp4",
+  "poster": "videos/s6.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    17,
+    "The rules"
+   ],
+   [
+    28,
+    "Example 1: Pushback"
+   ],
+   [
+    68,
+    "Example 2: Replaces"
+   ],
+   [
+    112,
+    "Example 3: Still true anyway"
+   ],
+   [
+    158,
+    "Example 4: Admits a weakness"
+   ],
+   [
+    193,
+    "Your turn: pause and pick"
+   ],
+   [
+    220,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "r1": {
+  "src": "videos/r1.mp4",
+  "poster": "videos/r1.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    16,
+    "The rules"
+   ],
+   [
+    30,
+    "Example 1: Example clue"
+   ],
+   [
+    60,
+    "Example 2: Colon clue"
+   ],
+   [
+    93,
+    "Example 3: Describing clue"
+   ],
+   [
+    123,
+    "Example 4: \u201cWhereas\u201d clue"
+   ],
+   [
+    155,
+    "Your turn: pause and pick"
+   ],
+   [
+    183,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "r2": {
+  "src": "videos/r2.mp4",
+  "poster": "videos/r2.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    13,
+    "The rules"
+   ],
+   [
+    24,
+    "Example 1: Old belief \u2192 new finding"
+   ],
+   [
+    52,
+    "Example 2: \u201cSome think X. However, Y argues Z.\u201d"
+   ],
+   [
+    85,
+    "Example 3: Change over time"
+   ],
+   [
+    123,
+    "Example 4: Process with steps"
+   ],
+   [
+    158,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "r3": {
+  "src": "videos/r3.mp4",
+  "poster": "videos/r3.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    17,
+    "The rules"
+   ],
+   [
+    29,
+    "Example 1: \u201cThis suggests that\u2026\u201d"
+   ],
+   [
+    67,
+    "Example 2: Trap: goes too far"
+   ],
+   [
+    96,
+    "Example 3: \u201cProves that\u201d (what was shown)"
+   ],
+   [
+    135,
+    "Example 4: Ruling things out"
+   ],
+   [
+    170,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "s2": {
+  "src": "videos/s2.mp4",
+  "poster": "videos/s2.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    17,
+    "The rules"
+   ],
+   [
+    30,
+    "Example 1: Who | did"
+   ],
+   [
+    65,
+    "Example 2: Did | what"
+   ],
+   [
+    97,
+    "Example 3: Little word | its words"
+   ],
+   [
+    134,
+    "Example 4: Title right before a name"
+   ],
+   [
+    175,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "s3": {
+  "src": "videos/s3.mp4",
+  "poster": "videos/s3.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    16,
+    "The rules"
+   ],
+   [
+    35,
+    "Example 1: One owner"
+   ],
+   [
+    70,
+    "Example 2: Many owners ending in s"
+   ],
+   [
+    108,
+    "Example 3: Plural that doesn\u2019t end in s"
+   ],
+   [
+    137,
+    "Example 4: Just more than one (no owning)"
+   ],
+   [
+    170,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "r4": {
+  "src": "videos/r4.mp4",
+  "poster": "videos/r4.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    17,
+    "The rules"
+   ],
+   [
+    33,
+    "Example 1: Support a claim"
+   ],
+   [
+    66,
+    "Example 2: Weaken a claim"
+   ],
+   [
+    101,
+    "Example 3: Challenge with the opposite case"
+   ],
+   [
+    136,
+    "Example 4: Illustrate with a quotation"
+   ],
+   [
+    175,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "r5": {
+  "src": "videos/r5.mp4",
+  "poster": "videos/r5.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    18,
+    "The rules"
+   ],
+   [
+    33,
+    "Example 1: Main purpose"
+   ],
+   [
+    75,
+    "Example 2: Sets up contrasting views"
+   ],
+   [
+    110,
+    "Example 3: Agrees + adds"
+   ],
+   [
+    152,
+    "Example 4: Extends with a similar case"
+   ],
+   [
+    190,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "r6": {
+  "src": "videos/r6.mp4",
+  "poster": "videos/r6.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    17,
+    "The rules"
+   ],
+   [
+    32,
+    "Example 1: Emphasize something"
+   ],
+   [
+    67,
+    "Example 2: Explain an outcome"
+   ],
+   [
+    96,
+    "Example 3: Specify a number"
+   ],
+   [
+    127,
+    "Example 4: Emphasize a similarity"
+   ],
+   [
+    156,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "g1": {
+  "src": "videos/g1.mp4",
+  "poster": "videos/g1.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    17,
+    "The rules"
+   ],
+   [
+    31,
+    "Example 1: -ing opening"
+   ],
+   [
+    65,
+    "Example 2: -ed opening"
+   ],
+   [
+    98,
+    "Example 3: After / while + -ing"
+   ],
+   [
+    128,
+    "Example 4: \u201cAs a \u2026\u201d opening"
+   ],
+   [
+    160,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "g2": {
+  "src": "videos/g2.mp4",
+  "poster": "videos/g2.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    14,
+    "The rules"
+   ],
+   [
+    29,
+    "Example 1: -ing list"
+   ],
+   [
+    65,
+    "Example 2: One \u201cto\u201d + plain verbs"
+   ],
+   [
+    100,
+    "Example 3: Noun list"
+   ],
+   [
+    131,
+    "Example 4: Not only \u2026 but also"
+   ],
+   [
+    158,
+    "Say it out loud"
+   ]
+  ]
+ },
+ "g3": {
+  "src": "videos/g3.mp4",
+  "poster": "videos/g3.jpg",
+  "chapters": [
+   [
+    0,
+    "Start"
+   ],
+   [
+    15,
+    "The rules"
+   ],
+   [
+    30,
+    "Example 1: A past date \u2192 past"
+   ],
+   [
+    57,
+    "Example 2: \u201cSince\u201d \u2192 has / have"
+   ],
+   [
+    87,
+    "Example 3: \u201cBy the time\u201d \u2192 had"
+   ],
+   [
+    120,
+    "Example 4: In the middle of it \u2192 was / were + -ing"
+   ],
+   [
+    152,
+    "Your turn: pause and pick"
+   ],
+   [
+    176,
+    "Say it out loud"
+   ]
+  ]
+ }
 }
