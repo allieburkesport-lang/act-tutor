@@ -6,10 +6,11 @@ const BI_BP_FROM = '2026-11-06', BI_BP_TO = '2026-11-20';
 const BI_LEVELS = [['sec', 'Section'], ['dom', 'Domain'], ['skill', 'Skill'], ['diff', 'Difficulty']];
 const BI_SEC = {Math: 'Math', English: 'Reading & Writing'};
 const BI_DIFF = {E: 'Easy', M: 'Medium', H: 'Hard'};
+const HC = {navy: '#13315C', navyL: '#8FA6CC', gold: '#C9A227', goldL: '#E9D48F', steel: '#A3B1C2', green: '#10B981', amber: '#F59E0B', rose: '#F43F5E', ink: '#0F172A'};
 
 (function css() {
   const s = document.createElement('style'); s.textContent = `
-  .bi{--bg:#f8fafc;--card:#fff;--bd:#e2e8f0;--tx:#0f172a;--mu:#64748b;--ac:#1e3a8a;--ac2:#c9a22a;--up:#059669;--dn:#e11d48;--hv:#f1f5f9;color:var(--tx);font-variant-numeric:tabular-nums}
+  .bi{--bg:#f8fafc;--card:#fff;--bd:#e2e8f0;--tx:#0f172a;--mu:#64748b;--ac:#13315C;--ac2:#C9A227;--up:#10B981;--dn:#F43F5E;--hv:#f1f5f9;color:var(--tx);font-variant-numeric:tabular-nums}
   .bi.dark{--bg:#0b1220;--card:#111a2e;--bd:#1e293b;--tx:#e2e8f0;--mu:#94a3b8;--ac:#60a5fa;--hv:#16213a}
   .bi.dark,.bi.dark .page{background:var(--bg)}
   .bi .bc{background:var(--card);border:1px solid var(--bd);border-radius:16px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
@@ -112,13 +113,12 @@ function drawStats() {
      <span class="lab" style="margin-left:6px">Section</span><select id="bi-sec"><option value="">Both</option>${['Math', 'Reading & Writing'].map(s => `<option ${BI.f.sec === s ? 'selected' : ''}>${s}</option>`).join('')}</select>
      <span class="lab" style="margin-left:6px">Data</span><div class="seg"><button class="${BI.src.helm ? 'on' : ''}" data-bi="src:helm">HELM</button><button class="${BI.src.bp ? 'on' : ''}" data-bi="src:bp">Blueprint</button></div>
      <button class="xbtn" data-bi="reset">↺ Reset all filters</button><button class="xbtn" data-bi="dark" title="Dark / light mode">${BI.dark ? '☀ Light' : '☾ Dark'}</button></div></div>
-   ${scoresBlock()}
    <div class="pills"><span class="lab">Showing</span><span class="pill2" style="background:transparent">${rangeTxt}</span>${pills.length ? pills.map(([k, t], i) => `${i ? '<span style="color:var(--mu)">›</span>' : ''}<span class="pill2">${esc(t)}<button data-bi="unf:${k}" aria-label="Remove filter">✕</button></span>`).join('') : '<span style="color:var(--mu);font-size:13px">No filters. Click a bar or row to filter.</span>'}</div>
    <div class="kpis">
-    ${kpi('acc', 'Right on first try', A.acc == null ? '—' : A.acc + '%', `${A.ok} of ${A.n} · ${prevTxt}`, badge(A.acc, P && P.acc, ' pts'), perDay.map(x => x.acc), '#1e3a8a')}
-    ${kpi('n', 'Questions answered', A.n.toLocaleString(), prevTxt, badge(A.n, P && P.n), perDay.map(x => x.n), '#c9a22a')}
-    ${kpi('time', 'Avg time per question', mmss(A.secs), A.pace ? `SAT pace ${mmss(A.pace)} · HELM only` : 'HELM only', badge(A.secs, P && P.secs, 's', true), perDay.map(x => x.secs), '#0f766e')}
-    ${kpi('proj', 'Projected SAT', pjNow.total.toLocaleString(), `Math ${pjNow.Math} · R&W ${pjNow['R&W']}`, badge(pjNow.total, pjPrev && pjPrev.total), pjSpark, '#059669')}
+    ${kpi('acc', 'Right on first try', A.acc == null ? '—' : A.acc + '%', `${A.ok} of ${A.n} · ${prevTxt}`, badge(A.acc, P && P.acc, ' pts'), perDay.map(x => x.acc), HC.navy)}
+    ${kpi('n', 'Questions answered', A.n.toLocaleString(), prevTxt, badge(A.n, P && P.n), perDay.map(x => x.n), HC.gold)}
+    ${kpi('time', 'Avg time per question', mmss(A.secs), A.pace ? `SAT pace ${mmss(A.pace)} · HELM only` : 'HELM only', badge(A.secs, P && P.secs, 's', true), perDay.map(x => x.secs), HC.steel)}
+    ${kpi('proj', 'Projected SAT', pjNow.total.toLocaleString(), `Math ${pjNow.Math} · R&W ${pjNow['R&W']}`, badge(pjNow.total, pjPrev && pjPrev.total), pjSpark, HC.green)}
    </div>
    <div class="t2">
     <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><div><div class="hd" style="font-size:18px;font-weight:700">Questions and accuracy over time</div><div style="font-size:13px;color:var(--mu)">Bars = questions (Math / R&W / Blueprint quizzes) · line = % right · click a bar to filter that ${BI.gran}</div></div>
@@ -129,8 +129,11 @@ function drawStats() {
    <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px"><div class="hd" style="font-size:18px;font-weight:700">Every skill</div>
      <div style="font-size:13px;color:var(--mu)">Click a header to sort · click a row to see its questions · <b>Points at stake</b> = SAT points still being lost in that skill (share of section × % wrong × 600)</div></div>
     <div style="overflow:auto;max-height:560px;margin-top:8px" id="bi-pv"></div></section>
+   <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px"><div class="hd" style="font-size:18px;font-weight:700">Day by day: Blueprint and HELM</div>
+     <div style="font-size:13px;color:var(--mu)">First tries only · click a day to filter the whole page</div></div><div style="overflow:auto;margin-top:8px" id="bi-days"></div></section>
+   <div style="margin-top:8px"><div class="lab" style="margin-bottom:6px">Official SAT scores and projection</div>${scoresBlock()}</div>
   </div><div id="bi-drw"></div></div>`;
-  biTrend(rows); biRank(rows, lv); biPivot(R, rg); if (BI.drawer) biOpen(BI.drawer, true);
+  biTrend(rows); biRank(rows, lv); biDaysTable(R); biPivot(R, rg); if (BI.drawer) biOpen(BI.drawer, true);
   scoresChart()
 }
 
@@ -141,10 +144,10 @@ function biTrend(rows) {
   const sum = (k, f) => dated.filter(r => biBucket(r.date, g) === k && f(r)).reduce((a, r) => a + r.n, 0);
   const acc = k => biAgg(dated.filter(r => biBucket(r.date, g) === k)).acc;
   chart('bi-t', {data: {labels: keys.map(lab), datasets: [
-    {type: 'bar', label: 'Math', data: keys.map(k => sum(k, r => r.sec === 'Math')), backgroundColor: '#1e3a8a', stack: 'q', yAxisID: 'y', order: 2},
-    {type: 'bar', label: 'Reading & Writing', data: keys.map(k => sum(k, r => r.sec === 'Reading & Writing')), backgroundColor: '#c9a22a', stack: 'q', yAxisID: 'y', order: 2},
-    {type: 'bar', label: 'Blueprint quizzes (mixed)', data: keys.map(k => sum(k, r => r.sec === 'Mixed')), backgroundColor: '#94a3b8', stack: 'q', yAxisID: 'y', order: 2},
-    {type: 'line', label: '% right', data: keys.map(acc), borderColor: '#059669', backgroundColor: '#059669', tension: .3, cubicInterpolationMode: 'monotone', pointRadius: 3, yAxisID: 'y2', order: 0, spanGaps: true}]},
+    {type: 'bar', label: 'Math', data: keys.map(k => sum(k, r => r.sec === 'Math')), backgroundColor: HC.navy, borderRadius: 4, stack: 'q', yAxisID: 'y', order: 2},
+    {type: 'bar', label: 'Reading & Writing', data: keys.map(k => sum(k, r => r.sec === 'Reading & Writing')), backgroundColor: HC.gold, borderRadius: 4, stack: 'q', yAxisID: 'y', order: 2},
+    {type: 'bar', label: 'Blueprint quizzes (mixed)', data: keys.map(k => sum(k, r => r.sec === 'Mixed')), backgroundColor: HC.steel, borderRadius: 4, stack: 'q', yAxisID: 'y', order: 2},
+    {type: 'line', label: '% right', data: keys.map(acc), borderColor: HC.green, backgroundColor: HC.green, borderWidth: 3, tension: .3, cubicInterpolationMode: 'monotone', pointRadius: 3, yAxisID: 'y2', order: 0, spanGaps: true}]},
     options: {maintainAspectRatio: false, interaction: {mode: 'index', intersect: false}, plugins: {legend: {position: 'bottom', labels: {color: C.tick}}},
       scales: {x: {stacked: true, ticks: {color: C.tick}, grid: {display: false}}, y: {stacked: true, title: {display: true, text: 'Questions', color: C.tick}, ticks: {color: C.tick}, grid: {color: C.grid}},
         y2: {position: 'right', min: 0, max: 100, ticks: {color: C.tick, callback: v => v + '%'}, grid: {drawOnChartArea: false}}},
@@ -161,7 +164,7 @@ function biRank(rows, lv) {
   if (lv === 'diff') ks.sort((a, b) => 'EasyMediumHard'.indexOf(a.k) - 'EasyMediumHard'.indexOf(b.k)); else ks.sort((a, b) => (a.acc ?? 0) - (b.acc ?? 0));
   const wrap = document.getElementById('bi-rk-wrap'); if (wrap) wrap.style.height = Math.max(200, 38 * ks.length + 40) + 'px';
   if (!ks.length) { if (wrap) wrap.innerHTML = '<div style="color:var(--mu);padding:20px 0">No questions in this range yet.</div>'; return }
-  const C = biColors(), col = x => x.acc >= 70 ? '#059669' : x.acc >= 50 ? '#c9a22a' : '#e11d48';
+  const C = biColors(), col = x => x.acc >= 70 ? HC.green : x.acc >= 50 ? HC.amber : HC.rose;
   chart('bi-rk', {type: 'bar', plugins: [BI_LBL], data: {labels: ks.map(x => x.k.length > 34 ? x.k.slice(0, 33) + '…' : x.k), extra: ks.map(x => `${x.acc}% · ${x.ok}/${x.n}`), datasets: [{data: ks.map(x => x.acc), backgroundColor: ks.map(col), borderRadius: 6, barThickness: 22}]},
     options: {indexAxis: 'y', maintainAspectRatio: false, layout: {padding: {right: 70}}, plugins: {legend: {display: false}, tooltip: {callbacks: {label: c => `${ks[c.dataIndex].acc}% right · ${ks[c.dataIndex].n} questions`}}},
       scales: {x: {min: 0, max: 100, ticks: {color: C.tick, callback: v => v + '%'}, grid: {color: C.grid}}, y: {ticks: {color: C.tick}, grid: {display: false}}},
@@ -178,7 +181,7 @@ function biPivot(R, rg) {
   const H = [['skill', 'Skill'], ['sec', 'Section'], ['share', '% of section'], ['n', 'Qs'], ['ok', 'Right'], ['wrong', 'Wrong'], ['acc', 'Accuracy'], ['helm', 'HELM'], ['bp', 'Blueprint'], ['chg', 'vs. prev.'], ['dm', 'Difficulty (right / asked)'], ['secs', 'Avg time'], ['lost', 'Points at stake'], ['go', '']];
   const el = document.getElementById('bi-pv'); if (!el) return;
   if (!list.length) { el.innerHTML = '<div style="color:var(--mu);padding:16px 0">No skill-level records in this range. (Blueprint skill totals appear when the range covers Nov 6–20, e.g. All time.)</div>'; return }
-  const accCol = a => a == null ? '#94a3b8' : a >= 70 ? '#059669' : a >= 50 ? '#c9a22a' : '#e11d48';
+  const accCol = a => a == null ? HC.steel : a >= 70 ? HC.green : a >= 50 ? HC.amber : HC.rose;
   el.innerHTML = `<table class="pv"><thead><tr>${H.map(([k, t]) => k === 'go' || k === 'dm' ? `<th>${t}</th>` : `<th data-bi="sort:${k}">${t}${S.k === k ? (S.d > 0 ? ' ▲' : ' ▼') : ''}</th>`).join('')}</tr></thead><tbody>${list.map(x => `<tr data-bi="row:${esc(x.skill)}" style="cursor:pointer" title="See every question in this skill">
     <td class="c" data-bi="row:${esc(x.skill)}"><b>${esc(x.skill)}</b><div style="font-size:12px;color:var(--mu)">${esc(x.dom)}</div></td><td>${x.sec === 'Reading & Writing' ? 'R&W' : x.sec}</td><td>${x.share ? Math.round(x.share) + '%' : '—'}</td>
     <td class="c" data-bi="row:${esc(x.skill)}">${x.n}</td><td class="c" data-bi="row:${esc(x.skill)}|ok" style="color:var(--up);font-weight:700">${x.ok}</td><td class="c" data-bi="row:${esc(x.skill)}|wrong" style="color:var(--dn);font-weight:700">${x.wrong}</td>
@@ -186,7 +189,7 @@ function biPivot(R, rg) {
     <td>${x.helm == null ? '—' : x.helm + '%'}</td><td>${x.bp == null ? '—' : x.bp + '%'}</td><td>${x.chg == null ? '—' : `<span style="color:${x.chg >= 0 ? 'var(--up)' : 'var(--dn)'};font-weight:700">${x.chg > 0 ? '▲' : x.chg < 0 ? '▼' : ''} ${Math.abs(x.chg)}</span>`}</td>
     <td>${x.dm.filter(d => d[1]).length ? x.dm.filter(d => d[1]).map(([d, n, ok]) => `<span class="badge" style="margin-right:4px;background:${d === 'Easy' ? '#dcfce7' : d === 'Medium' ? '#fef3c7' : '#fee2e2'};color:${d === 'Easy' ? '#166534' : d === 'Medium' ? '#92400e' : '#991b1b'}">${d[0]} ${ok}/${n}</span>`).join('') : '<span style="color:var(--mu);font-size:12px">Blueprint only</span>'}</td>
     <td>${x.secs == null ? '—' : `<span style="color:${x.secs > x.pace ? 'var(--dn)' : 'var(--up)'}">${mmss(x.secs)}</span>`}</td>
-    <td class="cb"><i style="width:${100 * x.lost / maxLost}%;background:#e11d48"></i><span>${x.lost}</span></td><td><span class="xbtn" style="white-space:nowrap">Questions ›</span></td></tr>`).join('')}</tbody></table>`
+    <td class="cb"><i style="width:${100 * x.lost / maxLost}%;background:${HC.rose}"></i><span>${x.lost}</span></td><td><span class="xbtn" style="white-space:nowrap">Questions ›</span></td></tr>`).join('')}</tbody></table>`
 }
 
 // ---------- inspector drawer ----------
@@ -245,3 +248,18 @@ document.addEventListener('change', e => {
 document.addEventListener('input', e => { if (e.target.id === 'bi-dq') { BI.dq = e.target.value; BI.dfocus = true; biOpen(BI.drawer, true) } });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && BI.drawer && document.getElementById('bi')) { BI.drawer = null; const h = document.getElementById('bi-drw'); if (h) h.innerHTML = '' } });
 try { BI.dark = !!localStorage.getItem('bi_dark') } catch (x) {}
+
+function biDaysTable(R) {
+  const el = document.getElementById('bi-days'); if (!el) return; const rg = biRange();
+  const dated = biFilter(R, rg, {dated: true}), days = [...new Set(dated.map(r => r.date))].sort().reverse();
+  if (!days.length) { el.innerHTML = '<div style="color:var(--mu)">No practice in this range yet.</div>'; return }
+  const ft = firstTries(), cell = a => a.n ? `<b>${a.acc}%</b> <span style="color:var(--mu);font-size:12px">${a.ok}/${a.n}</span>` : '<span style="color:var(--mu)">—</span>';
+  const bar = (p, c) => `<div style="display:flex;align-items:center;gap:6px"><div style="width:70px;height:8px;border-radius:4px;background:var(--hv);overflow:hidden"><div style="width:${p}%;height:100%;background:${c}"></div></div><span>${p}%</span></div>`;
+  el.innerHTML = `<table class="pv"><thead><tr><th>Day</th><th>HELM</th><th>Blueprint</th><th>Combined</th><th>Hard questions (HELM)</th><th>Right with no help (HELM)</th><th>Avg time / Q (HELM)</th></tr></thead><tbody>${days.map(d => {
+    const rows = dated.filter(r => r.date === d), h = biAgg(rows.filter(r => r.src === 'HELM')), b = biAgg(rows.filter(r => r.src === 'Blueprint')), c = biAgg(rows);
+    const hx = rows.filter(r => r.src === 'HELM'), hard = hx.length ? Math.round(100 * hx.filter(r => r.diff === 'Hard').length / hx.length) : null;
+    const nh = ft.filter(x => x.day === d && !(x.helpFirst || []).length), nhp = nh.length ? Math.round(100 * nh.filter(x => x.ok).length / nh.length) : null;
+    const lab = new Date(d + 'T12:00').toLocaleDateString('en-US', {weekday: 'short', month: 'short', day: 'numeric'});
+    return `<tr data-bi="day:${d}|${lab}" style="cursor:pointer"><td><b>${lab}</b></td><td>${cell(h)}</td><td>${cell(b)}</td><td>${cell(c)}</td><td>${hard == null ? '—' : bar(hard, HC.navy)}</td><td>${nhp == null ? '—' : bar(nhp, nhp >= 70 ? HC.green : nhp >= 50 ? HC.amber : HC.rose)}</td><td>${h.secs == null ? '—' : `<span style="color:${h.secs > h.pace ? 'var(--dn)' : 'var(--up)'}">${mmss(h.secs)}</span> <span style="color:var(--mu);font-size:12px">/ ${mmss(h.pace)}</span>`}</td></tr>` }).join('')}</tbody></table>`
+}
+document.addEventListener('click', e => { const t = e.target.closest('[data-bi^="day:"]'); if (!t || !document.getElementById('bi')) return; const [d, lab] = t.dataset.bi.slice(4).split('|'); BI.f.date = d; BI.f.dateG = 'day'; BI.f.dateL = lab; if (BI.range !== 'all' && !(d >= biRange()[0] && d <= biRange()[1])) BI.range = 'all'; drawStats() }, true);
