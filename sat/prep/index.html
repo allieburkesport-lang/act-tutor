@@ -634,6 +634,6 @@ document.addEventListener('click',e=>{const b=e.target.closest('button,[data-go]
 HELM_AUTH.then(s=>{H.Authorization='Bearer '+s.access_token;return load()}).then(route);
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=11"></script><script src="bi.js?v=6"></script><script src="tutor.js?v=4"></script><script src="figs.js?v=2"></script>
+<script src="stats.js?v=11"></script><script src="bi.js?v=6"></script><script src="tutor-config.js?v=1"></script><script src="tutor.js?v=6"></script><script src="figs.js?v=2"></script>
 </body>
 </html>

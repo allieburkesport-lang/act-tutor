@@ -1,0 +1,1 @@
+window.HELM_TUTOR_PROJECT='';

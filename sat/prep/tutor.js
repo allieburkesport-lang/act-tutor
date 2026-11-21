@@ -80,31 +80,43 @@
   // One chat per question: the tutor only ever sees THIS question and THIS question's messages.
   // If Patrick moves to another question with the chat open, the chat switches to the new question (fresh, nothing from the old one is sent).
   let chatFor = null;
+  // ---- Tutor = Patrick's own Claude (Allie's account), in the "Patrick SAT Tutor" project. No API credits are used. ----
+  // HELM saves what he asks (for the Stats page and the nightly follow-up), then opens a new Claude chat in the project with the question filled in.
+  const TUTOR_PROJECT = window.HELM_TUTOR_PROJECT || '';   // claude.ai project id (set in tutor-config.js)
+  function claudeText(q, st, ask) {
+    const L = ['A', 'B', 'C', 'D'], c = ctx(), fig = /class="cbfig"|<img|<svg/.test(q.q) || (typeof figFor === 'function' && figFor(q));
+    return [`SAT HELM question ${D.i + 1} · ${c.skill} · ${c.difficulty}`, '', c.text, fig ? '(This question has a picture. If you need it, ask me to describe it, or draw your own from the numbers.)' : '',
+      c.choices ? c.choices.join('\n') : '(Fill-in answer)', '', `Correct answer: ${c.correct}`, `My answer(s) so far: ${c.student_answer || 'none yet'}`,
+      c.steps_shown ? `Steps I already saw: ${c.steps_shown}` : '', c.desmos ? `Desmos tip on file: ${c.desmos}` : '', '', `What's confusing me: ${ask}`,
+      '', 'Tutor me on this one question with your project rules: one hint at a time, and draw a labeled picture if it helps.'].filter((x, i, a) => x !== '' || a[i - 1] !== '').join('\n').slice(0, 6000);
+  }
   async function openChat(switched) {
     if (typeof D === 'undefined' || !D) return;
     const q = cur(), st = D.st[D.i]; chatFor = q.id;
     if (!switched) { const key = st.tried && st.tried.length ? 'ha' : 'hb'; st[key] = st[key] || []; if (!st[key].includes('tutor')) st[key].push('tutor') }
     let p = document.querySelector('.tc'); if (p) p.remove();
     p = document.createElement('div'); p.className = 'tc'; p.setAttribute('role', 'dialog'); p.setAttribute('aria-label', 'Ask the tutor');
-    p.innerHTML = `<div class="tc-h"><div><div style="font-weight:800;font-size:18px">Ask the tutor</div><div style="font-size:13px;color:#64748b">About question ${D.i + 1} · ${pl((SK2[q.skill] || {}).name || '')}</div></div><button class="tl-btn g" data-tcx="1" aria-label="Close">✕</button></div>
-      <div class="tc-m"></div><div class="tc-chips">${['I don\'t know where to start', 'Draw me a picture', 'Why is my answer wrong?', 'Show me the Desmos way', 'Explain it another way'].map(t => `<button data-tcq="${t}">${t}</button>`).join('')}</div>
-      <form class="tc-f"><textarea placeholder="Type your question… (Enter to send)" aria-label="Your message"></textarea><button class="tl-btn" type="submit">Send</button></form>`;
+    p.innerHTML = `<div class="tc-h"><div><div style="font-weight:800;font-size:18px">Ask the tutor</div><div style="font-size:13px;color:#64748b">Question ${D.i + 1} · ${pl((SK2[q.skill] || {}).name || '')}</div></div><button class="tl-btn g" data-tcx="1" aria-label="Close">✕</button></div>
+      <div class="tc-m"><div class="tc-b t">What's confusing you about question ${D.i + 1}? Type it, or tap one below. Your tutor opens in Claude with this question ready to go.</div><div class="tc-prev"></div></div>
+      <div class="tc-chips">${['I don\'t know where to start', 'Draw me a picture', 'Why is my answer wrong?', 'Show me the Desmos way', 'Explain it another way'].map(t => `<button data-tcq="${t}">${t}</button>`).join('')}</div>
+      <form class="tc-f"><textarea placeholder="What's confusing you?" aria-label="Your question"></textarea><button class="tl-btn" type="submit">Open tutor</button></form>`;
     document.body.appendChild(p);
-    const box = p.querySelector('.tc-m'), ta = p.querySelector('textarea'), id = cid(q.id);
-    if (!sb || !session) { bubble(box, 'e', 'Please sign in to use the tutor.'); return }
-    const {data} = await sb.from('tutor_messages').select('role,content').eq('conversation_id', id).order('created_at', {ascending: true});
-    (data || []).forEach(m => bubble(box, m.role === 'tutor' ? 't' : 's', m.content));
-    if (!data || !data.length) bubble(box, 't', switched ? `Now on question ${D.i + 1}. What part of this one is confusing?` : 'Hi Patrick. What part of this question is confusing? Tell me what you tried, even if it was a guess.');
-    const send = async text => {
-      text = (text || '').trim(); if (!text) return; ta.value = ''; bubble(box, 's', text); const wait = bubble(box, 't', 'Tutor is thinking…');
-      const {data: r, error} = await sb.functions.invoke('tutor-chat', {body: {conversation_id: id, question_id: q.id, message: text, question: ctx()}});
-      wait.remove();
-      if (error) { let msg = 'The tutor could not answer right now.'; try { const j = await error.context.json(); if (j && j.error) msg = j.error } catch (e) {} bubble(box, 'e', msg); return }
-      bubble(box, 't', (r && r.reply) || (r && r.error) || 'Can you say that another way?');
+    const ta = p.querySelector('textarea'), id = cid(q.id), prev = p.querySelector('.tc-prev');
+    if (sb && session) { const {data} = await sb.from('tutor_messages').select('content,created_at').eq('conversation_id', id).eq('role', 'student').order('created_at', {ascending: true});
+      if (data && data.length) prev.innerHTML = `<div style="font-size:12px;color:#64748b;margin:6px 0 4px">You already asked about this question today:</div>` + data.map(m => `<div class="tc-b s" style="margin-left:auto;margin-bottom:6px">${esc(m.content)}</div>`).join('') }
+    const go = async text => {
+      text = (text || '').trim(); if (!text) { ta.focus(); return }
+      const prompt = claudeText(q, st, text);
+      const url = 'https://claude.ai/new?q=' + encodeURIComponent(prompt) + (TUTOR_PROJECT ? '&project=' + encodeURIComponent(TUTOR_PROJECT) : '');
+      const w = window.open(url, '_blank');  // open first (inside the click) so the browser allows the new tab
+      try { await navigator.clipboard.writeText(prompt) } catch (e) {}
+      if (sb && session) try { await sb.from('tutor_messages').insert({user_id: session.user.id, conversation_id: id, question_id: q.id, skill: (SK2[q.skill] || {}).name || q.skill, role: 'student', content: text.slice(0, 2000)}) } catch (e) {}
+      prev.insertAdjacentHTML('beforeend', `<div class="tc-b s" style="margin-left:auto;margin-bottom:6px">${esc(text)}</div>`); ta.value = '';
+      const m = p.querySelector('.tc-m'); m.insertAdjacentHTML('beforeend', `<div class="tc-b t">${w ? 'Your tutor opened in a new tab (Claude › Patrick SAT Tutor). Press Enter there to send. Keep chatting there as long as you want.' : 'Your browser blocked the new tab. Allow pop-ups for this site, then tap Open tutor again.'}<br><span style="font-size:12px;color:#64748b">The question is also copied, so you can paste it if the box is empty.</span></div>`); m.scrollTop = m.scrollHeight;
     };
-    p.querySelector('form').onsubmit = e => { e.preventDefault(); send(ta.value) };
-    ta.onkeydown = e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(ta.value) } };
-    p.querySelectorAll('[data-tcq]').forEach(b => b.onclick = () => send(b.dataset.tcq));
+    p.querySelector('form').onsubmit = e => { e.preventDefault(); go(ta.value) };
+    ta.onkeydown = e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); go(ta.value) } };
+    p.querySelectorAll('[data-tcq]').forEach(b => b.onclick = () => go(b.dataset.tcq));
     p.querySelector('[data-tcx]').onclick = () => { p.remove(); chatFor = null };
     setTimeout(() => ta.focus(), 50);
   }
