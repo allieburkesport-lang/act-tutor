@@ -156,7 +156,7 @@ const today=()=>new Date().toLocaleDateString('en-CA');
 
 /* ---------- data ---------- */
 async function load(){
-  const [b,p,l,bpj,qh,vj,qf,qt]=await Promise.all([fetch('../drill-zone/bank.json?'+Date.now()).then(r=>r.json()),fetch('../drill-zone/plan.json?'+Date.now()).then(r=>r.json()).catch(()=>null),fetch('lessons.json?'+Date.now()).then(r=>r.json()),fetch('../drill-zone/blueprint.json?'+Date.now()).then(r=>r.json()).catch(()=>({skills:{}})),fetch('qhelp.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('videos/videos.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('qform.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('qtpl.json?'+Date.now()).then(r=>r.json()).catch(()=>({}))]);QF=qf||{};QT=qt||{};VIDEOS=vj||{};BPS=bpj.skills||{};BPREC=bpj.recent||[];BPD=bpj.daily||[];QH=qh||{};
+  const [b,p,l,bpj,qh,vj,qf,qt,tf]=await Promise.all([fetch('../drill-zone/bank.json?'+Date.now()).then(r=>r.json()),fetch('../drill-zone/plan.json?'+Date.now()).then(r=>r.json()).catch(()=>null),fetch('lessons.json?'+Date.now()).then(r=>r.json()),fetch('../drill-zone/blueprint.json?'+Date.now()).then(r=>r.json()).catch(()=>({skills:{}})),fetch('qhelp.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('videos/videos.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('qform.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('qtpl.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('../drill-zone/tutorfocus.json?'+Date.now()).then(r=>r.json()).catch(()=>({items:[]}))]);QF=qf||{};QT=qt||{};TF=tf||{items:[]};VIDEOS=vj||{};BPS=bpj.skills||{};BPREC=bpj.recent||[];BPD=bpj.daily||[];QH=qh||{};
   BANK=b;PLAN=p;LES=l;b.skills.forEach(s=>SK2[s.id]=s);b.qs.forEach(q=>QBY[q.id]=q);
   if(p)p.skills.forEach(s=>{if(SK2[s.skill])SK2[s.skill].share=s.share});
   LOG=store.get('satbank_log',[]);LOG.forEach(x=>{if(x.sec!=null)x.sec=+x.sec||0});// seconds saved as text on some devices made times add up as text
@@ -288,8 +288,14 @@ function schedule(){if(!PLAN)return todayCard();const t=today();
    <div style="font-size:13px;color:var(--mute)">Rebuilt every night from his results · red = extra practice on his weakest areas${PLAN.updated?' · last update '+esc(PLAN.updated):''}. Click a day to start its drills.</div></div>
    <table class="sched" style="margin-top:10px"><thead><tr><th>Day</th><th>New skills</th><th class="hide">Review</th><th class="hide">Size + time</th><th>Result</th><th></th></tr></thead><tbody>${rows}</tbody></table>
    <div style="text-align:center;margin-top:10px"><button class="btn g sm" data-alldays="1">${UI.allDays?'▴ Show only today':'▾ Show all '+all.length+' days to the SAT'}</button></div></section>`}
-function buildDay(d,all){const ord=all?(qs=>qs):order;const used=new Set(),qs=[],secs=[];const add=(list,label)=>list.forEach(q=>{if(q&&!used.has(q.id)){used.add(q.id);qs.push(q);secs.push(label)}});
+// Tutor follow-up (tutorfocus.json, written each night from what Patrick asked the tutor): new look-alike questions on the next two days,
+// and an "another way to see it" explanation shown on the question he asked about.
+let TF={items:[]};
+function tfAdd(){(TF.items||[]).forEach(it=>(it.qs||[]).forEach(q=>{if(!QBY[q.id]){q.src=q.src||'helm';BANK.qs.push(q);QBY[q.id]=q}}))}
+function tfFor(qid){const it=(TF.items||[]).find(i=>i.question_id===qid||(i.same_type||[]).includes(qid));return it&&it.another_way?it:null}
+function buildDay(d,all){tfAdd();const ord=all?(qs=>qs):order;const used=new Set(),qs=[],secs=[];const add=(list,label)=>list.forEach(q=>{if(q&&!used.has(q.id)){used.add(q.id);qs.push(q);secs.push(label)}});
   const want=dayMix(d);
+  (TF.items||[]).filter(it=>(it.days||[]).includes(d.date)).forEach(it=>add((it.qs||[]).map(q=>QBY[q.id]),`From your tutor questions: ${(SK2[it.skill]||{}).name||it.skill}`));
   (d.learn||[]).forEach((s,k)=>{if(SK2[s])add(ord(BANK.qs.filter(q=>q.skill===s)).slice(0,want[s]),`New skill ${k+1}/${d.learn.length}: ${SK2[s].name} · ${Math.round(SK2[s].share||0)}% of the test`)});
   Object.keys(want).filter(s=>!(d.learn||[]).includes(s)).sort((a,b)=>(SK2[b].share||0)-(SK2[a].share||0)).forEach(s=>{
     add(ord(BANK.qs.filter(q=>q.skill===s&&!used.has(q.id))).slice(0,want[s]),`${(SK2[s].share||0)>=7?'Daily core':'Review'}: ${SK2[s].name} · ${Math.round(SK2[s].share||0)}% of the test`)});
@@ -562,7 +568,7 @@ function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
   const head=(t,sub)=>`<div class="ph"><div><div class="t hd">${t}</div><div class="s">${sub}</div></div><button class="x" aria-label="Close panel" data-pan="${k}">✕</button></div>`;
   if(k==='show'){const res=carried(q,q.steps);const n=Math.max(1,st.shown);
     const seen=new Set();const wfs=q.steps.map((x,i)=>s.sec==='Math'?whereFrom(q,x,i,seen):'');
-    return head('Show me how','This question, one step at a time')+(typeof figFor==='function'?figFor(q):'')+(s.sec==='Math'?qCards(q):'')+q.steps.slice(0,n).map((x,i)=>stepHTML(x,i,res,wfs[i])).join('')+
+    return head('Show me how','This question, one step at a time')+(typeof figFor==='function'?figFor(q):'')+(()=>{const t=tfFor(q.id);return t?`<div class="box b-yel"><div class="lab">Another way to see it · because you asked the tutor about this</div><div class="c">${t.another_way.map(x=>`<div style="margin-bottom:6px">${x}</div>`).join('')}</div></div>`:''})()+(s.sec==='Math'?qCards(q):'')+q.steps.slice(0,n).map((x,i)=>stepHTML(x,i,res,wfs[i])).join('')+
      (n<q.steps.length?`<button class="btn" data-next="1" style="align-self:flex-start">Show the next step (${n+1} of ${q.steps.length})</button>`:`<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(q.trap)}</div></div>`)+
      `<div class="box b-blue"><div class="lab">${s.sec==='Math'?'Desmos or calculator':'Strategy'}</div><div class="c">${esc(q.tool)}</div></div>`;}
 
@@ -628,6 +634,6 @@ document.addEventListener('click',e=>{const b=e.target.closest('button,[data-go]
 HELM_AUTH.then(s=>{H.Authorization='Bearer '+s.access_token;return load()}).then(route);
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=11"></script><script src="bi.js?v=5"></script><script src="tutor.js?v=4"></script><script src="figs.js?v=2"></script>
+<script src="stats.js?v=11"></script><script src="bi.js?v=6"></script><script src="tutor.js?v=4"></script><script src="figs.js?v=2"></script>
 </body>
 </html>
