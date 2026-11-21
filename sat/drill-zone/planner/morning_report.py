@@ -103,7 +103,8 @@ amp = lambda s: html.escape(s).replace(' and ', ' &amp; ')
 DK, NV, GRN, RD, OR, MUT = '#0B2751', '#09244D', '#087638', '#AE2222', '#D97706', '#5B6C80'
 FA = "font-family:Arial,Helvetica,sans-serif"
 IC = "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/planner/icons/"
-img = lambda k, sz, extra="": f"<img src='{IC}{k}.png' width='{sz}' height='{sz}' alt='' style='display:inline-block;border:0;vertical-align:middle;{extra}'>"
+EMO = {"plan":"🗓️","chart":"📊","doc":"📝","target":"🎯","xcirc":"❌","spark":"✨","calc":"🧮","watch":"⏱️","okbub":"✅","nobub":"❌","qbub":"💬","tgt":"🎯","check":"✔️","compass":"🧭"}
+img = lambda k, sz, extra="": f"<span style='font-size:{max(14,int(sz*0.85))}px;line-height:{sz}px;{extra}'>{EMO[k]}</span>"
 TB = "<table role='presentation' width='100%' cellpadding='0' cellspacing='0' border='0'"
 def short_q(qid): k, _, num = qid.rpartition('-'); return f"{sn(nm(k))} #{int(num) if num.isdigit() else num}"
 def ql(qid): return f"<a href='{SITE}#/look/{qid}' style='color:#101C34;text-decoration:none'>{html.escape(short_q(qid))}</a>"
@@ -194,4 +195,5 @@ btn = f"<div style='text-align:center;margin:18px 0 6px'><a href='{SITE}#/stats'
 foot = f"<div style='text-align:center;color:#66778B;font-size:12px;padding:10px 0 16px'>SAT HELM • Daily progress report • {D0.strftime('%B %-d')}<br>Tap a question to open it in practice mode (nothing is saved).</div>"
 H = (f"<div style='{FA};color:#101C34;max-width:600px;margin:0 auto;-webkit-text-size-adjust:100%'>{banner}{hero}"
      f"<div style='padding:12px 10px 0'>{day_html}{takeaway}{btn}{foot}</div></div>")
-print(H)
+import emailsafe
+print(emailsafe.fix(H))
