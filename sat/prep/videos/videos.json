@@ -458,5 +458,43 @@
 "Say it out loud"
 ]
 ]
+},
+"d1": {
+"src": "videos/d1.mp4",
+"poster": "videos/d1.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+17,
+"The rules"
+],
+[
+34,
+"Example 1: Mean and median"
+],
+[
+74,
+"Example 2: Outlier"
+],
+[
+126,
+"Example 3: Add the same to every value"
+],
+[
+155,
+"Example 4: Find a missing value"
+],
+[
+190,
+"Your turn: pause and pick"
+],
+[
+222,
+"Say it out loud"
+]
+]
 }
 }
