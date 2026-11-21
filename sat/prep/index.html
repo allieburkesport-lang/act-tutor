@@ -36,12 +36,12 @@ button{font:inherit;cursor:pointer}
 .cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:start}
 .sec h2{margin:0;font-size:22px}
 .sec .h{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
-.row{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1.1fr) 78px 120px 270px;gap:12px;padding:11px 20px;align-items:center;border-top:1px solid #f1f2f4}
+.row{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1.1fr) 70px 112px auto;gap:12px;padding:11px 20px;align-items:center;border-top:1px solid #f1f2f4}
 .row.hd2{font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--mute);background:#f9fafb;border-top:0;font-family:Inter}
 .row .nm{font-weight:600}
 .bar{flex:1;height:8px;background:#eef0f3;border-radius:4px;overflow:hidden}.bar i{display:block;height:8px;background:var(--navy)}
 .acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
-@media (max-width:1450px){.cols{grid-template-columns:1fr}}
+@media (max-width:1250px){.cols{grid-template-columns:1fr}}
 @media (max-width:760px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.row{grid-template-columns:1fr 1fr}.row.hd2{display:none}.acts{justify-content:flex-start;grid-column:1/-1}}
 /* drill (SAT style) */
 .dr{min-height:100vh;display:flex;flex-direction:column;background:#fff}
@@ -186,6 +186,8 @@ function todayCard(){const d=PLAN&&PLAN.days.find(x=>x.date===today());
   const names=d.concepts.map(c=>c.name).join(' · ');const rv=(d.review||[]).map(r=>r[0]+'.'+r[1]).join(',');
   return `<section class="today"><div><div class="k">Today · ${dn}</div><div class="t hd">${esc(names)}</div><div class="s">For each one: Learn it, then Drill (10 questions).${rv?' Then a short review of earlier skills.':''} ${esc(d.note||'')}</div></div>
    <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" data-go="#/drill/${d.concepts[0].skill}">Start: ${esc(d.concepts[0].name)}</button>${rv?`<button class="btn o" style="background:transparent;color:#fff;border-color:#fff" data-go="#/drill/review:${rv}">Review</button>`:''}</div></section>`}
+function alignHeads(){document.querySelectorAll('.sec').forEach(sec=>{const h=sec.querySelector('.row.hd2'),r=sec.querySelector('.row:not(.hd2)');if(h&&r){h.style.gridTemplateColumns='';if(getComputedStyle(r).display==='grid')h.style.gridTemplateColumns=getComputedStyle(r).gridTemplateColumns}})}
+window.addEventListener('resize',alignHeads);
 function home(){const all=BANK.skills;let tot=0,ok=0;all.forEach(k=>{const t=stats(k.id),b=BPS[k.id]||{n:0,ok:0};tot+=t.n;ok+=b.ok+t.dok});
   const tday=LOG.filter(x=>x.day===today()&&x.first).length;
   const sec=(name,key)=>{const rows=all.filter(s=>s.sec===key).sort((a,b)=>(b.share||0)-(a.share||0));
@@ -198,7 +200,7 @@ function home(){const all=BANK.skills;let tot=0,ok=0;all.forEach(k=>{const t=sta
     <div class="acts"><button class="btn g sm" data-go="#/learn/${s.id}">Learn it</button><button class="btn g sm" data-go="#/video/${s.id}">Video</button><button class="btn sm" data-go="#/drill/${s.id}">Drill</button></div></div>`}).join('')+`</section>`};
   app().innerHTML=topbar('home')+`<div class="page">${schedule()}
    <section class="stats"><div class="card stat"><div class="l">Practice questions done</div><div class="v hd">${tot}</div></div><div class="card stat"><div class="l">Right on the first try</div><div class="v hd">${tot?Math.round(100*ok/tot)+'%':'—'}</div></div><div class="card stat"><div class="l">Done today</div><div class="v hd">${tday}</div></div><div class="card stat"><div class="l">Our time split</div><div class="v hd" style="font-size:24px">65% Math · 35% English</div></div></section>
-   <div class="cols">${sec('Math','Math')}${sec('Reading and Writing','English')}</div></div>`;window.scrollTo(0,0);}
+   <div class="cols">${sec('Math','Math')}${sec('Reading and Writing','English')}</div></div>`;alignHeads();window.scrollTo(0,0);}
 
 
 /* ---------- schedule + day runs + day report ---------- */

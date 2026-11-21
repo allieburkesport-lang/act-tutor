@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learn it (sample) · Linear functions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#111827;--mute:#4b5563;--line:#e5e7eb;--navy:#1e3a8a;--navy2:#eef2ff;--bg:#f6f7f9;
+ --blue:#1d4ed8;--blueb:#eff6ff;--green:#15803d;--greenb:#f0fdf4;--yel:#a16207;--yelb:#fefce8;--red:#b91c1c;--redb:#fef2f2;--pur:#6d28d9;--purb:#f5f3ff;--or:#c2410c;--orb:#fff7ed}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--bg);font-size:18px;line-height:1.5}
+button{font:inherit;cursor:pointer}
+.hd{font-family:'Space Grotesk',sans-serif}
+.mono{font-family:'JetBrains Mono',monospace}
+/* top */
+.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.top .in{padding:12px 3vw;display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.logo{width:40px;height:40px;border-radius:10px;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:700}
+.prog{height:6px;background:#eef0f3}.prog i{display:block;height:100%;background:var(--navy);transition:width .35s}
+.sample{font-size:12px;font-weight:700;color:#9a3412;background:#fff1e6;border-radius:999px;padding:3px 10px}
+/* layout */
+.wrap{display:grid;grid-template-columns:250px minmax(0,1fr);gap:28px;padding:26px 3vw 120px;max-width:1500px;margin:0 auto}
+.rail{position:sticky;top:96px;align-self:start;display:flex;flex-direction:column;gap:4px}
+.rail .t{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin:0 0 8px 10px}
+.st{display:flex;gap:12px;align-items:center;padding:10px;border-radius:12px;border:0;background:none;text-align:left;color:var(--mute);font-weight:600}
+.st .d{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:14px;border:2px solid #d1d5db;background:#fff;flex:none}
+.st.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.06)}.st.on .d{border-color:var(--navy);color:var(--navy)}
+.st.done .d{background:var(--navy);border-color:var(--navy);color:#fff}
+.st small{display:block;font-weight:500;font-size:13px;color:var(--mute)}
+.key{margin-top:18px;padding:12px;border-radius:12px;background:#fff;font-size:13px;display:grid;gap:6px}
+.key b{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+/* stage card */
+.stage{background:#fff;border-radius:20px;box-shadow:0 1px 3px rgba(0,0,0,.06);padding:34px 40px;min-height:540px}
+.kick{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--navy)}
+h1{font-size:34px;margin:4px 0 6px;line-height:1.2}
+.lead{font-size:20px;color:var(--mute);margin:0 0 22px}
+.box{border-radius:14px;padding:16px 18px;border-left:6px solid}
+.box .lab{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.b-blue{background:var(--blueb);border-color:var(--blue)}.b-blue .lab{color:var(--blue)}
+.b-green{background:var(--greenb);border-color:var(--green)}.b-green .lab{color:var(--green)}
+.b-yel{background:var(--yelb);border-color:#eab308}.b-yel .lab{color:var(--yel)}
+.b-red{background:var(--redb);border-color:var(--red)}.b-red .lab{color:var(--red)}
+.b-pur{background:var(--purb);border-color:var(--pur)}.b-pur .lab{color:var(--pur)}
+.two{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px;align-items:start}
+.stack{display:flex;flex-direction:column;gap:14px}
+.big{font-size:26px;font-weight:700}
+.eq{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:var(--pur)}
+.carry{color:var(--or);background:var(--orb);border-radius:6px;padding:0 6px;font-weight:700}
+.from{font-size:13px;font-weight:700;color:var(--or);margin-left:6px}
+table.lt{border-collapse:collapse;width:100%;font-size:17px}table.lt td{padding:10px 12px;border-top:1px solid #ede9fe}table.lt td:first-child{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--pur);font-size:22px;width:70px}
+/* steps */
+.problem{background:#f8fafc;border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:20px}
+.steps{display:flex;flex-direction:column;gap:12px;margin-top:16px}
+.step{border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:grid;grid-template-columns:40px 1fr;gap:14px;animation:in .35s ease}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.step .n{width:34px;height:34px;border-radius:50%;background:var(--pur);color:#fff;display:grid;place-items:center;font-weight:700}
+.step .do{font-weight:700;font-size:19px}
+.step .why{font-size:15px;color:var(--mute);margin-top:2px}
+.step .eq{font-size:24px;margin-top:8px}
+.locked{border-style:dashed;color:#9ca3af;background:#fafafa}
+.ask{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.ask input{font:700 22px 'JetBrains Mono',monospace;width:120px;padding:8px 12px;border:2px solid #c4b5fd;border-radius:10px;color:var(--pur)}
+.ok{color:var(--green);font-weight:700}.no{color:var(--red);font-weight:700}
+.btn{font-weight:700;padding:12px 20px;min-height:48px;border-radius:12px;border:0;background:var(--navy);color:#fff;font-size:17px}
+.btn.g{background:#fff;color:var(--ink);border:1px solid #d1d5db;font-weight:600}
+.btn.sm{padding:8px 14px;min-height:40px;font-size:15px}
+.btn:disabled{opacity:.4;cursor:default}
+.bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:12px 3vw;display:flex;justify-content:space-between;align-items:center;z-index:5}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.flip{border:2px solid var(--line);border-radius:16px;padding:20px;min-height:200px;background:#fff;text-align:left;display:flex;flex-direction:column;gap:8px}
+.flip .w{font-size:28px;font-weight:700;color:var(--blue)}.flip .s{color:var(--mute);font-size:15px}
+.flip.open{border-color:var(--blue);background:var(--blueb)}
+.ch{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.ch button{display:flex;gap:14px;align-items:center;padding:14px 16px;border:2px solid var(--line);border-radius:12px;background:#fff;text-align:left;font-size:20px}
+.ch button .L{width:32px;height:32px;border-radius:50%;border:2px solid #9ca3af;display:grid;place-items:center;font-weight:700;font-size:15px;flex:none}
+.ch button.right{border-color:var(--green);background:var(--greenb)}.ch button.wrong{border-color:var(--red);background:var(--redb)}
+.check{display:flex;flex-direction:column;gap:10px}.check label{display:flex;gap:12px;align-items:center;font-size:19px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;cursor:pointer}
+.check input{width:22px;height:22px}
+svg text{font-family:Inter,sans-serif}
+@media (max-width:1000px){.wrap{grid-template-columns:1fr}.rail{position:static;flex-direction:row;overflow-x:auto}.rail .t,.key,.st small{display:none}.two,.cards{grid-template-columns:1fr}.stage{padding:22px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="in"><div style="display:flex;gap:12px;align-items:center"><div class="logo hd">SAT</div><div><div class="hd" style="font-weight:700;font-size:19px">Learn it · Linear functions</div><div style="font-size:14px;color:var(--mute)">10% of SAT Math · Patrick: 44% · about 12 minutes</div></div></div>
+<div style="display:flex;gap:10px;align-items:center"><span class="sample">SAMPLE LAYOUT</span><a class="btn g sm" href="./#/video/linf" style="text-decoration:none">▶ Video</a><a class="btn g sm" href="./" style="text-decoration:none">✕ Close</a></div></div>
+<div class="prog"><i id="pg"></i></div></header>
+
+<div class="wrap">
+ <nav class="rail" id="rail"></nav>
+ <main><section class="stage" id="stage"></section></main>
+</div>
+<div class="bar"><button class="btn g" id="back">← Back</button><div id="hint" style="font-size:15px;color:var(--mute)"></div><button class="btn" id="next">Next →</button></div>
+
+<script>
+const S=[
+ {k:'idea',t:'The big idea',s:'1 minute'},
+ {k:'words',t:'Key words',s:'What each letter means'},
+ {k:'watch',t:'Watch me',s:'One step at a time'},
+ {k:'try',t:'Try it with me',s:'You do each step'},
+ {k:'own',t:'On your own',s:'SAT-style question'},
+ {k:'lock',t:'Lock it in',s:'Recap + say it out loud'}];
+let cur=0,done=new Set(),W={shown:1},T={i:0,tries:{}},O={picked:[],help:false},F={};
+const $=id=>document.getElementById(id);
+
+/* ---------- graph: points, rise/run, line ---------- */
+function graph(o){const X=x=>40+x*36,Y=y=>300-y*14;let g='';
+ for(let x=0;x<=8;x++)g+=`<line x1="${X(x)}" y1="${Y(0)}" x2="${X(x)}" y2="${Y(20)}" stroke="#eef0f3"/>`;
+ for(let y=0;y<=20;y+=2)g+=`<line x1="${X(0)}" y1="${Y(y)}" x2="${X(8)}" y2="${Y(y)}" stroke="#eef0f3"/>`;
+ g+=`<line x1="${X(0)}" y1="${Y(0)}" x2="${X(8)}" y2="${Y(0)}" stroke="#9ca3af"/><line x1="${X(0)}" y1="${Y(0)}" x2="${X(0)}" y2="${Y(20)}" stroke="#9ca3af"/>`;
+ for(let x=0;x<=8;x+=2)g+=`<text x="${X(x)}" y="${Y(0)+20}" font-size="12" text-anchor="middle" fill="#6b7280">${x}</text>`;
+ for(let y=0;y<=20;y+=4)g+=`<text x="${X(0)-10}" y="${Y(y)+4}" font-size="12" text-anchor="end" fill="#6b7280">${y}</text>`;
+ const [a,b]=o.pts;
+ if(o.line)g+=`<line x1="${X(0)}" y1="${Y(o.b)}" x2="${X(8)}" y2="${Y(o.m*8+o.b)}" stroke="#6d28d9" stroke-width="3"/>`;
+ if(o.rise){g+=`<line x1="${X(a[0])}" y1="${Y(a[1])}" x2="${X(b[0])}" y2="${Y(a[1])}" stroke="#15803d" stroke-width="3" stroke-dasharray="6 4"/><line x1="${X(b[0])}" y1="${Y(a[1])}" x2="${X(b[0])}" y2="${Y(b[1])}" stroke="#c2410c" stroke-width="3" stroke-dasharray="6 4"/>
+  <text x="${(X(a[0])+X(b[0]))/2}" y="${Y(a[1])+20}" text-anchor="middle" font-size="14" font-weight="700" fill="#15803d">run = ${b[0]-a[0]}</text>
+  <text x="${X(b[0])+8}" y="${(Y(a[1])+Y(b[1]))/2}" font-size="14" font-weight="700" fill="#c2410c">rise = ${b[1]-a[1]}</text>`}
+ if(o.yint)g+=`<circle cx="${X(0)}" cy="${Y(o.b)}" r="7" fill="#1d4ed8"/><text x="${X(0)+12}" y="${Y(o.b)+5}" font-size="14" font-weight="700" fill="#1d4ed8">b = ${o.b}</text>`;
+ [a,b].forEach(p=>g+=`<circle cx="${X(p[0])}" cy="${Y(p[1])}" r="7" fill="#111827"/><text x="${X(p[0])-10}" y="${Y(p[1])-12}" font-size="14" font-weight="700" text-anchor="end">(${p[0]}, ${p[1]})</text>`);
+ return `<svg viewBox="0 0 360 330" style="width:100%;max-width:480px;background:#fff;border:1px solid var(--line);border-radius:14px">${g}</svg>`}
+
+/* ---------- stages ---------- */
+function idea(){return `<div class="kick">Step 1 of 6 · The big idea</div><h1 class="hd">A line = a starting number + the same jump every step</h1>
+ <p class="lead">Every linear function is written <b>y = mx + b</b>. Find two numbers, <b>m</b> and <b>b</b>, and you have the whole line.</p>
+ <div class="two"><div class="stack">
+  <div class="box b-blue"><div class="lab">Definition</div>A <b>linear function</b> is a rule whose graph is a straight line. y changes by the <b>same amount</b> every time x goes up by 1.</div>
+  <div class="box b-green"><div class="lab">Memory hook</div>Think of <b>stairs</b>. <b>b</b> is the floor you start on. <b>m</b> is how tall each stair is. Climbing: up each step. Going down: negative slope.</div>
+  <div class="box b-yel"><div class="lab">Remember this</div>Two points are enough to find any line.</div>
+  <div class="box b-pur"><div class="lab">On the SAT</div>About <b>4 questions</b> per test (10% of Math). They give you points, a table, a graph, or a word problem, and ask for m, b, or the equation.</div>
+ </div><div>${graph({pts:[[2,5],[6,13]],line:1,m:2,b:1,rise:1,yint:1})}<div style="font-size:14px;color:var(--mute);margin-top:6px">Green = run (across). Orange = rise (up). Blue dot = where the line starts (b).</div></div></div>`}
+function words(){const c=[['m','slope','How much y goes up when x goes up by 1. Rise ÷ run.','m = (y₂ − y₁) ÷ (x₂ − x₁)'],['b','y-intercept','The y value when x = 0. Where the line crosses the y-axis.','plug in x = 0'],['(x, y)','a point','x = how far across, y = how far up. Always across first, then up.','(2, 5): across 2, up 5']];
+ return `<div class="kick">Step 2 of 6 · Key words</div><h1 class="hd">Know what every letter means</h1><p class="lead">Tap each card. Say the meaning out loud before you flip it.</p>
+ <div class="cards">${c.map((x,i)=>`<button class="flip ${F[i]?'open':''}" data-flip="${i}"><div class="w mono">${x[0]}</div><div style="font-weight:700;font-size:20px">${x[1]}</div>${F[i]?`<div>${x[2]}</div><div class="eq" style="font-size:18px;margin-top:auto">${x[3]}</div>`:'<div class="s" style="margin-top:auto">Tap to see what it means</div>'}</button>`).join('')}</div>
+ <div class="box b-pur" style="margin-top:20px"><div class="lab">Formula · on the reference sheet? No, memorize it</div><div class="eq">y = m x + b</div>
+ <table class="lt"><tr><td>y</td><td>the output (how far up)</td></tr><tr><td>m</td><td>slope (the jump per step)</td></tr><tr><td>x</td><td>the input (how far across)</td></tr><tr><td>b</td><td>the start (y when x = 0)</td></tr></table></div>`}
+const WS=[
+ {do:'Write down the two points',why:'Label them so you plug the right numbers in.',eq:'(x₁, y₁) = (2, 5)   (x₂, y₂) = (6, 13)',g:{}},
+ {do:'Find the slope m = rise ÷ run',why:'Slope is how much y goes up for each 1 that x goes up.',eq:'m = (13 − 5) ÷ (6 − 2) = 8 ÷ 4 = <span class="carry">2</span>',g:{rise:1}},
+ {do:'Put m into y = mx + b',why:'Now only b is unknown.',eq:'y = <span class="carry">2</span>x + b <span class="from">m from step 2</span>',g:{rise:1}},
+ {do:'Plug in one point to find b',why:'Any point on the line makes the equation true. Use (2, 5).',eq:'5 = <span class="carry">2</span>(2) + b → 5 = 4 + b → b = <span class="carry">1</span>',g:{rise:1,yint:1}},
+ {do:'Write the answer and check it',why:'Check with the OTHER point so you catch mistakes.',eq:'y = 2x + 1   check (6, 13): 2(6) + 1 = 13 ✓',g:{rise:1,yint:1,line:1}}];
+function watch(){const n=W.shown,last=WS[n-1].g;
+ return `<div class="kick">Step 3 of 6 · Watch me</div><h1 class="hd">Worked example</h1>
+ <div class="two"><div><div class="problem"><b>Problem:</b> A line goes through <b>(2, 5)</b> and <b>(6, 13)</b>. What is its equation?</div>
+ <div class="steps">${WS.map((s,i)=>i<n?`<div class="step"><div class="n">${i+1}</div><div><div class="do">${s.do}</div><div class="why">Why: ${s.why}</div><div class="eq">${s.eq}</div></div></div>`:`<div class="step locked"><div class="n" style="background:#d1d5db">${i+1}</div><div>Step ${i+1}</div></div>`).join('')}</div>
+ ${n<WS.length?`<button class="btn" style="margin-top:14px" data-wnext="1">Show step ${n+1} →</button>`:`<div class="box b-green" style="margin-top:14px"><div class="lab">Answer</div><span class="eq" style="font-size:24px">y = 2x + 1</span></div>`}</div>
+ <div class="stack">${graph({pts:[[2,5],[6,13]],m:2,b:1,...last})}
+  <details class="box b-pur"><summary style="font-weight:700;cursor:pointer">Do it in Desmos instead</summary><div style="margin-top:8px">Type the two points on separate lines: <span class="mono">(2,5)</span> and <span class="mono">(6,13)</span>. Then type <span class="mono">y=mx+b</span>, add sliders, and drag them until the line hits both points. Or type <span class="mono">(13-5)/(6-2)</span> to get the slope.</div></details>
+  <div class="box b-red"><div class="lab">Trap</div>Flipping it: <b>run ÷ rise</b> gives 4 ÷ 8 = 0.5. Wrong. Always <b>up ÷ across</b> (y on top).</div></div></div>`}
+const TS=[
+ {q:'Step 1 · Slope: m = (10 − 4) ÷ (3 − 1) = ?',a:'3',hint:'Rise is 10 − 4 = 6. Run is 3 − 1 = 2. Now divide.',trap:{'0.333':'You divided run by rise. Put y on top.','1/3':'You divided run by rise. Put y on top.','6':'That is only the rise. Divide by the run (2).'}},
+ {q:'Step 2 · Find b: 4 = <span class="carry">3</span>(1) + b, so b = ?',a:'1',hint:'3 times 1 is 3. What do you add to 3 to get 4?',trap:{'4':'Subtract the 3 first: 4 − 3.','7':'Subtract, don’t add: 4 − 3.'}},
+ {q:'Step 3 · The equation is y = ?x + ?   Type the full equation:',a:'y=3x+1',hint:'Put m = 3 and b = 1 into y = mx + b.',trap:{'y=1x+3':'m and b are swapped. The slope goes with x.','y=x+3':'m and b are swapped. The slope goes with x.'}}];
+function tryit(){const i=T.i;
+ return `<div class="kick">Step 4 of 6 · Try it with me</div><h1 class="hd">Same steps. You do the math.</h1>
+ <div class="two"><div><div class="problem"><b>Problem:</b> A line goes through <b>(1, 4)</b> and <b>(3, 10)</b>. What is its equation?</div>
+ <div class="steps">${TS.map((s,k)=>{if(k<i)return `<div class="step"><div class="n" style="background:var(--green)">✓</div><div><div class="do">${s.q.split('·')[0]}</div><div class="eq" style="font-size:22px">${s.a==='y=3x+1'?'y = 3x + 1':k===0?'m = <span class="carry">3</span>':'b = <span class="carry">1</span>'}</div></div></div>`;
+  if(k>i)return `<div class="step locked"><div class="n" style="background:#d1d5db">${k+1}</div><div>Step ${k+1}</div></div>`;
+  const t=T.tries[k]||{};return `<div class="step" style="border-color:#c4b5fd"><div class="n">${k+1}</div><div><div class="do">${s.q}</div>
+   <div class="ask"><input id="tin" autocomplete="off" placeholder="${k===2?'y=…':'?'}" style="${k===2?'width:220px':''}"><button class="btn sm" data-tcheck="1">Check</button><button class="btn g sm" data-thint="1">Hint</button></div>
+   ${t.msg?`<div class="${t.ok?'ok':'no'}" style="margin-top:8px">${t.msg}</div>`:''}${t.hint?`<div class="box b-green" style="margin-top:10px"><div class="lab">Hint</div>${s.hint}</div>`:''}</div></div>`}).join('')}</div>
+ ${i>=TS.length?`<div class="box b-green" style="margin-top:14px"><div class="lab">You did it</div>y = 3x + 1. Check (3, 10): 3(3) + 1 = 10 ✓</div>`:''}</div>
+ <div class="stack">${graph({pts:[[1,4],[3,10]],m:3,b:1,rise:i>=1,yint:i>=2,line:i>=3})}<div class="box b-yel"><div class="lab">Remember</div>Slope first. Then b. Then check with the other point.</div></div></div>`}
+const OQ={q:'The table shows a linear relationship between x and y. Which equation fits?',ch:['y = 3x + 7','y = 7x + 3','y = 6x + 7','y = 2x + 7'],ans:0};
+function own(){const p=O.picked,fin=p.includes(OQ.ans);
+ return `<div class="kick">Step 5 of 6 · On your own</div><h1 class="hd">SAT-style question</h1><p class="lead">No hints unless you miss it. Look for the same 3 steps.</p>
+ <div class="two"><div><div class="problem">${OQ.q}
+  <table style="border-collapse:collapse;margin-top:12px;font-size:20px" class="mono"><tr><td style="padding:6px 16px;border:1px solid #d1d5db;font-weight:700">x</td><td style="padding:6px 16px;border:1px solid #d1d5db">0</td><td style="padding:6px 16px;border:1px solid #d1d5db">2</td><td style="padding:6px 16px;border:1px solid #d1d5db">4</td></tr><tr><td style="padding:6px 16px;border:1px solid #d1d5db;font-weight:700">y</td><td style="padding:6px 16px;border:1px solid #d1d5db">7</td><td style="padding:6px 16px;border:1px solid #d1d5db">13</td><td style="padding:6px 16px;border:1px solid #d1d5db">19</td></tr></table></div>
+ <div class="ch">${OQ.ch.map((c,j)=>`<button class="${p.includes(j)?(j===OQ.ans?'right':'wrong'):''}" data-pick="${j}" ${fin?'disabled':''}><span class="L">${'ABCD'[j]}</span><span class="mono">${c}</span></button>`).join('')}</div>
+ ${fin?`<div class="ok" style="margin-top:12px">${p.length===1?'Right on the first try ✓':'Got it ✓'}</div>`:p.length?`<div class="no" style="margin-top:12px">Not quite. Try again, or open Show me how.</div>`:''}</div>
+ <div class="stack">${p.length?`<button class="btn g" data-ohelp="1">${O.help?'Hide':'Show me how'}</button>`:''}
+ ${O.help?`<div class="steps" style="margin-top:0">${[['Find b','At x = 0, y = 7. That is the start.','b = <span class="carry">7</span>'],['Find m','x goes up 2, y goes up 6.','m = 6 ÷ 2 = <span class="carry">3</span>'],['Build it','Put them in y = mx + b.','y = <span class="carry">3</span>x + <span class="carry">7</span>']].map((s,i)=>`<div class="step"><div class="n">${i+1}</div><div><div class="do">${s[0]}</div><div class="why">${s[1]}</div><div class="eq" style="font-size:22px">${s[2]}</div></div></div>`).join('')}
+ <div class="box b-red"><div class="lab">Trap</div>Choice C uses 6 (the jump in y) without dividing by 2 (the jump in x).</div></div>`:`<div class="box b-yel"><div class="lab">Shortcut</div>If the table has x = 0, its y is <b>b</b>. Free answer.</div>`}</div></div>`}
+function lock(){return `<div class="kick">Step 6 of 6 · Lock it in</div><h1 class="hd">Three steps. Every time.</h1>
+ <div class="two"><div class="stack">
+  <div class="box b-pur"><div class="lab">The steps</div><ol style="margin:4px 0 0;padding-left:22px;font-size:20px;display:flex;flex-direction:column;gap:6px"><li><b>Slope:</b> m = rise ÷ run (y on top)</li><li><b>Start:</b> b = y when x = 0, or plug in a point</li><li><b>Build + check:</b> y = mx + b, test the other point</li></ol></div>
+  <div class="box b-red"><div class="lab">Traps</div>Run ÷ rise (upside down) · forgetting to divide by the run · swapping m and b.</div>
+  <div class="box b-green"><div class="lab">Hook</div>Stairs: start floor (b), step height (m).</div></div>
+ <div><div style="font-weight:700;margin-bottom:10px">Say each one out loud, then check it off:</div><div class="check">
+  ${['Slope is rise over run, y on top.','b is where the line crosses the y-axis.','I check my equation with the other point.'].map(t=>`<label><input type="checkbox"> ${t}</label>`).join('')}</div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:22px"><a class="btn" style="text-decoration:none" href="./#/drill/linf">Drill 10 questions →</a><a class="btn g" style="text-decoration:none" href="./#/video/linf">▶ Watch the video</a></div></div></div>`}
+
+/* ---------- shell ---------- */
+const R={idea,words,watch,try:tryit,own,lock};
+function canNext(){const k=S[cur].k;if(k==='watch')return W.shown>=WS.length;if(k==='try')return T.i>=TS.length;if(k==='own')return O.picked.includes(OQ.ans);return true}
+function draw(){$('rail').innerHTML='<div class="t">Learn it</div>'+S.map((s,i)=>`<button class="st ${i===cur?'on':''} ${done.has(i)?'done':''}" data-go="${i}"><span class="d">${done.has(i)?'✓':i+1}</span><span>${s.t}<small>${s.s}</small></span></button>`).join('')+
+ `<div class="key"><div style="font-weight:700">Color key</div><div><b style="background:var(--blue)"></b>Definition</div><div><b style="background:var(--green)"></b>Example · hook</div><div><b style="background:#eab308"></b>Remember</div><div><b style="background:var(--red)"></b>Trap</div><div><b style="background:var(--pur)"></b>Math · formula</div><div><b style="background:var(--or)"></b>Number from an earlier step</div></div>`;
+ $('stage').innerHTML=R[S[cur].k]();$('pg').style.width=(100*(cur+(canNext()?1:.5))/S.length)+'%';
+ $('back').disabled=cur===0;const ok=canNext();$('next').disabled=!ok;$('next').textContent=cur===S.length-1?'Finish ✓':'Next →';
+ $('hint').textContent=ok?'':S[cur].k==='watch'?'Show every step to go on':S[cur].k==='try'?'Finish each step to go on':'Get the answer to go on';
+ const ti=document.getElementById('tin');if(ti){ti.focus();ti.addEventListener('keydown',e=>{if(e.key==='Enter')tcheck()})}}
+function tcheck(){const s=TS[T.i],v=($('tin').value||'').replace(/\s/g,'').toLowerCase();if(!v)return;const t=T.tries[T.i]=T.tries[T.i]||{};
+ if(v===s.a||(s.a==='3'&&v==='3.0')){t.ok=1;t.msg='Yes ✓';T.i++;}else{t.ok=0;t.msg=s.trap[v]||'Not yet. Press Hint if you are stuck.'}draw()}
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+ if(b.id==='next'){if(!canNext())return;done.add(cur);if(cur<S.length-1){cur++;draw();scrollTo(0,0)}else{location.href='./'}return}
+ if(b.id==='back'){if(cur>0){cur--;draw();scrollTo(0,0)}return}
+ if(d.go!==undefined){cur=+d.go;draw();scrollTo(0,0);return}
+ if(d.flip!==undefined){F[d.flip]=!F[d.flip];return draw()}
+ if(d.wnext){W.shown++;return draw()}
+ if(d.tcheck)return tcheck();
+ if(d.thint){(T.tries[T.i]=T.tries[T.i]||{}).hint=1;return draw()}
+ if(d.pick!==undefined){const j=+d.pick;if(!O.picked.includes(j))O.picked.push(j);return draw()}
+ if(d.ohelp){O.help=!O.help;return draw()}});
+document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;if(e.key==='ArrowRight')$('next').click();if(e.key==='ArrowLeft')$('back').click()});
+draw();
+</script>
+</body>
+</html>
