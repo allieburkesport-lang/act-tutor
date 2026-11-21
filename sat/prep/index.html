@@ -153,7 +153,7 @@ const today=()=>new Date().toLocaleDateString('en-CA');
 
 /* ---------- data ---------- */
 async function load(){
-  const [b,p,l,bpj,qh,vj,qf,qt]=await Promise.all([fetch('../drill-zone/bank.json').then(r=>r.json()),fetch('../drill-zone/plan.json?'+Date.now()).then(r=>r.json()).catch(()=>null),fetch('lessons.json').then(r=>r.json()),fetch('../drill-zone/blueprint.json').then(r=>r.json()).catch(()=>({skills:{}})),fetch('qhelp.json').then(r=>r.json()).catch(()=>({})),fetch('videos/videos.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('qform.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('qtpl.json?'+Date.now()).then(r=>r.json()).catch(()=>({}))]);QF=qf||{};QT=qt||{};VIDEOS=vj||{};BPS=bpj.skills||{};BPD=bpj.daily||[];QH=qh||{};
+  const [b,p,l,bpj,qh,vj,qf,qt]=await Promise.all([fetch('../drill-zone/bank.json?'+Date.now()).then(r=>r.json()),fetch('../drill-zone/plan.json?'+Date.now()).then(r=>r.json()).catch(()=>null),fetch('lessons.json?'+Date.now()).then(r=>r.json()),fetch('../drill-zone/blueprint.json?'+Date.now()).then(r=>r.json()).catch(()=>({skills:{}})),fetch('qhelp.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('videos/videos.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('qform.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('qtpl.json?'+Date.now()).then(r=>r.json()).catch(()=>({}))]);QF=qf||{};QT=qt||{};VIDEOS=vj||{};BPS=bpj.skills||{};BPD=bpj.daily||[];QH=qh||{};
   BANK=b;PLAN=p;LES=l;b.skills.forEach(s=>SK2[s.id]=s);b.qs.forEach(q=>QBY[q.id]=q);
   if(p)p.skills.forEach(s=>{if(SK2[s.skill])SK2[s.skill].share=s.share});
   LOG=store.get('satbank_log',[]);
@@ -451,6 +451,6 @@ document.addEventListener('click',e=>{const b=e.target.closest('button,[data-go]
 });
 load().then(route);
 </script>
-<script src="stats.js"></script>
+<script src="stats.js?v=3"></script>
 </body>
 </html>
