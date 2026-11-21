@@ -251,7 +251,12 @@ function startDay(date){const d=PLAN&&PLAN.days.find(x=>x.date===date);if(!d)ret
 // ---- score outlook: skill accuracy (Blueprint + this site's first tries, counted double) weighted by each skill's share of its SAT section
 const GOAL=1300;
 // official scores (newest last). The projection starts from the newest official score and adds what his practice says he has gained since.
-const SAT_OFFICIAL=[{date:'2026-09-12',label:'Sep 12',Math:510,'R&W':500,total:1010},{date:'2026-10-03',label:'Oct 3',Math:550,'R&W':440,total:990}];
+const SAT_OFFICIAL=[
+ {date:'2026-09-12',label:'Sep 12',Math:510,'R&W':500,total:1010,pct:{total:48,'R&W':43,Math:null},dom:{ii:'490–540',cs:'490–540',eoi:'490–540',sec:'490–540',alg:'550–600',adv:'550–600',psda:'470–540',geo:'420–460'}},
+ {date:'2026-10-03',label:'Oct 3',Math:550,'R&W':440,total:990,pct:{total:45,'R&W':26,Math:64},dom:{ii:'420–480',cs:'490–540',eoi:'200–360',sec:'420–480',alg:'470–540',adv:'550–600',psda:'550–600',geo:'470–540'}},
+ {date:'2026-11-07',label:'Nov 7',Math:520,'R&W':490,total:1010,pct:{total:48,'R&W':40,Math:56},dom:{ii:'420–480',cs:'420–480',eoi:'550–600',sec:'490–540',alg:'550–600',adv:'470–540',psda:'420–460',geo:'610–670'}}];
+const SAT_DOM=[['R&W','ii','Information and Ideas'],['R&W','cs','Craft and Structure'],['R&W','eoi','Expression of Ideas'],['R&W','sec','Standard English Conventions'],
+ ['Math','alg','Algebra'],['Math','adv','Advanced Math'],['Math','psda','Problem-Solving and Data Analysis'],['Math','geo','Geometry and Trigonometry']];
 const SAT_LAST=()=>SAT_OFFICIAL[SAT_OFFICIAL.length-1];
 function skAcc(sk,upto){const b=BPS[sk]||{n:0,ok:0};const f=LOG.filter(x=>x.first&&x.day<=upto&&QBY[x.id]&&QBY[x.id].skill===sk);const n=b.n+2*f.length,ok=b.ok+2*f.filter(x=>x.ok).length;return n>=3?ok/n:null}
 function projRaw(upto){const out={};[['Math','Math'],['English','R&W']].forEach(([sec,lab])=>{const sks=Object.values(SK2).filter(s=>s.sec===sec);const kn=sks.map(s=>skAcc(s.id,upto)).filter(v=>v!=null);const avg=kn.length?kn.reduce((a,b)=>a+b,0)/kn.length:.5;
@@ -499,6 +504,6 @@ document.addEventListener('click',e=>{const b=e.target.closest('button,[data-go]
 });
 load().then(route);
 </script>
-<script src="stats.js?v=5"></script>
+<script src="stats.js?v=6"></script>
 </body>
 </html>
