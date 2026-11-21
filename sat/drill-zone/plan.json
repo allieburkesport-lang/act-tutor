@@ -1,12 +1,16 @@
 {
- "updated": "Fri Nov 20, 3:53 PM ET",
+ "updated": "Sat Nov 21, 12:07 AM ET",
  "online": true,
- "today": "2026-11-20",
+ "today": "2026-11-21",
  "test": "2026-12-05",
  "total_concepts": 29,
  "math": 19,
  "english": 10,
- "changes": [],
+ "changes": [
+  "Right triangles and trigonometry moved to 2026-11-22 (not practised on its day)",
+  "Circles moved to 2026-11-23 (not practised on its day)",
+  "Transitions moved to 2026-11-24 (not practised on its day)"
+ ],
  "skills": [
   {
    "skill": "wic",
@@ -360,6 +364,7 @@
     "trans"
    ],
    "note": "",
+   "status": "not done",
    "math_share": 67,
    "review": [
     [
@@ -442,7 +447,26 @@
     ]
    ],
    "n_questions": 38,
-   "result": null
+   "result": {
+    "questions": 0,
+    "first_try": 0,
+    "pct": null,
+    "lessons": 0,
+    "by_skill": {
+     "Right triangles and trigonometry": [
+      0,
+      0
+     ],
+     "Circles": [
+      0,
+      0
+     ],
+     "Transitions": [
+      0,
+      0
+     ]
+    }
+   }
   },
   {
    "date": "2026-11-21",
@@ -462,12 +486,16 @@
    "date": "2026-11-22",
    "kind": "learn",
    "learn": [
+    "trig",
     "nleq",
     "prob",
     "cid"
    ],
-   "note": "Catch-up for Tue Nov 17 (USMMA visit)",
-   "math_share": 66,
+   "note": "Catch-up for Tue Nov 17 (USMMA visit) \u00b7 Carried over: Right triangles and trigonometry",
+   "carried": [
+    "trig"
+   ],
+   "math_share": 70,
    "review": [
     [
      "nlf",
@@ -482,16 +510,28 @@
      2
     ],
     [
-     "trig",
-     3
-    ],
-    [
      "circ",
      3
     ]
    ],
    "label": "Sun Nov 22",
    "concepts": [
+    {
+     "skill": "trig",
+     "name": "Right triangles and trigonometry",
+     "sec": "Math",
+     "share": 3.0,
+     "acc": null,
+     "tried": 0,
+     "lessons": [
+      {
+       "id": "t3",
+       "title": "Circles, volume, trig",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/learn.html#t3"
+      }
+     ],
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:trig"
+    },
     {
      "skill": "nleq",
      "name": "Nonlinear equations and systems",
@@ -546,7 +586,7 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:cid"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:nlf.3,trans.2,fss.2,trig.3,circ.3",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:nlf.3,trans.2,fss.2,circ.3",
    "review_names": [
     [
      "Nonlinear functions",
@@ -561,27 +601,27 @@
      2
     ],
     [
-     "Right triangles and trigonometry",
-     3
-    ],
-    [
      "Circles",
      3
     ]
    ],
-   "n_questions": 43,
+   "n_questions": 50,
    "result": null
   },
   {
    "date": "2026-11-23",
    "kind": "learn",
    "learn": [
+    "circ",
     "ratio",
     "pct",
     "bound"
    ],
-   "note": "",
-   "math_share": 67,
+   "note": "Carried over: Circles",
+   "carried": [
+    "circ"
+   ],
+   "math_share": 71,
    "review": [
     [
      "nleq",
@@ -610,14 +650,26 @@
     [
      "cid",
      2
-    ],
-    [
-     "circ",
-     3
     ]
    ],
    "label": "Mon Nov 23",
    "concepts": [
+    {
+     "skill": "circ",
+     "name": "Circles",
+     "sec": "Math",
+     "share": 2.9,
+     "acc": 80,
+     "tried": 5,
+     "lessons": [
+      {
+       "id": "t3",
+       "title": "Circles, volume, trig",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/learn.html#t3"
+      }
+     ],
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:circ"
+    },
     {
      "skill": "ratio",
      "name": "Ratios, rates, proportions and units",
@@ -677,7 +729,7 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:bound"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:nleq.3,nlf.3,trans.2,fss.2,trig.3,prob.3,cid.2,circ.3",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:nleq.3,nlf.3,trans.2,fss.2,trig.3,prob.3,cid.2",
    "review_names": [
     [
      "Nonlinear equations and systems",
@@ -706,25 +758,25 @@
     [
      "Central ideas and details",
      2
-    ],
-    [
-     "Circles",
-     3
     ]
    ],
-   "n_questions": 51,
+   "n_questions": 58,
    "result": null
   },
   {
    "date": "2026-11-24",
    "kind": "learn",
    "learn": [
+    "trans",
     "linf",
     "lin2",
     "wic"
    ],
-   "note": "",
-   "math_share": 66,
+   "note": "Carried over: Transitions",
+   "carried": [
+    "trans"
+   ],
+   "math_share": 64,
    "review": [
     [
      "nleq",
@@ -735,44 +787,56 @@
      3
     ],
     [
-     "trans",
-     2
-    ],
-    [
      "fss",
-     2
+     1
     ],
     [
      "trig",
-     2
+     3
     ],
     [
      "prob",
-     2
+     3
     ],
     [
      "ratio",
-     2
+     3
     ],
     [
      "bound",
-     2
+     1
     ],
     [
      "cid",
-     2
+     1
     ],
     [
      "pct",
-     2
+     3
     ],
     [
      "circ",
-     2
+     3
     ]
    ],
    "label": "Tue Nov 24",
    "concepts": [
+    {
+     "skill": "trans",
+     "name": "Transitions",
+     "sec": "English",
+     "share": 9.7,
+     "acc": 44,
+     "tried": 34,
+     "lessons": [
+      {
+       "id": "s6",
+       "title": "CARE transitions",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/learn.html#s6"
+      }
+     ],
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:trans"
+    },
     {
      "skill": "linf",
      "name": "Linear functions",
@@ -827,7 +891,7 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:wic"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:nleq.3,nlf.3,trans.2,fss.2,trig.2,prob.2,ratio.2,bound.2,cid.2,pct.2,circ.2",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:nleq.3,nlf.3,fss.1,trig.3,prob.3,ratio.3,bound.1,cid.1,pct.3,circ.3",
    "review_names": [
     [
      "Nonlinear equations and systems",
@@ -838,43 +902,39 @@
      3
     ],
     [
-     "Transitions",
-     2
-    ],
-    [
      "Form, structure and sense",
-     2
+     1
     ],
     [
      "Right triangles and trigonometry",
-     2
+     3
     ],
     [
      "Probability and conditional probability",
-     2
+     3
     ],
     [
      "Ratios, rates, proportions and units",
-     2
+     3
     ],
     [
      "Boundaries (punctuation)",
-     2
+     1
     ],
     [
      "Central ideas and details",
-     2
+     1
     ],
     [
      "Percentages",
-     2
+     3
     ],
     [
      "Circles",
-     2
+     3
     ]
    ],
-   "n_questions": 54,
+   "n_questions": 64,
    "result": null
   },
   {
