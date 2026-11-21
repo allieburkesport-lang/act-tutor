@@ -111,8 +111,8 @@ def ql(qid): return f"<a href='{SITE}#/look/{qid}' style='color:#101C34;text-dec
 def item(left, right, rc, first): return (f"<tr><td style='padding:9px 0;{'' if first else 'border-top:1px solid #DFE4EB;'}font-size:14px;line-height:18px;color:#101C34'>{left}</td>"
                                          f"<td align='right' valign='top' style='padding:9px 0 9px 6px;{'' if first else 'border-top:1px solid #DFE4EB;'}font-size:13px;font-weight:800;color:{rc};white-space:nowrap'>{right}</td></tr>")
 def metric(num, lab, c=DK, note='', ic='doc'):
-    return (f"<td width='33%' valign='top' style='padding:4px'><div style='background:#FFFFFF;border:1px solid #DBE2ED;border-radius:12px;padding:10px 6px'>"
-            f"{TB}><tr><td width='26' valign='middle'>{img(ic, 22)}</td><td valign='middle' style='padding-left:5px'>"
+    return (f"<td width='33%' valign='top' style='padding:4px'><div style='background:#FFFFFF;border:1px solid #DBE2ED;border-radius:12px;padding:10px 6px;height:56px'>"
+            f"{TB} height='56'><tr><td width='26' valign='middle'>{img(ic, 22)}</td><td valign='middle' style='padding-left:5px'>"
             f"<div style='font-size:24px;line-height:27px;font-weight:800;color:{c}'>{num}</div><div style='font-size:11px;line-height:13px;font-weight:700;color:#101C34'>{lab}</div>"
             + (f"<div style='font-size:9px;color:#647287;margin-top:1px'>{note}</div>" if note else '') + "</td></tr></table></div></td>")
 def bar(p, h=10, c='#0C8E40'):
@@ -147,7 +147,7 @@ if n:
     t0 = min(et(a['created_at']) for a in R); t1 = max(et(a['created_at']) for a in R); mins = round((t1 - t0).seconds / 60)
     summary = (h2('Summary of the Day') + f"<div style='background:#F0F3F9;border-radius:15px;padding:6px'>{TB}>"
         f"<tr>{metric(len(Q),'Questions Done',ic='doc')}{metric(f'{acc}%','Right First Try', GRN if acc>=80 else OR, ic='target')}{metric(len(wrong),'Wrong', RD, ic='xcirc')}</tr>"
-        f"<tr>{metric(len(helped),'Used Help On', OR, ic='spark')}{metric(len(calc),'Used Calculator', ic='calc')}{metric(f'{secs}s','Time per Question', DK, 'SAT pace: 70–95s', ic='watch')}</tr></table></div>"
+        f"<tr>{metric(len(helped),'Used Help On', OR, ic='spark')}{metric(len(calc),'Used Calculator', ic='calc')}{metric(f'{secs}s','Time per Question', DK, ic='watch')}</tr></table></div>"
         f"<div style='font-size:13px;color:{MUT};margin-top:7px'>{mins} minutes on HELM &nbsp;·&nbsp; {len(asks)} tutor question{'s' if len(asks)!=1 else ''} asked</div>")
     HN2 = {k: v for k, v in HN.items()}
     hrows = ''.join(item(ql(k) + "<div style='font-size:11px;color:#5B6C80;margin-top:2px'>" + ', '.join(HN2.get(x, x) for x in sorted(Q[k]['help'] - TOOLS)) + "</div>",
