@@ -109,6 +109,7 @@ iframe.desmos{width:100%;height:calc(100vh - 190px);border:1px solid var(--line)
 .rep{width:100%;border-collapse:collapse;font-size:14px}.rep th{text-align:left;font-size:12px;color:var(--mute);padding:8px 10px;border-bottom:2px solid #e5e7eb;white-space:nowrap}.rep td{padding:10px;border-top:1px solid #f1f2f4;vertical-align:middle}
 .dif span{display:inline-block;margin-right:6px;font-size:13px;white-space:nowrap}.slow{color:#9a3412;font-weight:700}.fast{color:#14532d;font-weight:700}
 @media (max-width:900px){.sched .hide,.rep .hide{display:none}}
+.wf{margin-top:8px;padding:8px 10px;border-radius:8px;background:#f0fdf4;border-left:4px solid #15803d;font-size:14px;line-height:1.5}.wf .wl{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#15803d;margin-bottom:2px}
 </style>
 </head>
 <body>
@@ -348,8 +349,34 @@ function carried(q,steps){// numbers found as results in earlier steps and reuse
   steps.forEach((s,i)=>{const t=s.replace(/✓/g,'');const k=Math.max(t.lastIndexOf('='),t.lastIndexOf(':'),t.lastIndexOf('→'));const seg=k>=0?t.slice(k+1):'';const m=seg.match(/-?\d+(?:\.\d+)?/);if(m&&!given.has(m[0].replace('-','')) && !given.has(m[0]))res.push([m[0],i])});
   return res;}
 function markCarry(text,i,res){let h=esc(text);res.forEach(([v,from])=>{if(from>=i)return;const e=v.replace(/[.\-]/g,'\\$&');const rx=new RegExp('(^|[^0-9.,])('+e+')(?![0-9.])');if(rx.test(h)&&!h.includes('from step '+(from+1)))h=h.replace(rx,`$1<span class="co">$2</span><span class="cot">from step ${from+1}</span>`)});return h}
-function stepHTML(s,i,res){const k=s.indexOf(': ');const head=k>0&&k<60?s.slice(0,k):'',body=k>0&&k<60?s.slice(k+2):s;
-  return `<div class="step"><span class="n">${i+1}</span><div class="c">${head?`<b>${markCarry(head,i,res)}</b><br>`:''}${markCarry(body,i,res)}</div></div>`}
+
+/* where every number comes from (Show me how) */
+const nfmt=x=>{const r=Math.round(x*1000)/1000;return String(r)};
+function givenNums(q){return new Set((plain(q.q).match(/\d+(?:\.\d+)?/g)||[]))}
+function pyth(q){const t=plain(q.q).toLowerCase();for(const st of q.steps){const m=st.match(/(\d+(?:\.\d+)?)²\s*\+\s*(\d+(?:\.\d+)?)²/);if(m&&(/hypotenuse|right triangle|right angle|tangent|diagonal|distance|ladder|leg/.test(t)||q.steps.some(x=>x.includes('√'))))return {a:m[1],b:m[2],i:q.steps.indexOf(st)}}return null}
+function formulaIntro(q){const p=pyth(q);if(!p)return '';
+  return `<div class="box b-pur"><div class="lab">Formula we use · on the reference sheet</div><div class="c"><div style="font-size:20px;font-weight:700;color:#6d28d9">a² + b² = c²</div><div style="font-size:14px;color:var(--mute);margin-bottom:6px">Pythagorean theorem (right triangles only)</div>
+   <table style="border-collapse:collapse;width:100%;font-size:15px"><tr><td style="padding:4px 8px;font-weight:700;color:#6d28d9">a</td><td>one leg (short side touching the right angle) = <b>${p.a}</b>, given in the question</td></tr>
+   <tr><td style="padding:4px 8px;font-weight:700;color:#6d28d9">b</td><td>the other leg = <b>${p.b}</b>, given in the question</td></tr>
+   <tr><td style="padding:4px 8px;font-weight:700;color:#6d28d9">c</td><td>the hypotenuse (longest side, across from the right angle) = what we are finding</td></tr></table>
+   <div style="margin-top:6px">Plan: square both legs, add them to get c², then take the square root to get c.</div></div></div>`}
+function whereFrom(q,s,i,seen){const out=[],g=givenNums(q);
+  const nums=(s.match(/\d+(?:\.\d+)?/g)||[]).filter(x=>g.has(x)&&!seen.has(x)&&!/^[0-3]$/.test(x));
+  const nn=[...new Set(nums)];nn.forEach(x=>seen.add(x));
+  if(nn.length)out.push(`<b>${nn.join(', ')}</b> ${nn.length>1?'are':'is'} given in the question.`);
+  const p=pyth(q);if(p&&p.i===i)out.push(`This is a² + b² with a = ${p.a} and b = ${p.b}. The total is <b>c²</b> (c squared), not c yet.`);
+  for(const m of s.matchAll(/(\d+(?:\.\d+)?)²/g)){const v=+m[1];out.push(`${m[1]}² means ${m[1]} × ${m[1]} = <b>${nfmt(v*v)}</b>`)}
+  for(const m of s.matchAll(/(\d+(?:\.\d+)?)³/g)){const v=+m[1];out.push(`${m[1]}³ means ${m[1]} × ${m[1]} × ${m[1]} = <b>${nfmt(v*v*v)}</b>`)}
+  for(const m of s.matchAll(/√\(?(\d+(?:\.\d+)?)\)?/g)){const v=+m[1],r=Math.sqrt(v),exact=Math.abs(r-Math.round(r))<1e-9;
+    if(p&&i>p.i)out.push(`Why a square root: the last step gave <b>c² = ${m[1]}</b>. A square root undoes a square, so it leaves just c.`);
+    out.push(exact?`√${m[1]} asks: what number times itself is ${m[1]}? <b>${Math.round(r)} × ${Math.round(r)} = ${m[1]}</b>, so √${m[1]} = ${Math.round(r)}.`:`√${m[1]} ≈ ${nfmt(r)} (calculator: 2nd x², then ${m[1]}).`)}
+  for(const m of s.matchAll(/(\d+(?:\.\d+)?) \+ (\d+(?:\.\d+)?) = (\d+(?:\.\d+)?)/g)){if(Math.abs(+m[1]+ +m[2]-m[3])<1e-9)out.push(`Add the two squares: ${m[1]} + ${m[2]} = <b>${m[3]}</b>. That is c².`.replace(' That is c².',p&&p.i===i?' That is c².':''))}
+  if(p&&i>p.i&&!s.includes('√')){const tot=(q.steps[p.i].match(/(\d+(?:\.\d+)?)\s*$/)||[])[1],v=(s.match(/(\d+(?:\.\d+)?)\s*$/)||[])[1];
+    if(tot&&v&&Math.abs(v*v-tot)<1e-6)out.push(`Why: the last step gave the side squared = ${tot}. Undo the square with a square root: √${tot} = <b>${v}</b>, because ${v} × ${v} = ${tot}.`)}
+  for(const m of s.matchAll(/(\d+(?:\.\d+)?)%/g)){if(+m[1]>0)out.push(`${m[1]}% means ${m[1]} ÷ 100 = <b>${nfmt(+m[1]/100)}</b>`)}
+  return out.length?`<div class="wf"><div class="wl">Where these numbers come from</div>${out.map(x=>`<div>• ${x}</div>`).join('')}</div>`:''}
+function stepHTML(s,i,res,wf){const k=s.indexOf(': ');const head=k>0&&k<60?s.slice(0,k):'',body=k>0&&k<60?s.slice(k+2):s;
+  return `<div class="step"><span class="n">${i+1}</span><div class="c">${head?`<b>${markCarry(head,i,res)}</b><br>`:''}${markCarry(body,i,res)}${wf||''}</div></div>`}
 function lessonData(skill){const id=lessonFor(skill)[0];return id&&LES[id]}
 function formulaBox(skill){const id=lessonFor(skill).find(l=>LES[l]&&LES[l].math);if(!id)return '';const keys=Object.keys(typeof MH!=='undefined'?MH:{}).filter(k=>k.startsWith(id+'|'));
   const seen=new Set(),fs=[];keys.forEach(k=>{const f=MH[k].f;if(Array.isArray(f))f.forEach(x=>{if(!seen.has(x.eq)&&fs.length<4){seen.add(x.eq);fs.push(x)}})});
@@ -357,7 +384,8 @@ function formulaBox(skill){const id=lessonFor(skill).find(l=>LES[l]&&LES[l].math
 function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
   const head=(t,sub)=>`<div class="ph"><div><div class="t hd">${t}</div><div class="s">${sub}</div></div><button class="x" aria-label="Close panel" data-pan="${k}">✕</button></div>`;
   if(k==='show'){const res=carried(q,q.steps);const n=Math.max(1,st.shown);
-    return head('Show me how','This question, one step at a time')+q.steps.slice(0,n).map((x,i)=>stepHTML(x,i,res)).join('')+
+    const seen=new Set();const wfs=q.steps.map((x,i)=>s.sec==='Math'?whereFrom(q,x,i,seen):'');
+    return head('Show me how','This question, one step at a time')+(s.sec==='Math'?formulaIntro(q):'')+q.steps.slice(0,n).map((x,i)=>stepHTML(x,i,res,wfs[i])).join('')+
      (n<q.steps.length?`<button class="btn" data-next="1" style="align-self:flex-start">Show the next step (${n+1} of ${q.steps.length})</button>`:`<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(q.trap)}</div></div>`)+
      `<div class="box b-blue"><div class="lab">${s.sec==='Math'?'Desmos or calculator':'Strategy'}</div><div class="c">${esc(q.tool)}</div></div>`+(s.sec==='Math'?formulaBox(q.skill):'');}
 
