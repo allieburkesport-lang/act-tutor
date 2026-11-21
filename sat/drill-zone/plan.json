@@ -1,5 +1,5 @@
 {
- "updated": "Sat Nov 21, 12:07 AM ET",
+ "updated": "Sat Nov 21, 8:54 AM ET",
  "online": true,
  "today": "2026-11-21",
  "test": "2026-12-05",
@@ -256,8 +256,31 @@
    ],
    "note": "Nonlinear functions + quadratics + grammar forms",
    "status": "done",
-   "math_share": 65,
-   "review": [],
+   "focus": [
+    "linf",
+    "lat",
+    "area",
+    "wic"
+   ],
+   "math_share": 67,
+   "review": [
+    [
+     "linf",
+     3
+    ],
+    [
+     "lat",
+     3
+    ],
+    [
+     "area",
+     3
+    ],
+    [
+     "wic",
+     3
+    ]
+   ],
    "label": "Thu Nov 19",
    "concepts": [
     {
@@ -344,9 +367,32 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:fss"
     }
    ],
-   "review_url": "",
-   "review_names": [],
-   "n_questions": 30,
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:linf.3,lat.3,area.3,wic.3",
+   "review_names": [
+    [
+     "Linear functions",
+     3
+    ],
+    [
+     "Lines, angles and triangles",
+     3
+    ],
+    [
+     "Area and volume",
+     3
+    ],
+    [
+     "Words in context",
+     3
+    ]
+   ],
+   "focus_names": [
+    "Linear functions",
+    "Lines, angles and triangles",
+    "Area and volume",
+    "Words in context"
+   ],
+   "n_questions": 42,
    "result": {
     "questions": 0,
     "first_try": 0,
@@ -365,7 +411,13 @@
    ],
    "note": "",
    "status": "not done",
-   "math_share": 67,
+   "focus": [
+    "nlf",
+    "nleq",
+    "linf",
+    "wic"
+   ],
+   "math_share": 65,
    "review": [
     [
      "nleq",
@@ -378,6 +430,14 @@
     [
      "fss",
      2
+    ],
+    [
+     "linf",
+     3
+    ],
+    [
+     "wic",
+     3
     ]
    ],
    "label": "Fri Nov 20",
@@ -431,7 +491,7 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:trans"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:nleq.3,nlf.3,fss.2",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:nleq.3,nlf.3,fss.2,linf.3,wic.3",
    "review_names": [
     [
      "Nonlinear equations and systems",
@@ -444,9 +504,23 @@
     [
      "Form, structure and sense",
      2
+    ],
+    [
+     "Linear functions",
+     3
+    ],
+    [
+     "Words in context",
+     3
     ]
    ],
-   "n_questions": 38,
+   "focus_names": [
+    "Nonlinear functions",
+    "Nonlinear equations and systems",
+    "Linear functions",
+    "Words in context"
+   ],
+   "n_questions": 44,
    "result": {
     "questions": 0,
     "first_try": 0,
@@ -475,10 +549,12 @@
    "note": "Practice Test 3 in Bluebook (full test, timed). Send the score report afterward.",
    "review": [],
    "math_share": null,
+   "focus": [],
    "label": "Sat Nov 21",
    "concepts": [],
    "review_url": "",
    "review_names": [],
+   "focus_names": [],
    "n_questions": 0,
    "result": null
   },
@@ -495,7 +571,13 @@
    "carried": [
     "trig"
    ],
-   "math_share": 70,
+   "focus": [
+    "nlf",
+    "linf",
+    "lat",
+    "wic"
+   ],
+   "math_share": 69,
    "review": [
     [
      "nlf",
@@ -511,6 +593,18 @@
     ],
     [
      "circ",
+     2
+    ],
+    [
+     "linf",
+     3
+    ],
+    [
+     "lat",
+     3
+    ],
+    [
+     "wic",
      3
     ]
    ],
@@ -586,7 +680,7 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:cid"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:nlf.3,trans.2,fss.2,circ.3",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:nlf.3,trans.2,fss.2,circ.2,linf.3,lat.3,wic.3",
    "review_names": [
     [
      "Nonlinear functions",
@@ -602,10 +696,28 @@
     ],
     [
      "Circles",
+     2
+    ],
+    [
+     "Linear functions",
+     3
+    ],
+    [
+     "Lines, angles and triangles",
+     3
+    ],
+    [
+     "Words in context",
      3
     ]
    ],
-   "n_questions": 50,
+   "focus_names": [
+    "Nonlinear functions",
+    "Linear functions",
+    "Lines, angles and triangles",
+    "Words in context"
+   ],
+   "n_questions": 58,
    "result": null
   },
   {
@@ -621,7 +733,13 @@
    "carried": [
     "circ"
    ],
-   "math_share": 71,
+   "focus": [
+    "nlf",
+    "nleq",
+    "linf",
+    "wic"
+   ],
+   "math_share": 68,
    "review": [
     [
      "nleq",
@@ -641,15 +759,23 @@
     ],
     [
      "trig",
-     3
+     2
     ],
     [
      "prob",
-     3
+     2
     ],
     [
      "cid",
      2
+    ],
+    [
+     "linf",
+     3
+    ],
+    [
+     "wic",
+     3
     ]
    ],
    "label": "Mon Nov 23",
@@ -729,7 +855,7 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:bound"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:nleq.3,nlf.3,trans.2,fss.2,trig.3,prob.3,cid.2",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:nleq.3,nlf.3,trans.2,fss.2,trig.2,prob.2,cid.2,linf.3,wic.3",
    "review_names": [
     [
      "Nonlinear equations and systems",
@@ -749,18 +875,32 @@
     ],
     [
      "Right triangles and trigonometry",
-     3
+     2
     ],
     [
      "Probability and conditional probability",
-     3
+     2
     ],
     [
      "Central ideas and details",
      2
+    ],
+    [
+     "Linear functions",
+     3
+    ],
+    [
+     "Words in context",
+     3
     ]
    ],
-   "n_questions": 58,
+   "focus_names": [
+    "Nonlinear functions",
+    "Nonlinear equations and systems",
+    "Linear functions",
+    "Words in context"
+   ],
+   "n_questions": 62,
    "result": null
   },
   {
@@ -776,7 +916,13 @@
    "carried": [
     "trans"
    ],
-   "math_share": 64,
+   "focus": [
+    "nlf",
+    "nleq",
+    "lat",
+    "fss"
+   ],
+   "math_share": 62,
    "review": [
     [
      "nleq",
@@ -788,19 +934,19 @@
     ],
     [
      "fss",
-     1
+     2
     ],
     [
      "trig",
-     3
+     2
     ],
     [
      "prob",
-     3
+     2
     ],
     [
      "ratio",
-     3
+     2
     ],
     [
      "bound",
@@ -812,10 +958,14 @@
     ],
     [
      "pct",
-     3
+     2
     ],
     [
      "circ",
+     2
+    ],
+    [
+     "lat",
      3
     ]
    ],
@@ -891,7 +1041,7 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:wic"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:nleq.3,nlf.3,fss.1,trig.3,prob.3,ratio.3,bound.1,cid.1,pct.3,circ.3",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:nleq.3,nlf.3,fss.2,trig.2,prob.2,ratio.2,bound.1,cid.1,pct.2,circ.2,lat.3",
    "review_names": [
     [
      "Nonlinear equations and systems",
@@ -903,19 +1053,19 @@
     ],
     [
      "Form, structure and sense",
-     1
+     2
     ],
     [
      "Right triangles and trigonometry",
-     3
+     2
     ],
     [
      "Probability and conditional probability",
-     3
+     2
     ],
     [
      "Ratios, rates, proportions and units",
-     3
+     2
     ],
     [
      "Boundaries (punctuation)",
@@ -927,14 +1077,24 @@
     ],
     [
      "Percentages",
-     3
+     2
     ],
     [
      "Circles",
+     2
+    ],
+    [
+     "Lines, angles and triangles",
      3
     ]
    ],
-   "n_questions": 64,
+   "focus_names": [
+    "Nonlinear functions",
+    "Nonlinear equations and systems",
+    "Lines, angles and triangles",
+    "Form, structure and sense"
+   ],
+   "n_questions": 63,
    "result": null
   },
   {
@@ -946,19 +1106,25 @@
     "syn"
    ],
    "note": "",
-   "math_share": 64,
+   "focus": [
+    "nlf",
+    "nleq",
+    "linf",
+    "wic"
+   ],
+   "math_share": 65,
    "review": [
     [
      "nleq",
-     2
+     3
     ],
     [
      "nlf",
-     2
+     3
     ],
     [
      "wic",
-     2
+     3
     ],
     [
      "trans",
@@ -966,7 +1132,7 @@
     ],
     [
      "linf",
-     2
+     3
     ],
     [
      "fss",
@@ -982,11 +1148,11 @@
     ],
     [
      "ratio",
-     2
+     1
     ],
     [
      "bound",
-     2
+     1
     ],
     [
      "lin2",
@@ -1061,19 +1227,19 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:syn"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:nleq.2,nlf.2,wic.2,trans.2,linf.2,fss.2,trig.2,prob.2,ratio.2,bound.2,lin2.1,cid.1,pct.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:nleq.3,nlf.3,wic.3,trans.2,linf.3,fss.2,trig.2,prob.2,ratio.1,bound.1,lin2.1,cid.1,pct.1,circ.1",
    "review_names": [
     [
      "Nonlinear equations and systems",
-     2
+     3
     ],
     [
      "Nonlinear functions",
-     2
+     3
     ],
     [
      "Words in context",
-     2
+     3
     ],
     [
      "Transitions",
@@ -1081,7 +1247,7 @@
     ],
     [
      "Linear functions",
-     2
+     3
     ],
     [
      "Form, structure and sense",
@@ -1097,11 +1263,11 @@
     ],
     [
      "Ratios, rates, proportions and units",
-     2
+     1
     ],
     [
      "Boundaries (punctuation)",
-     2
+     1
     ],
     [
      "Linear equations in two variables",
@@ -1120,7 +1286,13 @@
      1
     ]
    ],
-   "n_questions": 54,
+   "focus_names": [
+    "Nonlinear functions",
+    "Nonlinear equations and systems",
+    "Linear functions",
+    "Words in context"
+   ],
+   "n_questions": 56,
    "result": null
   },
   {
@@ -1130,10 +1302,12 @@
    "note": "Thanksgiving: off",
    "review": [],
    "math_share": null,
+   "focus": [],
    "label": "Thu Nov 26",
    "concepts": [],
    "review_url": "",
    "review_names": [],
+   "focus_names": [],
    "n_questions": 0,
    "result": null
   },
@@ -1142,7 +1316,13 @@
    "kind": "light",
    "learn": [],
    "note": "Light day: review + redo my misses (about 30 min)",
-   "math_share": 65,
+   "focus": [
+    "nlf",
+    "nleq",
+    "linf",
+    "wic"
+   ],
+   "math_share": 64,
    "review": [
     [
      "lat",
@@ -1154,7 +1334,7 @@
     ],
     [
      "nleq",
-     2
+     3
     ],
     [
      "nlf",
@@ -1162,7 +1342,7 @@
     ],
     [
      "wic",
-     2
+     3
     ],
     [
      "trans",
@@ -1215,7 +1395,7 @@
    ],
    "label": "Fri Nov 27",
    "concepts": [],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.2,area.2,nleq.2,nlf.2,wic.2,trans.2,linf.2,fss.1,trig.1,prob.1,ratio.1,bound.1,lin2.1,cid.1,syn.1,pct.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.2,area.2,nleq.3,nlf.2,wic.3,trans.2,linf.2,fss.1,trig.1,prob.1,ratio.1,bound.1,lin2.1,cid.1,syn.1,pct.1,circ.1",
    "review_names": [
     [
      "Lines, angles and triangles",
@@ -1227,7 +1407,7 @@
     ],
     [
      "Nonlinear equations and systems",
-     2
+     3
     ],
     [
      "Nonlinear functions",
@@ -1235,7 +1415,7 @@
     ],
     [
      "Words in context",
-     2
+     3
     ],
     [
      "Transitions",
@@ -1286,7 +1466,13 @@
      1
     ]
    ],
-   "n_questions": 24,
+   "focus_names": [
+    "Nonlinear functions",
+    "Nonlinear equations and systems",
+    "Linear functions",
+    "Words in context"
+   ],
+   "n_questions": 26,
    "result": null
   },
   {
@@ -1296,10 +1482,12 @@
    "note": "Practice Test 4 in Bluebook (full test, timed). Send the score report afterward.",
    "review": [],
    "math_share": null,
+   "focus": [],
    "label": "Sat Nov 28",
    "concepts": [],
    "review_url": "",
    "review_names": [],
+   "focus_names": [],
    "n_questions": 0,
    "result": null
   },
@@ -1312,7 +1500,13 @@
     "inf"
    ],
    "note": "",
-   "math_share": 64,
+   "focus": [
+    "nlf",
+    "nleq",
+    "linf",
+    "wic"
+   ],
+   "math_share": 65,
    "review": [
     [
      "lat",
@@ -1324,7 +1518,7 @@
     ],
     [
      "nleq",
-     2
+     3
     ],
     [
      "nlf",
@@ -1332,7 +1526,7 @@
     ],
     [
      "wic",
-     2
+     3
     ],
     [
      "trans",
@@ -1340,11 +1534,11 @@
     ],
     [
      "linf",
-     1
+     2
     ],
     [
      "fss",
-     2
+     1
     ],
     [
      "trig",
@@ -1434,7 +1628,7 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:inf"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.2,area.2,nleq.2,nlf.2,wic.2,trans.2,linf.1,fss.2,trig.1,prob.1,ratio.1,bound.1,lin2.1,cid.1,syn.1,pct.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.2,area.2,nleq.3,nlf.2,wic.3,trans.2,linf.2,fss.1,trig.1,prob.1,ratio.1,bound.1,lin2.1,cid.1,syn.1,pct.1,circ.1",
    "review_names": [
     [
      "Lines, angles and triangles",
@@ -1446,7 +1640,7 @@
     ],
     [
      "Nonlinear equations and systems",
-     2
+     3
     ],
     [
      "Nonlinear functions",
@@ -1454,7 +1648,7 @@
     ],
     [
      "Words in context",
-     2
+     3
     ],
     [
      "Transitions",
@@ -1462,11 +1656,11 @@
     ],
     [
      "Linear functions",
-     1
+     2
     ],
     [
      "Form, structure and sense",
-     2
+     1
     ],
     [
      "Right triangles and trigonometry",
@@ -1505,7 +1699,13 @@
      1
     ]
    ],
-   "n_questions": 54,
+   "focus_names": [
+    "Nonlinear functions",
+    "Nonlinear equations and systems",
+    "Linear functions",
+    "Words in context"
+   ],
+   "n_questions": 56,
    "result": null
   },
   {
@@ -1517,7 +1717,13 @@
     "coe"
    ],
    "note": "",
-   "math_share": 64,
+   "focus": [
+    "nlf",
+    "nleq",
+    "linf",
+    "wic"
+   ],
+   "math_share": 65,
    "review": [
     [
      "lat",
@@ -1525,7 +1731,7 @@
     ],
     [
      "data2",
-     2
+     1
     ],
     [
      "area",
@@ -1533,23 +1739,23 @@
     ],
     [
      "nleq",
-     1
+     2
     ],
     [
      "nlf",
-     1
+     2
     ],
     [
      "wic",
-     2
+     3
     ],
     [
      "trans",
-     2
+     1
     ],
     [
      "linf",
-     1
+     2
     ],
     [
      "fss",
@@ -1651,7 +1857,7 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:coe"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.2,data2.2,area.1,nleq.1,nlf.1,wic.2,trans.2,linf.1,fss.1,inf.1,trig.1,prob.1,ratio.1,data1.1,bound.1,lin2.1,cid.1,syn.1,pct.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.2,data2.1,area.1,nleq.2,nlf.2,wic.3,trans.1,linf.2,fss.1,inf.1,trig.1,prob.1,ratio.1,data1.1,bound.1,lin2.1,cid.1,syn.1,pct.1,circ.1",
    "review_names": [
     [
      "Lines, angles and triangles",
@@ -1659,7 +1865,7 @@
     ],
     [
      "Two-variable data: models and scatterplots",
-     2
+     1
     ],
     [
      "Area and volume",
@@ -1667,23 +1873,23 @@
     ],
     [
      "Nonlinear equations and systems",
-     1
+     2
     ],
     [
      "Nonlinear functions",
-     1
+     2
     ],
     [
      "Words in context",
-     2
+     3
     ],
     [
      "Transitions",
-     2
+     1
     ],
     [
      "Linear functions",
-     1
+     2
     ],
     [
      "Form, structure and sense",
@@ -1734,7 +1940,13 @@
      1
     ]
    ],
-   "n_questions": 54,
+   "focus_names": [
+    "Nonlinear functions",
+    "Nonlinear equations and systems",
+    "Linear functions",
+    "Words in context"
+   ],
+   "n_questions": 56,
    "result": null
   },
   {
@@ -1746,7 +1958,13 @@
     "tsp"
    ],
    "note": "Also: download the exam in Bluebook and charge the laptop",
-   "math_share": 64,
+   "focus": [
+    "nlf",
+    "nleq",
+    "linf",
+    "wic"
+   ],
+   "math_share": 66,
    "review": [
     [
      "lat",
@@ -1762,11 +1980,11 @@
     ],
     [
      "nleq",
-     1
+     2
     ],
     [
      "nlf",
-     1
+     2
     ],
     [
      "wic",
@@ -1778,7 +1996,7 @@
     ],
     [
      "linf",
-     1
+     2
     ],
     [
      "fss",
@@ -1897,7 +2115,7 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:tsp"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.1,data2.1,area.1,nleq.1,nlf.1,wic.2,trans.1,linf.1,fss.1,inf.1,trig.1,prob.1,ratio.1,data1.1,ineq.1,bound.1,lin2.1,sys.1,cid.1,coe.1,syn.1,pct.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.1,data2.1,area.1,nleq.2,nlf.2,wic.2,trans.1,linf.2,fss.1,inf.1,trig.1,prob.1,ratio.1,data1.1,ineq.1,bound.1,lin2.1,sys.1,cid.1,coe.1,syn.1,pct.1,circ.1",
    "review_names": [
     [
      "Lines, angles and triangles",
@@ -1913,11 +2131,11 @@
     ],
     [
      "Nonlinear equations and systems",
-     1
+     2
     ],
     [
      "Nonlinear functions",
-     1
+     2
     ],
     [
      "Words in context",
@@ -1929,7 +2147,7 @@
     ],
     [
      "Linear functions",
-     1
+     2
     ],
     [
      "Form, structure and sense",
@@ -1992,7 +2210,13 @@
      1
     ]
    ],
-   "n_questions": 54,
+   "focus_names": [
+    "Nonlinear functions",
+    "Nonlinear equations and systems",
+    "Linear functions",
+    "Words in context"
+   ],
+   "n_questions": 57,
    "result": null
   },
   {
@@ -2005,11 +2229,17 @@
     "nlf"
    ],
    "note": "Small topics + his weakest math concept so far",
-   "math_share": 69,
+   "focus": [
+    "nleq",
+    "linf",
+    "lat",
+    "wic"
+   ],
+   "math_share": 70,
    "review": [
     [
      "lat",
-     1
+     2
     ],
     [
      "data2",
@@ -2025,11 +2255,11 @@
     ],
     [
      "nleq",
-     1
+     2
     ],
     [
      "wic",
-     1
+     2
     ],
     [
      "trans",
@@ -2037,7 +2267,7 @@
     ],
     [
      "linf",
-     1
+     2
     ],
     [
      "fss",
@@ -2185,11 +2415,11 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:nlf"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.1,data2.1,area.1,tsp.1,nleq.1,wic.1,trans.1,linf.1,fss.1,inf.1,trig.1,prob.1,ratio.1,data1.1,ineq.1,lin1.1,bound.1,lin2.1,sys.1,cid.1,equiv.1,coe.1,syn.1,pct.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.2,data2.1,area.1,tsp.1,nleq.2,wic.2,trans.1,linf.2,fss.1,inf.1,trig.1,prob.1,ratio.1,data1.1,ineq.1,lin1.1,bound.1,lin2.1,sys.1,cid.1,equiv.1,coe.1,syn.1,pct.1,circ.1",
    "review_names": [
     [
      "Lines, angles and triangles",
-     1
+     2
     ],
     [
      "Two-variable data: models and scatterplots",
@@ -2205,11 +2435,11 @@
     ],
     [
      "Nonlinear equations and systems",
-     1
+     2
     ],
     [
      "Words in context",
-     1
+     2
     ],
     [
      "Transitions",
@@ -2217,7 +2447,7 @@
     ],
     [
      "Linear functions",
-     1
+     2
     ],
     [
      "Form, structure and sense",
@@ -2288,7 +2518,13 @@
      1
     ]
    ],
-   "n_questions": 65,
+   "focus_names": [
+    "Nonlinear equations and systems",
+    "Linear functions",
+    "Lines, angles and triangles",
+    "Words in context"
+   ],
+   "n_questions": 69,
    "result": null
   },
   {
@@ -2301,11 +2537,17 @@
     "wic"
    ],
    "note": "His weakest concepts + mixed set at SAT pace",
-   "math_share": 69,
+   "focus": [
+    "lat",
+    "area",
+    "lin2",
+    "fss"
+   ],
+   "math_share": 70,
    "review": [
     [
      "lat",
-     1
+     2
     ],
     [
      "data2",
@@ -2317,7 +2559,7 @@
     ],
     [
      "area",
-     1
+     2
     ],
     [
      "tsp",
@@ -2329,7 +2571,7 @@
     ],
     [
      "fss",
-     1
+     2
     ],
     [
      "inf",
@@ -2369,7 +2611,7 @@
     ],
     [
      "lin2",
-     1
+     2
     ],
     [
      "sys",
@@ -2491,11 +2733,11 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:wic"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.1,data2.1,claims.1,area.1,tsp.1,trans.1,fss.1,inf.1,trig.1,prob.1,ratio.1,data1.1,ineq.1,lin1.1,cross.1,bound.1,lin2.1,sys.1,cid.1,equiv.1,coe.1,syn.1,pct.1,infer.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.2,data2.1,claims.1,area.2,tsp.1,trans.1,fss.2,inf.1,trig.1,prob.1,ratio.1,data1.1,ineq.1,lin1.1,cross.1,bound.1,lin2.2,sys.1,cid.1,equiv.1,coe.1,syn.1,pct.1,infer.1,circ.1",
    "review_names": [
     [
      "Lines, angles and triangles",
-     1
+     2
     ],
     [
      "Two-variable data: models and scatterplots",
@@ -2507,7 +2749,7 @@
     ],
     [
      "Area and volume",
-     1
+     2
     ],
     [
      "Text structure and purpose",
@@ -2519,7 +2761,7 @@
     ],
     [
      "Form, structure and sense",
-     1
+     2
     ],
     [
      "Inferences",
@@ -2559,7 +2801,7 @@
     ],
     [
      "Linear equations in two variables",
-     1
+     2
     ],
     [
      "Systems of two linear equations",
@@ -2594,7 +2836,13 @@
      1
     ]
    ],
-   "n_questions": 65,
+   "focus_names": [
+    "Lines, angles and triangles",
+    "Area and volume",
+    "Linear equations in two variables",
+    "Form, structure and sense"
+   ],
+   "n_questions": 69,
    "result": null
   },
   {
@@ -2602,7 +2850,13 @@
    "kind": "light",
    "learn": [],
    "note": "Light: redo my misses, pack the bag, early bed",
-   "math_share": 64,
+   "focus": [
+    "nlf",
+    "nleq",
+    "linf",
+    "wic"
+   ],
+   "math_share": 65,
    "review": [
     [
      "lat",
@@ -2626,15 +2880,15 @@
     ],
     [
      "nleq",
-     1
+     2
     ],
     [
      "nlf",
-     1
+     2
     ],
     [
      "wic",
-     1
+     2
     ],
     [
      "trans",
@@ -2642,7 +2896,7 @@
     ],
     [
      "linf",
-     1
+     2
     ],
     [
      "fss",
@@ -2723,7 +2977,7 @@
    ],
    "label": "Fri Dec 4",
    "concepts": [],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.1,data2.1,claims.1,area.1,tsp.1,nleq.1,nlf.1,wic.1,trans.1,linf.1,fss.1,inf.1,trig.1,prob.1,ratio.1,data1.1,ineq.1,lin1.1,cross.1,bound.1,lin2.1,sys.1,cid.1,equiv.1,coe.1,syn.1,pct.1,infer.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.1,data2.1,claims.1,area.1,tsp.1,nleq.2,nlf.2,wic.2,trans.1,linf.2,fss.1,inf.1,trig.1,prob.1,ratio.1,data1.1,ineq.1,lin1.1,cross.1,bound.1,lin2.1,sys.1,cid.1,equiv.1,coe.1,syn.1,pct.1,infer.1,circ.1",
    "review_names": [
     [
      "Lines, angles and triangles",
@@ -2747,15 +3001,15 @@
     ],
     [
      "Nonlinear equations and systems",
-     1
+     2
     ],
     [
      "Nonlinear functions",
-     1
+     2
     ],
     [
      "Words in context",
-     1
+     2
     ],
     [
      "Transitions",
@@ -2763,7 +3017,7 @@
     ],
     [
      "Linear functions",
-     1
+     2
     ],
     [
      "Form, structure and sense",
@@ -2842,7 +3096,13 @@
      1
     ]
    ],
-   "n_questions": 29,
+   "focus_names": [
+    "Nonlinear functions",
+    "Nonlinear equations and systems",
+    "Linear functions",
+    "Words in context"
+   ],
+   "n_questions": 33,
    "result": null
   },
   {
@@ -2852,10 +3112,12 @@
    "note": "SAT \u00b7 check in by 7:45 AM",
    "review": [],
    "math_share": null,
+   "focus": [],
    "label": "Sat Dec 5",
    "concepts": [],
    "review_url": "",
    "review_names": [],
+   "focus_names": [],
    "n_questions": 0,
    "result": null
   }

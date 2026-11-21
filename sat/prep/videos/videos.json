@@ -996,5 +996,141 @@
 "Say it out loud"
 ]
 ]
+},
+"s3": {
+"src": "videos/s3.mp4",
+"poster": "videos/s3.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+16,
+"The rules"
+],
+[
+35,
+"Example 1: One owner"
+],
+[
+70,
+"Example 2: Many owners ending in s"
+],
+[
+108,
+"Example 3: Plural that doesn’t end in s"
+],
+[
+137,
+"Example 4: Just more than one (no owning)"
+],
+[
+170,
+"Say it out loud"
+]
+]
+},
+"r4": {
+"src": "videos/r4.mp4",
+"poster": "videos/r4.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+17,
+"The rules"
+],
+[
+33,
+"Example 1: Support a claim"
+],
+[
+66,
+"Example 2: Weaken a claim"
+],
+[
+101,
+"Example 3: Challenge with the opposite case"
+],
+[
+136,
+"Example 4: Illustrate with a quotation"
+],
+[
+175,
+"Say it out loud"
+]
+]
+},
+"r5": {
+"src": "videos/r5.mp4",
+"poster": "videos/r5.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+18,
+"The rules"
+],
+[
+33,
+"Example 1: Main purpose"
+],
+[
+75,
+"Example 2: Sets up contrasting views"
+],
+[
+110,
+"Example 3: Agrees + adds"
+],
+[
+152,
+"Example 4: Extends with a similar case"
+],
+[
+190,
+"Say it out loud"
+]
+]
+},
+"r6": {
+"src": "videos/r6.mp4",
+"poster": "videos/r6.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+17,
+"The rules"
+],
+[
+32,
+"Example 1: Emphasize something"
+],
+[
+67,
+"Example 2: Explain an outcome"
+],
+[
+96,
+"Example 3: Specify a number"
+],
+[
+127,
+"Example 4: Emphasize a similarity"
+],
+[
+156,
+"Say it out loud"
+]
+]
 }
 }

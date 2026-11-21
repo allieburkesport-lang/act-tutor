@@ -122,11 +122,19 @@ def main():
             # 1 question from EVERY earlier concept; extra questions go to math first so the whole day
             # (warm-up 6 math + 4 English, new concepts, review) is about 65% math / 35% English (USNA weights math)
             rev = [[s, 1] for s in pool]
+            # still-weak skills (under 60% after at least 3 tries) always come back, even before their learn day
+            cand = sorted([s for s in SHARE if s not in day['learn'] and acc(s)[0] is not None and acc(s)[0] < 60 and acc(s)[1] >= 3], key=weakness, reverse=True)
+            weak_now = [s for s in cand if s in MATH][:3] + [s for s in cand if s not in MATH][:1]   # his 4 biggest point-losers
+            for s in weak_now:
+                r = next((r for r in rev if r[0] == s), None)
+                if r: r[1] = max(r[1], 2)
+                else: rev.append([s, 2])
+            day['focus'] = [s for s in weak_now]
             def mshare():
                 m = 6 + 10 * sum(1 for x in day['learn'] if x in MATH) + sum(n for s2, n in rev if s2 in MATH)
                 t = 10 + 10 * len(day['learn']) + sum(n for _, n in rev)
                 return m / t, t
-            CAP = 24
+            CAP = 26
             a = lambda s2: acc(s2)[0] if acc(s2)[0] is not None else 50
             math_order = sorted([r for r in rev if r[0] in MATH], key=lambda r: a(r[0]))
             eng_weak = sorted([r for r in rev if r[0] not in MATH and a(r[0]) < 60], key=lambda r: a(r[0]))
@@ -141,7 +149,7 @@ def main():
                     eng_weak.pop(0)[1] += 1
             day['math_share'] = round(100 * mshare()[0])
             day['review'] = rev
-        else: day['review'] = []; day['math_share'] = None
+        else: day['review'] = []; day['math_share'] = None; day['focus'] = []
         for s in day['learn']:
             if s not in seen: seen.append(s)
     # --- what to click
@@ -153,6 +161,7 @@ def main():
                                 drill=SITE + 'index.html#go=skill:' + s) for s in day['learn']]
         day['review_url'] = SITE + 'index.html#go=review:' + ','.join(f'{s}.{n}' for s, n in day['review']) if day['review'] else ''
         day['review_names'] = [[names[s], n] for s, n in day['review']]
+        day['focus_names'] = [names[s] for s in day.get('focus', [])]
         day['n_questions'] = 10 * len(day['learn']) + sum(n for _, n in day['review'])
         res = byday.get(d0, {})
         q = sum(v[0] for v in res.values()); ok = sum(v[1] for v in res.values())
