@@ -1,5 +1,5 @@
 /* ---------- STATS: BI dashboard (#/stats, #/stats/<skill>, #/stats/sec:Math) ---------- */
-const ST = {period: 'all', sec: 'all', bp: true, site: true};
+const ST = {period: 'day', from: '', to: '', sec: 'all', bp: true, site: true};
 const SITE_NAME = 'SAT Prep';
 const SCOL = {Math: '#1e3a8a', English: '#0f766e'};
 let CH = [];
@@ -9,15 +9,16 @@ function firstTries() {  // one row per question per day: the first attempt that
   LOG.forEach(x => { const q = QBY[x.id]; if (!q || !SK2[q.skill]) return; if ((x.attempt || 1) !== 1) return; const k = x.id + '|' + x.day; if (seen[k]) return; seen[k] = 1; out.push(Object.assign({q, s: SK2[q.skill]}, x)) });
   return out.sort((a, b) => a.ts - b.ts)
 }
-function inPeriod(rows, per) {
-  if (per === 'all') return rows; const n = per === 'day' ? 1 : per === 'week' ? 7 : 30;
-  const from = new Date(); from.setHours(0, 0, 0, 0); from.setDate(from.getDate() - (n - 1)); const f = dkey(from);
-  return rows.filter(r => r.day >= f)
+function rangeOf(per) {  // [fromKey, toKey] inclusive
+  const t = new Date(); t.setHours(0, 0, 0, 0); const today = dkey(t);
+  if (per === 'all') return ['0000', '9999'];
+  if (per === 'custom') return [ST.from || '0000', ST.to || today];
+  const n = per === 'day' ? 1 : +per; const f = new Date(t); f.setDate(f.getDate() - (n - 1)); return [dkey(f), today]
 }
+function inPeriod(rows, per) { const [a, b] = rangeOf(per); return rows.filter(r => r.day >= a && r.day <= b) }
 function prevPeriod(rows, per) {
-  if (per === 'all') return []; const n = per === 'day' ? 1 : per === 'week' ? 7 : 30;
-  const a = new Date(); a.setHours(0, 0, 0, 0); a.setDate(a.getDate() - (2 * n - 1)); const b = new Date(); b.setHours(0, 0, 0, 0); b.setDate(b.getDate() - n);
-  return rows.filter(r => r.day >= dkey(a) && r.day <= dkey(b))
+  if (per === 'all') return []; const [a, b] = rangeOf(per); const A = new Date(a + 'T12:00'), B = new Date(b + 'T12:00'); const n = Math.round((B - A) / 864e5) + 1;
+  const pa = new Date(A); pa.setDate(pa.getDate() - n); const pb = new Date(A); pb.setDate(pb.getDate() - 1); return rows.filter(r => r.day >= dkey(pa) && r.day <= dkey(pb))
 }
 const pct = (rows) => rows.length ? Math.round(100 * rows.filter(r => r.ok).length / rows.length) : null;
 const avgSec = rows => { const t = rows.filter(r => r.sec > 0 && r.sec < 1800); return t.length ? Math.round(t.reduce((a, r) => a + r.sec, 0) / t.length) : null };
@@ -38,7 +39,8 @@ function killCharts() { CH.forEach(c => { try { c.destroy() } catch (e) {} }); C
 function ensureChartJs(cb) { if (typeof Chart !== 'undefined') return cb(); const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js'; s.onload = cb; s.onerror = cb; document.head.appendChild(s) }
 function filters() {
   const b = (k, v, t) => `<button class="btn sm ${ST[k] === v ? '' : 'g'}" data-st="${k}:${v}">${t}</button>`;
-  return `<div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center"><div style="display:flex;gap:6px;align-items:center"><span style="font-size:13px;color:var(--mute);font-weight:600">PERIOD</span>${b('period', 'day', 'Today')}${b('period', 'week', 'Last 7 days')}${b('period', 'month', 'Last 30 days')}${b('period', 'all', 'All time')}</div>
+  return `<div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center"><div style="display:flex;gap:6px;align-items:center"><span style="font-size:13px;color:var(--mute);font-weight:600">PERIOD</span><select id="stper" style="font:inherit;font-weight:600;padding:8px 10px;border:1px solid #d1d5db;border-radius:10px;background:#fff">${[['day', 'Today'], ['7', 'Last 7 days'], ['14', 'Last 14 days'], ['30', 'Last 30 days'], ['all', 'All time'], ['custom', 'Custom dates…']].map(([v, t]) => `<option value="${v}" ${ST.period === v ? 'selected' : ''}>${t}</option>`).join('')}</select>
+   ${ST.period === 'custom' ? `<input type="date" id="stfrom" value="${ST.from}" style="font:inherit;padding:6px 8px;border:1px solid #d1d5db;border-radius:10px"> to <input type="date" id="stto" value="${ST.to || dkey(new Date())}" style="font:inherit;padding:6px 8px;border:1px solid #d1d5db;border-radius:10px">` : ''}</div>
    <div style="display:flex;gap:6px;align-items:center"><span style="font-size:13px;color:var(--mute);font-weight:600">DATA</span><button class="btn sm ${ST.site ? '' : 'g'}" data-src="site">${ST.site ? '☑' : '☐'} ${SITE_NAME}</button><button class="btn sm ${ST.bp ? '' : 'g'}" data-src="bp">${ST.bp ? '☑' : '☐'} 1500 Blueprint</button></div>
    <div style="display:flex;gap:6px;align-items:center"><span style="font-size:13px;color:var(--mute);font-weight:600">SECTION</span>${b('sec', 'all', 'Both')}${b('sec', 'Math', 'Math')}${b('sec', 'English', 'Reading & Writing')}</div></div>`
 }
@@ -54,13 +56,13 @@ function drawStats() {
   const acc = pct(rows), pacc = pct(prev), avg = avgSec(rows), pace = paceOf(rows);
   const days = new Set(all.map(r => r.day)); let streak = 0; const d = new Date(); while (days.has(dkey(d))) { streak++; d.setDate(d.getDate() - 1) }
   const skills = BANK.skills.filter(s => ST.sec === 'all' || s.sec === ST.sec);
-  const useBpCat = ST.bp && ST.period === 'all';
+  const useBpCat = ST.bp && ST.period === 'all';  // Blueprint category totals have no dates
   const per = skills.map(s => { const r = rows.filter(x => x.q.skill === s.id), b = BPS[s.id] || {n: 0, ok: 0}; const sn = r.length, sok = r.filter(x => x.ok).length; const n = sn + (useBpCat ? b.n : 0), ok = sok + (useBpCat ? b.ok : 0);
     return {s, n, ok, acc: n ? Math.round(100 * ok / n) : null, sn, sok, sacc: sn ? Math.round(100 * sok / sn) : null, base: b.n ? Math.round(100 * b.ok / b.n) : null, bn: b.n, avg: avgSec(r)} });
   const strong = per.filter(p => p.n >= 3 && p.acc >= 70).length;
   const gran = 'day';
-  const from = ST.period === 'all' ? '0000' : (() => { const n = ST.period === 'day' ? 1 : ST.period === 'week' ? 7 : 30; const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - (n - 1)); return dkey(d) })();
-  const bpd = (!ST.bp || typeof BPD === 'undefined' ? [] : BPD).filter(x => x.day >= from).map(x => ({day: x.day, n: ST.sec === 'all' ? x.n : ST.sec === 'Math' ? (x.math ? x.math.n : 0) : (x.rw ? x.rw.n : 0), acc: ST.sec === 'all' ? x.acc : ST.sec === 'Math' ? (x.math ? x.math.acc : null) : (x.rw ? x.rw.acc : null)})).filter(x => x.n);
+  const [from, upto] = rangeOf(ST.period);
+  const bpd = (!ST.bp || typeof BPD === 'undefined' ? [] : BPD).filter(x => x.day >= from && x.day <= upto).map(x => ({day: x.day, n: ST.sec === 'all' ? x.n : ST.sec === 'Math' ? (x.math ? x.math.n : 0) : (x.rw ? x.rw.n : 0), acc: ST.sec === 'all' ? x.acc : ST.sec === 'Math' ? (x.math ? x.math.acc : null) : (x.rw ? x.rw.acc : null)})).filter(x => x.n);
   const dz = series(rows, 'day'); const days2 = [...new Set([...dz.keys, ...bpd.map(x => x.day)])].sort();
   const pick = (arr) => days2.map(d => { const i = dz.keys.indexOf(d); return i < 0 ? null : arr[i] });
   const se = {lab: days2.map(k => new Date(k + 'T12:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'})), accM: pick(dz.accM), accE: pick(dz.accE), m: pick(dz.m).map(x => x || 0), e: pick(dz.e).map(x => x || 0),
@@ -181,3 +183,10 @@ function skillStats(id) {
     options: {maintainAspectRatio: false, scales: {y: {min: 0, max: 100, ticks: {...tick, callback: v => v + '%'}}, x: {ticks: tick}}, plugins: {legend: {display: false}}}});
 }
 document.addEventListener('click', e => { const t = e.target.closest('[data-src]'); if (t) { const k = t.dataset.src; ST[k] = !ST[k]; if (!ST.bp && !ST.site) ST[k === 'bp' ? 'site' : 'bp'] = true; const h = decodeURIComponent(location.hash.slice(1)); const a = h.split('/')[2]; if (a && SK2[a]) skillStats(a); else drawStats(); return } const b = e.target.closest('[data-st]'); if (!b) return; const [k, v] = b.dataset.st.split(':'); ST[k] = v; const h = decodeURIComponent(location.hash.slice(1)); const a = h.split('/')[2]; if (a && SK2[a]) skillStats(a); else drawStats() });
+
+function stRedraw() { const h = decodeURIComponent(location.hash.slice(1)); const a = h.split('/')[2]; if (a && SK2[a]) skillStats(a); else drawStats() }
+document.addEventListener('change', e => {
+  if (e.target.id === 'stper') { ST.period = e.target.value; if (ST.period === 'custom' && !ST.from) { const d = new Date(); d.setDate(d.getDate() - 13); ST.from = dkey(d); ST.to = dkey(new Date()) } stRedraw() }
+  if (e.target.id === 'stfrom') { ST.from = e.target.value; stRedraw() }
+  if (e.target.id === 'stto') { ST.to = e.target.value; stRedraw() }
+});
