@@ -32,7 +32,7 @@ table{width:100%;border-collapse:collapse;font-size:15px}th,td{border:1.5px soli
 .bar{height:10px;background:#e5e9f0;border-radius:5px;overflow:hidden;min-width:80px}.bar i{display:block;height:100%}
 @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
 </style></head><body><div class="wrap">
-<header><h1>Patrick's SAT Daily Plan</h1><p class="sub"><a href="https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/" style="font-weight:700;color:#1f4e8a">← Drill Zone dashboard</a></p><p class="sub" id="sub"></p></header>
+<header><h1>Patrick's SAT Daily Plan</h1><p class="sub"><a href="https://allieburkesport-lang.github.io/act-tutor/sat/prep/" target="_blank" rel="noopener" style="font-weight:700;color:#1f4e8a">Open the SAT Prep site →</a></p><p class="sub" id="sub"></p></header>
 <div class="key"><span><b class="kb">BLUE</b>how it works</span><span><b class="kg">GREEN</b>done / strong</span><span><b class="ky">YELLOW</b>remember / partly</span><span><b class="kr">RED</b>weak / missed</span><span><b class="kp">PURPLE</b>practice tests</span></div>
 <div class="stats" id="stats"></div>
 <div class="box b-def"><div class="lab">How the plan works</div>
@@ -64,14 +64,15 @@ function steps(d,big){
   if(d.kind==='test')return `<div class="step"><span class="n">1</span><div><h3>Full practice test</h3><p>${esc(d.note)}</p><a class="btn m" href="https://bluebook.collegeboard.org/" target="_blank" rel="noopener">Open Bluebook</a></div></div>`;
   let h='',n=1;
   h+=`<div class="step"><span class="n">${n++}</span><div><h3>Warm-up: 10 real SAT questions</h3><p>Open <b>Official SAT Warm-up</b> on his laptop (the file you saved; private, not online). 10 new questions every time, weakest concepts first.</p></div></div>`;
+  if(d.day_url&&(d.concepts.length||(d.review&&d.review.length)))h+=`<div class="step"><span class="n">${n++}</span><div><h3>Easiest: run the whole day in one go</h3><p>All of today's drills in order on the SAT Prep site, with his progress saved and the report at the end.</p><a class="btn" href="${d.day_url}" target="_blank" rel="noopener">▶ Start today's drills</a></div></div>`;
   if(d.concepts.length){h+=`<div class="step"><span class="n">${n++}</span><div><h3>Learn today's ${d.concepts.length} new concept${d.concepts.length>1?'s':''}, then drill each one</h3><p>Open each lesson and go through it, then click its drill (10 questions).</p>`;
     d.concepts.forEach(c=>{h+=`<div class="concept"><div class="t">${c.sec==='Math'?'🧮':'📖'} ${esc(c.name)}<span class="pill ${cls(c.acc)}">${pct(c.acc)}${c.tried?' of '+c.tried:''}</span><span class="pill none">${c.share}% of ${c.sec}</span></div>
-      <div>Lesson: ${c.lessons.map(l=>`<a class="btn ghost" href="${l.url}" target="_blank" rel="noopener">${esc(l.title)}</a>`).join('')}</div>
+      <div>Lesson: <a class="btn ghost" href="${c.lessons[0].url}" target="_blank" rel="noopener">Learn it · ${c.lessons.map(l=>esc(l.title)).join(', ')}</a></div>
       <div>Drill: <a class="btn" href="${c.drill}" target="_blank" rel="noopener">▶ ${esc(c.name)} · 10 questions</a></div></div>`});
     h+='</div></div>';}
   if(d.review&&d.review.length){const tot=d.review.reduce((a,r)=>a+r[1],0);
     h+=`<div class="step"><span class="n">${n++}</span><div><h3>Review drill: ${tot} questions from earlier concepts</h3><p>${d.review_names.map(r=>esc(r[0])+(r[1]>1?' ×'+r[1]:'')).join(' · ')}</p><a class="btn" href="${d.review_url}" target="_blank" rel="noopener">▶ Start the review drill</a></div></div>`;}
-  h+=`<div class="step"><span class="n">${n++}</span><div><h3>Redo my misses</h3><p>Every question he missed comes back until he gets it right twice.</p><a class="btn ghost" href="https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=miss:x" target="_blank" rel="noopener">▶ Redo my misses</a></div></div>`;
+  h+=`<div class="step"><span class="n">${n++}</span><div><h3>Finish: see the day's report</h3><p>Score by category, time vs SAT pace, and Keep drilling buttons.</p><a class="btn ghost" href="${d.report_url}" target="_blank" rel="noopener">Day report</a></div></div>`;
   if(d.note)h+=`<p class="box b-rem" style="margin-top:6px">${esc(d.note)}</p>`;
   return h;}
 function result(d){const r=d.result;if(!r)return '';

@@ -7,6 +7,7 @@ import json, os, datetime, urllib.request, collections, html
 from zoneinfo import ZoneInfo
 HERE = os.path.dirname(os.path.abspath(__file__)); DZ = os.path.dirname(HERE)
 SITE = 'https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/'
+NEW = 'https://allieburkesport-lang.github.io/act-tutor/sat/prep/'   # the new site (Nov 21); all plan links go here
 SB = 'https://wsoevgmculmcnxymivbp.supabase.co/rest/v1/answers'
 KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indzb2V2Z21jdWxtY254eW1pdmJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ3OTIwMTAsImV4cCI6MjExMDM2ODAxMH0.wl408Zf5rJjh-uhPbPuykvUtETHinQXQdttAJPvn1Jk'
 TZ = ZoneInfo('America/New_York')
@@ -157,9 +158,10 @@ def main():
         dd = datetime.date.fromisoformat(day['date']); d0 = day['date']
         day['label'] = dd.strftime('%a %b ') + str(dd.day)
         day['concepts'] = [dict(skill=s, name=names[s], sec='Math' if s in MATH else 'English', share=SHARE[s], acc=acc(s)[0], tried=acc(s)[1],
-                                lessons=[dict(id=l, title=LTITLE[l], url=SITE + 'learn.html#' + l) for l in LESSONS[s]],
-                                drill=SITE + 'index.html#go=skill:' + s) for s in day['learn']]
-        day['review_url'] = SITE + 'index.html#go=review:' + ','.join(f'{s}.{n}' for s, n in day['review']) if day['review'] else ''
+                                lessons=[dict(id=l, title=LTITLE[l], url=NEW + '#/learn/' + s) for l in LESSONS[s]],
+                                drill=NEW + '#/drill/' + s) for s in day['learn']]
+        day['review_url'] = NEW + '#/drill/review:' + ','.join(f'{s}.{n}' for s, n in day['review']) if day['review'] else ''
+        day['day_url'] = NEW + '#/day/' + d0; day['report_url'] = NEW + '#/report/' + d0
         day['review_names'] = [[names[s], n] for s, n in day['review']]
         day['focus_names'] = [names[s] for s in day.get('focus', [])]
         day['n_questions'] = 10 * len(day['learn']) + sum(n for _, n in day['review'])
