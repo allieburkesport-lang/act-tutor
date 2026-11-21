@@ -110,6 +110,8 @@ iframe.desmos{width:100%;height:calc(100vh - 190px);border:1px solid var(--line)
 .dif span{display:inline-block;margin-right:6px;font-size:13px;white-space:nowrap}.slow{color:#9a3412;font-weight:700}.fast{color:#14532d;font-weight:700}
 @media (max-width:900px){.sched .hide,.rep .hide{display:none}}
 .wf{flex-basis:100%;margin-top:0;padding:8px 10px;border-radius:8px;background:#f0fdf4;border-left:4px solid #15803d;font-size:14px;line-height:1.5}.wf .wl{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#15803d;margin-bottom:2px}
+.keepon{font-size:20px;font-weight:700;color:#9a3412;background:#fff4ec;border:1px solid #fed7aa;border-radius:10px;padding:10px 16px}.keepon.ok{color:#14532d;background:#ecfdf3;border-color:#bbf7d0}.keepon.sm{font-size:13px;padding:4px 8px;margin-bottom:6px;display:block;text-align:center}
+.src2{margin:4px 0 0 4px;font-size:13px;line-height:1.5}.src2 .sl{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}.src2 .lab{min-width:62px;color:var(--mute);font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.04em}.src2 .mute{color:var(--mute)}.src2 .up{color:#15803d;font-weight:600}.src2 .dn{color:#c2410c;font-weight:600}.src2 .eq{color:var(--mute)}
 </style>
 </head>
 <body>
@@ -144,7 +146,7 @@ circ:[['Area','A = πr²',[['r','radius: center to edge']],'R'],['Circumference'
 };
 let VIDEOS={}; // filled from videos/videos.json // lesson id -> {src, chapters:[[sec,label]]}; filled as chalkboard videos are made
 const L='ABCD', DIFF={E:'Easy',M:'Medium',H:'Hard'};
-let BPD=[],QT={},QF={},QH={},BPS={},BANK,PLAN,LES,SK2={},QBY={},LOG=[],D=null,UI={panel:null};
+let BPREC=[],BPD=[],QT={},QF={},QH={},BPS={},BANK,PLAN,LES,SK2={},QBY={},LOG=[],D=null,UI={panel:null};
 const $=s=>document.querySelector(s), app=()=>document.getElementById('app');
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const plain=h=>{const d=document.createElement('div');d.innerHTML=h;return d.textContent.replace(/\s+/g,' ').trim()};
@@ -153,7 +155,7 @@ const today=()=>new Date().toLocaleDateString('en-CA');
 
 /* ---------- data ---------- */
 async function load(){
-  const [b,p,l,bpj,qh,vj,qf,qt]=await Promise.all([fetch('../drill-zone/bank.json?'+Date.now()).then(r=>r.json()),fetch('../drill-zone/plan.json?'+Date.now()).then(r=>r.json()).catch(()=>null),fetch('lessons.json?'+Date.now()).then(r=>r.json()),fetch('../drill-zone/blueprint.json?'+Date.now()).then(r=>r.json()).catch(()=>({skills:{}})),fetch('qhelp.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('videos/videos.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('qform.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('qtpl.json?'+Date.now()).then(r=>r.json()).catch(()=>({}))]);QF=qf||{};QT=qt||{};VIDEOS=vj||{};BPS=bpj.skills||{};BPD=bpj.daily||[];QH=qh||{};
+  const [b,p,l,bpj,qh,vj,qf,qt]=await Promise.all([fetch('../drill-zone/bank.json?'+Date.now()).then(r=>r.json()),fetch('../drill-zone/plan.json?'+Date.now()).then(r=>r.json()).catch(()=>null),fetch('lessons.json?'+Date.now()).then(r=>r.json()),fetch('../drill-zone/blueprint.json?'+Date.now()).then(r=>r.json()).catch(()=>({skills:{}})),fetch('qhelp.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('videos/videos.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('qform.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('qtpl.json?'+Date.now()).then(r=>r.json()).catch(()=>({}))]);QF=qf||{};QT=qt||{};VIDEOS=vj||{};BPS=bpj.skills||{};BPREC=bpj.recent||[];BPD=bpj.daily||[];QH=qh||{};
   BANK=b;PLAN=p;LES=l;b.skills.forEach(s=>SK2[s.id]=s);b.qs.forEach(q=>QBY[q.id]=q);
   if(p)p.skills.forEach(s=>{if(SK2[s.skill])SK2[s.skill].share=s.share});
   LOG=store.get('satbank_log',[]);LOG.forEach(x=>{if(x.sec!=null)x.sec=+x.sec||0});// seconds saved as text on some devices made times add up as text
@@ -161,7 +163,7 @@ async function load(){
   pullOnline();
 }
 let BPR=[];
-async function unlockBP(code){code=code||store.get('helm_code','');if(!code||!window.crypto||!crypto.subtle)return false;
+async function unlockBP(code){code=code||store.get('helm_code','');if(!code||!window.crypto||!crypto.subtle){await unlockCBM(code);return false}
   const b=x=>Uint8Array.from(atob(x),c=>c.charCodeAt(0));
   const open=async f=>{const e=await fetch('../drill-zone/'+f+'?'+Date.now()).then(r=>r.json());
     const base=await crypto.subtle.importKey('raw',new TextEncoder().encode(code),'PBKDF2',false,['deriveKey']);
@@ -170,10 +172,22 @@ async function unlockBP(code){code=code||store.get('helm_code','');if(!code||!wi
     if(e.gz)buf=await new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
     return JSON.parse(new TextDecoder().decode(buf))};
   const add=qs=>qs.forEach(q=>{if(!QBY[q.id]){BANK.qs.push(q);QBY[q.id]=q}});
-  try{const qs=await open('bpretry.enc.json');store.set('helm_code',code);BPR=qs;add(qs)}catch(x){return false}
+  try{const qs=await open('bpretry.enc.json');store.set('helm_code',code);BPR=qs;add(qs)}catch(x){return await unlockCBM(code)}
   // the official College Board Reading & Writing question bank (1,501 text-only questions), private the same way
   try{CBQ=await open('cbrw.enc.json');add(CBQ)}catch(x){}
+  await unlockCBM(code);
   return true}
+// Official College Board math, typed out (not pictures) so every choice is clickable. Private: decrypted only on a device that has the unlock code.
+let CBM=[];
+async function unlockCBM(code){if(!window.crypto||!crypto.subtle)return false;const b=x=>Uint8Array.from(atob(x),c=>c.charCodeAt(0));
+  const e=await fetch('../drill-zone/cbmath.enc.json?'+Date.now()).then(r=>r.json()).catch(()=>null);if(!e)return false;
+  for(const c of [code,store.get('cbm_code',''),store.get('helm_code','')].filter(Boolean)){try{
+    const base=await crypto.subtle.importKey('raw',new TextEncoder().encode(c),'PBKDF2',false,['deriveKey']);
+    const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:b(e.salt),iterations:200000,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);
+    let buf=await crypto.subtle.decrypt({name:'AES-GCM',iv:b(e.iv)},key,b(e.ct));
+    if(e.gz)buf=await new Response(new Blob([buf]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+    CBM=JSON.parse(new TextDecoder().decode(buf));store.set('cbm_code',c);CBM.forEach(q=>{if(!QBY[q.id]){BANK.qs.push(q);QBY[q.id]=q}});return true}catch(x){}}
+  return false}
 let CBQ=[];
 async function pullOnline(){try{const r=await fetch(SB+'?select=question,part,correct,first_try,attempt,seconds,created_at&kind=eq.bank&student=eq.'+WHO+'&order=created_at.asc&limit=10000',{headers:H});const rows=await r.json();if(!Array.isArray(rows))return;
   const near=(id,t,a)=>LOG.some(x=>x.id===id&&(x.attempt||1)===(a||1)&&Math.abs(x.ts-t)<120000);let add=0;// near = same question AND same attempt, so quick retries are kept
@@ -186,11 +200,22 @@ function save(row){LOG.push(row);store.set('satbank_log',LOG.slice(-5000));const
 function stats(skill){// same blend as the nightly plan: earlier practice (Blueprint) + Drill Zone first tries counted double
   const firsts=LOG.filter(x=>x.first&&QBY[x.id]&&QBY[x.id].skill===skill);const dn=firsts.length,dok=firsts.filter(x=>x.ok).length;const b=BPS[skill]||{n:0,ok:0};
   const n=b.n+2*dn,ok=b.ok+2*dok;return {n:b.n+dn,dn,dok,acc:n?Math.round(100*ok/n):null}}
+// Skill rows (Allie, Nov 21): HELM and Blueprint each shown now vs. before.
+// HELM counts only since the Nov 21 restart (the morning warm-up was easy questions); it stays in the Stats history.
+function helmStart(){return Math.min(...(PLAN?PLAN.days:[]).map(d=>d.reset_at||Infinity))||0}
+function helmNow(sk){const t0=helmStart(),t=today();const f=LOG.filter(x=>x.first&&x.ts>=(isFinite(t0)?t0:0)&&QBY[x.id]&&QBY[x.id].skill===sk);
+  const pre=f.filter(x=>x.day<t);const pc=a=>a.length?Math.round(100*a.filter(x=>x.ok).length/a.length):null;
+  return {n:f.length,ok:f.filter(x=>x.ok).length,p:pc(f),prev:pc(pre),prevN:pre.length,prevLab:'before today'}}
+function bpNow(sk){const b=BPS[sk]||{n:0,ok:0};const rec=(BPREC||[]).filter(x=>x.skill===sk);const last=rec.length?rec.map(x=>Date.parse(x.day.replace(/^\w+, /,''))).reduce((a,c)=>Math.max(a,c),0):0;
+  const lastRec=rec.filter(x=>Date.parse(x.day.replace(/^\w+, /,''))===last),pn=b.n-lastRec.length,pok=b.ok-lastRec.filter(x=>x.ok).length;
+  return {n:b.n,ok:b.ok,p:b.n?Math.round(100*b.ok/b.n):null,prev:lastRec.length&&pn>0?Math.round(100*pok/pn):null,prevN:pn,prevLab:last?'before '+new Date(last).toLocaleDateString('en-US',{month:'short',day:'numeric'}):''}}
+function srcLine(lab,x){const tr=x.p==null||x.prev==null?'':x.p>x.prev?`<span class="up">▲ from ${x.prev}%</span>`:x.p<x.prev?`<span class="dn">▼ from ${x.prev}%</span>`:`<span class="eq">= ${x.prev}%</span>`;
+  return `<div class="sl"><span class="lab">${lab}</span>${x.n?`<b>${x.p}%</b> <span class="mute">${x.ok}/${x.n}</span> ${tr}${tr?` <span class="mute">${esc(x.prevLab)}</span>`:''}`:'<span class="mute">not started</span>'}</div>`}
 function level(a,n){if(!n)return ['Not tried','#374151','#eef0f3'];if(a<50)return ['Needs work','#9a3412','#fff1e6'];if(a<70)return ['Getting there','#1e40af','#e8efff'];return ['Strong','#14532d','#e7f6ec']}
 
 /* ---------- router ---------- */
 function route(){const h=decodeURIComponent(location.hash.slice(1)||'/');const [_,v,a]=h.split('/');UI.nav=false;
-  if(v==='unlock'){unlockBP(a).then(ok=>{app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">${ok?'Blueprint retries unlocked':'That link did not work'}</h1><p>${ok?BPR.length+' Blueprint questions he missed'+(CBQ.length?' and '+CBQ.length.toLocaleString()+' official College Board Reading & Writing questions':'')+' are now in his drills on this device.':'Check the link and try again.'}</p><button class="btn" data-go="#/">Home</button></div>`});return}
+  if(v==='unlock'){unlockBP(a).then(ok=>{ok=ok||CBM.length>0;app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">${ok?'Unlocked on this device':'That link did not work'}</h1><p>${ok?(BPR.length?BPR.length+' Blueprint questions he missed':'Official questions')+(CBQ.length?', '+CBQ.length.toLocaleString()+' official College Board Reading & Writing questions':'')+(CBM.length?' and '+CBM.length+' official College Board math questions':'')+' are now in his drills on this device.':'Check the link and try again.'}</p><button class="btn" data-go="#/">Home</button></div>`});return}
   if(v==='drill')return startDrill(a);if(v==='day')return startDay(a);if(v==='report')return dayReport(a);if(v==='learn')return learnPage(a);if(v==='video')return videoPage(a);if(v==='stats')return statsPage(a);if(v==='videos')return videosPage();D=null;home();}
 window.addEventListener('hashchange',route);
 setInterval(()=>{if(!D&&/^#\/(stats|report|$)/.test(location.hash||'#/')&&!document.querySelector('.drw.open'))pullOnline()},60000);
@@ -214,9 +239,9 @@ function home(){const all=BANK.skills;let tot=0,ok=0;all.forEach(k=>{const t=sta
   const sec=(name,key)=>{const rows=all.filter(s=>s.sec===key).sort((a,b)=>(b.share||0)-(a.share||0));
    return `<section class="card sec"><div class="h"><h2 class="hd">${name}</h2><div style="font-size:13px;color:var(--mute);text-align:right">Biggest share of the test first<br><span style="font-size:12px">Share = estimate from ${key==='Math'?'the 8 official Bluebook practice tests':'57 real SAT forms (2023–2025)'}</span></div></div>
    <div class="row hd2"><div>Skill</div><div title="Estimated share of the section, from counts of real tests (College Board publishes only the big groups)">% of SAT ${key==='Math'?'Math':'R&amp;W'} (est.)</div><div style="padding-left:10px">Patrick's score</div><div><span class="oh">Open</span></div></div>`+
-   rows.map(s=>{const st=stats(s.id),b=BPS[s.id]||{n:0,ok:0},rn=b.n+st.dn,rok=b.ok+st.dok,rp=rn?Math.round(100*rok/rn):null,lv=level(rp,rn),sh=s.share||0;return `<div class="row"><div class="nm">${esc(s.name)}</div>
+   rows.map(s=>{const h=helmNow(s.id),b=bpNow(s.id),rn=b.n+h.n,rok=b.ok+h.ok,rp=rn?Math.round(100*rok/rn):null,lv=level(rp,rn),sh=s.share||0;return `<div class="row"><div class="nm">${esc(s.name)}</div>
     <div style="display:flex;align-items:center;gap:8px"><div class="bar"><i style="width:${Math.min(100,sh*5)}%"></i></div><span style="font-size:14px;font-weight:600;min-width:34px">${Math.round(sh)}%</span></div>
-    <div><span class="pill" style="color:${lv[1]};background:${lv[2]}">${lv[0]}</span><div style="font-size:13px;color:var(--mute);margin:4px 0 0 10px">${rn?`<b style="color:var(--ink)">${rok}/${rn}</b> correct · <b style="color:var(--ink)">${rp}%</b>`:'not tried yet'}</div></div>
+    <div><span class="pill" style="color:${lv[1]};background:${lv[2]}">${lv[0]}</span><div class="src2">${srcLine('HELM',h)}${srcLine('Blueprint',b)}</div></div>
     <div class="acts"><button class="btn g sm" data-go="#/learn/${s.id}">Learn it</button><button class="btn g sm" data-go="#/video/${s.id}">Video</button><button class="btn sm" data-go="#/drill/${s.id}">Drill</button></div></div>`}).join('')+`</section>`};
   const bprLeft=BPR.length?fresh(BPR.map(q=>QBY[q.id]).filter(Boolean)).length:0;
   app().innerHTML=topbar('home')+`<div class="page">${schedule()}${bprLeft?`<section class="card" style="padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-left:5px solid #c9a22a"><div><b class="hd" style="font-size:18px">Blueprint questions he missed</b><div style="font-size:14px;color:var(--mute)">${bprLeft} of ${BPR.length} left to try again · 5 are added to the start of each day's drills</div></div><button class="btn" data-go="#/drill/bpr">Retry them now</button></section>`:''}
@@ -233,7 +258,7 @@ function runKey(date){const r=resetAt(date);return 'dayrun_'+date+(r?'_'+r:'')}
 function dayHold(date){const d=PLAN&&PLAN.days.find(x=>x.date===date);return d&&d.hold}
 function dayLog(date){const r=resetAt(date);return LOG.filter(x=>QBY[x.id]&&(x.plan?x.plan===date:x.day===date)&&(!r||x.ts>=r))}
 function dayFirst(date){const seen={};dayLog(date).forEach(x=>{if((x.attempt||1)===1&&!seen[x.id])seen[x.id]=x});return Object.values(seen)}
-function estSec(d){let t=0;(d.learn||[]).forEach(s=>{t+=10*PACE[SK2[s]&&SK2[s].sec||'Math']});(d.review||[]).forEach(([s,n])=>{t+=n*PACE[SK2[s]&&SK2[s].sec||'Math']});return t}
+function estSec(d){let t=0;const w=dayMix(d);Object.keys(w).forEach(s=>{t+=w[s]*PACE[SK2[s]&&SK2[s].sec||'Math']});return t}
 function revList(d,sec){const fo=d.focus||[];const xs=(d.review||[]).filter(([k])=>SK2[k]&&SK2[k].sec===sec);if(!xs.length)return '';
   return `<div style="font-size:13px;margin-top:4px;line-height:1.45"><b>${sec==='Math'?'Math':'English'}:</b> ${xs.map(([k,n])=>`<span style="${fo.includes(k)?'color:#9b1c1c;font-weight:700':''}">${esc(SK2[k].name)} (${n})</span>`).join(', ')}</div>`}
 function schedule(){if(!PLAN)return todayCard();const t=today();
@@ -247,7 +272,7 @@ function schedule(){if(!PLAN)return todayCard();const t=today();
     return `<tr class="${drill?'click':''} ${isNow?'now':''}" ${drill?`data-go="#/day/${d.date}"`:''}><td style="white-space:nowrap"><b>${lab}</b>${isNow?'<div style="font-size:12px;color:var(--navy);font-weight:700">TODAY</div>':''}</td>
      <td><span class="tag ${d.kind}">${KIND[d.kind]||d.kind}</span>${newS.length?esc(newS.join(' · ')):esc(d.note||'')}${newS.length&&d.note?`<div style="font-size:13px;color:var(--mute);margin-top:3px">${esc(d.note)}</div>`:''}</td>
      <td class="hide">${rq?`<b>${rq} review questions</b>${revList(d,'Math')}${revList(d,'English')}`:'—'}</td>
-     <td class="hide" style="white-space:nowrap">${drill?`${d.n_questions} Qs<div style="font-size:13px;color:var(--mute)">about ${mins(estSec(d))} at SAT pace</div>`:'—'}</td>
+     <td class="hide" style="white-space:nowrap">${drill?`${buildDay(d,true).qs.length} Qs<div style="font-size:13px;color:var(--mute)">about ${mins(estSec(d))} at SAT pace</div>`:'—'}</td>
      <td style="white-space:nowrap">${drill?status:''}</td><td style="text-align:right;white-space:nowrap">${btn}</td></tr>`}).join('');
   return `<section class="card" style="padding:18px 20px;overflow-x:auto"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:baseline"><h2 class="hd" style="margin:0;font-size:24px">${UI.allDays?'Schedule to test day':'Today'}</h2>
    <div style="font-size:13px;color:var(--mute)">Rebuilt every night from his results · red = extra practice on his weakest areas${PLAN.updated?' · last update '+esc(PLAN.updated):''}. Click a day to start its drills.</div></div>
@@ -255,9 +280,19 @@ function schedule(){if(!PLAN)return todayCard();const t=today();
    <div style="text-align:center;margin-top:10px"><button class="btn g sm" data-alldays="1">${UI.allDays?'▴ Show only today':'▾ Show all '+all.length+' days to the SAT'}</button></div></section>`}
 function buildDay(d,all){const ord=all?(qs=>qs):order;const used=new Set(),qs=[],secs=[];const add=(list,label)=>list.forEach(q=>{if(q&&!used.has(q.id)){used.add(q.id);qs.push(q);secs.push(label)}});
   if(!all&&BPR.length)add(fresh(BPR.map(q=>QBY[q.id]).filter(Boolean)).slice(0,5),'Redo: Blueprint questions he missed');
-  (d.learn||[]).forEach((s,k)=>{if(SK2[s])add(ord(BANK.qs.filter(q=>q.skill===s)).slice(0,SET),`New skill ${k+1}/${d.learn.length}: ${SK2[s].name}`)});
-  (d.review||[]).forEach(([s,n])=>{if(SK2[s])add(ord(BANK.qs.filter(q=>q.skill===s&&!used.has(q.id))).slice(0,n),`Review: ${SK2[s].name}`)});
+  const want=dayMix(d);
+  (d.learn||[]).forEach((s,k)=>{if(SK2[s])add(ord(BANK.qs.filter(q=>q.skill===s)).slice(0,want[s]),`New skill ${k+1}/${d.learn.length}: ${SK2[s].name} · ${Math.round(SK2[s].share||0)}% of the test`)});
+  Object.keys(want).filter(s=>!(d.learn||[]).includes(s)).sort((a,b)=>(SK2[b].share||0)-(SK2[a].share||0)).forEach(s=>{
+    add(ord(BANK.qs.filter(q=>q.skill===s&&!used.has(q.id))).slice(0,want[s]),`${(SK2[s].share||0)>=7?'Daily core':'Review'}: ${SK2[s].name} · ${Math.round(SK2[s].share||0)}% of the test`)});
   return {qs,secs}}
+// How many questions per skill today, by share of the test: about 36 math + 20 English across all skills (big ones get the most, at least 3 if 7%+),
+// learn-day skills get 10 if big, 6 if 4%+, 4 if small; the planner's weak-spot review counts are a minimum.
+const DAY_BUDGET={Math:36,English:20};
+function dayMix(d){const w={},sum={};Object.values(SK2).forEach(s=>{sum[s.sec]=(sum[s.sec]||0)+(s.share||0)});
+  Object.values(SK2).forEach(s=>{const sh=s.share||0;let n=Math.round(DAY_BUDGET[s.sec]*sh/(sum[s.sec]||1));if(sh>=7)n=Math.max(n,3);if(n>0)w[s.id]=n});
+  (d.learn||[]).forEach(s=>{const sh=(SK2[s]||{}).share||0;w[s]=Math.max(w[s]||0,sh>=7?10:sh>=4?6:4)});
+  (d.review||[]).forEach(([s,n])=>{if(SK2[s])w[s]=Math.max(w[s]||0,Math.min(n,(SK2[s].share||0)>=4?n:2))});
+  return w}
 function dayStore(done){if(!D||!D.date)return;store.set(runKey(D.date),{ids:D.qs.map(q=>q.id),secs:D.secs,i:D.i,st:D.st.map(t=>({tried:t.tried,ok:t.ok,coached:t.coached,hb:t.hb,ha:t.ha})),done:!!done})}
 function startDay(date){const d=PLAN&&PLAN.days.find(x=>x.date===date);if(!d)return home();
   if(dayHold(date)){app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">Almost ready</h1><p>${esc(dayHold(date))}</p><button class="btn" data-go="#/">Home</button></div>`;return}
@@ -354,10 +389,10 @@ function dayReport(date){const f=dayFirst(date),all=dayLog(date);const lab=new D
      <td><span class="pill" style="color:${lv[1]};background:${lv[2]}">${pct}%</span></td><td class="dif hide">${dif}</td>
      <td style="white-space:nowrap"><span class="${avg>pace?'slow':'fast'}">${fmt(avg)}</span> <span style="color:var(--mute);font-size:12px">/ ${fmt(pace)} SAT</span><div style="font-size:12px;color:var(--mute)">${mins(t)} total</div></td>
      <td class="hide" style="font-size:13px;white-space:nowrap">${tr}</td>
-     <td style="text-align:right;white-space:nowrap"><button class="btn sm" data-go="#/drill/${k}">Keep drilling</button> <button class="btn g sm" data-go="#/learn/${k}">Learn it</button></td></tr>`};
+     <td style="text-align:right;white-space:nowrap">${pct<80?`<div class="keepon sm">Let's keep drilling until we master this.</div>`:`<div class="keepon sm ok">Mastered today ✓</div>`}<button class="btn sm" data-go="#/drill/more:${k}">Keep drilling</button> <button class="btn g sm" data-go="#/learn/${k}">Learn it</button></td></tr>`};
   const miss=f.filter(x=>!x.ok).map(x=>x.id);
   const traps=[...new Set(f.filter(x=>!x.ok).map(x=>QBY[x.id].trap).filter(Boolean))].slice(0,5);
-  const weak=sk.filter(k=>by[k].filter(x=>x.ok).length/by[k].length<0.6).map(k=>SK2[k].name);
+  const weak=sk.filter(k=>by[k].filter(x=>x.ok).length/by[k].length<0.8).map(k=>SK2[k].name);
   const nxt=PLAN&&PLAN.days.find(d=>d.date>date&&((d.learn||[]).length||(d.review||[]).length));
   app().innerHTML=topbar('')+`<div class="page" style="gap:16px"><div><a href="#/">← Home</a><h1 class="hd" style="margin:6px 0 0;font-size:30px">${esc(lab)}: how it went</h1></div>
    <section class="stats"><div class="card stat"><div class="l">Questions</div><div class="v hd">${tot}</div></div><div class="card stat"><div class="l">Right on the first try</div><div class="v hd">${right} <span style="font-size:18px;color:var(--mute)">(${Math.round(100*right/tot)}%)</span></div></div>
@@ -371,7 +406,7 @@ function dayReport(date){const f=dayFirst(date),all=dayLog(date);const lab=new D
    <div class="cols">
     <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 8px;font-size:20px">Traps he fell for</h2>${traps.length?`<ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px">${traps.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`:'<div>None today. 🎯</div>'}</section>
     <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 8px;font-size:20px">What happens next</h2>
-     <div>${weak.length?`Under 60% today: <b>${esc(weak.join(', '))}</b>. Tonight's plan update adds extra questions on his weakest, highest-value categories to the coming days.`:'Every category was 60% or better. Nice work.'}</div>
+     <div>${weak.length?`Not mastered yet (under 80%): <b>${esc(weak.join(', '))}</b>. Let's keep drilling until we master these: press <b>Keep drilling</b> on any of them above, and new questions keep coming until you stop.`:'Every category was 80% or better. Mastered today. Nice work.'}</div>
      ${nxt?`<div style="margin-top:8px">Next plan day: <b>${esc(new Date(nxt.date+'T12:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}))}</b> · ${nxt.n_questions} questions.</div>`:''}
      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">${miss.length?`<button class="btn" data-go="#/drill/ids:${miss.join(',')}">Redo the ${miss.length} I missed</button>`:''}<button class="btn g" data-go="#/">Home</button></div></section></div></div>`;window.scrollTo(0,0);}
 
@@ -401,6 +436,7 @@ function videosPage(){const ids=Object.keys(VIDEOS);const cur=ids.includes(UI.vi
    ${[['Math',ids.filter(l=>(LES[l]&&LES[l].math)||VIDEOS[l].math)],['Reading & Writing',ids.filter(l=>!((LES[l]&&LES[l].math)||VIDEOS[l].math))]].filter(g=>g[1].length).map(g=>`<h2 class="hd" style="margin:10px 0 0;font-size:22px">${g[0]} <span style="color:var(--mute);font-size:15px;font-weight:600">· ${g[1].length} videos</span></h2><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px">${g[1].map(l=>`<button class="card" data-vid="${l}" style="padding:0;text-align:left;overflow:hidden;${l===cur?'outline:3px solid var(--navy)':''}"><img src="${VIDEOS[l].poster}" alt="" style="width:100%;display:block;aspect-ratio:16/9;object-fit:cover"><div style="padding:10px 12px;font-weight:700">${esc(LES[l]?LES[l].title:(VIDEOS[l]&&VIDEOS[l].title)||l)}</div></button>`).join('')}</div>`).join('')}</div>`;window.scrollTo(0,0);}
 /* ---------- drill ---------- */
 function pickQs(arg){let pool=[];
+  if(arg.startsWith('more:')){const sk=arg.slice(5);return {qs:moreQs(sk,[]),title:'Keep drilling: '+SK2[sk].name,skill:sk,more:sk}}
   if(arg==='bpr')return {qs:fresh(BPR.map(q=>QBY[q.id]).filter(Boolean)),title:'Blueprint questions he missed',skill:null};
   if(arg.startsWith('ids:')){pool=arg.slice(4).split(',').map(i=>QBY[i]).filter(Boolean);return {qs:pool,title:'Redo my misses',skill:null}}
   if(arg.startsWith('review:')){arg.slice(7).split(',').forEach(x=>{const [sk,n]=x.split('.');pool=pool.concat(order(BANK.qs.filter(q=>q.skill===sk)).slice(0,+n||2))});return {qs:pool,title:'Review',skill:null}}
@@ -410,12 +446,25 @@ function fresh(qs,keep){const S=seenIds();return qs.filter(q=>!S.has(q.id)||(kee
 function lowStock(){const S=seenIds(),o={};BANK.qs.forEach(q=>{if(!S.has(q.id))o[q.skill]=(o[q.skill]||0)+1});return o}
 // Adaptive difficulty: unseen questions only, mixed by how he is doing on that skill (Blueprint + HELM first tries).
 // Weak (<50%): mostly Medium with some Easy; getting there (50–74%): Medium/Hard; strong (75%+): mostly Hard. Templates are shuffled so it is never 4 of the same kind in a row.
+// Mix (Allie, Nov 21): 40% official College Board, 40% Helm practice written like them, 20% Blueprint questions he missed.
+// Difficulty is College Board's own rating, mixed by how he is doing on the skill (weak: more Medium; strong: more Hard). Unseen questions only.
+function srcOf(q){return q.src==='cb'?'cb':BPR.some(b=>b.id===q.id)?'bp':'helm'}
 function order(qs){qs=fresh(qs);if(!qs.length)return qs;const sk=qs[0].skill,a=skAcc(sk,today());
-  const pat=a==null||a<.5?['M','E','M','H','M','E']:a<.75?['M','H','M','H','E','M','H']:['H','M','H','H','M','H','E'];
+  const dpat=a==null||a<.5?['M','E','H','M','M','H']:a<.75?['M','H','E','H','M','H']:['H','M','H','H','E','H'];
+  const spat=['cb','helm','cb','helm','bp','cb','helm','cb','helm','bp'];
   const seed=[...(today()+sk)].reduce((h,c)=>(h*31+c.charCodeAt(0))>>>0,7),rnd=i=>((Math.sin(seed+i*97.13)*1e4)%1+1)%1;
-  const by={E:[],M:[],H:[]};qs.map((q,i)=>[rnd(i)-(q.src==='cb'?1:0),q]).sort((x,y)=>x[0]-y[0]).forEach(([,q])=>(by[q.diff]||by.M).push(q));
-  const out=[];let i=0;while(out.length<qs.length&&i<qs.length*4){const want=pat[i%pat.length];const k=by[want].length?want:['M','H','E'].find(x=>by[x].length);out.push(by[k].shift());i++}return out}
-function startDrill(arg){if(!arg)return home();if(arg!=='bpr'&&!arg.startsWith('review:')&&!arg.startsWith('ids:')&&!SK2[arg])return home();const p=pickQs(arg);if(!p.qs.length){app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">All caught up</h1><p>He has already done every question here. Fresh ones are added each night, so check back tomorrow, or redo his misses from the Stats page.</p><button class="btn" data-go="#/">Home</button></div>`;return}
+  const P={cb:{E:[],M:[],H:[]},helm:{E:[],M:[],H:[]},bp:{E:[],M:[],H:[]}};
+  qs.map((q,i)=>[rnd(i),q]).sort((x,y)=>x[0]-y[0]).forEach(([,q])=>{const d=P[srcOf(q)];(d[q.diff]||d.M).push(q)});
+  const near={E:['E','M','H'],M:['M','H','E'],H:['H','M','E']};
+  const take=(s,w)=>{const d=P[s];for(const k of near[w])if(d[k].length){// Helm practice is mostly easier: for a Hard slot use an official Hard first
+      if(s==='helm'&&w==='H'&&k!=='H'&&P.cb.H.length)return P.cb.H.shift();return d[k].shift()}return null};
+  const out=[];let i=0,j=0;while(out.length<qs.length&&i<qs.length*12){const s=spat[i%spat.length],w=dpat[j%dpat.length];i++;
+    const q=take(s,w)||take(s==='cb'?'helm':'cb',w)||take('bp',w);if(q){out.push(q);j++}}
+  return out}
+// Keep drilling (Allie, Nov 21): new questions on one skill, 10 at a time, for as long as he wants. Unseen first; when those run out, the ones he missed.
+function moreQs(sk,have){const ids=new Set(have.map(q=>q.id));let nx=order(BANK.qs.filter(q=>q.skill===sk&&!ids.has(q.id))).slice(0,SET);
+  if(!nx.length)nx=BANK.qs.filter(q=>q.skill===sk&&!ids.has(q.id)&&LOG.some(x=>x.id===q.id&&x.first&&!x.ok)).slice(0,SET);return nx}
+function startDrill(arg){if(!arg)return home();if(arg.startsWith('more:')&&!SK2[arg.slice(5)])return home();if(arg!=='bpr'&&!arg.startsWith('more:')&&!arg.startsWith('review:')&&!arg.startsWith('ids:')&&!SK2[arg])return home();const p=pickQs(arg);if(!p.qs.length){app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">All caught up</h1><p>He has already done every question here. Fresh ones are added each night, so check back tomorrow, or redo his misses from the Stats page.</p><button class="btn" data-go="#/">Home</button></div>`;return}
   UI.dtab=null;D={...p,arg,i:0,st:p.qs.map(()=>({tried:[],ok:false,shown:0,t0:0,coached:false})),t0:Date.now(),done:false};UI.panel=null;showQ();}
 function cur(){return D.qs[D.i]} function sec(q){return SK2[q.skill].sec}
 function showQ(){const q=cur(),st=D.st[D.i];if(!st.t0)st.t0=Date.now();drawDrill();}
@@ -428,7 +477,7 @@ function drawDrill(){if(D.done)return drawEnd();const q=cur(),st=D.st[D.i],s=SK2
   else if(st.tried.length)fb=`<div class="fb no"><b>Not quite. Try again.</b> Pick another answer before you move on. Stuck? Press <b>Show me how</b>.</div>`;
   const help=(eng?[['show','Show me how'],['learn','Learn it'],['video','Video']]:[['show','Show me how'],['desm','Desmos / calculator'],['form','Formula'],['learn','Learn it'],['video','Video']]).map(([k,t])=>`<button class="b ${UI.panel===k?'on':''}" data-pan="${k}">${t}</button>`).join('');
   const left=Math.max(0,D.qs.length*PACE[s.sec]-Math.round((Date.now()-D.t0)/1000));
-  app().innerHTML=`<div class="dr"><div class="bar1"><div><div style="font-weight:700;font-size:17px">${esc(s.sec==='English'?'Reading and Writing':'Math')} · ${esc(D.secs?D.secs[D.i]:D.title)}</div><a href="#/" style="font-size:14px">← Home</a></div>
+  app().innerHTML=`<div class="dr"><div class="bar1"><div><div style="font-weight:700;font-size:17px">${esc(s.sec==='English'?'Reading and Writing':'Math')} · ${esc(D.secs?D.secs[D.i]:D.title)}${D.more?(()=>{const f=D.st.filter(t=>t.tried.length),r=f.filter(t=>t.ok&&t.tried.length===1&&!t.coached).length;return ` · this run ${r}/${f.length} right first try · goal 80%`})():''}</div><a href="#/" style="font-size:14px">← Home</a></div>
    <div style="display:flex;align-items:center;gap:10px"><div class="timer" id="tmr" aria-label="Time left">${fmt(left)}</div><button class="btn g sm" data-pause="1" title="Pause the clock (bathroom, break)">⏸ Pause</button></div>
    <div style="display:flex;gap:8px;flex-wrap:wrap">${eng?'':`<button class="btn g sm" data-pan="desmos">Desmos</button><button class="btn g sm" data-pan="ref">Reference</button>`}</div></div>
    <div class="body"><main><div class="qcol">
@@ -438,7 +487,7 @@ function drawDrill(){if(D.done)return drawEnd();const q=cur(),st=D.st[D.i],s=SK2
     <div class="qtext">${stem}</div>${chs}${fb}
    </div></main>${UI.panel?`<aside class="pan" id="pan">${panelHTML()}</aside>`:''}</div>
    <footer><div style="font-weight:600">Patrick</div><button class="qn" data-navg="1">Question ${D.i+1} of ${D.qs.length} ▴</button>
-   <div style="display:flex;gap:8px"><button class="nb" data-mv="-1" ${D.i===0?'disabled':''}>Back</button><button class="nb" data-mv="1" ${st.tried.length&&!st.ok?'disabled title="Try again first"':''}>${D.i===D.qs.length-1?'Finish':'Next'}</button></div></footer>
+   <div style="display:flex;gap:8px"><button class="nb" data-mv="-1" ${D.i===0?'disabled':''}>Back</button><button class="nb" data-mv="1" ${st.tried.length&&!st.ok?'disabled title="Try again first"':''}>${D.more?'Next':D.i===D.qs.length-1?'Finish':'Next'}</button>${D.more?`<button class="nb" data-stopmore="1" title="Stop for now. Everything is saved.">Stop for now</button>`:''}</div></footer>
    ${UI.nav?`<div class="navgrid">${D.qs.map((x,k)=>{const t=D.st[k];return `<button class="${t.ok?(t.tried.length===1&&!t.coached?'ok':'no'):(t.tried.length?'no':'')} ${k===D.i?'cur':''}" data-jump="${k}">${k+1}</button>`}).join('')}</div>`:''}</div>`;
   const g=$('#gin');if(g&&!fin)g.addEventListener('keydown',e=>{if(e.key==='Enter')gridCheck()});
   const v=document.querySelector('#pan video');if(v&&UI.seek){v.currentTime=UI.seek;UI.seek=0;v.play().catch(()=>{})}}
@@ -540,9 +589,10 @@ function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
   return '';}
 
 /* ---------- end of set ---------- */
-function drawEnd(){if(D.date){const dt=D.date;dayStore(true);D=null;location.hash='#/report/'+dt;return}const n=D.qs.length,first=D.st.filter(t=>t.ok&&t.tried.length===1&&!t.coached).length,miss=D.qs.filter((q,k)=>!(D.st[k].ok&&D.st[k].tried.length===1));
+function drawEnd(){if(D.date){const dt=D.date;dayStore(true);D=null;location.hash='#/report/'+dt;return}if(D.more){const t=D.st.filter(x=>x.tried.length);D.qs=D.qs.filter((q,k)=>D.st[k].tried.length);D.st=t}const n=D.qs.length,first=D.st.filter(t=>t.ok&&t.tried.length===1&&!t.coached).length,miss=D.qs.filter((q,k)=>!(D.st[k].ok&&D.st[k].tried.length===1));
   app().innerHTML=topbar('')+`<div class="end"><h1 class="hd" style="font-size:30px;margin:0">${esc(D.title)}: done</h1><div style="font-size:22px"><b>${first} of ${n}</b> right on the first try</div>
-   <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">${miss.length?`<button class="btn" data-redo="1">Redo the ${miss.length} I missed</button>`:''}${D.skill?`<button class="btn o" data-go="#/drill/${D.skill}?${Date.now()}">10 more</button><button class="btn g" data-go="#/learn/${D.skill}">Learn it</button>`:''}<button class="btn g" data-go="#/">Home</button></div></div>`;}
+   ${D.skill?(n&&first/n>=.8?`<div class="keepon ok">Mastered for today: ${Math.round(100*first/n)}% right on the first try ✓</div>`:`<div class="keepon">Let's keep drilling until we master this.</div>`):''}
+   <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">${D.skill?`<button class="btn" data-go="#/drill/more:${D.skill}?${Date.now()}">Keep drilling ${esc(SK2[D.skill].name)}</button>`:''}${miss.length?`<button class="btn o" data-redo="1">Redo the ${miss.length} I missed</button>`:''}${D.skill?`<button class="btn g" data-go="#/learn/${D.skill}">Learn it</button>`:''}<button class="btn g" data-go="#/">Home</button></div></div>`;}
 
 /* ---------- clicks ---------- */
 document.addEventListener('click',e=>{const b=e.target.closest('button,[data-go]');if(!b)return;const d=b.dataset;if(d.pause){pauseOn();return}if(d.resume){pauseOff();return}
@@ -561,7 +611,9 @@ document.addEventListener('click',e=>{const b=e.target.closest('button,[data-go]
   if(d.mark){st.mark=!st.mark;return drawDrill()}
   if(d.navg){UI.nav=!UI.nav;return drawDrill()}
   if(d.jump!==undefined){if(+d.jump>D.i&&st&&st.tried.length&&!st.ok)return;D.i=+d.jump;UI.nav=false;UI.dtab=null;return showQ()}
-  if(d.mv){if(+d.mv>0&&st&&st.tried.length&&!st.ok)return;const n=D.i+(+d.mv);if(n>=D.qs.length){D.done=true;return drawEnd()}if(n>=0){D.i=n;dayStore();UI.nav=false;if(UI.panel==='show')UI.panel=null;UI.dtab=null;showQ()}return}
+  if(d.mv){if(+d.mv>0&&st&&st.tried.length&&!st.ok)return;const n=D.i+(+d.mv);if(n>=D.qs.length&&D.more){const nx=moreQs(D.more,D.qs);if(nx.length){D.qs=D.qs.concat(nx);D.st=D.st.concat(nx.map(()=>({tried:[],ok:false,shown:0,t0:0,coached:false})))}}
+    if(n>=D.qs.length){D.done=true;return drawEnd()}if(n>=0){D.i=n;dayStore();UI.nav=false;if(UI.panel==='show')UI.panel=null;UI.dtab=null;showQ()}return}
+  if(d.stopmore){D.done=true;return drawEnd()}
   if(d.redo){const miss=D.qs.filter((q,k)=>!(D.st[k].ok&&D.st[k].tried.length===1));D={...D,qs:miss,i:0,st:miss.map(()=>({tried:[],ok:false,shown:0,t0:0,coached:false})),t0:Date.now(),done:false,title:D.title+' · redo'};return showQ()}
 });
 load().then(route);
