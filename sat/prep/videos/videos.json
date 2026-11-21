@@ -158,5 +158,43 @@
 "Say it out loud"
 ]
 ]
+},
+"t2": {
+"src": "videos/t2.mp4",
+"poster": "videos/t2.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+18,
+"The rules"
+],
+[
+34,
+"Example 1: Growth or decay"
+],
+[
+76,
+"Example 2: Doubling time"
+],
+[
+108,
+"Example 3: Table test"
+],
+[
+140,
+"Example 4: Factor the common chunk"
+],
+[
+180,
+"Your turn: pause and pick"
+],
+[
+210,
+"Say it out loud"
+]
+]
 }
 }
