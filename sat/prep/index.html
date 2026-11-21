@@ -243,8 +243,7 @@ function home(){const all=BANK.skills;let tot=0,ok=0;all.forEach(k=>{const t=sta
     <div style="display:flex;align-items:center;gap:8px"><div class="bar"><i style="width:${Math.min(100,sh*5)}%"></i></div><span style="font-size:14px;font-weight:600;min-width:34px">${Math.round(sh)}%</span></div>
     <div><span class="pill" style="color:${lv[1]};background:${lv[2]}">${lv[0]}</span><div class="src2">${srcLine('HELM',h)}${srcLine('Blueprint',b)}</div></div>
     <div class="acts"><button class="btn g sm" data-go="#/learn/${s.id}">Learn it</button><button class="btn g sm" data-go="#/video/${s.id}">Video</button><button class="btn sm" data-go="#/drill/${s.id}">Drill</button></div></div>`}).join('')+`</section>`};
-  const bprLeft=BPR.length?fresh(BPR.map(q=>QBY[q.id]).filter(Boolean)).length:0;
-  app().innerHTML=topbar('home')+`<div class="page">${schedule()}${bprLeft?`<section class="card" style="padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-left:5px solid #c9a22a"><div><b class="hd" style="font-size:18px">Blueprint questions he missed</b><div style="font-size:14px;color:var(--mute)">${bprLeft} of ${BPR.length} left to try again · 5 are added to the start of each day's drills</div></div><button class="btn" data-go="#/drill/bpr">Retry them now</button></section>`:''}
+  app().innerHTML=topbar('home')+`<div class="page">${schedule()}
    <section class="stats"><div class="card stat"><div class="l">Practice questions done</div><div class="v hd">${tot}</div></div><div class="card stat"><div class="l">Right on the first try</div><div class="v hd">${tot?Math.round(100*ok/tot)+'%':'—'}</div></div><div class="card stat"><div class="l">Done today</div><div class="v hd">${tday}</div></div><div class="card stat"><div class="l">Our time split</div><div class="v hd" style="font-size:24px">65% Math · 35% English</div></div></section>
    <div class="cols">${sec('Math','Math')}${sec('Reading and Writing','English')}</div></div>`;alignHeads();window.scrollTo(0,0);}
 
@@ -279,7 +278,6 @@ function schedule(){if(!PLAN)return todayCard();const t=today();
    <table class="sched" style="margin-top:10px"><thead><tr><th>Day</th><th>New skills</th><th class="hide">Review</th><th class="hide">Size + time</th><th>Result</th><th></th></tr></thead><tbody>${rows}</tbody></table>
    <div style="text-align:center;margin-top:10px"><button class="btn g sm" data-alldays="1">${UI.allDays?'▴ Show only today':'▾ Show all '+all.length+' days to the SAT'}</button></div></section>`}
 function buildDay(d,all){const ord=all?(qs=>qs):order;const used=new Set(),qs=[],secs=[];const add=(list,label)=>list.forEach(q=>{if(q&&!used.has(q.id)){used.add(q.id);qs.push(q);secs.push(label)}});
-  if(!all&&BPR.length)add(fresh(BPR.map(q=>QBY[q.id]).filter(Boolean)).slice(0,5),'Redo: Blueprint questions he missed');
   const want=dayMix(d);
   (d.learn||[]).forEach((s,k)=>{if(SK2[s])add(ord(BANK.qs.filter(q=>q.skill===s)).slice(0,want[s]),`New skill ${k+1}/${d.learn.length}: ${SK2[s].name} · ${Math.round(SK2[s].share||0)}% of the test`)});
   Object.keys(want).filter(s=>!(d.learn||[]).includes(s)).sort((a,b)=>(SK2[b].share||0)-(SK2[a].share||0)).forEach(s=>{
