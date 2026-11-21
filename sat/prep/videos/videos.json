@@ -344,5 +344,43 @@
 "Say it out loud"
 ]
 ]
+},
+"e2": {
+"src": "videos/e2.mp4",
+"poster": "videos/e2.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+21,
+"The rules"
+],
+[
+44,
+"Example 1: Triangle sum"
+],
+[
+69,
+"Example 2: Straight line"
+],
+[
+97,
+"Example 3: Vertical angles"
+],
+[
+119,
+"Example 4: Parallel lines"
+],
+[
+151,
+"Your turn: pause and pick"
+],
+[
+178,
+"Say it out loud"
+]
+]
 }
 }
