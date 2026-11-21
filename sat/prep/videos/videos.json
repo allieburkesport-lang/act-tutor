@@ -496,5 +496,43 @@
 "Say it out loud"
 ]
 ]
+},
+"d3": {
+"src": "videos/d3.mp4",
+"poster": "videos/d3.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+19,
+"The rules"
+],
+[
+35,
+"Example 1: Slope meaning"
+],
+[
+69,
+"Example 2: Intercept meaning"
+],
+[
+100,
+"Example 3: Predict"
+],
+[
+129,
+"Example 4: Residual"
+],
+[
+161,
+"Your turn: pause and pick"
+],
+[
+193,
+"Say it out loud"
+]
+]
 }
 }
