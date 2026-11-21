@@ -1,5 +1,5 @@
 {
- "updated": "Sat Nov 21, 9:03 AM ET",
+ "updated": "Sat Nov 21, 9:07 AM ET",
  "online": true,
  "today": "2026-11-21",
  "test": "2026-12-05",
@@ -17,8 +17,8 @@
    "name": "Words in context",
    "sec": "English",
    "share": 15.5,
-   "acc": 42,
-   "tried": 24
+   "acc": 55,
+   "tried": 31
   },
   {
    "skill": "tsp",
@@ -161,16 +161,16 @@
    "name": "Ratios, rates, proportions and units",
    "sec": "Math",
    "share": 3.3,
-   "acc": null,
-   "tried": 0
+   "acc": 29,
+   "tried": 7
   },
   {
    "skill": "pct",
    "name": "Percentages",
    "sec": "Math",
    "share": 3.0,
-   "acc": 75,
-   "tried": 8
+   "acc": 67,
+   "tried": 15
   },
   {
    "skill": "data1",
@@ -185,8 +185,8 @@
    "name": "Two-variable data: models and scatterplots",
    "sec": "Math",
    "share": 2.5,
-   "acc": 0,
-   "tried": 2
+   "acc": 44,
+   "tried": 9
   },
   {
    "skill": "prob",
@@ -217,8 +217,8 @@
    "name": "Area and volume",
    "sec": "Math",
    "share": 4.7,
-   "acc": 29,
-   "tried": 7
+   "acc": 43,
+   "tried": 14
   },
   {
    "skill": "lat",
@@ -259,7 +259,7 @@
    "focus": [
     "linf",
     "lat",
-    "area",
+    "lin2",
     "wic"
    ],
    "math_share": 67,
@@ -273,7 +273,7 @@
      3
     ],
     [
-     "area",
+     "lin2",
      3
     ],
     [
@@ -367,7 +367,7 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:fss"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:linf.3,lat.3,area.3,wic.3",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:linf.3,lat.3,lin2.3,wic.3",
    "review_names": [
     [
      "Linear functions",
@@ -378,7 +378,7 @@
      3
     ],
     [
-     "Area and volume",
+     "Linear equations in two variables",
      3
     ],
     [
@@ -389,7 +389,7 @@
    "focus_names": [
     "Linear functions",
     "Lines, angles and triangles",
-    "Area and volume",
+    "Linear equations in two variables",
     "Words in context"
    ],
    "n_questions": 42,
@@ -785,8 +785,8 @@
      "name": "Ratios, rates, proportions and units",
      "sec": "Math",
      "share": 3.3,
-     "acc": null,
-     "tried": 0,
+     "acc": 29,
+     "tried": 7,
      "lessons": [
       {
        "id": "a6",
@@ -801,8 +801,8 @@
      "name": "Percentages",
      "sec": "Math",
      "share": 3.0,
-     "acc": 75,
-     "tried": 8,
+     "acc": 67,
+     "tried": 15,
      "lessons": [
       {
        "id": "m2",
@@ -909,6 +909,10 @@
    "math_share": 62,
    "review": [
     [
+     "ratio",
+     2
+    ],
+    [
      "nleq",
      3
     ],
@@ -926,10 +930,6 @@
     ],
     [
      "prob",
-     2
-    ],
-    [
-     "ratio",
      2
     ],
     [
@@ -1013,8 +1013,8 @@
      "name": "Words in context",
      "sec": "English",
      "share": 15.5,
-     "acc": 42,
-     "tried": 24,
+     "acc": 55,
+     "tried": 31,
      "lessons": [
       {
        "id": "r1",
@@ -1025,8 +1025,12 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:wic"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:nleq.3,nlf.3,fss.2,trig.2,prob.2,ratio.2,bound.1,cid.1,pct.2,circ.2,lat.3",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:ratio.2,nleq.3,nlf.3,fss.2,trig.2,prob.2,bound.1,cid.1,pct.2,circ.2,lat.3",
    "review_names": [
+    [
+     "Ratios, rates, proportions and units",
+     2
+    ],
     [
      "Nonlinear equations and systems",
      3
@@ -1045,10 +1049,6 @@
     ],
     [
      "Probability and conditional probability",
-     2
-    ],
-    [
-     "Ratios, rates, proportions and units",
      2
     ],
     [
@@ -1099,15 +1099,15 @@
    "math_share": 65,
    "review": [
     [
+     "ratio",
+     2
+    ],
+    [
      "nleq",
      3
     ],
     [
      "nlf",
-     3
-    ],
-    [
-     "wic",
      3
     ],
     [
@@ -1128,19 +1128,19 @@
     ],
     [
      "prob",
-     2
-    ],
-    [
-     "ratio",
      1
     ],
     [
      "bound",
-     1
+     2
     ],
     [
      "lin2",
      1
+    ],
+    [
+     "wic",
+     2
     ],
     [
      "cid",
@@ -1162,8 +1162,8 @@
      "name": "Area and volume",
      "sec": "Math",
      "share": 4.7,
-     "acc": 29,
-     "tried": 7,
+     "acc": 43,
+     "tried": 14,
      "lessons": [
       {
        "id": "t3",
@@ -1211,18 +1211,18 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:syn"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:nleq.3,nlf.3,wic.3,trans.2,linf.3,fss.2,trig.2,prob.2,ratio.1,bound.1,lin2.1,cid.1,pct.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:ratio.2,nleq.3,nlf.3,trans.2,linf.3,fss.2,trig.2,prob.1,bound.2,lin2.1,wic.2,cid.1,pct.1,circ.1",
    "review_names": [
+    [
+     "Ratios, rates, proportions and units",
+     2
+    ],
     [
      "Nonlinear equations and systems",
      3
     ],
     [
      "Nonlinear functions",
-     3
-    ],
-    [
-     "Words in context",
      3
     ],
     [
@@ -1243,19 +1243,19 @@
     ],
     [
      "Probability and conditional probability",
-     2
-    ],
-    [
-     "Ratios, rates, proportions and units",
      1
     ],
     [
      "Boundaries (punctuation)",
-     1
+     2
     ],
     [
      "Linear equations in two variables",
      1
+    ],
+    [
+     "Words in context",
+     2
     ],
     [
      "Central ideas and details",
@@ -1301,7 +1301,7 @@
      2
     ],
     [
-     "area",
+     "ratio",
      2
     ],
     [
@@ -1313,8 +1313,8 @@
      2
     ],
     [
-     "wic",
-     3
+     "area",
+     1
     ],
     [
      "trans",
@@ -1326,7 +1326,7 @@
     ],
     [
      "fss",
-     1
+     2
     ],
     [
      "trig",
@@ -1334,10 +1334,6 @@
     ],
     [
      "prob",
-     1
-    ],
-    [
-     "ratio",
      1
     ],
     [
@@ -1349,15 +1345,19 @@
      1
     ],
     [
+     "wic",
+     2
+    ],
+    [
      "cid",
      1
     ],
     [
-     "syn",
+     "pct",
      1
     ],
     [
-     "pct",
+     "syn",
      1
     ],
     [
@@ -1388,8 +1388,8 @@
      "name": "Two-variable data: models and scatterplots",
      "sec": "Math",
      "share": 2.5,
-     "acc": 0,
-     "tried": 2,
+     "acc": 44,
+     "tried": 9,
      "lessons": [
       {
        "id": "d3",
@@ -1416,14 +1416,14 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:inf"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.2,area.2,nleq.3,nlf.2,wic.3,trans.2,linf.2,fss.1,trig.1,prob.1,ratio.1,bound.1,lin2.1,cid.1,syn.1,pct.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.2,ratio.2,nleq.3,nlf.2,area.1,trans.2,linf.2,fss.2,trig.1,prob.1,bound.1,lin2.1,wic.2,cid.1,pct.1,syn.1,circ.1",
    "review_names": [
     [
      "Lines, angles and triangles",
      2
     ],
     [
-     "Area and volume",
+     "Ratios, rates, proportions and units",
      2
     ],
     [
@@ -1435,8 +1435,8 @@
      2
     ],
     [
-     "Words in context",
-     3
+     "Area and volume",
+     1
     ],
     [
      "Transitions",
@@ -1448,7 +1448,7 @@
     ],
     [
      "Form, structure and sense",
-     1
+     2
     ],
     [
      "Right triangles and trigonometry",
@@ -1456,10 +1456,6 @@
     ],
     [
      "Probability and conditional probability",
-     1
-    ],
-    [
-     "Ratios, rates, proportions and units",
      1
     ],
     [
@@ -1471,15 +1467,19 @@
      1
     ],
     [
+     "Words in context",
+     2
+    ],
+    [
      "Central ideas and details",
      1
     ],
     [
-     "Rhetorical synthesis (notes)",
+     "Percentages",
      1
     ],
     [
-     "Percentages",
+     "Rhetorical synthesis (notes)",
      1
     ],
     [
@@ -1530,11 +1530,7 @@
      2
     ],
     [
-     "data2",
-     1
-    ],
-    [
-     "area",
+     "ratio",
      1
     ],
     [
@@ -1546,16 +1542,20 @@
      2
     ],
     [
-     "wic",
-     3
+     "area",
+     1
     ],
     [
      "trans",
-     1
+     2
     ],
     [
      "linf",
      2
+    ],
+    [
+     "data2",
+     1
     ],
     [
      "fss",
@@ -1574,10 +1574,6 @@
      1
     ],
     [
-     "ratio",
-     1
-    ],
-    [
      "data1",
      1
     ],
@@ -1590,15 +1586,19 @@
      1
     ],
     [
+     "wic",
+     2
+    ],
+    [
      "cid",
      1
     ],
     [
-     "syn",
+     "pct",
      1
     ],
     [
-     "pct",
+     "syn",
      1
     ],
     [
@@ -1608,18 +1608,14 @@
    ],
    "label": "Fri Nov 27",
    "concepts": [],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.2,data2.1,area.1,nleq.2,nlf.2,wic.3,trans.1,linf.2,fss.1,inf.1,trig.1,prob.1,ratio.1,data1.1,bound.1,lin2.1,cid.1,syn.1,pct.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.2,ratio.1,nleq.2,nlf.2,area.1,trans.2,linf.2,data2.1,fss.1,inf.1,trig.1,prob.1,data1.1,bound.1,lin2.1,wic.2,cid.1,pct.1,syn.1,circ.1",
    "review_names": [
     [
      "Lines, angles and triangles",
      2
     ],
     [
-     "Two-variable data: models and scatterplots",
-     1
-    ],
-    [
-     "Area and volume",
+     "Ratios, rates, proportions and units",
      1
     ],
     [
@@ -1631,16 +1627,20 @@
      2
     ],
     [
-     "Words in context",
-     3
+     "Area and volume",
+     1
     ],
     [
      "Transitions",
-     1
+     2
     ],
     [
      "Linear functions",
      2
+    ],
+    [
+     "Two-variable data: models and scatterplots",
+     1
     ],
     [
      "Form, structure and sense",
@@ -1659,10 +1659,6 @@
      1
     ],
     [
-     "Ratios, rates, proportions and units",
-     1
-    ],
-    [
      "One-variable data: center and spread",
      1
     ],
@@ -1675,15 +1671,19 @@
      1
     ],
     [
+     "Words in context",
+     2
+    ],
+    [
      "Central ideas and details",
      1
     ],
     [
-     "Rhetorical synthesis (notes)",
+     "Percentages",
      1
     ],
     [
-     "Percentages",
+     "Rhetorical synthesis (notes)",
      1
     ],
     [
@@ -1738,11 +1738,7 @@
      2
     ],
     [
-     "data2",
-     1
-    ],
-    [
-     "area",
+     "ratio",
      1
     ],
     [
@@ -1754,16 +1750,20 @@
      2
     ],
     [
-     "wic",
-     3
+     "area",
+     1
     ],
     [
      "trans",
-     1
+     2
     ],
     [
      "linf",
      2
+    ],
+    [
+     "data2",
+     1
     ],
     [
      "fss",
@@ -1782,10 +1782,6 @@
      1
     ],
     [
-     "ratio",
-     1
-    ],
-    [
      "data1",
      1
     ],
@@ -1798,15 +1794,19 @@
      1
     ],
     [
+     "wic",
+     2
+    ],
+    [
      "cid",
      1
     ],
     [
-     "syn",
+     "pct",
      1
     ],
     [
-     "pct",
+     "syn",
      1
     ],
     [
@@ -1865,18 +1865,14 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:coe"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.2,data2.1,area.1,nleq.2,nlf.2,wic.3,trans.1,linf.2,fss.1,inf.1,trig.1,prob.1,ratio.1,data1.1,bound.1,lin2.1,cid.1,syn.1,pct.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.2,ratio.1,nleq.2,nlf.2,area.1,trans.2,linf.2,data2.1,fss.1,inf.1,trig.1,prob.1,data1.1,bound.1,lin2.1,wic.2,cid.1,pct.1,syn.1,circ.1",
    "review_names": [
     [
      "Lines, angles and triangles",
      2
     ],
     [
-     "Two-variable data: models and scatterplots",
-     1
-    ],
-    [
-     "Area and volume",
+     "Ratios, rates, proportions and units",
      1
     ],
     [
@@ -1888,16 +1884,20 @@
      2
     ],
     [
-     "Words in context",
-     3
+     "Area and volume",
+     1
     ],
     [
      "Transitions",
-     1
+     2
     ],
     [
      "Linear functions",
      2
+    ],
+    [
+     "Two-variable data: models and scatterplots",
+     1
     ],
     [
      "Form, structure and sense",
@@ -1916,10 +1916,6 @@
      1
     ],
     [
-     "Ratios, rates, proportions and units",
-     1
-    ],
-    [
      "One-variable data: center and spread",
      1
     ],
@@ -1932,15 +1928,19 @@
      1
     ],
     [
+     "Words in context",
+     2
+    ],
+    [
      "Central ideas and details",
      1
     ],
     [
-     "Rhetorical synthesis (notes)",
+     "Percentages",
      1
     ],
     [
-     "Percentages",
+     "Rhetorical synthesis (notes)",
      1
     ],
     [
@@ -1979,11 +1979,7 @@
      1
     ],
     [
-     "data2",
-     1
-    ],
-    [
-     "area",
+     "ratio",
      1
     ],
     [
@@ -1995,8 +1991,8 @@
      2
     ],
     [
-     "wic",
-     2
+     "area",
+     1
     ],
     [
      "trans",
@@ -2005,6 +2001,10 @@
     [
      "linf",
      2
+    ],
+    [
+     "data2",
+     1
     ],
     [
      "fss",
@@ -2020,10 +2020,6 @@
     ],
     [
      "prob",
-     1
-    ],
-    [
-     "ratio",
      1
     ],
     [
@@ -2043,6 +2039,10 @@
      1
     ],
     [
+     "wic",
+     2
+    ],
+    [
      "sys",
      1
     ],
@@ -2055,11 +2055,11 @@
      1
     ],
     [
-     "syn",
+     "pct",
      1
     ],
     [
-     "pct",
+     "syn",
      1
     ],
     [
@@ -2123,18 +2123,14 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:tsp"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.1,data2.1,area.1,nleq.2,nlf.2,wic.2,trans.1,linf.2,fss.1,inf.1,trig.1,prob.1,ratio.1,data1.1,ineq.1,bound.1,lin2.1,sys.1,cid.1,coe.1,syn.1,pct.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.1,ratio.1,nleq.2,nlf.2,area.1,trans.1,linf.2,data2.1,fss.1,inf.1,trig.1,prob.1,data1.1,ineq.1,bound.1,lin2.1,wic.2,sys.1,cid.1,coe.1,pct.1,syn.1,circ.1",
    "review_names": [
     [
      "Lines, angles and triangles",
      1
     ],
     [
-     "Two-variable data: models and scatterplots",
-     1
-    ],
-    [
-     "Area and volume",
+     "Ratios, rates, proportions and units",
      1
     ],
     [
@@ -2146,8 +2142,8 @@
      2
     ],
     [
-     "Words in context",
-     2
+     "Area and volume",
+     1
     ],
     [
      "Transitions",
@@ -2156,6 +2152,10 @@
     [
      "Linear functions",
      2
+    ],
+    [
+     "Two-variable data: models and scatterplots",
+     1
     ],
     [
      "Form, structure and sense",
@@ -2171,10 +2171,6 @@
     ],
     [
      "Probability and conditional probability",
-     1
-    ],
-    [
-     "Ratios, rates, proportions and units",
      1
     ],
     [
@@ -2194,6 +2190,10 @@
      1
     ],
     [
+     "Words in context",
+     2
+    ],
+    [
      "Systems of two linear equations",
      1
     ],
@@ -2206,11 +2206,11 @@
      1
     ],
     [
-     "Rhetorical synthesis (notes)",
+     "Percentages",
      1
     ],
     [
-     "Percentages",
+     "Rhetorical synthesis (notes)",
      1
     ],
     [
@@ -2239,8 +2239,8 @@
    "note": "His weakest concepts \u00b7 Also: download the exam in Bluebook and charge the laptop",
    "focus": [
     "lat",
-    "area",
     "lin2",
+    "lin1",
     "fss"
    ],
    "math_share": 70,
@@ -2250,19 +2250,23 @@
      2
     ],
     [
-     "data2",
+     "ratio",
      1
-    ],
-    [
-     "area",
-     2
     ],
     [
      "tsp",
      1
     ],
     [
+     "area",
+     1
+    ],
+    [
      "trans",
+     1
+    ],
+    [
+     "data2",
      1
     ],
     [
@@ -2282,10 +2286,6 @@
      1
     ],
     [
-     "ratio",
-     1
-    ],
-    [
      "data1",
      1
     ],
@@ -2295,7 +2295,7 @@
     ],
     [
      "lin1",
-     1
+     2
     ],
     [
      "bound",
@@ -2322,11 +2322,11 @@
      1
     ],
     [
-     "syn",
+     "pct",
      1
     ],
     [
-     "pct",
+     "syn",
      1
     ],
     [
@@ -2409,8 +2409,8 @@
      "name": "Words in context",
      "sec": "English",
      "share": 15.5,
-     "acc": 42,
-     "tried": 24,
+     "acc": 55,
+     "tried": 31,
      "lessons": [
       {
        "id": "r1",
@@ -2421,26 +2421,30 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:wic"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.2,data2.1,area.2,tsp.1,trans.1,fss.2,inf.1,trig.1,prob.1,ratio.1,data1.1,ineq.1,lin1.1,bound.1,lin2.2,sys.1,cid.1,equiv.1,coe.1,syn.1,pct.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.2,ratio.1,tsp.1,area.1,trans.1,data2.1,fss.2,inf.1,trig.1,prob.1,data1.1,ineq.1,lin1.2,bound.1,lin2.2,sys.1,cid.1,equiv.1,coe.1,pct.1,syn.1,circ.1",
    "review_names": [
     [
      "Lines, angles and triangles",
      2
     ],
     [
-     "Two-variable data: models and scatterplots",
+     "Ratios, rates, proportions and units",
      1
-    ],
-    [
-     "Area and volume",
-     2
     ],
     [
      "Text structure and purpose",
      1
     ],
     [
+     "Area and volume",
+     1
+    ],
+    [
      "Transitions",
+     1
+    ],
+    [
+     "Two-variable data: models and scatterplots",
      1
     ],
     [
@@ -2460,10 +2464,6 @@
      1
     ],
     [
-     "Ratios, rates, proportions and units",
-     1
-    ],
-    [
      "One-variable data: center and spread",
      1
     ],
@@ -2473,7 +2473,7 @@
     ],
     [
      "Linear equations in one variable",
-     1
+     2
     ],
     [
      "Boundaries (punctuation)",
@@ -2500,11 +2500,11 @@
      1
     ],
     [
-     "Rhetorical synthesis (notes)",
+     "Percentages",
      1
     ],
     [
-     "Percentages",
+     "Rhetorical synthesis (notes)",
      1
     ],
     [
@@ -2514,8 +2514,8 @@
    ],
    "focus_names": [
     "Lines, angles and triangles",
-    "Area and volume",
     "Linear equations in two variables",
+    "Linear equations in one variable",
     "Form, structure and sense"
    ],
    "n_questions": 66,
@@ -2544,11 +2544,7 @@
      2
     ],
     [
-     "data2",
-     1
-    ],
-    [
-     "area",
+     "ratio",
      1
     ],
     [
@@ -2560,8 +2556,8 @@
      2
     ],
     [
-     "wic",
-     2
+     "area",
+     1
     ],
     [
      "trans",
@@ -2570,6 +2566,10 @@
     [
      "linf",
      2
+    ],
+    [
+     "data2",
+     1
     ],
     [
      "fss",
@@ -2585,10 +2585,6 @@
     ],
     [
      "prob",
-     1
-    ],
-    [
-     "ratio",
      1
     ],
     [
@@ -2612,6 +2608,10 @@
      1
     ],
     [
+     "wic",
+     2
+    ],
+    [
      "sys",
      1
     ],
@@ -2628,11 +2628,11 @@
      1
     ],
     [
-     "syn",
+     "pct",
      1
     ],
     [
-     "pct",
+     "syn",
      1
     ],
     [
@@ -2717,18 +2717,14 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:nlf"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.2,data2.1,area.1,tsp.1,nleq.2,wic.2,trans.1,linf.2,fss.1,inf.1,trig.1,prob.1,ratio.1,data1.1,ineq.1,lin1.1,bound.1,lin2.1,sys.1,cid.1,equiv.1,coe.1,syn.1,pct.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.2,ratio.1,tsp.1,nleq.2,area.1,trans.1,linf.2,data2.1,fss.1,inf.1,trig.1,prob.1,data1.1,ineq.1,lin1.1,bound.1,lin2.1,wic.2,sys.1,cid.1,equiv.1,coe.1,pct.1,syn.1,circ.1",
    "review_names": [
     [
      "Lines, angles and triangles",
      2
     ],
     [
-     "Two-variable data: models and scatterplots",
-     1
-    ],
-    [
-     "Area and volume",
+     "Ratios, rates, proportions and units",
      1
     ],
     [
@@ -2740,8 +2736,8 @@
      2
     ],
     [
-     "Words in context",
-     2
+     "Area and volume",
+     1
     ],
     [
      "Transitions",
@@ -2750,6 +2746,10 @@
     [
      "Linear functions",
      2
+    ],
+    [
+     "Two-variable data: models and scatterplots",
+     1
     ],
     [
      "Form, structure and sense",
@@ -2765,10 +2765,6 @@
     ],
     [
      "Probability and conditional probability",
-     1
-    ],
-    [
-     "Ratios, rates, proportions and units",
      1
     ],
     [
@@ -2792,6 +2788,10 @@
      1
     ],
     [
+     "Words in context",
+     2
+    ],
+    [
      "Systems of two linear equations",
      1
     ],
@@ -2808,11 +2808,11 @@
      1
     ],
     [
-     "Rhetorical synthesis (notes)",
+     "Percentages",
      1
     ],
     [
-     "Percentages",
+     "Rhetorical synthesis (notes)",
      1
     ],
     [
@@ -2841,8 +2841,8 @@
    "note": "His weakest concepts + mixed set at SAT pace",
    "focus": [
     "lat",
-    "area",
     "lin2",
+    "lin1",
     "fss"
    ],
    "math_share": 70,
@@ -2852,23 +2852,27 @@
      2
     ],
     [
-     "data2",
-     1
-    ],
-    [
      "claims",
      1
     ],
     [
-     "area",
-     2
+     "ratio",
+     1
     ],
     [
      "tsp",
      1
     ],
     [
+     "area",
+     1
+    ],
+    [
      "trans",
+     1
+    ],
+    [
+     "data2",
      1
     ],
     [
@@ -2888,10 +2892,6 @@
      1
     ],
     [
-     "ratio",
-     1
-    ],
-    [
      "data1",
      1
     ],
@@ -2901,7 +2901,7 @@
     ],
     [
      "lin1",
-     1
+     2
     ],
     [
      "cross",
@@ -2932,11 +2932,11 @@
      1
     ],
     [
-     "syn",
+     "pct",
      1
     ],
     [
-     "pct",
+     "syn",
      1
     ],
     [
@@ -3023,8 +3023,8 @@
      "name": "Words in context",
      "sec": "English",
      "share": 15.5,
-     "acc": 42,
-     "tried": 24,
+     "acc": 55,
+     "tried": 31,
      "lessons": [
       {
        "id": "r1",
@@ -3035,30 +3035,34 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:wic"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.2,data2.1,claims.1,area.2,tsp.1,trans.1,fss.2,inf.1,trig.1,prob.1,ratio.1,data1.1,ineq.1,lin1.1,cross.1,bound.1,lin2.2,sys.1,cid.1,equiv.1,coe.1,syn.1,pct.1,infer.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.2,claims.1,ratio.1,tsp.1,area.1,trans.1,data2.1,fss.2,inf.1,trig.1,prob.1,data1.1,ineq.1,lin1.2,cross.1,bound.1,lin2.2,sys.1,cid.1,equiv.1,coe.1,pct.1,syn.1,infer.1,circ.1",
    "review_names": [
     [
      "Lines, angles and triangles",
      2
     ],
     [
-     "Two-variable data: models and scatterplots",
-     1
-    ],
-    [
      "Observational studies and experiments",
      1
     ],
     [
-     "Area and volume",
-     2
+     "Ratios, rates, proportions and units",
+     1
     ],
     [
      "Text structure and purpose",
      1
     ],
     [
+     "Area and volume",
+     1
+    ],
+    [
      "Transitions",
+     1
+    ],
+    [
+     "Two-variable data: models and scatterplots",
      1
     ],
     [
@@ -3078,10 +3082,6 @@
      1
     ],
     [
-     "Ratios, rates, proportions and units",
-     1
-    ],
-    [
      "One-variable data: center and spread",
      1
     ],
@@ -3091,7 +3091,7 @@
     ],
     [
      "Linear equations in one variable",
-     1
+     2
     ],
     [
      "Cross-text connections",
@@ -3122,11 +3122,11 @@
      1
     ],
     [
-     "Rhetorical synthesis (notes)",
+     "Percentages",
      1
     ],
     [
-     "Percentages",
+     "Rhetorical synthesis (notes)",
      1
     ],
     [
@@ -3140,8 +3140,8 @@
    ],
    "focus_names": [
     "Lines, angles and triangles",
-    "Area and volume",
     "Linear equations in two variables",
+    "Linear equations in one variable",
     "Form, structure and sense"
    ],
    "n_questions": 69,
@@ -3165,15 +3165,11 @@
      1
     ],
     [
-     "data2",
-     1
-    ],
-    [
      "claims",
      1
     ],
     [
-     "area",
+     "ratio",
      1
     ],
     [
@@ -3189,8 +3185,8 @@
      2
     ],
     [
-     "wic",
-     2
+     "area",
+     1
     ],
     [
      "trans",
@@ -3199,6 +3195,10 @@
     [
      "linf",
      2
+    ],
+    [
+     "data2",
+     1
     ],
     [
      "fss",
@@ -3214,10 +3214,6 @@
     ],
     [
      "prob",
-     1
-    ],
-    [
-     "ratio",
      1
     ],
     [
@@ -3245,6 +3241,10 @@
      1
     ],
     [
+     "wic",
+     2
+    ],
+    [
      "sys",
      1
     ],
@@ -3261,11 +3261,11 @@
      1
     ],
     [
-     "syn",
+     "pct",
      1
     ],
     [
-     "pct",
+     "syn",
      1
     ],
     [
@@ -3279,14 +3279,10 @@
    ],
    "label": "Fri Dec 4",
    "concepts": [],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.1,data2.1,claims.1,area.1,tsp.1,nleq.2,nlf.2,wic.2,trans.1,linf.2,fss.1,inf.1,trig.1,prob.1,ratio.1,data1.1,ineq.1,lin1.1,cross.1,bound.1,lin2.1,sys.1,cid.1,equiv.1,coe.1,syn.1,pct.1,infer.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.1,claims.1,ratio.1,tsp.1,nleq.2,nlf.2,area.1,trans.1,linf.2,data2.1,fss.1,inf.1,trig.1,prob.1,data1.1,ineq.1,lin1.1,cross.1,bound.1,lin2.1,wic.2,sys.1,cid.1,equiv.1,coe.1,pct.1,syn.1,infer.1,circ.1",
    "review_names": [
     [
      "Lines, angles and triangles",
-     1
-    ],
-    [
-     "Two-variable data: models and scatterplots",
      1
     ],
     [
@@ -3294,7 +3290,7 @@
      1
     ],
     [
-     "Area and volume",
+     "Ratios, rates, proportions and units",
      1
     ],
     [
@@ -3310,8 +3306,8 @@
      2
     ],
     [
-     "Words in context",
-     2
+     "Area and volume",
+     1
     ],
     [
      "Transitions",
@@ -3320,6 +3316,10 @@
     [
      "Linear functions",
      2
+    ],
+    [
+     "Two-variable data: models and scatterplots",
+     1
     ],
     [
      "Form, structure and sense",
@@ -3335,10 +3335,6 @@
     ],
     [
      "Probability and conditional probability",
-     1
-    ],
-    [
-     "Ratios, rates, proportions and units",
      1
     ],
     [
@@ -3366,6 +3362,10 @@
      1
     ],
     [
+     "Words in context",
+     2
+    ],
+    [
      "Systems of two linear equations",
      1
     ],
@@ -3382,11 +3382,11 @@
      1
     ],
     [
-     "Rhetorical synthesis (notes)",
+     "Percentages",
      1
     ],
     [
-     "Percentages",
+     "Rhetorical synthesis (notes)",
      1
     ],
     [
