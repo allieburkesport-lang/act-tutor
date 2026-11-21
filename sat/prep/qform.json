@@ -1,0 +1,6692 @@
+{
+"lin1-01": [
+{
+"n": "Solve for x",
+"eq": "Undo + or − first, then undo × or ÷. Do the same thing to both sides.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "The equation",
+"eq": "ax + b = c",
+"ref": "rule",
+"l": [
+[
+"x",
+"the unknown number",
+"what we find"
+],
+[
+"a",
+"number in front of x",
+"7"
+],
+[
+"b",
+"number added",
+"21"
+],
+[
+"c",
+"the total",
+"56"
+]
+]
+}
+],
+"lin1-02": [
+{
+"n": "Solve for x",
+"eq": "Undo + or − first, then undo × or ÷. Do the same thing to both sides.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "The equation",
+"eq": "ax + b = c",
+"ref": "rule",
+"l": [
+[
+"x",
+"the unknown number",
+"what we find"
+],
+[
+"a",
+"number in front of x",
+"8"
+],
+[
+"b",
+"number added",
+"10"
+],
+[
+"c",
+"the total",
+"90"
+]
+]
+}
+],
+"lin1-03": [
+{
+"n": "Solve for x",
+"eq": "Undo + or − first, then undo × or ÷. Do the same thing to both sides.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "The equation",
+"eq": "ax + b = c",
+"ref": "rule",
+"l": [
+[
+"x",
+"the unknown number",
+"what we find"
+],
+[
+"a",
+"number in front of x",
+"7"
+],
+[
+"b",
+"number added",
+"13"
+],
+[
+"c",
+"the total",
+"48"
+]
+]
+}
+],
+"lin1-04": [
+{
+"n": "Solve for x",
+"eq": "Undo + or − first, then undo × or ÷. Do the same thing to both sides.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "The equation",
+"eq": "ax + b = c",
+"ref": "rule",
+"l": [
+[
+"x",
+"the unknown number",
+"what we find"
+],
+[
+"a",
+"number in front of x",
+"6"
+],
+[
+"b",
+"number added",
+"14"
+],
+[
+"c",
+"the total",
+"44"
+]
+]
+}
+],
+"lin1-05": [
+{
+"n": "Distribute",
+"eq": "a(x − b) = ax − ab: multiply the outside number by EACH term inside.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Solve for x",
+"eq": "Get the x terms on one side, the plain numbers on the other, then divide.",
+"ref": "rule",
+"l": []
+}
+],
+"lin1-06": [
+{
+"n": "Distribute",
+"eq": "a(x − b) = ax − ab: multiply the outside number by EACH term inside.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Solve for x",
+"eq": "Get the x terms on one side, the plain numbers on the other, then divide.",
+"ref": "rule",
+"l": []
+}
+],
+"lin1-07": [
+{
+"n": "Distribute",
+"eq": "a(x − b) = ax − ab: multiply the outside number by EACH term inside.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Solve for x",
+"eq": "Get the x terms on one side, the plain numbers on the other, then divide.",
+"ref": "rule",
+"l": []
+}
+],
+"lin1-08": [
+{
+"n": "Distribute",
+"eq": "a(x − b) = ax − ab: multiply the outside number by EACH term inside.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Solve for x",
+"eq": "Get the x terms on one side, the plain numbers on the other, then divide.",
+"ref": "rule",
+"l": []
+}
+],
+"lin1-09": [
+{
+"n": "Total cost",
+"eq": "total = fixed fee + rate × hours",
+"ref": "learn",
+"l": [
+[
+"fixed fee",
+"paid once",
+"$40"
+],
+[
+"rate",
+"cost per hour",
+"$25"
+],
+[
+"h",
+"hours worked",
+"what we find"
+],
+[
+"total",
+"the bill",
+"$240"
+]
+]
+}
+],
+"lin1-10": [
+{
+"n": "Total cost",
+"eq": "total = fixed fee + rate × hours",
+"ref": "learn",
+"l": [
+[
+"fixed fee",
+"paid once",
+"$50"
+],
+[
+"rate",
+"cost per hour",
+"$40"
+],
+[
+"h",
+"hours worked",
+"what we find"
+],
+[
+"total",
+"the bill",
+"$210"
+]
+]
+}
+],
+"lin1-11": [
+{
+"n": "Total cost",
+"eq": "total = fixed fee + rate × hours",
+"ref": "learn",
+"l": [
+[
+"fixed fee",
+"paid once",
+"$50"
+],
+[
+"rate",
+"cost per hour",
+"$25"
+],
+[
+"h",
+"hours worked",
+"what we find"
+],
+[
+"total",
+"the bill",
+"$200"
+]
+]
+}
+],
+"lin1-12": [
+{
+"n": "Total cost",
+"eq": "total = fixed fee + rate × hours",
+"ref": "learn",
+"l": [
+[
+"fixed fee",
+"paid once",
+"$75"
+],
+[
+"rate",
+"cost per hour",
+"$55"
+],
+[
+"h",
+"hours worked",
+"what we find"
+],
+[
+"total",
+"the bill",
+"$405"
+]
+]
+}
+],
+"lin1-13": [
+{
+"n": "Spot the multiple",
+"eq": "8x + 16 is a multiple of 2x + 4. Multiply the whole equation instead of solving for x.",
+"ref": "rule",
+"l": []
+}
+],
+"lin1-14": [
+{
+"n": "Spot the multiple",
+"eq": "12x + 3 is a multiple of 4x + 1. Multiply the whole equation instead of solving for x.",
+"ref": "rule",
+"l": []
+}
+],
+"lin1-15": [
+{
+"n": "Spot the multiple",
+"eq": "18x + 3 is a multiple of 6x + 1. Multiply the whole equation instead of solving for x.",
+"ref": "rule",
+"l": []
+}
+],
+"lin1-16": [
+{
+"n": "Spot the multiple",
+"eq": "6x + 4 is a multiple of 3x + 2. Multiply the whole equation instead of solving for x.",
+"ref": "rule",
+"l": []
+}
+],
+"lin1-17": [
+{
+"n": "No solution",
+"eq": "A linear equation has NO solution when the x-terms match but the plain numbers do not.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Distribute",
+"eq": "k(x + b) = kx + kb",
+"ref": "rule",
+"l": []
+}
+],
+"lin1-18": [
+{
+"n": "No solution",
+"eq": "A linear equation has NO solution when the x-terms match but the plain numbers do not.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Distribute",
+"eq": "k(x + b) = kx + kb",
+"ref": "rule",
+"l": []
+}
+],
+"lin1-19": [
+{
+"n": "No solution",
+"eq": "A linear equation has NO solution when the x-terms match but the plain numbers do not.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Distribute",
+"eq": "k(x + b) = kx + kb",
+"ref": "rule",
+"l": []
+}
+],
+"lin1-20": [
+{
+"n": "No solution",
+"eq": "A linear equation has NO solution when the x-terms match but the plain numbers do not.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Distribute",
+"eq": "k(x + b) = kx + kb",
+"ref": "rule",
+"l": []
+}
+],
+"lin2-01": [
+{
+"n": "Total cost equation",
+"eq": "ax + by = total",
+"ref": "rule",
+"l": [
+[
+"x",
+"how many of the first item",
+"what we find"
+],
+[
+"y",
+"how many of the second item",
+"6"
+],
+[
+"a, b",
+"price of each item",
+"3, 8"
+],
+[
+"total",
+"total cost",
+"63"
+]
+]
+}
+],
+"lin2-02": [
+{
+"n": "Total cost equation",
+"eq": "ax + by = total",
+"ref": "rule",
+"l": [
+[
+"x",
+"how many of the first item",
+"what we find"
+],
+[
+"y",
+"how many of the second item",
+"6"
+],
+[
+"a, b",
+"price of each item",
+"5, 5"
+],
+[
+"total",
+"total cost",
+"60"
+]
+]
+}
+],
+"lin2-03": [
+{
+"n": "Total cost equation",
+"eq": "ax + by = total",
+"ref": "rule",
+"l": [
+[
+"x",
+"how many of the first item",
+"what we find"
+],
+[
+"y",
+"how many of the second item",
+"2"
+],
+[
+"a, b",
+"price of each item",
+"6, 7"
+],
+[
+"total",
+"total cost",
+"62"
+]
+]
+}
+],
+"lin2-04": [
+{
+"n": "Total cost equation",
+"eq": "ax + by = total",
+"ref": "rule",
+"l": [
+[
+"x",
+"how many of the first item",
+"what we find"
+],
+[
+"y",
+"how many of the second item",
+"6"
+],
+[
+"a, b",
+"price of each item",
+"6, 7"
+],
+[
+"total",
+"total cost",
+"90"
+]
+]
+}
+],
+"lin2-05": [
+{
+"n": "Total from two groups",
+"eq": "(per small box)·x + (per large box)·y = total",
+"ref": "rule",
+"l": [
+[
+"x",
+"number of small boxes",
+"unknown"
+],
+[
+"y",
+"number of large boxes",
+"unknown"
+],
+[
+"per box",
+"books in each box",
+"6 and 24"
+],
+[
+"total",
+"all the books",
+"360"
+]
+]
+}
+],
+"lin2-06": [
+{
+"n": "Total from two groups",
+"eq": "(per small box)·x + (per large box)·y = total",
+"ref": "rule",
+"l": [
+[
+"x",
+"number of small boxes",
+"unknown"
+],
+[
+"y",
+"number of large boxes",
+"unknown"
+],
+[
+"per box",
+"books in each box",
+"4 and 10"
+],
+[
+"total",
+"all the books",
+"240"
+]
+]
+}
+],
+"lin2-07": [
+{
+"n": "Total from two groups",
+"eq": "(per small box)·x + (per large box)·y = total",
+"ref": "rule",
+"l": [
+[
+"x",
+"number of small boxes",
+"unknown"
+],
+[
+"y",
+"number of large boxes",
+"unknown"
+],
+[
+"per box",
+"books in each box",
+"12 and 15"
+],
+[
+"total",
+"all the books",
+"240"
+]
+]
+}
+],
+"lin2-08": [
+{
+"n": "Total from two groups",
+"eq": "(per small box)·x + (per large box)·y = total",
+"ref": "rule",
+"l": [
+[
+"x",
+"number of small boxes",
+"unknown"
+],
+[
+"y",
+"number of large boxes",
+"unknown"
+],
+[
+"per box",
+"books in each box",
+"12 and 24"
+],
+[
+"total",
+"all the books",
+"360"
+]
+]
+}
+],
+"lin2-09": [
+{
+"n": "Rearrange a formula",
+"eq": "Get the target letter alone: undo + and − first, then × and ÷, doing the same thing to both sides.",
+"ref": "rule",
+"l": []
+}
+],
+"lin2-10": [
+{
+"n": "Rearrange a formula",
+"eq": "Get the target letter alone: undo + and − first, then × and ÷, doing the same thing to both sides.",
+"ref": "rule",
+"l": []
+}
+],
+"lin2-11": [
+{
+"n": "Rearrange a formula",
+"eq": "Get the target letter alone: undo + and − first, then × and ÷, doing the same thing to both sides.",
+"ref": "rule",
+"l": []
+}
+],
+"lin2-12": [
+{
+"n": "Rearrange a formula",
+"eq": "Get the target letter alone: undo + and − first, then × and ÷, doing the same thing to both sides.",
+"ref": "rule",
+"l": []
+}
+],
+"lin2-13": [
+{
+"n": "Rearrange a formula",
+"eq": "Get the target letter alone: undo + and − first, then × and ÷, doing the same thing to both sides.",
+"ref": "rule",
+"l": []
+}
+],
+"lin2-14": [
+{
+"n": "Linear model",
+"eq": "y = b + mx",
+"ref": "learn",
+"l": [
+[
+"b",
+"the starting amount (when x = 0)",
+"300"
+],
+[
+"m",
+"change for each 1 of x (here it goes down)",
+"−6"
+],
+[
+"x",
+"the input",
+"unknown"
+]
+]
+}
+],
+"lin2-15": [
+{
+"n": "Linear model",
+"eq": "y = b + mx",
+"ref": "learn",
+"l": [
+[
+"b",
+"the starting amount (when x = 0)",
+"240"
+],
+[
+"m",
+"change for each 1 of x (here it goes down)",
+"−6"
+],
+[
+"x",
+"the input",
+"unknown"
+]
+]
+}
+],
+"lin2-16": [
+{
+"n": "Linear model",
+"eq": "y = b + mx",
+"ref": "learn",
+"l": [
+[
+"b",
+"the starting amount (when x = 0)",
+"150"
+],
+[
+"m",
+"change for each 1 of x (here it goes down)",
+"−5"
+],
+[
+"x",
+"the input",
+"unknown"
+]
+]
+}
+],
+"lin2-17": [
+{
+"n": "Linear model",
+"eq": "y = b + mx",
+"ref": "learn",
+"l": [
+[
+"b",
+"the starting amount (when x = 0)",
+"300"
+],
+[
+"m",
+"change for each 1 of x (here it goes down)",
+"−4"
+],
+[
+"x",
+"the input",
+"unknown"
+]
+]
+}
+],
+"lin2-18": [
+{
+"n": "Linear model",
+"eq": "y = b + mx",
+"ref": "learn",
+"l": [
+[
+"b",
+"the starting amount (when x = 0)",
+"480"
+],
+[
+"m",
+"change for each 1 of x (here it goes down)",
+"−5"
+],
+[
+"x",
+"the input",
+"unknown"
+]
+]
+}
+],
+"lin2-19": [
+{
+"n": "Linear model",
+"eq": "y = b + mx",
+"ref": "learn",
+"l": [
+[
+"b",
+"the starting amount (when x = 0)",
+"480"
+],
+[
+"m",
+"change for each 1 of x (here it goes down)",
+"−12"
+],
+[
+"x",
+"the input",
+"unknown"
+]
+]
+}
+],
+"lin2-20": [
+{
+"n": "Linear model",
+"eq": "y = b + mx",
+"ref": "learn",
+"l": [
+[
+"b",
+"the starting amount (when x = 0)",
+"300"
+],
+[
+"m",
+"change for each 1 of x (here it goes down)",
+"−6"
+],
+[
+"x",
+"the input",
+"unknown"
+]
+]
+}
+],
+"linf-01": [
+{
+"n": "Evaluate a function",
+"eq": "f(x) = mx + b → replace every x with the number",
+"ref": "rule",
+"l": [
+[
+"x",
+"the input",
+"6"
+],
+[
+"m",
+"number in front of x",
+"9"
+],
+[
+"b",
+"number added",
+"13"
+]
+]
+}
+],
+"linf-02": [
+{
+"n": "Evaluate a function",
+"eq": "f(x) = mx + b → replace every x with the number",
+"ref": "rule",
+"l": [
+[
+"x",
+"the input",
+"1"
+],
+[
+"m",
+"number in front of x",
+"3"
+],
+[
+"b",
+"number added",
+"10"
+]
+]
+}
+],
+"linf-03": [
+{
+"n": "Evaluate a function",
+"eq": "f(x) = mx + b → replace every x with the number",
+"ref": "rule",
+"l": [
+[
+"x",
+"the input",
+"8"
+],
+[
+"m",
+"number in front of x",
+"9"
+],
+[
+"b",
+"number added",
+"0"
+]
+]
+}
+],
+"linf-04": [
+{
+"n": "Evaluate a function",
+"eq": "f(x) = mx + b → replace every x with the number",
+"ref": "rule",
+"l": [
+[
+"x",
+"the input",
+"−4"
+],
+[
+"m",
+"number in front of x",
+"3"
+],
+[
+"b",
+"number added",
+"5"
+]
+]
+}
+],
+"linf-05": [
+{
+"n": "Slope from two points",
+"eq": "m = (y₂ − y₁) ÷ (x₂ − x₁)",
+"ref": "learn",
+"l": [
+[
+"m",
+"slope = rise ÷ run",
+"what we find"
+],
+[
+"(x₁, y₁)",
+"first point",
+"(−3, −3)"
+],
+[
+"(x₂, y₂)",
+"second point",
+"(−1, −9)"
+]
+]
+}
+],
+"linf-06": [
+{
+"n": "Slope from two points",
+"eq": "m = (y₂ − y₁) ÷ (x₂ − x₁)",
+"ref": "learn",
+"l": [
+[
+"m",
+"slope = rise ÷ run",
+"what we find"
+],
+[
+"(x₁, y₁)",
+"first point",
+"(3, −2)"
+],
+[
+"(x₂, y₂)",
+"second point",
+"(6, 7)"
+]
+]
+}
+],
+"linf-07": [
+{
+"n": "Slope from two points",
+"eq": "m = (y₂ − y₁) ÷ (x₂ − x₁)",
+"ref": "learn",
+"l": [
+[
+"m",
+"slope = rise ÷ run",
+"what we find"
+],
+[
+"(x₁, y₁)",
+"first point",
+"(1, −3)"
+],
+[
+"(x₂, y₂)",
+"second point",
+"(4, −12)"
+]
+]
+}
+],
+"linf-08": [
+{
+"n": "Slope from two points",
+"eq": "m = (y₂ − y₁) ÷ (x₂ − x₁)",
+"ref": "learn",
+"l": [
+[
+"m",
+"slope = rise ÷ run",
+"what we find"
+],
+[
+"(x₁, y₁)",
+"first point",
+"(−2, 3)"
+],
+[
+"(x₂, y₂)",
+"second point",
+"(1, 7)"
+]
+]
+}
+],
+"linf-09": [
+{
+"n": "Slope-intercept form",
+"eq": "f(x) = mx + b",
+"ref": "learn",
+"l": [
+[
+"b",
+"f(x) when x = 0 (the start)",
+"9"
+],
+[
+"m",
+"how much f(x) changes each time x goes up 1",
+"−2"
+]
+]
+}
+],
+"linf-10": [
+{
+"n": "Slope-intercept form",
+"eq": "f(x) = mx + b",
+"ref": "learn",
+"l": [
+[
+"b",
+"f(x) when x = 0 (the start)",
+"10"
+],
+[
+"m",
+"how much f(x) changes each time x goes up 1",
+"3"
+]
+]
+}
+],
+"linf-11": [
+{
+"n": "Slope-intercept form",
+"eq": "f(x) = mx + b",
+"ref": "learn",
+"l": [
+[
+"b",
+"f(x) when x = 0 (the start)",
+"10"
+],
+[
+"m",
+"how much f(x) changes each time x goes up 1",
+"5"
+]
+]
+}
+],
+"linf-12": [
+{
+"n": "Slope-intercept form",
+"eq": "f(x) = mx + b",
+"ref": "learn",
+"l": [
+[
+"b",
+"f(x) when x = 0 (the start)",
+"−5"
+],
+[
+"m",
+"how much f(x) changes each time x goes up 1",
+"4"
+]
+]
+}
+],
+"linf-13": [
+{
+"n": "Slope from two points",
+"eq": "m = (y₂ − y₁) ÷ (x₂ − x₁)",
+"ref": "learn",
+"l": [
+[
+"(x₁, y₁)",
+"first point",
+"(−1, −11)"
+],
+[
+"(x₂, y₂)",
+"second point",
+"(3, 9)"
+]
+]
+},
+{
+"n": "Slope-intercept form",
+"eq": "f(x) = mx + b",
+"ref": "learn",
+"l": [
+[
+"m",
+"slope",
+"from step 1"
+],
+[
+"b",
+"f(0), the start",
+"from step 2"
+]
+]
+}
+],
+"linf-14": [
+{
+"n": "Slope from two points",
+"eq": "m = (y₂ − y₁) ÷ (x₂ − x₁)",
+"ref": "learn",
+"l": [
+[
+"(x₁, y₁)",
+"first point",
+"(7, 21)"
+],
+[
+"(x₂, y₂)",
+"second point",
+"(−2, −15)"
+]
+]
+},
+{
+"n": "Slope-intercept form",
+"eq": "f(x) = mx + b",
+"ref": "learn",
+"l": [
+[
+"m",
+"slope",
+"from step 1"
+],
+[
+"b",
+"f(0), the start",
+"from step 2"
+]
+]
+}
+],
+"linf-15": [
+{
+"n": "Slope from two points",
+"eq": "m = (y₂ − y₁) ÷ (x₂ − x₁)",
+"ref": "learn",
+"l": [
+[
+"(x₁, y₁)",
+"first point",
+"(−2, 1)"
+],
+[
+"(x₂, y₂)",
+"second point",
+"(6, 41)"
+]
+]
+},
+{
+"n": "Slope-intercept form",
+"eq": "f(x) = mx + b",
+"ref": "learn",
+"l": [
+[
+"m",
+"slope",
+"from step 1"
+],
+[
+"b",
+"f(0), the start",
+"from step 2"
+]
+]
+}
+],
+"linf-16": [
+{
+"n": "Slope from two points",
+"eq": "m = (y₂ − y₁) ÷ (x₂ − x₁)",
+"ref": "learn",
+"l": [
+[
+"(x₁, y₁)",
+"first point",
+"(1, 0)"
+],
+[
+"(x₂, y₂)",
+"second point",
+"(−3, 8)"
+]
+]
+},
+{
+"n": "Slope-intercept form",
+"eq": "f(x) = mx + b",
+"ref": "learn",
+"l": [
+[
+"m",
+"slope",
+"from step 1"
+],
+[
+"b",
+"f(0), the start",
+"from step 2"
+]
+]
+}
+],
+"linf-17": [
+{
+"n": "Slope of Ax + By = C",
+"eq": "m = −A ÷ B",
+"ref": "learn",
+"l": [
+[
+"A",
+"number in front of x",
+"5"
+],
+[
+"B",
+"number in front of y",
+"17"
+]
+]
+},
+{
+"n": "Perpendicular slopes",
+"eq": "Flip the fraction and change the sign (negative reciprocal).",
+"ref": "rule",
+"l": []
+}
+],
+"linf-18": [
+{
+"n": "Slope of Ax + By = C",
+"eq": "m = −A ÷ B",
+"ref": "learn",
+"l": [
+[
+"A",
+"number in front of x",
+"4"
+],
+[
+"B",
+"number in front of y",
+"3"
+]
+]
+},
+{
+"n": "Perpendicular slopes",
+"eq": "Flip the fraction and change the sign (negative reciprocal).",
+"ref": "rule",
+"l": []
+}
+],
+"linf-19": [
+{
+"n": "Slope of Ax + By = C",
+"eq": "m = −A ÷ B",
+"ref": "learn",
+"l": [
+[
+"A",
+"number in front of x",
+"5"
+],
+[
+"B",
+"number in front of y",
+"3"
+]
+]
+},
+{
+"n": "Perpendicular slopes",
+"eq": "Flip the fraction and change the sign (negative reciprocal).",
+"ref": "rule",
+"l": []
+}
+],
+"linf-20": [
+{
+"n": "Slope of Ax + By = C",
+"eq": "m = −A ÷ B",
+"ref": "learn",
+"l": [
+[
+"A",
+"number in front of x",
+"13"
+],
+[
+"B",
+"number in front of y",
+"6"
+]
+]
+},
+{
+"n": "Perpendicular slopes",
+"eq": "Flip the fraction and change the sign (negative reciprocal).",
+"ref": "rule",
+"l": []
+}
+],
+"sys-01": [
+{
+"n": "Substitution",
+"eq": "The first equation says what y equals. Put that whole expression in for y in the second equation.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-02": [
+{
+"n": "Substitution",
+"eq": "The first equation says what y equals. Put that whole expression in for y in the second equation.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-03": [
+{
+"n": "Substitution",
+"eq": "The first equation says what y equals. Put that whole expression in for y in the second equation.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-04": [
+{
+"n": "Substitution",
+"eq": "The first equation says what y equals. Put that whole expression in for y in the second equation.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-05": [
+{
+"n": "Count equation",
+"eq": "a + c = total tickets",
+"ref": "rule",
+"l": [
+[
+"a",
+"adult tickets",
+"unknown"
+],
+[
+"c",
+"child tickets",
+"unknown"
+],
+[
+"total",
+"tickets sold",
+"52"
+]
+]
+},
+{
+"n": "Money equation",
+"eq": "(adult price)a + (child price)c = total money",
+"ref": "rule",
+"l": [
+[
+"prices",
+"adult, child",
+"$15, $6"
+],
+[
+"total money",
+"all ticket sales",
+"$546"
+]
+]
+}
+],
+"sys-06": [
+{
+"n": "Count equation",
+"eq": "a + c = total tickets",
+"ref": "rule",
+"l": [
+[
+"a",
+"adult tickets",
+"unknown"
+],
+[
+"c",
+"child tickets",
+"unknown"
+],
+[
+"total",
+"tickets sold",
+"42"
+]
+]
+},
+{
+"n": "Money equation",
+"eq": "(adult price)a + (child price)c = total money",
+"ref": "rule",
+"l": [
+[
+"prices",
+"adult, child",
+"$15, $9"
+],
+[
+"total money",
+"all ticket sales",
+"$486"
+]
+]
+}
+],
+"sys-07": [
+{
+"n": "Count equation",
+"eq": "a + c = total tickets",
+"ref": "rule",
+"l": [
+[
+"a",
+"adult tickets",
+"unknown"
+],
+[
+"c",
+"child tickets",
+"unknown"
+],
+[
+"total",
+"tickets sold",
+"55"
+]
+]
+},
+{
+"n": "Money equation",
+"eq": "(adult price)a + (child price)c = total money",
+"ref": "rule",
+"l": [
+[
+"prices",
+"adult, child",
+"$18, $10"
+],
+[
+"total money",
+"all ticket sales",
+"$782"
+]
+]
+}
+],
+"sys-08": [
+{
+"n": "Count equation",
+"eq": "a + c = total tickets",
+"ref": "rule",
+"l": [
+[
+"a",
+"adult tickets",
+"unknown"
+],
+[
+"c",
+"child tickets",
+"unknown"
+],
+[
+"total",
+"tickets sold",
+"42"
+]
+]
+},
+{
+"n": "Money equation",
+"eq": "(adult price)a + (child price)c = total money",
+"ref": "rule",
+"l": [
+[
+"prices",
+"adult, child",
+"$14, $10"
+],
+[
+"total money",
+"all ticket sales",
+"$536"
+]
+]
+}
+],
+"sys-09": [
+{
+"n": "Count equation",
+"eq": "a + c = total tickets",
+"ref": "rule",
+"l": [
+[
+"a",
+"adult tickets",
+"unknown"
+],
+[
+"c",
+"child tickets",
+"unknown"
+],
+[
+"total",
+"tickets sold",
+"90"
+]
+]
+},
+{
+"n": "Money equation",
+"eq": "(adult price)a + (child price)c = total money",
+"ref": "rule",
+"l": [
+[
+"prices",
+"adult, child",
+"$12, $10"
+],
+[
+"total money",
+"all ticket sales",
+"$1,030"
+]
+]
+}
+],
+"sys-10": [
+{
+"n": "Elimination",
+"eq": "Add the two equations: +4y and −4y cancel, leaving only x.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-11": [
+{
+"n": "Elimination",
+"eq": "Add the two equations: +4y and −4y cancel, leaving only x.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-12": [
+{
+"n": "Elimination",
+"eq": "Add the two equations: +4y and −4y cancel, leaving only x.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-13": [
+{
+"n": "Elimination",
+"eq": "Add the two equations: +4y and −4y cancel, leaving only x.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-14": [
+{
+"n": "Slope of Ax + By = C",
+"eq": "m = −A ÷ B",
+"ref": "learn",
+"l": [
+[
+"A",
+"number in front of x",
+"a and 3"
+],
+[
+"B",
+"number in front of y",
+"6 and 2"
+]
+]
+},
+{
+"n": "No solution",
+"eq": "Parallel lines (same slope, different line) never cross, so the system has no solution.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-15": [
+{
+"n": "Slope of Ax + By = C",
+"eq": "m = −A ÷ B",
+"ref": "learn",
+"l": [
+[
+"A",
+"number in front of x",
+"a and 9"
+],
+[
+"B",
+"number in front of y",
+"8 and 12"
+]
+]
+},
+{
+"n": "No solution",
+"eq": "Parallel lines (same slope, different line) never cross, so the system has no solution.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-16": [
+{
+"n": "Slope of Ax + By = C",
+"eq": "m = −A ÷ B",
+"ref": "learn",
+"l": [
+[
+"A",
+"number in front of x",
+"a and 9"
+],
+[
+"B",
+"number in front of y",
+"4 and 12"
+]
+]
+},
+{
+"n": "No solution",
+"eq": "Parallel lines (same slope, different line) never cross, so the system has no solution.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-17": [
+{
+"n": "Slope of Ax + By = C",
+"eq": "m = −A ÷ B",
+"ref": "learn",
+"l": [
+[
+"A",
+"number in front of x",
+"a and 3"
+],
+[
+"B",
+"number in front of y",
+"4 and 12"
+]
+]
+},
+{
+"n": "No solution",
+"eq": "Parallel lines (same slope, different line) never cross, so the system has no solution.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-18": [
+{
+"n": "Elimination",
+"eq": "Add the two equations: +y and −y cancel, leaving only x.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-19": [
+{
+"n": "Elimination",
+"eq": "Add the two equations: +y and −y cancel, leaving only x.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-20": [
+{
+"n": "Elimination",
+"eq": "Add the two equations: +y and −y cancel, leaving only x.",
+"ref": "rule",
+"l": []
+}
+],
+"ineq-01": [
+{
+"n": "Solve an inequality",
+"eq": "Solve it like an equation. Dividing by a POSITIVE number keeps the sign.",
+"ref": "rule",
+"l": []
+}
+],
+"ineq-02": [
+{
+"n": "Solve an inequality",
+"eq": "Solve it like an equation. Dividing by a POSITIVE number keeps the sign.",
+"ref": "rule",
+"l": []
+}
+],
+"ineq-03": [
+{
+"n": "Solve an inequality",
+"eq": "Solve it like an equation. Dividing by a POSITIVE number keeps the sign.",
+"ref": "rule",
+"l": []
+}
+],
+"ineq-04": [
+{
+"n": "Solve an inequality",
+"eq": "Solve it like an equation. Dividing by a POSITIVE number keeps the sign.",
+"ref": "rule",
+"l": []
+}
+],
+"ineq-05": [
+{
+"n": "Flip rule",
+"eq": "When you multiply or divide by a NEGATIVE number, flip the inequality sign.",
+"ref": "rule",
+"l": []
+}
+],
+"ineq-06": [
+{
+"n": "Flip rule",
+"eq": "When you multiply or divide by a NEGATIVE number, flip the inequality sign.",
+"ref": "rule",
+"l": []
+}
+],
+"ineq-07": [
+{
+"n": "Flip rule",
+"eq": "When you multiply or divide by a NEGATIVE number, flip the inequality sign.",
+"ref": "rule",
+"l": []
+}
+],
+"ineq-08": [
+{
+"n": "Flip rule",
+"eq": "When you multiply or divide by a NEGATIVE number, flip the inequality sign.",
+"ref": "rule",
+"l": []
+}
+],
+"ineq-09": [
+{
+"n": "Cost inequality",
+"eq": "fixed cost + rate × g ≤ budget",
+"ref": "rule",
+"l": [
+[
+"fixed cost",
+"monthly charge",
+"$30"
+],
+[
+"rate",
+"cost per GB",
+"$4"
+],
+[
+"g",
+"GB of data",
+"what we find"
+],
+[
+"budget",
+"the most to spend",
+"$73"
+]
+]
+}
+],
+"ineq-10": [
+{
+"n": "Cost inequality",
+"eq": "fixed cost + rate × g ≤ budget",
+"ref": "rule",
+"l": [
+[
+"fixed cost",
+"monthly charge",
+"$20"
+],
+[
+"rate",
+"cost per GB",
+"$6"
+],
+[
+"g",
+"GB of data",
+"what we find"
+],
+[
+"budget",
+"the most to spend",
+"$66"
+]
+]
+}
+],
+"ineq-11": [
+{
+"n": "Cost inequality",
+"eq": "fixed cost + rate × g ≤ budget",
+"ref": "rule",
+"l": [
+[
+"fixed cost",
+"monthly charge",
+"$35"
+],
+[
+"rate",
+"cost per GB",
+"$8"
+],
+[
+"g",
+"GB of data",
+"what we find"
+],
+[
+"budget",
+"the most to spend",
+"$114"
+]
+]
+}
+],
+"ineq-12": [
+{
+"n": "Cost inequality",
+"eq": "fixed cost + rate × g ≤ budget",
+"ref": "rule",
+"l": [
+[
+"fixed cost",
+"monthly charge",
+"$20"
+],
+[
+"rate",
+"cost per GB",
+"$8"
+],
+[
+"g",
+"GB of data",
+"what we find"
+],
+[
+"budget",
+"the most to spend",
+"$103"
+]
+]
+}
+],
+"ineq-13": [
+{
+"n": "Total time",
+"eq": "first part + second part > total",
+"ref": "rule",
+"l": [
+[
+"w",
+"first part (minutes)",
+"unknown"
+],
+[
+"second part",
+"minutes",
+"9"
+],
+[
+"more than",
+"means >",
+"26"
+]
+]
+}
+],
+"ineq-14": [
+{
+"n": "Total time",
+"eq": "first part + second part > total",
+"ref": "rule",
+"l": [
+[
+"w",
+"first part (minutes)",
+"unknown"
+],
+[
+"second part",
+"minutes",
+"11"
+],
+[
+"more than",
+"means >",
+"24"
+]
+]
+}
+],
+"ineq-15": [
+{
+"n": "Total time",
+"eq": "first part + second part > total",
+"ref": "rule",
+"l": [
+[
+"w",
+"first part (minutes)",
+"unknown"
+],
+[
+"second part",
+"minutes",
+"14"
+],
+[
+"more than",
+"means >",
+"34"
+]
+]
+}
+],
+"ineq-16": [
+{
+"n": "Total time",
+"eq": "first part + second part > total",
+"ref": "rule",
+"l": [
+[
+"w",
+"first part (minutes)",
+"unknown"
+],
+[
+"second part",
+"minutes",
+"5"
+],
+[
+"more than",
+"means >",
+"21"
+]
+]
+}
+],
+"ineq-17": [
+{
+"n": "Test a point",
+"eq": "Plug the point’s x and y into the inequality. It works only if the statement is true. On the line does not count for >.",
+"ref": "rule",
+"l": []
+}
+],
+"ineq-18": [
+{
+"n": "Test a point",
+"eq": "Plug the point’s x and y into the inequality. It works only if the statement is true. On the line does not count for >.",
+"ref": "rule",
+"l": []
+}
+],
+"ineq-19": [
+{
+"n": "Test a point",
+"eq": "Plug the point’s x and y into the inequality. It works only if the statement is true. On the line does not count for >.",
+"ref": "rule",
+"l": []
+}
+],
+"ineq-20": [
+{
+"n": "Test a point",
+"eq": "Plug the point’s x and y into the inequality. It works only if the statement is true. On the line does not count for >.",
+"ref": "rule",
+"l": []
+}
+],
+"equiv-01": [
+{
+"n": "FOIL",
+"eq": "(x + a)(x + b) = x² + (a + b)x + ab: First, Outer + Inner, Last.",
+"ref": "rule",
+"l": []
+}
+],
+"equiv-02": [
+{
+"n": "FOIL",
+"eq": "(x + a)(x + b) = x² + (a + b)x + ab: First, Outer + Inner, Last.",
+"ref": "rule",
+"l": []
+}
+],
+"equiv-03": [
+{
+"n": "FOIL",
+"eq": "(x + a)(x + b) = x² + (a + b)x + ab: First, Outer + Inner, Last.",
+"ref": "rule",
+"l": []
+}
+],
+"equiv-04": [
+{
+"n": "FOIL",
+"eq": "(x + a)(x + b) = x² + (a + b)x + ab: First, Outer + Inner, Last.",
+"ref": "rule",
+"l": []
+}
+],
+"equiv-05": [
+{
+"n": "Factor x² + bx + c",
+"eq": "Find two numbers that multiply to c and add to b. They go in (x + _)(x + _).",
+"ref": "rule",
+"l": []
+}
+],
+"equiv-06": [
+{
+"n": "Difference of squares",
+"eq": "a² − b² = (a − b)(a + b)",
+"ref": "learn",
+"l": [
+[
+"a",
+"square root of the first term",
+"unknown"
+],
+[
+"b",
+"square root of the second number",
+"9"
+]
+]
+}
+],
+"equiv-07": [
+{
+"n": "Difference of squares",
+"eq": "a² − b² = (a − b)(a + b)",
+"ref": "learn",
+"l": [
+[
+"a",
+"square root of the first term",
+"unknown"
+],
+[
+"b",
+"square root of the second number",
+"3"
+]
+]
+}
+],
+"equiv-08": [
+{
+"n": "Factor x² + bx + c",
+"eq": "Find two numbers that multiply to c and add to b. They go in (x + _)(x + _).",
+"ref": "rule",
+"l": []
+}
+],
+"equiv-09": [
+{
+"n": "Power of a power",
+"eq": "(xᵃ)ᵇ = xᵃᵇ: multiply the exponents.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Same base, multiply",
+"eq": "xᵃ · xᵇ = xᵃ⁺ᵇ: add the exponents.",
+"ref": "rule",
+"l": []
+}
+],
+"equiv-10": [
+{
+"n": "Power of a power",
+"eq": "(xᵃ)ᵇ = xᵃᵇ: multiply the exponents.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Same base, multiply",
+"eq": "xᵃ · xᵇ = xᵃ⁺ᵇ: add the exponents.",
+"ref": "rule",
+"l": []
+}
+],
+"equiv-11": [
+{
+"n": "Power of a power",
+"eq": "(xᵃ)ᵇ = xᵃᵇ: multiply the exponents.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Same base, multiply",
+"eq": "xᵃ · xᵇ = xᵃ⁺ᵇ: add the exponents.",
+"ref": "rule",
+"l": []
+}
+],
+"equiv-12": [
+{
+"n": "Power of a power",
+"eq": "(xᵃ)ᵇ = xᵃᵇ: multiply the exponents.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Same base, multiply",
+"eq": "xᵃ · xᵇ = xᵃ⁺ᵇ: add the exponents.",
+"ref": "rule",
+"l": []
+}
+],
+"equiv-13": [
+{
+"n": "Match coefficients",
+"eq": "Two equal polynomials have the same number in front of x², of x, and alone.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "FOIL",
+"eq": "First terms multiply to the x² term.",
+"ref": "rule",
+"l": []
+}
+],
+"equiv-14": [
+{
+"n": "Match coefficients",
+"eq": "Two equal polynomials have the same number in front of x², of x, and alone.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "FOIL",
+"eq": "First terms multiply to the x² term.",
+"ref": "rule",
+"l": []
+}
+],
+"equiv-15": [
+{
+"n": "Match coefficients",
+"eq": "Two equal polynomials have the same number in front of x², of x, and alone.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "FOIL",
+"eq": "First terms multiply to the x² term.",
+"ref": "rule",
+"l": []
+}
+],
+"equiv-16": [
+{
+"n": "Match coefficients",
+"eq": "Two equal polynomials have the same number in front of x², of x, and alone.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "FOIL",
+"eq": "First terms multiply to the x² term.",
+"ref": "rule",
+"l": []
+}
+],
+"equiv-17": [
+{
+"n": "Root as a power",
+"eq": "ⁿ√(xᵐ) = x^(m/n)",
+"ref": "learn",
+"l": [
+[
+"n",
+"which root",
+"4"
+],
+[
+"m",
+"the power inside",
+"the exponent on x"
+]
+]
+}
+],
+"equiv-18": [
+{
+"n": "Root as a power",
+"eq": "ⁿ√(xᵐ) = x^(m/n)",
+"ref": "learn",
+"l": [
+[
+"n",
+"which root",
+"3"
+],
+[
+"m",
+"the power inside",
+"the exponent on x"
+]
+]
+}
+],
+"equiv-19": [
+{
+"n": "Root as a power",
+"eq": "ⁿ√(xᵐ) = x^(m/n)",
+"ref": "learn",
+"l": [
+[
+"n",
+"which root",
+"4"
+],
+[
+"m",
+"the power inside",
+"the exponent on x"
+]
+]
+}
+],
+"equiv-20": [
+{
+"n": "Root as a power",
+"eq": "ⁿ√(xᵐ) = x^(m/n)",
+"ref": "learn",
+"l": [
+[
+"n",
+"which root",
+"5"
+],
+[
+"m",
+"the power inside",
+"the exponent on x"
+]
+]
+}
+],
+"nleq-01": [
+{
+"n": "Undo a square",
+"eq": "Get x² alone, then take the square root of both sides: x = ± √(number).",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-02": [
+{
+"n": "Undo a square",
+"eq": "Get x² alone, then take the square root of both sides: x = ± √(number).",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-03": [
+{
+"n": "Undo a square",
+"eq": "Get x² alone, then take the square root of both sides: x = ± √(number).",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-04": [
+{
+"n": "Undo a square",
+"eq": "Get x² alone, then take the square root of both sides: x = ± √(number).",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-05": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-06": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-07": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-08": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-09": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-10": [
+{
+"n": "Vertex form",
+"eq": "y = (x − h)² + k",
+"ref": "learn",
+"l": [
+[
+"k",
+"lowest point of the parabola (the vertex y)",
+"−3"
+],
+[
+"line",
+"the flat line",
+"y = 1"
+]
+]
+},
+{
+"n": "Count crossings",
+"eq": "Line above the vertex: 2. At the vertex: 1. Below: 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-11": [
+{
+"n": "Vertex form",
+"eq": "y = (x − h)² + k",
+"ref": "learn",
+"l": [
+[
+"k",
+"lowest point of the parabola (the vertex y)",
+"−4"
+],
+[
+"line",
+"the flat line",
+"y = −4"
+]
+]
+},
+{
+"n": "Count crossings",
+"eq": "Line above the vertex: 2. At the vertex: 1. Below: 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-12": [
+{
+"n": "Vertex form",
+"eq": "y = (x − h)² + k",
+"ref": "learn",
+"l": [
+[
+"k",
+"lowest point of the parabola (the vertex y)",
+"−4"
+],
+[
+"line",
+"the flat line",
+"y = −7"
+]
+]
+},
+{
+"n": "Count crossings",
+"eq": "Line above the vertex: 2. At the vertex: 1. Below: 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-13": [
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front of x²",
+"1"
+],
+[
+"b",
+"number in front of x",
+"unknown"
+],
+[
+"c",
+"plain number",
+"25"
+],
+[
+"< 0",
+"no real solutions",
+""
+],
+[
+"= 0",
+"one solution",
+""
+]
+]
+}
+],
+"nleq-14": [
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front of x²",
+"1"
+],
+[
+"b",
+"number in front of x",
+"unknown"
+],
+[
+"c",
+"plain number",
+"16"
+],
+[
+"< 0",
+"no real solutions",
+""
+],
+[
+"= 0",
+"one solution",
+""
+]
+]
+}
+],
+"nleq-15": [
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front of x²",
+"1"
+],
+[
+"b",
+"number in front of x",
+"unknown"
+],
+[
+"c",
+"plain number",
+"81"
+],
+[
+"< 0",
+"no real solutions",
+""
+],
+[
+"= 0",
+"one solution",
+""
+]
+]
+}
+],
+"nleq-16": [
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front of x²",
+"1"
+],
+[
+"b",
+"number in front of x",
+"unknown"
+],
+[
+"c",
+"plain number",
+"25"
+],
+[
+"< 0",
+"no real solutions",
+""
+],
+[
+"= 0",
+"one solution",
+""
+]
+]
+}
+],
+"nleq-17": [
+{
+"n": "Set equal",
+"eq": "Both equations equal y, so set x² = the other side. Move everything to one side and factor.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-18": [
+{
+"n": "Set equal",
+"eq": "Both equations equal y, so set x² = the other side. Move everything to one side and factor.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-19": [
+{
+"n": "Set equal",
+"eq": "Both equations equal y, so set x² = the other side. Move everything to one side and factor.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-20": [
+{
+"n": "Set equal",
+"eq": "Both equations equal y, so set x² = the other side. Move everything to one side and factor.",
+"ref": "rule",
+"l": []
+}
+],
+"nlf-01": [
+{
+"n": "Order of operations",
+"eq": "Square first, then multiply, then subtract. (−a)² is positive.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "The function",
+"eq": "f(x) = 2x² − 8",
+"ref": "rule",
+"l": [
+[
+"x",
+"the input",
+"−5"
+]
+]
+}
+],
+"nlf-02": [
+{
+"n": "Order of operations",
+"eq": "Square first, then multiply, then subtract. (−a)² is positive.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "The function",
+"eq": "f(x) = 3x² − 9",
+"ref": "rule",
+"l": [
+[
+"x",
+"the input",
+"−3"
+]
+]
+}
+],
+"nlf-03": [
+{
+"n": "Order of operations",
+"eq": "Square first, then multiply, then subtract. (−a)² is positive.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "The function",
+"eq": "f(x) = 4x² − 6",
+"ref": "rule",
+"l": [
+[
+"x",
+"the input",
+"−3"
+]
+]
+}
+],
+"nlf-04": [
+{
+"n": "Order of operations",
+"eq": "Square first, then multiply, then subtract. (−a)² is positive.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "The function",
+"eq": "f(x) = 2x² − 6",
+"ref": "rule",
+"l": [
+[
+"x",
+"the input",
+"−4"
+]
+]
+}
+],
+"nlf-05": [
+{
+"n": "Exponential growth/decay",
+"eq": "P(t) = start × (1 ± r)ᵗ",
+"ref": "learn",
+"l": [
+[
+"start",
+"amount at t = 0",
+"2,800"
+],
+[
+"r",
+"percent as a decimal",
+"0.06"
+],
+[
+"±",
+"+ for increase, − for decrease",
+"−"
+],
+[
+"t",
+"years",
+"unknown"
+]
+]
+}
+],
+"nlf-06": [
+{
+"n": "Exponential growth/decay",
+"eq": "P(t) = start × (1 ± r)ᵗ",
+"ref": "learn",
+"l": [
+[
+"start",
+"amount at t = 0",
+"500"
+],
+[
+"r",
+"percent as a decimal",
+"0.06"
+],
+[
+"±",
+"+ for increase, − for decrease",
+"−"
+],
+[
+"t",
+"years",
+"unknown"
+]
+]
+}
+],
+"nlf-07": [
+{
+"n": "Exponential growth/decay",
+"eq": "P(t) = start × (1 ± r)ᵗ",
+"ref": "learn",
+"l": [
+[
+"start",
+"amount at t = 0",
+"2,000"
+],
+[
+"r",
+"percent as a decimal",
+"0.12"
+],
+[
+"±",
+"+ for increase, − for decrease",
+"+"
+],
+[
+"t",
+"years",
+"unknown"
+]
+]
+}
+],
+"nlf-08": [
+{
+"n": "Exponential growth/decay",
+"eq": "P(t) = start × (1 ± r)ᵗ",
+"ref": "learn",
+"l": [
+[
+"start",
+"amount at t = 0",
+"2,800"
+],
+[
+"r",
+"percent as a decimal",
+"0.04"
+],
+[
+"±",
+"+ for increase, − for decrease",
+"+"
+],
+[
+"t",
+"years",
+"unknown"
+]
+]
+}
+],
+"nlf-09": [
+{
+"n": "Vertex form",
+"eq": "f(x) = a(x − h)² + k",
+"ref": "learn",
+"l": [
+[
+"(h, k)",
+"the vertex",
+"(4, −4)"
+],
+[
+"k",
+"the max or min VALUE",
+"−4"
+],
+[
+"a",
+"positive: opens up (min). negative: opens down (max)",
+"−1"
+]
+]
+}
+],
+"nlf-10": [
+{
+"n": "Vertex form",
+"eq": "f(x) = a(x − h)² + k",
+"ref": "learn",
+"l": [
+[
+"(h, k)",
+"the vertex",
+"(5, 7)"
+],
+[
+"k",
+"the max or min VALUE",
+"7"
+],
+[
+"a",
+"positive: opens up (min). negative: opens down (max)",
+"1"
+]
+]
+}
+],
+"nlf-11": [
+{
+"n": "Vertex form",
+"eq": "f(x) = a(x − h)² + k",
+"ref": "learn",
+"l": [
+[
+"(h, k)",
+"the vertex",
+"(5, 5)"
+],
+[
+"k",
+"the max or min VALUE",
+"5"
+],
+[
+"a",
+"positive: opens up (min). negative: opens down (max)",
+"3"
+]
+]
+}
+],
+"nlf-12": [
+{
+"n": "Vertex form",
+"eq": "f(x) = a(x − h)² + k",
+"ref": "learn",
+"l": [
+[
+"(h, k)",
+"the vertex",
+"(5, 2)"
+],
+[
+"k",
+"the max or min VALUE",
+"2"
+],
+[
+"a",
+"positive: opens up (min). negative: opens down (max)",
+"3"
+]
+]
+}
+],
+"nlf-13": [
+{
+"n": "Evaluate an exponential",
+"eq": "Do the power first, then multiply by the starting value.",
+"ref": "rule",
+"l": []
+}
+],
+"nlf-14": [
+{
+"n": "Evaluate an exponential",
+"eq": "Do the power first, then multiply by the starting value.",
+"ref": "rule",
+"l": []
+}
+],
+"nlf-15": [
+{
+"n": "Evaluate an exponential",
+"eq": "Do the power first, then multiply by the starting value.",
+"ref": "rule",
+"l": []
+}
+],
+"nlf-16": [
+{
+"n": "Evaluate an exponential",
+"eq": "Do the power first, then multiply by the starting value.",
+"ref": "rule",
+"l": []
+}
+],
+"nlf-17": [
+{
+"n": "Standard form",
+"eq": "f(x) = ax² + bx + c",
+"ref": "learn",
+"l": [
+[
+"c",
+"the y-intercept (value when x = 0)",
+"visible after expanding"
+]
+]
+}
+],
+"nlf-18": [
+{
+"n": "Standard form",
+"eq": "f(x) = ax² + bx + c",
+"ref": "learn",
+"l": [
+[
+"c",
+"the y-intercept (value when x = 0)",
+"visible after expanding"
+]
+]
+}
+],
+"nlf-19": [
+{
+"n": "Standard form",
+"eq": "f(x) = ax² + bx + c",
+"ref": "learn",
+"l": [
+[
+"c",
+"the y-intercept (value when x = 0)",
+"visible after expanding"
+]
+]
+}
+],
+"nlf-20": [
+{
+"n": "Factored form",
+"eq": "f(x) = a(x − r)(x − s)",
+"ref": "learn",
+"l": [
+[
+"r, s",
+"the x-intercepts (zeros)",
+"from factoring"
+]
+]
+}
+],
+"ratio-01": [
+{
+"n": "Distance, rate, time",
+"eq": "distance = rate × time",
+"ref": "learn",
+"l": [
+[
+"rate",
+"miles per hour = miles ÷ hours",
+"210 ÷ 5"
+],
+[
+"time",
+"hours asked about",
+"9"
+]
+]
+}
+],
+"ratio-02": [
+{
+"n": "Distance, rate, time",
+"eq": "distance = rate × time",
+"ref": "learn",
+"l": [
+[
+"rate",
+"miles per hour = miles ÷ hours",
+"120 ÷ 3"
+],
+[
+"time",
+"hours asked about",
+"4"
+]
+]
+}
+],
+"ratio-03": [
+{
+"n": "Distance, rate, time",
+"eq": "distance = rate × time",
+"ref": "learn",
+"l": [
+[
+"rate",
+"miles per hour = miles ÷ hours",
+"120 ÷ 5"
+],
+[
+"time",
+"hours asked about",
+"6"
+]
+]
+}
+],
+"ratio-04": [
+{
+"n": "Distance, rate, time",
+"eq": "distance = rate × time",
+"ref": "learn",
+"l": [
+[
+"rate",
+"miles per hour = miles ÷ hours",
+"120 ÷ 3"
+],
+[
+"time",
+"hours asked about",
+"6"
+]
+]
+}
+],
+"ratio-05": [
+{
+"n": "Unit conversion",
+"eq": "1 minute = 60 seconds",
+"ref": "learn",
+"l": []
+},
+{
+"n": "Distance",
+"eq": "distance = rate × time",
+"ref": "learn",
+"l": [
+[
+"rate",
+"feet per second",
+"10"
+],
+[
+"time",
+"seconds",
+"1 × 60"
+]
+]
+}
+],
+"ratio-06": [
+{
+"n": "Unit conversion",
+"eq": "1 minute = 60 seconds",
+"ref": "learn",
+"l": []
+},
+{
+"n": "Distance",
+"eq": "distance = rate × time",
+"ref": "learn",
+"l": [
+[
+"rate",
+"feet per second",
+"6"
+],
+[
+"time",
+"seconds",
+"1 × 60"
+]
+]
+}
+],
+"ratio-07": [
+{
+"n": "Unit conversion",
+"eq": "1 minute = 60 seconds",
+"ref": "learn",
+"l": []
+},
+{
+"n": "Distance",
+"eq": "distance = rate × time",
+"ref": "learn",
+"l": [
+[
+"rate",
+"feet per second",
+"8"
+],
+[
+"time",
+"seconds",
+"1 × 60"
+]
+]
+}
+],
+"ratio-08": [
+{
+"n": "Unit conversion",
+"eq": "1 minute = 60 seconds",
+"ref": "learn",
+"l": []
+},
+{
+"n": "Distance",
+"eq": "distance = rate × time",
+"ref": "learn",
+"l": [
+[
+"rate",
+"feet per second",
+"5"
+],
+[
+"time",
+"seconds",
+"1 × 60"
+]
+]
+}
+],
+"ratio-09": [
+{
+"n": "Proportion",
+"eq": "a/b = x/d → cross multiply",
+"ref": "learn",
+"l": [
+[
+"a/b",
+"cups per muffins (known)",
+"2/6"
+],
+[
+"x",
+"cups we need",
+"unknown"
+],
+[
+"d",
+"muffins asked about",
+"9"
+]
+]
+}
+],
+"ratio-10": [
+{
+"n": "Proportion",
+"eq": "a/b = x/d → cross multiply",
+"ref": "learn",
+"l": [
+[
+"a/b",
+"cups per muffins (known)",
+"3/6"
+],
+[
+"x",
+"cups we need",
+"unknown"
+],
+[
+"d",
+"muffins asked about",
+"21"
+]
+]
+}
+],
+"ratio-11": [
+{
+"n": "Proportion",
+"eq": "a/b = x/d → cross multiply",
+"ref": "learn",
+"l": [
+[
+"a/b",
+"cups per muffins (known)",
+"4/12"
+],
+[
+"x",
+"cups we need",
+"unknown"
+],
+[
+"d",
+"muffins asked about",
+"18"
+]
+]
+}
+],
+"ratio-12": [
+{
+"n": "Proportion",
+"eq": "a/b = x/d → cross multiply",
+"ref": "learn",
+"l": [
+[
+"a/b",
+"cups per muffins (known)",
+"4/8"
+],
+[
+"x",
+"cups we need",
+"unknown"
+],
+[
+"d",
+"muffins asked about",
+"12"
+]
+]
+}
+],
+"ratio-13": [
+{
+"n": "Ratio parts",
+"eq": "Add the parts, divide the total by the parts to get one part, then multiply.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "One part",
+"eq": "total ÷ (sum of parts)",
+"ref": "rule",
+"l": [
+[
+"parts",
+"boys + girls",
+"2 + 3"
+],
+[
+"total",
+"members",
+"45"
+]
+]
+}
+],
+"ratio-14": [
+{
+"n": "Ratio parts",
+"eq": "Add the parts, divide the total by the parts to get one part, then multiply.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "One part",
+"eq": "total ÷ (sum of parts)",
+"ref": "rule",
+"l": [
+[
+"parts",
+"boys + girls",
+"2 + 3"
+],
+[
+"total",
+"members",
+"55"
+]
+]
+}
+],
+"ratio-15": [
+{
+"n": "Ratio parts",
+"eq": "Add the parts, divide the total by the parts to get one part, then multiply.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "One part",
+"eq": "total ÷ (sum of parts)",
+"ref": "rule",
+"l": [
+[
+"parts",
+"boys + girls",
+"4 + 7"
+],
+[
+"total",
+"members",
+"110"
+]
+]
+}
+],
+"ratio-16": [
+{
+"n": "Ratio parts",
+"eq": "Add the parts, divide the total by the parts to get one part, then multiply.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "One part",
+"eq": "total ÷ (sum of parts)",
+"ref": "rule",
+"l": [
+[
+"parts",
+"boys + girls",
+"2 + 3"
+],
+[
+"total",
+"members",
+"20"
+]
+]
+}
+],
+"ratio-17": [
+{
+"n": "Density",
+"eq": "mass = density × volume",
+"ref": "learn",
+"l": [
+[
+"density",
+"grams per cm³",
+"2.5"
+],
+[
+"volume",
+"cm³",
+"50"
+]
+]
+},
+{
+"n": "Unit conversion",
+"eq": "1 kg = 1,000 g",
+"ref": "learn",
+"l": []
+}
+],
+"ratio-18": [
+{
+"n": "Density",
+"eq": "mass = density × volume",
+"ref": "learn",
+"l": [
+[
+"density",
+"grams per cm³",
+"3"
+],
+[
+"volume",
+"cm³",
+"50"
+]
+]
+},
+{
+"n": "Unit conversion",
+"eq": "1 kg = 1,000 g",
+"ref": "learn",
+"l": []
+}
+],
+"ratio-19": [
+{
+"n": "Density",
+"eq": "mass = density × volume",
+"ref": "learn",
+"l": [
+[
+"density",
+"grams per cm³",
+"8"
+],
+[
+"volume",
+"cm³",
+"50"
+]
+]
+},
+{
+"n": "Unit conversion",
+"eq": "1 kg = 1,000 g",
+"ref": "learn",
+"l": []
+}
+],
+"ratio-20": [
+{
+"n": "Density",
+"eq": "mass = density × volume",
+"ref": "learn",
+"l": [
+[
+"density",
+"grams per cm³",
+"3"
+],
+[
+"volume",
+"cm³",
+"40"
+]
+]
+},
+{
+"n": "Unit conversion",
+"eq": "1 kg = 1,000 g",
+"ref": "learn",
+"l": []
+}
+],
+"pct-01": [
+{
+"n": "Percent of",
+"eq": "p% of N = (p ÷ 100) × N",
+"ref": "learn",
+"l": [
+[
+"p",
+"the percent",
+"35"
+],
+[
+"N",
+"the whole",
+"360"
+]
+]
+}
+],
+"pct-02": [
+{
+"n": "Percent of",
+"eq": "p% of N = (p ÷ 100) × N",
+"ref": "learn",
+"l": [
+[
+"p",
+"the percent",
+"60"
+],
+[
+"N",
+"the whole",
+"80"
+]
+]
+}
+],
+"pct-03": [
+{
+"n": "Percent of",
+"eq": "p% of N = (p ÷ 100) × N",
+"ref": "learn",
+"l": [
+[
+"p",
+"the percent",
+"30"
+],
+[
+"N",
+"the whole",
+"240"
+]
+]
+}
+],
+"pct-04": [
+{
+"n": "Percent of",
+"eq": "p% of N = (p ÷ 100) × N",
+"ref": "learn",
+"l": [
+[
+"p",
+"the percent",
+"20"
+],
+[
+"N",
+"the whole",
+"360"
+]
+]
+}
+],
+"pct-05": [
+{
+"n": "Percent change",
+"eq": "% change = (new − old) ÷ old × 100",
+"ref": "learn",
+"l": [
+[
+"old",
+"starting price",
+"$120"
+],
+[
+"new",
+"ending price",
+"$150"
+]
+]
+}
+],
+"pct-06": [
+{
+"n": "Percent change",
+"eq": "% change = (new − old) ÷ old × 100",
+"ref": "learn",
+"l": [
+[
+"old",
+"starting price",
+"$200"
+],
+[
+"new",
+"ending price",
+"$240"
+]
+]
+}
+],
+"pct-07": [
+{
+"n": "Percent change",
+"eq": "% change = (new − old) ÷ old × 100",
+"ref": "learn",
+"l": [
+[
+"old",
+"starting price",
+"$250"
+],
+[
+"new",
+"ending price",
+"$350"
+]
+]
+}
+],
+"pct-08": [
+{
+"n": "Percent change",
+"eq": "% change = (new − old) ÷ old × 100",
+"ref": "learn",
+"l": [
+[
+"old",
+"starting price",
+"$80"
+],
+[
+"new",
+"ending price",
+"$56"
+]
+]
+}
+],
+"pct-09": [
+{
+"n": "Percent off",
+"eq": "new = old × (1 − p ÷ 100)",
+"ref": "learn",
+"l": [
+[
+"old",
+"price before each markdown",
+"$200"
+],
+[
+"p",
+"each markdown",
+"50%, then 20%"
+]
+]
+},
+{
+"n": "Two discounts",
+"eq": "Apply them one after the other. Never add the percents.",
+"ref": "rule",
+"l": []
+}
+],
+"pct-10": [
+{
+"n": "Percent off",
+"eq": "new = old × (1 − p ÷ 100)",
+"ref": "learn",
+"l": [
+[
+"old",
+"price before each markdown",
+"$80"
+],
+[
+"p",
+"each markdown",
+"10%, then 20%"
+]
+]
+},
+{
+"n": "Two discounts",
+"eq": "Apply them one after the other. Never add the percents.",
+"ref": "rule",
+"l": []
+}
+],
+"pct-11": [
+{
+"n": "Percent off",
+"eq": "new = old × (1 − p ÷ 100)",
+"ref": "learn",
+"l": [
+[
+"old",
+"price before each markdown",
+"$120"
+],
+[
+"p",
+"each markdown",
+"50%, then 20%"
+]
+]
+},
+{
+"n": "Two discounts",
+"eq": "Apply them one after the other. Never add the percents.",
+"ref": "rule",
+"l": []
+}
+],
+"pct-12": [
+{
+"n": "Percent off",
+"eq": "new = old × (1 − p ÷ 100)",
+"ref": "learn",
+"l": [
+[
+"old",
+"price before each markdown",
+"$120"
+],
+[
+"p",
+"each markdown",
+"25%, then 25%"
+]
+]
+},
+{
+"n": "Two discounts",
+"eq": "Apply them one after the other. Never add the percents.",
+"ref": "rule",
+"l": []
+}
+],
+"pct-13": [
+{
+"n": "Percent off",
+"eq": "sale = original × (1 − p ÷ 100)",
+"ref": "learn",
+"l": [
+[
+"p",
+"the discount",
+"25%"
+],
+[
+"sale",
+"price after discount",
+"$90"
+],
+[
+"original",
+"what we find",
+"unknown"
+]
+]
+}
+],
+"pct-14": [
+{
+"n": "Percent off",
+"eq": "sale = original × (1 − p ÷ 100)",
+"ref": "learn",
+"l": [
+[
+"p",
+"the discount",
+"20%"
+],
+[
+"sale",
+"price after discount",
+"$32"
+],
+[
+"original",
+"what we find",
+"unknown"
+]
+]
+}
+],
+"pct-15": [
+{
+"n": "Percent off",
+"eq": "sale = original × (1 − p ÷ 100)",
+"ref": "learn",
+"l": [
+[
+"p",
+"the discount",
+"50%"
+],
+[
+"sale",
+"price after discount",
+"$60"
+],
+[
+"original",
+"what we find",
+"unknown"
+]
+]
+}
+],
+"pct-16": [
+{
+"n": "Percent off",
+"eq": "sale = original × (1 − p ÷ 100)",
+"ref": "learn",
+"l": [
+[
+"p",
+"the discount",
+"60%"
+],
+[
+"sale",
+"price after discount",
+"$16"
+],
+[
+"original",
+"what we find",
+"unknown"
+]
+]
+}
+],
+"pct-17": [
+{
+"n": "Percent of",
+"eq": "p% of N = (p ÷ 100) × N",
+"ref": "learn",
+"l": [
+[
+"N first",
+"all students",
+"1,200"
+],
+[
+"p first",
+"play a sport",
+"25%"
+],
+[
+"p second",
+"of THOSE players",
+"25%"
+]
+]
+}
+],
+"pct-18": [
+{
+"n": "Percent of",
+"eq": "p% of N = (p ÷ 100) × N",
+"ref": "learn",
+"l": [
+[
+"N first",
+"all students",
+"1,500"
+],
+[
+"p first",
+"play a sport",
+"25%"
+],
+[
+"p second",
+"of THOSE players",
+"20%"
+]
+]
+}
+],
+"pct-19": [
+{
+"n": "Percent of",
+"eq": "p% of N = (p ÷ 100) × N",
+"ref": "learn",
+"l": [
+[
+"N first",
+"all students",
+"800"
+],
+[
+"p first",
+"play a sport",
+"20%"
+],
+[
+"p second",
+"of THOSE players",
+"20%"
+]
+]
+}
+],
+"pct-20": [
+{
+"n": "Percent of",
+"eq": "p% of N = (p ÷ 100) × N",
+"ref": "learn",
+"l": [
+[
+"N first",
+"all students",
+"1,500"
+],
+[
+"p first",
+"play a sport",
+"60%"
+],
+[
+"p second",
+"of THOSE players",
+"20%"
+]
+]
+}
+],
+"data1-01": [
+{
+"n": "Mean (average)",
+"eq": "mean = sum ÷ how many numbers",
+"ref": "learn",
+"l": []
+}
+],
+"data1-02": [
+{
+"n": "Mean (average)",
+"eq": "mean = sum ÷ how many numbers",
+"ref": "learn",
+"l": []
+}
+],
+"data1-03": [
+{
+"n": "Mean (average)",
+"eq": "mean = sum ÷ how many numbers",
+"ref": "learn",
+"l": []
+}
+],
+"data1-04": [
+{
+"n": "Mean (average)",
+"eq": "mean = sum ÷ how many numbers",
+"ref": "learn",
+"l": []
+}
+],
+"data1-05": [
+{
+"n": "Median",
+"eq": "Put the numbers in order. The middle one is the median. With an even count, average the two middle numbers.",
+"ref": "rule",
+"l": []
+}
+],
+"data1-06": [
+{
+"n": "Median",
+"eq": "Put the numbers in order. The middle one is the median. With an even count, average the two middle numbers.",
+"ref": "rule",
+"l": []
+}
+],
+"data1-07": [
+{
+"n": "Median",
+"eq": "Put the numbers in order. The middle one is the median. With an even count, average the two middle numbers.",
+"ref": "rule",
+"l": []
+}
+],
+"data1-08": [
+{
+"n": "Median",
+"eq": "Put the numbers in order. The middle one is the median. With an even count, average the two middle numbers.",
+"ref": "rule",
+"l": []
+}
+],
+"data1-09": [
+{
+"n": "Mean (average)",
+"eq": "mean = sum ÷ how many numbers → sum = mean × how many",
+"ref": "learn",
+"l": [
+[
+"mean",
+"the average she wants",
+"82"
+],
+[
+"how many",
+"tests",
+"5"
+]
+]
+}
+],
+"data1-10": [
+{
+"n": "Mean (average)",
+"eq": "mean = sum ÷ how many numbers → sum = mean × how many",
+"ref": "learn",
+"l": [
+[
+"mean",
+"the average she wants",
+"82"
+],
+[
+"how many",
+"tests",
+"5"
+]
+]
+}
+],
+"data1-11": [
+{
+"n": "Mean (average)",
+"eq": "mean = sum ÷ how many numbers → sum = mean × how many",
+"ref": "learn",
+"l": [
+[
+"mean",
+"the average she wants",
+"82"
+],
+[
+"how many",
+"tests",
+"5"
+]
+]
+}
+],
+"data1-12": [
+{
+"n": "Mean (average)",
+"eq": "mean = sum ÷ how many numbers → sum = mean × how many",
+"ref": "learn",
+"l": [
+[
+"mean",
+"the average she wants",
+"85"
+],
+[
+"how many",
+"tests",
+"5"
+]
+]
+}
+],
+"data1-13": [
+{
+"n": "Outliers",
+"eq": "Removing a far-out value changes the MEAN a lot and the MEDIAN only a little.",
+"ref": "rule",
+"l": []
+}
+],
+"data1-14": [
+{
+"n": "Outliers",
+"eq": "Removing a far-out value changes the MEAN a lot and the MEDIAN only a little.",
+"ref": "rule",
+"l": []
+}
+],
+"data1-15": [
+{
+"n": "Outliers",
+"eq": "Removing a far-out value changes the MEAN a lot and the MEDIAN only a little.",
+"ref": "rule",
+"l": []
+}
+],
+"data1-16": [
+{
+"n": "Outliers",
+"eq": "Removing a far-out value changes the MEAN a lot and the MEDIAN only a little.",
+"ref": "rule",
+"l": []
+}
+],
+"data1-17": [
+{
+"n": "Median from a table",
+"eq": "Add the frequencies, find the middle position, then count across until you reach it.",
+"ref": "rule",
+"l": []
+}
+],
+"data1-18": [
+{
+"n": "Median from a table",
+"eq": "Add the frequencies, find the middle position, then count across until you reach it.",
+"ref": "rule",
+"l": []
+}
+],
+"data1-19": [
+{
+"n": "Median from a table",
+"eq": "Add the frequencies, find the middle position, then count across until you reach it.",
+"ref": "rule",
+"l": []
+}
+],
+"data1-20": [
+{
+"n": "Median from a table",
+"eq": "Add the frequencies, find the middle position, then count across until you reach it.",
+"ref": "rule",
+"l": []
+}
+],
+"data2-01": [
+{
+"n": "Line of best fit",
+"eq": "y = mx + b",
+"ref": "learn",
+"l": [
+[
+"m",
+"slope",
+"2.5"
+],
+[
+"b",
+"start",
+"20"
+],
+[
+"x",
+"the input",
+"18"
+]
+]
+}
+],
+"data2-02": [
+{
+"n": "Line of best fit",
+"eq": "y = mx + b",
+"ref": "learn",
+"l": [
+[
+"m",
+"slope",
+"3.2"
+],
+[
+"b",
+"start",
+"20"
+],
+[
+"x",
+"the input",
+"12"
+]
+]
+}
+],
+"data2-03": [
+{
+"n": "Line of best fit",
+"eq": "y = mx + b",
+"ref": "learn",
+"l": [
+[
+"m",
+"slope",
+"1.5"
+],
+[
+"b",
+"start",
+"12"
+],
+[
+"x",
+"the input",
+"14"
+]
+]
+}
+],
+"data2-04": [
+{
+"n": "Line of best fit",
+"eq": "y = mx + b",
+"ref": "learn",
+"l": [
+[
+"m",
+"slope",
+"3.2"
+],
+[
+"b",
+"start",
+"12"
+],
+[
+"x",
+"the input",
+"14"
+]
+]
+}
+],
+"data2-05": [
+{
+"n": "Line of best fit",
+"eq": "y = mx + b",
+"ref": "learn",
+"l": [
+[
+"m",
+"slope",
+"4"
+],
+[
+"b",
+"start",
+"20"
+],
+[
+"x",
+"the input",
+"10"
+]
+]
+}
+],
+"data2-06": [
+{
+"n": "Slope means",
+"eq": "m = the predicted change in y for each 1 more x",
+"ref": "learn",
+"l": [
+[
+"m",
+"slope",
+"1.2"
+]
+]
+}
+],
+"data2-07": [
+{
+"n": "Slope means",
+"eq": "m = the predicted change in y for each 1 more x",
+"ref": "learn",
+"l": [
+[
+"m",
+"slope",
+"4.5"
+]
+]
+}
+],
+"data2-08": [
+{
+"n": "Slope means",
+"eq": "m = the predicted change in y for each 1 more x",
+"ref": "learn",
+"l": [
+[
+"m",
+"slope",
+"2.5"
+]
+]
+}
+],
+"data2-09": [
+{
+"n": "Slope means",
+"eq": "m = the predicted change in y for each 1 more x",
+"ref": "learn",
+"l": [
+[
+"m",
+"slope",
+"4.5"
+]
+]
+}
+],
+"data2-10": [
+{
+"n": "Slope means",
+"eq": "m = the predicted change in y for each 1 more x",
+"ref": "learn",
+"l": [
+[
+"m",
+"slope",
+"2.5"
+]
+]
+}
+],
+"data2-11": [
+{
+"n": "Residual",
+"eq": "residual = actual − predicted",
+"ref": "learn",
+"l": [
+[
+"actual",
+"the real y of the point",
+"10"
+],
+[
+"predicted",
+"the line’s y at x = 4",
+"3(4) + 4"
+]
+]
+}
+],
+"data2-12": [
+{
+"n": "Residual",
+"eq": "residual = actual − predicted",
+"ref": "learn",
+"l": [
+[
+"actual",
+"the real y of the point",
+"54"
+],
+[
+"predicted",
+"the line’s y at x = 10",
+"5(10) + 10"
+]
+]
+}
+],
+"data2-13": [
+{
+"n": "Residual",
+"eq": "residual = actual − predicted",
+"ref": "learn",
+"l": [
+[
+"actual",
+"the real y of the point",
+"30"
+],
+[
+"predicted",
+"the line’s y at x = 8",
+"3(8) + 10"
+]
+]
+}
+],
+"data2-14": [
+{
+"n": "Residual",
+"eq": "residual = actual − predicted",
+"ref": "learn",
+"l": [
+[
+"actual",
+"the real y of the point",
+"24"
+],
+[
+"predicted",
+"the line’s y at x = 10",
+"2(10) + 10"
+]
+]
+}
+],
+"data2-15": [
+{
+"n": "Residual",
+"eq": "residual = actual − predicted",
+"ref": "learn",
+"l": [
+[
+"actual",
+"the real y of the point",
+"24"
+],
+[
+"predicted",
+"the line’s y at x = 12",
+"2(12) + 4"
+]
+]
+}
+],
+"data2-16": [
+{
+"n": "Linear or exponential",
+"eq": "Same DIFFERENCE each step = linear. Same RATIO (multiply by the same number) = exponential.",
+"ref": "rule",
+"l": []
+}
+],
+"data2-17": [
+{
+"n": "Linear or exponential",
+"eq": "Same DIFFERENCE each step = linear. Same RATIO (multiply by the same number) = exponential.",
+"ref": "rule",
+"l": []
+}
+],
+"data2-18": [
+{
+"n": "Linear or exponential",
+"eq": "Same DIFFERENCE each step = linear. Same RATIO (multiply by the same number) = exponential.",
+"ref": "rule",
+"l": []
+}
+],
+"data2-19": [
+{
+"n": "Linear or exponential",
+"eq": "Same DIFFERENCE each step = linear. Same RATIO (multiply by the same number) = exponential.",
+"ref": "rule",
+"l": []
+}
+],
+"data2-20": [
+{
+"n": "Linear or exponential",
+"eq": "Same DIFFERENCE each step = linear. Same RATIO (multiply by the same number) = exponential.",
+"ref": "rule",
+"l": []
+}
+],
+"prob-01": [
+{
+"n": "Probability",
+"eq": "P = favorable ÷ total",
+"ref": "learn",
+"l": [
+[
+"favorable",
+"blue marbles",
+"6"
+],
+[
+"total",
+"all marbles",
+"4 + 6 + 5"
+]
+]
+}
+],
+"prob-02": [
+{
+"n": "Probability",
+"eq": "P = favorable ÷ total",
+"ref": "learn",
+"l": [
+[
+"favorable",
+"blue marbles",
+"3"
+],
+[
+"total",
+"all marbles",
+"7 + 3 + 6"
+]
+]
+}
+],
+"prob-03": [
+{
+"n": "Probability",
+"eq": "P = favorable ÷ total",
+"ref": "learn",
+"l": [
+[
+"favorable",
+"blue marbles",
+"7"
+],
+[
+"total",
+"all marbles",
+"9 + 7 + 5"
+]
+]
+}
+],
+"prob-04": [
+{
+"n": "Probability",
+"eq": "P = favorable ÷ total",
+"ref": "learn",
+"l": [
+[
+"favorable",
+"blue marbles",
+"3"
+],
+[
+"total",
+"all marbles",
+"4 + 3 + 4"
+]
+]
+}
+],
+"prob-05": [
+{
+"n": "Conditional probability",
+"eq": "P = (count in the group you want) ÷ (total of the \"given\" group only)",
+"ref": "learn",
+"l": []
+},
+{
+"n": "Given",
+"eq": "Only look at the row or column named after \"who chose …\".",
+"ref": "rule",
+"l": []
+}
+],
+"prob-06": [
+{
+"n": "Conditional probability",
+"eq": "P = (count in the group you want) ÷ (total of the \"given\" group only)",
+"ref": "learn",
+"l": []
+},
+{
+"n": "Given",
+"eq": "Only look at the row or column named after \"who chose …\".",
+"ref": "rule",
+"l": []
+}
+],
+"prob-07": [
+{
+"n": "Conditional probability",
+"eq": "P = (count in the group you want) ÷ (total of the \"given\" group only)",
+"ref": "learn",
+"l": []
+},
+{
+"n": "Given",
+"eq": "Only look at the row or column named after \"who chose …\".",
+"ref": "rule",
+"l": []
+}
+],
+"prob-08": [
+{
+"n": "Conditional probability",
+"eq": "P = (count in the group you want) ÷ (total of the \"given\" group only)",
+"ref": "learn",
+"l": []
+},
+{
+"n": "Given",
+"eq": "Only look at the row or column named after \"who chose …\".",
+"ref": "rule",
+"l": []
+}
+],
+"prob-09": [
+{
+"n": "Conditional probability",
+"eq": "P = (count in the group you want) ÷ (total of the \"given\" group only)",
+"ref": "learn",
+"l": []
+},
+{
+"n": "Given",
+"eq": "Only look at the row or column named after \"who chose …\".",
+"ref": "rule",
+"l": []
+}
+],
+"prob-10": [
+{
+"n": "Conditional probability",
+"eq": "P = (count in the group you want) ÷ (total of the \"given\" group only)",
+"ref": "learn",
+"l": []
+},
+{
+"n": "Given",
+"eq": "Only look at the row or column named after \"who chose …\".",
+"ref": "rule",
+"l": []
+}
+],
+"prob-11": [
+{
+"n": "Conditional probability",
+"eq": "P = (count in the group you want) ÷ (total of the \"given\" group only)",
+"ref": "learn",
+"l": []
+},
+{
+"n": "Given",
+"eq": "Only look at the row or column named after \"who chose …\".",
+"ref": "rule",
+"l": []
+}
+],
+"prob-12": [
+{
+"n": "Conditional probability",
+"eq": "P = (count in the group you want) ÷ (total of the \"given\" group only)",
+"ref": "learn",
+"l": []
+},
+{
+"n": "Given",
+"eq": "Only look at the row or column named after \"who chose …\".",
+"ref": "rule",
+"l": []
+}
+],
+"prob-13": [
+{
+"n": "Probability",
+"eq": "P = favorable ÷ total",
+"ref": "learn",
+"l": [
+[
+"favorable",
+"good bulbs = total − defective",
+"25 − 12"
+],
+[
+"total",
+"all bulbs",
+"25"
+]
+]
+}
+],
+"prob-14": [
+{
+"n": "Probability",
+"eq": "P = favorable ÷ total",
+"ref": "learn",
+"l": [
+[
+"favorable",
+"good bulbs = total − defective",
+"25 − 10"
+],
+[
+"total",
+"all bulbs",
+"25"
+]
+]
+}
+],
+"prob-15": [
+{
+"n": "Probability",
+"eq": "P = favorable ÷ total",
+"ref": "learn",
+"l": [
+[
+"favorable",
+"good bulbs = total − defective",
+"25 − 5"
+],
+[
+"total",
+"all bulbs",
+"25"
+]
+]
+}
+],
+"prob-16": [
+{
+"n": "Probability",
+"eq": "P = favorable ÷ total",
+"ref": "learn",
+"l": [
+[
+"favorable",
+"good bulbs = total − defective",
+"40 − 4"
+],
+[
+"total",
+"all bulbs",
+"40"
+]
+]
+}
+],
+"prob-17": [
+{
+"n": "Expected number",
+"eq": "expected = probability × number of tries",
+"ref": "learn",
+"l": [
+[
+"probability",
+"chance each customer buys",
+"1/5"
+],
+[
+"number",
+"customers",
+"100"
+]
+]
+}
+],
+"prob-18": [
+{
+"n": "Expected number",
+"eq": "expected = probability × number of tries",
+"ref": "learn",
+"l": [
+[
+"probability",
+"chance each customer buys",
+"3/10"
+],
+[
+"number",
+"customers",
+"200"
+]
+]
+}
+],
+"prob-19": [
+{
+"n": "Expected number",
+"eq": "expected = probability × number of tries",
+"ref": "learn",
+"l": [
+[
+"probability",
+"chance each customer buys",
+"2/5"
+],
+[
+"number",
+"customers",
+"150"
+]
+]
+}
+],
+"prob-20": [
+{
+"n": "Expected number",
+"eq": "expected = probability × number of tries",
+"ref": "learn",
+"l": [
+[
+"probability",
+"chance each customer buys",
+"1/4"
+],
+[
+"number",
+"customers",
+"120"
+]
+]
+}
+],
+"infer-01": [
+{
+"n": "Estimate from a sample",
+"eq": "estimate = (sample fraction) × population",
+"ref": "learn",
+"l": [
+[
+"sample fraction",
+"yes answers ÷ sample size",
+"÷ 500"
+],
+[
+"population",
+"all students",
+"8,000"
+]
+]
+}
+],
+"infer-02": [
+{
+"n": "Estimate from a sample",
+"eq": "estimate = (sample fraction) × population",
+"ref": "learn",
+"l": [
+[
+"sample fraction",
+"yes answers ÷ sample size",
+"÷ 500"
+],
+[
+"population",
+"all students",
+"5,000"
+]
+]
+}
+],
+"infer-03": [
+{
+"n": "Estimate from a sample",
+"eq": "estimate = (sample fraction) × population",
+"ref": "learn",
+"l": [
+[
+"sample fraction",
+"yes answers ÷ sample size",
+"÷ 200"
+],
+[
+"population",
+"all students",
+"5,000"
+]
+]
+}
+],
+"infer-04": [
+{
+"n": "Estimate from a sample",
+"eq": "estimate = (sample fraction) × population",
+"ref": "learn",
+"l": [
+[
+"sample fraction",
+"yes answers ÷ sample size",
+"÷ 400"
+],
+[
+"population",
+"all students",
+"20,000"
+]
+]
+}
+],
+"infer-05": [
+{
+"n": "Estimate from a sample",
+"eq": "estimate = (sample fraction) × population",
+"ref": "learn",
+"l": [
+[
+"sample fraction",
+"yes answers ÷ sample size",
+"÷ 250"
+],
+[
+"population",
+"all students",
+"5,000"
+]
+]
+}
+],
+"infer-06": [
+{
+"n": "Margin of error",
+"eq": "plausible range = estimate − margin to estimate + margin",
+"ref": "learn",
+"l": [
+[
+"estimate",
+"survey result",
+"74%"
+],
+[
+"margin",
+"margin of error",
+"5%"
+]
+]
+}
+],
+"infer-07": [
+{
+"n": "Margin of error",
+"eq": "plausible range = estimate − margin to estimate + margin",
+"ref": "learn",
+"l": [
+[
+"estimate",
+"survey result",
+"68%"
+],
+[
+"margin",
+"margin of error",
+"5%"
+]
+]
+}
+],
+"infer-08": [
+{
+"n": "Margin of error",
+"eq": "plausible range = estimate − margin to estimate + margin",
+"ref": "learn",
+"l": [
+[
+"estimate",
+"survey result",
+"74%"
+],
+[
+"margin",
+"margin of error",
+"3%"
+]
+]
+}
+],
+"infer-09": [
+{
+"n": "Margin of error",
+"eq": "plausible range = estimate − margin to estimate + margin",
+"ref": "learn",
+"l": [
+[
+"estimate",
+"survey result",
+"42%"
+],
+[
+"margin",
+"margin of error",
+"4%"
+]
+]
+}
+],
+"infer-10": [
+{
+"n": "Margin of error",
+"eq": "plausible range = estimate − margin to estimate + margin",
+"ref": "learn",
+"l": [
+[
+"estimate",
+"survey result",
+"61%"
+],
+[
+"margin",
+"margin of error",
+"4%"
+]
+]
+}
+],
+"infer-11": [
+{
+"n": "Margin of error",
+"eq": "A bigger random sample gives a smaller margin of error.",
+"ref": "rule",
+"l": []
+}
+],
+"infer-12": [
+{
+"n": "Margin of error",
+"eq": "A bigger random sample gives a smaller margin of error.",
+"ref": "rule",
+"l": []
+}
+],
+"infer-13": [
+{
+"n": "Margin of error",
+"eq": "A bigger random sample gives a smaller margin of error.",
+"ref": "rule",
+"l": []
+}
+],
+"infer-14": [
+{
+"n": "Margin of error",
+"eq": "A bigger random sample gives a smaller margin of error.",
+"ref": "rule",
+"l": []
+}
+],
+"infer-15": [
+{
+"n": "Margin of error",
+"eq": "A bigger random sample gives a smaller margin of error.",
+"ref": "rule",
+"l": []
+}
+],
+"infer-16": [
+{
+"n": "Generalize",
+"eq": "Results only apply to the group the random sample came from.",
+"ref": "rule",
+"l": []
+}
+],
+"infer-17": [
+{
+"n": "Generalize",
+"eq": "Results only apply to the group the random sample came from.",
+"ref": "rule",
+"l": []
+}
+],
+"infer-18": [
+{
+"n": "Generalize",
+"eq": "Results only apply to the group the random sample came from.",
+"ref": "rule",
+"l": []
+}
+],
+"infer-19": [
+{
+"n": "Generalize",
+"eq": "Results only apply to the group the random sample came from.",
+"ref": "rule",
+"l": []
+}
+],
+"infer-20": [
+{
+"n": "Generalize",
+"eq": "Results only apply to the group the random sample came from.",
+"ref": "rule",
+"l": []
+}
+],
+"claims-01": [
+{
+"n": "Cause vs. association",
+"eq": "Random ASSIGNMENT → can say cause. Random SAMPLE → can generalize to that population. People choosing their own group → association only.",
+"ref": "rule",
+"l": []
+}
+],
+"claims-02": [
+{
+"n": "Cause vs. association",
+"eq": "Random ASSIGNMENT → can say cause. Random SAMPLE → can generalize to that population. People choosing their own group → association only.",
+"ref": "rule",
+"l": []
+}
+],
+"claims-03": [
+{
+"n": "Cause vs. association",
+"eq": "Random ASSIGNMENT → can say cause. Random SAMPLE → can generalize to that population. People choosing their own group → association only.",
+"ref": "rule",
+"l": []
+}
+],
+"claims-04": [
+{
+"n": "Cause vs. association",
+"eq": "Random ASSIGNMENT → can say cause. Random SAMPLE → can generalize to that population. People choosing their own group → association only.",
+"ref": "rule",
+"l": []
+}
+],
+"claims-05": [
+{
+"n": "Cause vs. association",
+"eq": "Random ASSIGNMENT → can say cause. Random SAMPLE → can generalize to that population. People choosing their own group → association only.",
+"ref": "rule",
+"l": []
+}
+],
+"claims-06": [
+{
+"n": "Cause vs. association",
+"eq": "Random ASSIGNMENT → can say cause. Random SAMPLE → can generalize to that population. People choosing their own group → association only.",
+"ref": "rule",
+"l": []
+}
+],
+"claims-07": [
+{
+"n": "Cause vs. association",
+"eq": "Random ASSIGNMENT → can say cause. Random SAMPLE → can generalize to that population. People choosing their own group → association only.",
+"ref": "rule",
+"l": []
+}
+],
+"claims-08": [
+{
+"n": "Cause vs. association",
+"eq": "Random ASSIGNMENT → can say cause. Random SAMPLE → can generalize to that population. People choosing their own group → association only.",
+"ref": "rule",
+"l": []
+}
+],
+"claims-09": [
+{
+"n": "Cause vs. association",
+"eq": "Random ASSIGNMENT → can say cause. Random SAMPLE → can generalize to that population. People choosing their own group → association only.",
+"ref": "rule",
+"l": []
+}
+],
+"claims-10": [
+{
+"n": "Cause vs. association",
+"eq": "Random ASSIGNMENT → can say cause. Random SAMPLE → can generalize to that population. People choosing their own group → association only.",
+"ref": "rule",
+"l": []
+}
+],
+"claims-11": [
+{
+"n": "Cause vs. association",
+"eq": "Random ASSIGNMENT → can say cause. Random SAMPLE → can generalize to that population. People choosing their own group → association only.",
+"ref": "rule",
+"l": []
+}
+],
+"claims-12": [
+{
+"n": "Cause vs. association",
+"eq": "Random ASSIGNMENT → can say cause. Random SAMPLE → can generalize to that population. People choosing their own group → association only.",
+"ref": "rule",
+"l": []
+}
+],
+"claims-13": [
+{
+"n": "Cause vs. association",
+"eq": "Random ASSIGNMENT → can say cause. Random SAMPLE → can generalize to that population. People choosing their own group → association only.",
+"ref": "rule",
+"l": []
+}
+],
+"claims-14": [
+{
+"n": "Cause vs. association",
+"eq": "Random ASSIGNMENT → can say cause. Random SAMPLE → can generalize to that population. People choosing their own group → association only.",
+"ref": "rule",
+"l": []
+}
+],
+"claims-15": [
+{
+"n": "Cause vs. association",
+"eq": "Random ASSIGNMENT → can say cause. Random SAMPLE → can generalize to that population. People choosing their own group → association only.",
+"ref": "rule",
+"l": []
+}
+],
+"claims-16": [
+{
+"n": "Cause vs. association",
+"eq": "Random ASSIGNMENT → can say cause. Random SAMPLE → can generalize to that population. People choosing their own group → association only.",
+"ref": "rule",
+"l": []
+}
+],
+"claims-17": [
+{
+"n": "Cause vs. association",
+"eq": "Random ASSIGNMENT → can say cause. Random SAMPLE → can generalize to that population. People choosing their own group → association only.",
+"ref": "rule",
+"l": []
+}
+],
+"claims-18": [
+{
+"n": "Cause vs. association",
+"eq": "Random ASSIGNMENT → can say cause. Random SAMPLE → can generalize to that population. People choosing their own group → association only.",
+"ref": "rule",
+"l": []
+}
+],
+"claims-19": [
+{
+"n": "Cause vs. association",
+"eq": "Random ASSIGNMENT → can say cause. Random SAMPLE → can generalize to that population. People choosing their own group → association only.",
+"ref": "rule",
+"l": []
+}
+],
+"claims-20": [
+{
+"n": "Cause vs. association",
+"eq": "Random ASSIGNMENT → can say cause. Random SAMPLE → can generalize to that population. People choosing their own group → association only.",
+"ref": "rule",
+"l": []
+}
+],
+"area-01": [
+{
+"n": "Perimeter of a rectangle",
+"eq": "P = 2(ℓ + w)",
+"ref": "learn",
+"l": [
+[
+"ℓ",
+"length",
+"11"
+],
+[
+"w",
+"width",
+"4"
+]
+]
+}
+],
+"area-02": [
+{
+"n": "Area of a rectangle",
+"eq": "A = ℓw",
+"ref": "ref",
+"l": [
+[
+"ℓ",
+"length",
+"11"
+],
+[
+"w",
+"width",
+"8"
+]
+]
+}
+],
+"area-03": [
+{
+"n": "Area of a rectangle",
+"eq": "A = ℓw",
+"ref": "ref",
+"l": [
+[
+"ℓ",
+"length",
+"8"
+],
+[
+"w",
+"width",
+"10"
+]
+]
+}
+],
+"area-04": [
+{
+"n": "Perimeter of a rectangle",
+"eq": "P = 2(ℓ + w)",
+"ref": "learn",
+"l": [
+[
+"ℓ",
+"length",
+"5"
+],
+[
+"w",
+"width",
+"4"
+]
+]
+}
+],
+"area-05": [
+{
+"n": "Volume of a cylinder",
+"eq": "V = πr²h",
+"ref": "ref",
+"l": [
+[
+"r",
+"radius",
+"5"
+],
+[
+"h",
+"height",
+"4"
+]
+]
+}
+],
+"area-06": [
+{
+"n": "Volume of a cylinder",
+"eq": "V = πr²h",
+"ref": "ref",
+"l": [
+[
+"r",
+"radius",
+"3"
+],
+[
+"h",
+"height",
+"7"
+]
+]
+}
+],
+"area-07": [
+{
+"n": "Volume of a cylinder",
+"eq": "V = πr²h",
+"ref": "ref",
+"l": [
+[
+"r",
+"radius",
+"6"
+],
+[
+"h",
+"height",
+"6"
+]
+]
+}
+],
+"area-08": [
+{
+"n": "Volume of a cylinder",
+"eq": "V = πr²h",
+"ref": "ref",
+"l": [
+[
+"r",
+"radius",
+"6"
+],
+[
+"h",
+"height",
+"9"
+]
+]
+}
+],
+"area-09": [
+{
+"n": "Area scale rule",
+"eq": "new area = old area × k²",
+"ref": "learn",
+"l": [
+[
+"k",
+"side scale factor",
+"3 ÷ 1"
+],
+[
+"old area",
+"smaller triangle",
+"12"
+]
+]
+}
+],
+"area-10": [
+{
+"n": "Area scale rule",
+"eq": "new area = old area × k²",
+"ref": "learn",
+"l": [
+[
+"k",
+"side scale factor",
+"2 ÷ 1"
+],
+[
+"old area",
+"smaller triangle",
+"12"
+]
+]
+}
+],
+"area-11": [
+{
+"n": "Area scale rule",
+"eq": "new area = old area × k²",
+"ref": "learn",
+"l": [
+[
+"k",
+"side scale factor",
+"3 ÷ 1"
+],
+[
+"old area",
+"smaller triangle",
+"20"
+]
+]
+}
+],
+"area-12": [
+{
+"n": "Area scale rule",
+"eq": "new area = old area × k²",
+"ref": "learn",
+"l": [
+[
+"k",
+"side scale factor",
+"4 ÷ 1"
+],
+[
+"old area",
+"smaller triangle",
+"8"
+]
+]
+}
+],
+"area-13": [
+{
+"n": "Volume scale rule",
+"eq": "new volume = old volume × k³",
+"ref": "learn",
+"l": [
+[
+"k",
+"length scale factor",
+"4"
+],
+[
+"old volume",
+"first box",
+"4"
+]
+]
+}
+],
+"area-14": [
+{
+"n": "Volume scale rule",
+"eq": "new volume = old volume × k³",
+"ref": "learn",
+"l": [
+[
+"k",
+"length scale factor",
+"3"
+],
+[
+"old volume",
+"first box",
+"10"
+]
+]
+}
+],
+"area-15": [
+{
+"n": "Volume scale rule",
+"eq": "new volume = old volume × k³",
+"ref": "learn",
+"l": [
+[
+"k",
+"length scale factor",
+"3"
+],
+[
+"old volume",
+"first box",
+"15"
+]
+]
+}
+],
+"area-16": [
+{
+"n": "Volume scale rule",
+"eq": "new volume = old volume × k³",
+"ref": "learn",
+"l": [
+[
+"k",
+"length scale factor",
+"4"
+],
+[
+"old volume",
+"first box",
+"15"
+]
+]
+}
+],
+"area-17": [
+{
+"n": "Volume of a sphere",
+"eq": "V = (4/3)πr³",
+"ref": "ref",
+"l": [
+[
+"r",
+"radius = half the diameter",
+"24 ÷ 2"
+]
+]
+}
+],
+"area-18": [
+{
+"n": "Volume of a sphere",
+"eq": "V = (4/3)πr³",
+"ref": "ref",
+"l": [
+[
+"r",
+"radius = half the diameter",
+"30 ÷ 2"
+]
+]
+}
+],
+"area-19": [
+{
+"n": "Volume of a sphere",
+"eq": "V = (4/3)πr³",
+"ref": "ref",
+"l": [
+[
+"r",
+"radius = half the diameter",
+"18 ÷ 2"
+]
+]
+}
+],
+"area-20": [
+{
+"n": "Volume of a sphere",
+"eq": "V = (4/3)πr³",
+"ref": "ref",
+"l": [
+[
+"r",
+"radius = half the diameter",
+"12 ÷ 2"
+]
+]
+}
+],
+"lat-01": [
+{
+"n": "Triangle angle sum",
+"eq": "A + B + C = 180°",
+"ref": "ref",
+"l": [
+[
+"A",
+"angle A",
+"77°"
+],
+[
+"B",
+"angle B",
+"61°"
+],
+[
+"C",
+"what we find",
+""
+]
+]
+}
+],
+"lat-02": [
+{
+"n": "Triangle angle sum",
+"eq": "A + B + C = 180°",
+"ref": "ref",
+"l": [
+[
+"A",
+"angle A",
+"50°"
+],
+[
+"B",
+"angle B",
+"49°"
+],
+[
+"C",
+"what we find",
+""
+]
+]
+}
+],
+"lat-03": [
+{
+"n": "Triangle angle sum",
+"eq": "A + B + C = 180°",
+"ref": "ref",
+"l": [
+[
+"A",
+"angle A",
+"60°"
+],
+[
+"B",
+"angle B",
+"59°"
+],
+[
+"C",
+"what we find",
+""
+]
+]
+}
+],
+"lat-04": [
+{
+"n": "Triangle angle sum",
+"eq": "A + B + C = 180°",
+"ref": "ref",
+"l": [
+[
+"A",
+"angle A",
+"51°"
+],
+[
+"B",
+"angle B",
+"66°"
+],
+[
+"C",
+"what we find",
+""
+]
+]
+}
+],
+"lat-05": [
+{
+"n": "Vertical angles",
+"eq": "Angles straight across from each other are EQUAL.",
+"ref": "rule",
+"l": []
+}
+],
+"lat-06": [
+{
+"n": "Vertical angles",
+"eq": "Angles straight across from each other are EQUAL.",
+"ref": "rule",
+"l": []
+}
+],
+"lat-07": [
+{
+"n": "Angles on a straight line",
+"eq": "Two angles side by side on a straight line add to 180°.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Linear pair",
+"eq": "angle 1 + angle 2 = 180°",
+"ref": "learn",
+"l": [
+[
+"angle 1",
+"the given angle",
+"132°"
+]
+]
+}
+],
+"lat-08": [
+{
+"n": "Vertical angles",
+"eq": "Angles straight across from each other are EQUAL.",
+"ref": "rule",
+"l": []
+}
+],
+"lat-09": [
+{
+"n": "Same-side interior angles",
+"eq": "Between the parallel lines, on the same side of the transversal: they add to 180°.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Supplementary",
+"eq": "angle 1 + angle 2 = 180°",
+"ref": "learn",
+"l": [
+[
+"angle 1",
+"the given angle",
+"59°"
+]
+]
+}
+],
+"lat-10": [
+{
+"n": "Corresponding angles",
+"eq": "Same position at each parallel line (both top-left, for example): they are EQUAL.",
+"ref": "rule",
+"l": []
+}
+],
+"lat-11": [
+{
+"n": "Corresponding angles",
+"eq": "Same position at each parallel line (both top-left, for example): they are EQUAL.",
+"ref": "rule",
+"l": []
+}
+],
+"lat-12": [
+{
+"n": "Corresponding angles",
+"eq": "Same position at each parallel line (both top-left, for example): they are EQUAL.",
+"ref": "rule",
+"l": []
+}
+],
+"lat-13": [
+{
+"n": "Exterior angle",
+"eq": "exterior angle = sum of the two far interior angles",
+"ref": "learn",
+"l": [
+[
+"far angles",
+"the two given angles",
+"63° and 72°"
+]
+]
+}
+],
+"lat-14": [
+{
+"n": "Exterior angle",
+"eq": "exterior angle = sum of the two far interior angles",
+"ref": "learn",
+"l": [
+[
+"far angles",
+"the two given angles",
+"66° and 55°"
+]
+]
+}
+],
+"lat-15": [
+{
+"n": "Exterior angle",
+"eq": "exterior angle = sum of the two far interior angles",
+"ref": "learn",
+"l": [
+[
+"far angles",
+"the two given angles",
+"48° and 69°"
+]
+]
+}
+],
+"lat-16": [
+{
+"n": "Exterior angle",
+"eq": "exterior angle = sum of the two far interior angles",
+"ref": "learn",
+"l": [
+[
+"far angles",
+"the two given angles",
+"53° and 70°"
+]
+]
+}
+],
+"lat-17": [
+{
+"n": "Similar triangles",
+"eq": "new side = old side × scale factor",
+"ref": "learn",
+"l": [
+[
+"scale factor",
+"matching sides: ST ÷ PQ",
+"12 ÷ 4"
+],
+[
+"old side",
+"QR (matches TU)",
+"6"
+]
+]
+}
+],
+"lat-18": [
+{
+"n": "Similar triangles",
+"eq": "new side = old side × scale factor",
+"ref": "learn",
+"l": [
+[
+"scale factor",
+"matching sides: ST ÷ PQ",
+"18 ÷ 6"
+],
+[
+"old side",
+"QR (matches TU)",
+"5"
+]
+]
+}
+],
+"lat-19": [
+{
+"n": "Similar triangles",
+"eq": "new side = old side × scale factor",
+"ref": "learn",
+"l": [
+[
+"scale factor",
+"matching sides: ST ÷ PQ",
+"15 ÷ 5"
+],
+[
+"old side",
+"QR (matches TU)",
+"4"
+]
+]
+}
+],
+"lat-20": [
+{
+"n": "Similar triangles",
+"eq": "new side = old side × scale factor",
+"ref": "learn",
+"l": [
+[
+"scale factor",
+"matching sides: ST ÷ PQ",
+"10 ÷ 4"
+],
+[
+"old side",
+"QR (matches TU)",
+"9"
+]
+]
+}
+],
+"trig-01": [
+{
+"n": "Pythagorean theorem",
+"eq": "a² + b² = c²",
+"ref": "ref",
+"l": [
+[
+"a",
+"one leg (a side touching the right angle)",
+"7"
+],
+[
+"b",
+"the other leg",
+"24"
+],
+[
+"c",
+"the hypotenuse (longest side, across from the right angle)",
+"what we find"
+]
+]
+}
+],
+"trig-02": [
+{
+"n": "Pythagorean theorem",
+"eq": "a² + b² = c²",
+"ref": "ref",
+"l": [
+[
+"a",
+"one leg (a side touching the right angle)",
+"6"
+],
+[
+"b",
+"the other leg",
+"8"
+],
+[
+"c",
+"the hypotenuse (longest side, across from the right angle)",
+"what we find"
+]
+]
+}
+],
+"trig-03": [
+{
+"n": "Pythagorean theorem",
+"eq": "a² + b² = c²",
+"ref": "ref",
+"l": [
+[
+"a",
+"one leg (a side touching the right angle)",
+"33"
+],
+[
+"b",
+"the other leg",
+"56"
+],
+[
+"c",
+"the hypotenuse (longest side, across from the right angle)",
+"what we find"
+]
+]
+}
+],
+"trig-04": [
+{
+"n": "Pythagorean theorem",
+"eq": "a² + b² = c²",
+"ref": "ref",
+"l": [
+[
+"a",
+"one leg (a side touching the right angle)",
+"8"
+],
+[
+"b",
+"the other leg",
+"15"
+],
+[
+"c",
+"the hypotenuse (longest side, across from the right angle)",
+"what we find"
+]
+]
+}
+],
+"trig-05": [
+{
+"n": "SOH-CAH-TOA",
+"eq": "tan = opposite ÷ adjacent",
+"ref": "learn",
+"l": [
+[
+"opposite",
+"side across from angle W",
+"20"
+],
+[
+"adjacent",
+"side next to angle W (not the hypotenuse)",
+"21"
+]
+]
+}
+],
+"trig-06": [
+{
+"n": "SOH-CAH-TOA",
+"eq": "tan = opposite ÷ adjacent",
+"ref": "learn",
+"l": [
+[
+"opposite",
+"side across from angle W",
+"5"
+],
+[
+"adjacent",
+"side next to angle W (not the hypotenuse)",
+"12"
+]
+]
+}
+],
+"trig-07": [
+{
+"n": "SOH-CAH-TOA",
+"eq": "sin = opposite ÷ hypotenuse",
+"ref": "learn",
+"l": [
+[
+"opposite",
+"side across from angle W",
+"6"
+],
+[
+"hypotenuse",
+"longest side, across from the right angle",
+"10"
+]
+]
+}
+],
+"trig-08": [
+{
+"n": "SOH-CAH-TOA",
+"eq": "sin = opposite ÷ hypotenuse",
+"ref": "learn",
+"l": [
+[
+"opposite",
+"side across from angle W",
+"8"
+],
+[
+"hypotenuse",
+"longest side, across from the right angle",
+"17"
+]
+]
+}
+],
+"trig-09": [
+{
+"n": "SOH-CAH-TOA",
+"eq": "sin = opposite ÷ hypotenuse",
+"ref": "learn",
+"l": [
+[
+"opposite",
+"side across from angle W",
+"33"
+],
+[
+"hypotenuse",
+"longest side, across from the right angle",
+"65"
+]
+]
+}
+],
+"trig-10": [
+{
+"n": "SOH-CAH-TOA",
+"eq": "tan = opposite ÷ adjacent",
+"ref": "learn",
+"l": [
+[
+"opposite",
+"side across from angle W",
+"33"
+],
+[
+"adjacent",
+"side next to angle W (not the hypotenuse)",
+"56"
+]
+]
+}
+],
+"trig-11": [
+{
+"n": "30-60-90 triangle",
+"eq": "sides x, x√3, 2x",
+"ref": "ref",
+"l": [
+[
+"x",
+"short leg (across from 30°)",
+"10"
+],
+[
+"2x",
+"hypotenuse",
+""
+],
+[
+"x√3",
+"long leg (across from 60°)",
+""
+]
+]
+}
+],
+"trig-12": [
+{
+"n": "30-60-90 triangle",
+"eq": "sides x, x√3, 2x",
+"ref": "ref",
+"l": [
+[
+"x",
+"short leg (across from 30°)",
+"4"
+],
+[
+"2x",
+"hypotenuse",
+""
+],
+[
+"x√3",
+"long leg (across from 60°)",
+""
+]
+]
+}
+],
+"trig-13": [
+{
+"n": "45-45-90 triangle",
+"eq": "sides x, x, x√2",
+"ref": "ref",
+"l": [
+[
+"x",
+"each leg",
+"8"
+],
+[
+"x√2",
+"hypotenuse",
+""
+]
+]
+}
+],
+"trig-14": [
+{
+"n": "30-60-90 triangle",
+"eq": "sides x, x√3, 2x",
+"ref": "ref",
+"l": [
+[
+"x",
+"short leg (across from 30°)",
+"12"
+],
+[
+"2x",
+"hypotenuse",
+""
+],
+[
+"x√3",
+"long leg (across from 60°)",
+""
+]
+]
+}
+],
+"trig-15": [
+{
+"n": "Complementary angles",
+"eq": "If two angles add to 90°, sin of one = cos of the other.",
+"ref": "rule",
+"l": []
+}
+],
+"trig-16": [
+{
+"n": "Complementary angles",
+"eq": "If two angles add to 90°, sin of one = cos of the other.",
+"ref": "rule",
+"l": []
+}
+],
+"trig-17": [
+{
+"n": "Complementary angles",
+"eq": "If two angles add to 90°, sin of one = cos of the other.",
+"ref": "rule",
+"l": []
+}
+],
+"trig-18": [
+{
+"n": "Radians to degrees",
+"eq": "π radians = 180°",
+"ref": "ref",
+"l": []
+}
+],
+"trig-19": [
+{
+"n": "Radians to degrees",
+"eq": "π radians = 180°",
+"ref": "ref",
+"l": []
+}
+],
+"trig-20": [
+{
+"n": "Radians to degrees",
+"eq": "π radians = 180°",
+"ref": "ref",
+"l": []
+}
+],
+"circ-01": [
+{
+"n": "Area of a circle",
+"eq": "A = πr²",
+"ref": "ref",
+"l": [
+[
+"r",
+"radius",
+"12"
+]
+]
+}
+],
+"circ-02": [
+{
+"n": "Area of a circle",
+"eq": "A = πr²",
+"ref": "ref",
+"l": [
+[
+"r",
+"radius",
+"3"
+]
+]
+}
+],
+"circ-03": [
+{
+"n": "Area of a circle",
+"eq": "A = πr²",
+"ref": "ref",
+"l": [
+[
+"r",
+"radius",
+"4"
+]
+]
+}
+],
+"circ-04": [
+{
+"n": "Area of a circle",
+"eq": "A = πr²",
+"ref": "ref",
+"l": [
+[
+"r",
+"radius",
+"5"
+]
+]
+}
+],
+"circ-05": [
+{
+"n": "Circumference",
+"eq": "C = πd  (same as 2πr)",
+"ref": "ref",
+"l": [
+[
+"C",
+"circumference",
+"74π"
+],
+[
+"d",
+"diameter",
+"what we find"
+]
+]
+}
+],
+"circ-06": [
+{
+"n": "Circumference",
+"eq": "C = πd  (same as 2πr)",
+"ref": "ref",
+"l": [
+[
+"C",
+"circumference",
+"26π"
+],
+[
+"d",
+"diameter",
+"what we find"
+]
+]
+}
+],
+"circ-07": [
+{
+"n": "Circumference",
+"eq": "C = πd  (same as 2πr)",
+"ref": "ref",
+"l": [
+[
+"C",
+"circumference",
+"48π"
+],
+[
+"d",
+"diameter",
+"what we find"
+]
+]
+}
+],
+"circ-08": [
+{
+"n": "Circumference",
+"eq": "C = πd  (same as 2πr)",
+"ref": "ref",
+"l": [
+[
+"C",
+"circumference",
+"62π"
+],
+[
+"d",
+"diameter",
+"what we find"
+]
+]
+}
+],
+"circ-09": [
+{
+"n": "Arc length",
+"eq": "arc = (angle ÷ 360) × 2πr",
+"ref": "learn",
+"l": [
+[
+"angle",
+"central angle",
+"60°"
+],
+[
+"r",
+"radius",
+"6"
+]
+]
+}
+],
+"circ-10": [
+{
+"n": "Sector area",
+"eq": "sector = (angle ÷ 360) × πr²",
+"ref": "learn",
+"l": [
+[
+"angle",
+"central angle",
+"90°"
+],
+[
+"r",
+"radius",
+"3"
+]
+]
+}
+],
+"circ-11": [
+{
+"n": "Arc length",
+"eq": "arc = (angle ÷ 360) × 2πr",
+"ref": "learn",
+"l": [
+[
+"angle",
+"central angle",
+"120°"
+],
+[
+"r",
+"radius",
+"9"
+]
+]
+}
+],
+"circ-12": [
+{
+"n": "Arc length",
+"eq": "arc = (angle ÷ 360) × 2πr",
+"ref": "learn",
+"l": [
+[
+"angle",
+"central angle",
+"90°"
+],
+[
+"r",
+"radius",
+"10"
+]
+]
+}
+],
+"circ-13": [
+{
+"n": "Circle equation",
+"eq": "(x − h)² + (y − k)² = r²",
+"ref": "learn",
+"l": [
+[
+"(h, k)",
+"the center",
+""
+],
+[
+"r",
+"radius",
+"what we find"
+]
+]
+},
+{
+"n": "Complete the square",
+"eq": "Take half the x-number, square it, and add it to both sides. Same for y.",
+"ref": "rule",
+"l": []
+}
+],
+"circ-14": [
+{
+"n": "Circle equation",
+"eq": "(x − h)² + (y − k)² = r²",
+"ref": "learn",
+"l": [
+[
+"(h, k)",
+"the center",
+""
+],
+[
+"r",
+"radius",
+"what we find"
+]
+]
+},
+{
+"n": "Complete the square",
+"eq": "Take half the x-number, square it, and add it to both sides. Same for y.",
+"ref": "rule",
+"l": []
+}
+],
+"circ-15": [
+{
+"n": "Circle equation",
+"eq": "(x − h)² + (y − k)² = r²",
+"ref": "learn",
+"l": [
+[
+"(h, k)",
+"the center",
+""
+],
+[
+"r",
+"radius",
+"what we find"
+]
+]
+},
+{
+"n": "Complete the square",
+"eq": "Take half the x-number, square it, and add it to both sides. Same for y.",
+"ref": "rule",
+"l": []
+}
+],
+"circ-16": [
+{
+"n": "Circle equation",
+"eq": "(x − h)² + (y − k)² = r²",
+"ref": "learn",
+"l": [
+[
+"(h, k)",
+"the center",
+""
+],
+[
+"r",
+"radius",
+"what we find"
+]
+]
+},
+{
+"n": "Complete the square",
+"eq": "Take half the x-number, square it, and add it to both sides. Same for y.",
+"ref": "rule",
+"l": []
+}
+],
+"circ-17": [
+{
+"n": "Tangent rule",
+"eq": "A tangent line meets the radius at a right angle, so OTP is a right triangle.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Pythagorean theorem",
+"eq": "a² + b² = c²",
+"ref": "ref",
+"l": [
+[
+"a",
+"radius OT (a leg)",
+"5"
+],
+[
+"b",
+"TP (the other leg)",
+"12"
+],
+[
+"c",
+"OP (the hypotenuse)",
+"what we find"
+]
+]
+}
+],
+"circ-18": [
+{
+"n": "Tangent rule",
+"eq": "A tangent line meets the radius at a right angle, so OTP is a right triangle.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Pythagorean theorem",
+"eq": "a² + b² = c²",
+"ref": "ref",
+"l": [
+[
+"a",
+"radius OT (a leg)",
+"9"
+],
+[
+"b",
+"TP (the other leg)",
+"12"
+],
+[
+"c",
+"OP (the hypotenuse)",
+"what we find"
+]
+]
+}
+],
+"circ-19": [
+{
+"n": "Tangent rule",
+"eq": "A tangent line meets the radius at a right angle, so OTP is a right triangle.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Pythagorean theorem",
+"eq": "a² + b² = c²",
+"ref": "ref",
+"l": [
+[
+"a",
+"radius OT (a leg)",
+"8"
+],
+[
+"b",
+"TP (the other leg)",
+"15"
+],
+[
+"c",
+"OP (the hypotenuse)",
+"what we find"
+]
+]
+}
+],
+"circ-20": [
+{
+"n": "Tangent rule",
+"eq": "A tangent line meets the radius at a right angle, so OTP is a right triangle.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Pythagorean theorem",
+"eq": "a² + b² = c²",
+"ref": "ref",
+"l": [
+[
+"a",
+"radius OT (a leg)",
+"3"
+],
+[
+"b",
+"TP (the other leg)",
+"4"
+],
+[
+"c",
+"OP (the hypotenuse)",
+"what we find"
+]
+]
+}
+]
+}

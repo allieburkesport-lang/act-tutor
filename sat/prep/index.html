@@ -90,7 +90,7 @@ aside.pan .ph .t{font-size:21px;font-weight:700}aside.pan .ph .s{font-size:14px;
 .b-yel{background:#fefce8;border-color:#fde68a}.b-yel .lab{color:#854d0e}
 .b-red{background:#fff1e6;border-color:#fdba74}.b-red .lab{color:#9a3412}
 .b-pur{background:#faf5ff;border-color:#e9d5ff}.b-pur .lab{color:#6b21a8}
-.step{display:flex;gap:12px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.step{display:flex;flex-wrap:wrap;gap:12px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
 .step .n{flex:0 0 28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px}
 .step .c{font-size:16px;line-height:1.55}
 .co{color:#9a3412;background:#ffedd5;border-bottom:2px solid #ea580c;padding:0 3px;border-radius:3px;font-weight:700}
@@ -109,7 +109,7 @@ iframe.desmos{width:100%;height:calc(100vh - 190px);border:1px solid var(--line)
 .rep{width:100%;border-collapse:collapse;font-size:14px}.rep th{text-align:left;font-size:12px;color:var(--mute);padding:8px 10px;border-bottom:2px solid #e5e7eb;white-space:nowrap}.rep td{padding:10px;border-top:1px solid #f1f2f4;vertical-align:middle}
 .dif span{display:inline-block;margin-right:6px;font-size:13px;white-space:nowrap}.slow{color:#9a3412;font-weight:700}.fast{color:#14532d;font-weight:700}
 @media (max-width:900px){.sched .hide,.rep .hide{display:none}}
-.wf{margin-top:8px;padding:8px 10px;border-radius:8px;background:#f0fdf4;border-left:4px solid #15803d;font-size:14px;line-height:1.5}.wf .wl{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#15803d;margin-bottom:2px}
+.wf{flex-basis:100%;margin-top:0;padding:8px 10px;border-radius:8px;background:#f0fdf4;border-left:4px solid #15803d;font-size:14px;line-height:1.5}.wf .wl{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#15803d;margin-bottom:2px}
 </style>
 </head>
 <body>
@@ -144,7 +144,7 @@ circ:[['Area','A = πr²',[['r','radius: center to edge']],'R'],['Circumference'
 };
 let VIDEOS={}; // filled from videos/videos.json // lesson id -> {src, chapters:[[sec,label]]}; filled as chalkboard videos are made
 const L='ABCD', DIFF={E:'Easy',M:'Medium',H:'Hard'};
-let QH={},BPS={},BANK,PLAN,LES,SK2={},QBY={},LOG=[],D=null,UI={panel:null};
+let QF={},QH={},BPS={},BANK,PLAN,LES,SK2={},QBY={},LOG=[],D=null,UI={panel:null};
 const $=s=>document.querySelector(s), app=()=>document.getElementById('app');
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const plain=h=>{const d=document.createElement('div');d.innerHTML=h;return d.textContent.replace(/\s+/g,' ').trim()};
@@ -153,7 +153,7 @@ const today=()=>new Date().toLocaleDateString('en-CA');
 
 /* ---------- data ---------- */
 async function load(){
-  const [b,p,l,bpj,qh,vj]=await Promise.all([fetch('../drill-zone/bank.json').then(r=>r.json()),fetch('../drill-zone/plan.json?'+Date.now()).then(r=>r.json()).catch(()=>null),fetch('lessons.json').then(r=>r.json()),fetch('../drill-zone/blueprint.json').then(r=>r.json()).catch(()=>({skills:{}})),fetch('qhelp.json').then(r=>r.json()).catch(()=>({})),fetch('videos/videos.json?'+Date.now()).then(r=>r.json()).catch(()=>({}))]);VIDEOS=vj||{};BPS=bpj.skills||{};QH=qh||{};
+  const [b,p,l,bpj,qh,vj,qf]=await Promise.all([fetch('../drill-zone/bank.json').then(r=>r.json()),fetch('../drill-zone/plan.json?'+Date.now()).then(r=>r.json()).catch(()=>null),fetch('lessons.json').then(r=>r.json()),fetch('../drill-zone/blueprint.json').then(r=>r.json()).catch(()=>({skills:{}})),fetch('qhelp.json').then(r=>r.json()).catch(()=>({})),fetch('videos/videos.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('qform.json?'+Date.now()).then(r=>r.json()).catch(()=>({}))]);QF=qf||{};VIDEOS=vj||{};BPS=bpj.skills||{};QH=qh||{};
   BANK=b;PLAN=p;LES=l;b.skills.forEach(s=>SK2[s.id]=s);b.qs.forEach(q=>QBY[q.id]=q);
   if(p)p.skills.forEach(s=>{if(SK2[s.skill])SK2[s.skill].share=s.share});
   LOG=store.get('satbank_log',[]);
@@ -376,8 +376,12 @@ function whereFrom(q,s,i,seen){const out=[],g=givenNums(q);
     if(tot&&v&&Math.abs(v*v-tot)<1e-6)out.push(`Why: the last step gave the side squared = ${tot}. Undo the square with a square root: √${tot} = <b>${v}</b>, because ${v} × ${v} = ${tot}.`)}
   for(const m of s.matchAll(/(\d+(?:\.\d+)?)%/g)){if(+m[1]>0)out.push(`${m[1]}% means ${m[1]} ÷ 100 = <b>${nfmt(+m[1]/100)}</b>`)}
   return out.length?`<div class="wf"><div class="wl">Where these numbers come from</div>${out.map(x=>`<div>• ${x}</div>`).join('')}</div>`:''}
+function qCards(q){const cs=QF[q.id]||[];if(!cs.length)return '';
+  return cs.map(c=>{const rule=c.ref==='rule';const lab=rule?'Rule we use':('Formula we use · '+(c.ref==='ref'?'on the Reference sheet':'learn it (not on the sheet)'));
+   return `<div class="box ${rule?'b-blue':'b-pur'}"><div class="lab">${esc(lab)}</div><div class="c"><div style="font-weight:700;color:var(--mute);font-size:14px">${esc(c.n)}</div><div style="font-size:${rule?17:21}px;font-weight:700;${rule?'':'color:#6d28d9;'}margin:2px 0 6px">${esc(c.eq)}</div>
+   ${c.l.length?`<table style="border-collapse:collapse;width:100%;font-size:15px;background:#fff"><tr><th style="text-align:left;padding:4px 8px;border:1px solid #e9d5ff;font-size:12px">Letter</th><th style="text-align:left;padding:4px 8px;border:1px solid #e9d5ff;font-size:12px">What it means</th><th style="text-align:left;padding:4px 8px;border:1px solid #e9d5ff;font-size:12px">In this question</th></tr>${c.l.map(r=>`<tr><td style="padding:4px 8px;border:1px solid #e9d5ff;font-weight:700;color:#6d28d9">${esc(r[0])}</td><td style="padding:4px 8px;border:1px solid #e9d5ff">${esc(r[1])}</td><td style="padding:4px 8px;border:1px solid #e9d5ff;font-weight:700">${esc(r[2]||'')}</td></tr>`).join('')}</table>`:''}</div></div>`}).join('')}
 function stepHTML(s,i,res,wf){const k=s.indexOf(': ');const head=k>0&&k<60?s.slice(0,k):'',body=k>0&&k<60?s.slice(k+2):s;
-  return `<div class="step"><span class="n">${i+1}</span><div class="c">${head?`<b>${markCarry(head,i,res)}</b><br>`:''}${markCarry(body,i,res)}${wf||''}</div></div>`}
+  return `<div class="step"><span class="n">${i+1}</span><div class="c">${head?`<b>${markCarry(head,i,res)}</b><br>`:''}${markCarry(body,i,res)}</div>${wf||''}</div>`}
 function lessonData(skill){const id=lessonFor(skill)[0];return id&&LES[id]}
 function formulaBox(skill){const id=lessonFor(skill).find(l=>LES[l]&&LES[l].math);if(!id)return '';const keys=Object.keys(typeof MH!=='undefined'?MH:{}).filter(k=>k.startsWith(id+'|'));
   const seen=new Set(),fs=[];keys.forEach(k=>{const f=MH[k].f;if(Array.isArray(f))f.forEach(x=>{if(!seen.has(x.eq)&&fs.length<4){seen.add(x.eq);fs.push(x)}})});
@@ -386,9 +390,9 @@ function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
   const head=(t,sub)=>`<div class="ph"><div><div class="t hd">${t}</div><div class="s">${sub}</div></div><button class="x" aria-label="Close panel" data-pan="${k}">✕</button></div>`;
   if(k==='show'){const res=carried(q,q.steps);const n=Math.max(1,st.shown);
     const seen=new Set();const wfs=q.steps.map((x,i)=>s.sec==='Math'?whereFrom(q,x,i,seen):'');
-    return head('Show me how','This question, one step at a time')+(s.sec==='Math'?formulaIntro(q):'')+q.steps.slice(0,n).map((x,i)=>stepHTML(x,i,res,wfs[i])).join('')+
+    return head('Show me how','This question, one step at a time')+(s.sec==='Math'?qCards(q):'')+q.steps.slice(0,n).map((x,i)=>stepHTML(x,i,res,wfs[i])).join('')+
      (n<q.steps.length?`<button class="btn" data-next="1" style="align-self:flex-start">Show the next step (${n+1} of ${q.steps.length})</button>`:`<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(q.trap)}</div></div>`)+
-     `<div class="box b-blue"><div class="lab">${s.sec==='Math'?'Desmos or calculator':'Strategy'}</div><div class="c">${esc(q.tool)}</div></div>`+(s.sec==='Math'?formulaBox(q.skill):'');}
+     `<div class="box b-blue"><div class="lab">${s.sec==='Math'?'Desmos or calculator':'Strategy'}</div><div class="c">${esc(q.tool)}</div></div>`;}
 
   if(k==='desm'){const h=QH[q.id]||{d:[],c:[]};const tab=UI.dtab||(h.d.length?'d':'c');
     const list=a=>a.map((x,i)=>`<div class="step"><span class="n">${i+1}</span><div class="c">${esc(x)}</div></div>`).join('');
@@ -399,8 +403,8 @@ function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
       return b+(typeof desmosPic==='function'?desmosPic(h.d):'')+`<div class="box b-blue"><div class="lab">Type these, one per line</div><div class="c">Desmos is the Calculator button at the top right of the test.${h.n?'<br><b>'+esc(h.n)+'</b>':''}</div></div>`+list(h.d)+`<div class="box b-green"><div class="lab">Tip</div><div class="c">${esc(q.tool)}</div></div>`;}
     if(!h.c.length)return b+`<div class="box b-yel"><div class="lab">No calculator math here</div><div class="c">${esc(q.tool)}</div></div>`;
     return b+(typeof tiPic==='function'?tiPic(h.c,h.c.length):'')+list(h.c);}
-  if(k==='form'){const fs=SKF[q.skill]||[];const use=q.steps[0]||'';
-    return head('Formula','What to use, and what each letter means')+(fs.length?fs.map(f=>`<div class="box b-pur"><div class="lab">${esc(f[0])} · ${f[3]==='R'?'on the Reference sheet':'learn it (not on the sheet)'}</div><div class="c"><div style="font-size:21px;font-weight:700;font-family:Georgia,serif;margin:2px 0 6px">${esc(f[1])}</div>${f[2].length?`<table style="border-collapse:collapse;font-size:15px">${f[2].map(r=>`<tr><td style="border:1px solid #e9d5ff;padding:3px 8px;background:#fff"><b>${esc(r[0])}</b></td><td style="border:1px solid #e9d5ff;padding:3px 8px;background:#fff">${esc(r[1])}</td></tr>`).join('')}</table>`:''}</div></div>`).join(''):'<div class="box b-yel"><div class="c">No formula for this one: it is a rule. Open Learn it.</div></div>')+
+  if(k==='form'){const use=q.steps[0]||'';const c=qCards(q);
+    return head('Formula','What this question uses, and what each letter means')+(c||'<div class="box b-yel"><div class="c">No formula needed for this one. Use Show me how.</div></div>')+
      `<div class="box b-green"><div class="lab">In this question, step 1</div><div class="c">${esc(use)}</div></div><button class="btn o" data-pan="show" style="align-self:flex-start">Show me every step</button>`;}
   if(k==='learn'){const ls=lessonData(q.skill);if(!ls)return head('Learn it',esc(s.name))+'<div class="box b-yel"><div class="c">Use Show me how for this one.</div></div>';const ex=ls.ex[0];
     return head('Learn it · '+esc(s.name),'How to do this type of question')+
