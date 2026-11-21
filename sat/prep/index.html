@@ -156,7 +156,7 @@ async function load(){
   const [b,p,l,bpj,qh,vj,qf,qt]=await Promise.all([fetch('../drill-zone/bank.json?'+Date.now()).then(r=>r.json()),fetch('../drill-zone/plan.json?'+Date.now()).then(r=>r.json()).catch(()=>null),fetch('lessons.json?'+Date.now()).then(r=>r.json()),fetch('../drill-zone/blueprint.json?'+Date.now()).then(r=>r.json()).catch(()=>({skills:{}})),fetch('qhelp.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('videos/videos.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('qform.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('qtpl.json?'+Date.now()).then(r=>r.json()).catch(()=>({}))]);QF=qf||{};QT=qt||{};VIDEOS=vj||{};BPS=bpj.skills||{};BPD=bpj.daily||[];QH=qh||{};
   BANK=b;PLAN=p;LES=l;b.skills.forEach(s=>SK2[s.id]=s);b.qs.forEach(q=>QBY[q.id]=q);
   if(p)p.skills.forEach(s=>{if(SK2[s.skill])SK2[s.skill].share=s.share});
-  LOG=store.get('satbank_log',[]);
+  LOG=store.get('satbank_log',[]);LOG.forEach(x=>{if(x.sec!=null)x.sec=+x.sec||0});// seconds saved as text on some devices made times add up as text
   await unlockBP();
   pullOnline();
 }
@@ -176,8 +176,9 @@ async function unlockBP(code){code=code||store.get('helm_code','');if(!code||!wi
   return true}
 let CBQ=[];
 async function pullOnline(){try{const r=await fetch(SB+'?select=question,part,correct,first_try,attempt,seconds,created_at&kind=eq.bank&student=eq.'+WHO+'&order=created_at.asc&limit=10000',{headers:H});const rows=await r.json();if(!Array.isArray(rows))return;
-  const near=(id,t)=>LOG.some(x=>x.id===id&&Math.abs(x.ts-t)<120000);let add=0;
-  rows.forEach(w=>{const id=(w.question||'').split(' ')[0];if(!QBY[id])return;const t=Date.parse(w.created_at);if(near(id,t))return;add++;const pm=/plan (\d{4}-\d\d-\d\d)/.exec(w.part||''),hm=/help ([a-z+]+)/.exec(w.part||'');LOG.push({id,ts:t,day:new Date(t).toLocaleDateString('en-CA'),ok:w.correct,first:w.first_try,attempt:w.attempt,sec:w.seconds,picked:'',plan:pm?pm[1]:undefined,help:hm?hm[1].split('+'):(/coached/.test(w.part||'')?['show']:[]),helpFirst:(w.attempt||1)===1?(hm?hm[1].split('+'):(/coached/.test(w.part||'')?['show']:[])):undefined});});
+  const near=(id,t,a)=>LOG.some(x=>x.id===id&&(x.attempt||1)===(a||1)&&Math.abs(x.ts-t)<120000);let add=0;// near = same question AND same attempt, so quick retries are kept
+
+  rows.forEach(w=>{const id=(w.question||'').split(' ')[0];if(!QBY[id])return;const t=Date.parse(w.created_at);if(near(id,t,w.attempt))return;add++;const pm=/plan (\d{4}-\d\d-\d\d)/.exec(w.part||''),hm=/help ([a-z+]+)/.exec(w.part||'');LOG.push({id,ts:t,day:new Date(t).toLocaleDateString('en-CA'),ok:w.correct,first:w.first_try,attempt:w.attempt,sec:w.seconds==null?null:+w.seconds,picked:'',plan:pm?pm[1]:undefined,help:hm?hm[1].split('+'):(/coached/.test(w.part||'')?['show']:[]),helpFirst:(w.attempt||1)===1?(hm?hm[1].split('+'):(/coached/.test(w.part||'')?['show']:[])):undefined});});
   if(add){LOG.sort((a,b)=>a.ts-b.ts);store.set('satbank_log',LOG.slice(-5000));if(!D)route();}}catch(e){}}
 function save(row){LOG.push(row);store.set('satbank_log',LOG.slice(-5000));const q=QBY[row.id],s=SK2[q.skill];
   fetch(SB,{method:'POST',headers:Object.assign({'Content-Type':'application/json',Prefer:'return=minimal'},H),body:JSON.stringify({student:WHO,kind:'bank',concept_id:q.skill,concept_no:BANK.skills.indexOf(s)+1,concept_title:s.name,
