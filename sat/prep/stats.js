@@ -1,6 +1,6 @@
 /* ---------- STATS: BI dashboard (#/stats, #/stats/<skill>, #/stats/sec:Math) ---------- */
 const ST = {period: 'day', from: '', to: '', sec: 'all', bp: true, site: true};
-const SITE_NAME = 'SAT Prep';
+const SITE_NAME = 'HELM';
 const SCOL = {Math: '#1e3a8a', English: '#0f766e'};
 let CH = [];
 function dkey(d) { return d.toLocaleDateString('en-CA') }
@@ -204,23 +204,29 @@ function scoresBlock() {
   return `<section class="card" style="padding:16px 18px;border-left:5px solid #1e3a8a"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:baseline"><h2 class="hd" style="margin:0;font-size:24px">Scores</h2>
     <div style="font-size:13px;color:var(--mute)">As of right now · goal ${GOAL} on Dec 5 · ${now.total >= GOAL ? '<b style="color:#15803d">on target</b>' : `<b>${GOAL - now.total}</b> points to go`}${prev ? ` · since yesterday ${arrow(now.total, prev.total)}` : ''}</div></div>
    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px">${box('Math', now.Math, L.Math)}${box('Reading & Writing', now['R&W'], L['R&W'])}${box('Combined', now.total, L.total, `Goal ${GOAL}`)}</div>
-   ${(() => { const P = now.parts, row = (k, lab) => `<tr><td><b>${lab}</b></td><td>${P[k].off}</td><td>${P[k].prac} <span style="font-size:12px;color:var(--mute)">(${P[k].bp} Blueprint + ${P[k].sp} SAT Prep questions)</span></td><td>${Math.round(100 * (1 - P[k].wp))}% / ${Math.round(100 * P[k].wp)}%</td><td><b>${P[k].val}</b></td></tr>`;
-     return `<h3 class="hd" style="margin:14px 0 6px;font-size:17px">How the projection is built <span style="font-size:13px;color:var(--mute);font-weight:500">all the data: official SATs + 1500 Blueprint + SAT Prep</span></h3>
+   ${(() => { const P = now.parts, row = (k, lab) => `<tr><td><b>${lab}</b></td><td>${P[k].off}</td><td>${P[k].prac} <span style="font-size:12px;color:var(--mute)">(${P[k].bp} Blueprint + ${P[k].sp} HELM questions)</span></td><td>${Math.round(100 * (1 - P[k].wp))}% / ${Math.round(100 * P[k].wp)}%</td><td><b>${P[k].val}</b></td></tr>`;
+     return `<h3 class="hd" style="margin:14px 0 6px;font-size:17px">How the projection is built <span style="font-size:13px;color:var(--mute);font-weight:500">all the data: official SATs + 1500 Blueprint + HELM</span></h3>
      <div style="overflow-x:auto"><table class="rep" style="width:100%"><thead><tr><th>Section</th><th>Official SATs (Nov 7 counts 50%, Oct 3 30%, Sep 12 20%)</th><th>Practice accuracy → score</th><th>Weight (official / practice)</th><th>Projected</th></tr></thead><tbody>${row('Math', 'Math')}${row('R&W', 'Reading & Writing')}</tbody></table></div>` })()}
    <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:16px;margin-top:14px;align-items:start">
     <div><h3 class="hd" style="margin:0 0 6px;font-size:17px">Official SAT scores</h3><table class="rep" style="width:100%"><thead><tr><th>Test</th><th>Math</th><th>R&W</th><th>Total</th><th>Percentile</th></tr></thead><tbody>${offi}</tbody></table></div>
-    <div><h3 class="hd" style="margin:0 0 6px;font-size:17px">Trend: official scores, then the daily projection</h3><div style="height:220px"><canvas id="c0"></canvas></div></div></div>
+    <div><h3 class="hd" style="margin:0 0 6px;font-size:17px">Score trend: official SATs, then the daily projection</h3><div style="height:260px"><canvas id="c0"></canvas></div><div style="font-size:12px;color:var(--mute)">Dark bars = official SATs. Light bars = HELM projection for that day. The dashed line is the trend through every point, carried to Dec 5.</div></div></div>
    <h3 class="hd" style="margin:16px 0 6px;font-size:17px">College Board performance by domain <span style="font-size:13px;color:var(--mute);font-weight:500">score band for each part of the test · green = better than the last test, orange = lower</span></h3>
    <div style="overflow-x:auto"><table class="rep" style="width:100%"><thead><tr><th>Domain</th>${SAT_OFFICIAL.map(o => `<th>${esc(o.label)}</th>`).join('')}</tr></thead><tbody>${SAT_DOM.map(([sec, k, nm]) => `<tr><td><b>${nm}</b> <span style="font-size:12px;color:var(--mute)">${sec}</span></td>${SAT_OFFICIAL.map((o, i) => { const v = o.dom[k], pv = i ? SAT_OFFICIAL[i - 1].dom[k] : null, lo = x => +String(x).split('–')[0]; const c = pv == null || lo(v) === lo(pv) ? '' : lo(v) > lo(pv) ? 'color:#15803d;font-weight:700' : 'color:#c2410c;font-weight:700'; return `<td style="${c}">${v}</td>` }).join('')}</tr>`).join('')}</tbody></table></div>
-   <div style="font-size:12px;color:var(--mute);margin-top:8px">The projection is an estimate, not an official score. It blends all of his official SATs with his practice accuracy on every 1500 Blueprint and SAT Prep question (first tries), with each category weighted by how often it shows up on the SAT. The more he practices, the more the practice side counts (up to 60%). The real test is adaptive, so read it as a direction.</div></section>`
+   <div style="font-size:12px;color:var(--mute);margin-top:8px">The projection is an estimate, not an official score. It blends all of his official SATs with his practice accuracy on every 1500 Blueprint and HELM question (first tries), with each category weighted by how often it shows up on the SAT. The more he practices, the more the practice side counts (up to 60%). The real test is adaptive, so read it as a direction.</div></section>`
 }
 function scoresChart() {
-  const days = scoreDays().filter(d => d > SAT_LAST().date), pts = SAT_OFFICIAL.map(o => ({l: o.label + ' SAT', o})).concat(days.map(d => ({l: new Date(d + 'T12:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'}), p: proj(d)})));
-  const v = (x, k) => x.o ? x.o[k] : x.p[k];
-  chart('c0', {type: 'line', data: {labels: pts.map(x => x.l), datasets: [
-    {label: 'Combined', data: pts.map(x => v(x, 'total')), borderColor: '#111827', backgroundColor: '#111827', borderWidth: 3, pointRadius: pts.map(x => x.o ? 6 : 3), pointStyle: pts.map(x => x.o ? 'rectRot' : 'circle'), yAxisID: 'y'},
-    {label: 'Math', data: pts.map(x => v(x, 'Math')), borderColor: '#1e40af', backgroundColor: '#1e40af', pointRadius: 3, yAxisID: 'y2'},
-    {label: 'R&W', data: pts.map(x => v(x, 'R&W')), borderColor: '#b45309', backgroundColor: '#b45309', pointRadius: 3, yAxisID: 'y2'},
-    {label: 'Goal ' + GOAL, data: pts.map(() => GOAL), borderColor: '#15803d', borderDash: [6, 4], pointRadius: 0, yAxisID: 'y'}]},
-    options: {maintainAspectRatio: false, plugins: {legend: {position: 'bottom'}}, scales: {y: {position: 'left', suggestedMin: 900, suggestedMax: 1350, title: {display: true, text: 'Total'}}, y2: {position: 'right', suggestedMin: 400, suggestedMax: 700, grid: {drawOnChartArea: false}, title: {display: true, text: 'Section'}}}}})
+  // stacked bars: Math (blue) + Reading & Writing (orange) = total; dashed trendline fitted to every point and carried to test day
+  const L = SAT_LAST(), days = scoreDays().filter(d => d > L.date);
+  const pts = SAT_OFFICIAL.map(o => ({d: o.date, l: o.label + ' SAT', M: o.Math, R: o['R&W'], off: true})).concat(days.map(d => { const p = proj(d); return {d, l: new Date(d + 'T12:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'}) + ' (proj.)', M: p.Math, R: p['R&W']} }));
+  const TEST = '2026-12-05', x = d => (new Date(d + 'T12:00') - new Date(pts[0].d + 'T12:00')) / 864e5, n = pts.length;
+  const xs = pts.map(p => x(p.d)), ys = pts.map(p => p.M + p.R), mx = xs.reduce((a, b) => a + b, 0) / n, my = ys.reduce((a, b) => a + b, 0) / n;
+  const sxx = xs.reduce((a, v) => a + (v - mx) ** 2, 0), slope = sxx ? xs.reduce((a, v, i) => a + (v - mx) * (ys[i] - my), 0) / sxx : 0, fit = v => Math.round(my + slope * (v - mx));
+  const labels = pts.map(p => p.l).concat(['Dec 5 test (trend)']), trend = xs.map(fit).concat([fit(x(TEST))]);
+  chart('c0', {data: {labels, datasets: [
+    {type: 'bar', label: 'Math', data: pts.map(p => p.M).concat([null]), backgroundColor: pts.map(p => p.off ? '#1e3a8a' : '#60a5fa').concat(['#000']), stack: 's', order: 2},
+    {type: 'bar', label: 'Reading & Writing', data: pts.map(p => p.R).concat([null]), backgroundColor: pts.map(p => p.off ? '#c2410c' : '#fdba74').concat(['#000']), stack: 's', order: 2},
+    {type: 'line', label: `Trend (${slope >= 0 ? '+' : ''}${Math.round(slope * 7)} pts/week)`, data: trend, borderColor: '#111827', borderDash: [6, 4], borderWidth: 2, pointRadius: trend.map((_, i) => i === trend.length - 1 ? 6 : 0), pointBackgroundColor: '#111827', order: 0, stack: 'trend'},
+    {type: 'line', label: 'Goal ' + GOAL, data: labels.map(() => GOAL), borderColor: '#15803d', borderWidth: 2, pointRadius: 0, order: 1, stack: 'goal'}]},
+    options: {maintainAspectRatio: false, plugins: {legend: {position: 'bottom'}, tooltip: {callbacks: {footer: it => { const i = it[0].dataIndex; return i < pts.length ? 'Total: ' + (pts[i].M + pts[i].R) : '' }}}},
+      scales: {x: {stacked: true}, y: {stacked: true, min: 0, suggestedMax: 1400, title: {display: true, text: 'SAT score'}}}}})
 }
