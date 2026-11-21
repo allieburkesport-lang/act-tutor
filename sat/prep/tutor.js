@@ -17,22 +17,31 @@
   .tc-b.s{align-self:flex-end;background:#13315C;color:#fff;border-bottom-right-radius:4px}.tc-b.t{align-self:flex-start;background:#fff;border:1px solid #e2e8f0;border-bottom-left-radius:4px}
   .tc-b.e{align-self:center;background:#fff1f2;color:#9f1239;border:1px solid #fecdd3;font-size:14px}
   .tc-f{display:flex;gap:8px;padding:12px;border-top:1px solid #e2e8f0}.tc-f textarea{flex:1;font:inherit;font-size:15px;padding:10px;border:1px solid #cbd5e1;border-radius:10px;resize:none;height:46px}
+  .tc-fig{background:#fff;border:1px solid #cbd5e1;border-radius:12px;padding:8px;margin-top:8px;cursor:zoom-in}.tc-fig svg{width:100%;height:auto;max-height:260px;display:block}
+  .tc-fig .tc-big{font:inherit;font-size:13px;font-weight:700;color:#13315C;background:#EEF2F7;border:0;border-radius:8px;padding:5px 10px;margin-top:6px;cursor:pointer}
+  .tc-ov{position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:9700;display:flex;align-items:center;justify-content:center;padding:20px}
+  .tc-ov>div{background:#fff;border-radius:16px;padding:18px;width:min(900px,96vw);max-height:92vh;overflow:auto;box-shadow:0 20px 50px rgba(0,0,0,.3)}.tc-ov svg{width:100%;height:auto;max-height:72vh;display:block}
+  .tc-who{display:inline-flex;align-items:center;gap:8px;border:1px solid #cbd5e1;border-radius:999px;padding:4px 12px 4px 4px;font-size:14px;font-weight:600;color:#0f172a;background:#fff;text-decoration:none!important}
+  .tc-who i{width:26px;height:26px;border-radius:50%;background:#13315C;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-style:normal;font-weight:800;font-size:13px}.tc-who b{color:#047857;font-weight:600;font-size:12px}
   .tc-chips{display:flex;gap:6px;flex-wrap:wrap;padding:0 16px 10px;background:#f8fafc}.tc-chips button{font:inherit;font-size:13px;border:1px solid #cbd5e1;background:#fff;border-radius:999px;padding:5px 10px;cursor:pointer}`;
   document.head.appendChild(css);
 
   // sign-in itself is in auth.js; here: Sign out link + turn on the private question bundles
   let sb = null, session = null;
+  function whoName() { const u = session && session.user; if (!u) return ''; const m = u.user_metadata || {}; const n = m.name || m.full_name || (u.email || '').split('@')[0].replace(/[^a-z]+.*$/i, ''); return n ? n[0].toUpperCase() + n.slice(1) : 'you' }
   function signOutLink() {
     const nav = document.querySelector('header.top nav'); if (!nav || nav.querySelector('[data-signout]')) return;
+    const n = whoName(); if (!n) return;
+    const w = document.createElement('span'); w.className = 'tc-who'; w.title = 'Signed in as ' + (session.user.email || n); w.innerHTML = `<i>${n[0]}</i><span>${n}<br><b>● Signed in</b></span>`;
     const a = document.createElement('a'); a.href = '#'; a.textContent = 'Sign out'; a.dataset.signout = '1';
-    a.onclick = e => { e.preventDefault(); window.HELM_SIGNOUT() }; nav.appendChild(a);
+    a.onclick = e => { e.preventDefault(); window.HELM_SIGNOUT() }; nav.appendChild(w); nav.appendChild(a);
   }
   let unlocking = false;
   async function autoUnlock() {
     if (unlocking || typeof unlockBP !== 'function') return; if (typeof BPR !== 'undefined' && BPR.length) return; unlocking = true;
     try { const {data} = await sb.from('helm_members').select('unlock_code').maybeSingle(); if (data && data.unlock_code && await unlockBP(data.unlock_code) && typeof D !== 'undefined' && !D && typeof route === 'function') route() } catch (e) {}
     unlocking = false }
-  if (window.HELM_AUTH) window.HELM_AUTH.then(s => { session = s; sb = window.HELM_SB; signOutLink(); autoUnlock() });
+  if (window.HELM_AUTH) window.HELM_AUTH.then(async s => { session = s; sb = window.HELM_SB; try { const r = await sb.auth.getUser(); if (r.data && r.data.user) session = {...s, user: r.data.user} } catch (e) {} signOutLink(); autoUnlock() });
 
   // ---------- "Ask the tutor" ----------
   try { if (typeof HELPN === 'object') HELPN.tutor = 'Ask the tutor' } catch (e) {}
@@ -53,14 +62,28 @@
       desmos: (h.d || []).join(' | ') + (h.n ? ' — ' + h.n : '')
     };
   }
-  function bubble(box, role, text) { const b = document.createElement('div'); b.className = 'tc-b ' + role; b.textContent = role === 't' ? pretty(text) : text; box.appendChild(b); box.scrollTop = box.scrollHeight; return b }
+  // drawings: the tutor may send one <svg> picture; it is cleaned (no scripts or links) and can open big
+  function cleanSvg(src) {
+    try { const d = new DOMParser().parseFromString(src, 'image/svg+xml'), r = d.documentElement; if (!r || r.nodeName.toLowerCase() !== 'svg' || d.querySelector('parsererror')) return null;
+      r.querySelectorAll('script,foreignObject,iframe,image,a,use,style').forEach(x => x.remove());
+      [r, ...r.querySelectorAll('*')].forEach(el => [...el.attributes].forEach(at => { if (/^on/i.test(at.name) || /href/i.test(at.name) || /javascript:/i.test(at.value)) el.removeAttribute(at.name) }));
+      if (!r.getAttribute('viewBox')) r.setAttribute('viewBox', `0 0 ${parseFloat(r.getAttribute('width')) || 400} ${parseFloat(r.getAttribute('height')) || 300}`);
+      r.removeAttribute('width'); r.removeAttribute('height'); r.setAttribute('font-family', 'Helvetica,Arial,sans-serif'); return r.outerHTML } catch (e) { return null } }
+  function bigPic(svg, caption) {
+    const o = document.createElement('div'); o.className = 'tc-ov'; o.innerHTML = `<div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><b style="font-size:17px">${caption || 'Picture'}</b><button class="tl-btn g" aria-label="Close">✕ Close</button></div>${svg}<div style="font-size:13px;color:#64748b;margin-top:8px">Close this to keep asking the tutor questions.</div></div>`;
+    o.onclick = e => { if (e.target === o || e.target.closest('button')) o.remove() }; document.body.appendChild(o) }
+  function bubble(box, role, text) {
+    const b = document.createElement('div'); b.className = 'tc-b ' + role; let svg = null;
+    if (role === 't') { const m = text.match(/<svg[\s\S]*?<\/svg>/i); if (m) { svg = cleanSvg(m[0]); text = text.replace(/```(?:svg|html|xml)?\s*<svg[\s\S]*?<\/svg>\s*```|<svg[\s\S]*?<\/svg>/i, '').trim() } b.textContent = pretty(text) } else b.textContent = text;
+    if (svg) { const f = document.createElement('div'); f.className = 'tc-fig'; f.innerHTML = svg + '<button class="tc-big" type="button">⤢ Open big</button>'; f.onclick = () => bigPic(svg, 'Tutor drawing'); b.appendChild(f) }
+    box.appendChild(b); box.scrollTop = box.scrollHeight; return b }
   async function openChat() {
     if (typeof D === 'undefined' || !D) return;
     const q = cur(), st = D.st[D.i]; const key = st.tried && st.tried.length ? 'ha' : 'hb'; st[key] = st[key] || []; if (!st[key].includes('tutor')) st[key].push('tutor');
     let p = document.querySelector('.tc'); if (p) p.remove();
     p = document.createElement('div'); p.className = 'tc'; p.setAttribute('role', 'dialog'); p.setAttribute('aria-label', 'Ask the tutor');
     p.innerHTML = `<div class="tc-h"><div><div style="font-weight:800;font-size:18px">Ask the tutor</div><div style="font-size:13px;color:#64748b">About question ${D.i + 1} · ${pl((SK2[q.skill] || {}).name || '')}</div></div><button class="tl-btn g" data-tcx="1" aria-label="Close">✕</button></div>
-      <div class="tc-m"></div><div class="tc-chips">${['I don\'t know where to start', 'Why is my answer wrong?', 'Show me the Desmos way', 'Explain it another way'].map(t => `<button data-tcq="${t}">${t}</button>`).join('')}</div>
+      <div class="tc-m"></div><div class="tc-chips">${['I don\'t know where to start', 'Draw me a picture', 'Why is my answer wrong?', 'Show me the Desmos way', 'Explain it another way'].map(t => `<button data-tcq="${t}">${t}</button>`).join('')}</div>
       <form class="tc-f"><textarea placeholder="Type your question… (Enter to send)" aria-label="Your message"></textarea><button class="tl-btn" type="submit">Send</button></form>`;
     document.body.appendChild(p);
     const box = p.querySelector('.tc-m'), ta = p.querySelector('textarea'), id = cid(q.id);
