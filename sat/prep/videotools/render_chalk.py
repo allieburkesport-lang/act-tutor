@@ -37,17 +37,30 @@ def segs(text,col):
     if pos<len(text):out.append((text[pos:],col))
     return out
 def item_img(it,maxw=880):
-    kind,text,sz=it;text=text.replace('⅓','1/3').replace('  →  ',', so ').replace(' → ',', so ').replace('→','so');f=F(sz,True);col=kind
-    sg=segs(text,col);# measure / wrap simply on full string width
-    tmp=ImageDraw.Draw(Image.new('RGBA',(10,10)))
-    total=sum(tmp.textlength(t,font=f) for t,_ in sg)
-    while total>maxw and sz>24:sz-=2;f=F(sz,True);total=sum(tmp.textlength(t,font=f) for t,_ in sg)
-    hgt=int(sz*1.45);im=Image.new('RGBA',(int(total)+20,hgt+10),(0,0,0,0));d=ImageDraw.Draw(im);x=4
+    kind,text,sz=it;text=text.translate(str.maketrans({'ˣ':'^x','ᵃ':'^a','ᵇ':'^b','⁵':'^5','⁶':'^6','₁':'1','₂':'2','↔':'<->','⌂':'home','✓':'(check)','θ':'angle'})).replace('Δ','change in ').replace('m⊥','m(perp)').replace('⊥','perp').replace('⅓','1/3').replace('⅔','2/3').replace('  →  ',', so ').replace(' → ',', so ').replace('→','so');col=kind
+    sg=segs(text,col);tmp=ImageDraw.Draw(Image.new('RGBA',(10,10)))
+    def width(f):return sum(tmp.textlength(t,font=f) for t,_ in sg)
+    f=F(sz,True)
+    while width(f)>maxw and sz>30:sz-=2;f=F(sz,True)
+    # wrap into rows of (text,color) words
+    words=[]
     for t,c in sg:
-        d.text((x+1,3),t,font=f,fill=COL[c]+(90,));d.text((x,2),t,font=f,fill=COL[c]+(255,))
-        if c=='o' and t.strip():tw=d.textlength(t,font=f);d.line((x,hgt-4,x+tw,hgt-4),fill=COL['o']+(255,),width=3)
-        x+=d.textlength(t,font=f)
-    # chalk texture: knock out speckles
+        for k,w in enumerate(re.split(r'(\s+)',t)):
+            if w:words.append((w,c))
+    rows=[[]];cw=0
+    for w,c in words:
+        ww=tmp.textlength(w,font=f)
+        if cw+ww>maxw and rows[-1] and not w.isspace():rows.append([]);cw=0
+        if w.isspace() and not rows[-1]:continue
+        rows[-1].append((w,c));cw+=ww
+    hgt=int(sz*1.45);W2=int(max(sum(tmp.textlength(w,font=f) for w,_ in r) for r in rows))+20
+    im=Image.new('RGBA',(W2,hgt*len(rows)+10),(0,0,0,0));d=ImageDraw.Draw(im)
+    for ri,r in enumerate(rows):
+        x=4;y=2+ri*hgt
+        for t,c in r:
+            d.text((x+1,y+1),t,font=f,fill=COL[c]+(90,));d.text((x,y),t,font=f,fill=COL[c]+(255,))
+            if c=='o' and t.strip():tw=d.textlength(t,font=f);d.line((x,y+hgt-6,x+tw,y+hgt-6),fill=COL['o']+(255,),width=3)
+            x+=d.textlength(t,font=f)
     a=np.array(im);rng=np.random.default_rng(len(text));mask=rng.random(a.shape[:2])<0.10;a[mask,3]=(a[mask,3]*0.45).astype(np.uint8)
     return Image.fromarray(a)
 def title_img(t):return item_img(('w',t,46))
@@ -58,7 +71,7 @@ lines=[];t=2.6 # thumbnail intro 2.6 s
 for si,sc in enumerate(S.SCENES):
     t+=0.5
     for li,(say,it) in enumerate(sc['lines']):
-        idx=len(lines);p=f'wav/{idx}.wav';d=wav_dur(p)
+        idx=len(lines);p=os.path.join(os.environ.get('WAVDIR','wav'),f'{idx}.wav');d=wav_dur(p)
         lines.append(dict(scene=si,say=say,it=it,start=t,dur=d,wav=p));t+=d+0.45
     t+=0.4
 TOTAL=t+1.5
@@ -72,18 +85,26 @@ def mouth_at(tt):
 with wave.open('build/narr.wav','wb') as w:w.setnchannels(1);w.setsampwidth(2);w.setframerate(sr);w.writeframes((np.clip(track,-1,1)*32767).astype(np.int16).tobytes())
 # ---------- layout per scene ----------
 LEFT,TOP=60,130
+BOTTOM=560
 def layout(si):
-    y=TOP;pos=[]
+    pre=[];y=TOP
     for it in S.SCENES[si].get('pre',[]):
-        im=item_img(it);PRE.setdefault(si,[]).append((im,(LEFT,y)));y+=im.height+14
+        im=item_img(it);pre.append((im,(LEFT,y)));y+=im.height+14
+    PRE[si]=pre;y0=y;page=0;pos=[]
     for L in [l for l in lines if l['scene']==si]:
         it=L['it']
         if it is None or it[0] in ('x','ok'):pos.append(None);continue
         if it[0]=='choices':
-            ims=[item_img(('w',f'{"ABCD"[k]})  {c}',44)) for k,c in enumerate(it[1])];hs=[]
-            for im in ims:hs.append((LEFT+20,y));y+=im.height+6
-            pos.append(('choices',ims,hs));continue
-        im=item_img(it);pos.append(('item',im,(LEFT,y)));y+=im.height+14
+            for csz in (40,34,30,26):
+                ims=[item_img(('w',f'{"ABCD"[k]})  {c}',csz)) for k,c in enumerate(it[1])];tot=sum(im.height+4 for im in ims)
+                if y+tot<=BOTTOM+40:break
+            if y+tot>BOTTOM+40 and y>y0:page+=1;y=y0
+            hs=[]
+            for im in ims:hs.append((LEFT+20,y));y+=im.height+4
+            pos.append(('choices',ims,hs,page));continue
+        im=item_img(it)
+        if y+im.height>BOTTOM and y>y0:page+=1;y=y0
+        pos.append(('item',im,(LEFT,y),page));y+=im.height+14
     return pos
 PRE={}
 LAY={si:layout(si) for si in range(len(S.SCENES))}
@@ -100,10 +121,20 @@ def caption(img,text):
 # ---------- thumbnail ----------
 def thumb():
     im=BASE.copy();d=ImageDraw.Draw(im)
-    d.text((70,90),'SAT MATH',font=F(46,True),fill=COL['y'])
-    yy=170
-    for ln in S.TOPIC.split('\n'):d.text((70,yy),ln,font=F(104,True),fill=COL['w']);yy+=125
-    d.text((74,yy+20),'Formulas · worked examples · traps',font=F(34),fill=COL['g'])
+    d.text((70,90),getattr(S,'KIND','SAT MATH'),font=F(46,True),fill=COL['y'])
+    words=S.TOPIC.replace('\n',' ').split();sz=104
+    def wrap(sz):
+        f=F(sz,True);rows=[''];
+        for w in words:
+            t=(rows[-1]+' '+w).strip()
+            if d.textlength(t,font=f)>760 and rows[-1]:rows.append(w)
+            else:rows[-1]=t
+        return rows,f
+    rows,f=wrap(sz)
+    while (len(rows)>3 or len(rows)*sz*1.2>420) and sz>56:sz-=6;rows,f=wrap(sz)
+    yy=165
+    for ln in rows:d.text((70,yy),ln,font=f,fill=COL['w']);yy+=int(sz*1.18)
+    d.text((74,yy+16),'Rules · worked examples · traps',font=F(34),fill=COL['g'])
     tch=teacher(0.2,False,1.0).resize((390,468));im.alpha_composite(tch,(W-430,H-470))
     return im
 TH=thumb();TH.convert('RGB').save(OUT.replace('.mp4',' - Thumbnail.jpg'),quality=92)
@@ -121,10 +152,14 @@ for fi in range(nf):
     key=(si,)
     im=BASE.copy();im.alpha_composite(TIT[si],(LEFT,62))
     for pim,pxy in PRE.get(si,[]):im.alpha_composite(pim,pxy)
+    curpage=0
+    for k,l2 in enumerate(sl):
+        if l2['start']<=tt and lay[k] is not None:curpage=lay[k][3]
     writing=False;wx=wy=None
     for k,l2 in enumerate(sl):
         if l2['start']>tt:break
         p=lay[k];it=l2['it'];el=tt-l2['start'];fr=min(1,max(0,el/write_frac(l2))) if it else 1
+        if p is not None and p[3]!=curpage:continue
         if p is None:
             if it and it[0] in ('x','ok'):
                 ci=it[1];cp=[q for q in lay if q and q[0]=='choices'][-1];x,y=cp[2][ci];cim=cp[1][ci]

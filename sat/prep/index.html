@@ -166,13 +166,13 @@ function level(a,n){if(!n)return ['Not tried','#374151','#eef0f3'];if(a<50)retur
 
 /* ---------- router ---------- */
 function route(){const h=decodeURIComponent(location.hash.slice(1)||'/');const [_,v,a]=h.split('/');UI.nav=false;
-  if(v==='drill')return startDrill(a);if(v==='learn')return learnPage(a);if(v==='video')return videoPage(a);D=null;home();}
+  if(v==='drill')return startDrill(a);if(v==='learn')return learnPage(a);if(v==='video')return videoPage(a);if(v==='videos')return videosPage();D=null;home();}
 window.addEventListener('hashchange',route);
 
 /* ---------- home ---------- */
 function topbar(on){const days=Math.max(0,Math.round((new Date(TEST+'T08:00')-new Date())/864e5));
   return `<header class="top"><div class="in"><div style="display:flex;align-items:center;gap:12px"><div class="logo hd">SAT</div><div><div class="hd" style="font-weight:700;font-size:20px">Patrick's SAT Prep</div><div style="font-size:14px;color:var(--mute)">Test day Sat, Dec 5 · ${days} days left · Goal 1300</div></div></div>
-  <nav class="nav" style="display:flex;gap:6px;flex-wrap:wrap"><a href="#/" class="${on==='home'?'on':''}">Home</a><a href="../drill-zone/plan.html">Daily plan</a><a href="../drill-zone/report.html">Score report</a></nav></div></header>`}
+  <nav class="nav" style="display:flex;gap:6px;flex-wrap:wrap"><a href="#/" class="${on==='home'?'on':''}">Home</a><a href="#/videos" class="${on==='videos'?'on':''}">Videos</a><a href="../drill-zone/plan.html">Daily plan</a><a href="../drill-zone/report.html">Score report</a></nav></div></header>`}
 function todayCard(){const d=PLAN&&PLAN.days.find(x=>x.date===today());
   if(!d)return `<section class="today"><div><div class="k">Today</div><div class="t hd">Pick a skill below</div><div class="s">Start with the ones marked “Needs work” that count the most.</div></div></section>`;
   const dn=new Date(d.date+'T12:00').toLocaleDateString('en-US',{weekday:'long'});
@@ -201,13 +201,22 @@ function learnPage(skill){const s=SK2[skill];if(!s)return home();const ls=lesson
    <div><a href="#/">← Home</a><h1 class="hd" style="margin:6px 0 0;font-size:28px">Learn it · ${esc(s.name)}</h1></div>
    <div style="display:flex;gap:8px;flex-wrap:wrap">${ls.length>1?ls.map(l=>`<button class="btn ${l===id?'':'g'} sm" data-lid="${l}">${esc(LES[l]?LES[l].title:l)}</button>`).join(''):''}<button class="btn g" data-go="#/video/${skill}">Video</button><button class="btn" data-go="#/drill/${skill}">Drill this skill →</button></div></div>
    ${id?`<iframe class="lframe" src="../drill-zone/learn.html?embed=1#${id}" title="Lesson"></iframe>`:'<div class="card" style="padding:20px">The walk-through for this skill is coming. Use Drill and press “Show me how” on each question.</div>'}</div>`;window.scrollTo(0,0);}
-function videoHTML(skill){const ls=lessonFor(skill);const v=ls.map(l=>VIDEOS[l]).find(Boolean);
+function vidIds(skill){const s=SK2[skill];let ids=lessonFor(skill).filter(l=>VIDEOS[l]);if(s&&s.sec==='Math')ids=ids.concat(['m3','m5'].filter(l=>VIDEOS[l]&&!ids.includes(l)));return ids}
+function videoHTML(skill){const ids=vidIds(skill);const cur=ids.includes(UI.vid)?UI.vid:ids[0];const v=cur&&VIDEOS[cur];
+  const tabs=ids.length>1?`<div style="display:flex;gap:6px;flex-wrap:wrap">${ids.map(l=>`<button class="btn ${l===cur?'':'g'} sm" data-vid="${l}">${esc(LES[l]?LES[l].title:l)}</button>`).join('')}</div>`:'';
+  if(v)return tabs+videoInner(v);
+  return videoInner(null,skill);}
+function videoInner(v,skill){
   if(v)return `<video class="vid" controls preload="metadata" playsinline poster="${v.poster||''}" src="${v.src}"></video>`+(v.chapters?`<div class="box b-blue"><div class="lab">Jump to</div><div class="c" style="display:flex;flex-direction:column;gap:6px">${v.chapters.map(c=>`<button class="btn g sm" style="text-align:left" data-seek="${c[0]}"><b style="color:var(--navy)">${Math.floor(c[0]/60)}:${String(c[0]%60).padStart(2,'0')}</b> &nbsp;${esc(c[1])}</button>`).join('')}</div></div>`:'');
   return `<div class="vph"><div><div class="hd" style="font-size:22px;font-weight:700">${esc(SK2[skill].name)}</div><div style="margin-top:8px">Chalkboard video coming soon.</div></div></div><div class="box b-yel"><div class="lab">For now</div><div class="c">Use <b>Learn it</b> for the walk-through, or <b>Show me how</b> on any drill question.</div></div>`}
 function videoPage(skill){const s=SK2[skill];if(!s)return home();
   app().innerHTML=topbar('')+`<div class="page" style="max-width:1100px;margin:0 auto;width:100%"><div><a href="#/">← Home</a><h1 class="hd" style="margin:6px 0 0;font-size:28px">Video · ${esc(s.name)}</h1></div>${videoHTML(skill)}
    <div style="display:flex;gap:8px"><button class="btn g" data-go="#/learn/${skill}">Learn it</button><button class="btn" data-go="#/drill/${skill}">Drill this skill →</button></div></div>`;window.scrollTo(0,0);}
 
+function videosPage(){const ids=Object.keys(VIDEOS);const cur=ids.includes(UI.vid)?UI.vid:null;
+  app().innerHTML=topbar('videos')+`<div class="page"><div><a href="#/">← Home</a><h1 class="hd" style="margin:6px 0 0;font-size:28px">Chalkboard videos</h1><div style="color:var(--mute)">${ids.length} lessons. Click one to watch.</div></div>
+   ${cur?`<div class="card" style="padding:16px;max-width:1100px">${videoInner(VIDEOS[cur])}</div>`:''}
+   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px">${ids.map(l=>`<button class="card" data-vid="${l}" style="padding:0;text-align:left;overflow:hidden;${l===cur?'outline:3px solid var(--navy)':''}"><img src="${VIDEOS[l].poster}" alt="" style="width:100%;display:block;aspect-ratio:16/9;object-fit:cover"><div style="padding:10px 12px;font-weight:700">${esc(LES[l]?LES[l].title:l)}</div></button>`).join('')}</div></div>`;window.scrollTo(0,0);}
 /* ---------- drill ---------- */
 function pickQs(arg){let pool=[];
   if(arg.startsWith('review:')){arg.slice(7).split(',').forEach(x=>{const [sk,n]=x.split('.');pool=pool.concat(order(BANK.qs.filter(q=>q.skill===sk)).slice(0,+n||2))});return {qs:pool,title:'Review',skill:null}}
@@ -307,6 +316,7 @@ function drawEnd(){const n=D.qs.length,first=D.st.filter(t=>t.ok&&t.tried.length
 document.addEventListener('click',e=>{const b=e.target.closest('button,[data-go]');if(!b)return;const d=b.dataset;
   if(d.go){const h=d.go.split('?')[0];if(location.hash===h)route();else location.hash=h;return}
   if(d.lid){UI.lid=d.lid;return route()}
+  if(d.vid){UI.vid=d.vid;if(D&&!D.done)return drawDrill();return route()}
   if(!D)return;
   const q=D.done?null:cur(),st=D.done?null:D.st[D.i];
   if(d.pick!==undefined){const j=+d.pick;if(st.tried.includes(j)||st.ok)return;st.tried.push(j);answer(j===q.ans,q.ch[j]);return}

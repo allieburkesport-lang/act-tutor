@@ -674,5 +674,35 @@
 "Say it out loud"
 ]
 ]
+},
+"m5": {
+"src": "videos/m5.mp4",
+"poster": "videos/m5.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+13,
+"The rules"
+],
+[
+30,
+"Example 1: Finished early"
+],
+[
+52,
+"Example 2: Stuck past 3 minutes"
+],
+[
+73,
+"Example 3: Never leave a blank"
+],
+[
+90,
+"Say it out loud"
+]
+]
 }
 }
