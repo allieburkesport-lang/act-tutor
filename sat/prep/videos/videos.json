@@ -704,5 +704,297 @@
 "Say it out loud"
 ]
 ]
+},
+"s1": {
+"src": "videos/s1.mp4",
+"poster": "videos/s1.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+19,
+"The rules"
+],
+[
+38,
+"Example 1: Period"
+],
+[
+83,
+"Example 2: Semicolon"
+],
+[
+125,
+"Example 3: Comma + FANBOYS"
+],
+[
+171,
+"Example 4: Semicolon + however"
+],
+[
+219,
+"Your turn: pause and pick"
+],
+[
+255,
+"Say it out loud"
+]
+]
+},
+"s4": {
+"src": "videos/s4.mp4",
+"poster": "videos/s4.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+17,
+"The rules"
+],
+[
+34,
+"Example 1: Two commas"
+],
+[
+80,
+"Example 2: Two dashes"
+],
+[
+122,
+"Example 3: Two parentheses"
+],
+[
+170,
+"Example 4: Extra info at the start"
+],
+[
+213,
+"Your turn: pause and pick"
+],
+[
+244,
+"Say it out loud"
+]
+]
+},
+"s5": {
+"src": "videos/s5.mp4",
+"poster": "videos/s5.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+21,
+"The rules"
+],
+[
+46,
+"Example 1: “Of” phrase in the middle"
+],
+[
+85,
+"Example 2: Dashes or commas in the middle"
+],
+[
+121,
+"Example 3: Two subjects with “and”"
+],
+[
+148,
+"Example 4: “Along with” / “as well as”"
+],
+[
+182,
+"Your turn: pause and pick"
+],
+[
+214,
+"Say it out loud"
+]
+]
+},
+"s6": {
+"src": "videos/s6.mp4",
+"poster": "videos/s6.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+17,
+"The rules"
+],
+[
+28,
+"Example 1: Pushback"
+],
+[
+68,
+"Example 2: Replaces"
+],
+[
+112,
+"Example 3: Still true anyway"
+],
+[
+158,
+"Example 4: Admits a weakness"
+],
+[
+193,
+"Your turn: pause and pick"
+],
+[
+220,
+"Say it out loud"
+]
+]
+},
+"r1": {
+"src": "videos/r1.mp4",
+"poster": "videos/r1.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+16,
+"The rules"
+],
+[
+30,
+"Example 1: Example clue"
+],
+[
+60,
+"Example 2: Colon clue"
+],
+[
+93,
+"Example 3: Describing clue"
+],
+[
+123,
+"Example 4: “Whereas” clue"
+],
+[
+155,
+"Your turn: pause and pick"
+],
+[
+183,
+"Say it out loud"
+]
+]
+},
+"r2": {
+"src": "videos/r2.mp4",
+"poster": "videos/r2.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+13,
+"The rules"
+],
+[
+24,
+"Example 1: Old belief → new finding"
+],
+[
+52,
+"Example 2: “Some think X. However, Y argues Z.”"
+],
+[
+85,
+"Example 3: Change over time"
+],
+[
+123,
+"Example 4: Process with steps"
+],
+[
+158,
+"Say it out loud"
+]
+]
+},
+"r3": {
+"src": "videos/r3.mp4",
+"poster": "videos/r3.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+17,
+"The rules"
+],
+[
+29,
+"Example 1: “This suggests that…”"
+],
+[
+67,
+"Example 2: Trap: goes too far"
+],
+[
+96,
+"Example 3: “Proves that” (what was shown)"
+],
+[
+135,
+"Example 4: Ruling things out"
+],
+[
+170,
+"Say it out loud"
+]
+]
+},
+"s2": {
+"src": "videos/s2.mp4",
+"poster": "videos/s2.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+17,
+"The rules"
+],
+[
+30,
+"Example 1: Who | did"
+],
+[
+65,
+"Example 2: Did | what"
+],
+[
+97,
+"Example 3: Little word | its words"
+],
+[
+134,
+"Example 4: Title right before a name"
+],
+[
+175,
+"Say it out loud"
+]
+]
 }
 }
