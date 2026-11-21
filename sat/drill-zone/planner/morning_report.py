@@ -27,7 +27,7 @@ test = datetime.date(2026, 12, 5); left = (test - D0).days
 R = [a for a in A if et(a['created_at']).strftime('%Y-%m-%d') == day]
 F = [a for a in R if (a.get('attempt') or 1) == 1]
 n = len(F); ok = sum(a['correct'] for a in F)
-NAVY, G, AMB, RED, MU, LN = '#13315C', '#047857', '#B45309', '#B91C1C', '#334155', '#E2E8F0'
+NAVY, G, AMB, RED, MU, LN = '#1E3A8A', '#059669', '#7C3AED', '#DC2626', '#374151', '#E5E7EB'
 col = lambda p: G if p >= 80 else (AMB if p >= 60 else RED)
 nolink = lambda s: s.replace(':', '&#8288;:&#8288;')
 FONT = 'font-family:-apple-system,Helvetica,Arial,sans-serif'
@@ -89,7 +89,7 @@ if n:
         f"<tr>{tile('Wrong', len(wrong), RED if wrong else G)}{tile('Used help on', len(helped), AMB if helped else G)}</tr>"
         f"<tr>{tile('Asked the tutor', len(asks))}{tile('Used calculator on', len(calc))}</tr>"
         f"<tr>{tile('Time per question', f'{secs}s')}{tile('Time on HELM', f'{round((t1-t0).seconds/60)} min')}</tr></table>")
-    badge = lambda h: ' '.join(f"<span style='display:inline-block;background:#FEF3C7;border:1px solid #F59E0B;border-radius:10px;padding:1px 7px;margin:2px 2px 0 0;font-size:12px;font-weight:700'>{HN.get(x,x)}</span>" for x in sorted(h))
+    badge = lambda h: ' '.join(f"<span style='display:inline-block;background:#EEF2FF;border:1px solid #C7D2FE;color:#1E3A8A;border-radius:10px;padding:1px 7px;margin:2px 2px 0 0;font-size:12px;font-weight:700'>{HN.get(x,x)}</span>" for x in sorted(h))
     res = lambda k: f"<span style='color:{G if Q[k]['first'] else RED}'>{'✓ right' if Q[k]['first'] else '✗ wrong'}</span>"
     help_html = tbl(''.join(row(qlink(k) + '<br>' + badge(Q[k]['help'] - TOOLS), res(k)) for k in helped)) if helped else f"<div style='font-size:15px'>None.</div>"
     miss_html = tbl(''.join(row(qlink(k), f"<span style='color:{G if Q[k]['ok'] else RED}'>{'fixed on retry' if Q[k]['ok'] else 'not fixed'}</span>") for k in wrong)) if wrong else f"<div style='font-size:15px'>None. Every question right on the first try.</div>"
