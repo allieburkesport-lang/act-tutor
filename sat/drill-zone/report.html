@@ -15,7 +15,7 @@ h2{font-size:18px;margin:8px 0 0;border-bottom:2px solid var(--ink);padding-bott
 .meter{height:8px;background:#e5e9f0;border-radius:4px;overflow:hidden;min-width:80px}.meter i{display:block;height:100%}
 a{color:var(--blue-t)}
 @media (max-width:600px){.wrap{padding:14px 16px 40px}}
-</style></head><body><div class="wrap">
+</style><script src="../prep/auth.js?v=1"></script></head><body><div class="wrap">
 <header><h1>SAT Drill Zone Report</h1><p class="sub">First-try scores from the <a href="./">SAT Drill Zone</a> lessons (the dashboard shows the question-bank drills), by section and by concept. Green 80%+ · yellow 50–79% · red under 50%.</p></header>
 <div class="bar"><label for="who"><b>Student</b></label><select id="who"></select><label for="rng"><b>Dates</b></label>
 <select id="rng"><option value="0">All time</option><option value="1">Today</option><option value="7">Last 7 days</option><option value="30">Last 30 days</option></select><button id="reload">Refresh</button><span id="status" class="sub"></span></div>
@@ -52,8 +52,8 @@ async function load(){
  const miss=firsts.filter(r=>!r.correct);
  document.getElementById('misses').innerHTML=miss.length?'<tr><th>When</th><th>#</th><th>Concept</th><th>Question</th><th>Picked</th><th>Seconds</th></tr>'+miss.map(r=>`<tr><td>${new Date(r.created_at).toLocaleString()}</td><td class="num">${r.concept_no??''}</td><td>${esc(r.concept_title)}</td><td>${esc(r.question)}</td><td style="color:var(--red-t)">✗ ${esc(r.picked)}</td><td class="num">${r.seconds??''}</td></tr>`).join(''):'<tr><td>No first-try misses in this date range.</td></tr>';
 }
-(async()=>{const sel=document.getElementById('who');let names=[];try{names=await students();}catch(e){}
+HELM_AUTH.then(async()=>{const sel=document.getElementById('who');let names=[];try{names=await students();}catch(e){}
  let pref='';try{pref=localStorage.getItem('satname')||''}catch(e){}
  sel.innerHTML=names.map(n=>`<option${n===pref?' selected':''}>${esc(n)}</option>`).join('')||'<option value="">(no one yet)</option>';
- sel.onchange=load;document.getElementById('rng').onchange=load;document.getElementById('reload').onclick=load;load();})();
+ sel.onchange=load;document.getElementById('rng').onchange=load;document.getElementById('reload').onclick=load;load();});
 </script></body></html>

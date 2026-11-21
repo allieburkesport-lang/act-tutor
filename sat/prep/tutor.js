@@ -2,11 +2,8 @@
    Backend (already live in Supabase project sat-prep): auth user, helm_members, tutor_messages, Edge Function tutor-chat.
    The Claude API key lives only in Supabase secrets; the site never sees it. */
 (function () {
-  const URL_ = 'https://wsoevgmculmcnxymivbp.supabase.co', KEY = 'sb_publishable_ncTnyRItcb1Ww_FUSpMlew_uv-7gPg_';
-  let sb = null, session = null;
   const css = document.createElement('style');
   css.textContent = `
-  .tl-wrap{position:fixed;inset:0;z-index:10000;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-family:Helvetica,Arial,sans-serif}
   .tl-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;box-shadow:0 10px 30px rgba(15,23,42,.08);padding:28px;width:min(400px,92vw);display:flex;flex-direction:column;gap:12px}
   .tl-card label{font-size:13px;font-weight:600;color:#334155}.tl-card input{font:inherit;font-size:16px;padding:11px 12px;border:1px solid #cbd5e1;border-radius:10px;width:100%;box-sizing:border-box}
   .tl-card .tl-row{display:flex;gap:8px;align-items:center;border:0;padding:0;margin:0}.tl-err{color:#be123c;font-size:14px;min-height:18px}
@@ -23,40 +20,19 @@
   .tc-chips{display:flex;gap:6px;flex-wrap:wrap;padding:0 16px 10px;background:#f8fafc}.tc-chips button{font:inherit;font-size:13px;border:1px solid #cbd5e1;background:#fff;border-radius:999px;padding:5px 10px;cursor:pointer}`;
   document.head.appendChild(css);
 
-  // ---------- sign-in gate ----------
-  function loginCard() {
-    if (document.querySelector('.tl-wrap')) return;
-    const w = document.createElement('div'); w.className = 'tl-wrap';
-    w.innerHTML = `<form class="tl-card" autocomplete="on"><img src="helm-logo.png" alt="SAT HELM" style="height:64px;width:auto;align-self:center">
-      <div style="font-size:15px;color:#475569;text-align:center">Sign in to start practicing</div>
-      <div><label for="tl-e">Email</label><input id="tl-e" type="email" autocomplete="username" required></div>
-      <div><label for="tl-p">Password</label><div class="tl-row"><input id="tl-p" type="password" autocomplete="current-password" required><button type="button" class="tl-btn g" id="tl-show">Show</button></div></div>
-      <div class="tl-err" id="tl-err"></div><button class="tl-btn" type="submit">Sign in</button></form>`;
-    document.body.appendChild(w);
-    w.querySelector('#tl-show').onclick = () => { const p = w.querySelector('#tl-p'); p.type = p.type === 'password' ? 'text' : 'password'; w.querySelector('#tl-show').textContent = p.type === 'password' ? 'Show' : 'Hide' };
-    w.querySelector('form').onsubmit = async ev => { ev.preventDefault(); const err = w.querySelector('#tl-err'); err.textContent = 'Signing in…';
-      const {error} = await sb.auth.signInWithPassword({email: w.querySelector('#tl-e').value.trim(), password: w.querySelector('#tl-p').value});
-      if (error) { err.textContent = 'Email or password is wrong'; return } w.remove() };
-  }
+  // sign-in itself is in auth.js; here: Sign out link + turn on the private question bundles
+  let sb = null, session = null;
   function signOutLink() {
-    const nav = document.querySelector('header.top nav'); if (!nav || nav.querySelector('[data-signout]') || !session) return;
+    const nav = document.querySelector('header.top nav'); if (!nav || nav.querySelector('[data-signout]')) return;
     const a = document.createElement('a'); a.href = '#'; a.textContent = 'Sign out'; a.dataset.signout = '1';
-    a.onclick = async e => { e.preventDefault(); await sb.auth.signOut(); session = null; loginCard() }; nav.appendChild(a);
+    a.onclick = e => { e.preventDefault(); window.HELM_SIGNOUT() }; nav.appendChild(a);
   }
-  // signing in turns on the official College Board questions and Blueprint misses (no separate unlock link needed)
   let unlocking = false;
   async function autoUnlock() {
     if (unlocking || typeof unlockBP !== 'function') return; if (typeof BPR !== 'undefined' && BPR.length) return; unlocking = true;
     try { const {data} = await sb.from('helm_members').select('unlock_code').maybeSingle(); if (data && data.unlock_code && await unlockBP(data.unlock_code) && typeof D !== 'undefined' && !D && typeof route === 'function') route() } catch (e) {}
     unlocking = false }
-  function boot() {
-    if (!window.supabase) return;  // CDN unreachable: leave the site usable
-    sb = window.supabase.createClient(URL_, KEY, {auth: {persistSession: true, autoRefreshToken: true}});
-    window.HELM_SB = sb;
-    sb.auth.getSession().then(({data}) => { session = data.session; if (!session) loginCard(); else { signOutLink(); autoUnlock() } });
-    sb.auth.onAuthStateChange((_e, s) => { session = s; if (s) { const w = document.querySelector('.tl-wrap'); if (w) w.remove(); signOutLink(); autoUnlock() } });
-  }
-  const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2'; s.onload = boot; document.head.appendChild(s);
+  if (window.HELM_AUTH) window.HELM_AUTH.then(s => { session = s; sb = window.HELM_SB; signOutLink(); autoUnlock() });
 
   // ---------- "Ask the tutor" ----------
   try { if (typeof HELPN === 'object') HELPN.tutor = 'Ask the tutor' } catch (e) {}
@@ -88,7 +64,7 @@
       <form class="tc-f"><textarea placeholder="Type your question… (Enter to send)" aria-label="Your message"></textarea><button class="tl-btn" type="submit">Send</button></form>`;
     document.body.appendChild(p);
     const box = p.querySelector('.tc-m'), ta = p.querySelector('textarea'), id = cid(q.id);
-    if (!sb || !session) { bubble(box, 'e', 'Please sign in to use the tutor.'); if (sb) loginCard(); return }
+    if (!sb || !session) { bubble(box, 'e', 'Please sign in to use the tutor.'); return }
     const {data} = await sb.from('tutor_messages').select('role,content').eq('conversation_id', id).order('created_at', {ascending: true});
     (data || []).forEach(m => bubble(box, m.role === 'tutor' ? 't' : 's', m.content));
     if (!data || !data.length) bubble(box, 't', 'Hi Patrick. What part of this question is confusing? Tell me what you tried, even if it was a guess.');

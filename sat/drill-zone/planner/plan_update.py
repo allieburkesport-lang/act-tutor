@@ -49,8 +49,12 @@ MATH = {'lin1','lin2','linf','sys','ineq','equiv','nleq','nlf','ratio','pct','da
 def get_rows():
     rows, off = [], 0
     while True:
-        url = f"{SB}?student=ilike.patrick*&select=created_at,kind,concept_id,correct,first_try,attempt&order=created_at.asc&offset={off}&limit=1000"
-        req = urllib.request.Request(url, headers={'apikey': KEY, 'Authorization': 'Bearer ' + KEY})
+        # answers are private (sign-in only); the planner reads them through a token-protected function.
+        # Token: env HELM_PLANNER_TOKEN or ~/.helm_planner_token (never in the repo).
+        tok = os.environ.get('HELM_PLANNER_TOKEN') or open(os.path.expanduser('~/.helm_planner_token')).read().strip()
+        url = f"{SB.replace('/answers', '/rpc/planner_answers')}?student=ilike.patrick*&select=created_at,kind,concept_id,correct,first_try,attempt&order=created_at.asc&offset={off}&limit=1000"
+        req = urllib.request.Request(url, data=json.dumps({'tok': tok}).encode(), method='POST',
+                                     headers={'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json'})
         part = json.load(urllib.request.urlopen(req, timeout=30)); rows += part
         if len(part) < 1000: return rows
         off += 1000

@@ -113,6 +113,7 @@ iframe.desmos{width:100%;height:calc(100vh - 190px);border:1px solid var(--line)
 .keepon{font-size:20px;font-weight:700;color:#9a3412;background:#fff4ec;border:1px solid #fed7aa;border-radius:10px;padding:10px 16px}.keepon.ok{color:#14532d;background:#ecfdf3;border-color:#bbf7d0}.keepon.sm{font-size:13px;padding:4px 8px;margin-bottom:6px;display:block;text-align:center}
 .src2{margin:4px 0 0 4px;font-size:13px;line-height:1.5}.src2 .sl{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}.src2 .lab{min-width:62px;color:var(--mute);font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.04em}.src2 .mute{color:var(--mute)}.src2 .up{color:#15803d;font-weight:600}.src2 .dn{color:#c2410c;font-weight:600}.src2 .eq{color:var(--mute)}
 </style>
+<script src="auth.js?v=1"></script>
 </head>
 <body>
 <div id="app"><p style="padding:30px">Loading…</p></div>
@@ -215,7 +216,6 @@ function level(a,n){if(!n)return ['Not tried','#374151','#eef0f3'];if(a<50)retur
 
 /* ---------- router ---------- */
 function route(){const h=decodeURIComponent(location.hash.slice(1)||'/');const [_,v,a]=h.split('/');UI.nav=false;
-  if(v==='unlock'){unlockBP(a).then(ok=>{ok=ok||CBM.length>0;app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">${ok?'Unlocked on this device':'That link did not work'}</h1><p>${ok?(BPR.length?BPR.length+' Blueprint questions he missed':'Official questions')+(CBQ.length?', '+CBQ.length.toLocaleString()+' official College Board Reading & Writing questions':'')+(CBM.length?' and '+CBM.length+' official College Board math questions':'')+' are now in his drills on this device.':'Check the link and try again.'}</p><button class="btn" data-go="#/">Home</button></div>`});return}
   if(v==='drill')return startDrill(a);if(v==='day')return startDay(a);if(v==='report')return dayReport(a);if(v==='learn')return learnPage(a);if(v==='video')return videoPage(a);if(v==='stats')return statsPage(a);if(v==='videos')return videosPage();D=null;home();}
 window.addEventListener('hashchange',route);
 setInterval(()=>{if(!D&&/^#\/(stats|report|$)/.test(location.hash||'#/')&&!document.querySelector('.drw.open'))pullOnline()},60000);
@@ -616,8 +616,9 @@ document.addEventListener('click',e=>{const b=e.target.closest('button,[data-go]
   if(d.stopmore){D.done=true;return drawEnd()}
   if(d.redo){const miss=D.qs.filter((q,k)=>!(D.st[k].ok&&D.st[k].tried.length===1));D={...D,qs:miss,i:0,st:miss.map(()=>({tried:[],ok:false,shown:0,t0:0,coached:false})),t0:Date.now(),done:false,title:D.title+' · redo'};return showQ()}
 });
-load().then(route);
+HELM_AUTH.then(s=>{H.Authorization='Bearer '+s.access_token;return load()}).then(route);
+setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=11"></script><script src="bi.js?v=5"></script><script src="tutor.js?v=1"></script>
+<script src="stats.js?v=11"></script><script src="bi.js?v=5"></script><script src="tutor.js?v=2"></script>
 </body>
 </html>
