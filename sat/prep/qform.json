@@ -27036,5 +27036,4511 @@
 "ref": "rule",
 "l": []
 }
+],
+"nlf-81": [
+{
+"n": "Exponential growth",
+"eq": "f(x) = a(b)^(x/k)",
+"ref": "learn",
+"l": [
+[
+"a",
+"starting value",
+"800"
+],
+[
+"b",
+"growth factor each time x goes up by k",
+"1.15"
+],
+[
+"k",
+"how much x must grow for one multiply",
+"3"
+]
+]
+},
+{
+"n": "Factor to percent",
+"eq": "growth factor b = 1 + r, so the percent increase is (b − 1) × 100.",
+"ref": "rule",
+"l": []
+}
+],
+"nlf-82": [
+{
+"n": "Exponential growth",
+"eq": "f(x) = a(b)^(x/k)",
+"ref": "learn",
+"l": [
+[
+"a",
+"starting value",
+"400"
+],
+[
+"b",
+"growth factor each time x goes up by k",
+"1.05"
+],
+[
+"k",
+"how much x must grow for one multiply",
+"2"
+]
+]
+},
+{
+"n": "Factor to percent",
+"eq": "growth factor b = 1 + r, so the percent increase is (b − 1) × 100.",
+"ref": "rule",
+"l": []
+}
+],
+"nlf-83": [
+{
+"n": "Exponential growth",
+"eq": "f(x) = a(b)^(x/k)",
+"ref": "learn",
+"l": [
+[
+"a",
+"starting value",
+"400"
+],
+[
+"b",
+"growth factor each time x goes up by k",
+"1.1"
+],
+[
+"k",
+"how much x must grow for one multiply",
+"4"
+]
+]
+},
+{
+"n": "Factor to percent",
+"eq": "growth factor b = 1 + r, so the percent increase is (b − 1) × 100.",
+"ref": "rule",
+"l": []
+}
+],
+"nlf-84": [
+{
+"n": "Exponential growth",
+"eq": "f(x) = a(b)^(x/k)",
+"ref": "learn",
+"l": [
+[
+"a",
+"starting value",
+"500"
+],
+[
+"b",
+"growth factor each time x goes up by k",
+"1.15"
+],
+[
+"k",
+"how much x must grow for one multiply",
+"4"
+]
+]
+},
+{
+"n": "Factor to percent",
+"eq": "growth factor b = 1 + r, so the percent increase is (b − 1) × 100.",
+"ref": "rule",
+"l": []
+}
+],
+"nlf-85": [
+{
+"n": "Exponential growth",
+"eq": "f(x) = a(b)^(x/k)",
+"ref": "learn",
+"l": [
+[
+"a",
+"starting value",
+"250"
+],
+[
+"b",
+"growth factor each time x goes up by k",
+"1.05"
+],
+[
+"k",
+"how much x must grow for one multiply",
+"5"
+]
+]
+},
+{
+"n": "Factor to percent",
+"eq": "growth factor b = 1 + r, so the percent increase is (b − 1) × 100.",
+"ref": "rule",
+"l": []
+}
+],
+"nlf-86": [
+{
+"n": "Exponential growth",
+"eq": "f(x) = a(b)^(x/k)",
+"ref": "learn",
+"l": [
+[
+"a",
+"starting value",
+"400"
+],
+[
+"b",
+"growth factor each time x goes up by k",
+"1.05"
+],
+[
+"k",
+"how much x must grow for one multiply",
+"3"
+]
+]
+},
+{
+"n": "Factor to percent",
+"eq": "growth factor b = 1 + r, so the percent increase is (b − 1) × 100.",
+"ref": "rule",
+"l": []
+}
+],
+"nlf-87": [
+{
+"n": "Exponential growth",
+"eq": "f(x) = a(b)^(x/k)",
+"ref": "learn",
+"l": [
+[
+"a",
+"starting value",
+"400"
+],
+[
+"b",
+"growth factor each time x goes up by k",
+"1.15"
+],
+[
+"k",
+"how much x must grow for one multiply",
+"2"
+]
+]
+},
+{
+"n": "Factor to percent",
+"eq": "growth factor b = 1 + r, so the percent increase is (b − 1) × 100.",
+"ref": "rule",
+"l": []
+}
+],
+"nlf-88": [
+{
+"n": "Exponential growth",
+"eq": "f(x) = a(b)^(x/k)",
+"ref": "learn",
+"l": [
+[
+"a",
+"starting value",
+"200"
+],
+[
+"b",
+"growth factor each time x goes up by k",
+"1.1"
+],
+[
+"k",
+"how much x must grow for one multiply",
+"3"
+]
+]
+},
+{
+"n": "Factor to percent",
+"eq": "growth factor b = 1 + r, so the percent increase is (b − 1) × 100.",
+"ref": "rule",
+"l": []
+}
+],
+"nlf-89": [
+{
+"n": "Exponential growth",
+"eq": "f(x) = a(b)^(x/k)",
+"ref": "learn",
+"l": [
+[
+"a",
+"starting value",
+"250"
+],
+[
+"b",
+"growth factor each time x goes up by k",
+"1.25"
+],
+[
+"k",
+"how much x must grow for one multiply",
+"4"
+]
+]
+},
+{
+"n": "Factor to percent",
+"eq": "growth factor b = 1 + r, so the percent increase is (b − 1) × 100.",
+"ref": "rule",
+"l": []
+}
+],
+"nlf-90": [
+{
+"n": "Exponential growth",
+"eq": "f(x) = a(b)^(x/k)",
+"ref": "learn",
+"l": [
+[
+"a",
+"starting value",
+"400"
+],
+[
+"b",
+"growth factor each time x goes up by k",
+"1.2"
+],
+[
+"k",
+"how much x must grow for one multiply",
+"5"
+]
+]
+},
+{
+"n": "Factor to percent",
+"eq": "growth factor b = 1 + r, so the percent increase is (b − 1) × 100.",
+"ref": "rule",
+"l": []
+}
+],
+"nlf-91": [
+{
+"n": "Exponential growth",
+"eq": "f(x) = a(b)^(x/k)",
+"ref": "learn",
+"l": [
+[
+"a",
+"starting value",
+"500"
+],
+[
+"b",
+"growth factor each time x goes up by k",
+"1.25"
+],
+[
+"k",
+"how much x must grow for one multiply",
+"4"
+]
+]
+},
+{
+"n": "Factor to percent",
+"eq": "growth factor b = 1 + r, so the percent increase is (b − 1) × 100.",
+"ref": "rule",
+"l": []
+}
+],
+"nlf-92": [
+{
+"n": "Exponential growth",
+"eq": "f(x) = a(b)^(x/k)",
+"ref": "learn",
+"l": [
+[
+"a",
+"starting value",
+"800"
+],
+[
+"b",
+"growth factor each time x goes up by k",
+"1.1"
+],
+[
+"k",
+"how much x must grow for one multiply",
+"10"
+]
+]
+},
+{
+"n": "Factor to percent",
+"eq": "growth factor b = 1 + r, so the percent increase is (b − 1) × 100.",
+"ref": "rule",
+"l": []
+}
+],
+"nlf-93": [
+{
+"n": "Symmetry of a parabola",
+"eq": "The vertex is exactly halfway between the two zeros: x = (r + s) ÷ 2.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Factored form",
+"eq": "f(x) = (x − r)(x − s)",
+"ref": "learn",
+"l": [
+[
+"r, s",
+"the zeros",
+"read from the factors (flip the signs)"
+]
+]
+}
+],
+"nlf-94": [
+{
+"n": "Symmetry of a parabola",
+"eq": "The vertex is exactly halfway between the two zeros: x = (r + s) ÷ 2.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Factored form",
+"eq": "f(x) = (x − r)(x − s)",
+"ref": "learn",
+"l": [
+[
+"r, s",
+"the zeros",
+"read from the factors (flip the signs)"
+]
+]
+}
+],
+"nlf-95": [
+{
+"n": "Symmetry of a parabola",
+"eq": "The vertex is exactly halfway between the two zeros: x = (r + s) ÷ 2.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Factored form",
+"eq": "f(x) = (x − r)(x − s)",
+"ref": "learn",
+"l": [
+[
+"r, s",
+"the zeros",
+"read from the factors (flip the signs)"
+]
+]
+}
+],
+"nlf-96": [
+{
+"n": "Symmetry of a parabola",
+"eq": "The vertex is exactly halfway between the two zeros: x = (r + s) ÷ 2.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Factored form",
+"eq": "f(x) = (x − r)(x − s)",
+"ref": "learn",
+"l": [
+[
+"r, s",
+"the zeros",
+"read from the factors (flip the signs)"
+]
+]
+}
+],
+"nlf-97": [
+{
+"n": "Symmetry of a parabola",
+"eq": "The vertex is exactly halfway between the two zeros: x = (r + s) ÷ 2.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Factored form",
+"eq": "f(x) = (x − r)(x − s)",
+"ref": "learn",
+"l": [
+[
+"r, s",
+"the zeros",
+"read from the factors (flip the signs)"
+]
+]
+}
+],
+"nlf-98": [
+{
+"n": "Symmetry of a parabola",
+"eq": "The vertex is exactly halfway between the two zeros: x = (r + s) ÷ 2.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Factored form",
+"eq": "f(x) = (x − r)(x − s)",
+"ref": "learn",
+"l": [
+[
+"r, s",
+"the zeros",
+"read from the factors (flip the signs)"
+]
+]
+}
+],
+"nlf-99": [
+{
+"n": "Symmetry of a parabola",
+"eq": "The vertex is exactly halfway between the two zeros: x = (r + s) ÷ 2.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Factored form",
+"eq": "f(x) = (x − r)(x − s)",
+"ref": "learn",
+"l": [
+[
+"r, s",
+"the zeros",
+"read from the factors (flip the signs)"
+]
+]
+}
+],
+"nlf-100": [
+{
+"n": "Symmetry of a parabola",
+"eq": "The vertex is exactly halfway between the two zeros: x = (r + s) ÷ 2.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Factored form",
+"eq": "f(x) = (x − r)(x − s)",
+"ref": "learn",
+"l": [
+[
+"r, s",
+"the zeros",
+"read from the factors (flip the signs)"
+]
+]
+}
+],
+"nlf-101": [
+{
+"n": "Symmetry of a parabola",
+"eq": "The vertex is exactly halfway between the two zeros: x = (r + s) ÷ 2.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Factored form",
+"eq": "f(x) = (x − r)(x − s)",
+"ref": "learn",
+"l": [
+[
+"r, s",
+"the zeros",
+"read from the factors (flip the signs)"
+]
+]
+}
+],
+"nlf-102": [
+{
+"n": "Symmetry of a parabola",
+"eq": "The vertex is exactly halfway between the two zeros: x = (r + s) ÷ 2.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Factored form",
+"eq": "f(x) = (x − r)(x − s)",
+"ref": "learn",
+"l": [
+[
+"r, s",
+"the zeros",
+"read from the factors (flip the signs)"
+]
+]
+}
+],
+"nlf-103": [
+{
+"n": "Symmetry of a parabola",
+"eq": "The vertex is exactly halfway between the two zeros: x = (r + s) ÷ 2.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Factored form",
+"eq": "f(x) = (x − r)(x − s)",
+"ref": "learn",
+"l": [
+[
+"r, s",
+"the zeros",
+"read from the factors (flip the signs)"
+]
+]
+}
+],
+"nlf-104": [
+{
+"n": "Symmetry of a parabola",
+"eq": "The vertex is exactly halfway between the two zeros: x = (r + s) ÷ 2.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Factored form",
+"eq": "f(x) = (x − r)(x − s)",
+"ref": "learn",
+"l": [
+[
+"r, s",
+"the zeros",
+"read from the factors (flip the signs)"
+]
+]
+}
+],
+"nlf-105": [
+{
+"n": "Geometric sequence",
+"eq": "nth term = a(r)^(n − 1)",
+"ref": "learn",
+"l": [
+[
+"a",
+"first term",
+"2"
+],
+[
+"r",
+"multiplier each step",
+"4"
+],
+[
+"n",
+"which term",
+"unknown"
+]
+]
+}
+],
+"nlf-106": [
+{
+"n": "Geometric sequence",
+"eq": "nth term = a(r)^(n − 1)",
+"ref": "learn",
+"l": [
+[
+"a",
+"first term",
+"6"
+],
+[
+"r",
+"multiplier each step",
+"2"
+],
+[
+"n",
+"which term",
+"unknown"
+]
+]
+}
+],
+"nlf-107": [
+{
+"n": "Geometric sequence",
+"eq": "nth term = a(r)^(n − 1)",
+"ref": "learn",
+"l": [
+[
+"a",
+"first term",
+"5"
+],
+[
+"r",
+"multiplier each step",
+"2"
+],
+[
+"n",
+"which term",
+"unknown"
+]
+]
+}
+],
+"nlf-108": [
+{
+"n": "Geometric sequence",
+"eq": "nth term = a(r)^(n − 1)",
+"ref": "learn",
+"l": [
+[
+"a",
+"first term",
+"5"
+],
+[
+"r",
+"multiplier each step",
+"3"
+],
+[
+"n",
+"which term",
+"unknown"
+]
+]
+}
+],
+"nlf-109": [
+{
+"n": "Geometric sequence",
+"eq": "nth term = a(r)^(n − 1)",
+"ref": "learn",
+"l": [
+[
+"a",
+"first term",
+"6"
+],
+[
+"r",
+"multiplier each step",
+"4"
+],
+[
+"n",
+"which term",
+"unknown"
+]
+]
+}
+],
+"nlf-110": [
+{
+"n": "Geometric sequence",
+"eq": "nth term = a(r)^(n − 1)",
+"ref": "learn",
+"l": [
+[
+"a",
+"first term",
+"12"
+],
+[
+"r",
+"multiplier each step",
+"4"
+],
+[
+"n",
+"which term",
+"unknown"
+]
+]
+}
+],
+"nlf-111": [
+{
+"n": "Geometric sequence",
+"eq": "nth term = a(r)^(n − 1)",
+"ref": "learn",
+"l": [
+[
+"a",
+"first term",
+"5"
+],
+[
+"r",
+"multiplier each step",
+"4"
+],
+[
+"n",
+"which term",
+"unknown"
+]
+]
+}
+],
+"nlf-112": [
+{
+"n": "Geometric sequence",
+"eq": "nth term = a(r)^(n − 1)",
+"ref": "learn",
+"l": [
+[
+"a",
+"first term",
+"2"
+],
+[
+"r",
+"multiplier each step",
+"3"
+],
+[
+"n",
+"which term",
+"unknown"
+]
+]
+}
+],
+"nlf-113": [
+{
+"n": "Geometric sequence",
+"eq": "nth term = a(r)^(n − 1)",
+"ref": "learn",
+"l": [
+[
+"a",
+"first term",
+"8"
+],
+[
+"r",
+"multiplier each step",
+"4"
+],
+[
+"n",
+"which term",
+"unknown"
+]
+]
+}
+],
+"nlf-114": [
+{
+"n": "Geometric sequence",
+"eq": "nth term = a(r)^(n − 1)",
+"ref": "learn",
+"l": [
+[
+"a",
+"first term",
+"3"
+],
+[
+"r",
+"multiplier each step",
+"5"
+],
+[
+"n",
+"which term",
+"unknown"
+]
+]
+}
+],
+"nlf-115": [
+{
+"n": "Geometric sequence",
+"eq": "nth term = a(r)^(n − 1)",
+"ref": "learn",
+"l": [
+[
+"a",
+"first term",
+"6"
+],
+[
+"r",
+"multiplier each step",
+"5"
+],
+[
+"n",
+"which term",
+"unknown"
+]
+]
+}
+],
+"nlf-116": [
+{
+"n": "Geometric sequence",
+"eq": "nth term = a(r)^(n − 1)",
+"ref": "learn",
+"l": [
+[
+"a",
+"first term",
+"3"
+],
+[
+"r",
+"multiplier each step",
+"2"
+],
+[
+"n",
+"which term",
+"unknown"
+]
+]
+}
+],
+"nlf-117": [
+{
+"n": "y-intercept",
+"eq": "Set x = 0. Any number to the 0 power is 1.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Exponential function",
+"eq": "f(x) = a(b)^x + c",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front",
+"20"
+],
+[
+"b",
+"growth factor",
+"1.5"
+],
+[
+"c",
+"number added",
+"−9"
+]
+]
+}
+],
+"nlf-118": [
+{
+"n": "y-intercept",
+"eq": "Set x = 0. Any number to the 0 power is 1.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Exponential function",
+"eq": "f(x) = a(b)^x + c",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front",
+"3"
+],
+[
+"b",
+"growth factor",
+"1.2"
+],
+[
+"c",
+"number added",
+"5"
+]
+]
+}
+],
+"nlf-119": [
+{
+"n": "y-intercept",
+"eq": "Set x = 0. Any number to the 0 power is 1.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Exponential function",
+"eq": "f(x) = a(b)^x + c",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front",
+"3"
+],
+[
+"b",
+"growth factor",
+"1.2"
+],
+[
+"c",
+"number added",
+"4"
+]
+]
+}
+],
+"nlf-120": [
+{
+"n": "y-intercept",
+"eq": "Set x = 0. Any number to the 0 power is 1.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Exponential function",
+"eq": "f(x) = a(b)^x + c",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front",
+"2"
+],
+[
+"b",
+"growth factor",
+"2"
+],
+[
+"c",
+"number added",
+"1"
+]
+]
+}
+],
+"nlf-121": [
+{
+"n": "y-intercept",
+"eq": "Set x = 0. Any number to the 0 power is 1.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Exponential function",
+"eq": "f(x) = a(b)^x + c",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front",
+"5"
+],
+[
+"b",
+"growth factor",
+"0.8"
+],
+[
+"c",
+"number added",
+"3"
+]
+]
+}
+],
+"nlf-122": [
+{
+"n": "y-intercept",
+"eq": "Set x = 0. Any number to the 0 power is 1.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Exponential function",
+"eq": "f(x) = a(b)^x + c",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front",
+"20"
+],
+[
+"b",
+"growth factor",
+"2"
+],
+[
+"c",
+"number added",
+"6"
+]
+]
+}
+],
+"nlf-123": [
+{
+"n": "y-intercept",
+"eq": "Set x = 0. Any number to the 0 power is 1.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Exponential function",
+"eq": "f(x) = a(b)^x + c",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front",
+"6"
+],
+[
+"b",
+"growth factor",
+"2"
+],
+[
+"c",
+"number added",
+"−3"
+]
+]
+}
+],
+"nlf-124": [
+{
+"n": "y-intercept",
+"eq": "Set x = 0. Any number to the 0 power is 1.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Exponential function",
+"eq": "f(x) = a(b)^x + c",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front",
+"8"
+],
+[
+"b",
+"growth factor",
+"0.5"
+],
+[
+"c",
+"number added",
+"−2"
+]
+]
+}
+],
+"nlf-125": [
+{
+"n": "y-intercept",
+"eq": "Set x = 0. Any number to the 0 power is 1.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Exponential function",
+"eq": "f(x) = a(b)^x + c",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front",
+"20"
+],
+[
+"b",
+"growth factor",
+"2"
+],
+[
+"c",
+"number added",
+"8"
+]
+]
+}
+],
+"nlf-126": [
+{
+"n": "y-intercept",
+"eq": "Set x = 0. Any number to the 0 power is 1.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Exponential function",
+"eq": "f(x) = a(b)^x + c",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front",
+"10"
+],
+[
+"b",
+"growth factor",
+"0.5"
+],
+[
+"c",
+"number added",
+"6"
+]
+]
+}
+],
+"nlf-127": [
+{
+"n": "y-intercept",
+"eq": "Set x = 0. Any number to the 0 power is 1.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Exponential function",
+"eq": "f(x) = a(b)^x + c",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front",
+"20"
+],
+[
+"b",
+"growth factor",
+"1.5"
+],
+[
+"c",
+"number added",
+"−6"
+]
+]
+}
+],
+"nlf-128": [
+{
+"n": "y-intercept",
+"eq": "Set x = 0. Any number to the 0 power is 1.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Exponential function",
+"eq": "f(x) = a(b)^x + c",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front",
+"4"
+],
+[
+"b",
+"growth factor",
+"3"
+],
+[
+"c",
+"number added",
+"9"
+]
+]
+}
+],
+"nlf-129": [
+{
+"n": "Vertex form",
+"eq": "f(x) = a(x − h)² + k",
+"ref": "learn",
+"l": [
+[
+"(h, k)",
+"the vertex",
+"(−2, −7)"
+],
+[
+"a",
+"the stretch (what we find)",
+"what we find"
+],
+[
+"(x, y)",
+"the other point",
+"(−1, −4)"
+]
+]
+}
+],
+"nlf-130": [
+{
+"n": "Vertex form",
+"eq": "f(x) = a(x − h)² + k",
+"ref": "learn",
+"l": [
+[
+"(h, k)",
+"the vertex",
+"(−1, −2)"
+],
+[
+"a",
+"the stretch (what we find)",
+"what we find"
+],
+[
+"(x, y)",
+"the other point",
+"(−4, 7)"
+]
+]
+}
+],
+"nlf-131": [
+{
+"n": "Vertex form",
+"eq": "f(x) = a(x − h)² + k",
+"ref": "learn",
+"l": [
+[
+"(h, k)",
+"the vertex",
+"(0, 5)"
+],
+[
+"a",
+"the stretch (what we find)",
+"what we find"
+],
+[
+"(x, y)",
+"the other point",
+"(2, 9)"
+]
+]
+}
+],
+"nlf-132": [
+{
+"n": "Vertex form",
+"eq": "f(x) = a(x − h)² + k",
+"ref": "learn",
+"l": [
+[
+"(h, k)",
+"the vertex",
+"(2, −8)"
+],
+[
+"a",
+"the stretch (what we find)",
+"what we find"
+],
+[
+"(x, y)",
+"the other point",
+"(5, −35)"
+]
+]
+}
+],
+"nlf-133": [
+{
+"n": "Vertex form",
+"eq": "f(x) = a(x − h)² + k",
+"ref": "learn",
+"l": [
+[
+"(h, k)",
+"the vertex",
+"(5, 8)"
+],
+[
+"a",
+"the stretch (what we find)",
+"what we find"
+],
+[
+"(x, y)",
+"the other point",
+"(4, 9)"
+]
+]
+}
+],
+"nlf-134": [
+{
+"n": "Vertex form",
+"eq": "f(x) = a(x − h)² + k",
+"ref": "learn",
+"l": [
+[
+"(h, k)",
+"the vertex",
+"(−5, 3)"
+],
+[
+"a",
+"the stretch (what we find)",
+"what we find"
+],
+[
+"(x, y)",
+"the other point",
+"(−3, 19)"
+]
+]
+}
+],
+"nlf-135": [
+{
+"n": "Vertex form",
+"eq": "f(x) = a(x − h)² + k",
+"ref": "learn",
+"l": [
+[
+"(h, k)",
+"the vertex",
+"(−5, 5)"
+],
+[
+"a",
+"the stretch (what we find)",
+"what we find"
+],
+[
+"(x, y)",
+"the other point",
+"(−7, 17)"
+]
+]
+}
+],
+"nlf-136": [
+{
+"n": "Vertex form",
+"eq": "f(x) = a(x − h)² + k",
+"ref": "learn",
+"l": [
+[
+"(h, k)",
+"the vertex",
+"(−4, 1)"
+],
+[
+"a",
+"the stretch (what we find)",
+"what we find"
+],
+[
+"(x, y)",
+"the other point",
+"(−2, 13)"
+]
+]
+}
+],
+"nlf-137": [
+{
+"n": "Vertex form",
+"eq": "f(x) = a(x − h)² + k",
+"ref": "learn",
+"l": [
+[
+"(h, k)",
+"the vertex",
+"(6, 0)"
+],
+[
+"a",
+"the stretch (what we find)",
+"what we find"
+],
+[
+"(x, y)",
+"the other point",
+"(8, 8)"
+]
+]
+}
+],
+"nlf-138": [
+{
+"n": "Vertex form",
+"eq": "f(x) = a(x − h)² + k",
+"ref": "learn",
+"l": [
+[
+"(h, k)",
+"the vertex",
+"(−5, 8)"
+],
+[
+"a",
+"the stretch (what we find)",
+"what we find"
+],
+[
+"(x, y)",
+"the other point",
+"(−6, 5)"
+]
+]
+}
+],
+"nlf-139": [
+{
+"n": "Vertex form",
+"eq": "f(x) = a(x − h)² + k",
+"ref": "learn",
+"l": [
+[
+"(h, k)",
+"the vertex",
+"(−2, 5)"
+],
+[
+"a",
+"the stretch (what we find)",
+"what we find"
+],
+[
+"(x, y)",
+"the other point",
+"(−4, 1)"
+]
+]
+}
+],
+"nlf-140": [
+{
+"n": "Vertex form",
+"eq": "f(x) = a(x − h)² + k",
+"ref": "learn",
+"l": [
+[
+"(h, k)",
+"the vertex",
+"(−5, −9)"
+],
+[
+"a",
+"the stretch (what we find)",
+"what we find"
+],
+[
+"(x, y)",
+"the other point",
+"(−8, −27)"
+]
+]
+}
+],
+"nleq-81": [
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front of x²",
+"1"
+],
+[
+"b",
+"number in front of x",
+"what we find"
+],
+[
+"c",
+"constant",
+"64"
+]
+]
+},
+{
+"n": "Exactly one solution",
+"eq": "One real solution happens when b² − 4ac = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-82": [
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front of x²",
+"1"
+],
+[
+"b",
+"number in front of x",
+"what we find"
+],
+[
+"c",
+"constant",
+"25"
+]
+]
+},
+{
+"n": "Exactly one solution",
+"eq": "One real solution happens when b² − 4ac = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-83": [
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front of x²",
+"1"
+],
+[
+"b",
+"number in front of x",
+"what we find"
+],
+[
+"c",
+"constant",
+"49"
+]
+]
+},
+{
+"n": "Exactly one solution",
+"eq": "One real solution happens when b² − 4ac = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-84": [
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front of x²",
+"1"
+],
+[
+"b",
+"number in front of x",
+"what we find"
+],
+[
+"c",
+"constant",
+"4"
+]
+]
+},
+{
+"n": "Exactly one solution",
+"eq": "One real solution happens when b² − 4ac = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-85": [
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front of x²",
+"1"
+],
+[
+"b",
+"number in front of x",
+"what we find"
+],
+[
+"c",
+"constant",
+"81"
+]
+]
+},
+{
+"n": "Exactly one solution",
+"eq": "One real solution happens when b² − 4ac = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-86": [
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front of x²",
+"1"
+],
+[
+"b",
+"number in front of x",
+"what we find"
+],
+[
+"c",
+"constant",
+"9"
+]
+]
+},
+{
+"n": "Exactly one solution",
+"eq": "One real solution happens when b² − 4ac = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-87": [
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front of x²",
+"1"
+],
+[
+"b",
+"number in front of x",
+"what we find"
+],
+[
+"c",
+"constant",
+"121"
+]
+]
+},
+{
+"n": "Exactly one solution",
+"eq": "One real solution happens when b² − 4ac = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-88": [
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front of x²",
+"1"
+],
+[
+"b",
+"number in front of x",
+"what we find"
+],
+[
+"c",
+"constant",
+"144"
+]
+]
+},
+{
+"n": "Exactly one solution",
+"eq": "One real solution happens when b² − 4ac = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-89": [
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front of x²",
+"1"
+],
+[
+"b",
+"number in front of x",
+"what we find"
+],
+[
+"c",
+"constant",
+"36"
+]
+]
+},
+{
+"n": "Exactly one solution",
+"eq": "One real solution happens when b² − 4ac = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-90": [
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front of x²",
+"1"
+],
+[
+"b",
+"number in front of x",
+"what we find"
+],
+[
+"c",
+"constant",
+"16"
+]
+]
+},
+{
+"n": "Exactly one solution",
+"eq": "One real solution happens when b² − 4ac = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-91": [
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"a",
+"number in front of x²",
+"1"
+],
+[
+"b",
+"number in front of x",
+"what we find"
+],
+[
+"c",
+"constant",
+"100"
+]
+]
+},
+{
+"n": "Exactly one solution",
+"eq": "One real solution happens when b² − 4ac = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-92": [
+{
+"n": "Set equal",
+"eq": "Where two graphs meet, their y-values are equal: set the two right sides equal.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"= 0",
+"exactly one intersection",
+""
+]
+]
+}
+],
+"nleq-93": [
+{
+"n": "Set equal",
+"eq": "Where two graphs meet, their y-values are equal: set the two right sides equal.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"= 0",
+"exactly one intersection",
+""
+]
+]
+}
+],
+"nleq-94": [
+{
+"n": "Set equal",
+"eq": "Where two graphs meet, their y-values are equal: set the two right sides equal.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"= 0",
+"exactly one intersection",
+""
+]
+]
+}
+],
+"nleq-95": [
+{
+"n": "Set equal",
+"eq": "Where two graphs meet, their y-values are equal: set the two right sides equal.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"= 0",
+"exactly one intersection",
+""
+]
+]
+}
+],
+"nleq-96": [
+{
+"n": "Set equal",
+"eq": "Where two graphs meet, their y-values are equal: set the two right sides equal.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"= 0",
+"exactly one intersection",
+""
+]
+]
+}
+],
+"nleq-97": [
+{
+"n": "Set equal",
+"eq": "Where two graphs meet, their y-values are equal: set the two right sides equal.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"= 0",
+"exactly one intersection",
+""
+]
+]
+}
+],
+"nleq-98": [
+{
+"n": "Set equal",
+"eq": "Where two graphs meet, their y-values are equal: set the two right sides equal.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"= 0",
+"exactly one intersection",
+""
+]
+]
+}
+],
+"nleq-99": [
+{
+"n": "Set equal",
+"eq": "Where two graphs meet, their y-values are equal: set the two right sides equal.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"= 0",
+"exactly one intersection",
+""
+]
+]
+}
+],
+"nleq-100": [
+{
+"n": "Set equal",
+"eq": "Where two graphs meet, their y-values are equal: set the two right sides equal.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"= 0",
+"exactly one intersection",
+""
+]
+]
+}
+],
+"nleq-101": [
+{
+"n": "Set equal",
+"eq": "Where two graphs meet, their y-values are equal: set the two right sides equal.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"= 0",
+"exactly one intersection",
+""
+]
+]
+}
+],
+"nleq-102": [
+{
+"n": "Set equal",
+"eq": "Where two graphs meet, their y-values are equal: set the two right sides equal.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"= 0",
+"exactly one intersection",
+""
+]
+]
+}
+],
+"nleq-103": [
+{
+"n": "Set equal",
+"eq": "Where two graphs meet, their y-values are equal: set the two right sides equal.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Discriminant",
+"eq": "b² − 4ac",
+"ref": "learn",
+"l": [
+[
+"= 0",
+"exactly one intersection",
+""
+]
+]
+}
+],
+"nleq-104": [
+{
+"n": "Square both sides",
+"eq": "Undo a square root by squaring both sides. Then solve the quadratic.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Check for fake solutions",
+"eq": "Plug every answer back in. A square root can never equal a negative number.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-105": [
+{
+"n": "Square both sides",
+"eq": "Undo a square root by squaring both sides. Then solve the quadratic.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Check for fake solutions",
+"eq": "Plug every answer back in. A square root can never equal a negative number.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-106": [
+{
+"n": "Square both sides",
+"eq": "Undo a square root by squaring both sides. Then solve the quadratic.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Check for fake solutions",
+"eq": "Plug every answer back in. A square root can never equal a negative number.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-107": [
+{
+"n": "Square both sides",
+"eq": "Undo a square root by squaring both sides. Then solve the quadratic.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Check for fake solutions",
+"eq": "Plug every answer back in. A square root can never equal a negative number.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-108": [
+{
+"n": "Square both sides",
+"eq": "Undo a square root by squaring both sides. Then solve the quadratic.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Check for fake solutions",
+"eq": "Plug every answer back in. A square root can never equal a negative number.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-109": [
+{
+"n": "Square both sides",
+"eq": "Undo a square root by squaring both sides. Then solve the quadratic.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Check for fake solutions",
+"eq": "Plug every answer back in. A square root can never equal a negative number.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-110": [
+{
+"n": "Square both sides",
+"eq": "Undo a square root by squaring both sides. Then solve the quadratic.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Check for fake solutions",
+"eq": "Plug every answer back in. A square root can never equal a negative number.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-111": [
+{
+"n": "Square both sides",
+"eq": "Undo a square root by squaring both sides. Then solve the quadratic.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Check for fake solutions",
+"eq": "Plug every answer back in. A square root can never equal a negative number.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-112": [
+{
+"n": "Square both sides",
+"eq": "Undo a square root by squaring both sides. Then solve the quadratic.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Check for fake solutions",
+"eq": "Plug every answer back in. A square root can never equal a negative number.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-113": [
+{
+"n": "Square both sides",
+"eq": "Undo a square root by squaring both sides. Then solve the quadratic.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Check for fake solutions",
+"eq": "Plug every answer back in. A square root can never equal a negative number.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-114": [
+{
+"n": "Square both sides",
+"eq": "Undo a square root by squaring both sides. Then solve the quadratic.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Check for fake solutions",
+"eq": "Plug every answer back in. A square root can never equal a negative number.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-115": [
+{
+"n": "Square both sides",
+"eq": "Undo a square root by squaring both sides. Then solve the quadratic.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "Check for fake solutions",
+"eq": "Plug every answer back in. A square root can never equal a negative number.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-116": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-117": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-118": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-119": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-120": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-121": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-122": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-123": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-124": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-125": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-126": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-127": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-128": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-129": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-130": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-131": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-132": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-133": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-134": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-135": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-136": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-137": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-138": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"nleq-139": [
+{
+"n": "Factor x² + bx + c = 0",
+"eq": "Find two numbers that multiply to c and add to b. Set each factor = 0.",
+"ref": "rule",
+"l": []
+}
+],
+"linf-81": [
+{
+"n": "Slope from two points",
+"eq": "m = (y₂ − y₁) ÷ (x₂ − x₁)",
+"ref": "learn",
+"l": [
+[
+"(x₁, y₁)",
+"first data point",
+"(15, 733)"
+],
+[
+"(x₂, y₂)",
+"second data point",
+"(25, 693)"
+]
+]
+},
+{
+"n": "Point-slope",
+"eq": "y = y₁ + m(x − x₁)",
+"ref": "learn",
+"l": []
+}
+],
+"linf-82": [
+{
+"n": "Slope from two points",
+"eq": "m = (y₂ − y₁) ÷ (x₂ − x₁)",
+"ref": "learn",
+"l": [
+[
+"(x₁, y₁)",
+"first data point",
+"(15, 1,264)"
+],
+[
+"(x₂, y₂)",
+"second data point",
+"(25, 1,224)"
+]
+]
+},
+{
+"n": "Point-slope",
+"eq": "y = y₁ + m(x − x₁)",
+"ref": "learn",
+"l": []
+}
+],
+"linf-83": [
+{
+"n": "Slope from two points",
+"eq": "m = (y₂ − y₁) ÷ (x₂ − x₁)",
+"ref": "learn",
+"l": [
+[
+"(x₁, y₁)",
+"first data point",
+"(5, 1,578)"
+],
+[
+"(x₂, y₂)",
+"second data point",
+"(25, 1,538)"
+]
+]
+},
+{
+"n": "Point-slope",
+"eq": "y = y₁ + m(x − x₁)",
+"ref": "learn",
+"l": []
+}
+],
+"linf-84": [
+{
+"n": "Slope from two points",
+"eq": "m = (y₂ − y₁) ÷ (x₂ − x₁)",
+"ref": "learn",
+"l": [
+[
+"(x₁, y₁)",
+"first data point",
+"(60, 4,775)"
+],
+[
+"(x₂, y₂)",
+"second data point",
+"(65, 4,275)"
+]
+]
+},
+{
+"n": "Point-slope",
+"eq": "y = y₁ + m(x − x₁)",
+"ref": "learn",
+"l": []
+}
+],
+"linf-85": [
+{
+"n": "Slope from two points",
+"eq": "m = (y₂ − y₁) ÷ (x₂ − x₁)",
+"ref": "learn",
+"l": [
+[
+"(x₁, y₁)",
+"first data point",
+"(80, 3,786)"
+],
+[
+"(x₂, y₂)",
+"second data point",
+"(90, 2,786)"
+]
+]
+},
+{
+"n": "Point-slope",
+"eq": "y = y₁ + m(x − x₁)",
+"ref": "learn",
+"l": []
+}
+],
+"linf-86": [
+{
+"n": "Slope from two points",
+"eq": "m = (y₂ − y₁) ÷ (x₂ − x₁)",
+"ref": "learn",
+"l": [
+[
+"(x₁, y₁)",
+"first data point",
+"(17, 2,207)"
+],
+[
+"(x₂, y₂)",
+"second data point",
+"(22, 2,217)"
+]
+]
+},
+{
+"n": "Point-slope",
+"eq": "y = y₁ + m(x − x₁)",
+"ref": "learn",
+"l": []
+}
+],
+"linf-87": [
+{
+"n": "Slope from two points",
+"eq": "m = (y₂ − y₁) ÷ (x₂ − x₁)",
+"ref": "learn",
+"l": [
+[
+"(x₁, y₁)",
+"first data point",
+"(16, 1,987)"
+],
+[
+"(x₂, y₂)",
+"second data point",
+"(21, 1,997)"
+]
+]
+},
+{
+"n": "Point-slope",
+"eq": "y = y₁ + m(x − x₁)",
+"ref": "learn",
+"l": []
+}
+],
+"linf-88": [
+{
+"n": "Slope from two points",
+"eq": "m = (y₂ − y₁) ÷ (x₂ − x₁)",
+"ref": "learn",
+"l": [
+[
+"(x₁, y₁)",
+"first data point",
+"(12, 747)"
+],
+[
+"(x₂, y₂)",
+"second data point",
+"(17, 727)"
+]
+]
+},
+{
+"n": "Point-slope",
+"eq": "y = y₁ + m(x − x₁)",
+"ref": "learn",
+"l": []
+}
+],
+"linf-89": [
+{
+"n": "Slope from two points",
+"eq": "m = (y₂ − y₁) ÷ (x₂ − x₁)",
+"ref": "learn",
+"l": [
+[
+"(x₁, y₁)",
+"first data point",
+"(18, 729)"
+],
+[
+"(x₂, y₂)",
+"second data point",
+"(28, 709)"
+]
+]
+},
+{
+"n": "Point-slope",
+"eq": "y = y₁ + m(x − x₁)",
+"ref": "learn",
+"l": []
+}
+],
+"linf-90": [
+{
+"n": "Slope from two points",
+"eq": "m = (y₂ − y₁) ÷ (x₂ − x₁)",
+"ref": "learn",
+"l": [
+[
+"(x₁, y₁)",
+"first data point",
+"(40, 6,616)"
+],
+[
+"(x₂, y₂)",
+"second data point",
+"(45, 6,116)"
+]
+]
+},
+{
+"n": "Point-slope",
+"eq": "y = y₁ + m(x − x₁)",
+"ref": "learn",
+"l": []
+}
+],
+"linf-91": [
+{
+"n": "Slope from two points",
+"eq": "m = (y₂ − y₁) ÷ (x₂ − x₁)",
+"ref": "learn",
+"l": [
+[
+"(x₁, y₁)",
+"first data point",
+"(3, 1,094)"
+],
+[
+"(x₂, y₂)",
+"second data point",
+"(13, 1,074)"
+]
+]
+},
+{
+"n": "Point-slope",
+"eq": "y = y₁ + m(x − x₁)",
+"ref": "learn",
+"l": []
+}
+],
+"linf-92": [
+{
+"n": "Slope from two points",
+"eq": "m = (y₂ − y₁) ÷ (x₂ − x₁)",
+"ref": "learn",
+"l": [
+[
+"(x₁, y₁)",
+"first data point",
+"(19, 2,235)"
+],
+[
+"(x₂, y₂)",
+"second data point",
+"(29, 2,255)"
+]
+]
+},
+{
+"n": "Point-slope",
+"eq": "y = y₁ + m(x − x₁)",
+"ref": "learn",
+"l": []
+}
+],
+"linf-93": [
+{
+"n": "Piecewise cost",
+"eq": "C = (first block) + rate × (h − hours in block)",
+"ref": "learn",
+"l": [
+[
+"first block",
+"cost of the first hours",
+"$200"
+],
+[
+"rate",
+"cost per extra hour",
+"$55"
+],
+[
+"h",
+"total hours",
+"unknown"
+]
+]
+}
+],
+"linf-94": [
+{
+"n": "Piecewise cost",
+"eq": "C = (first block) + rate × (h − hours in block)",
+"ref": "learn",
+"l": [
+[
+"first block",
+"cost of the first hours",
+"$70"
+],
+[
+"rate",
+"cost per extra hour",
+"$75"
+],
+[
+"h",
+"total hours",
+"unknown"
+]
+]
+}
+],
+"linf-95": [
+{
+"n": "Piecewise cost",
+"eq": "C = (first block) + rate × (h − hours in block)",
+"ref": "learn",
+"l": [
+[
+"first block",
+"cost of the first hours",
+"$105"
+],
+[
+"rate",
+"cost per extra hour",
+"$30"
+],
+[
+"h",
+"total hours",
+"unknown"
+]
+]
+}
+],
+"linf-96": [
+{
+"n": "Piecewise cost",
+"eq": "C = (first block) + rate × (h − hours in block)",
+"ref": "learn",
+"l": [
+[
+"first block",
+"cost of the first hours",
+"$185"
+],
+[
+"rate",
+"cost per extra hour",
+"$95"
+],
+[
+"h",
+"total hours",
+"unknown"
+]
+]
+}
+],
+"linf-97": [
+{
+"n": "Piecewise cost",
+"eq": "C = (first block) + rate × (h − hours in block)",
+"ref": "learn",
+"l": [
+[
+"first block",
+"cost of the first hours",
+"$190"
+],
+[
+"rate",
+"cost per extra hour",
+"$30"
+],
+[
+"h",
+"total hours",
+"unknown"
+]
+]
+}
+],
+"linf-98": [
+{
+"n": "Piecewise cost",
+"eq": "C = (first block) + rate × (h − hours in block)",
+"ref": "learn",
+"l": [
+[
+"first block",
+"cost of the first hours",
+"$60"
+],
+[
+"rate",
+"cost per extra hour",
+"$40"
+],
+[
+"h",
+"total hours",
+"unknown"
+]
+]
+}
+],
+"linf-99": [
+{
+"n": "Piecewise cost",
+"eq": "C = (first block) + rate × (h − hours in block)",
+"ref": "learn",
+"l": [
+[
+"first block",
+"cost of the first hours",
+"$175"
+],
+[
+"rate",
+"cost per extra hour",
+"$60"
+],
+[
+"h",
+"total hours",
+"unknown"
+]
+]
+}
+],
+"linf-100": [
+{
+"n": "Piecewise cost",
+"eq": "C = (first block) + rate × (h − hours in block)",
+"ref": "learn",
+"l": [
+[
+"first block",
+"cost of the first hours",
+"$105"
+],
+[
+"rate",
+"cost per extra hour",
+"$95"
+],
+[
+"h",
+"total hours",
+"unknown"
+]
+]
+}
+],
+"linf-101": [
+{
+"n": "Piecewise cost",
+"eq": "C = (first block) + rate × (h − hours in block)",
+"ref": "learn",
+"l": [
+[
+"first block",
+"cost of the first hours",
+"$80"
+],
+[
+"rate",
+"cost per extra hour",
+"$85"
+],
+[
+"h",
+"total hours",
+"unknown"
+]
+]
+}
+],
+"linf-102": [
+{
+"n": "Piecewise cost",
+"eq": "C = (first block) + rate × (h − hours in block)",
+"ref": "learn",
+"l": [
+[
+"first block",
+"cost of the first hours",
+"$50"
+],
+[
+"rate",
+"cost per extra hour",
+"$95"
+],
+[
+"h",
+"total hours",
+"unknown"
+]
+]
+}
+],
+"linf-103": [
+{
+"n": "Piecewise cost",
+"eq": "C = (first block) + rate × (h − hours in block)",
+"ref": "learn",
+"l": [
+[
+"first block",
+"cost of the first hours",
+"$50"
+],
+[
+"rate",
+"cost per extra hour",
+"$100"
+],
+[
+"h",
+"total hours",
+"unknown"
+]
+]
+}
+],
+"linf-104": [
+{
+"n": "Piecewise cost",
+"eq": "C = (first block) + rate × (h − hours in block)",
+"ref": "learn",
+"l": [
+[
+"first block",
+"cost of the first hours",
+"$90"
+],
+[
+"rate",
+"cost per extra hour",
+"$85"
+],
+[
+"h",
+"total hours",
+"unknown"
+]
+]
+}
+],
+"linf-105": [
+{
+"n": "Change in a linear function",
+"eq": "change in f = slope × change in x",
+"ref": "learn",
+"l": [
+[
+"slope",
+"number in front of x",
+"9/5"
+],
+[
+"change in x",
+"how much x went up",
+"85"
+]
+]
+}
+],
+"linf-106": [
+{
+"n": "Change in a linear function",
+"eq": "change in f = slope × change in x",
+"ref": "learn",
+"l": [
+[
+"slope",
+"number in front of x",
+"5/2"
+],
+[
+"change in x",
+"how much x went up",
+"10"
+]
+]
+}
+],
+"linf-107": [
+{
+"n": "Change in a linear function",
+"eq": "change in f = slope × change in x",
+"ref": "learn",
+"l": [
+[
+"slope",
+"number in front of x",
+"3/2"
+],
+[
+"change in x",
+"how much x went up",
+"18"
+]
+]
+}
+],
+"linf-108": [
+{
+"n": "Change in a linear function",
+"eq": "change in f = slope × change in x",
+"ref": "learn",
+"l": [
+[
+"slope",
+"number in front of x",
+"3/2"
+],
+[
+"change in x",
+"how much x went up",
+"8"
+]
+]
+}
+],
+"linf-109": [
+{
+"n": "Change in a linear function",
+"eq": "change in f = slope × change in x",
+"ref": "learn",
+"l": [
+[
+"slope",
+"number in front of x",
+"9/5"
+],
+[
+"change in x",
+"how much x went up",
+"30"
+]
+]
+}
+],
+"linf-110": [
+{
+"n": "Change in a linear function",
+"eq": "change in f = slope × change in x",
+"ref": "learn",
+"l": [
+[
+"slope",
+"number in front of x",
+"4/3"
+],
+[
+"change in x",
+"how much x went up",
+"60"
+]
+]
+}
+],
+"linf-111": [
+{
+"n": "Change in a linear function",
+"eq": "change in f = slope × change in x",
+"ref": "learn",
+"l": [
+[
+"slope",
+"number in front of x",
+"7/4"
+],
+[
+"change in x",
+"how much x went up",
+"40"
+]
+]
+}
+],
+"linf-112": [
+{
+"n": "Change in a linear function",
+"eq": "change in f = slope × change in x",
+"ref": "learn",
+"l": [
+[
+"slope",
+"number in front of x",
+"7/4"
+],
+[
+"change in x",
+"how much x went up",
+"52"
+]
+]
+}
+],
+"linf-113": [
+{
+"n": "Change in a linear function",
+"eq": "change in f = slope × change in x",
+"ref": "learn",
+"l": [
+[
+"slope",
+"number in front of x",
+"7/4"
+],
+[
+"change in x",
+"how much x went up",
+"28"
+]
+]
+}
+],
+"linf-114": [
+{
+"n": "Change in a linear function",
+"eq": "change in f = slope × change in x",
+"ref": "learn",
+"l": [
+[
+"slope",
+"number in front of x",
+"5/9"
+],
+[
+"change in x",
+"how much x went up",
+"18"
+]
+]
+}
+],
+"linf-115": [
+{
+"n": "Change in a linear function",
+"eq": "change in f = slope × change in x",
+"ref": "learn",
+"l": [
+[
+"slope",
+"number in front of x",
+"7/4"
+],
+[
+"change in x",
+"how much x went up",
+"36"
+]
+]
+}
+],
+"linf-116": [
+{
+"n": "Change in a linear function",
+"eq": "change in f = slope × change in x",
+"ref": "learn",
+"l": [
+[
+"slope",
+"number in front of x",
+"7/4"
+],
+[
+"change in x",
+"how much x went up",
+"28"
+]
+]
+}
+],
+"linf-117": [
+{
+"n": "Subtract functions",
+"eq": "h(x) = f(x) − g(x): subtract every term of g, then combine like terms.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "x-intercept",
+"eq": "Set h(x) = 0 and solve for x.",
+"ref": "rule",
+"l": []
+}
+],
+"linf-118": [
+{
+"n": "Subtract functions",
+"eq": "h(x) = f(x) − g(x): subtract every term of g, then combine like terms.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "x-intercept",
+"eq": "Set h(x) = 0 and solve for x.",
+"ref": "rule",
+"l": []
+}
+],
+"linf-119": [
+{
+"n": "Subtract functions",
+"eq": "h(x) = f(x) − g(x): subtract every term of g, then combine like terms.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "x-intercept",
+"eq": "Set h(x) = 0 and solve for x.",
+"ref": "rule",
+"l": []
+}
+],
+"linf-120": [
+{
+"n": "Subtract functions",
+"eq": "h(x) = f(x) − g(x): subtract every term of g, then combine like terms.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "x-intercept",
+"eq": "Set h(x) = 0 and solve for x.",
+"ref": "rule",
+"l": []
+}
+],
+"linf-121": [
+{
+"n": "Subtract functions",
+"eq": "h(x) = f(x) − g(x): subtract every term of g, then combine like terms.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "x-intercept",
+"eq": "Set h(x) = 0 and solve for x.",
+"ref": "rule",
+"l": []
+}
+],
+"linf-122": [
+{
+"n": "Subtract functions",
+"eq": "h(x) = f(x) − g(x): subtract every term of g, then combine like terms.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "x-intercept",
+"eq": "Set h(x) = 0 and solve for x.",
+"ref": "rule",
+"l": []
+}
+],
+"linf-123": [
+{
+"n": "Subtract functions",
+"eq": "h(x) = f(x) − g(x): subtract every term of g, then combine like terms.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "x-intercept",
+"eq": "Set h(x) = 0 and solve for x.",
+"ref": "rule",
+"l": []
+}
+],
+"linf-124": [
+{
+"n": "Subtract functions",
+"eq": "h(x) = f(x) − g(x): subtract every term of g, then combine like terms.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "x-intercept",
+"eq": "Set h(x) = 0 and solve for x.",
+"ref": "rule",
+"l": []
+}
+],
+"linf-125": [
+{
+"n": "Subtract functions",
+"eq": "h(x) = f(x) − g(x): subtract every term of g, then combine like terms.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "x-intercept",
+"eq": "Set h(x) = 0 and solve for x.",
+"ref": "rule",
+"l": []
+}
+],
+"linf-126": [
+{
+"n": "Subtract functions",
+"eq": "h(x) = f(x) − g(x): subtract every term of g, then combine like terms.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "x-intercept",
+"eq": "Set h(x) = 0 and solve for x.",
+"ref": "rule",
+"l": []
+}
+],
+"linf-127": [
+{
+"n": "Subtract functions",
+"eq": "h(x) = f(x) − g(x): subtract every term of g, then combine like terms.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "x-intercept",
+"eq": "Set h(x) = 0 and solve for x.",
+"ref": "rule",
+"l": []
+}
+],
+"linf-128": [
+{
+"n": "Subtract functions",
+"eq": "h(x) = f(x) − g(x): subtract every term of g, then combine like terms.",
+"ref": "rule",
+"l": []
+},
+{
+"n": "x-intercept",
+"eq": "Set h(x) = 0 and solve for x.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-81": [
+{
+"n": "Infinitely many solutions",
+"eq": "The two equations are the SAME line: one is a multiple of the other in every term.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-82": [
+{
+"n": "Infinitely many solutions",
+"eq": "The two equations are the SAME line: one is a multiple of the other in every term.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-83": [
+{
+"n": "Infinitely many solutions",
+"eq": "The two equations are the SAME line: one is a multiple of the other in every term.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-84": [
+{
+"n": "Infinitely many solutions",
+"eq": "The two equations are the SAME line: one is a multiple of the other in every term.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-85": [
+{
+"n": "Infinitely many solutions",
+"eq": "The two equations are the SAME line: one is a multiple of the other in every term.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-86": [
+{
+"n": "Infinitely many solutions",
+"eq": "The two equations are the SAME line: one is a multiple of the other in every term.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-87": [
+{
+"n": "Infinitely many solutions",
+"eq": "The two equations are the SAME line: one is a multiple of the other in every term.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-88": [
+{
+"n": "Infinitely many solutions",
+"eq": "The two equations are the SAME line: one is a multiple of the other in every term.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-89": [
+{
+"n": "Infinitely many solutions",
+"eq": "The two equations are the SAME line: one is a multiple of the other in every term.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-90": [
+{
+"n": "Infinitely many solutions",
+"eq": "The two equations are the SAME line: one is a multiple of the other in every term.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-91": [
+{
+"n": "Infinitely many solutions",
+"eq": "The two equations are the SAME line: one is a multiple of the other in every term.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-92": [
+{
+"n": "Infinitely many solutions",
+"eq": "The two equations are the SAME line: one is a multiple of the other in every term.",
+"ref": "rule",
+"l": []
+}
+],
+"sys-93": [
+{
+"n": "Count equation",
+"eq": "x + y = total items",
+"ref": "rule",
+"l": [
+[
+"total items",
+"",
+"55"
+]
+]
+},
+{
+"n": "Money equation",
+"eq": "price₁·x + price₂·y = total cost",
+"ref": "rule",
+"l": [
+[
+"prices",
+"",
+"$2 and $5"
+],
+[
+"total cost",
+"",
+"$188."
+]
+]
+}
+],
+"sys-94": [
+{
+"n": "Count equation",
+"eq": "x + y = total items",
+"ref": "rule",
+"l": [
+[
+"total items",
+"",
+"45"
+]
+]
+},
+{
+"n": "Money equation",
+"eq": "price₁·x + price₂·y = total cost",
+"ref": "rule",
+"l": [
+[
+"prices",
+"",
+"$3 and $7"
+],
+[
+"total cost",
+"",
+"$207."
+]
+]
+}
+],
+"sys-95": [
+{
+"n": "Count equation",
+"eq": "x + y = total items",
+"ref": "rule",
+"l": [
+[
+"total items",
+"",
+"34"
+]
+]
+},
+{
+"n": "Money equation",
+"eq": "price₁·x + price₂·y = total cost",
+"ref": "rule",
+"l": [
+[
+"prices",
+"",
+"$3 and $8"
+],
+[
+"total cost",
+"",
+"$152."
+]
+]
+}
+],
+"sys-96": [
+{
+"n": "Count equation",
+"eq": "x + y = total items",
+"ref": "rule",
+"l": [
+[
+"total items",
+"",
+"53"
+]
+]
+},
+{
+"n": "Money equation",
+"eq": "price₁·x + price₂·y = total cost",
+"ref": "rule",
+"l": [
+[
+"prices",
+"",
+"$3 and $8"
+],
+[
+"total cost",
+"",
+"$299."
+]
+]
+}
+],
+"sys-97": [
+{
+"n": "Count equation",
+"eq": "x + y = total items",
+"ref": "rule",
+"l": [
+[
+"total items",
+"",
+"37"
+]
+]
+},
+{
+"n": "Money equation",
+"eq": "price₁·x + price₂·y = total cost",
+"ref": "rule",
+"l": [
+[
+"prices",
+"",
+"$2.5 and $6"
+],
+[
+"total cost",
+"",
+"$127.50."
+]
+]
+}
+],
+"sys-98": [
+{
+"n": "Count equation",
+"eq": "x + y = total items",
+"ref": "rule",
+"l": [
+[
+"total items",
+"",
+"51"
+]
+]
+},
+{
+"n": "Money equation",
+"eq": "price₁·x + price₂·y = total cost",
+"ref": "rule",
+"l": [
+[
+"prices",
+"",
+"$4 and $9"
+],
+[
+"total cost",
+"",
+"$339."
+]
+]
+}
+],
+"sys-99": [
+{
+"n": "Count equation",
+"eq": "x + y = total items",
+"ref": "rule",
+"l": [
+[
+"total items",
+"",
+"21"
+]
+]
+},
+{
+"n": "Money equation",
+"eq": "price₁·x + price₂·y = total cost",
+"ref": "rule",
+"l": [
+[
+"prices",
+"",
+"$3 and $7"
+],
+[
+"total cost",
+"",
+"$91."
+]
+]
+}
+],
+"sys-100": [
+{
+"n": "Count equation",
+"eq": "x + y = total items",
+"ref": "rule",
+"l": [
+[
+"total items",
+"",
+"22"
+]
+]
+},
+{
+"n": "Money equation",
+"eq": "price₁·x + price₂·y = total cost",
+"ref": "rule",
+"l": [
+[
+"prices",
+"",
+"$3 and $7"
+],
+[
+"total cost",
+"",
+"$86."
+]
+]
+}
+],
+"sys-101": [
+{
+"n": "Count equation",
+"eq": "x + y = total items",
+"ref": "rule",
+"l": [
+[
+"total items",
+"",
+"34"
+]
+]
+},
+{
+"n": "Money equation",
+"eq": "price₁·x + price₂·y = total cost",
+"ref": "rule",
+"l": [
+[
+"prices",
+"",
+"$3 and $7"
+],
+[
+"total cost",
+"",
+"$174."
+]
+]
+}
+],
+"sys-102": [
+{
+"n": "Count equation",
+"eq": "x + y = total items",
+"ref": "rule",
+"l": [
+[
+"total items",
+"",
+"28"
+]
+]
+},
+{
+"n": "Money equation",
+"eq": "price₁·x + price₂·y = total cost",
+"ref": "rule",
+"l": [
+[
+"prices",
+"",
+"$2 and $5"
+],
+[
+"total cost",
+"",
+"$92."
+]
+]
+}
+],
+"sys-103": [
+{
+"n": "Count equation",
+"eq": "x + y = total items",
+"ref": "rule",
+"l": [
+[
+"total items",
+"",
+"34"
+]
+]
+},
+{
+"n": "Money equation",
+"eq": "price₁·x + price₂·y = total cost",
+"ref": "rule",
+"l": [
+[
+"prices",
+"",
+"$4 and $9"
+],
+[
+"total cost",
+"",
+"$281."
+]
+]
+}
+],
+"sys-104": [
+{
+"n": "Count equation",
+"eq": "x + y = total items",
+"ref": "rule",
+"l": [
+[
+"total items",
+"",
+"28"
+]
+]
+},
+{
+"n": "Money equation",
+"eq": "price₁·x + price₂·y = total cost",
+"ref": "rule",
+"l": [
+[
+"prices",
+"",
+"$3 and $7"
+],
+[
+"total cost",
+"",
+"$156."
+]
+]
+}
+],
+"pct-81": [
+{
+"n": "Percent of a number",
+"eq": "part = (percent ÷ 100) × whole",
+"ref": "learn",
+"l": [
+[
+"percent",
+"the first percent",
+"60%"
+],
+[
+"part",
+"that part",
+"108"
+],
+[
+"whole",
+"the number",
+"find first"
+]
+]
+}
+],
+"pct-82": [
+{
+"n": "Percent of a number",
+"eq": "part = (percent ÷ 100) × whole",
+"ref": "learn",
+"l": [
+[
+"percent",
+"the first percent",
+"30%"
+],
+[
+"part",
+"that part",
+"18"
+],
+[
+"whole",
+"the number",
+"find first"
+]
+]
+}
+],
+"pct-83": [
+{
+"n": "Percent of a number",
+"eq": "part = (percent ÷ 100) × whole",
+"ref": "learn",
+"l": [
+[
+"percent",
+"the first percent",
+"60%"
+],
+[
+"part",
+"that part",
+"216"
+],
+[
+"whole",
+"the number",
+"find first"
+]
+]
+}
+],
+"pct-84": [
+{
+"n": "Percent of a number",
+"eq": "part = (percent ÷ 100) × whole",
+"ref": "learn",
+"l": [
+[
+"percent",
+"the first percent",
+"30%"
+],
+[
+"part",
+"that part",
+"132"
+],
+[
+"whole",
+"the number",
+"find first"
+]
+]
+}
+],
+"pct-85": [
+{
+"n": "Percent of a number",
+"eq": "part = (percent ÷ 100) × whole",
+"ref": "learn",
+"l": [
+[
+"percent",
+"the first percent",
+"10%"
+],
+[
+"part",
+"that part",
+"6"
+],
+[
+"whole",
+"the number",
+"find first"
+]
+]
+}
+],
+"pct-86": [
+{
+"n": "Percent of a number",
+"eq": "part = (percent ÷ 100) × whole",
+"ref": "learn",
+"l": [
+[
+"percent",
+"the first percent",
+"40%"
+],
+[
+"part",
+"that part",
+"176"
+],
+[
+"whole",
+"the number",
+"find first"
+]
+]
+}
+],
+"pct-87": [
+{
+"n": "Percent of a number",
+"eq": "part = (percent ÷ 100) × whole",
+"ref": "learn",
+"l": [
+[
+"percent",
+"the first percent",
+"40%"
+],
+[
+"part",
+"that part",
+"96"
+],
+[
+"whole",
+"the number",
+"find first"
+]
+]
+}
+],
+"pct-88": [
+{
+"n": "Percent of a number",
+"eq": "part = (percent ÷ 100) × whole",
+"ref": "learn",
+"l": [
+[
+"percent",
+"the first percent",
+"15%"
+],
+[
+"part",
+"that part",
+"81"
+],
+[
+"whole",
+"the number",
+"find first"
+]
+]
+}
+],
+"pct-89": [
+{
+"n": "Percent of a number",
+"eq": "part = (percent ÷ 100) × whole",
+"ref": "learn",
+"l": [
+[
+"percent",
+"the first percent",
+"10%"
+],
+[
+"part",
+"that part",
+"22"
+],
+[
+"whole",
+"the number",
+"find first"
+]
+]
+}
+],
+"pct-90": [
+{
+"n": "Percent of a number",
+"eq": "part = (percent ÷ 100) × whole",
+"ref": "learn",
+"l": [
+[
+"percent",
+"the first percent",
+"40%"
+],
+[
+"part",
+"that part",
+"240"
+],
+[
+"whole",
+"the number",
+"find first"
+]
+]
+}
+],
+"pct-91": [
+{
+"n": "Percent of a number",
+"eq": "part = (percent ÷ 100) × whole",
+"ref": "learn",
+"l": [
+[
+"percent",
+"the first percent",
+"20%"
+],
+[
+"part",
+"that part",
+"20"
+],
+[
+"whole",
+"the number",
+"find first"
+]
+]
+}
+],
+"pct-92": [
+{
+"n": "Percent of a number",
+"eq": "part = (percent ÷ 100) × whole",
+"ref": "learn",
+"l": [
+[
+"percent",
+"the first percent",
+"40%"
+],
+[
+"part",
+"that part",
+"96"
+],
+[
+"whole",
+"the number",
+"find first"
+]
+]
+}
+],
+"pct-93": [
+{
+"n": "Percent change in a row",
+"eq": "final = original × (1 + a) × (1 − b)",
+"ref": "learn",
+"l": [
+[
+"a",
+"increase",
+"30%"
+],
+[
+"b",
+"decrease",
+"10%"
+]
+]
+},
+{
+"n": "Use 100",
+"eq": "Start with $100 so the final price IS the percent.",
+"ref": "rule",
+"l": []
+}
+],
+"pct-94": [
+{
+"n": "Percent change in a row",
+"eq": "final = original × (1 + a) × (1 − b)",
+"ref": "learn",
+"l": [
+[
+"a",
+"increase",
+"10%"
+],
+[
+"b",
+"decrease",
+"40%"
+]
+]
+},
+{
+"n": "Use 100",
+"eq": "Start with $100 so the final price IS the percent.",
+"ref": "rule",
+"l": []
+}
+],
+"pct-95": [
+{
+"n": "Percent change in a row",
+"eq": "final = original × (1 + a) × (1 − b)",
+"ref": "learn",
+"l": [
+[
+"a",
+"increase",
+"25%"
+],
+[
+"b",
+"decrease",
+"30%"
+]
+]
+},
+{
+"n": "Use 100",
+"eq": "Start with $100 so the final price IS the percent.",
+"ref": "rule",
+"l": []
+}
+],
+"pct-96": [
+{
+"n": "Percent change in a row",
+"eq": "final = original × (1 + a) × (1 − b)",
+"ref": "learn",
+"l": [
+[
+"a",
+"increase",
+"20%"
+],
+[
+"b",
+"decrease",
+"10%"
+]
+]
+},
+{
+"n": "Use 100",
+"eq": "Start with $100 so the final price IS the percent.",
+"ref": "rule",
+"l": []
+}
+],
+"pct-97": [
+{
+"n": "Percent change in a row",
+"eq": "final = original × (1 + a) × (1 − b)",
+"ref": "learn",
+"l": [
+[
+"a",
+"increase",
+"50%"
+],
+[
+"b",
+"decrease",
+"20%"
+]
+]
+},
+{
+"n": "Use 100",
+"eq": "Start with $100 so the final price IS the percent.",
+"ref": "rule",
+"l": []
+}
+],
+"pct-98": [
+{
+"n": "Percent change in a row",
+"eq": "final = original × (1 + a) × (1 − b)",
+"ref": "learn",
+"l": [
+[
+"a",
+"increase",
+"30%"
+],
+[
+"b",
+"decrease",
+"50%"
+]
+]
+},
+{
+"n": "Use 100",
+"eq": "Start with $100 so the final price IS the percent.",
+"ref": "rule",
+"l": []
+}
+],
+"pct-99": [
+{
+"n": "Percent change in a row",
+"eq": "final = original × (1 + a) × (1 − b)",
+"ref": "learn",
+"l": [
+[
+"a",
+"increase",
+"50%"
+],
+[
+"b",
+"decrease",
+"10%"
+]
+]
+},
+{
+"n": "Use 100",
+"eq": "Start with $100 so the final price IS the percent.",
+"ref": "rule",
+"l": []
+}
+],
+"pct-100": [
+{
+"n": "Percent change in a row",
+"eq": "final = original × (1 + a) × (1 − b)",
+"ref": "learn",
+"l": [
+[
+"a",
+"increase",
+"40%"
+],
+[
+"b",
+"decrease",
+"30%"
+]
+]
+},
+{
+"n": "Use 100",
+"eq": "Start with $100 so the final price IS the percent.",
+"ref": "rule",
+"l": []
+}
+],
+"pct-101": [
+{
+"n": "Percent change in a row",
+"eq": "final = original × (1 + a) × (1 − b)",
+"ref": "learn",
+"l": [
+[
+"a",
+"increase",
+"20%"
+],
+[
+"b",
+"decrease",
+"40%"
+]
+]
+},
+{
+"n": "Use 100",
+"eq": "Start with $100 so the final price IS the percent.",
+"ref": "rule",
+"l": []
+}
+],
+"pct-102": [
+{
+"n": "Percent change in a row",
+"eq": "final = original × (1 + a) × (1 − b)",
+"ref": "learn",
+"l": [
+[
+"a",
+"increase",
+"30%"
+],
+[
+"b",
+"decrease",
+"25%"
+]
+]
+},
+{
+"n": "Use 100",
+"eq": "Start with $100 so the final price IS the percent.",
+"ref": "rule",
+"l": []
+}
+],
+"pct-103": [
+{
+"n": "Percent change in a row",
+"eq": "final = original × (1 + a) × (1 − b)",
+"ref": "learn",
+"l": [
+[
+"a",
+"increase",
+"20%"
+],
+[
+"b",
+"decrease",
+"50%"
+]
+]
+},
+{
+"n": "Use 100",
+"eq": "Start with $100 so the final price IS the percent.",
+"ref": "rule",
+"l": []
+}
+],
+"pct-104": [
+{
+"n": "Percent change in a row",
+"eq": "final = original × (1 + a) × (1 − b)",
+"ref": "learn",
+"l": [
+[
+"a",
+"increase",
+"50%"
+],
+[
+"b",
+"decrease",
+"30%"
+]
+]
+},
+{
+"n": "Use 100",
+"eq": "Start with $100 so the final price IS the percent.",
+"ref": "rule",
+"l": []
+}
 ]
 }

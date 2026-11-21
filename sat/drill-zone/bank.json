@@ -25,7 +25,7 @@
 "name": "Linear functions",
 "bp": 41,
 "lesson": "t1",
-"n": 80
+"n": 128
 },
 {
 "id": "sys",
@@ -34,7 +34,7 @@
 "name": "Systems of two linear equations",
 "bp": 65,
 "lesson": "a2",
-"n": 80
+"n": 104
 },
 {
 "id": "ineq",
@@ -61,7 +61,7 @@
 "name": "Nonlinear equations and systems",
 "bp": 69,
 "lesson": "a1",
-"n": 80
+"n": 139
 },
 {
 "id": "nlf",
@@ -70,7 +70,7 @@
 "name": "Nonlinear functions",
 "bp": 150,
 "lesson": "a3",
-"n": 80
+"n": 140
 },
 {
 "id": "ratio",
@@ -88,7 +88,7 @@
 "name": "Percentages",
 "bp": 74,
 "lesson": "a6",
-"n": 80
+"n": 104
 },
 {
 "id": "data1",
@@ -45094,6 +45094,5741 @@
 "64",
 "19",
 "45"
+],
+"ans": 0
+},
+{
+"id": "nlf-81",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = 800(1.15)<sup>x/3</sup>. By what percent does the value of f(x) increase for every increase of x by 3?",
+"tool": "Desmos: type f(x) = 800(1.15)^(x/3), then f(3) ÷ f(0).",
+"steps": [
+"Increase x by 3: the exponent x/3 goes up by exactly 1",
+"So f(x) is multiplied by 1.15 one time",
+"1.15 = 1 + 0.15, so the value grows by 15%"
+],
+"trap": "1.15 is the growth FACTOR. The percent is the part after the 1: 15%.",
+"find": {
+"opts": [
+"the starting value",
+"the growth factor",
+"the percent increase"
+],
+"ok": 2
+},
+"grid": [
+"15"
+],
+"show": "15"
+},
+{
+"id": "nlf-82",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = 400(1.05)<sup>x/2</sup>. By what percent does the value of f(x) increase for every increase of x by 2?",
+"tool": "Desmos: type f(x) = 400(1.05)^(x/2), then f(2) ÷ f(0).",
+"steps": [
+"Increase x by 2: the exponent x/2 goes up by exactly 1",
+"So f(x) is multiplied by 1.05 one time",
+"1.05 = 1 + 0.05, so the value grows by 5%"
+],
+"trap": "1.05 is the growth FACTOR. The percent is the part after the 1: 5%.",
+"find": {
+"opts": [
+"the percent increase",
+"the starting value",
+"the growth factor"
+],
+"ok": 0
+},
+"grid": [
+"5"
+],
+"show": "5"
+},
+{
+"id": "nlf-83",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = 400(1.1)<sup>x/4</sup>. By what percent does the value of f(x) increase for every increase of x by 4?",
+"tool": "Desmos: type f(x) = 400(1.1)^(x/4), then f(4) ÷ f(0).",
+"steps": [
+"Increase x by 4: the exponent x/4 goes up by exactly 1",
+"So f(x) is multiplied by 1.1 one time",
+"1.1 = 1 + 0.1, so the value grows by 10%"
+],
+"trap": "1.1 is the growth FACTOR. The percent is the part after the 1: 10%.",
+"find": {
+"opts": [
+"the starting value",
+"the percent increase",
+"the growth factor"
+],
+"ok": 1
+},
+"grid": [
+"10"
+],
+"show": "10"
+},
+{
+"id": "nlf-84",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = 500(1.15)<sup>x/4</sup>. By what percent does the value of f(x) increase for every increase of x by 4?",
+"tool": "Desmos: type f(x) = 500(1.15)^(x/4), then f(4) ÷ f(0).",
+"steps": [
+"Increase x by 4: the exponent x/4 goes up by exactly 1",
+"So f(x) is multiplied by 1.15 one time",
+"1.15 = 1 + 0.15, so the value grows by 15%"
+],
+"trap": "1.15 is the growth FACTOR. The percent is the part after the 1: 15%.",
+"find": {
+"opts": [
+"the percent increase",
+"the growth factor",
+"the starting value"
+],
+"ok": 0
+},
+"grid": [
+"15"
+],
+"show": "15"
+},
+{
+"id": "nlf-85",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = 250(1.05)<sup>x/5</sup>. By what percent does the value of f(x) increase for every increase of x by 5?",
+"tool": "Desmos: type f(x) = 250(1.05)^(x/5), then f(5) ÷ f(0).",
+"steps": [
+"Increase x by 5: the exponent x/5 goes up by exactly 1",
+"So f(x) is multiplied by 1.05 one time",
+"1.05 = 1 + 0.05, so the value grows by 5%"
+],
+"trap": "1.05 is the growth FACTOR. The percent is the part after the 1: 5%.",
+"find": {
+"opts": [
+"the starting value",
+"the growth factor",
+"the percent increase"
+],
+"ok": 2
+},
+"grid": [
+"5"
+],
+"show": "5"
+},
+{
+"id": "nlf-86",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = 400(1.05)<sup>x/3</sup>. By what percent does the value of f(x) increase for every increase of x by 3?",
+"tool": "Desmos: type f(x) = 400(1.05)^(x/3), then f(3) ÷ f(0).",
+"steps": [
+"Increase x by 3: the exponent x/3 goes up by exactly 1",
+"So f(x) is multiplied by 1.05 one time",
+"1.05 = 1 + 0.05, so the value grows by 5%"
+],
+"trap": "1.05 is the growth FACTOR. The percent is the part after the 1: 5%.",
+"find": {
+"opts": [
+"the percent increase",
+"the starting value",
+"the growth factor"
+],
+"ok": 0
+},
+"grid": [
+"5"
+],
+"show": "5"
+},
+{
+"id": "nlf-87",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = 400(1.15)<sup>x/2</sup>. By what percent does the value of f(x) increase for every increase of x by 2?",
+"tool": "Desmos: type f(x) = 400(1.15)^(x/2), then f(2) ÷ f(0).",
+"steps": [
+"Increase x by 2: the exponent x/2 goes up by exactly 1",
+"So f(x) is multiplied by 1.15 one time",
+"1.15 = 1 + 0.15, so the value grows by 15%"
+],
+"trap": "1.15 is the growth FACTOR. The percent is the part after the 1: 15%.",
+"find": {
+"opts": [
+"the growth factor",
+"the percent increase",
+"the starting value"
+],
+"ok": 1
+},
+"grid": [
+"15"
+],
+"show": "15"
+},
+{
+"id": "nlf-88",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = 200(1.1)<sup>x/3</sup>. By what percent does the value of f(x) increase for every increase of x by 3?",
+"tool": "Desmos: type f(x) = 200(1.1)^(x/3), then f(3) ÷ f(0).",
+"steps": [
+"Increase x by 3: the exponent x/3 goes up by exactly 1",
+"So f(x) is multiplied by 1.1 one time",
+"1.1 = 1 + 0.1, so the value grows by 10%"
+],
+"trap": "1.1 is the growth FACTOR. The percent is the part after the 1: 10%.",
+"find": {
+"opts": [
+"the percent increase",
+"the growth factor",
+"the starting value"
+],
+"ok": 0
+},
+"grid": [
+"10"
+],
+"show": "10"
+},
+{
+"id": "nlf-89",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = 250(1.25)<sup>x/4</sup>. By what percent does the value of f(x) increase for every increase of x by 4?",
+"tool": "Desmos: type f(x) = 250(1.25)^(x/4), then f(4) ÷ f(0).",
+"steps": [
+"Increase x by 4: the exponent x/4 goes up by exactly 1",
+"So f(x) is multiplied by 1.25 one time",
+"1.25 = 1 + 0.25, so the value grows by 25%"
+],
+"trap": "1.25 is the growth FACTOR. The percent is the part after the 1: 25%.",
+"find": {
+"opts": [
+"the growth factor",
+"the percent increase",
+"the starting value"
+],
+"ok": 1
+},
+"grid": [
+"25"
+],
+"show": "25"
+},
+{
+"id": "nlf-90",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = 400(1.2)<sup>x/5</sup>. By what percent does the value of f(x) increase for every increase of x by 5?",
+"tool": "Desmos: type f(x) = 400(1.2)^(x/5), then f(5) ÷ f(0).",
+"steps": [
+"Increase x by 5: the exponent x/5 goes up by exactly 1",
+"So f(x) is multiplied by 1.2 one time",
+"1.2 = 1 + 0.2, so the value grows by 20%"
+],
+"trap": "1.2 is the growth FACTOR. The percent is the part after the 1: 20%.",
+"find": {
+"opts": [
+"the growth factor",
+"the percent increase",
+"the starting value"
+],
+"ok": 1
+},
+"grid": [
+"20"
+],
+"show": "20"
+},
+{
+"id": "nlf-91",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = 500(1.25)<sup>x/4</sup>. By what percent does the value of f(x) increase for every increase of x by 4?",
+"tool": "Desmos: type f(x) = 500(1.25)^(x/4), then f(4) ÷ f(0).",
+"steps": [
+"Increase x by 4: the exponent x/4 goes up by exactly 1",
+"So f(x) is multiplied by 1.25 one time",
+"1.25 = 1 + 0.25, so the value grows by 25%"
+],
+"trap": "1.25 is the growth FACTOR. The percent is the part after the 1: 25%.",
+"find": {
+"opts": [
+"the percent increase",
+"the starting value",
+"the growth factor"
+],
+"ok": 0
+},
+"grid": [
+"25"
+],
+"show": "25"
+},
+{
+"id": "nlf-92",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = 800(1.1)<sup>x/10</sup>. By what percent does the value of f(x) increase for every increase of x by 10?",
+"tool": "Desmos: type f(x) = 800(1.1)^(x/10), then f(10) ÷ f(0).",
+"steps": [
+"Increase x by 10: the exponent x/10 goes up by exactly 1",
+"So f(x) is multiplied by 1.1 one time",
+"1.1 = 1 + 0.1, so the value grows by 10%"
+],
+"trap": "1.1 is the growth FACTOR. The percent is the part after the 1: 10%.",
+"find": {
+"opts": [
+"the growth factor",
+"the starting value",
+"the percent increase"
+],
+"ok": 2
+},
+"grid": [
+"10"
+],
+"show": "10"
+},
+{
+"id": "nlf-93",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = (x − 12)(x − 6). For what value of x does f(x) reach its minimum?",
+"tool": "Desmos: graph y = (x − 12)(x − 6) and click the lowest point; read the x-value.",
+"steps": [
+"The zeros are x = 12 and x = 6",
+"A parabola is symmetric, so its lowest point is exactly halfway between the zeros",
+"(12 + 6) ÷ 2 = 9"
+],
+"trap": "They asked for the x-value of the minimum, not the minimum value of f(x).",
+"find": {
+"opts": [
+"the minimum value of f(x)",
+"the x-value where f is lowest",
+"the zeros"
+],
+"ok": 1
+},
+"grid": [
+"9"
+],
+"show": "9"
+},
+{
+"id": "nlf-94",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = (x + 7)(x − 3). For what value of x does f(x) reach its minimum?",
+"tool": "Desmos: graph y = (x + 7)(x − 3) and click the lowest point; read the x-value.",
+"steps": [
+"The zeros are x = −7 and x = 3",
+"A parabola is symmetric, so its lowest point is exactly halfway between the zeros",
+"(−7 + 3) ÷ 2 = −2"
+],
+"trap": "They asked for the x-value of the minimum, not the minimum value of f(x).",
+"find": {
+"opts": [
+"the zeros",
+"the x-value where f is lowest",
+"the minimum value of f(x)"
+],
+"ok": 1
+},
+"grid": [
+"−2"
+],
+"show": "−2"
+},
+{
+"id": "nlf-95",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = (x + 6)(x + 4). For what value of x does f(x) reach its minimum?",
+"tool": "Desmos: graph y = (x + 6)(x + 4) and click the lowest point; read the x-value.",
+"steps": [
+"The zeros are x = −6 and x = −4",
+"A parabola is symmetric, so its lowest point is exactly halfway between the zeros",
+"(−6 + −4) ÷ 2 = −5"
+],
+"trap": "They asked for the x-value of the minimum, not the minimum value of f(x).",
+"find": {
+"opts": [
+"the zeros",
+"the minimum value of f(x)",
+"the x-value where f is lowest"
+],
+"ok": 2
+},
+"grid": [
+"−5"
+],
+"show": "−5"
+},
+{
+"id": "nlf-96",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = (x + 1)(x + 9). For what value of x does f(x) reach its minimum?",
+"tool": "Desmos: graph y = (x + 1)(x + 9) and click the lowest point; read the x-value.",
+"steps": [
+"The zeros are x = −1 and x = −9",
+"A parabola is symmetric, so its lowest point is exactly halfway between the zeros",
+"(−1 + −9) ÷ 2 = −5"
+],
+"trap": "They asked for the x-value of the minimum, not the minimum value of f(x).",
+"find": {
+"opts": [
+"the minimum value of f(x)",
+"the x-value where f is lowest",
+"the zeros"
+],
+"ok": 1
+},
+"grid": [
+"−5"
+],
+"show": "−5"
+},
+{
+"id": "nlf-97",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = (x − 2)(x − 6). For what value of x does f(x) reach its minimum?",
+"tool": "Desmos: graph y = (x − 2)(x − 6) and click the lowest point; read the x-value.",
+"steps": [
+"The zeros are x = 2 and x = 6",
+"A parabola is symmetric, so its lowest point is exactly halfway between the zeros",
+"(2 + 6) ÷ 2 = 4"
+],
+"trap": "They asked for the x-value of the minimum, not the minimum value of f(x).",
+"find": {
+"opts": [
+"the minimum value of f(x)",
+"the x-value where f is lowest",
+"the zeros"
+],
+"ok": 1
+},
+"grid": [
+"4"
+],
+"show": "4"
+},
+{
+"id": "nlf-98",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = (x − 1)(x + 9). For what value of x does f(x) reach its minimum?",
+"tool": "Desmos: graph y = (x − 1)(x + 9) and click the lowest point; read the x-value.",
+"steps": [
+"The zeros are x = 1 and x = −9",
+"A parabola is symmetric, so its lowest point is exactly halfway between the zeros",
+"(1 + −9) ÷ 2 = −4"
+],
+"trap": "They asked for the x-value of the minimum, not the minimum value of f(x).",
+"find": {
+"opts": [
+"the zeros",
+"the minimum value of f(x)",
+"the x-value where f is lowest"
+],
+"ok": 2
+},
+"grid": [
+"−4"
+],
+"show": "−4"
+},
+{
+"id": "nlf-99",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = (x − 4)(x − 10). For what value of x does f(x) reach its minimum?",
+"tool": "Desmos: graph y = (x − 4)(x − 10) and click the lowest point; read the x-value.",
+"steps": [
+"The zeros are x = 4 and x = 10",
+"A parabola is symmetric, so its lowest point is exactly halfway between the zeros",
+"(4 + 10) ÷ 2 = 7"
+],
+"trap": "They asked for the x-value of the minimum, not the minimum value of f(x).",
+"find": {
+"opts": [
+"the x-value where f is lowest",
+"the minimum value of f(x)",
+"the zeros"
+],
+"ok": 0
+},
+"grid": [
+"7"
+],
+"show": "7"
+},
+{
+"id": "nlf-100",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = (x − 12)(x − 8). For what value of x does f(x) reach its minimum?",
+"tool": "Desmos: graph y = (x − 12)(x − 8) and click the lowest point; read the x-value.",
+"steps": [
+"The zeros are x = 12 and x = 8",
+"A parabola is symmetric, so its lowest point is exactly halfway between the zeros",
+"(12 + 8) ÷ 2 = 10"
+],
+"trap": "They asked for the x-value of the minimum, not the minimum value of f(x).",
+"find": {
+"opts": [
+"the minimum value of f(x)",
+"the x-value where f is lowest",
+"the zeros"
+],
+"ok": 1
+},
+"grid": [
+"10"
+],
+"show": "10"
+},
+{
+"id": "nlf-101",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = (x + 2)(x − 6). For what value of x does f(x) reach its minimum?",
+"tool": "Desmos: graph y = (x + 2)(x − 6) and click the lowest point; read the x-value.",
+"steps": [
+"The zeros are x = −2 and x = 6",
+"A parabola is symmetric, so its lowest point is exactly halfway between the zeros",
+"(−2 + 6) ÷ 2 = 2"
+],
+"trap": "They asked for the x-value of the minimum, not the minimum value of f(x).",
+"find": {
+"opts": [
+"the zeros",
+"the x-value where f is lowest",
+"the minimum value of f(x)"
+],
+"ok": 1
+},
+"grid": [
+"2"
+],
+"show": "2"
+},
+{
+"id": "nlf-102",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = (x − 9)(x + 1). For what value of x does f(x) reach its minimum?",
+"tool": "Desmos: graph y = (x − 9)(x + 1) and click the lowest point; read the x-value.",
+"steps": [
+"The zeros are x = 9 and x = −1",
+"A parabola is symmetric, so its lowest point is exactly halfway between the zeros",
+"(9 + −1) ÷ 2 = 4"
+],
+"trap": "They asked for the x-value of the minimum, not the minimum value of f(x).",
+"find": {
+"opts": [
+"the x-value where f is lowest",
+"the minimum value of f(x)",
+"the zeros"
+],
+"ok": 0
+},
+"grid": [
+"4"
+],
+"show": "4"
+},
+{
+"id": "nlf-103",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = (x + 8)(x − 10). For what value of x does f(x) reach its minimum?",
+"tool": "Desmos: graph y = (x + 8)(x − 10) and click the lowest point; read the x-value.",
+"steps": [
+"The zeros are x = −8 and x = 10",
+"A parabola is symmetric, so its lowest point is exactly halfway between the zeros",
+"(−8 + 10) ÷ 2 = 1"
+],
+"trap": "They asked for the x-value of the minimum, not the minimum value of f(x).",
+"find": {
+"opts": [
+"the x-value where f is lowest",
+"the zeros",
+"the minimum value of f(x)"
+],
+"ok": 0
+},
+"grid": [
+"1"
+],
+"show": "1"
+},
+{
+"id": "nlf-104",
+"skill": "nlf",
+"diff": "H",
+"q": "The function f is defined by f(x) = (x − 10)(x − 12). For what value of x does f(x) reach its minimum?",
+"tool": "Desmos: graph y = (x − 10)(x − 12) and click the lowest point; read the x-value.",
+"steps": [
+"The zeros are x = 10 and x = 12",
+"A parabola is symmetric, so its lowest point is exactly halfway between the zeros",
+"(10 + 12) ÷ 2 = 11"
+],
+"trap": "They asked for the x-value of the minimum, not the minimum value of f(x).",
+"find": {
+"opts": [
+"the minimum value of f(x)",
+"the zeros",
+"the x-value where f is lowest"
+],
+"ok": 2
+},
+"grid": [
+"11"
+],
+"show": "11"
+},
+{
+"id": "nlf-105",
+"skill": "nlf",
+"diff": "M",
+"q": "The first term of a sequence is 2. Each term after the first is 4 times the preceding term. If w represents the nth term of the sequence, which equation gives w in terms of n?",
+"tool": "Rule: nth term = first term × (ratio)^(n − 1).",
+"steps": [
+"First term: 2. Each step multiplies by 4.",
+"Term 1 has 0 multiplications, term 2 has 1, so term n has n − 1",
+"w = 2(4)<sup>n − 1</sup>"
+],
+"trap": "The first term is not multiplied yet, so the exponent is n − 1, not n.",
+"find": {
+"opts": [
+"the ratio",
+"the 2nd term",
+"an equation for the nth term"
+],
+"ok": 2
+},
+"ch": [
+"w = 2(4)<sup>n − 1</sup>",
+"w = 2(4)<sup>n</sup>",
+"w = 4(2)<sup>n − 1</sup>",
+"w = 2 + 4(n − 1)"
+],
+"ans": 0
+},
+{
+"id": "nlf-106",
+"skill": "nlf",
+"diff": "M",
+"q": "The first term of a sequence is 6. Each term after the first is 2 times the preceding term. If w represents the nth term of the sequence, which equation gives w in terms of n?",
+"tool": "Rule: nth term = first term × (ratio)^(n − 1).",
+"steps": [
+"First term: 6. Each step multiplies by 2.",
+"Term 1 has 0 multiplications, term 2 has 1, so term n has n − 1",
+"w = 6(2)<sup>n − 1</sup>"
+],
+"trap": "The first term is not multiplied yet, so the exponent is n − 1, not n.",
+"find": {
+"opts": [
+"an equation for the nth term",
+"the 2nd term",
+"the ratio"
+],
+"ok": 0
+},
+"ch": [
+"w = 6(2)<sup>n − 1</sup>",
+"w = 6(2)<sup>n</sup>",
+"w = 2(6)<sup>n − 1</sup>",
+"w = 6 + 2(n − 1)"
+],
+"ans": 0
+},
+{
+"id": "nlf-107",
+"skill": "nlf",
+"diff": "M",
+"q": "The first term of a sequence is 5. Each term after the first is 2 times the preceding term. If w represents the nth term of the sequence, which equation gives w in terms of n?",
+"tool": "Rule: nth term = first term × (ratio)^(n − 1).",
+"steps": [
+"First term: 5. Each step multiplies by 2.",
+"Term 1 has 0 multiplications, term 2 has 1, so term n has n − 1",
+"w = 5(2)<sup>n − 1</sup>"
+],
+"trap": "The first term is not multiplied yet, so the exponent is n − 1, not n.",
+"find": {
+"opts": [
+"an equation for the nth term",
+"the ratio",
+"the 2nd term"
+],
+"ok": 0
+},
+"ch": [
+"w = 5(2)<sup>n</sup>",
+"w = 2(5)<sup>n − 1</sup>",
+"w = 5 + 2(n − 1)",
+"w = 5(2)<sup>n − 1</sup>"
+],
+"ans": 3
+},
+{
+"id": "nlf-108",
+"skill": "nlf",
+"diff": "M",
+"q": "The first term of a sequence is 5. Each term after the first is 3 times the preceding term. If w represents the nth term of the sequence, which equation gives w in terms of n?",
+"tool": "Rule: nth term = first term × (ratio)^(n − 1).",
+"steps": [
+"First term: 5. Each step multiplies by 3.",
+"Term 1 has 0 multiplications, term 2 has 1, so term n has n − 1",
+"w = 5(3)<sup>n − 1</sup>"
+],
+"trap": "The first term is not multiplied yet, so the exponent is n − 1, not n.",
+"find": {
+"opts": [
+"an equation for the nth term",
+"the ratio",
+"the 2nd term"
+],
+"ok": 0
+},
+"ch": [
+"w = 5(3)<sup>n</sup>",
+"w = 3(5)<sup>n − 1</sup>",
+"w = 5(3)<sup>n − 1</sup>",
+"w = 5 + 3(n − 1)"
+],
+"ans": 2
+},
+{
+"id": "nlf-109",
+"skill": "nlf",
+"diff": "M",
+"q": "The first term of a sequence is 6. Each term after the first is 4 times the preceding term. If w represents the nth term of the sequence, which equation gives w in terms of n?",
+"tool": "Rule: nth term = first term × (ratio)^(n − 1).",
+"steps": [
+"First term: 6. Each step multiplies by 4.",
+"Term 1 has 0 multiplications, term 2 has 1, so term n has n − 1",
+"w = 6(4)<sup>n − 1</sup>"
+],
+"trap": "The first term is not multiplied yet, so the exponent is n − 1, not n.",
+"find": {
+"opts": [
+"an equation for the nth term",
+"the ratio",
+"the 2nd term"
+],
+"ok": 0
+},
+"ch": [
+"w = 6(4)<sup>n − 1</sup>",
+"w = 6(4)<sup>n</sup>",
+"w = 4(6)<sup>n − 1</sup>",
+"w = 6 + 4(n − 1)"
+],
+"ans": 0
+},
+{
+"id": "nlf-110",
+"skill": "nlf",
+"diff": "M",
+"q": "The first term of a sequence is 12. Each term after the first is 4 times the preceding term. If w represents the nth term of the sequence, which equation gives w in terms of n?",
+"tool": "Rule: nth term = first term × (ratio)^(n − 1).",
+"steps": [
+"First term: 12. Each step multiplies by 4.",
+"Term 1 has 0 multiplications, term 2 has 1, so term n has n − 1",
+"w = 12(4)<sup>n − 1</sup>"
+],
+"trap": "The first term is not multiplied yet, so the exponent is n − 1, not n.",
+"find": {
+"opts": [
+"the ratio",
+"the 2nd term",
+"an equation for the nth term"
+],
+"ok": 2
+},
+"ch": [
+"w = 12(4)<sup>n</sup>",
+"w = 4(12)<sup>n − 1</sup>",
+"w = 12 + 4(n − 1)",
+"w = 12(4)<sup>n − 1</sup>"
+],
+"ans": 3
+},
+{
+"id": "nlf-111",
+"skill": "nlf",
+"diff": "M",
+"q": "The first term of a sequence is 5. Each term after the first is 4 times the preceding term. If w represents the nth term of the sequence, which equation gives w in terms of n?",
+"tool": "Rule: nth term = first term × (ratio)^(n − 1).",
+"steps": [
+"First term: 5. Each step multiplies by 4.",
+"Term 1 has 0 multiplications, term 2 has 1, so term n has n − 1",
+"w = 5(4)<sup>n − 1</sup>"
+],
+"trap": "The first term is not multiplied yet, so the exponent is n − 1, not n.",
+"find": {
+"opts": [
+"the ratio",
+"an equation for the nth term",
+"the 2nd term"
+],
+"ok": 1
+},
+"ch": [
+"w = 5(4)<sup>n</sup>",
+"w = 4(5)<sup>n − 1</sup>",
+"w = 5(4)<sup>n − 1</sup>",
+"w = 5 + 4(n − 1)"
+],
+"ans": 2
+},
+{
+"id": "nlf-112",
+"skill": "nlf",
+"diff": "M",
+"q": "The first term of a sequence is 2. Each term after the first is 3 times the preceding term. If w represents the nth term of the sequence, which equation gives w in terms of n?",
+"tool": "Rule: nth term = first term × (ratio)^(n − 1).",
+"steps": [
+"First term: 2. Each step multiplies by 3.",
+"Term 1 has 0 multiplications, term 2 has 1, so term n has n − 1",
+"w = 2(3)<sup>n − 1</sup>"
+],
+"trap": "The first term is not multiplied yet, so the exponent is n − 1, not n.",
+"find": {
+"opts": [
+"an equation for the nth term",
+"the 2nd term",
+"the ratio"
+],
+"ok": 0
+},
+"ch": [
+"w = 2(3)<sup>n</sup>",
+"w = 3(2)<sup>n − 1</sup>",
+"w = 2 + 3(n − 1)",
+"w = 2(3)<sup>n − 1</sup>"
+],
+"ans": 3
+},
+{
+"id": "nlf-113",
+"skill": "nlf",
+"diff": "M",
+"q": "The first term of a sequence is 8. Each term after the first is 4 times the preceding term. If w represents the nth term of the sequence, which equation gives w in terms of n?",
+"tool": "Rule: nth term = first term × (ratio)^(n − 1).",
+"steps": [
+"First term: 8. Each step multiplies by 4.",
+"Term 1 has 0 multiplications, term 2 has 1, so term n has n − 1",
+"w = 8(4)<sup>n − 1</sup>"
+],
+"trap": "The first term is not multiplied yet, so the exponent is n − 1, not n.",
+"find": {
+"opts": [
+"the ratio",
+"the 2nd term",
+"an equation for the nth term"
+],
+"ok": 2
+},
+"ch": [
+"w = 8(4)<sup>n</sup>",
+"w = 4(8)<sup>n − 1</sup>",
+"w = 8(4)<sup>n − 1</sup>",
+"w = 8 + 4(n − 1)"
+],
+"ans": 2
+},
+{
+"id": "nlf-114",
+"skill": "nlf",
+"diff": "M",
+"q": "The first term of a sequence is 3. Each term after the first is 5 times the preceding term. If w represents the nth term of the sequence, which equation gives w in terms of n?",
+"tool": "Rule: nth term = first term × (ratio)^(n − 1).",
+"steps": [
+"First term: 3. Each step multiplies by 5.",
+"Term 1 has 0 multiplications, term 2 has 1, so term n has n − 1",
+"w = 3(5)<sup>n − 1</sup>"
+],
+"trap": "The first term is not multiplied yet, so the exponent is n − 1, not n.",
+"find": {
+"opts": [
+"the 2nd term",
+"an equation for the nth term",
+"the ratio"
+],
+"ok": 1
+},
+"ch": [
+"w = 3(5)<sup>n − 1</sup>",
+"w = 3(5)<sup>n</sup>",
+"w = 5(3)<sup>n − 1</sup>",
+"w = 3 + 5(n − 1)"
+],
+"ans": 0
+},
+{
+"id": "nlf-115",
+"skill": "nlf",
+"diff": "M",
+"q": "The first term of a sequence is 6. Each term after the first is 5 times the preceding term. If w represents the nth term of the sequence, which equation gives w in terms of n?",
+"tool": "Rule: nth term = first term × (ratio)^(n − 1).",
+"steps": [
+"First term: 6. Each step multiplies by 5.",
+"Term 1 has 0 multiplications, term 2 has 1, so term n has n − 1",
+"w = 6(5)<sup>n − 1</sup>"
+],
+"trap": "The first term is not multiplied yet, so the exponent is n − 1, not n.",
+"find": {
+"opts": [
+"the 2nd term",
+"an equation for the nth term",
+"the ratio"
+],
+"ok": 1
+},
+"ch": [
+"w = 6(5)<sup>n</sup>",
+"w = 5(6)<sup>n − 1</sup>",
+"w = 6 + 5(n − 1)",
+"w = 6(5)<sup>n − 1</sup>"
+],
+"ans": 3
+},
+{
+"id": "nlf-116",
+"skill": "nlf",
+"diff": "M",
+"q": "The first term of a sequence is 3. Each term after the first is 2 times the preceding term. If w represents the nth term of the sequence, which equation gives w in terms of n?",
+"tool": "Rule: nth term = first term × (ratio)^(n − 1).",
+"steps": [
+"First term: 3. Each step multiplies by 2.",
+"Term 1 has 0 multiplications, term 2 has 1, so term n has n − 1",
+"w = 3(2)<sup>n − 1</sup>"
+],
+"trap": "The first term is not multiplied yet, so the exponent is n − 1, not n.",
+"find": {
+"opts": [
+"the ratio",
+"the 2nd term",
+"an equation for the nth term"
+],
+"ok": 2
+},
+"ch": [
+"w = 3(2)<sup>n − 1</sup>",
+"w = 3(2)<sup>n</sup>",
+"w = 2(3)<sup>n − 1</sup>",
+"w = 3 + 2(n − 1)"
+],
+"ans": 0
+},
+{
+"id": "nlf-117",
+"skill": "nlf",
+"diff": "M",
+"q": "The function f is defined by f(x) = 20(1.5)<sup>x</sup> − 9. What is the y-intercept of the graph of y = f(x) in the xy-plane?",
+"tool": "Desmos: type f(x) = 20(1.5)^x − 9 and click where it crosses the y-axis.",
+"steps": [
+"The y-intercept is where x = 0",
+"(1.5)^0 = 1, so f(0) = 20(1) − 9",
+"f(0) = 11, so the y-intercept is (0, 11)"
+],
+"trap": "Anything to the 0 power is 1, so the y-intercept is NOT just 20. Add the −9.",
+"find": {
+"opts": [
+"the x-intercept",
+"the growth factor",
+"the y-intercept (x = 0)"
+],
+"ok": 2
+},
+"ch": [
+"(0, 20)",
+"(0, 11)",
+"(0, −9)",
+"(0, 21)"
+],
+"ans": 1
+},
+{
+"id": "nlf-118",
+"skill": "nlf",
+"diff": "M",
+"q": "The function f is defined by f(x) = 3(1.2)<sup>x</sup> + 5. What is the y-intercept of the graph of y = f(x) in the xy-plane?",
+"tool": "Desmos: type f(x) = 3(1.2)^x + 5 and click where it crosses the y-axis.",
+"steps": [
+"The y-intercept is where x = 0",
+"(1.2)^0 = 1, so f(0) = 3(1) + 5",
+"f(0) = 8, so the y-intercept is (0, 8)"
+],
+"trap": "Anything to the 0 power is 1, so the y-intercept is NOT just 3. Add the 5.",
+"find": {
+"opts": [
+"the growth factor",
+"the x-intercept",
+"the y-intercept (x = 0)"
+],
+"ok": 2
+},
+"ch": [
+"(0, 3)",
+"(0, 5)",
+"(0, 8)",
+"(0, 8.6)"
+],
+"ans": 2
+},
+{
+"id": "nlf-119",
+"skill": "nlf",
+"diff": "M",
+"q": "The function f is defined by f(x) = 3(1.2)<sup>x</sup> + 4. What is the y-intercept of the graph of y = f(x) in the xy-plane?",
+"tool": "Desmos: type f(x) = 3(1.2)^x + 4 and click where it crosses the y-axis.",
+"steps": [
+"The y-intercept is where x = 0",
+"(1.2)^0 = 1, so f(0) = 3(1) + 4",
+"f(0) = 7, so the y-intercept is (0, 7)"
+],
+"trap": "Anything to the 0 power is 1, so the y-intercept is NOT just 3. Add the 4.",
+"find": {
+"opts": [
+"the growth factor",
+"the x-intercept",
+"the y-intercept (x = 0)"
+],
+"ok": 2
+},
+"ch": [
+"(0, 3)",
+"(0, 4)",
+"(0, 7)",
+"(0, 7.6)"
+],
+"ans": 2
+},
+{
+"id": "nlf-120",
+"skill": "nlf",
+"diff": "M",
+"q": "The function f is defined by f(x) = 2(2)<sup>x</sup> + 1. What is the y-intercept of the graph of y = f(x) in the xy-plane?",
+"tool": "Desmos: type f(x) = 2(2)^x + 1 and click where it crosses the y-axis.",
+"steps": [
+"The y-intercept is where x = 0",
+"(2)^0 = 1, so f(0) = 2(1) + 1",
+"f(0) = 3, so the y-intercept is (0, 3)"
+],
+"trap": "Anything to the 0 power is 1, so the y-intercept is NOT just 2. Add the 1.",
+"find": {
+"opts": [
+"the growth factor",
+"the x-intercept",
+"the y-intercept (x = 0)"
+],
+"ok": 2
+},
+"ch": [
+"(0, 2)",
+"(0, 1)",
+"(0, 5)",
+"(0, 3)"
+],
+"ans": 3
+},
+{
+"id": "nlf-121",
+"skill": "nlf",
+"diff": "M",
+"q": "The function f is defined by f(x) = 5(0.8)<sup>x</sup> + 3. What is the y-intercept of the graph of y = f(x) in the xy-plane?",
+"tool": "Desmos: type f(x) = 5(0.8)^x + 3 and click where it crosses the y-axis.",
+"steps": [
+"The y-intercept is where x = 0",
+"(0.8)^0 = 1, so f(0) = 5(1) + 3",
+"f(0) = 8, so the y-intercept is (0, 8)"
+],
+"trap": "Anything to the 0 power is 1, so the y-intercept is NOT just 5. Add the 3.",
+"find": {
+"opts": [
+"the x-intercept",
+"the growth factor",
+"the y-intercept (x = 0)"
+],
+"ok": 2
+},
+"ch": [
+"(0, 5)",
+"(0, 3)",
+"(0, 7)",
+"(0, 8)"
+],
+"ans": 3
+},
+{
+"id": "nlf-122",
+"skill": "nlf",
+"diff": "M",
+"q": "The function f is defined by f(x) = 20(2)<sup>x</sup> + 6. What is the y-intercept of the graph of y = f(x) in the xy-plane?",
+"tool": "Desmos: type f(x) = 20(2)^x + 6 and click where it crosses the y-axis.",
+"steps": [
+"The y-intercept is where x = 0",
+"(2)^0 = 1, so f(0) = 20(1) + 6",
+"f(0) = 26, so the y-intercept is (0, 26)"
+],
+"trap": "Anything to the 0 power is 1, so the y-intercept is NOT just 20. Add the 6.",
+"find": {
+"opts": [
+"the y-intercept (x = 0)",
+"the growth factor",
+"the x-intercept"
+],
+"ok": 0
+},
+"ch": [
+"(0, 20)",
+"(0, 6)",
+"(0, 26)",
+"(0, 46)"
+],
+"ans": 2
+},
+{
+"id": "nlf-123",
+"skill": "nlf",
+"diff": "M",
+"q": "The function f is defined by f(x) = 6(2)<sup>x</sup> − 3. What is the y-intercept of the graph of y = f(x) in the xy-plane?",
+"tool": "Desmos: type f(x) = 6(2)^x − 3 and click where it crosses the y-axis.",
+"steps": [
+"The y-intercept is where x = 0",
+"(2)^0 = 1, so f(0) = 6(1) − 3",
+"f(0) = 3, so the y-intercept is (0, 3)"
+],
+"trap": "Anything to the 0 power is 1, so the y-intercept is NOT just 6. Add the −3.",
+"find": {
+"opts": [
+"the growth factor",
+"the y-intercept (x = 0)",
+"the x-intercept"
+],
+"ok": 1
+},
+"ch": [
+"(0, 6)",
+"(0, −3)",
+"(0, 9)",
+"(0, 3)"
+],
+"ans": 3
+},
+{
+"id": "nlf-124",
+"skill": "nlf",
+"diff": "M",
+"q": "The function f is defined by f(x) = 8(0.5)<sup>x</sup> − 2. What is the y-intercept of the graph of y = f(x) in the xy-plane?",
+"tool": "Desmos: type f(x) = 8(0.5)^x − 2 and click where it crosses the y-axis.",
+"steps": [
+"The y-intercept is where x = 0",
+"(0.5)^0 = 1, so f(0) = 8(1) − 2",
+"f(0) = 6, so the y-intercept is (0, 6)"
+],
+"trap": "Anything to the 0 power is 1, so the y-intercept is NOT just 8. Add the −2.",
+"find": {
+"opts": [
+"the y-intercept (x = 0)",
+"the growth factor",
+"the x-intercept"
+],
+"ok": 0
+},
+"ch": [
+"(0, 6)",
+"(0, 8)",
+"(0, −2)",
+"(0, 2)"
+],
+"ans": 0
+},
+{
+"id": "nlf-125",
+"skill": "nlf",
+"diff": "M",
+"q": "The function f is defined by f(x) = 20(2)<sup>x</sup> + 8. What is the y-intercept of the graph of y = f(x) in the xy-plane?",
+"tool": "Desmos: type f(x) = 20(2)^x + 8 and click where it crosses the y-axis.",
+"steps": [
+"The y-intercept is where x = 0",
+"(2)^0 = 1, so f(0) = 20(1) + 8",
+"f(0) = 28, so the y-intercept is (0, 28)"
+],
+"trap": "Anything to the 0 power is 1, so the y-intercept is NOT just 20. Add the 8.",
+"find": {
+"opts": [
+"the growth factor",
+"the y-intercept (x = 0)",
+"the x-intercept"
+],
+"ok": 1
+},
+"ch": [
+"(0, 20)",
+"(0, 8)",
+"(0, 28)",
+"(0, 48)"
+],
+"ans": 2
+},
+{
+"id": "nlf-126",
+"skill": "nlf",
+"diff": "M",
+"q": "The function f is defined by f(x) = 10(0.5)<sup>x</sup> + 6. What is the y-intercept of the graph of y = f(x) in the xy-plane?",
+"tool": "Desmos: type f(x) = 10(0.5)^x + 6 and click where it crosses the y-axis.",
+"steps": [
+"The y-intercept is where x = 0",
+"(0.5)^0 = 1, so f(0) = 10(1) + 6",
+"f(0) = 16, so the y-intercept is (0, 16)"
+],
+"trap": "Anything to the 0 power is 1, so the y-intercept is NOT just 10. Add the 6.",
+"find": {
+"opts": [
+"the y-intercept (x = 0)",
+"the growth factor",
+"the x-intercept"
+],
+"ok": 0
+},
+"ch": [
+"(0, 16)",
+"(0, 10)",
+"(0, 6)",
+"(0, 11)"
+],
+"ans": 0
+},
+{
+"id": "nlf-127",
+"skill": "nlf",
+"diff": "M",
+"q": "The function f is defined by f(x) = 20(1.5)<sup>x</sup> − 6. What is the y-intercept of the graph of y = f(x) in the xy-plane?",
+"tool": "Desmos: type f(x) = 20(1.5)^x − 6 and click where it crosses the y-axis.",
+"steps": [
+"The y-intercept is where x = 0",
+"(1.5)^0 = 1, so f(0) = 20(1) − 6",
+"f(0) = 14, so the y-intercept is (0, 14)"
+],
+"trap": "Anything to the 0 power is 1, so the y-intercept is NOT just 20. Add the −6.",
+"find": {
+"opts": [
+"the growth factor",
+"the x-intercept",
+"the y-intercept (x = 0)"
+],
+"ok": 2
+},
+"ch": [
+"(0, 20)",
+"(0, −6)",
+"(0, 14)",
+"(0, 24)"
+],
+"ans": 2
+},
+{
+"id": "nlf-128",
+"skill": "nlf",
+"diff": "M",
+"q": "The function f is defined by f(x) = 4(3)<sup>x</sup> + 9. What is the y-intercept of the graph of y = f(x) in the xy-plane?",
+"tool": "Desmos: type f(x) = 4(3)^x + 9 and click where it crosses the y-axis.",
+"steps": [
+"The y-intercept is where x = 0",
+"(3)^0 = 1, so f(0) = 4(1) + 9",
+"f(0) = 13, so the y-intercept is (0, 13)"
+],
+"trap": "Anything to the 0 power is 1, so the y-intercept is NOT just 4. Add the 9.",
+"find": {
+"opts": [
+"the x-intercept",
+"the growth factor",
+"the y-intercept (x = 0)"
+],
+"ok": 2
+},
+"ch": [
+"(0, 4)",
+"(0, 13)",
+"(0, 9)",
+"(0, 21)"
+],
+"ans": 1
+},
+{
+"id": "nlf-129",
+"skill": "nlf",
+"diff": "H",
+"q": "The graph of the quadratic function f has its vertex at (−2, −7) and passes through the point (−1, −4). If f(x) = a(x − h)² + k, what is the value of a?",
+"tool": "Desmos: type y = a(x − (−2))² + (−7), add a slider for a, and slide until the graph passes through (−1, −4).",
+"steps": [
+"Vertex (h, k) = (−2, −7): f(x) = a(x − (−2))² + (−7)",
+"Plug in the point: −4 = a(−1 − (−2))² + (−7)",
+"3 = a(1)",
+"a = 3"
+],
+"trap": "Plug in the OTHER point, not the vertex. The vertex alone cannot tell you a.",
+"find": {
+"opts": [
+"the vertex",
+"the y-intercept",
+"the constant a (the stretch)"
+],
+"ok": 2
+},
+"grid": [
+"3"
+],
+"show": "3"
+},
+{
+"id": "nlf-130",
+"skill": "nlf",
+"diff": "H",
+"q": "The graph of the quadratic function f has its vertex at (−1, −2) and passes through the point (−4, 7). If f(x) = a(x − h)² + k, what is the value of a?",
+"tool": "Desmos: type y = a(x − (−1))² + (−2), add a slider for a, and slide until the graph passes through (−4, 7).",
+"steps": [
+"Vertex (h, k) = (−1, −2): f(x) = a(x − (−1))² + (−2)",
+"Plug in the point: 7 = a(−4 − (−1))² + (−2)",
+"9 = a(9)",
+"a = 1"
+],
+"trap": "Plug in the OTHER point, not the vertex. The vertex alone cannot tell you a.",
+"find": {
+"opts": [
+"the y-intercept",
+"the vertex",
+"the constant a (the stretch)"
+],
+"ok": 2
+},
+"grid": [
+"1"
+],
+"show": "1"
+},
+{
+"id": "nlf-131",
+"skill": "nlf",
+"diff": "H",
+"q": "The graph of the quadratic function f has its vertex at (0, 5) and passes through the point (2, 9). If f(x) = a(x − h)² + k, what is the value of a?",
+"tool": "Desmos: type y = a(x − (0))² + (5), add a slider for a, and slide until the graph passes through (2, 9).",
+"steps": [
+"Vertex (h, k) = (0, 5): f(x) = a(x − (0))² + (5)",
+"Plug in the point: 9 = a(2 − (0))² + (5)",
+"4 = a(4)",
+"a = 1"
+],
+"trap": "Plug in the OTHER point, not the vertex. The vertex alone cannot tell you a.",
+"find": {
+"opts": [
+"the constant a (the stretch)",
+"the vertex",
+"the y-intercept"
+],
+"ok": 0
+},
+"grid": [
+"1"
+],
+"show": "1"
+},
+{
+"id": "nlf-132",
+"skill": "nlf",
+"diff": "H",
+"q": "The graph of the quadratic function f has its vertex at (2, −8) and passes through the point (5, −35). If f(x) = a(x − h)² + k, what is the value of a?",
+"tool": "Desmos: type y = a(x − (2))² + (−8), add a slider for a, and slide until the graph passes through (5, −35).",
+"steps": [
+"Vertex (h, k) = (2, −8): f(x) = a(x − (2))² + (−8)",
+"Plug in the point: −35 = a(5 − (2))² + (−8)",
+"−27 = a(9)",
+"a = −3"
+],
+"trap": "Plug in the OTHER point, not the vertex. The vertex alone cannot tell you a.",
+"find": {
+"opts": [
+"the constant a (the stretch)",
+"the vertex",
+"the y-intercept"
+],
+"ok": 0
+},
+"grid": [
+"−3"
+],
+"show": "−3"
+},
+{
+"id": "nlf-133",
+"skill": "nlf",
+"diff": "H",
+"q": "The graph of the quadratic function f has its vertex at (5, 8) and passes through the point (4, 9). If f(x) = a(x − h)² + k, what is the value of a?",
+"tool": "Desmos: type y = a(x − (5))² + (8), add a slider for a, and slide until the graph passes through (4, 9).",
+"steps": [
+"Vertex (h, k) = (5, 8): f(x) = a(x − (5))² + (8)",
+"Plug in the point: 9 = a(4 − (5))² + (8)",
+"1 = a(1)",
+"a = 1"
+],
+"trap": "Plug in the OTHER point, not the vertex. The vertex alone cannot tell you a.",
+"find": {
+"opts": [
+"the y-intercept",
+"the constant a (the stretch)",
+"the vertex"
+],
+"ok": 1
+},
+"grid": [
+"1"
+],
+"show": "1"
+},
+{
+"id": "nlf-134",
+"skill": "nlf",
+"diff": "H",
+"q": "The graph of the quadratic function f has its vertex at (−5, 3) and passes through the point (−3, 19). If f(x) = a(x − h)² + k, what is the value of a?",
+"tool": "Desmos: type y = a(x − (−5))² + (3), add a slider for a, and slide until the graph passes through (−3, 19).",
+"steps": [
+"Vertex (h, k) = (−5, 3): f(x) = a(x − (−5))² + (3)",
+"Plug in the point: 19 = a(−3 − (−5))² + (3)",
+"16 = a(4)",
+"a = 4"
+],
+"trap": "Plug in the OTHER point, not the vertex. The vertex alone cannot tell you a.",
+"find": {
+"opts": [
+"the y-intercept",
+"the constant a (the stretch)",
+"the vertex"
+],
+"ok": 1
+},
+"grid": [
+"4"
+],
+"show": "4"
+},
+{
+"id": "nlf-135",
+"skill": "nlf",
+"diff": "H",
+"q": "The graph of the quadratic function f has its vertex at (−5, 5) and passes through the point (−7, 17). If f(x) = a(x − h)² + k, what is the value of a?",
+"tool": "Desmos: type y = a(x − (−5))² + (5), add a slider for a, and slide until the graph passes through (−7, 17).",
+"steps": [
+"Vertex (h, k) = (−5, 5): f(x) = a(x − (−5))² + (5)",
+"Plug in the point: 17 = a(−7 − (−5))² + (5)",
+"12 = a(4)",
+"a = 3"
+],
+"trap": "Plug in the OTHER point, not the vertex. The vertex alone cannot tell you a.",
+"find": {
+"opts": [
+"the constant a (the stretch)",
+"the vertex",
+"the y-intercept"
+],
+"ok": 0
+},
+"grid": [
+"3"
+],
+"show": "3"
+},
+{
+"id": "nlf-136",
+"skill": "nlf",
+"diff": "H",
+"q": "The graph of the quadratic function f has its vertex at (−4, 1) and passes through the point (−2, 13). If f(x) = a(x − h)² + k, what is the value of a?",
+"tool": "Desmos: type y = a(x − (−4))² + (1), add a slider for a, and slide until the graph passes through (−2, 13).",
+"steps": [
+"Vertex (h, k) = (−4, 1): f(x) = a(x − (−4))² + (1)",
+"Plug in the point: 13 = a(−2 − (−4))² + (1)",
+"12 = a(4)",
+"a = 3"
+],
+"trap": "Plug in the OTHER point, not the vertex. The vertex alone cannot tell you a.",
+"find": {
+"opts": [
+"the vertex",
+"the y-intercept",
+"the constant a (the stretch)"
+],
+"ok": 2
+},
+"grid": [
+"3"
+],
+"show": "3"
+},
+{
+"id": "nlf-137",
+"skill": "nlf",
+"diff": "H",
+"q": "The graph of the quadratic function f has its vertex at (6, 0) and passes through the point (8, 8). If f(x) = a(x − h)² + k, what is the value of a?",
+"tool": "Desmos: type y = a(x − (6))² + (0), add a slider for a, and slide until the graph passes through (8, 8).",
+"steps": [
+"Vertex (h, k) = (6, 0): f(x) = a(x − (6))² + (0)",
+"Plug in the point: 8 = a(8 − (6))² + (0)",
+"8 = a(4)",
+"a = 2"
+],
+"trap": "Plug in the OTHER point, not the vertex. The vertex alone cannot tell you a.",
+"find": {
+"opts": [
+"the constant a (the stretch)",
+"the y-intercept",
+"the vertex"
+],
+"ok": 0
+},
+"grid": [
+"2"
+],
+"show": "2"
+},
+{
+"id": "nlf-138",
+"skill": "nlf",
+"diff": "H",
+"q": "The graph of the quadratic function f has its vertex at (−5, 8) and passes through the point (−6, 5). If f(x) = a(x − h)² + k, what is the value of a?",
+"tool": "Desmos: type y = a(x − (−5))² + (8), add a slider for a, and slide until the graph passes through (−6, 5).",
+"steps": [
+"Vertex (h, k) = (−5, 8): f(x) = a(x − (−5))² + (8)",
+"Plug in the point: 5 = a(−6 − (−5))² + (8)",
+"−3 = a(1)",
+"a = −3"
+],
+"trap": "Plug in the OTHER point, not the vertex. The vertex alone cannot tell you a.",
+"find": {
+"opts": [
+"the vertex",
+"the y-intercept",
+"the constant a (the stretch)"
+],
+"ok": 2
+},
+"grid": [
+"−3"
+],
+"show": "−3"
+},
+{
+"id": "nlf-139",
+"skill": "nlf",
+"diff": "H",
+"q": "The graph of the quadratic function f has its vertex at (−2, 5) and passes through the point (−4, 1). If f(x) = a(x − h)² + k, what is the value of a?",
+"tool": "Desmos: type y = a(x − (−2))² + (5), add a slider for a, and slide until the graph passes through (−4, 1).",
+"steps": [
+"Vertex (h, k) = (−2, 5): f(x) = a(x − (−2))² + (5)",
+"Plug in the point: 1 = a(−4 − (−2))² + (5)",
+"−4 = a(4)",
+"a = −1"
+],
+"trap": "Plug in the OTHER point, not the vertex. The vertex alone cannot tell you a.",
+"find": {
+"opts": [
+"the vertex",
+"the y-intercept",
+"the constant a (the stretch)"
+],
+"ok": 2
+},
+"grid": [
+"−1"
+],
+"show": "−1"
+},
+{
+"id": "nlf-140",
+"skill": "nlf",
+"diff": "H",
+"q": "The graph of the quadratic function f has its vertex at (−5, −9) and passes through the point (−8, −27). If f(x) = a(x − h)² + k, what is the value of a?",
+"tool": "Desmos: type y = a(x − (−5))² + (−9), add a slider for a, and slide until the graph passes through (−8, −27).",
+"steps": [
+"Vertex (h, k) = (−5, −9): f(x) = a(x − (−5))² + (−9)",
+"Plug in the point: −27 = a(−8 − (−5))² + (−9)",
+"−18 = a(9)",
+"a = −2"
+],
+"trap": "Plug in the OTHER point, not the vertex. The vertex alone cannot tell you a.",
+"find": {
+"opts": [
+"the vertex",
+"the y-intercept",
+"the constant a (the stretch)"
+],
+"ok": 2
+},
+"grid": [
+"−2"
+],
+"show": "−2"
+},
+{
+"id": "nleq-81",
+"skill": "nleq",
+"diff": "H",
+"q": "x² + bx + 64 = 0<br>In the given equation, b is a positive constant. The equation has exactly one real solution. What is the value of b?",
+"tool": "Discriminant rule. Desmos check: slider for b; the graph should just touch the x-axis.",
+"steps": [
+"Exactly one real solution: b² − 4ac = 0",
+"b² − 4(1)(64) = 0 → b² = 256",
+"b is positive: b = √256 = 16"
+],
+"trap": "One solution means the discriminant equals 0, not less than 0.",
+"find": {
+"opts": [
+"the number of solutions",
+"x",
+"the value of b for ONE solution"
+],
+"ok": 2
+},
+"grid": [
+"16"
+],
+"show": "16"
+},
+{
+"id": "nleq-82",
+"skill": "nleq",
+"diff": "H",
+"q": "x² + bx + 25 = 0<br>In the given equation, b is a positive constant. The equation has exactly one real solution. What is the value of b?",
+"tool": "Discriminant rule. Desmos check: slider for b; the graph should just touch the x-axis.",
+"steps": [
+"Exactly one real solution: b² − 4ac = 0",
+"b² − 4(1)(25) = 0 → b² = 100",
+"b is positive: b = √100 = 10"
+],
+"trap": "One solution means the discriminant equals 0, not less than 0.",
+"find": {
+"opts": [
+"the value of b for ONE solution",
+"the number of solutions",
+"x"
+],
+"ok": 0
+},
+"grid": [
+"10"
+],
+"show": "10"
+},
+{
+"id": "nleq-83",
+"skill": "nleq",
+"diff": "H",
+"q": "x² + bx + 49 = 0<br>In the given equation, b is a positive constant. The equation has exactly one real solution. What is the value of b?",
+"tool": "Discriminant rule. Desmos check: slider for b; the graph should just touch the x-axis.",
+"steps": [
+"Exactly one real solution: b² − 4ac = 0",
+"b² − 4(1)(49) = 0 → b² = 196",
+"b is positive: b = √196 = 14"
+],
+"trap": "One solution means the discriminant equals 0, not less than 0.",
+"find": {
+"opts": [
+"x",
+"the value of b for ONE solution",
+"the number of solutions"
+],
+"ok": 1
+},
+"grid": [
+"14"
+],
+"show": "14"
+},
+{
+"id": "nleq-84",
+"skill": "nleq",
+"diff": "H",
+"q": "x² + bx + 4 = 0<br>In the given equation, b is a positive constant. The equation has exactly one real solution. What is the value of b?",
+"tool": "Discriminant rule. Desmos check: slider for b; the graph should just touch the x-axis.",
+"steps": [
+"Exactly one real solution: b² − 4ac = 0",
+"b² − 4(1)(4) = 0 → b² = 16",
+"b is positive: b = √16 = 4"
+],
+"trap": "One solution means the discriminant equals 0, not less than 0.",
+"find": {
+"opts": [
+"the value of b for ONE solution",
+"the number of solutions",
+"x"
+],
+"ok": 0
+},
+"grid": [
+"4"
+],
+"show": "4"
+},
+{
+"id": "nleq-85",
+"skill": "nleq",
+"diff": "H",
+"q": "x² + bx + 81 = 0<br>In the given equation, b is a positive constant. The equation has exactly one real solution. What is the value of b?",
+"tool": "Discriminant rule. Desmos check: slider for b; the graph should just touch the x-axis.",
+"steps": [
+"Exactly one real solution: b² − 4ac = 0",
+"b² − 4(1)(81) = 0 → b² = 324",
+"b is positive: b = √324 = 18"
+],
+"trap": "One solution means the discriminant equals 0, not less than 0.",
+"find": {
+"opts": [
+"the value of b for ONE solution",
+"the number of solutions",
+"x"
+],
+"ok": 0
+},
+"grid": [
+"18"
+],
+"show": "18"
+},
+{
+"id": "nleq-86",
+"skill": "nleq",
+"diff": "H",
+"q": "x² + bx + 9 = 0<br>In the given equation, b is a positive constant. The equation has exactly one real solution. What is the value of b?",
+"tool": "Discriminant rule. Desmos check: slider for b; the graph should just touch the x-axis.",
+"steps": [
+"Exactly one real solution: b² − 4ac = 0",
+"b² − 4(1)(9) = 0 → b² = 36",
+"b is positive: b = √36 = 6"
+],
+"trap": "One solution means the discriminant equals 0, not less than 0.",
+"find": {
+"opts": [
+"the number of solutions",
+"the value of b for ONE solution",
+"x"
+],
+"ok": 1
+},
+"grid": [
+"6"
+],
+"show": "6"
+},
+{
+"id": "nleq-87",
+"skill": "nleq",
+"diff": "H",
+"q": "x² + bx + 121 = 0<br>In the given equation, b is a positive constant. The equation has exactly one real solution. What is the value of b?",
+"tool": "Discriminant rule. Desmos check: slider for b; the graph should just touch the x-axis.",
+"steps": [
+"Exactly one real solution: b² − 4ac = 0",
+"b² − 4(1)(121) = 0 → b² = 484",
+"b is positive: b = √484 = 22"
+],
+"trap": "One solution means the discriminant equals 0, not less than 0.",
+"find": {
+"opts": [
+"the number of solutions",
+"x",
+"the value of b for ONE solution"
+],
+"ok": 2
+},
+"grid": [
+"22"
+],
+"show": "22"
+},
+{
+"id": "nleq-88",
+"skill": "nleq",
+"diff": "H",
+"q": "x² + bx + 144 = 0<br>In the given equation, b is a positive constant. The equation has exactly one real solution. What is the value of b?",
+"tool": "Discriminant rule. Desmos check: slider for b; the graph should just touch the x-axis.",
+"steps": [
+"Exactly one real solution: b² − 4ac = 0",
+"b² − 4(1)(144) = 0 → b² = 576",
+"b is positive: b = √576 = 24"
+],
+"trap": "One solution means the discriminant equals 0, not less than 0.",
+"find": {
+"opts": [
+"the number of solutions",
+"the value of b for ONE solution",
+"x"
+],
+"ok": 1
+},
+"grid": [
+"24"
+],
+"show": "24"
+},
+{
+"id": "nleq-89",
+"skill": "nleq",
+"diff": "H",
+"q": "x² + bx + 36 = 0<br>In the given equation, b is a positive constant. The equation has exactly one real solution. What is the value of b?",
+"tool": "Discriminant rule. Desmos check: slider for b; the graph should just touch the x-axis.",
+"steps": [
+"Exactly one real solution: b² − 4ac = 0",
+"b² − 4(1)(36) = 0 → b² = 144",
+"b is positive: b = √144 = 12"
+],
+"trap": "One solution means the discriminant equals 0, not less than 0.",
+"find": {
+"opts": [
+"x",
+"the number of solutions",
+"the value of b for ONE solution"
+],
+"ok": 2
+},
+"grid": [
+"12"
+],
+"show": "12"
+},
+{
+"id": "nleq-90",
+"skill": "nleq",
+"diff": "H",
+"q": "x² + bx + 16 = 0<br>In the given equation, b is a positive constant. The equation has exactly one real solution. What is the value of b?",
+"tool": "Discriminant rule. Desmos check: slider for b; the graph should just touch the x-axis.",
+"steps": [
+"Exactly one real solution: b² − 4ac = 0",
+"b² − 4(1)(16) = 0 → b² = 64",
+"b is positive: b = √64 = 8"
+],
+"trap": "One solution means the discriminant equals 0, not less than 0.",
+"find": {
+"opts": [
+"the value of b for ONE solution",
+"x",
+"the number of solutions"
+],
+"ok": 0
+},
+"grid": [
+"8"
+],
+"show": "8"
+},
+{
+"id": "nleq-91",
+"skill": "nleq",
+"diff": "H",
+"q": "x² + bx + 100 = 0<br>In the given equation, b is a positive constant. The equation has exactly one real solution. What is the value of b?",
+"tool": "Discriminant rule. Desmos check: slider for b; the graph should just touch the x-axis.",
+"steps": [
+"Exactly one real solution: b² − 4ac = 0",
+"b² − 4(1)(100) = 0 → b² = 400",
+"b is positive: b = √400 = 20"
+],
+"trap": "One solution means the discriminant equals 0, not less than 0.",
+"find": {
+"opts": [
+"the value of b for ONE solution",
+"x",
+"the number of solutions"
+],
+"ok": 0
+},
+"grid": [
+"20"
+],
+"show": "20"
+},
+{
+"id": "nleq-92",
+"skill": "nleq",
+"diff": "H",
+"q": "In the xy-plane, a line with equation y = 6x + b, where b is a constant, intersects the parabola y = x² − 6 at exactly one point. What is the value of b?",
+"tool": "Desmos: graph y = x² − 6 and y = 6x + b with a slider for b. Slide until the line just touches the parabola.",
+"steps": [
+"Set them equal: x² − 6 = 6x + b",
+"x² − 6x + (−6 − b) = 0",
+"Exactly one point: discriminant = 0",
+"36 − 4(−6 − b) = 0 → b = −15"
+],
+"trap": "Exactly one intersection = discriminant 0.",
+"find": {
+"opts": [
+"the x-value of the point",
+"the slope",
+"b, so the line touches once"
+],
+"ok": 2
+},
+"grid": [
+"−15"
+],
+"show": "−15"
+},
+{
+"id": "nleq-93",
+"skill": "nleq",
+"diff": "H",
+"q": "In the xy-plane, a line with equation y = −2x + b, where b is a constant, intersects the parabola y = x² − 4 at exactly one point. What is the value of b?",
+"tool": "Desmos: graph y = x² − 4 and y = −2x + b with a slider for b. Slide until the line just touches the parabola.",
+"steps": [
+"Set them equal: x² − 4 = −2x + b",
+"x² + 2x + (−4 − b) = 0",
+"Exactly one point: discriminant = 0",
+"4 − 4(−4 − b) = 0 → b = −5"
+],
+"trap": "Exactly one intersection = discriminant 0.",
+"find": {
+"opts": [
+"b, so the line touches once",
+"the slope",
+"the x-value of the point"
+],
+"ok": 0
+},
+"grid": [
+"−5"
+],
+"show": "−5"
+},
+{
+"id": "nleq-94",
+"skill": "nleq",
+"diff": "H",
+"q": "In the xy-plane, a line with equation y = 2x + b, where b is a constant, intersects the parabola y = x² − 4 at exactly one point. What is the value of b?",
+"tool": "Desmos: graph y = x² − 4 and y = 2x + b with a slider for b. Slide until the line just touches the parabola.",
+"steps": [
+"Set them equal: x² − 4 = 2x + b",
+"x² − 2x + (−4 − b) = 0",
+"Exactly one point: discriminant = 0",
+"4 − 4(−4 − b) = 0 → b = −5"
+],
+"trap": "Exactly one intersection = discriminant 0.",
+"find": {
+"opts": [
+"the x-value of the point",
+"the slope",
+"b, so the line touches once"
+],
+"ok": 2
+},
+"grid": [
+"−5"
+],
+"show": "−5"
+},
+{
+"id": "nleq-95",
+"skill": "nleq",
+"diff": "H",
+"q": "In the xy-plane, a line with equation y = −6x + b, where b is a constant, intersects the parabola y = x² − 1 at exactly one point. What is the value of b?",
+"tool": "Desmos: graph y = x² − 1 and y = −6x + b with a slider for b. Slide until the line just touches the parabola.",
+"steps": [
+"Set them equal: x² − 1 = −6x + b",
+"x² + 6x + (−1 − b) = 0",
+"Exactly one point: discriminant = 0",
+"36 − 4(−1 − b) = 0 → b = −10"
+],
+"trap": "Exactly one intersection = discriminant 0.",
+"find": {
+"opts": [
+"the slope",
+"b, so the line touches once",
+"the x-value of the point"
+],
+"ok": 1
+},
+"grid": [
+"−10"
+],
+"show": "−10"
+},
+{
+"id": "nleq-96",
+"skill": "nleq",
+"diff": "H",
+"q": "In the xy-plane, a line with equation y = −6x + b, where b is a constant, intersects the parabola y = x² − 3 at exactly one point. What is the value of b?",
+"tool": "Desmos: graph y = x² − 3 and y = −6x + b with a slider for b. Slide until the line just touches the parabola.",
+"steps": [
+"Set them equal: x² − 3 = −6x + b",
+"x² + 6x + (−3 − b) = 0",
+"Exactly one point: discriminant = 0",
+"36 − 4(−3 − b) = 0 → b = −12"
+],
+"trap": "Exactly one intersection = discriminant 0.",
+"find": {
+"opts": [
+"b, so the line touches once",
+"the x-value of the point",
+"the slope"
+],
+"ok": 0
+},
+"grid": [
+"−12"
+],
+"show": "−12"
+},
+{
+"id": "nleq-97",
+"skill": "nleq",
+"diff": "H",
+"q": "In the xy-plane, a line with equation y = 4x + b, where b is a constant, intersects the parabola y = x² − 4 at exactly one point. What is the value of b?",
+"tool": "Desmos: graph y = x² − 4 and y = 4x + b with a slider for b. Slide until the line just touches the parabola.",
+"steps": [
+"Set them equal: x² − 4 = 4x + b",
+"x² − 4x + (−4 − b) = 0",
+"Exactly one point: discriminant = 0",
+"16 − 4(−4 − b) = 0 → b = −8"
+],
+"trap": "Exactly one intersection = discriminant 0.",
+"find": {
+"opts": [
+"the slope",
+"b, so the line touches once",
+"the x-value of the point"
+],
+"ok": 1
+},
+"grid": [
+"−8"
+],
+"show": "−8"
+},
+{
+"id": "nleq-98",
+"skill": "nleq",
+"diff": "H",
+"q": "In the xy-plane, a line with equation y = −4x + b, where b is a constant, intersects the parabola y = x² − 5 at exactly one point. What is the value of b?",
+"tool": "Desmos: graph y = x² − 5 and y = −4x + b with a slider for b. Slide until the line just touches the parabola.",
+"steps": [
+"Set them equal: x² − 5 = −4x + b",
+"x² + 4x + (−5 − b) = 0",
+"Exactly one point: discriminant = 0",
+"16 − 4(−5 − b) = 0 → b = −9"
+],
+"trap": "Exactly one intersection = discriminant 0.",
+"find": {
+"opts": [
+"the slope",
+"b, so the line touches once",
+"the x-value of the point"
+],
+"ok": 1
+},
+"grid": [
+"−9"
+],
+"show": "−9"
+},
+{
+"id": "nleq-99",
+"skill": "nleq",
+"diff": "H",
+"q": "In the xy-plane, a line with equation y = −6x + b, where b is a constant, intersects the parabola y = x² + 2 at exactly one point. What is the value of b?",
+"tool": "Desmos: graph y = x² + 2 and y = −6x + b with a slider for b. Slide until the line just touches the parabola.",
+"steps": [
+"Set them equal: x² + 2 = −6x + b",
+"x² + 6x + (2 − b) = 0",
+"Exactly one point: discriminant = 0",
+"36 − 4(2 − b) = 0 → b = −7"
+],
+"trap": "Exactly one intersection = discriminant 0.",
+"find": {
+"opts": [
+"b, so the line touches once",
+"the x-value of the point",
+"the slope"
+],
+"ok": 0
+},
+"grid": [
+"−7"
+],
+"show": "−7"
+},
+{
+"id": "nleq-100",
+"skill": "nleq",
+"diff": "H",
+"q": "In the xy-plane, a line with equation y = 6x + b, where b is a constant, intersects the parabola y = x² − 4 at exactly one point. What is the value of b?",
+"tool": "Desmos: graph y = x² − 4 and y = 6x + b with a slider for b. Slide until the line just touches the parabola.",
+"steps": [
+"Set them equal: x² − 4 = 6x + b",
+"x² − 6x + (−4 − b) = 0",
+"Exactly one point: discriminant = 0",
+"36 − 4(−4 − b) = 0 → b = −13"
+],
+"trap": "Exactly one intersection = discriminant 0.",
+"find": {
+"opts": [
+"b, so the line touches once",
+"the x-value of the point",
+"the slope"
+],
+"ok": 0
+},
+"grid": [
+"−13"
+],
+"show": "−13"
+},
+{
+"id": "nleq-101",
+"skill": "nleq",
+"diff": "H",
+"q": "In the xy-plane, a line with equation y = 6x + b, where b is a constant, intersects the parabola y = x² + 4 at exactly one point. What is the value of b?",
+"tool": "Desmos: graph y = x² + 4 and y = 6x + b with a slider for b. Slide until the line just touches the parabola.",
+"steps": [
+"Set them equal: x² + 4 = 6x + b",
+"x² − 6x + (4 − b) = 0",
+"Exactly one point: discriminant = 0",
+"36 − 4(4 − b) = 0 → b = −5"
+],
+"trap": "Exactly one intersection = discriminant 0.",
+"find": {
+"opts": [
+"the x-value of the point",
+"b, so the line touches once",
+"the slope"
+],
+"ok": 1
+},
+"grid": [
+"−5"
+],
+"show": "−5"
+},
+{
+"id": "nleq-102",
+"skill": "nleq",
+"diff": "H",
+"q": "In the xy-plane, a line with equation y = −10x + b, where b is a constant, intersects the parabola y = x² − 1 at exactly one point. What is the value of b?",
+"tool": "Desmos: graph y = x² − 1 and y = −10x + b with a slider for b. Slide until the line just touches the parabola.",
+"steps": [
+"Set them equal: x² − 1 = −10x + b",
+"x² + 10x + (−1 − b) = 0",
+"Exactly one point: discriminant = 0",
+"100 − 4(−1 − b) = 0 → b = −26"
+],
+"trap": "Exactly one intersection = discriminant 0.",
+"find": {
+"opts": [
+"the slope",
+"the x-value of the point",
+"b, so the line touches once"
+],
+"ok": 2
+},
+"grid": [
+"−26"
+],
+"show": "−26"
+},
+{
+"id": "nleq-103",
+"skill": "nleq",
+"diff": "H",
+"q": "In the xy-plane, a line with equation y = −8x + b, where b is a constant, intersects the parabola y = x² + 7 at exactly one point. What is the value of b?",
+"tool": "Desmos: graph y = x² + 7 and y = −8x + b with a slider for b. Slide until the line just touches the parabola.",
+"steps": [
+"Set them equal: x² + 7 = −8x + b",
+"x² + 8x + (7 − b) = 0",
+"Exactly one point: discriminant = 0",
+"64 − 4(7 − b) = 0 → b = −9"
+],
+"trap": "Exactly one intersection = discriminant 0.",
+"find": {
+"opts": [
+"the slope",
+"b, so the line touches once",
+"the x-value of the point"
+],
+"ok": 1
+},
+"grid": [
+"−9"
+],
+"show": "−9"
+},
+{
+"id": "nleq-104",
+"skill": "nleq",
+"diff": "H",
+"q": "√(x + 1) = x − 1<br>What is the solution to the given equation?",
+"tool": "Desmos: graph y = √(x + 1) and y = x − 1; click the crossing point.",
+"steps": [
+"Square both sides: x + 1 = (x − 1)² = x² − 2x + 1",
+"x² − 3x + 0 = 0 → x = 3 or x = 0",
+"Check x = 0: the right side is −1, negative, but a square root is never negative. Reject it.",
+"Solution: x = 3"
+],
+"trap": "Squaring can add a fake solution. Plug both back in.",
+"find": {
+"opts": [
+"every value from squaring",
+"the solution that checks",
+"the extra (fake) solution"
+],
+"ok": 1
+},
+"ch": [
+"3",
+"0",
+"3 and 0",
+"There is no solution."
+],
+"ans": 0
+},
+{
+"id": "nleq-105",
+"skill": "nleq",
+"diff": "H",
+"q": "√(x + 15) = x − 5<br>What is the solution to the given equation?",
+"tool": "Desmos: graph y = √(x + 15) and y = x − 5; click the crossing point.",
+"steps": [
+"Square both sides: x + 15 = (x − 5)² = x² − 10x + 25",
+"x² − 11x + 10 = 0 → x = 10 or x = 1",
+"Check x = 1: the right side is −4, negative, but a square root is never negative. Reject it.",
+"Solution: x = 10"
+],
+"trap": "Squaring can add a fake solution. Plug both back in.",
+"find": {
+"opts": [
+"every value from squaring",
+"the extra (fake) solution",
+"the solution that checks"
+],
+"ok": 2
+},
+"ch": [
+"1",
+"10 and 1",
+"There is no solution.",
+"10"
+],
+"ans": 3
+},
+{
+"id": "nleq-106",
+"skill": "nleq",
+"diff": "H",
+"q": "√(x + 4) = x − 8<br>What is the solution to the given equation?",
+"tool": "Desmos: graph y = √(x + 4) and y = x − 8; click the crossing point.",
+"steps": [
+"Square both sides: x + 4 = (x − 8)² = x² − 16x + 64",
+"x² − 17x + 60 = 0 → x = 12 or x = 5",
+"Check x = 5: the right side is −3, negative, but a square root is never negative. Reject it.",
+"Solution: x = 12"
+],
+"trap": "Squaring can add a fake solution. Plug both back in.",
+"find": {
+"opts": [
+"every value from squaring",
+"the extra (fake) solution",
+"the solution that checks"
+],
+"ok": 2
+},
+"ch": [
+"5",
+"12",
+"12 and 5",
+"There is no solution."
+],
+"ans": 1
+},
+{
+"id": "nleq-107",
+"skill": "nleq",
+"diff": "H",
+"q": "√(x + 16) = x − 4<br>What is the solution to the given equation?",
+"tool": "Desmos: graph y = √(x + 16) and y = x − 4; click the crossing point.",
+"steps": [
+"Square both sides: x + 16 = (x − 4)² = x² − 8x + 16",
+"x² − 9x + 0 = 0 → x = 9 or x = 0",
+"Check x = 0: the right side is −4, negative, but a square root is never negative. Reject it.",
+"Solution: x = 9"
+],
+"trap": "Squaring can add a fake solution. Plug both back in.",
+"find": {
+"opts": [
+"the solution that checks",
+"every value from squaring",
+"the extra (fake) solution"
+],
+"ok": 0
+},
+"ch": [
+"0",
+"9 and 0",
+"There is no solution.",
+"9"
+],
+"ans": 3
+},
+{
+"id": "nleq-108",
+"skill": "nleq",
+"diff": "H",
+"q": "√(x + 18) = x − 2<br>What is the solution to the given equation?",
+"tool": "Desmos: graph y = √(x + 18) and y = x − 2; click the crossing point.",
+"steps": [
+"Square both sides: x + 18 = (x − 2)² = x² − 4x + 4",
+"x² − 5x + -14 = 0 → x = 7 or x = −2",
+"Check x = −2: the right side is −4, negative, but a square root is never negative. Reject it.",
+"Solution: x = 7"
+],
+"trap": "Squaring can add a fake solution. Plug both back in.",
+"find": {
+"opts": [
+"every value from squaring",
+"the solution that checks",
+"the extra (fake) solution"
+],
+"ok": 1
+},
+"ch": [
+"−2",
+"7 and −2",
+"7",
+"There is no solution."
+],
+"ans": 2
+},
+{
+"id": "nleq-109",
+"skill": "nleq",
+"diff": "H",
+"q": "√(x + 5) = x − 1<br>What is the solution to the given equation?",
+"tool": "Desmos: graph y = √(x + 5) and y = x − 1; click the crossing point.",
+"steps": [
+"Square both sides: x + 5 = (x − 1)² = x² − 2x + 1",
+"x² − 3x + -4 = 0 → x = 4 or x = −1",
+"Check x = −1: the right side is −2, negative, but a square root is never negative. Reject it.",
+"Solution: x = 4"
+],
+"trap": "Squaring can add a fake solution. Plug both back in.",
+"find": {
+"opts": [
+"every value from squaring",
+"the extra (fake) solution",
+"the solution that checks"
+],
+"ok": 2
+},
+"ch": [
+"4",
+"−1",
+"4 and −1",
+"There is no solution."
+],
+"ans": 0
+},
+{
+"id": "nleq-110",
+"skill": "nleq",
+"diff": "H",
+"q": "√(x + 55) = x − 1<br>What is the solution to the given equation?",
+"tool": "Desmos: graph y = √(x + 55) and y = x − 1; click the crossing point.",
+"steps": [
+"Square both sides: x + 55 = (x − 1)² = x² − 2x + 1",
+"x² − 3x + -54 = 0 → x = 9 or x = −6",
+"Check x = −6: the right side is −7, negative, but a square root is never negative. Reject it.",
+"Solution: x = 9"
+],
+"trap": "Squaring can add a fake solution. Plug both back in.",
+"find": {
+"opts": [
+"the extra (fake) solution",
+"the solution that checks",
+"every value from squaring"
+],
+"ok": 1
+},
+"ch": [
+"9",
+"−6",
+"9 and −6",
+"There is no solution."
+],
+"ans": 0
+},
+{
+"id": "nleq-111",
+"skill": "nleq",
+"diff": "H",
+"q": "√(x + 19) = x − 1<br>What is the solution to the given equation?",
+"tool": "Desmos: graph y = √(x + 19) and y = x − 1; click the crossing point.",
+"steps": [
+"Square both sides: x + 19 = (x − 1)² = x² − 2x + 1",
+"x² − 3x + -18 = 0 → x = 6 or x = −3",
+"Check x = −3: the right side is −4, negative, but a square root is never negative. Reject it.",
+"Solution: x = 6"
+],
+"trap": "Squaring can add a fake solution. Plug both back in.",
+"find": {
+"opts": [
+"the extra (fake) solution",
+"the solution that checks",
+"every value from squaring"
+],
+"ok": 1
+},
+"ch": [
+"−3",
+"6 and −3",
+"6",
+"There is no solution."
+],
+"ans": 2
+},
+{
+"id": "nleq-112",
+"skill": "nleq",
+"diff": "H",
+"q": "√(x + 26) = x − 4<br>What is the solution to the given equation?",
+"tool": "Desmos: graph y = √(x + 26) and y = x − 4; click the crossing point.",
+"steps": [
+"Square both sides: x + 26 = (x − 4)² = x² − 8x + 16",
+"x² − 9x + -10 = 0 → x = 10 or x = −1",
+"Check x = −1: the right side is −5, negative, but a square root is never negative. Reject it.",
+"Solution: x = 10"
+],
+"trap": "Squaring can add a fake solution. Plug both back in.",
+"find": {
+"opts": [
+"the extra (fake) solution",
+"the solution that checks",
+"every value from squaring"
+],
+"ok": 1
+},
+"ch": [
+"10",
+"−1",
+"10 and −1",
+"There is no solution."
+],
+"ans": 0
+},
+{
+"id": "nleq-113",
+"skill": "nleq",
+"diff": "H",
+"q": "√(x + 28) = x − 2<br>What is the solution to the given equation?",
+"tool": "Desmos: graph y = √(x + 28) and y = x − 2; click the crossing point.",
+"steps": [
+"Square both sides: x + 28 = (x − 2)² = x² − 4x + 4",
+"x² − 5x + -24 = 0 → x = 8 or x = −3",
+"Check x = −3: the right side is −5, negative, but a square root is never negative. Reject it.",
+"Solution: x = 8"
+],
+"trap": "Squaring can add a fake solution. Plug both back in.",
+"find": {
+"opts": [
+"the extra (fake) solution",
+"every value from squaring",
+"the solution that checks"
+],
+"ok": 2
+},
+"ch": [
+"−3",
+"8 and −3",
+"There is no solution.",
+"8"
+],
+"ans": 3
+},
+{
+"id": "nleq-114",
+"skill": "nleq",
+"diff": "H",
+"q": "√(x + 5) = x − 7<br>What is the solution to the given equation?",
+"tool": "Desmos: graph y = √(x + 5) and y = x − 7; click the crossing point.",
+"steps": [
+"Square both sides: x + 5 = (x − 7)² = x² − 14x + 49",
+"x² − 15x + 44 = 0 → x = 11 or x = 4",
+"Check x = 4: the right side is −3, negative, but a square root is never negative. Reject it.",
+"Solution: x = 11"
+],
+"trap": "Squaring can add a fake solution. Plug both back in.",
+"find": {
+"opts": [
+"every value from squaring",
+"the extra (fake) solution",
+"the solution that checks"
+],
+"ok": 2
+},
+"ch": [
+"4",
+"11",
+"11 and 4",
+"There is no solution."
+],
+"ans": 1
+},
+{
+"id": "nleq-115",
+"skill": "nleq",
+"diff": "H",
+"q": "√(x + 71) = x − 1<br>What is the solution to the given equation?",
+"tool": "Desmos: graph y = √(x + 71) and y = x − 1; click the crossing point.",
+"steps": [
+"Square both sides: x + 71 = (x − 1)² = x² − 2x + 1",
+"x² − 3x + -70 = 0 → x = 10 or x = −7",
+"Check x = −7: the right side is −8, negative, but a square root is never negative. Reject it.",
+"Solution: x = 10"
+],
+"trap": "Squaring can add a fake solution. Plug both back in.",
+"find": {
+"opts": [
+"the solution that checks",
+"every value from squaring",
+"the extra (fake) solution"
+],
+"ok": 0
+},
+"ch": [
+"10",
+"−7",
+"10 and −7",
+"There is no solution."
+],
+"ans": 0
+},
+{
+"id": "nleq-116",
+"skill": "nleq",
+"diff": "M",
+"q": "(x − 3)(x + 7) = 14<br>What is the sum of the solutions to the given equation?",
+"tool": "Desmos: graph y = (x − p)(x + q) and y = k, click both crossings, then add the x-values.",
+"steps": [
+"Expand and move 14 over: x² + 4x − 21 − 14 = 0",
+"Sum of the solutions of x² + bx + c = 0 is −b",
+"Sum = −4"
+],
+"trap": "3 and −7 are NOT the solutions: the right side is 14, not 0.",
+"find": {
+"opts": [
+"one solution",
+"the SUM of the solutions",
+"the product of the solutions"
+],
+"ok": 1
+},
+"ch": [
+"4",
+"10",
+"−4",
+"−35"
+],
+"ans": 2
+},
+{
+"id": "nleq-117",
+"skill": "nleq",
+"diff": "M",
+"q": "(x − 9)(x + 8) = 19<br>What is the sum of the solutions to the given equation?",
+"tool": "Desmos: graph y = (x − p)(x + q) and y = k, click both crossings, then add the x-values.",
+"steps": [
+"Expand and move 19 over: x² − 1x − 72 − 19 = 0",
+"Sum of the solutions of x² + bx + c = 0 is −b",
+"Sum = 1"
+],
+"trap": "9 and −8 are NOT the solutions: the right side is 19, not 0.",
+"find": {
+"opts": [
+"one solution",
+"the product of the solutions",
+"the SUM of the solutions"
+],
+"ok": 2
+},
+"ch": [
+"−1",
+"17",
+"1",
+"−91"
+],
+"ans": 2
+},
+{
+"id": "nleq-118",
+"skill": "nleq",
+"diff": "M",
+"q": "(x − 8)(x + 2) = 1<br>What is the sum of the solutions to the given equation?",
+"tool": "Desmos: graph y = (x − p)(x + q) and y = k, click both crossings, then add the x-values.",
+"steps": [
+"Expand and move 1 over: x² − 6x − 16 − 1 = 0",
+"Sum of the solutions of x² + bx + c = 0 is −b",
+"Sum = 6"
+],
+"trap": "8 and −2 are NOT the solutions: the right side is 1, not 0.",
+"find": {
+"opts": [
+"the SUM of the solutions",
+"the product of the solutions",
+"one solution"
+],
+"ok": 0
+},
+"ch": [
+"−6",
+"6",
+"10",
+"−17"
+],
+"ans": 1
+},
+{
+"id": "nleq-119",
+"skill": "nleq",
+"diff": "M",
+"q": "(x − 9)(x + 7) = 16<br>What is the sum of the solutions to the given equation?",
+"tool": "Desmos: graph y = (x − p)(x + q) and y = k, click both crossings, then add the x-values.",
+"steps": [
+"Expand and move 16 over: x² − 2x − 63 − 16 = 0",
+"Sum of the solutions of x² + bx + c = 0 is −b",
+"Sum = 2"
+],
+"trap": "9 and −7 are NOT the solutions: the right side is 16, not 0.",
+"find": {
+"opts": [
+"one solution",
+"the SUM of the solutions",
+"the product of the solutions"
+],
+"ok": 1
+},
+"ch": [
+"−2",
+"16",
+"2",
+"−79"
+],
+"ans": 2
+},
+{
+"id": "nleq-120",
+"skill": "nleq",
+"diff": "M",
+"q": "(x − 4)(x + 1) = 3<br>What is the sum of the solutions to the given equation?",
+"tool": "Desmos: graph y = (x − p)(x + q) and y = k, click both crossings, then add the x-values.",
+"steps": [
+"Expand and move 3 over: x² − 3x − 4 − 3 = 0",
+"Sum of the solutions of x² + bx + c = 0 is −b",
+"Sum = 3"
+],
+"trap": "4 and −1 are NOT the solutions: the right side is 3, not 0.",
+"find": {
+"opts": [
+"one solution",
+"the SUM of the solutions",
+"the product of the solutions"
+],
+"ok": 1
+},
+"ch": [
+"−3",
+"3",
+"5",
+"−7"
+],
+"ans": 1
+},
+{
+"id": "nleq-121",
+"skill": "nleq",
+"diff": "M",
+"q": "(x − 8)(x + 4) = 13<br>What is the sum of the solutions to the given equation?",
+"tool": "Desmos: graph y = (x − p)(x + q) and y = k, click both crossings, then add the x-values.",
+"steps": [
+"Expand and move 13 over: x² − 4x − 32 − 13 = 0",
+"Sum of the solutions of x² + bx + c = 0 is −b",
+"Sum = 4"
+],
+"trap": "8 and −4 are NOT the solutions: the right side is 13, not 0.",
+"find": {
+"opts": [
+"one solution",
+"the SUM of the solutions",
+"the product of the solutions"
+],
+"ok": 1
+},
+"ch": [
+"−4",
+"12",
+"4",
+"−45"
+],
+"ans": 2
+},
+{
+"id": "nleq-122",
+"skill": "nleq",
+"diff": "M",
+"q": "(x − 3)(x + 8) = 8<br>What is the sum of the solutions to the given equation?",
+"tool": "Desmos: graph y = (x − p)(x + q) and y = k, click both crossings, then add the x-values.",
+"steps": [
+"Expand and move 8 over: x² + 5x − 24 − 8 = 0",
+"Sum of the solutions of x² + bx + c = 0 is −b",
+"Sum = −5"
+],
+"trap": "3 and −8 are NOT the solutions: the right side is 8, not 0.",
+"find": {
+"opts": [
+"the product of the solutions",
+"one solution",
+"the SUM of the solutions"
+],
+"ok": 2
+},
+"ch": [
+"5",
+"11",
+"−5",
+"−32"
+],
+"ans": 2
+},
+{
+"id": "nleq-123",
+"skill": "nleq",
+"diff": "M",
+"q": "(x − 3)(x + 1) = 20<br>What is the sum of the solutions to the given equation?",
+"tool": "Desmos: graph y = (x − p)(x + q) and y = k, click both crossings, then add the x-values.",
+"steps": [
+"Expand and move 20 over: x² − 2x − 3 − 20 = 0",
+"Sum of the solutions of x² + bx + c = 0 is −b",
+"Sum = 2"
+],
+"trap": "3 and −1 are NOT the solutions: the right side is 20, not 0.",
+"find": {
+"opts": [
+"the product of the solutions",
+"one solution",
+"the SUM of the solutions"
+],
+"ok": 2
+},
+"ch": [
+"−2",
+"4",
+"−23",
+"2"
+],
+"ans": 3
+},
+{
+"id": "nleq-124",
+"skill": "nleq",
+"diff": "M",
+"q": "(x − 7)(x + 5) = 20<br>What is the sum of the solutions to the given equation?",
+"tool": "Desmos: graph y = (x − p)(x + q) and y = k, click both crossings, then add the x-values.",
+"steps": [
+"Expand and move 20 over: x² − 2x − 35 − 20 = 0",
+"Sum of the solutions of x² + bx + c = 0 is −b",
+"Sum = 2"
+],
+"trap": "7 and −5 are NOT the solutions: the right side is 20, not 0.",
+"find": {
+"opts": [
+"the SUM of the solutions",
+"the product of the solutions",
+"one solution"
+],
+"ok": 0
+},
+"ch": [
+"−2",
+"2",
+"12",
+"−55"
+],
+"ans": 1
+},
+{
+"id": "nleq-125",
+"skill": "nleq",
+"diff": "M",
+"q": "(x − 8)(x + 5) = 17<br>What is the sum of the solutions to the given equation?",
+"tool": "Desmos: graph y = (x − p)(x + q) and y = k, click both crossings, then add the x-values.",
+"steps": [
+"Expand and move 17 over: x² − 3x − 40 − 17 = 0",
+"Sum of the solutions of x² + bx + c = 0 is −b",
+"Sum = 3"
+],
+"trap": "8 and −5 are NOT the solutions: the right side is 17, not 0.",
+"find": {
+"opts": [
+"one solution",
+"the SUM of the solutions",
+"the product of the solutions"
+],
+"ok": 1
+},
+"ch": [
+"−3",
+"13",
+"−57",
+"3"
+],
+"ans": 3
+},
+{
+"id": "nleq-126",
+"skill": "nleq",
+"diff": "M",
+"q": "(x − 7)(x + 6) = 10<br>What is the sum of the solutions to the given equation?",
+"tool": "Desmos: graph y = (x − p)(x + q) and y = k, click both crossings, then add the x-values.",
+"steps": [
+"Expand and move 10 over: x² − 1x − 42 − 10 = 0",
+"Sum of the solutions of x² + bx + c = 0 is −b",
+"Sum = 1"
+],
+"trap": "7 and −6 are NOT the solutions: the right side is 10, not 0.",
+"find": {
+"opts": [
+"the product of the solutions",
+"the SUM of the solutions",
+"one solution"
+],
+"ok": 1
+},
+"ch": [
+"−1",
+"13",
+"1",
+"−52"
+],
+"ans": 2
+},
+{
+"id": "nleq-127",
+"skill": "nleq",
+"diff": "M",
+"q": "(x − 3)(x + 2) = 12<br>What is the sum of the solutions to the given equation?",
+"tool": "Desmos: graph y = (x − p)(x + q) and y = k, click both crossings, then add the x-values.",
+"steps": [
+"Expand and move 12 over: x² − 1x − 6 − 12 = 0",
+"Sum of the solutions of x² + bx + c = 0 is −b",
+"Sum = 1"
+],
+"trap": "3 and −2 are NOT the solutions: the right side is 12, not 0.",
+"find": {
+"opts": [
+"one solution",
+"the product of the solutions",
+"the SUM of the solutions"
+],
+"ok": 2
+},
+"ch": [
+"−1",
+"5",
+"−18",
+"1"
+],
+"ans": 3
+},
+{
+"id": "nleq-128",
+"skill": "nleq",
+"diff": "M",
+"q": "4x² − 12x − 16 = 0<br>What is the product of the solutions to the given equation?",
+"tool": "Desmos: graph it, click both x-intercepts, then multiply them.",
+"steps": [
+"Divide by 4: x² − 3x − 4 = 0",
+"Product of the solutions = c ÷ a",
+"−16 ÷ 4 = −4"
+],
+"trap": "Divide by the leading 4 first: the product is c/a, not c.",
+"find": {
+"opts": [
+"the sum",
+"the PRODUCT of the solutions",
+"the larger solution"
+],
+"ok": 1
+},
+"ch": [
+"−16",
+"3",
+"−4",
+"4"
+],
+"ans": 2
+},
+{
+"id": "nleq-129",
+"skill": "nleq",
+"diff": "M",
+"q": "2x² − 4x − 16 = 0<br>What is the product of the solutions to the given equation?",
+"tool": "Desmos: graph it, click both x-intercepts, then multiply them.",
+"steps": [
+"Divide by 2: x² − 2x − 8 = 0",
+"Product of the solutions = c ÷ a",
+"−16 ÷ 2 = −8"
+],
+"trap": "Divide by the leading 2 first: the product is c/a, not c.",
+"find": {
+"opts": [
+"the sum",
+"the larger solution",
+"the PRODUCT of the solutions"
+],
+"ok": 2
+},
+"ch": [
+"−16",
+"2",
+"−8",
+"8"
+],
+"ans": 2
+},
+{
+"id": "nleq-130",
+"skill": "nleq",
+"diff": "M",
+"q": "4x² − 20x + 24 = 0<br>What is the product of the solutions to the given equation?",
+"tool": "Desmos: graph it, click both x-intercepts, then multiply them.",
+"steps": [
+"Divide by 4: x² − 5x + 6 = 0",
+"Product of the solutions = c ÷ a",
+"24 ÷ 4 = 6"
+],
+"trap": "Divide by the leading 4 first: the product is c/a, not c.",
+"find": {
+"opts": [
+"the PRODUCT of the solutions",
+"the larger solution",
+"the sum"
+],
+"ok": 0
+},
+"ch": [
+"6",
+"24",
+"5",
+"−6"
+],
+"ans": 0
+},
+{
+"id": "nleq-131",
+"skill": "nleq",
+"diff": "M",
+"q": "4x² + 8x − 60 = 0<br>What is the product of the solutions to the given equation?",
+"tool": "Desmos: graph it, click both x-intercepts, then multiply them.",
+"steps": [
+"Divide by 4: x² + 2x − 15 = 0",
+"Product of the solutions = c ÷ a",
+"−60 ÷ 4 = −15"
+],
+"trap": "Divide by the leading 4 first: the product is c/a, not c.",
+"find": {
+"opts": [
+"the larger solution",
+"the sum",
+"the PRODUCT of the solutions"
+],
+"ok": 2
+},
+"ch": [
+"−60",
+"−2",
+"15",
+"−15"
+],
+"ans": 3
+},
+{
+"id": "nleq-132",
+"skill": "nleq",
+"diff": "M",
+"q": "3x² − 9x − 12 = 0<br>What is the product of the solutions to the given equation?",
+"tool": "Desmos: graph it, click both x-intercepts, then multiply them.",
+"steps": [
+"Divide by 3: x² − 3x − 4 = 0",
+"Product of the solutions = c ÷ a",
+"−12 ÷ 3 = −4"
+],
+"trap": "Divide by the leading 3 first: the product is c/a, not c.",
+"find": {
+"opts": [
+"the larger solution",
+"the PRODUCT of the solutions",
+"the sum"
+],
+"ok": 1
+},
+"ch": [
+"−12",
+"3",
+"−4",
+"4"
+],
+"ans": 2
+},
+{
+"id": "nleq-133",
+"skill": "nleq",
+"diff": "M",
+"q": "5x² + 20x + 15 = 0<br>What is the product of the solutions to the given equation?",
+"tool": "Desmos: graph it, click both x-intercepts, then multiply them.",
+"steps": [
+"Divide by 5: x² + 4x + 3 = 0",
+"Product of the solutions = c ÷ a",
+"15 ÷ 5 = 3"
+],
+"trap": "Divide by the leading 5 first: the product is c/a, not c.",
+"find": {
+"opts": [
+"the larger solution",
+"the sum",
+"the PRODUCT of the solutions"
+],
+"ok": 2
+},
+"ch": [
+"15",
+"−4",
+"−3",
+"3"
+],
+"ans": 3
+},
+{
+"id": "nleq-134",
+"skill": "nleq",
+"diff": "M",
+"q": "2x² − 18x + 36 = 0<br>What is the product of the solutions to the given equation?",
+"tool": "Desmos: graph it, click both x-intercepts, then multiply them.",
+"steps": [
+"Divide by 2: x² − 9x + 18 = 0",
+"Product of the solutions = c ÷ a",
+"36 ÷ 2 = 18"
+],
+"trap": "Divide by the leading 2 first: the product is c/a, not c.",
+"find": {
+"opts": [
+"the sum",
+"the PRODUCT of the solutions",
+"the larger solution"
+],
+"ok": 1
+},
+"ch": [
+"36",
+"9",
+"−18",
+"18"
+],
+"ans": 3
+},
+{
+"id": "nleq-135",
+"skill": "nleq",
+"diff": "M",
+"q": "5x² − 35x + 30 = 0<br>What is the product of the solutions to the given equation?",
+"tool": "Desmos: graph it, click both x-intercepts, then multiply them.",
+"steps": [
+"Divide by 5: x² − 7x + 6 = 0",
+"Product of the solutions = c ÷ a",
+"30 ÷ 5 = 6"
+],
+"trap": "Divide by the leading 5 first: the product is c/a, not c.",
+"find": {
+"opts": [
+"the larger solution",
+"the PRODUCT of the solutions",
+"the sum"
+],
+"ok": 1
+},
+"ch": [
+"30",
+"7",
+"−6",
+"6"
+],
+"ans": 3
+},
+{
+"id": "nleq-136",
+"skill": "nleq",
+"diff": "M",
+"q": "3x² + 15x + 12 = 0<br>What is the product of the solutions to the given equation?",
+"tool": "Desmos: graph it, click both x-intercepts, then multiply them.",
+"steps": [
+"Divide by 3: x² + 5x + 4 = 0",
+"Product of the solutions = c ÷ a",
+"12 ÷ 3 = 4"
+],
+"trap": "Divide by the leading 3 first: the product is c/a, not c.",
+"find": {
+"opts": [
+"the sum",
+"the larger solution",
+"the PRODUCT of the solutions"
+],
+"ok": 2
+},
+"ch": [
+"12",
+"4",
+"−5",
+"−4"
+],
+"ans": 1
+},
+{
+"id": "nleq-137",
+"skill": "nleq",
+"diff": "M",
+"q": "2x² + 16x + 30 = 0<br>What is the product of the solutions to the given equation?",
+"tool": "Desmos: graph it, click both x-intercepts, then multiply them.",
+"steps": [
+"Divide by 2: x² + 8x + 15 = 0",
+"Product of the solutions = c ÷ a",
+"30 ÷ 2 = 15"
+],
+"trap": "Divide by the leading 2 first: the product is c/a, not c.",
+"find": {
+"opts": [
+"the PRODUCT of the solutions",
+"the larger solution",
+"the sum"
+],
+"ok": 0
+},
+"ch": [
+"30",
+"−8",
+"15",
+"−15"
+],
+"ans": 2
+},
+{
+"id": "nleq-138",
+"skill": "nleq",
+"diff": "M",
+"q": "4x² − 4x − 48 = 0<br>What is the product of the solutions to the given equation?",
+"tool": "Desmos: graph it, click both x-intercepts, then multiply them.",
+"steps": [
+"Divide by 4: x² − 1x − 12 = 0",
+"Product of the solutions = c ÷ a",
+"−48 ÷ 4 = −12"
+],
+"trap": "Divide by the leading 4 first: the product is c/a, not c.",
+"find": {
+"opts": [
+"the larger solution",
+"the PRODUCT of the solutions",
+"the sum"
+],
+"ok": 1
+},
+"ch": [
+"−48",
+"−12",
+"1",
+"12"
+],
+"ans": 1
+},
+{
+"id": "nleq-139",
+"skill": "nleq",
+"diff": "M",
+"q": "2x² + 6x + 4 = 0<br>What is the product of the solutions to the given equation?",
+"tool": "Desmos: graph it, click both x-intercepts, then multiply them.",
+"steps": [
+"Divide by 2: x² + 3x + 2 = 0",
+"Product of the solutions = c ÷ a",
+"4 ÷ 2 = 2"
+],
+"trap": "Divide by the leading 2 first: the product is c/a, not c.",
+"find": {
+"opts": [
+"the larger solution",
+"the sum",
+"the PRODUCT of the solutions"
+],
+"ok": 2
+},
+"ch": [
+"4",
+"−3",
+"−2",
+"2"
+],
+"ans": 3
+},
+{
+"id": "linf-81",
+"skill": "linf",
+"diff": "H",
+"q": "An analyst modeled the boiling point of water, in °F, as a linear function of the elevation, in thousand feet. The boiling point of water was 733 when the elevation was 15, and 693 when the elevation was 25. Based on the model, what is the boiling point of water when the elevation is 40?",
+"tool": "Desmos: put the two points in a table, use y₁ ~ m x₁ + b, then plug in the new x.",
+"steps": [
+"Slope: (693 − 733) ÷ (25 − 15) = −4 per 1 of the elevation",
+"From 15 to 40 is 25",
+"733 + −4(25) = 633"
+],
+"trap": "Find the rate first, then move from a known point.",
+"find": {
+"opts": [
+"the boiling point of water at the new the elevation",
+"the slope",
+"the y-intercept"
+],
+"ok": 0
+},
+"ch": [
+"633",
+"637",
+"573",
+"629"
+],
+"ans": 0
+},
+{
+"id": "linf-82",
+"skill": "linf",
+"diff": "H",
+"q": "An analyst modeled the boiling point of water, in °F, as a linear function of the elevation, in thousand feet. The boiling point of water was 1,264 when the elevation was 15, and 1,224 when the elevation was 25. Based on the model, what is the boiling point of water when the elevation is 35?",
+"tool": "Desmos: put the two points in a table, use y₁ ~ m x₁ + b, then plug in the new x.",
+"steps": [
+"Slope: (1,224 − 1,264) ÷ (25 − 15) = −4 per 1 of the elevation",
+"From 15 to 35 is 20",
+"1,264 + −4(20) = 1,184"
+],
+"trap": "Find the rate first, then move from a known point.",
+"find": {
+"opts": [
+"the y-intercept",
+"the slope",
+"the boiling point of water at the new the elevation"
+],
+"ok": 2
+},
+"ch": [
+"1,184",
+"1,188",
+"1,144",
+"1,124"
+],
+"ans": 0
+},
+{
+"id": "linf-83",
+"skill": "linf",
+"diff": "H",
+"q": "An analyst modeled the boiling point of water, in °F, as a linear function of the elevation, in thousand feet. The boiling point of water was 1,578 when the elevation was 5, and 1,538 when the elevation was 25. Based on the model, what is the boiling point of water when the elevation is 45?",
+"tool": "Desmos: put the two points in a table, use y₁ ~ m x₁ + b, then plug in the new x.",
+"steps": [
+"Slope: (1,538 − 1,578) ÷ (25 − 5) = −2 per 1 of the elevation",
+"From 5 to 45 is 40",
+"1,578 + −2(40) = 1,498"
+],
+"trap": "Find the rate first, then move from a known point.",
+"find": {
+"opts": [
+"the boiling point of water at the new the elevation",
+"the slope",
+"the y-intercept"
+],
+"ok": 0
+},
+"ch": [
+"1,498",
+"1,500",
+"1,458",
+"1,488"
+],
+"ans": 0
+},
+{
+"id": "linf-84",
+"skill": "linf",
+"diff": "H",
+"q": "An analyst modeled the number of visitors, in visitors, as a linear function of the ticket price, in dollars. The number of visitors was 4,775 when the ticket price was 60, and 4,275 when the ticket price was 65. Based on the model, what is the number of visitors when the ticket price is 70?",
+"tool": "Desmos: put the two points in a table, use y₁ ~ m x₁ + b, then plug in the new x.",
+"steps": [
+"Slope: (4,275 − 4,775) ÷ (65 − 60) = −100 per 1 of the ticket price",
+"From 60 to 70 is 10",
+"4,775 + −100(10) = 3,775"
+],
+"trap": "Find the rate first, then move from a known point.",
+"find": {
+"opts": [
+"the y-intercept",
+"the slope",
+"the number of visitors at the new the ticket price"
+],
+"ok": 2
+},
+"ch": [
+"3,875",
+"3,275",
+"3,775",
+"−2,225"
+],
+"ans": 2
+},
+{
+"id": "linf-85",
+"skill": "linf",
+"diff": "H",
+"q": "An analyst modeled the boiling point of water, in °F, as a linear function of the elevation, in thousand feet. The boiling point of water was 3,786 when the elevation was 80, and 2,786 when the elevation was 90. Based on the model, what is the boiling point of water when the elevation is 100?",
+"tool": "Desmos: put the two points in a table, use y₁ ~ m x₁ + b, then plug in the new x.",
+"steps": [
+"Slope: (2,786 − 3,786) ÷ (90 − 80) = −100 per 1 of the elevation",
+"From 80 to 100 is 20",
+"3,786 + −100(20) = 1,786"
+],
+"trap": "Find the rate first, then move from a known point.",
+"find": {
+"opts": [
+"the y-intercept",
+"the boiling point of water at the new the elevation",
+"the slope"
+],
+"ok": 1
+},
+"ch": [
+"1,886",
+"786",
+"−6,214",
+"1,786"
+],
+"ans": 3
+},
+{
+"id": "linf-86",
+"skill": "linf",
+"diff": "H",
+"q": "An analyst modeled the value of a car, in dollars, as a linear function of its age, in years. The value of a car was 2,207 when its age was 17, and 2,217 when its age was 22. Based on the model, what is the value of a car when its age is 32?",
+"tool": "Desmos: put the two points in a table, use y₁ ~ m x₁ + b, then plug in the new x.",
+"steps": [
+"Slope: (2,217 − 2,207) ÷ (22 − 17) = 2 per 1 of its age",
+"From 17 to 32 is 15",
+"2,207 + 2(15) = 2,237"
+],
+"trap": "Find the rate first, then move from a known point.",
+"find": {
+"opts": [
+"the slope",
+"the value of a car at the new its age",
+"the y-intercept"
+],
+"ok": 1
+},
+"ch": [
+"2,235",
+"2,237",
+"2,257",
+"2,271"
+],
+"ans": 1
+},
+{
+"id": "linf-87",
+"skill": "linf",
+"diff": "H",
+"q": "An analyst modeled the value of a car, in dollars, as a linear function of its age, in years. The value of a car was 1,987 when its age was 16, and 1,997 when its age was 21. Based on the model, what is the value of a car when its age is 26?",
+"tool": "Desmos: put the two points in a table, use y₁ ~ m x₁ + b, then plug in the new x.",
+"steps": [
+"Slope: (1,997 − 1,987) ÷ (21 − 16) = 2 per 1 of its age",
+"From 16 to 26 is 10",
+"1,987 + 2(10) = 2,007"
+],
+"trap": "Find the rate first, then move from a known point.",
+"find": {
+"opts": [
+"the value of a car at the new its age",
+"the y-intercept",
+"the slope"
+],
+"ok": 0
+},
+"ch": [
+"2,005",
+"2,017",
+"2,039",
+"2,007"
+],
+"ans": 3
+},
+{
+"id": "linf-88",
+"skill": "linf",
+"diff": "H",
+"q": "An analyst modeled the demand, in units, as a linear function of the selling price, in dollars per unit. The demand was 747 when the selling price was 12, and 727 when the selling price was 17. Based on the model, what is the demand when the selling price is 27?",
+"tool": "Desmos: put the two points in a table, use y₁ ~ m x₁ + b, then plug in the new x.",
+"steps": [
+"Slope: (727 − 747) ÷ (17 − 12) = −4 per 1 of the selling price",
+"From 12 to 27 is 15",
+"747 + −4(15) = 687"
+],
+"trap": "Find the rate first, then move from a known point.",
+"find": {
+"opts": [
+"the demand at the new the selling price",
+"the y-intercept",
+"the slope"
+],
+"ok": 0
+},
+"ch": [
+"691",
+"647",
+"639",
+"687"
+],
+"ans": 3
+},
+{
+"id": "linf-89",
+"skill": "linf",
+"diff": "H",
+"q": "An analyst modeled the boiling point of water, in °F, as a linear function of the elevation, in thousand feet. The boiling point of water was 729 when the elevation was 18, and 709 when the elevation was 28. Based on the model, what is the boiling point of water when the elevation is 43?",
+"tool": "Desmos: put the two points in a table, use y₁ ~ m x₁ + b, then plug in the new x.",
+"steps": [
+"Slope: (709 − 729) ÷ (28 − 18) = −2 per 1 of the elevation",
+"From 18 to 43 is 25",
+"729 + −2(25) = 679"
+],
+"trap": "Find the rate first, then move from a known point.",
+"find": {
+"opts": [
+"the y-intercept",
+"the boiling point of water at the new the elevation",
+"the slope"
+],
+"ok": 1
+},
+"ch": [
+"679",
+"681",
+"649",
+"643"
+],
+"ans": 0
+},
+{
+"id": "linf-90",
+"skill": "linf",
+"diff": "H",
+"q": "An analyst modeled the demand, in units, as a linear function of the selling price, in dollars per unit. The demand was 6,616 when the selling price was 40, and 6,116 when the selling price was 45. Based on the model, what is the demand when the selling price is 50?",
+"tool": "Desmos: put the two points in a table, use y₁ ~ m x₁ + b, then plug in the new x.",
+"steps": [
+"Slope: (6,116 − 6,616) ÷ (45 − 40) = −100 per 1 of the selling price",
+"From 40 to 50 is 10",
+"6,616 + −100(10) = 5,616"
+],
+"trap": "Find the rate first, then move from a known point.",
+"find": {
+"opts": [
+"the slope",
+"the demand at the new the selling price",
+"the y-intercept"
+],
+"ok": 1
+},
+"ch": [
+"5,716",
+"5,616",
+"5,116",
+"1,616"
+],
+"ans": 1
+},
+{
+"id": "linf-91",
+"skill": "linf",
+"diff": "H",
+"q": "An analyst modeled the boiling point of water, in °F, as a linear function of the elevation, in thousand feet. The boiling point of water was 1,094 when the elevation was 3, and 1,074 when the elevation was 13. Based on the model, what is the boiling point of water when the elevation is 23?",
+"tool": "Desmos: put the two points in a table, use y₁ ~ m x₁ + b, then plug in the new x.",
+"steps": [
+"Slope: (1,074 − 1,094) ÷ (13 − 3) = −2 per 1 of the elevation",
+"From 3 to 23 is 20",
+"1,094 + −2(20) = 1,054"
+],
+"trap": "Find the rate first, then move from a known point.",
+"find": {
+"opts": [
+"the y-intercept",
+"the slope",
+"the boiling point of water at the new the elevation"
+],
+"ok": 2
+},
+"ch": [
+"1,056",
+"1,054",
+"1,034",
+"1,048"
+],
+"ans": 1
+},
+{
+"id": "linf-92",
+"skill": "linf",
+"diff": "H",
+"q": "An analyst modeled the boiling point of water, in °F, as a linear function of the elevation, in thousand feet. The boiling point of water was 2,235 when the elevation was 19, and 2,255 when the elevation was 29. Based on the model, what is the boiling point of water when the elevation is 39?",
+"tool": "Desmos: put the two points in a table, use y₁ ~ m x₁ + b, then plug in the new x.",
+"steps": [
+"Slope: (2,255 − 2,235) ÷ (29 − 19) = 2 per 1 of the elevation",
+"From 19 to 39 is 20",
+"2,235 + 2(20) = 2,275"
+],
+"trap": "Find the rate first, then move from a known point.",
+"find": {
+"opts": [
+"the boiling point of water at the new the elevation",
+"the slope",
+"the y-intercept"
+],
+"ok": 0
+},
+"ch": [
+"2,273",
+"2,295",
+"2,313",
+"2,275"
+],
+"ans": 3
+},
+{
+"id": "linf-93",
+"skill": "linf",
+"diff": "H",
+"q": "A plumber charges $200 for the first 2 hours of work plus $55 for each additional hour. Which function gives the total cost C, in dollars, for h hours of work, where h ≥ 2?",
+"tool": "Desmos check: type each choice and test h = 2 (cost should be 200) and h = 3 (cost should be 255).",
+"steps": [
+"The first 2 hours cost $200 in total",
+"Additional hours = h − 2",
+"C(h) = 200 + 55(h − 2)"
+],
+"trap": "Only the hours AFTER the first 2 cost $55 each. Using 55h double-charges the first 2 hours.",
+"find": {
+"opts": [
+"the hourly rate",
+"a function for the total cost",
+"the cost of the first hours"
+],
+"ok": 1
+},
+"ch": [
+"C(h) = 200 + 55h",
+"C(h) = 200 + 55(h − 2)",
+"C(h) = 55(h − 2)",
+"C(h) = 200 + 55(h + 2)"
+],
+"ans": 1
+},
+{
+"id": "linf-94",
+"skill": "linf",
+"diff": "H",
+"q": "A tutor charges $70 for the first 2 hours of work plus $75 for each additional hour. Which function gives the total cost C, in dollars, for h hours of work, where h ≥ 2?",
+"tool": "Desmos check: type each choice and test h = 2 (cost should be 70) and h = 3 (cost should be 145).",
+"steps": [
+"The first 2 hours cost $70 in total",
+"Additional hours = h − 2",
+"C(h) = 70 + 75(h − 2)"
+],
+"trap": "Only the hours AFTER the first 2 cost $75 each. Using 75h double-charges the first 2 hours.",
+"find": {
+"opts": [
+"the cost of the first hours",
+"the hourly rate",
+"a function for the total cost"
+],
+"ok": 2
+},
+"ch": [
+"C(h) = 70 + 75h",
+"C(h) = 70 + 75(h − 2)",
+"C(h) = 75(h − 2)",
+"C(h) = 70 + 75(h + 2)"
+],
+"ans": 1
+},
+{
+"id": "linf-95",
+"skill": "linf",
+"diff": "H",
+"q": "An electrician charges $105 for the first 2 hours of work plus $30 for each additional hour. Which function gives the total cost C, in dollars, for h hours of work, where h ≥ 2?",
+"tool": "Desmos check: type each choice and test h = 2 (cost should be 105) and h = 3 (cost should be 135).",
+"steps": [
+"The first 2 hours cost $105 in total",
+"Additional hours = h − 2",
+"C(h) = 105 + 30(h − 2)"
+],
+"trap": "Only the hours AFTER the first 2 cost $30 each. Using 30h double-charges the first 2 hours.",
+"find": {
+"opts": [
+"the cost of the first hours",
+"a function for the total cost",
+"the hourly rate"
+],
+"ok": 1
+},
+"ch": [
+"C(h) = 105 + 30h",
+"C(h) = 30(h − 2)",
+"C(h) = 105 + 30(h + 2)",
+"C(h) = 105 + 30(h − 2)"
+],
+"ans": 3
+},
+{
+"id": "linf-96",
+"skill": "linf",
+"diff": "H",
+"q": "A tutor charges $185 for the first 3 hours of work plus $95 for each additional hour. Which function gives the total cost C, in dollars, for h hours of work, where h ≥ 3?",
+"tool": "Desmos check: type each choice and test h = 3 (cost should be 185) and h = 4 (cost should be 280).",
+"steps": [
+"The first 3 hours cost $185 in total",
+"Additional hours = h − 3",
+"C(h) = 185 + 95(h − 3)"
+],
+"trap": "Only the hours AFTER the first 3 cost $95 each. Using 95h double-charges the first 3 hours.",
+"find": {
+"opts": [
+"a function for the total cost",
+"the cost of the first hours",
+"the hourly rate"
+],
+"ok": 0
+},
+"ch": [
+"C(h) = 185 + 95h",
+"C(h) = 95(h − 3)",
+"C(h) = 185 + 95(h + 3)",
+"C(h) = 185 + 95(h − 3)"
+],
+"ans": 3
+},
+{
+"id": "linf-97",
+"skill": "linf",
+"diff": "H",
+"q": "A window repair specialist charges $190 for the first hour of work plus $30 for each additional hour. Which function gives the total cost C, in dollars, for h hours of work, where h ≥ 1?",
+"tool": "Desmos check: type each choice and test h = 1 (cost should be 190) and h = 2 (cost should be 220).",
+"steps": [
+"The first hour cost $190 in total",
+"Additional hours = h − 1",
+"C(h) = 190 + 30(h − 1)"
+],
+"trap": "Only the hours AFTER the first 1 cost $30 each. Using 30h double-charges the first hour.",
+"find": {
+"opts": [
+"the hourly rate",
+"a function for the total cost",
+"the cost of the first hours"
+],
+"ok": 1
+},
+"ch": [
+"C(h) = 190 + 30h",
+"C(h) = 190 + 30(h − 1)",
+"C(h) = 30(h − 1)",
+"C(h) = 190 + 30(h + 1)"
+],
+"ans": 1
+},
+{
+"id": "linf-98",
+"skill": "linf",
+"diff": "H",
+"q": "A tutor charges $60 for the first 2 hours of work plus $40 for each additional hour. Which function gives the total cost C, in dollars, for h hours of work, where h ≥ 2?",
+"tool": "Desmos check: type each choice and test h = 2 (cost should be 60) and h = 3 (cost should be 100).",
+"steps": [
+"The first 2 hours cost $60 in total",
+"Additional hours = h − 2",
+"C(h) = 60 + 40(h − 2)"
+],
+"trap": "Only the hours AFTER the first 2 cost $40 each. Using 40h double-charges the first 2 hours.",
+"find": {
+"opts": [
+"a function for the total cost",
+"the cost of the first hours",
+"the hourly rate"
+],
+"ok": 0
+},
+"ch": [
+"C(h) = 60 + 40h",
+"C(h) = 60 + 40(h − 2)",
+"C(h) = 40(h − 2)",
+"C(h) = 60 + 40(h + 2)"
+],
+"ans": 1
+},
+{
+"id": "linf-99",
+"skill": "linf",
+"diff": "H",
+"q": "A plumber charges $175 for the first 2 hours of work plus $60 for each additional hour. Which function gives the total cost C, in dollars, for h hours of work, where h ≥ 2?",
+"tool": "Desmos check: type each choice and test h = 2 (cost should be 175) and h = 3 (cost should be 235).",
+"steps": [
+"The first 2 hours cost $175 in total",
+"Additional hours = h − 2",
+"C(h) = 175 + 60(h − 2)"
+],
+"trap": "Only the hours AFTER the first 2 cost $60 each. Using 60h double-charges the first 2 hours.",
+"find": {
+"opts": [
+"a function for the total cost",
+"the cost of the first hours",
+"the hourly rate"
+],
+"ok": 0
+},
+"ch": [
+"C(h) = 175 + 60h",
+"C(h) = 60(h − 2)",
+"C(h) = 175 + 60(h − 2)",
+"C(h) = 175 + 60(h + 2)"
+],
+"ans": 2
+},
+{
+"id": "linf-100",
+"skill": "linf",
+"diff": "H",
+"q": "A tutor charges $105 for the first hour of work plus $95 for each additional hour. Which function gives the total cost C, in dollars, for h hours of work, where h ≥ 1?",
+"tool": "Desmos check: type each choice and test h = 1 (cost should be 105) and h = 2 (cost should be 200).",
+"steps": [
+"The first hour cost $105 in total",
+"Additional hours = h − 1",
+"C(h) = 105 + 95(h − 1)"
+],
+"trap": "Only the hours AFTER the first 1 cost $95 each. Using 95h double-charges the first hour.",
+"find": {
+"opts": [
+"the cost of the first hours",
+"the hourly rate",
+"a function for the total cost"
+],
+"ok": 2
+},
+"ch": [
+"C(h) = 105 + 95h",
+"C(h) = 95(h − 1)",
+"C(h) = 105 + 95(h − 1)",
+"C(h) = 105 + 95(h + 1)"
+],
+"ans": 2
+},
+{
+"id": "linf-101",
+"skill": "linf",
+"diff": "H",
+"q": "A boat mechanic charges $80 for the first hour of work plus $85 for each additional hour. Which function gives the total cost C, in dollars, for h hours of work, where h ≥ 1?",
+"tool": "Desmos check: type each choice and test h = 1 (cost should be 80) and h = 2 (cost should be 165).",
+"steps": [
+"The first hour cost $80 in total",
+"Additional hours = h − 1",
+"C(h) = 80 + 85(h − 1)"
+],
+"trap": "Only the hours AFTER the first 1 cost $85 each. Using 85h double-charges the first hour.",
+"find": {
+"opts": [
+"the hourly rate",
+"a function for the total cost",
+"the cost of the first hours"
+],
+"ok": 1
+},
+"ch": [
+"C(h) = 80 + 85h",
+"C(h) = 85(h − 1)",
+"C(h) = 80 + 85(h − 1)",
+"C(h) = 80 + 85(h + 1)"
+],
+"ans": 2
+},
+{
+"id": "linf-102",
+"skill": "linf",
+"diff": "H",
+"q": "A plumber charges $50 for the first 2 hours of work plus $95 for each additional hour. Which function gives the total cost C, in dollars, for h hours of work, where h ≥ 2?",
+"tool": "Desmos check: type each choice and test h = 2 (cost should be 50) and h = 3 (cost should be 145).",
+"steps": [
+"The first 2 hours cost $50 in total",
+"Additional hours = h − 2",
+"C(h) = 50 + 95(h − 2)"
+],
+"trap": "Only the hours AFTER the first 2 cost $95 each. Using 95h double-charges the first 2 hours.",
+"find": {
+"opts": [
+"the hourly rate",
+"the cost of the first hours",
+"a function for the total cost"
+],
+"ok": 2
+},
+"ch": [
+"C(h) = 50 + 95(h − 2)",
+"C(h) = 50 + 95h",
+"C(h) = 95(h − 2)",
+"C(h) = 50 + 95(h + 2)"
+],
+"ans": 0
+},
+{
+"id": "linf-103",
+"skill": "linf",
+"diff": "H",
+"q": "A plumber charges $50 for the first 2 hours of work plus $100 for each additional hour. Which function gives the total cost C, in dollars, for h hours of work, where h ≥ 2?",
+"tool": "Desmos check: type each choice and test h = 2 (cost should be 50) and h = 3 (cost should be 150).",
+"steps": [
+"The first 2 hours cost $50 in total",
+"Additional hours = h − 2",
+"C(h) = 50 + 100(h − 2)"
+],
+"trap": "Only the hours AFTER the first 2 cost $100 each. Using 100h double-charges the first 2 hours.",
+"find": {
+"opts": [
+"the hourly rate",
+"the cost of the first hours",
+"a function for the total cost"
+],
+"ok": 2
+},
+"ch": [
+"C(h) = 50 + 100h",
+"C(h) = 100(h − 2)",
+"C(h) = 50 + 100(h − 2)",
+"C(h) = 50 + 100(h + 2)"
+],
+"ans": 2
+},
+{
+"id": "linf-104",
+"skill": "linf",
+"diff": "H",
+"q": "A tutor charges $90 for the first 3 hours of work plus $85 for each additional hour. Which function gives the total cost C, in dollars, for h hours of work, where h ≥ 3?",
+"tool": "Desmos check: type each choice and test h = 3 (cost should be 90) and h = 4 (cost should be 175).",
+"steps": [
+"The first 3 hours cost $90 in total",
+"Additional hours = h − 3",
+"C(h) = 90 + 85(h − 3)"
+],
+"trap": "Only the hours AFTER the first 3 cost $85 each. Using 85h double-charges the first 3 hours.",
+"find": {
+"opts": [
+"a function for the total cost",
+"the hourly rate",
+"the cost of the first hours"
+],
+"ok": 0
+},
+"ch": [
+"C(h) = 90 + 85(h − 3)",
+"C(h) = 90 + 85h",
+"C(h) = 85(h − 3)",
+"C(h) = 90 + 85(h + 3)"
+],
+"ans": 0
+},
+{
+"id": "linf-105",
+"skill": "linf",
+"diff": "H",
+"q": "The function f(x) = (9/5)x + 40 gives yards that correspond to a length in meters of x. If x increased by 85, by how much did f(x) increase?",
+"tool": "Desmos: type f(x) = (9/5)x + 40, then f(85) − f(0).",
+"steps": [
+"The slope is 9/5: each 1 more x adds 9/5",
+"85 more x adds (9/5)(85)",
+"= 153"
+],
+"trap": "The 40 does not change when x changes. Only the slope matters for an increase.",
+"find": {
+"opts": [
+"the y-intercept",
+"the CHANGE in f(x)",
+"f(x) at x = 85"
+],
+"ok": 1
+},
+"grid": [
+"153"
+],
+"show": "153"
+},
+{
+"id": "linf-106",
+"skill": "linf",
+"diff": "H",
+"q": "The function f(x) = (5/2)x + 10 gives miles per hour that correspond to a speed in km per hour of x. If x increased by 10, by how much did f(x) increase?",
+"tool": "Desmos: type f(x) = (5/2)x + 10, then f(10) − f(0).",
+"steps": [
+"The slope is 5/2: each 1 more x adds 5/2",
+"10 more x adds (5/2)(10)",
+"= 25"
+],
+"trap": "The 10 does not change when x changes. Only the slope matters for an increase.",
+"find": {
+"opts": [
+"f(x) at x = 10",
+"the CHANGE in f(x)",
+"the y-intercept"
+],
+"ok": 1
+},
+"grid": [
+"25"
+],
+"show": "25"
+},
+{
+"id": "linf-107",
+"skill": "linf",
+"diff": "H",
+"q": "The function f(x) = (3/2)x − 23 gives yards that correspond to a length in meters of x. If x increased by 18, by how much did f(x) increase?",
+"tool": "Desmos: type f(x) = (3/2)x − 23, then f(18) − f(0).",
+"steps": [
+"The slope is 3/2: each 1 more x adds 3/2",
+"18 more x adds (3/2)(18)",
+"= 27"
+],
+"trap": "The −23 does not change when x changes. Only the slope matters for an increase.",
+"find": {
+"opts": [
+"the y-intercept",
+"the CHANGE in f(x)",
+"f(x) at x = 18"
+],
+"ok": 1
+},
+"grid": [
+"27"
+],
+"show": "27"
+},
+{
+"id": "linf-108",
+"skill": "linf",
+"diff": "H",
+"q": "The function f(x) = (3/2)x − 22 gives yards that correspond to a length in meters of x. If x increased by 8, by how much did f(x) increase?",
+"tool": "Desmos: type f(x) = (3/2)x − 22, then f(8) − f(0).",
+"steps": [
+"The slope is 3/2: each 1 more x adds 3/2",
+"8 more x adds (3/2)(8)",
+"= 12"
+],
+"trap": "The −22 does not change when x changes. Only the slope matters for an increase.",
+"find": {
+"opts": [
+"f(x) at x = 8",
+"the CHANGE in f(x)",
+"the y-intercept"
+],
+"ok": 1
+},
+"grid": [
+"12"
+],
+"show": "12"
+},
+{
+"id": "linf-109",
+"skill": "linf",
+"diff": "H",
+"q": "The function f(x) = (9/5)x − 37 gives miles per hour that correspond to a speed in km per hour of x. If x increased by 30, by how much did f(x) increase?",
+"tool": "Desmos: type f(x) = (9/5)x − 37, then f(30) − f(0).",
+"steps": [
+"The slope is 9/5: each 1 more x adds 9/5",
+"30 more x adds (9/5)(30)",
+"= 54"
+],
+"trap": "The −37 does not change when x changes. Only the slope matters for an increase.",
+"find": {
+"opts": [
+"the CHANGE in f(x)",
+"the y-intercept",
+"f(x) at x = 30"
+],
+"ok": 0
+},
+"grid": [
+"54"
+],
+"show": "54"
+},
+{
+"id": "linf-110",
+"skill": "linf",
+"diff": "H",
+"q": "The function f(x) = (4/3)x − 10 gives yards that correspond to a length in meters of x. If x increased by 60, by how much did f(x) increase?",
+"tool": "Desmos: type f(x) = (4/3)x − 10, then f(60) − f(0).",
+"steps": [
+"The slope is 4/3: each 1 more x adds 4/3",
+"60 more x adds (4/3)(60)",
+"= 80"
+],
+"trap": "The −10 does not change when x changes. Only the slope matters for an increase.",
+"find": {
+"opts": [
+"f(x) at x = 60",
+"the CHANGE in f(x)",
+"the y-intercept"
+],
+"ok": 1
+},
+"grid": [
+"80"
+],
+"show": "80"
+},
+{
+"id": "linf-111",
+"skill": "linf",
+"diff": "H",
+"q": "The function f(x) = (7/4)x + 3 gives miles per hour that correspond to a speed in km per hour of x. If x increased by 40, by how much did f(x) increase?",
+"tool": "Desmos: type f(x) = (7/4)x + 3, then f(40) − f(0).",
+"steps": [
+"The slope is 7/4: each 1 more x adds 7/4",
+"40 more x adds (7/4)(40)",
+"= 70"
+],
+"trap": "The 3 does not change when x changes. Only the slope matters for an increase.",
+"find": {
+"opts": [
+"the y-intercept",
+"f(x) at x = 40",
+"the CHANGE in f(x)"
+],
+"ok": 2
+},
+"grid": [
+"70"
+],
+"show": "70"
+},
+{
+"id": "linf-112",
+"skill": "linf",
+"diff": "H",
+"q": "The function f(x) = (7/4)x + 36 gives degrees Fahrenheit that correspond to a temperature in degrees Celsius of x. If x increased by 52, by how much did f(x) increase?",
+"tool": "Desmos: type f(x) = (7/4)x + 36, then f(52) − f(0).",
+"steps": [
+"The slope is 7/4: each 1 more x adds 7/4",
+"52 more x adds (7/4)(52)",
+"= 91"
+],
+"trap": "The 36 does not change when x changes. Only the slope matters for an increase.",
+"find": {
+"opts": [
+"f(x) at x = 52",
+"the CHANGE in f(x)",
+"the y-intercept"
+],
+"ok": 1
+},
+"grid": [
+"91"
+],
+"show": "91"
+},
+{
+"id": "linf-113",
+"skill": "linf",
+"diff": "H",
+"q": "The function f(x) = (7/4)x − 5 gives degrees Fahrenheit that correspond to a temperature in degrees Celsius of x. If x increased by 28, by how much did f(x) increase?",
+"tool": "Desmos: type f(x) = (7/4)x − 5, then f(28) − f(0).",
+"steps": [
+"The slope is 7/4: each 1 more x adds 7/4",
+"28 more x adds (7/4)(28)",
+"= 49"
+],
+"trap": "The −5 does not change when x changes. Only the slope matters for an increase.",
+"find": {
+"opts": [
+"the y-intercept",
+"f(x) at x = 28",
+"the CHANGE in f(x)"
+],
+"ok": 2
+},
+"grid": [
+"49"
+],
+"show": "49"
+},
+{
+"id": "linf-114",
+"skill": "linf",
+"diff": "H",
+"q": "The function f(x) = (5/9)x − 22 gives degrees Fahrenheit that correspond to a temperature in degrees Celsius of x. If x increased by 18, by how much did f(x) increase?",
+"tool": "Desmos: type f(x) = (5/9)x − 22, then f(18) − f(0).",
+"steps": [
+"The slope is 5/9: each 1 more x adds 5/9",
+"18 more x adds (5/9)(18)",
+"= 10"
+],
+"trap": "The −22 does not change when x changes. Only the slope matters for an increase.",
+"find": {
+"opts": [
+"the CHANGE in f(x)",
+"the y-intercept",
+"f(x) at x = 18"
+],
+"ok": 0
+},
+"grid": [
+"10"
+],
+"show": "10"
+},
+{
+"id": "linf-115",
+"skill": "linf",
+"diff": "H",
+"q": "The function f(x) = (7/4)x − 14 gives miles per hour that correspond to a speed in km per hour of x. If x increased by 36, by how much did f(x) increase?",
+"tool": "Desmos: type f(x) = (7/4)x − 14, then f(36) − f(0).",
+"steps": [
+"The slope is 7/4: each 1 more x adds 7/4",
+"36 more x adds (7/4)(36)",
+"= 63"
+],
+"trap": "The −14 does not change when x changes. Only the slope matters for an increase.",
+"find": {
+"opts": [
+"the y-intercept",
+"f(x) at x = 36",
+"the CHANGE in f(x)"
+],
+"ok": 2
+},
+"grid": [
+"63"
+],
+"show": "63"
+},
+{
+"id": "linf-116",
+"skill": "linf",
+"diff": "H",
+"q": "The function f(x) = (7/4)x − 12 gives degrees Fahrenheit that correspond to a temperature in degrees Celsius of x. If x increased by 28, by how much did f(x) increase?",
+"tool": "Desmos: type f(x) = (7/4)x − 12, then f(28) − f(0).",
+"steps": [
+"The slope is 7/4: each 1 more x adds 7/4",
+"28 more x adds (7/4)(28)",
+"= 49"
+],
+"trap": "The −12 does not change when x changes. Only the slope matters for an increase.",
+"find": {
+"opts": [
+"the CHANGE in f(x)",
+"f(x) at x = 28",
+"the y-intercept"
+],
+"ok": 0
+},
+"grid": [
+"49"
+],
+"show": "49"
+},
+{
+"id": "linf-117",
+"skill": "linf",
+"diff": "H",
+"q": "The functions f and g are defined as f(x) = 7x − 1 and g(x) = 3x − 13. If the function h is defined as h(x) = f(x) − g(x), what is the x-coordinate of the x-intercept of the graph of y = h(x) in the xy-plane?",
+"tool": "Desmos: type f(x), g(x), then h(x) = f(x) − g(x) and click where it crosses the x-axis.",
+"steps": [
+"h(x) = (7x − 1) − (3x − 13) = 4x + 12",
+"x-intercept: set h(x) = 0",
+"x = −3"
+],
+"trap": "Subtract EVERY term of g, including its constant.",
+"find": {
+"opts": [
+"the x where h(x) = 0",
+"h(0)",
+"the slope of h"
+],
+"ok": 0
+},
+"grid": [
+"−3"
+],
+"show": "−3"
+},
+{
+"id": "linf-118",
+"skill": "linf",
+"diff": "H",
+"q": "The functions f and g are defined as f(x) = 8x − 12 and g(x) = 5x − 9. If the function h is defined as h(x) = f(x) − g(x), what is the x-coordinate of the x-intercept of the graph of y = h(x) in the xy-plane?",
+"tool": "Desmos: type f(x), g(x), then h(x) = f(x) − g(x) and click where it crosses the x-axis.",
+"steps": [
+"h(x) = (8x − 12) − (5x − 9) = 3x − 3",
+"x-intercept: set h(x) = 0",
+"x = 1"
+],
+"trap": "Subtract EVERY term of g, including its constant.",
+"find": {
+"opts": [
+"the x where h(x) = 0",
+"the slope of h",
+"h(0)"
+],
+"ok": 0
+},
+"grid": [
+"1"
+],
+"show": "1"
+},
+{
+"id": "linf-119",
+"skill": "linf",
+"diff": "H",
+"q": "The functions f and g are defined as f(x) = 7x + 8 and g(x) = −x + 64. If the function h is defined as h(x) = f(x) − g(x), what is the x-coordinate of the x-intercept of the graph of y = h(x) in the xy-plane?",
+"tool": "Desmos: type f(x), g(x), then h(x) = f(x) − g(x) and click where it crosses the x-axis.",
+"steps": [
+"h(x) = (7x + 8) − (−x + 64) = 8x − 56",
+"x-intercept: set h(x) = 0",
+"x = 7"
+],
+"trap": "Subtract EVERY term of g, including its constant.",
+"find": {
+"opts": [
+"h(0)",
+"the slope of h",
+"the x where h(x) = 0"
+],
+"ok": 2
+},
+"grid": [
+"7"
+],
+"show": "7"
+},
+{
+"id": "linf-120",
+"skill": "linf",
+"diff": "H",
+"q": "The functions f and g are defined as f(x) = 3x + 3 and g(x) = 6x + 9. If the function h is defined as h(x) = f(x) − g(x), what is the x-coordinate of the x-intercept of the graph of y = h(x) in the xy-plane?",
+"tool": "Desmos: type f(x), g(x), then h(x) = f(x) − g(x) and click where it crosses the x-axis.",
+"steps": [
+"h(x) = (3x + 3) − (6x + 9) = −3x − 6",
+"x-intercept: set h(x) = 0",
+"x = −2"
+],
+"trap": "Subtract EVERY term of g, including its constant.",
+"find": {
+"opts": [
+"the slope of h",
+"the x where h(x) = 0",
+"h(0)"
+],
+"ok": 1
+},
+"grid": [
+"−2"
+],
+"show": "−2"
+},
+{
+"id": "linf-121",
+"skill": "linf",
+"diff": "H",
+"q": "The functions f and g are defined as f(x) = 5x − 9 and g(x) = x − 13. If the function h is defined as h(x) = f(x) − g(x), what is the x-coordinate of the x-intercept of the graph of y = h(x) in the xy-plane?",
+"tool": "Desmos: type f(x), g(x), then h(x) = f(x) − g(x) and click where it crosses the x-axis.",
+"steps": [
+"h(x) = (5x − 9) − (x − 13) = 4x + 4",
+"x-intercept: set h(x) = 0",
+"x = −1"
+],
+"trap": "Subtract EVERY term of g, including its constant.",
+"find": {
+"opts": [
+"the slope of h",
+"h(0)",
+"the x where h(x) = 0"
+],
+"ok": 2
+},
+"grid": [
+"−1"
+],
+"show": "−1"
+},
+{
+"id": "linf-122",
+"skill": "linf",
+"diff": "H",
+"q": "The functions f and g are defined as f(x) = 6x − 3 and g(x) = 2x − 19. If the function h is defined as h(x) = f(x) − g(x), what is the x-coordinate of the x-intercept of the graph of y = h(x) in the xy-plane?",
+"tool": "Desmos: type f(x), g(x), then h(x) = f(x) − g(x) and click where it crosses the x-axis.",
+"steps": [
+"h(x) = (6x − 3) − (2x − 19) = 4x + 16",
+"x-intercept: set h(x) = 0",
+"x = −4"
+],
+"trap": "Subtract EVERY term of g, including its constant.",
+"find": {
+"opts": [
+"h(0)",
+"the slope of h",
+"the x where h(x) = 0"
+],
+"ok": 2
+},
+"grid": [
+"−4"
+],
+"show": "−4"
+},
+{
+"id": "linf-123",
+"skill": "linf",
+"diff": "H",
+"q": "The functions f and g are defined as f(x) = 3x − 1 and g(x) = 5x − 11. If the function h is defined as h(x) = f(x) − g(x), what is the x-coordinate of the x-intercept of the graph of y = h(x) in the xy-plane?",
+"tool": "Desmos: type f(x), g(x), then h(x) = f(x) − g(x) and click where it crosses the x-axis.",
+"steps": [
+"h(x) = (3x − 1) − (5x − 11) = −2x + 10",
+"x-intercept: set h(x) = 0",
+"x = 5"
+],
+"trap": "Subtract EVERY term of g, including its constant.",
+"find": {
+"opts": [
+"the x where h(x) = 0",
+"h(0)",
+"the slope of h"
+],
+"ok": 0
+},
+"grid": [
+"5"
+],
+"show": "5"
+},
+{
+"id": "linf-124",
+"skill": "linf",
+"diff": "H",
+"q": "The functions f and g are defined as f(x) = 4x − 10 and g(x) = −3x + 46. If the function h is defined as h(x) = f(x) − g(x), what is the x-coordinate of the x-intercept of the graph of y = h(x) in the xy-plane?",
+"tool": "Desmos: type f(x), g(x), then h(x) = f(x) − g(x) and click where it crosses the x-axis.",
+"steps": [
+"h(x) = (4x − 10) − (−3x + 46) = 7x − 56",
+"x-intercept: set h(x) = 0",
+"x = 8"
+],
+"trap": "Subtract EVERY term of g, including its constant.",
+"find": {
+"opts": [
+"the x where h(x) = 0",
+"the slope of h",
+"h(0)"
+],
+"ok": 0
+},
+"grid": [
+"8"
+],
+"show": "8"
+},
+{
+"id": "linf-125",
+"skill": "linf",
+"diff": "H",
+"q": "The functions f and g are defined as f(x) = 5x − 10 and g(x) = −4x + 44. If the function h is defined as h(x) = f(x) − g(x), what is the x-coordinate of the x-intercept of the graph of y = h(x) in the xy-plane?",
+"tool": "Desmos: type f(x), g(x), then h(x) = f(x) − g(x) and click where it crosses the x-axis.",
+"steps": [
+"h(x) = (5x − 10) − (−4x + 44) = 9x − 54",
+"x-intercept: set h(x) = 0",
+"x = 6"
+],
+"trap": "Subtract EVERY term of g, including its constant.",
+"find": {
+"opts": [
+"the slope of h",
+"the x where h(x) = 0",
+"h(0)"
+],
+"ok": 1
+},
+"grid": [
+"6"
+],
+"show": "6"
+},
+{
+"id": "linf-126",
+"skill": "linf",
+"diff": "H",
+"q": "The functions f and g are defined as f(x) = 5x − 7 and g(x) = 6x − 7. If the function h is defined as h(x) = f(x) − g(x), what is the x-coordinate of the x-intercept of the graph of y = h(x) in the xy-plane?",
+"tool": "Desmos: type f(x), g(x), then h(x) = f(x) − g(x) and click where it crosses the x-axis.",
+"steps": [
+"h(x) = (5x − 7) − (6x − 7) = −1x",
+"x-intercept: set h(x) = 0",
+"x = 0"
+],
+"trap": "Subtract EVERY term of g, including its constant.",
+"find": {
+"opts": [
+"h(0)",
+"the slope of h",
+"the x where h(x) = 0"
+],
+"ok": 2
+},
+"grid": [
+"0"
+],
+"show": "0"
+},
+{
+"id": "linf-127",
+"skill": "linf",
+"diff": "H",
+"q": "The functions f and g are defined as f(x) = 6x − 12 and g(x) = −3x − 3. If the function h is defined as h(x) = f(x) − g(x), what is the x-coordinate of the x-intercept of the graph of y = h(x) in the xy-plane?",
+"tool": "Desmos: type f(x), g(x), then h(x) = f(x) − g(x) and click where it crosses the x-axis.",
+"steps": [
+"h(x) = (6x − 12) − (−3x − 3) = 9x − 9",
+"x-intercept: set h(x) = 0",
+"x = 1"
+],
+"trap": "Subtract EVERY term of g, including its constant.",
+"find": {
+"opts": [
+"h(0)",
+"the x where h(x) = 0",
+"the slope of h"
+],
+"ok": 1
+},
+"grid": [
+"1"
+],
+"show": "1"
+},
+{
+"id": "linf-128",
+"skill": "linf",
+"diff": "H",
+"q": "The functions f and g are defined as f(x) = 2x + 4 and g(x) = −5x − 38. If the function h is defined as h(x) = f(x) − g(x), what is the x-coordinate of the x-intercept of the graph of y = h(x) in the xy-plane?",
+"tool": "Desmos: type f(x), g(x), then h(x) = f(x) − g(x) and click where it crosses the x-axis.",
+"steps": [
+"h(x) = (2x + 4) − (−5x − 38) = 7x + 42",
+"x-intercept: set h(x) = 0",
+"x = −6"
+],
+"trap": "Subtract EVERY term of g, including its constant.",
+"find": {
+"opts": [
+"the slope of h",
+"the x where h(x) = 0",
+"h(0)"
+],
+"ok": 1
+},
+"grid": [
+"−6"
+],
+"show": "−6"
+},
+{
+"id": "sys-81",
+"skill": "sys",
+"diff": "H",
+"q": "4x + 2y = 16<br>ax + 6y = 48<br>In the given system of equations, a is a constant. If the system has infinitely many solutions, what is the value of a?",
+"tool": "Desmos: slider for a; infinitely many solutions = the two lines lie exactly on top of each other.",
+"steps": [
+"The second equation must be the first one multiplied by the same number",
+"6 ÷ 2 = 3 and 48 ÷ 16 = 3",
+"So a = 3 × 4 = 12"
+],
+"trap": "Infinitely many = SAME line (every number matches). No solution = parallel (only the x and y parts match).",
+"find": {
+"opts": [
+"a, so the lines are the same",
+"x",
+"the number of solutions"
+],
+"ok": 0
+},
+"grid": [
+"12"
+],
+"show": "12"
+},
+{
+"id": "sys-82",
+"skill": "sys",
+"diff": "H",
+"q": "5x + 5y = 14<br>ax + 10y = 28<br>In the given system of equations, a is a constant. If the system has infinitely many solutions, what is the value of a?",
+"tool": "Desmos: slider for a; infinitely many solutions = the two lines lie exactly on top of each other.",
+"steps": [
+"The second equation must be the first one multiplied by the same number",
+"10 ÷ 5 = 2 and 28 ÷ 14 = 2",
+"So a = 2 × 5 = 10"
+],
+"trap": "Infinitely many = SAME line (every number matches). No solution = parallel (only the x and y parts match).",
+"find": {
+"opts": [
+"a, so the lines are the same",
+"x",
+"the number of solutions"
+],
+"ok": 0
+},
+"grid": [
+"10"
+],
+"show": "10"
+},
+{
+"id": "sys-83",
+"skill": "sys",
+"diff": "H",
+"q": "7x + 6y = 2<br>ax + 12y = 4<br>In the given system of equations, a is a constant. If the system has infinitely many solutions, what is the value of a?",
+"tool": "Desmos: slider for a; infinitely many solutions = the two lines lie exactly on top of each other.",
+"steps": [
+"The second equation must be the first one multiplied by the same number",
+"12 ÷ 6 = 2 and 4 ÷ 2 = 2",
+"So a = 2 × 7 = 14"
+],
+"trap": "Infinitely many = SAME line (every number matches). No solution = parallel (only the x and y parts match).",
+"find": {
+"opts": [
+"the number of solutions",
+"a, so the lines are the same",
+"x"
+],
+"ok": 1
+},
+"grid": [
+"14"
+],
+"show": "14"
+},
+{
+"id": "sys-84",
+"skill": "sys",
+"diff": "H",
+"q": "6x + 9y = 13<br>ax + 27y = 39<br>In the given system of equations, a is a constant. If the system has infinitely many solutions, what is the value of a?",
+"tool": "Desmos: slider for a; infinitely many solutions = the two lines lie exactly on top of each other.",
+"steps": [
+"The second equation must be the first one multiplied by the same number",
+"27 ÷ 9 = 3 and 39 ÷ 13 = 3",
+"So a = 3 × 6 = 18"
+],
+"trap": "Infinitely many = SAME line (every number matches). No solution = parallel (only the x and y parts match).",
+"find": {
+"opts": [
+"x",
+"the number of solutions",
+"a, so the lines are the same"
+],
+"ok": 2
+},
+"grid": [
+"18"
+],
+"show": "18"
+},
+{
+"id": "sys-85",
+"skill": "sys",
+"diff": "H",
+"q": "4x + 4y = 29<br>ax + 8y = 58<br>In the given system of equations, a is a constant. If the system has infinitely many solutions, what is the value of a?",
+"tool": "Desmos: slider for a; infinitely many solutions = the two lines lie exactly on top of each other.",
+"steps": [
+"The second equation must be the first one multiplied by the same number",
+"8 ÷ 4 = 2 and 58 ÷ 29 = 2",
+"So a = 2 × 4 = 8"
+],
+"trap": "Infinitely many = SAME line (every number matches). No solution = parallel (only the x and y parts match).",
+"find": {
+"opts": [
+"the number of solutions",
+"x",
+"a, so the lines are the same"
+],
+"ok": 2
+},
+"grid": [
+"8"
+],
+"show": "8"
+},
+{
+"id": "sys-86",
+"skill": "sys",
+"diff": "H",
+"q": "6x + 5y = 21<br>ax + 10y = 42<br>In the given system of equations, a is a constant. If the system has infinitely many solutions, what is the value of a?",
+"tool": "Desmos: slider for a; infinitely many solutions = the two lines lie exactly on top of each other.",
+"steps": [
+"The second equation must be the first one multiplied by the same number",
+"10 ÷ 5 = 2 and 42 ÷ 21 = 2",
+"So a = 2 × 6 = 12"
+],
+"trap": "Infinitely many = SAME line (every number matches). No solution = parallel (only the x and y parts match).",
+"find": {
+"opts": [
+"x",
+"a, so the lines are the same",
+"the number of solutions"
+],
+"ok": 1
+},
+"grid": [
+"12"
+],
+"show": "12"
+},
+{
+"id": "sys-87",
+"skill": "sys",
+"diff": "H",
+"q": "4x + 9y = 13<br>ax + 27y = 39<br>In the given system of equations, a is a constant. If the system has infinitely many solutions, what is the value of a?",
+"tool": "Desmos: slider for a; infinitely many solutions = the two lines lie exactly on top of each other.",
+"steps": [
+"The second equation must be the first one multiplied by the same number",
+"27 ÷ 9 = 3 and 39 ÷ 13 = 3",
+"So a = 3 × 4 = 12"
+],
+"trap": "Infinitely many = SAME line (every number matches). No solution = parallel (only the x and y parts match).",
+"find": {
+"opts": [
+"the number of solutions",
+"x",
+"a, so the lines are the same"
+],
+"ok": 2
+},
+"grid": [
+"12"
+],
+"show": "12"
+},
+{
+"id": "sys-88",
+"skill": "sys",
+"diff": "H",
+"q": "2x + 5y = 4<br>ax + 20y = 16<br>In the given system of equations, a is a constant. If the system has infinitely many solutions, what is the value of a?",
+"tool": "Desmos: slider for a; infinitely many solutions = the two lines lie exactly on top of each other.",
+"steps": [
+"The second equation must be the first one multiplied by the same number",
+"20 ÷ 5 = 4 and 16 ÷ 4 = 4",
+"So a = 4 × 2 = 8"
+],
+"trap": "Infinitely many = SAME line (every number matches). No solution = parallel (only the x and y parts match).",
+"find": {
+"opts": [
+"a, so the lines are the same",
+"x",
+"the number of solutions"
+],
+"ok": 0
+},
+"grid": [
+"8"
+],
+"show": "8"
+},
+{
+"id": "sys-89",
+"skill": "sys",
+"diff": "H",
+"q": "4x + 6y = 19<br>ax + 12y = 38<br>In the given system of equations, a is a constant. If the system has infinitely many solutions, what is the value of a?",
+"tool": "Desmos: slider for a; infinitely many solutions = the two lines lie exactly on top of each other.",
+"steps": [
+"The second equation must be the first one multiplied by the same number",
+"12 ÷ 6 = 2 and 38 ÷ 19 = 2",
+"So a = 2 × 4 = 8"
+],
+"trap": "Infinitely many = SAME line (every number matches). No solution = parallel (only the x and y parts match).",
+"find": {
+"opts": [
+"x",
+"the number of solutions",
+"a, so the lines are the same"
+],
+"ok": 2
+},
+"grid": [
+"8"
+],
+"show": "8"
+},
+{
+"id": "sys-90",
+"skill": "sys",
+"diff": "H",
+"q": "3x + 4y = 27<br>ax + 8y = 54<br>In the given system of equations, a is a constant. If the system has infinitely many solutions, what is the value of a?",
+"tool": "Desmos: slider for a; infinitely many solutions = the two lines lie exactly on top of each other.",
+"steps": [
+"The second equation must be the first one multiplied by the same number",
+"8 ÷ 4 = 2 and 54 ÷ 27 = 2",
+"So a = 2 × 3 = 6"
+],
+"trap": "Infinitely many = SAME line (every number matches). No solution = parallel (only the x and y parts match).",
+"find": {
+"opts": [
+"a, so the lines are the same",
+"x",
+"the number of solutions"
+],
+"ok": 0
+},
+"grid": [
+"6"
+],
+"show": "6"
+},
+{
+"id": "sys-91",
+"skill": "sys",
+"diff": "H",
+"q": "7x + 2y = 26<br>ax + 8y = 104<br>In the given system of equations, a is a constant. If the system has infinitely many solutions, what is the value of a?",
+"tool": "Desmos: slider for a; infinitely many solutions = the two lines lie exactly on top of each other.",
+"steps": [
+"The second equation must be the first one multiplied by the same number",
+"8 ÷ 2 = 4 and 104 ÷ 26 = 4",
+"So a = 4 × 7 = 28"
+],
+"trap": "Infinitely many = SAME line (every number matches). No solution = parallel (only the x and y parts match).",
+"find": {
+"opts": [
+"x",
+"a, so the lines are the same",
+"the number of solutions"
+],
+"ok": 1
+},
+"grid": [
+"28"
+],
+"show": "28"
+},
+{
+"id": "sys-92",
+"skill": "sys",
+"diff": "H",
+"q": "8x + 3y = 26<br>ax + 12y = 104<br>In the given system of equations, a is a constant. If the system has infinitely many solutions, what is the value of a?",
+"tool": "Desmos: slider for a; infinitely many solutions = the two lines lie exactly on top of each other.",
+"steps": [
+"The second equation must be the first one multiplied by the same number",
+"12 ÷ 3 = 4 and 104 ÷ 26 = 4",
+"So a = 4 × 8 = 32"
+],
+"trap": "Infinitely many = SAME line (every number matches). No solution = parallel (only the x and y parts match).",
+"find": {
+"opts": [
+"the number of solutions",
+"a, so the lines are the same",
+"x"
+],
+"ok": 1
+},
+"grid": [
+"32"
+],
+"show": "32"
+},
+{
+"id": "sys-93",
+"skill": "sys",
+"diff": "M",
+"q": "A store sells songs for $2 each and albums for $5 each. A customer bought 55 items in total for $188. How many albums did the customer buy?",
+"tool": "Desmos: x + y = 55 and 2x + 5y = 188, click the crossing. Read y.",
+"steps": [
+"x + y = 55 and 2x + 5y = 188",
+"x = 55 − y, so 2(55 − y) + 5y = 188",
+"3y = 78 → y = 26"
+],
+"trap": "29 is the number of songs. Circle what they asked for.",
+"find": {
+"opts": [
+"the total cost",
+"the number of albums",
+"the number of songs"
+],
+"ok": 1
+},
+"ch": [
+"29",
+"27",
+"30",
+"26"
+],
+"ans": 3
+},
+{
+"id": "sys-94",
+"skill": "sys",
+"diff": "M",
+"q": "A store sells pens for $3 each and markers for $7 each. A customer bought 45 items in total for $207. How many markers did the customer buy?",
+"tool": "Desmos: x + y = 45 and 3x + 7y = 207, click the crossing. Read y.",
+"steps": [
+"x + y = 45 and 3x + 7y = 207",
+"x = 45 − y, so 3(45 − y) + 7y = 207",
+"4y = 72 → y = 18"
+],
+"trap": "27 is the number of pens. Circle what they asked for.",
+"find": {
+"opts": [
+"the total cost",
+"the number of pens",
+"the number of markers"
+],
+"ok": 2
+},
+"ch": [
+"27",
+"18",
+"19",
+"28"
+],
+"ans": 1
+},
+{
+"id": "sys-95",
+"skill": "sys",
+"diff": "M",
+"q": "A store sells apples for $3 each and mangoes for $8 each. A customer bought 34 items in total for $152. How many mangoes did the customer buy?",
+"tool": "Desmos: x + y = 34 and 3x + 8y = 152, click the crossing. Read y.",
+"steps": [
+"x + y = 34 and 3x + 8y = 152",
+"x = 34 − y, so 3(34 − y) + 8y = 152",
+"5y = 50 → y = 10"
+],
+"trap": "24 is the number of apples. Circle what they asked for.",
+"find": {
+"opts": [
+"the number of mangoes",
+"the total cost",
+"the number of apples"
+],
+"ok": 0
+},
+"ch": [
+"24",
+"11",
+"10",
+"25"
+],
+"ans": 2
+},
+{
+"id": "sys-96",
+"skill": "sys",
+"diff": "M",
+"q": "A store sells pens for $3 each and markers for $8 each. A customer bought 53 items in total for $299. How many markers did the customer buy?",
+"tool": "Desmos: x + y = 53 and 3x + 8y = 299, click the crossing. Read y.",
+"steps": [
+"x + y = 53 and 3x + 8y = 299",
+"x = 53 − y, so 3(53 − y) + 8y = 299",
+"5y = 140 → y = 28"
+],
+"trap": "25 is the number of pens. Circle what they asked for.",
+"find": {
+"opts": [
+"the number of markers",
+"the total cost",
+"the number of pens"
+],
+"ok": 0
+},
+"ch": [
+"25",
+"28",
+"29",
+"26"
+],
+"ans": 1
+},
+{
+"id": "sys-97",
+"skill": "sys",
+"diff": "M",
+"q": "A store sells apples for $2.5 each and mangoes for $6 each. A customer bought 37 items in total for $127.50. How many mangoes did the customer buy?",
+"tool": "Desmos: x + y = 37 and 2.5x + 6y = 127.5, click the crossing. Read y.",
+"steps": [
+"x + y = 37 and 2.5x + 6y = 127.5",
+"x = 37 − y, so 2.5(37 − y) + 6y = 127.5",
+"3.5y = 35 → y = 10"
+],
+"trap": "27 is the number of apples. Circle what they asked for.",
+"find": {
+"opts": [
+"the number of apples",
+"the total cost",
+"the number of mangoes"
+],
+"ok": 2
+},
+"ch": [
+"27",
+"11",
+"10",
+"28"
+],
+"ans": 2
+},
+{
+"id": "sys-98",
+"skill": "sys",
+"diff": "M",
+"q": "A store sells apples for $4 each and mangoes for $9 each. A customer bought 51 items in total for $339. How many mangoes did the customer buy?",
+"tool": "Desmos: x + y = 51 and 4x + 9y = 339, click the crossing. Read y.",
+"steps": [
+"x + y = 51 and 4x + 9y = 339",
+"x = 51 − y, so 4(51 − y) + 9y = 339",
+"5y = 135 → y = 27"
+],
+"trap": "24 is the number of apples. Circle what they asked for.",
+"find": {
+"opts": [
+"the number of apples",
+"the number of mangoes",
+"the total cost"
+],
+"ok": 1
+},
+"ch": [
+"24",
+"27",
+"28",
+"25"
+],
+"ans": 1
+},
+{
+"id": "sys-99",
+"skill": "sys",
+"diff": "M",
+"q": "A store sells songs for $3 each and albums for $7 each. A customer bought 21 items in total for $91. How many albums did the customer buy?",
+"tool": "Desmos: x + y = 21 and 3x + 7y = 91, click the crossing. Read y.",
+"steps": [
+"x + y = 21 and 3x + 7y = 91",
+"x = 21 − y, so 3(21 − y) + 7y = 91",
+"4y = 28 → y = 7"
+],
+"trap": "14 is the number of songs. Circle what they asked for.",
+"find": {
+"opts": [
+"the number of albums",
+"the number of songs",
+"the total cost"
+],
+"ok": 0
+},
+"ch": [
+"14",
+"8",
+"15",
+"7"
+],
+"ans": 3
+},
+{
+"id": "sys-100",
+"skill": "sys",
+"diff": "M",
+"q": "A store sells apples for $3 each and mangoes for $7 each. A customer bought 22 items in total for $86. How many mangoes did the customer buy?",
+"tool": "Desmos: x + y = 22 and 3x + 7y = 86, click the crossing. Read y.",
+"steps": [
+"x + y = 22 and 3x + 7y = 86",
+"x = 22 − y, so 3(22 − y) + 7y = 86",
+"4y = 20 → y = 5"
+],
+"trap": "17 is the number of apples. Circle what they asked for.",
+"find": {
+"opts": [
+"the number of apples",
+"the number of mangoes",
+"the total cost"
+],
+"ok": 1
+},
+"ch": [
+"17",
+"6",
+"5",
+"18"
+],
+"ans": 2
+},
+{
+"id": "sys-101",
+"skill": "sys",
+"diff": "M",
+"q": "A store sells songs for $3 each and albums for $7 each. A customer bought 34 items in total for $174. How many albums did the customer buy?",
+"tool": "Desmos: x + y = 34 and 3x + 7y = 174, click the crossing. Read y.",
+"steps": [
+"x + y = 34 and 3x + 7y = 174",
+"x = 34 − y, so 3(34 − y) + 7y = 174",
+"4y = 72 → y = 18"
+],
+"trap": "16 is the number of songs. Circle what they asked for.",
+"find": {
+"opts": [
+"the total cost",
+"the number of songs",
+"the number of albums"
+],
+"ok": 2
+},
+"ch": [
+"16",
+"18",
+"19",
+"17"
+],
+"ans": 1
+},
+{
+"id": "sys-102",
+"skill": "sys",
+"diff": "M",
+"q": "A store sells stamps for $2 each and envelopes for $5 each. A customer bought 28 items in total for $92. How many envelopes did the customer buy?",
+"tool": "Desmos: x + y = 28 and 2x + 5y = 92, click the crossing. Read y.",
+"steps": [
+"x + y = 28 and 2x + 5y = 92",
+"x = 28 − y, so 2(28 − y) + 5y = 92",
+"3y = 36 → y = 12"
+],
+"trap": "16 is the number of stamps. Circle what they asked for.",
+"find": {
+"opts": [
+"the number of stamps",
+"the number of envelopes",
+"the total cost"
+],
+"ok": 1
+},
+"ch": [
+"12",
+"16",
+"13",
+"17"
+],
+"ans": 0
+},
+{
+"id": "sys-103",
+"skill": "sys",
+"diff": "M",
+"q": "A store sells apples for $4 each and mangoes for $9 each. A customer bought 34 items in total for $281. How many mangoes did the customer buy?",
+"tool": "Desmos: x + y = 34 and 4x + 9y = 281, click the crossing. Read y.",
+"steps": [
+"x + y = 34 and 4x + 9y = 281",
+"x = 34 − y, so 4(34 − y) + 9y = 281",
+"5y = 145 → y = 29"
+],
+"trap": "5 is the number of apples. Circle what they asked for.",
+"find": {
+"opts": [
+"the number of mangoes",
+"the total cost",
+"the number of apples"
+],
+"ok": 0
+},
+"ch": [
+"5",
+"29",
+"30",
+"6"
+],
+"ans": 1
+},
+{
+"id": "sys-104",
+"skill": "sys",
+"diff": "M",
+"q": "A store sells songs for $3 each and albums for $7 each. A customer bought 28 items in total for $156. How many albums did the customer buy?",
+"tool": "Desmos: x + y = 28 and 3x + 7y = 156, click the crossing. Read y.",
+"steps": [
+"x + y = 28 and 3x + 7y = 156",
+"x = 28 − y, so 3(28 − y) + 7y = 156",
+"4y = 72 → y = 18"
+],
+"trap": "10 is the number of songs. Circle what they asked for.",
+"find": {
+"opts": [
+"the total cost",
+"the number of songs",
+"the number of albums"
+],
+"ok": 2
+},
+"ch": [
+"18",
+"10",
+"19",
+"11"
+],
+"ans": 0
+},
+{
+"id": "pct-81",
+"skill": "pct",
+"diff": "M",
+"q": "If 60% of a number is 108, what is 50% of the number?",
+"tool": "By hand: find the whole number first, then take the new percent.",
+"steps": [
+"0.6 × n = 108 → n = 108 ÷ 0.6 = 180",
+"50% of 180 = 0.5 × 180 = 90"
+],
+"trap": "108 is only 60% of the number. Find the whole number first.",
+"find": {
+"opts": [
+"the whole number",
+"60% of the number",
+"50% of the number"
+],
+"ok": 2
+},
+"grid": [
+"90"
+],
+"show": "90"
+},
+{
+"id": "pct-82",
+"skill": "pct",
+"diff": "M",
+"q": "If 30% of a number is 18, what is 150% of the number?",
+"tool": "By hand: find the whole number first, then take the new percent.",
+"steps": [
+"0.3 × n = 18 → n = 18 ÷ 0.3 = 60",
+"150% of 60 = 1.5 × 60 = 90"
+],
+"trap": "18 is only 30% of the number. Find the whole number first.",
+"find": {
+"opts": [
+"the whole number",
+"150% of the number",
+"30% of the number"
+],
+"ok": 1
+},
+"grid": [
+"90"
+],
+"show": "90"
+},
+{
+"id": "pct-83",
+"skill": "pct",
+"diff": "M",
+"q": "If 60% of a number is 216, what is 50% of the number?",
+"tool": "By hand: find the whole number first, then take the new percent.",
+"steps": [
+"0.6 × n = 216 → n = 216 ÷ 0.6 = 360",
+"50% of 360 = 0.5 × 360 = 180"
+],
+"trap": "216 is only 60% of the number. Find the whole number first.",
+"find": {
+"opts": [
+"50% of the number",
+"the whole number",
+"60% of the number"
+],
+"ok": 0
+},
+"grid": [
+"180"
+],
+"show": "180"
+},
+{
+"id": "pct-84",
+"skill": "pct",
+"diff": "M",
+"q": "If 30% of a number is 132, what is 250% of the number?",
+"tool": "By hand: find the whole number first, then take the new percent.",
+"steps": [
+"0.3 × n = 132 → n = 132 ÷ 0.3 = 440",
+"250% of 440 = 2.5 × 440 = 1,100"
+],
+"trap": "132 is only 30% of the number. Find the whole number first.",
+"find": {
+"opts": [
+"250% of the number",
+"30% of the number",
+"the whole number"
+],
+"ok": 0
+},
+"grid": [
+"1100"
+],
+"show": "1,100"
+},
+{
+"id": "pct-85",
+"skill": "pct",
+"diff": "M",
+"q": "If 10% of a number is 6, what is 175% of the number?",
+"tool": "By hand: find the whole number first, then take the new percent.",
+"steps": [
+"0.1 × n = 6 → n = 6 ÷ 0.1 = 60",
+"175% of 60 = 1.75 × 60 = 105"
+],
+"trap": "6 is only 10% of the number. Find the whole number first.",
+"find": {
+"opts": [
+"175% of the number",
+"10% of the number",
+"the whole number"
+],
+"ok": 0
+},
+"grid": [
+"105"
+],
+"show": "105"
+},
+{
+"id": "pct-86",
+"skill": "pct",
+"diff": "M",
+"q": "If 40% of a number is 176, what is 250% of the number?",
+"tool": "By hand: find the whole number first, then take the new percent.",
+"steps": [
+"0.4 × n = 176 → n = 176 ÷ 0.4 = 440",
+"250% of 440 = 2.5 × 440 = 1,100"
+],
+"trap": "176 is only 40% of the number. Find the whole number first.",
+"find": {
+"opts": [
+"250% of the number",
+"the whole number",
+"40% of the number"
+],
+"ok": 0
+},
+"grid": [
+"1100"
+],
+"show": "1,100"
+},
+{
+"id": "pct-87",
+"skill": "pct",
+"diff": "M",
+"q": "If 40% of a number is 96, what is 150% of the number?",
+"tool": "By hand: find the whole number first, then take the new percent.",
+"steps": [
+"0.4 × n = 96 → n = 96 ÷ 0.4 = 240",
+"150% of 240 = 1.5 × 240 = 360"
+],
+"trap": "96 is only 40% of the number. Find the whole number first.",
+"find": {
+"opts": [
+"150% of the number",
+"the whole number",
+"40% of the number"
+],
+"ok": 0
+},
+"grid": [
+"360"
+],
+"show": "360"
+},
+{
+"id": "pct-88",
+"skill": "pct",
+"diff": "M",
+"q": "If 15% of a number is 81, what is 150% of the number?",
+"tool": "By hand: find the whole number first, then take the new percent.",
+"steps": [
+"0.15 × n = 81 → n = 81 ÷ 0.15 = 540",
+"150% of 540 = 1.5 × 540 = 810"
+],
+"trap": "81 is only 15% of the number. Find the whole number first.",
+"find": {
+"opts": [
+"150% of the number",
+"15% of the number",
+"the whole number"
+],
+"ok": 0
+},
+"grid": [
+"810"
+],
+"show": "810"
+},
+{
+"id": "pct-89",
+"skill": "pct",
+"diff": "M",
+"q": "If 10% of a number is 22, what is 250% of the number?",
+"tool": "By hand: find the whole number first, then take the new percent.",
+"steps": [
+"0.1 × n = 22 → n = 22 ÷ 0.1 = 220",
+"250% of 220 = 2.5 × 220 = 550"
+],
+"trap": "22 is only 10% of the number. Find the whole number first.",
+"find": {
+"opts": [
+"10% of the number",
+"the whole number",
+"250% of the number"
+],
+"ok": 2
+},
+"grid": [
+"550"
+],
+"show": "550"
+},
+{
+"id": "pct-90",
+"skill": "pct",
+"diff": "M",
+"q": "If 40% of a number is 240, what is 175% of the number?",
+"tool": "By hand: find the whole number first, then take the new percent.",
+"steps": [
+"0.4 × n = 240 → n = 240 ÷ 0.4 = 600",
+"175% of 600 = 1.75 × 600 = 1,050"
+],
+"trap": "240 is only 40% of the number. Find the whole number first.",
+"find": {
+"opts": [
+"40% of the number",
+"175% of the number",
+"the whole number"
+],
+"ok": 1
+},
+"grid": [
+"1050"
+],
+"show": "1,050"
+},
+{
+"id": "pct-91",
+"skill": "pct",
+"diff": "M",
+"q": "If 20% of a number is 20, what is 250% of the number?",
+"tool": "By hand: find the whole number first, then take the new percent.",
+"steps": [
+"0.2 × n = 20 → n = 20 ÷ 0.2 = 100",
+"250% of 100 = 2.5 × 100 = 250"
+],
+"trap": "20 is only 20% of the number. Find the whole number first.",
+"find": {
+"opts": [
+"the whole number",
+"250% of the number",
+"20% of the number"
+],
+"ok": 1
+},
+"grid": [
+"250"
+],
+"show": "250"
+},
+{
+"id": "pct-92",
+"skill": "pct",
+"diff": "M",
+"q": "If 40% of a number is 96, what is 80% of the number?",
+"tool": "By hand: find the whole number first, then take the new percent.",
+"steps": [
+"0.4 × n = 96 → n = 96 ÷ 0.4 = 240",
+"80% of 240 = 0.8 × 240 = 192"
+],
+"trap": "96 is only 40% of the number. Find the whole number first.",
+"find": {
+"opts": [
+"80% of the number",
+"the whole number",
+"40% of the number"
+],
+"ok": 0
+},
+"grid": [
+"192"
+],
+"show": "192"
+},
+{
+"id": "pct-93",
+"skill": "pct",
+"diff": "H",
+"q": "The price of a jacket was increased by 30%. Later, the new price was decreased by 10%. The final price is what percent increase from the original price?",
+"tool": "Desmos: type 100(1 + 0.3)(1 − 0.1) and compare to 100.",
+"steps": [
+"Use a starting price of $100",
+"After +30%: 100 × 1.3 = 130",
+"After −10%: 130 × 0.9 = 117",
+"Change from 100: 17% increase"
+],
+"trap": "Percents do not just add: +30% then −10% is NOT 20%.",
+"find": {
+"opts": [
+"the first new price",
+"the percent increase",
+"the final price"
+],
+"ok": 1
+},
+"ch": [
+"20%",
+"40%",
+"17%",
+"3%"
+],
+"ans": 2
+},
+{
+"id": "pct-94",
+"skill": "pct",
+"diff": "H",
+"q": "The price of a jacket was increased by 10%. Later, the new price was decreased by 40%. The final price is what percent decrease from the original price?",
+"tool": "Desmos: type 100(1 + 0.1)(1 − 0.4) and compare to 100.",
+"steps": [
+"Use a starting price of $100",
+"After +10%: 100 × 1.1 = 110",
+"After −40%: 110 × 0.6 = 66",
+"Change from 100: 34% decrease"
+],
+"trap": "Percents do not just add: +10% then −40% is NOT 30%.",
+"find": {
+"opts": [
+"the first new price",
+"the percent decrease",
+"the final price"
+],
+"ok": 1
+},
+"ch": [
+"34%",
+"30%",
+"50%",
+"4%"
+],
+"ans": 0
+},
+{
+"id": "pct-95",
+"skill": "pct",
+"diff": "H",
+"q": "The price of a jacket was increased by 25%. Later, the new price was decreased by 30%. The final price is what percent decrease from the original price?",
+"tool": "Desmos: type 100(1 + 0.25)(1 − 0.3) and compare to 100.",
+"steps": [
+"Use a starting price of $100",
+"After +25%: 100 × 1.25 = 125",
+"After −30%: 125 × 0.7 = 87.5",
+"Change from 100: 12.5% decrease"
+],
+"trap": "Percents do not just add: +25% then −30% is NOT 5%.",
+"find": {
+"opts": [
+"the first new price",
+"the percent decrease",
+"the final price"
+],
+"ok": 1
+},
+"ch": [
+"5%",
+"55%",
+"7.5%",
+"12.5%"
+],
+"ans": 3
+},
+{
+"id": "pct-96",
+"skill": "pct",
+"diff": "H",
+"q": "The price of a jacket was increased by 20%. Later, the new price was decreased by 10%. The final price is what percent increase from the original price?",
+"tool": "Desmos: type 100(1 + 0.2)(1 − 0.1) and compare to 100.",
+"steps": [
+"Use a starting price of $100",
+"After +20%: 100 × 1.2 = 120",
+"After −10%: 120 × 0.9 = 108",
+"Change from 100: 8% increase"
+],
+"trap": "Percents do not just add: +20% then −10% is NOT 10%.",
+"find": {
+"opts": [
+"the first new price",
+"the percent increase",
+"the final price"
+],
+"ok": 1
+},
+"ch": [
+"8%",
+"10%",
+"30%",
+"2%"
+],
+"ans": 0
+},
+{
+"id": "pct-97",
+"skill": "pct",
+"diff": "H",
+"q": "The price of a jacket was increased by 50%. Later, the new price was decreased by 20%. The final price is what percent increase from the original price?",
+"tool": "Desmos: type 100(1 + 0.5)(1 − 0.2) and compare to 100.",
+"steps": [
+"Use a starting price of $100",
+"After +50%: 100 × 1.5 = 150",
+"After −20%: 150 × 0.8 = 120",
+"Change from 100: 20% increase"
+],
+"trap": "Percents do not just add: +50% then −20% is NOT 30%.",
+"find": {
+"opts": [
+"the first new price",
+"the final price",
+"the percent increase"
+],
+"ok": 2
+},
+"ch": [
+"20%",
+"30%",
+"70%",
+"10%"
+],
+"ans": 0
+},
+{
+"id": "pct-98",
+"skill": "pct",
+"diff": "H",
+"q": "The price of a jacket was increased by 30%. Later, the new price was decreased by 50%. The final price is what percent decrease from the original price?",
+"tool": "Desmos: type 100(1 + 0.3)(1 − 0.5) and compare to 100.",
+"steps": [
+"Use a starting price of $100",
+"After +30%: 100 × 1.3 = 130",
+"After −50%: 130 × 0.5 = 65",
+"Change from 100: 35% decrease"
+],
+"trap": "Percents do not just add: +30% then −50% is NOT 20%.",
+"find": {
+"opts": [
+"the final price",
+"the first new price",
+"the percent decrease"
+],
+"ok": 2
+},
+"ch": [
+"20%",
+"80%",
+"35%",
+"15%"
+],
+"ans": 2
+},
+{
+"id": "pct-99",
+"skill": "pct",
+"diff": "H",
+"q": "The price of a jacket was increased by 50%. Later, the new price was decreased by 10%. The final price is what percent increase from the original price?",
+"tool": "Desmos: type 100(1 + 0.5)(1 − 0.1) and compare to 100.",
+"steps": [
+"Use a starting price of $100",
+"After +50%: 100 × 1.5 = 150",
+"After −10%: 150 × 0.9 = 135",
+"Change from 100: 35% increase"
+],
+"trap": "Percents do not just add: +50% then −10% is NOT 40%.",
+"find": {
+"opts": [
+"the percent increase",
+"the first new price",
+"the final price"
+],
+"ok": 0
+},
+"ch": [
+"40%",
+"60%",
+"35%",
+"5%"
+],
+"ans": 2
+},
+{
+"id": "pct-100",
+"skill": "pct",
+"diff": "H",
+"q": "The price of a jacket was increased by 40%. Later, the new price was decreased by 30%. The final price is what percent decrease from the original price?",
+"tool": "Desmos: type 100(1 + 0.4)(1 − 0.3) and compare to 100.",
+"steps": [
+"Use a starting price of $100",
+"After +40%: 100 × 1.4 = 140",
+"After −30%: 140 × 0.7 = 98",
+"Change from 100: 2% decrease"
+],
+"trap": "Percents do not just add: +40% then −30% is NOT 10%.",
+"find": {
+"opts": [
+"the final price",
+"the percent decrease",
+"the first new price"
+],
+"ok": 1
+},
+"ch": [
+"10%",
+"70%",
+"12%",
+"2%"
+],
+"ans": 3
+},
+{
+"id": "pct-101",
+"skill": "pct",
+"diff": "H",
+"q": "The price of a jacket was increased by 20%. Later, the new price was decreased by 40%. The final price is what percent decrease from the original price?",
+"tool": "Desmos: type 100(1 + 0.2)(1 − 0.4) and compare to 100.",
+"steps": [
+"Use a starting price of $100",
+"After +20%: 100 × 1.2 = 120",
+"After −40%: 120 × 0.6 = 72",
+"Change from 100: 28% decrease"
+],
+"trap": "Percents do not just add: +20% then −40% is NOT 20%.",
+"find": {
+"opts": [
+"the final price",
+"the percent decrease",
+"the first new price"
+],
+"ok": 1
+},
+"ch": [
+"20%",
+"60%",
+"8%",
+"28%"
+],
+"ans": 3
+},
+{
+"id": "pct-102",
+"skill": "pct",
+"diff": "H",
+"q": "The price of a jacket was increased by 30%. Later, the new price was decreased by 25%. The final price is what percent decrease from the original price?",
+"tool": "Desmos: type 100(1 + 0.3)(1 − 0.25) and compare to 100.",
+"steps": [
+"Use a starting price of $100",
+"After +30%: 100 × 1.3 = 130",
+"After −25%: 130 × 0.75 = 97.5",
+"Change from 100: 2.5% decrease"
+],
+"trap": "Percents do not just add: +30% then −25% is NOT 5%.",
+"find": {
+"opts": [
+"the first new price",
+"the percent decrease",
+"the final price"
+],
+"ok": 1
+},
+"ch": [
+"5%",
+"55%",
+"7.5%",
+"2.5%"
+],
+"ans": 3
+},
+{
+"id": "pct-103",
+"skill": "pct",
+"diff": "H",
+"q": "The price of a jacket was increased by 20%. Later, the new price was decreased by 50%. The final price is what percent decrease from the original price?",
+"tool": "Desmos: type 100(1 + 0.2)(1 − 0.5) and compare to 100.",
+"steps": [
+"Use a starting price of $100",
+"After +20%: 100 × 1.2 = 120",
+"After −50%: 120 × 0.5 = 60",
+"Change from 100: 40% decrease"
+],
+"trap": "Percents do not just add: +20% then −50% is NOT 30%.",
+"find": {
+"opts": [
+"the first new price",
+"the final price",
+"the percent decrease"
+],
+"ok": 2
+},
+"ch": [
+"30%",
+"40%",
+"70%",
+"10%"
+],
+"ans": 1
+},
+{
+"id": "pct-104",
+"skill": "pct",
+"diff": "H",
+"q": "The price of a jacket was increased by 50%. Later, the new price was decreased by 30%. The final price is what percent increase from the original price?",
+"tool": "Desmos: type 100(1 + 0.5)(1 − 0.3) and compare to 100.",
+"steps": [
+"Use a starting price of $100",
+"After +50%: 100 × 1.5 = 150",
+"After −30%: 150 × 0.7 = 105",
+"Change from 100: 5% increase"
+],
+"trap": "Percents do not just add: +50% then −30% is NOT 20%.",
+"find": {
+"opts": [
+"the percent increase",
+"the first new price",
+"the final price"
+],
+"ok": 0
+},
+"ch": [
+"5%",
+"20%",
+"80%",
+"15%"
 ],
 "ans": 0
 }

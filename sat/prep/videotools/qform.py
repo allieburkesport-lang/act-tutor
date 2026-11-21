@@ -245,17 +245,54 @@ def _(m, q, s): return [F('Circle equation', '(x − h)² + (y − k)² = r²', 
 def _(m, q, s): return [R('Tangent rule', 'A tangent line meets the radius at a right angle, so OTP is a right triangle.'),
     F('Pythagorean theorem', 'a² + b² = c²', 'ref', [('a', 'radius OT (a leg)', m[1]), ('b', 'TP (the other leg)', m[2]), ('c', 'OP (the hypotenuse)', 'what we find')])]
 
-out, miss = {}, []
+# ---------- harder College Board-style templates (hardgen.py) ----------
+@t('nlf', r'f\(x\) = ([\d,]+)\(([\d.]+)\) x/(\d+) \. By what percent')
+def _(m, q, s): return [F('Exponential growth', 'f(x) = a(b)^(x/k)', 'learn', [('a', 'starting value', m[1]), ('b', 'growth factor each time x goes up by k', m[2]), ('k', 'how much x must grow for one multiply', m[3])]), R('Factor to percent', 'growth factor b = 1 + r, so the percent increase is (b − 1) × 100.')]
+@t('nlf', r'f\(x\) = \(x [+−] \d+\)\(x [+−] \d+\)\. For what value of x does f\(x\) reach its minimum')
+def _(m, q, s): return [R('Symmetry of a parabola', 'The vertex is exactly halfway between the two zeros: x = (r + s) ÷ 2.'), F('Factored form', 'f(x) = (x − r)(x − s)', 'learn', [('r, s', 'the zeros', 'read from the factors (flip the signs)')])]
+@t('nlf', r'first term of a sequence is (\d+)\. Each term after the first is (\d+) times')
+def _(m, q, s): return [F('Geometric sequence', 'nth term = a(r)^(n − 1)', 'learn', [('a', 'first term', m[1]), ('r', 'multiplier each step', m[2]), ('n', 'which term', 'n')])]
+@t('nlf', r'f\(x\) = (\d+)\(([\d.]+)\) x ([+−]) (\d+)\. What is the y-intercept')
+def _(m, q, s): return [R('y-intercept', 'Set x = 0. Any number to the 0 power is 1.'), F('Exponential function', 'f(x) = a(b)^x + c', 'learn', [('a', 'number in front', m[1]), ('b', 'growth factor', m[2]), ('c', 'number added', ('−' if m[3] == '−' else '') + m[4])])]
+@t('nlf', r'vertex at \((−?\d+), (−?\d+)\) and passes through the point \((−?\d+), (−?\d+)\)')
+def _(m, q, s): return [F('Vertex form', 'f(x) = a(x − h)² + k', 'learn', [('(h, k)', 'the vertex', f'({m[1]}, {m[2]})'), ('a', 'the stretch (what we find)', 'what we find'), ('(x, y)', 'the other point', f'({m[3]}, {m[4]})')])]
+@t('nleq', r'x² \+ bx \+ (\d+) = 0 In the given equation, b is a positive constant\. The equation has exactly one real solution')
+def _(m, q, s): return [F('Discriminant', 'b² − 4ac', 'learn', [('a', 'number in front of x²', '1'), ('b', 'number in front of x', 'what we find'), ('c', 'constant', m[1])]), R('Exactly one solution', 'One real solution happens when b² − 4ac = 0.')]
+@t('nleq', r'line with equation y = .* intersects the parabola y = x² .* exactly one point')
+def _(m, q, s): return [R('Set equal', 'Where two graphs meet, their y-values are equal: set the two right sides equal.'), F('Discriminant', 'b² − 4ac', 'learn', [('= 0', 'exactly one intersection', '')])]
+@t('nleq', r'^√\(x \+ (\d+)\) = x − (\d+)')
+def _(m, q, s): return [R('Square both sides', 'Undo a square root by squaring both sides. Then solve the quadratic.'), R('Check for fake solutions', 'Plug every answer back in. A square root can never equal a negative number.')]
+@t('nleq', r'^\(x − (\d+)\)\(x \+ (\d+)\) = (\d+) What is the sum')
+def _(m, q, s): return [R('Move everything to one side', 'Expand, then subtract so the equation equals 0.'), F('Sum of solutions', 'sum = −b ÷ a', 'learn', [('a', 'number in front of x²', '1'), ('b', 'number in front of x', 'after expanding')])]
+@t('linf', r'modeled .* as a linear function of .* was ([\d,]+) when .* was (\d+), and ([\d,]+) when .* was (\d+)\. Based on the model')
+def _(m, q, s): return [F('Slope from two points', 'm = (y₂ − y₁) ÷ (x₂ − x₁)', 'learn', [('(x₁, y₁)', 'first data point', f'({m[2]}, {m[1]})'), ('(x₂, y₂)', 'second data point', f'({m[4]}, {m[3]})')]), F('Point-slope', 'y = y₁ + m(x − x₁)', 'learn')]
+@t('linf', r'charges \$(\d+) for the first (?:hour|\d+ hours) of work plus \$(\d+) for each additional hour')
+def _(m, q, s): return [F('Piecewise cost', 'C = (first block) + rate × (h − hours in block)', 'learn', [('first block', 'cost of the first hours', '$' + m[1]), ('rate', 'cost per extra hour', '$' + m[2]), ('h', 'total hours', 'h')])]
+@t('linf', r'f\(x\) = \((\d+)/(\d+)\)x .* If x increased by (\d+), by how much did f\(x\) increase')
+def _(m, q, s): return [F('Change in a linear function', 'change in f = slope × change in x', 'learn', [('slope', 'number in front of x', f'{m[1]}/{m[2]}'), ('change in x', 'how much x went up', m[3])])]
+@t('linf', r'h is defined as h\(x\) = f\(x\) − g\(x\)')
+def _(m, q, s): return [R('Subtract functions', 'h(x) = f(x) − g(x): subtract every term of g, then combine like terms.'), R('x-intercept', 'Set h(x) = 0 and solve for x.')]
+@t('sys', r'^\d+x \+ \d+y = \d+ ax \+ \d+y = \d+ In the given system .* infinitely many solutions')
+def _(m, q, s): return [R('Infinitely many solutions', 'The two equations are the SAME line: one is a multiple of the other in every term.')]
+@t('sys', r'store sells .* for \$([\d.]+) each and .* for \$([\d.]+) each\. A customer bought (\d+) items in total for \$([\d,.]+)')
+def _(m, q, s): return [F('Count equation', 'x + y = total items', 'rule', [('total items', '', m[3])]), F('Money equation', 'price₁·x + price₂·y = total cost', 'rule', [('prices', '', f'${m[1]} and ${m[2]}'), ('total cost', '', '$' + m[4])])]
+@t('pct', r'If (\d+)% of a number is ([\d,]+), what is (\d+)% of the number')
+def _(m, q, s): return [F('Percent of a number', 'part = (percent ÷ 100) × whole', 'learn', [('percent', 'the first percent', m[1] + '%'), ('part', 'that part', m[2]), ('whole', 'the number', 'find first')])]
+@t('pct', r'increased by (\d+)%\. Later, the new price was decreased by (\d+)%')
+def _(m, q, s): return [F('Percent change in a row', 'final = original × (1 + a) × (1 − b)', 'learn', [('a', 'increase', m[1] + '%'), ('b', 'decrease', m[2] + '%')]), R('Use 100', 'Start with $100 so the final price IS the percent.')]
+
+out, miss, tpl = {}, [], {}
 for q in B['qs']:
     if q['skill'] not in MATH: continue
     p = plain(q['q']); hit = None
-    for sk, rx, fn in T:
+    for ti, (sk, rx, fn) in enumerate(T):
         if sk != q['skill']: continue
         m = rx.search(p)
-        if m: hit = fn(m, p, q['steps']); break
+        if m: hit = fn(m, p, q['steps']); tpl[q['id']] = ti; break
     if hit is None: miss.append((q['id'], p[:120]))
     else: out[q['id']] = hit
 json.dump(out, open('/home/claude/act-tutor/sat/prep/qform.json', 'w'), ensure_ascii=False, indent=0)
+json.dump(tpl, open('/home/claude/act-tutor/sat/prep/qtpl.json', 'w'))
 print('cards for', len(out), 'questions; unmatched', len(miss))
 for x in miss: print(' MISS', *x)
 if '--dump' in sys.argv:

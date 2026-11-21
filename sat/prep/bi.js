@@ -171,20 +171,22 @@ function biPivot(R, rg) {
   const rows = biFilter(R, rg).filter(r => r.kind !== 'daily'), pr = biPrevRange(), prev = pr ? biFilter(R, pr, {dated: true}).filter(r => r.kind !== 'daily') : [], g = {};
   rows.forEach(r => { (g[r.skill] = g[r.skill] || []).push(r) });
   const list = Object.keys(g).map(k => { const a = biAgg(g[k]), h = biAgg(g[k].filter(r => r.src === 'HELM')), b = biAgg(g[k].filter(r => r.src === 'Blueprint')), r0 = g[k][0], pa = biAgg(prev.filter(r => r.skill === k));
-    return {skill: k, sec: r0.sec, dom: r0.dom, share: r0.share || 0, n: a.n, ok: a.ok, wrong: a.wrong, acc: a.acc, helm: h.acc, bp: b.acc, secs: a.secs, pace: a.pace, chg: pa.acc != null && a.acc != null ? a.acc - pa.acc : null, lost: a.acc == null ? 0 : Math.round(600 * (r0.share || 0) / 100 * (100 - a.acc) / 100)} });
+    const dm = ['Easy', 'Medium', 'Hard'].map(d => { const x = g[k].filter(r => r.diff === d); return [d, x.length, x.filter(r => r.ok).length] });
+    return {dm, skill: k, sec: r0.sec, dom: r0.dom, share: r0.share || 0, n: a.n, ok: a.ok, wrong: a.wrong, acc: a.acc, helm: h.acc, bp: b.acc, secs: a.secs, pace: a.pace, chg: pa.acc != null && a.acc != null ? a.acc - pa.acc : null, lost: a.acc == null ? 0 : Math.round(600 * (r0.share || 0) / 100 * (100 - a.acc) / 100)} });
   const S = BI.sort; list.sort((a, b) => { const x = a[S.k], y = b[S.k]; if (x == null) return 1; if (y == null) return -1; return (typeof x === 'string' ? x.localeCompare(y) : x - y) * S.d });
   const maxLost = Math.max(1, ...list.map(x => x.lost));
-  const H = [['skill', 'Skill'], ['sec', 'Section'], ['share', '% of section'], ['n', 'Qs'], ['ok', 'Right'], ['wrong', 'Wrong'], ['acc', 'Accuracy'], ['helm', 'HELM'], ['bp', 'Blueprint'], ['chg', 'vs. prev.'], ['secs', 'Avg time'], ['lost', 'Points at stake']];
+  const H = [['skill', 'Skill'], ['sec', 'Section'], ['share', '% of section'], ['n', 'Qs'], ['ok', 'Right'], ['wrong', 'Wrong'], ['acc', 'Accuracy'], ['helm', 'HELM'], ['bp', 'Blueprint'], ['chg', 'vs. prev.'], ['dm', 'Difficulty (right / asked)'], ['secs', 'Avg time'], ['lost', 'Points at stake'], ['go', '']];
   const el = document.getElementById('bi-pv'); if (!el) return;
   if (!list.length) { el.innerHTML = '<div style="color:var(--mu);padding:16px 0">No skill-level records in this range. (Blueprint skill totals appear when the range covers Nov 6–20, e.g. All time.)</div>'; return }
   const accCol = a => a == null ? '#94a3b8' : a >= 70 ? '#059669' : a >= 50 ? '#c9a22a' : '#e11d48';
-  el.innerHTML = `<table class="pv"><thead><tr>${H.map(([k, t]) => `<th data-bi="sort:${k}">${t}${S.k === k ? (S.d > 0 ? ' ▲' : ' ▼') : ''}</th>`).join('')}</tr></thead><tbody>${list.map(x => `<tr>
+  el.innerHTML = `<table class="pv"><thead><tr>${H.map(([k, t]) => k === 'go' || k === 'dm' ? `<th>${t}</th>` : `<th data-bi="sort:${k}">${t}${S.k === k ? (S.d > 0 ? ' ▲' : ' ▼') : ''}</th>`).join('')}</tr></thead><tbody>${list.map(x => `<tr data-bi="row:${esc(x.skill)}" style="cursor:pointer" title="See every question in this skill">
     <td class="c" data-bi="row:${esc(x.skill)}"><b>${esc(x.skill)}</b><div style="font-size:12px;color:var(--mu)">${esc(x.dom)}</div></td><td>${x.sec === 'Reading & Writing' ? 'R&W' : x.sec}</td><td>${x.share ? Math.round(x.share) + '%' : '—'}</td>
     <td class="c" data-bi="row:${esc(x.skill)}">${x.n}</td><td class="c" data-bi="row:${esc(x.skill)}|ok" style="color:var(--up);font-weight:700">${x.ok}</td><td class="c" data-bi="row:${esc(x.skill)}|wrong" style="color:var(--dn);font-weight:700">${x.wrong}</td>
     <td class="cb c" data-bi="row:${esc(x.skill)}"><i style="width:${x.acc ?? 0}%;background:${accCol(x.acc)}"></i><span style="color:${accCol(x.acc)}">${x.acc == null ? '—' : x.acc + '%'}</span></td>
     <td>${x.helm == null ? '—' : x.helm + '%'}</td><td>${x.bp == null ? '—' : x.bp + '%'}</td><td>${x.chg == null ? '—' : `<span style="color:${x.chg >= 0 ? 'var(--up)' : 'var(--dn)'};font-weight:700">${x.chg > 0 ? '▲' : x.chg < 0 ? '▼' : ''} ${Math.abs(x.chg)}</span>`}</td>
+    <td>${x.dm.filter(d => d[1]).length ? x.dm.filter(d => d[1]).map(([d, n, ok]) => `<span class="badge" style="margin-right:4px;background:${d === 'Easy' ? '#dcfce7' : d === 'Medium' ? '#fef3c7' : '#fee2e2'};color:${d === 'Easy' ? '#166534' : d === 'Medium' ? '#92400e' : '#991b1b'}">${d[0]} ${ok}/${n}</span>`).join('') : '<span style="color:var(--mu);font-size:12px">Blueprint only</span>'}</td>
     <td>${x.secs == null ? '—' : `<span style="color:${x.secs > x.pace ? 'var(--dn)' : 'var(--up)'}">${mmss(x.secs)}</span>`}</td>
-    <td class="cb"><i style="width:${100 * x.lost / maxLost}%;background:#e11d48"></i><span>${x.lost}</span></td></tr>`).join('')}</tbody></table>`
+    <td class="cb"><i style="width:${100 * x.lost / maxLost}%;background:#e11d48"></i><span>${x.lost}</span></td><td><span class="xbtn" style="white-space:nowrap">Questions ›</span></td></tr>`).join('')}</tbody></table>`
 }
 
 // ---------- inspector drawer ----------
@@ -199,6 +201,7 @@ function biOpen(spec, keep) {
   const H = [['date', 'Date'], ['src', 'Source'], ['sec', 'Section'], ['skill', 'Skill'], ['diff', 'Diff.'], ['n', 'Qs'], ['ok', 'Right'], ['secs', 'Time'], ['question', 'Question']];
   const host = document.getElementById('bi-drw'); if (!host) return;
   host.innerHTML = `<div class="scrim" data-bi="close"></div><aside class="drw" role="dialog" aria-label="${esc(title)}"><div class="hd2"><div><div class="lab">Explore from here</div><div class="hd" style="font-size:20px;font-weight:800">${esc(title)}</div>
+    ${(() => { const h = rows.filter(r => r.src === 'HELM'); if (!h.length) return ''; return `<div style="display:flex;gap:6px;margin:6px 0 2px;flex-wrap:wrap">${['Easy', 'Medium', 'Hard'].map(d => { const x = h.filter(r => r.diff === d); return `<span class="badge" style="background:${d === 'Easy' ? '#dcfce7' : d === 'Medium' ? '#fef3c7' : '#fee2e2'};color:${d === 'Easy' ? '#166534' : d === 'Medium' ? '#92400e' : '#991b1b'}">${d}: ${x.filter(r => r.ok).length}/${x.length} right</span>` }).join('')}</div>` })()}
     <div style="font-size:13px;color:var(--mu)">${rows.length} records · ${A.n} questions · ${A.acc == null ? '—' : A.acc + '% right'}${Object.keys(BI.f).filter(k => BI_LEVELS.some(l => l[0] === k) || k === 'date').length ? ' · dashboard filters applied' : ''}</div></div>
     <div style="display:flex;gap:8px"><button class="xbtn pr" data-bi="csv">⬇ Export to CSV</button><button class="xbtn" data-bi="close" aria-label="Close">✕</button></div></div>
     <div style="padding:10px 18px;border-bottom:1px solid var(--bd)"><input id="bi-dq" placeholder="Search records (skill, date, question text…)" value="${esc(BI.dq)}" style="width:100%;font:inherit;padding:9px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--tx)"></div>
