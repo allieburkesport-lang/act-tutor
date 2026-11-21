@@ -82,5 +82,43 @@
 "Say it out loud"
 ]
 ]
+},
+"a1": {
+"src": "videos/a1.mp4",
+"poster": "videos/a1.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+18,
+"The rules"
+],
+[
+43,
+"Example 1: Zeros from factored form"
+],
+[
+81,
+"Example 2: Vertex from vertex form"
+],
+[
+119,
+"Example 3: y-intercept from standard form"
+],
+[
+150,
+"Example 4: Vertex x from standard form"
+],
+[
+188,
+"Your turn: pause and pick"
+],
+[
+215,
+"Say it out loud"
+]
+]
 }
 }
