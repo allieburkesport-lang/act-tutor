@@ -196,5 +196,39 @@
 "Say it out loud"
 ]
 ]
+},
+"a2": {
+"src": "videos/a2.mp4",
+"poster": "videos/a2.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+18,
+"The rules"
+],
+[
+29,
+"Example 1: Words → two equations"
+],
+[
+69,
+"Example 2: “Times as many”"
+],
+[
+107,
+"Example 3: Elimination"
+],
+[
+141,
+"Your turn: pause and pick"
+],
+[
+166,
+"Say it out loud"
+]
+]
 }
 }
