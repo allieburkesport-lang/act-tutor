@@ -159,13 +159,13 @@ async function load(){
   LOG=store.get('satbank_log',[]);
   pullOnline();
 }
-async function pullOnline(){try{const r=await fetch(SB+'?select=question,correct,first_try,attempt,seconds,created_at&kind=eq.bank&student=eq.'+WHO+'&order=created_at.asc&limit=10000',{headers:H});const rows=await r.json();if(!Array.isArray(rows))return;
+async function pullOnline(){try{const r=await fetch(SB+'?select=question,part,correct,first_try,attempt,seconds,created_at&kind=eq.bank&student=eq.'+WHO+'&order=created_at.asc&limit=10000',{headers:H});const rows=await r.json();if(!Array.isArray(rows))return;
   const near=(id,t)=>LOG.some(x=>x.id===id&&Math.abs(x.ts-t)<120000);let add=0;
-  rows.forEach(w=>{const id=(w.question||'').split(' ')[0];if(!QBY[id])return;const t=Date.parse(w.created_at);if(near(id,t))return;add++;LOG.push({id,ts:t,day:new Date(t).toLocaleDateString('en-CA'),ok:w.correct,first:w.first_try,attempt:w.attempt,sec:w.seconds,picked:''});});
+  rows.forEach(w=>{const id=(w.question||'').split(' ')[0];if(!QBY[id])return;const t=Date.parse(w.created_at);if(near(id,t))return;add++;const pm=/plan (\d{4}-\d\d-\d\d)/.exec(w.part||'');LOG.push({id,ts:t,day:new Date(t).toLocaleDateString('en-CA'),ok:w.correct,first:w.first_try,attempt:w.attempt,sec:w.seconds,picked:'',plan:pm?pm[1]:undefined});});
   if(add){LOG.sort((a,b)=>a.ts-b.ts);store.set('satbank_log',LOG.slice(-5000));if(!D)route();}}catch(e){}}
 function save(row){LOG.push(row);store.set('satbank_log',LOG.slice(-5000));const q=QBY[row.id],s=SK2[q.skill];
   fetch(SB,{method:'POST',headers:Object.assign({'Content-Type':'application/json',Prefer:'return=minimal'},H),body:JSON.stringify({student:WHO,kind:'bank',concept_id:q.skill,concept_no:BANK.skills.indexOf(s)+1,concept_title:s.name,
-   part:`${s.sec} · ${DIFF[q.diff]}${row.coached?' · coached':''} · new site`,question_no:+row.id.split('-').pop(),question:(row.id+' '+plain(q.q)).slice(0,600),picked:String(row.picked).slice(0,300),correct:row.ok,first_try:row.first,attempt:row.attempt,seconds:row.sec})}).catch(()=>{});}
+   part:`${s.sec} · ${DIFF[q.diff]}${row.coached?' · coached':''} · new site${row.plan?' · plan '+row.plan:''}`,question_no:+row.id.split('-').pop(),question:(row.id+' '+plain(q.q)).slice(0,600),picked:String(row.picked).slice(0,300),correct:row.ok,first_try:row.first,attempt:row.attempt,seconds:row.sec})}).catch(()=>{});}
 function stats(skill){// same blend as the nightly plan: earlier practice (Blueprint) + Drill Zone first tries counted double
   const firsts=LOG.filter(x=>x.first&&QBY[x.id]&&QBY[x.id].skill===skill);const dn=firsts.length,dok=firsts.filter(x=>x.ok).length;const b=BPS[skill]||{n:0,ok:0};
   const n=b.n+2*dn,ok=b.ok+2*dok;return {n:b.n+dn,dn,dok,acc:n?Math.round(100*ok/n):null}}
@@ -229,15 +229,21 @@ function schedule(){if(!PLAN)return todayCard();const t=today();
    <div style="font-size:13px;color:var(--mute)">Rebuilt every night from his results · red = extra practice on his weakest areas${PLAN.updated?' · last update '+esc(PLAN.updated):''}. Click a day to start its drills.</div></div>
    <table class="sched" style="margin-top:10px"><thead><tr><th>Day</th><th>New skills</th><th class="hide">Review</th><th class="hide">Size + time</th><th>Result</th><th></th></tr></thead><tbody>${rows}</tbody></table>
    <div style="text-align:center;margin-top:10px"><button class="btn g sm" data-alldays="1">${UI.allDays?'▴ Show only today':'▾ Show all '+all.length+' days to the SAT'}</button></div></section>`}
-function buildDay(d){const used=new Set(),qs=[],secs=[];const add=(list,label)=>list.forEach(q=>{if(q&&!used.has(q.id)){used.add(q.id);qs.push(q);secs.push(label)}});
-  (d.learn||[]).forEach((s,k)=>{if(SK2[s])add(order(BANK.qs.filter(q=>q.skill===s)).slice(0,SET),`New skill ${k+1}/${d.learn.length}: ${SK2[s].name}`)});
-  (d.review||[]).forEach(([s,n])=>{if(SK2[s])add(order(BANK.qs.filter(q=>q.skill===s&&!used.has(q.id))).slice(0,n),`Review: ${SK2[s].name}`)});
+function buildDay(d,all){const ord=all?(qs=>qs):order;const used=new Set(),qs=[],secs=[];const add=(list,label)=>list.forEach(q=>{if(q&&!used.has(q.id)){used.add(q.id);qs.push(q);secs.push(label)}});
+  (d.learn||[]).forEach((s,k)=>{if(SK2[s])add(ord(BANK.qs.filter(q=>q.skill===s)).slice(0,SET),`New skill ${k+1}/${d.learn.length}: ${SK2[s].name}`)});
+  (d.review||[]).forEach(([s,n])=>{if(SK2[s])add(ord(BANK.qs.filter(q=>q.skill===s&&!used.has(q.id))).slice(0,n),`Review: ${SK2[s].name}`)});
   return {qs,secs}}
 function dayStore(done){if(!D||!D.date)return;store.set('dayrun_'+D.date,{ids:D.qs.map(q=>q.id),secs:D.secs,i:D.i,st:D.st.map(t=>({tried:t.tried,ok:t.ok,coached:t.coached})),done:!!done})}
 function startDay(date){const d=PLAN&&PLAN.days.find(x=>x.date===date);if(!d)return home();
   const run=store.get('dayrun_'+date,null);let qs,secs,st,i=0;
-  if(run&&!run.done&&run.ids.every(id=>QBY[id])){qs=run.ids.map(id=>QBY[id]);secs=run.secs;st=run.st.map(t=>({...t,shown:0,t0:0}));i=Math.min(run.i||0,qs.length-1)}
-  else{({qs,secs}=buildDay(d));st=qs.map(()=>({tried:[],ok:false,shown:0,t0:0,coached:false}))}
+  if(run&&!run.done&&run.ids.every(id=>QBY[id])){qs=run.ids.map(id=>QBY[id]);secs=run.secs;st=run.st.map(t=>({...t,shown:0,t0:0}));
+    // anything answered on another device since this run was saved counts too
+    dayLog(date).forEach(x=>{const k=run.ids.indexOf(x.id);if(k>=0){if(!st[k].tried.length)st[k].tried.push(x.picked||'?');if(x.ok)st[k].ok=true}})}
+  else{const planned=buildDay(d,true),done=[...new Set(dayLog(date).map(x=>x.id))];   // rebuild from saved answers so he never starts over
+    const fresh=buildDay(d);qs=done.map(id=>QBY[id]).concat(fresh.qs).slice(0,Math.max(planned.qs.length,done.length));
+    secs=done.map(id=>`Done earlier: ${SK2[QBY[id].skill].name}`).concat(fresh.secs).slice(0,qs.length);
+    st=qs.map(q=>{const l=dayLog(date).filter(x=>x.id===q.id);return {tried:l.map(x=>x.picked||'?'),ok:l.some(x=>x.ok),shown:0,t0:0,coached:false}})}
+  i=st.findIndex(t=>!t.ok);if(i<0)i=qs.length-1;
   if(!qs.length){app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">${esc(KIND[d.kind]||'')}</h1><p>${esc(d.note||'Nothing to drill today.')}</p><button class="btn" data-go="#/">Home</button></div>`;return}
   const lab=new Date(date+'T12:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
   UI.dtab=null;UI.panel=null;D={qs,secs,title:lab+' plan',skill:null,date,arg:'day:'+date,i,st,t0:Date.now(),done:false};dayStore();showQ();}
@@ -304,10 +310,13 @@ function pickQs(arg){let pool=[];
   if(arg.startsWith('ids:')){pool=arg.slice(4).split(',').map(i=>QBY[i]).filter(Boolean);return {qs:pool,title:'Redo my misses',skill:null}}
   if(arg.startsWith('review:')){arg.slice(7).split(',').forEach(x=>{const [sk,n]=x.split('.');pool=pool.concat(order(BANK.qs.filter(q=>q.skill===sk)).slice(0,+n||2))});return {qs:pool,title:'Review',skill:null}}
   const qs=BANK.qs.filter(q=>q.skill===arg);return {qs:order(qs).slice(0,SET),title:SK2[arg].name,skill:arg};}
-function order(qs){const last={};LOG.forEach(x=>{last[x.id]=x});
+function seenIds(){const S=new Set(LOG.map(x=>x.id));store.get('shown_ex',[]).forEach(i=>S.add(i));return S}
+function fresh(qs,keep){const S=seenIds();return qs.filter(q=>!S.has(q.id)||(keep&&keep.has(q.id)))}
+function lowStock(){const S=seenIds(),o={};BANK.qs.forEach(q=>{if(!S.has(q.id))o[q.skill]=(o[q.skill]||0)+1});return o}
+function order(qs){qs=fresh(qs);const last={};LOG.forEach(x=>{last[x.id]=x});
   const score=q=>{const l=last[q.id];if(!l)return 1;if(!l.ok||!l.first)return 0;return 2+(l.ts/1e13)};
   return qs.slice().sort((a,b)=>score(a)-score(b)||(a.diff>b.diff?1:-1))}
-function startDrill(arg){if(!arg)return home();if(!arg.startsWith('review:')&&!arg.startsWith('ids:')&&!SK2[arg])return home();const p=pickQs(arg);
+function startDrill(arg){if(!arg)return home();if(!arg.startsWith('review:')&&!arg.startsWith('ids:')&&!SK2[arg])return home();const p=pickQs(arg);if(!p.qs.length){app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">All caught up</h1><p>He has already done every question here. Fresh ones are added each night, so check back tomorrow, or redo his misses from the Stats page.</p><button class="btn" data-go="#/">Home</button></div>`;return}
   UI.dtab=null;D={...p,arg,i:0,st:p.qs.map(()=>({tried:[],ok:false,shown:0,t0:0,coached:false})),t0:Date.now(),done:false};UI.panel=null;showQ();}
 function cur(){return D.qs[D.i]} function sec(q){return SK2[q.skill].sec}
 function showQ(){const q=cur(),st=D.st[D.i];if(!st.t0)st.t0=Date.now();drawDrill();}
@@ -405,7 +414,7 @@ function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
   if(k==='form'){const use=q.steps[0]||'';const c=qCards(q);
     return head('Formula','What this question uses, and what each letter means')+(c||'<div class="box b-yel"><div class="c">No formula needed for this one. Use Show me how.</div></div>')+
      `<button class="btn o" data-pan="show" style="align-self:flex-start">Show me every step</button>`;}
-  if(k==='learn'&&s.sec==='Math'&&QF[q.id]){const sib=BANK.qs.find(x=>x.id!==q.id&&QT[x.id]===QT[q.id]);const nm=(QF[q.id][0]||{}).n||s.name;
+  if(k==='learn'&&s.sec==='Math'&&QF[q.id]){const _S=seenIds(),_c=BANK.qs.filter(x=>x.id!==q.id&&QT[x.id]===QT[q.id]&&!(D&&D.qs.some(y=>y.id===x.id)));const sib=_c.find(x=>_S.has(x.id))||_c.find(x=>!_S.has(x.id));if(sib&&!_S.has(sib.id)){const sh=store.get('shown_ex',[]);sh.push(sib.id);store.set('shown_ex',sh)}const nm=(QF[q.id][0]||{}).n||s.name;
     let ex='';if(sib){const res=carried(sib,sib.steps),seen=new Set();ex=`<div class="box b-green"><div class="lab">Worked example · same type, different numbers</div><div class="c" style="font-family:'Source Serif 4',Georgia,serif;font-size:17px">${sib.q}</div></div>`+sib.steps.map((x,i)=>stepHTML(x,i,res,whereFrom(sib,x,i,seen))).join('')+(sib.trap?`<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(sib.trap)}</div></div>`:'');}
     return head('Learn it · '+esc(nm),'How to do this type of question')+`<button class="btn o" data-pan="video" style="align-self:flex-start">▶ Watch the video</button>`+qCards(q)+ex+`<div class="box b-yel"><div class="lab">Now you</div><div class="c">Do the same steps with the numbers in your question.</div></div><a class="btn o" style="align-self:flex-start;text-decoration:none" href="#/learn/${q.skill}">Open the full lesson</a>`;}
   if(k==='learn'){const ls=lessonData(q.skill);if(!ls)return head('Learn it',esc(s.name))+'<div class="box b-yel"><div class="c">Use Show me how for this one.</div></div>';const ex=ls.ex[0];
