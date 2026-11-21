@@ -405,7 +405,7 @@ function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
     return b+(typeof tiPic==='function'?tiPic(h.c,h.c.length):'')+list(h.c);}
   if(k==='form'){const use=q.steps[0]||'';const c=qCards(q);
     return head('Formula','What this question uses, and what each letter means')+(c||'<div class="box b-yel"><div class="c">No formula needed for this one. Use Show me how.</div></div>')+
-     `<div class="box b-green"><div class="lab">In this question, step 1</div><div class="c">${esc(use)}</div></div><button class="btn o" data-pan="show" style="align-self:flex-start">Show me every step</button>`;}
+     `<button class="btn o" data-pan="show" style="align-self:flex-start">Show me every step</button>`;}
   if(k==='learn'){const ls=lessonData(q.skill);if(!ls)return head('Learn it',esc(s.name))+'<div class="box b-yel"><div class="c">Use Show me how for this one.</div></div>';const ex=ls.ex[0];
     return head('Learn it · '+esc(s.name),'How to do this type of question')+
      `<div class="box b-yel"><div class="lab">Big idea</div><div class="c">${ls.big}</div></div>`+
