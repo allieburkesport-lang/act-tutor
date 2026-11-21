@@ -36,7 +36,7 @@ button{font:inherit;cursor:pointer}
 .cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:start}
 .sec h2{margin:0;font-size:22px}
 .sec .h{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
-.row{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1.1fr) 70px 112px auto;gap:12px;padding:11px 20px;align-items:center;border-top:1px solid #f1f2f4}
+.row{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1.1fr) 150px auto;gap:12px;padding:11px 20px;align-items:center;border-top:1px solid #f1f2f4}
 .row.hd2{font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--mute);background:#f9fafb;border-top:0;font-family:Inter}
 .row .nm{font-weight:600}
 .bar{flex:1;height:8px;background:#eef0f3;border-radius:4px;overflow:hidden}.bar i{display:block;height:8px;background:var(--navy)}
@@ -194,11 +194,10 @@ function home(){const all=BANK.skills;let tot=0,ok=0;all.forEach(k=>{const t=sta
   const tday=LOG.filter(x=>x.day===today()&&x.first).length;
   const sec=(name,key)=>{const rows=all.filter(s=>s.sec===key).sort((a,b)=>(b.share||0)-(a.share||0));
    return `<section class="card sec"><div class="h"><h2 class="hd">${name}</h2><div style="font-size:14px;color:var(--mute)">Biggest share of the test first</div></div>
-   <div class="row hd2"><div>Skill</div><div>Share of section</div><div>Patrick</div><div style="padding-left:10px">Status</div><div><span class="oh">Open</span></div></div>`+
-   rows.map(s=>{const st=stats(s.id),lv=level(st.acc,st.n),sh=s.share||0;return `<div class="row"><div class="nm">${esc(s.name)}</div>
+   <div class="row hd2"><div>Skill</div><div>% of SAT ${key==='Math'?'Math':'R&amp;W'}</div><div style="padding-left:10px">Patrick's score</div><div><span class="oh">Open</span></div></div>`+
+   rows.map(s=>{const st=stats(s.id),b=BPS[s.id]||{n:0,ok:0},rn=b.n+st.dn,rok=b.ok+st.dok,rp=rn?Math.round(100*rok/rn):null,lv=level(rp,rn),sh=s.share||0;return `<div class="row"><div class="nm">${esc(s.name)}</div>
     <div style="display:flex;align-items:center;gap:8px"><div class="bar"><i style="width:${Math.min(100,sh*5)}%"></i></div><span style="font-size:14px;font-weight:600;min-width:34px">${Math.round(sh)}%</span></div>
-    <div><div style="font-weight:700">${st.acc==null?'—':st.acc+'%'}</div><div style="font-size:12px;color:var(--mute)">${st.n} done</div></div>
-    <div><span class="pill" style="color:${lv[1]};background:${lv[2]}">${lv[0]}</span></div>
+    <div><span class="pill" style="color:${lv[1]};background:${lv[2]}">${lv[0]}</span><div style="font-size:13px;color:var(--mute);margin:4px 0 0 10px">${rn?`<b style="color:var(--ink)">${rok}/${rn}</b> correct · <b style="color:var(--ink)">${rp}%</b>`:'not tried yet'}</div></div>
     <div class="acts"><button class="btn g sm" data-go="#/learn/${s.id}">Learn it</button><button class="btn g sm" data-go="#/video/${s.id}">Video</button><button class="btn sm" data-go="#/drill/${s.id}">Drill</button></div></div>`}).join('')+`</section>`};
   app().innerHTML=topbar('home')+`<div class="page">${schedule()}
    <section class="stats"><div class="card stat"><div class="l">Practice questions done</div><div class="v hd">${tot}</div></div><div class="card stat"><div class="l">Right on the first try</div><div class="v hd">${tot?Math.round(100*ok/tot)+'%':'—'}</div></div><div class="card stat"><div class="l">Done today</div><div class="v hd">${tday}</div></div><div class="card stat"><div class="l">Our time split</div><div class="v hd" style="font-size:24px">65% Math · 35% English</div></div></section>
