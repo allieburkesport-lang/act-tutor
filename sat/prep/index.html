@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Patrick's SAT Prep</title>
+<title>SAT HELM</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@400;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
 <style>
@@ -178,7 +178,7 @@ window.addEventListener('hashchange',route);
 
 /* ---------- home ---------- */
 function topbar(on){const days=Math.max(0,Math.round((new Date(TEST+'T08:00')-new Date())/864e5));
-  return `<header class="top"><div class="in"><div style="display:flex;align-items:center;gap:12px"><div class="logo hd">SAT</div><div><div class="hd" style="font-weight:700;font-size:20px">Patrick's SAT Prep</div><div style="font-size:14px;color:var(--mute)">Test day Sat, Dec 5 · ${days} days left · Goal 1300</div></div></div>
+  return `<header class="top"><div class="in"><div style="display:flex;align-items:center;gap:12px"><a href="#/" aria-label="SAT HELM home"><img src="helm-logo.png" alt="SAT HELM" style="height:66px;width:auto;display:block"></a><div style="border-left:1px solid #e5e7eb;padding-left:12px"><div style="font-size:14px;color:var(--mute)">Test day Sat, Dec 5 · ${days} days left · Goal 1300</div></div></div>
   <nav class="nav" style="display:flex;gap:6px;flex-wrap:wrap"><a href="#/" class="${on==='home'?'on':''}">Home</a><a href="#/stats" class="${on==='stats'?'on':''}">Stats</a><a href="#/videos" class="${on==='videos'?'on':''}">Videos</a><a href="../drill-zone/plan.html">Daily plan</a><a href="../drill-zone/report.html">Score report</a></nav></div></header>`}
 function todayCard(){const d=PLAN&&PLAN.days.find(x=>x.date===today());
   if(!d)return `<section class="today"><div><div class="k">Today</div><div class="t hd">Pick a skill below</div><div class="s">Start with the ones marked “Needs work” that count the most.</div></div></section>`;
@@ -261,7 +261,7 @@ const SAT_LAST=()=>SAT_OFFICIAL[SAT_OFFICIAL.length-1];
 function skAcc(sk,upto){const b=BPS[sk]||{n:0,ok:0};const f=LOG.filter(x=>x.first&&x.day<=upto&&QBY[x.id]&&QBY[x.id].skill===sk);const n=b.n+2*f.length,ok=b.ok+2*f.filter(x=>x.ok).length;return n>=3?ok/n:null}
 function projRaw(upto){const out={};[['Math','Math'],['English','R&W']].forEach(([sec,lab])=>{const sks=Object.values(SK2).filter(s=>s.sec===sec);const kn=sks.map(s=>skAcc(s.id,upto)).filter(v=>v!=null);const avg=kn.length?kn.reduce((a,b)=>a+b,0)/kn.length:.5;
   let w=0,t=0;sks.forEach(s=>{const a=skAcc(s.id,upto),sh=s.share||1;w+=sh;t+=sh*(a==null?avg:a)});out[lab]=Math.round((200+600*t/w)/10)*10});out.total=out.Math+out['R&W'];return out}
-// Projection uses ALL the data: official SATs (newest counts most) blended with practice accuracy (1500 Blueprint + SAT Prep first tries).
+// Projection uses ALL the data: official SATs (newest counts most) blended with practice accuracy (Blueprint + HELM first tries).
 // The more practice questions in a section, the more the practice side counts (up to 60%).
 function projParts(upto){const W=[.2,.3,.5].slice(-SAT_OFFICIAL.length),ws=W.reduce((a,b)=>a+b,0),raw=projRaw(upto),o={};
   [['Math','Math'],['English','R&W']].forEach(([sec,k])=>{const off=SAT_OFFICIAL.reduce((a,t,i)=>a+t[k]*W[i],0)/ws;
@@ -295,7 +295,7 @@ function outlook(date,by,before){
     <div style="position:absolute;left:0;right:0;bottom:${y(GOAL)}%;border-top:2px dashed #15803d;font-size:11px;color:#15803d">&nbsp;Goal ${GOAL}</div>
     ${bars.map(b=>`<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%"><div style="font-size:12px;font-weight:700">${b.v}</div><div style="width:70%;max-width:46px;height:${y(b.v)}%;background:${b.d==='sat'?'#94a3b8':'#1e3a8a'};border-radius:6px 6px 0 0"></div></div>`).join('')}</div>
    <div style="display:flex;gap:10px">${bars.map(b=>`<div style="flex:1;text-align:center;font-size:11px;color:var(--mute)">${b.l}</div>`).join('')}</div>
-   <div style="font-size:12px;color:var(--mute);margin-top:8px">Rough estimate, not an official score. It blends all three official SATs (newest counts most) with his practice accuracy from 1500 Blueprint and SAT Prep, weighted by how often each category shows up on the SAT. The real test is adaptive, so treat this as a direction, not a promise.</div></section>`}
+   <div style="font-size:12px;color:var(--mute);margin-top:8px">Rough estimate, not an official score. It blends all three official SATs (newest counts most) with his practice accuracy from Blueprint and HELM, weighted by how often each category shows up on the SAT. The real test is adaptive, so treat this as a direction, not a promise.</div></section>`}
 function dayReport(date){const f=dayFirst(date),all=dayLog(date);const lab=new Date(date+'T12:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
   if(!f.length){app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">${esc(lab)}</h1><p>No questions answered this day yet.</p><button class="btn" data-go="#/day/${date}">Start the day</button><button class="btn g" data-go="#/">Home</button></div>`;return}
   const later=id=>all.some(x=>x.id===id&&x.ok&&(x.attempt||1)>1);
@@ -380,7 +380,7 @@ function drawDrill(){if(D.done)return drawEnd();const q=cur(),st=D.st[D.i],s=SK2
   const help=(eng?[['show','Show me how'],['learn','Learn it'],['video','Video']]:[['show','Show me how'],['desm','Desmos / calculator'],['form','Formula'],['learn','Learn it'],['video','Video']]).map(([k,t])=>`<button class="b ${UI.panel===k?'on':''}" data-pan="${k}">${t}</button>`).join('');
   const left=Math.max(0,D.qs.length*PACE[s.sec]-Math.round((Date.now()-D.t0)/1000));
   app().innerHTML=`<div class="dr"><div class="bar1"><div><div style="font-weight:700;font-size:17px">${esc(s.sec==='English'?'Reading and Writing':'Math')} · ${esc(D.secs?D.secs[D.i]:D.title)}</div><a href="#/" style="font-size:14px">← Home</a></div>
-   <div class="timer" id="tmr" aria-label="Time left">${fmt(left)}</div>
+   <div style="display:flex;align-items:center;gap:10px"><div class="timer" id="tmr" aria-label="Time left">${fmt(left)}</div><button class="btn g sm" data-pause="1" title="Pause the clock (bathroom, break)">⏸ Pause</button></div>
    <div style="display:flex;gap:8px;flex-wrap:wrap">${eng?'':`<button class="btn g sm" data-pan="desmos">Desmos</button><button class="btn g sm" data-pan="ref">Reference</button>`}</div></div>
    <div class="body"><main><div class="qcol">
     <div class="qhead"><div style="display:flex;align-items:center;gap:10px"><span class="qnum">${D.i+1}</span><button class="mark" data-mark="1">${st.mark?'☑':'☐'} Mark for review</button></div><span style="font-size:13px;color:var(--mute)">${DIFF[q.diff]}</span></div>
@@ -394,7 +394,14 @@ function drawDrill(){if(D.done)return drawEnd();const q=cur(),st=D.st[D.i],s=SK2
   const g=$('#gin');if(g&&!fin)g.addEventListener('keydown',e=>{if(e.key==='Enter')gridCheck()});
   const v=document.querySelector('#pan video');if(v&&UI.seek){v.currentTime=UI.seek;UI.seek=0;v.play().catch(()=>{})}}
 const fmt=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
-setInterval(()=>{const t=$('#tmr');if(t&&D&&!D.done){const s=SK2[cur().skill];t.textContent=fmt(Math.max(0,D.qs.length*PACE[s.sec]-Math.round((Date.now()-D.t0)/1000)))}},1000);
+// Pause: freezes the section clock and this question's timer, hides the question until he comes back
+function pauseOn(){if(!D||D.paused)return;D.paused=Date.now();const o=document.createElement('div');o.id='pauseov';
+  o.style.cssText='position:fixed;inset:0;background:#0f172a;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:#fff;text-align:center';
+  o.innerHTML='<div style="font-size:44px;font-weight:800" class="hd">Paused</div><div style="font-size:18px;opacity:.85">The clock is stopped. Your work is saved.</div><div id="pausetm" style="font-size:16px;opacity:.7">Paused 0:00</div><button class="btn" data-resume="1" style="font-size:20px;padding:14px 28px">▶ Resume</button>';
+  document.body.appendChild(o)}
+function pauseOff(){if(!D||!D.paused){const o=$('#pauseov');if(o)o.remove();return}const gap=Date.now()-D.paused;D.t0+=gap;const st=D.st[D.i];if(st&&st.t0)st.t0+=gap;D.paused=0;const o=$('#pauseov');if(o)o.remove()}
+setInterval(()=>{const pt=$('#pausetm');if(pt&&D&&D.paused)pt.textContent='Paused '+fmt(Math.round((Date.now()-D.paused)/1000))},1000);
+setInterval(()=>{const t=$('#tmr');if(t&&D&&!D.done&&!D.paused){const s=SK2[cur().skill];t.textContent=fmt(Math.max(0,D.qs.length*PACE[s.sec]-Math.round((Date.now()-D.t0)/1000)))}},1000);
 function answer(ok,picked){const q=cur(),st=D.st[D.i];const first=st.tried.length===1&&!st.coached;
   save({id:q.id,ts:Date.now(),day:today(),ok,first:st.tried.length===1,attempt:st.tried.length,sec:st.t0?Math.min(1800,Math.round((Date.now()-st.t0)/1000)):null,picked,coached:st.coached,plan:D.date||undefined});
   if(ok)st.ok=true;dayStore();drawDrill();}
@@ -489,7 +496,7 @@ function drawEnd(){if(D.date){const dt=D.date;dayStore(true);D=null;location.has
    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">${miss.length?`<button class="btn" data-redo="1">Redo the ${miss.length} I missed</button>`:''}${D.skill?`<button class="btn o" data-go="#/drill/${D.skill}?${Date.now()}">10 more</button><button class="btn g" data-go="#/learn/${D.skill}">Learn it</button>`:''}<button class="btn g" data-go="#/">Home</button></div></div>`;}
 
 /* ---------- clicks ---------- */
-document.addEventListener('click',e=>{const b=e.target.closest('button,[data-go]');if(!b)return;const d=b.dataset;
+document.addEventListener('click',e=>{const b=e.target.closest('button,[data-go]');if(!b)return;const d=b.dataset;if(d.pause){pauseOn();return}if(d.resume){pauseOff();return}
   if(d.go){const h=d.go.split('?')[0];if(location.hash===h)route();else location.hash=h;return}
   if(d.alldays){UI.allDays=!UI.allDays;return route()}
   if(d.lid){UI.lid=d.lid;return route()}
