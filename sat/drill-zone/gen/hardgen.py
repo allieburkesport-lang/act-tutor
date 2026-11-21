@@ -95,10 +95,11 @@ def _():
 
 # ---------------- linear functions ----------------
 CTX2 = [('the demand', 'units', 'the selling price', 'dollars per unit'), ('the number of visitors', 'visitors', 'the ticket price', 'dollars'),
-        ('the boiling point of water', '°F', 'the elevation', 'thousand feet'), ('the value of a car', 'dollars', 'its age', 'years')]
+        ('the amount of water in a tank', 'gallons', 'the time since the tank started draining', 'minutes')]
+CTX2_UP = [('the number of members in a club', 'members', 'the time since the club opened', 'months')]
 @gen('linf')
 def _():
-    y, yu, x, xu = R.choice(CTX2); m = R.choice([-250, -200, -150, -100, -50, -4, -2, 2, 5, 50]); x1 = ri(2, 20) * (10 if abs(m) >= 50 else 1); dx = R.choice([5, 10, 20]) * (1 if abs(m) >= 50 else 1); b = abs(m) * 100 + ri(100, 2000)
+    m = R.choice([-250, -200, -150, -100, -50, -4, -2, 2, 5, 50]); y, yu, x, xu = R.choice(CTX2 if m < 0 else CTX2_UP); x1 = ri(2, 20) * (10 if abs(m) >= 50 else 1); dx = R.choice([5, 10, 20]) * (1 if abs(m) >= 50 else 1); b = abs(m) * 100 + ri(100, 2000)
     y1, x2, x3 = m * x1 + b, x1 + dx, x1 + 2 * dx + R.choice([0, 5])
     y2, y3 = m * x2 + b, m * x3 + b
     if min(y1, y2, y3) <= 0: return None
@@ -118,8 +119,7 @@ def _():
 @gen('linf')
 def _():
     a, b = R.choice([(9, 5), (5, 9), (3, 2), (5, 2), (7, 4), (4, 3)]); n = b * ri(2, 20); c = ri(-40, 40)
-    ctx = R.choice([('a temperature in degrees Celsius', 'kelvins', 'degrees Fahrenheit'), ('a length in meters', 'meters', 'yards'), ('a speed in km per hour', 'km per hour', 'miles per hour')])
-    return mk('H', f'The function f(x) = ({a}/{b})x{sg(c)} gives {ctx[2]} that correspond to {ctx[0]} of x. If x increased by {n}, by how much did f(x) increase?',
+    return mk('M', f'The function f is defined by f(x) = ({a}/{b})x{sg(c)}. If the value of x increases by {n}, by how much does the value of f(x) increase?',
         f'Desmos: type f(x) = ({a}/{b})x{sg(c)}, then f({n}) − f(0).', [f'The slope is {a}/{b}: each 1 more x adds {a}/{b}', f'{n} more x adds ({a}/{b})({n})', f'= {N(Fr(a * n, b))}'],
         f'The {P(c)} does not change when x changes. Only the slope matters for an increase.', N(Fr(a * n, b)), [], ['f(x) at x = ' + str(n), 'the CHANGE in f(x)', 'the y-intercept'], 1, grid=True)
 @gen('linf')

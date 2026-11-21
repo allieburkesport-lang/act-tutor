@@ -923,11 +923,10 @@ def _():
         [f'Legs: x = {x}', f'Hypotenuse = x√2 = {x}√2'], '√2 goes with 45-45-90; √3 goes with 30-60-90.', f'{x}√2', [2 * x, f'{x}√3', x * x], ['a leg', 'the hypotenuse', 'the area'], 1)
 @gen('trig')
 def _():
-    o, a, h = R.choice(TRIP); A = ri(12, 78)
-    if A == 45: return None
-    return mk('H', f'In a right triangle, sin({A}°) = {o}/{h}. What is cos({90 - A}°)?', 'Rule: sin(x°) = cos(90° − x°) (complementary angles).',
-        [f'{A}° + {90 - A}° = 90°: complementary angles', 'sin of one = cos of the other', f'cos({90 - A}°) = {o}/{h}'], 'Do not compute anything; the angles add to 90°.', f'{o}/{h}',
-        [f'{a}/{h}', f'{h}/{o}', f'{o}/{a}', f'{h - o}/{h}'], [f'cos({90 - A}°)', f'cos({A}°)', f'sin({90 - A}°)'], 0)
+    o, a, h = R.choice(TRIP)
+    return mk('M', f'In right triangle ABC, angle C is the right angle and sin(A) = {o}/{h}. What is cos(B)?', 'Rule: sin(A) = cos(B) when A + B = 90°. By hand is fastest.',
+        ['Angles A and B add to 90° (the right angle is C): they are complementary', 'sin of one acute angle = cos of the other', f'cos(B) = sin(A) = {o}/{h}'], 'Do not find any angle. In a right triangle, sin(A) = cos(B) because A and B add to 90°.', f'{o}/{h}',
+        [f'{a}/{h}', f'{h}/{o}', f'{o}/{a}', f'{h - o}/{h}'], ['cos(B)', 'cos(A)', 'sin(B)'], 0)
 @gen('trig')
 def _():
     k, n = R.choice([(1, 2), (1, 3), (1, 4), (1, 5), (1, 6), (1, 9), (1, 10), (1, 12), (2, 3), (3, 4), (5, 6), (3, 2), (5, 4), (7, 6), (2, 5), (4, 3)])

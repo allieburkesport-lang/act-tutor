@@ -555,7 +555,7 @@
     "prob",
     "cid"
    ],
-   "note": "Drills today instead of Practice Test 3 (Allie, Nov 21) \u00b7 Carried over: Right triangles and trigonometry",
+   "note": "Drills today instead of Practice Test 3 (Allie, Nov 21) \u00b7 Carried over: Right triangles and trigonometry \u00b7 Restarted Nov 21 (the morning set was a warm-up of easy questions)",
    "carried": [
     "trig"
    ],
@@ -708,7 +708,9 @@
     "Words in context"
    ],
    "n_questions": 58,
-   "result": null
+   "result": null,
+   "reset_at": 1795281483496,
+   "hold": "Today is restarting with real College Board questions plus harder practice questions. It will be ready shortly."
   },
   {
    "date": "2026-11-22",

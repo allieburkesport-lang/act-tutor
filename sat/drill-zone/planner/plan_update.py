@@ -63,12 +63,17 @@ def main():
     except Exception as e: rows = []; online = False
     # first attempts per skill (dashboard drills, review, official warm-up)
     dz = collections.defaultdict(lambda: [0, 0]); byday = collections.defaultdict(lambda: collections.defaultdict(lambda: [0, 0]))
+    # Restarted days (Allie, Nov 21): keep reset_at/hold from the current plan; answers before the restart stay in skill totals but not in that day's result
+    try: KEEP = {d['date']: {k: d[k] for k in ('reset_at', 'hold') if k in d} for d in json.load(open(os.path.join(DZ, 'plan.json')))['days']}
+    except Exception: KEEP = {}
     for r in rows:
         if r.get('kind') not in ('bank', 'official') or (r.get('attempt') or 1) != 1: continue
         sk = r.get('concept_id')
         if sk not in SHARE: continue
         d = datetime.datetime.fromisoformat(r['created_at'].replace('Z', '+00:00')).astimezone(TZ).date().isoformat()
         dz[sk][0] += 1; dz[sk][1] += 1 if r.get('correct') else 0
+        ts = datetime.datetime.fromisoformat(r['created_at'].replace('Z', '+00:00')).timestamp() * 1000
+        if ts < KEEP.get(d, {}).get('reset_at', 0): continue
         byday[d][sk][0] += 1; byday[d][sk][1] += 1 if r.get('correct') else 0
     lessons_done = collections.defaultdict(int)
     for r in rows:
@@ -80,6 +85,7 @@ def main():
         return (round(100 * ok / n) if n else None), bp.get(sk, {}).get('n', 0) + dz[sk][0]
     # --- re-work: concepts from past learn days he did not practise move to the next learn day
     days = [dict(date=d, kind=k, learn=list(sk), note=n) for d, k, sk, n in BASE]
+    for d in days: d.update(KEEP.get(d['date'], {}))
     carry, changes = [], []
     START = datetime.date(2026, 11, 20)   # the plan (and the nightly re-work) starts Fri Nov 20; Nov 19 was done in Blueprint
     for day in days:
