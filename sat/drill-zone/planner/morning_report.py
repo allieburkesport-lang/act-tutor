@@ -63,16 +63,16 @@ if pd:
 finished = pd and pc >= 100
 pcol = G if finished else PUR if done else RED
 fill = max(pc, 3)
-barhtml = (f"{T0} style='border-collapse:separate;border-radius:8px;overflow:hidden;margin:10px 0 2px'><tr>"
-           f"<td width='{fill}%' height='18' style='background:{pcol};height:18px;font-size:0;line-height:0'>&nbsp;</td>"
-           + (f"<td width='{100-fill}%' height='18' style='background:#DDD6FE;height:18px;font-size:0;line-height:0'>&nbsp;</td>" if fill < 100 else '') + "</tr></table>")
-def pbox(v, lab): return f"<td width='33%' style='padding:3px'><div style='background:rgba(255,255,255,.16);border-radius:10px;padding:8px 2px;text-align:center'><div style='font-size:24px;line-height:28px;font-weight:900;color:#fff'>{v}</div><div style='font-size:12px;font-weight:700;color:#EDE9FE'>{lab}</div></div></td>"
+barhtml = (f"{T0} style='margin:8px 0 0'><tr>"
+           f"<td width='{fill}%' bgcolor='#FFFFFF' style='background:#FFFFFF;border-radius:6px 0 0 6px;height:14px;line-height:14px;font-size:10px'>&nbsp;</td>"
+           + (f"<td width='{100-fill}%' bgcolor='#A78BFA' style='background:#A78BFA;border-radius:0 6px 6px 0;height:14px;line-height:14px;font-size:10px'>&nbsp;</td>" if fill < 100 else '') + "</tr></table>")
+def pbox(v, lab): return f"<td width='33%' style='padding:3px'><div style='background:#8B5CF6;border-radius:10px;padding:8px 2px;text-align:center'><div style='font-size:24px;line-height:28px;font-weight:900;color:#fff'>{v}</div><div style='font-size:12px;font-weight:700;color:#EDE9FE'>{lab}</div></div></td>"
 when = 'today' if day == datetime.datetime.now(ET).strftime('%Y-%m-%d') else pretty(day)
-plan_html = (f"<div style='background:{pcol};border-radius:14px;padding:14px 14px 10px;margin:12px 0 0'>"
+plan_html = (f"<div style='background:{pcol};border-radius:14px;padding:12px 14px 8px;margin:10px 0 0'>"
     f"{T0}><tr><td style='font-size:13px;font-weight:800;letter-spacing:.06em;color:#fff;text-transform:uppercase'>Daily plan · {html.escape(when)}</td>"
     f"<td align='right'><span style='background:#fff;color:{pcol};border-radius:999px;padding:3px 10px;font-size:13px;font-weight:900'>{'✓ DONE' if finished else 'NOT DONE'}</span></td></tr></table>"
-    f"<div style='font-size:44px;line-height:48px;font-weight:900;color:#fff;margin-top:6px'>{pc}%<span style='font-size:18px;font-weight:800'> complete</span></div>"
-    + barhtml.replace(f"background:{pcol};height", "background:#FFFFFF;height").replace("#DDD6FE", "rgba(255,255,255,.28)") +
+    f"<div style='font-size:40px;line-height:42px;font-weight:900;color:#fff;margin-top:4px'>{pc}%<span style='font-size:18px;font-weight:800'> complete</span></div>"
+    + barhtml +
     f"{T0} style='margin-top:8px'><tr>{pbox(planned,'Planned')}{pbox(done,'Completed')}{pbox(right,'Correct')}</tr></table></div>") if pd else ''
 
 # ---- per-question rollup ----
