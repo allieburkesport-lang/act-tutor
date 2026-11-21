@@ -606,5 +606,73 @@
 "Say it out loud"
 ]
 ]
+},
+"m3": {
+"src": "videos/m3.mp4",
+"poster": "videos/m3.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+15,
+"The rules"
+],
+[
+26,
+"Example 1: Solve an equation"
+],
+[
+62,
+"Example 2: Minimum or maximum"
+],
+[
+103,
+"Example 3: Zeros"
+],
+[
+146,
+"Example 4: Vertex from zeros"
+],
+[
+178,
+"Say it out loud"
+]
+]
+},
+"m4": {
+"src": "videos/m4.mp4",
+"poster": "videos/m4.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+16,
+"The rules"
+],
+[
+29,
+"Example 1: Plug the point in"
+],
+[
+69,
+"Example 2: Edge number in an inequality"
+],
+[
+115,
+"Example 3: No solution vs. infinitely many"
+],
+[
+159,
+"Your turn: pause and pick"
+],
+[
+184,
+"Say it out loud"
+]
+]
 }
 }
