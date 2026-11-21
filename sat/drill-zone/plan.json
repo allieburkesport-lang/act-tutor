@@ -1,5 +1,5 @@
 {
- "updated": "Sat Nov 21, 8:54 AM ET",
+ "updated": "Sat Nov 21, 9:03 AM ET",
  "online": true,
  "today": "2026-11-21",
  "test": "2026-12-05",
@@ -7,9 +7,9 @@
  "math": 19,
  "english": 10,
  "changes": [
-  "Right triangles and trigonometry moved to 2026-11-22 (not practised on its day)",
-  "Circles moved to 2026-11-23 (not practised on its day)",
-  "Transitions moved to 2026-11-24 (not practised on its day)"
+  "Right triangles and trigonometry moved to 2026-11-21 (not practised on its day)",
+  "Circles moved to 2026-11-22 (not practised on its day)",
+  "Transitions moved to 2026-11-23 (not practised on its day)"
  ],
  "skills": [
   {
@@ -544,22 +544,6 @@
   },
   {
    "date": "2026-11-21",
-   "kind": "test",
-   "learn": [],
-   "note": "Practice Test 3 in Bluebook (full test, timed). Send the score report afterward.",
-   "review": [],
-   "math_share": null,
-   "focus": [],
-   "label": "Sat Nov 21",
-   "concepts": [],
-   "review_url": "",
-   "review_names": [],
-   "focus_names": [],
-   "n_questions": 0,
-   "result": null
-  },
-  {
-   "date": "2026-11-22",
    "kind": "learn",
    "learn": [
     "trig",
@@ -567,7 +551,7 @@
     "prob",
     "cid"
    ],
-   "note": "Catch-up for Tue Nov 17 (USMMA visit) \u00b7 Carried over: Right triangles and trigonometry",
+   "note": "Drills today instead of Practice Test 3 (Allie, Nov 21) \u00b7 Carried over: Right triangles and trigonometry",
    "carried": [
     "trig"
    ],
@@ -608,7 +592,7 @@
      3
     ]
    ],
-   "label": "Sun Nov 22",
+   "label": "Sat Nov 21",
    "concepts": [
     {
      "skill": "trig",
@@ -721,7 +705,7 @@
    "result": null
   },
   {
-   "date": "2026-11-23",
+   "date": "2026-11-22",
    "kind": "learn",
    "learn": [
     "circ",
@@ -778,7 +762,7 @@
      3
     ]
    ],
-   "label": "Mon Nov 23",
+   "label": "Sun Nov 22",
    "concepts": [
     {
      "skill": "circ",
@@ -904,7 +888,7 @@
    "result": null
   },
   {
-   "date": "2026-11-24",
+   "date": "2026-11-23",
    "kind": "learn",
    "learn": [
     "trans",
@@ -969,7 +953,7 @@
      3
     ]
    ],
-   "label": "Tue Nov 24",
+   "label": "Mon Nov 23",
    "concepts": [
     {
      "skill": "trans",
@@ -1098,7 +1082,7 @@
    "result": null
   },
   {
-   "date": "2026-11-25",
+   "date": "2026-11-24",
    "kind": "learn",
    "learn": [
     "area",
@@ -1171,7 +1155,7 @@
      1
     ]
    ],
-   "label": "Wed Nov 25",
+   "label": "Tue Nov 24",
    "concepts": [
     {
      "skill": "area",
@@ -1296,203 +1280,7 @@
    "result": null
   },
   {
-   "date": "2026-11-26",
-   "kind": "off",
-   "learn": [],
-   "note": "Thanksgiving: off",
-   "review": [],
-   "math_share": null,
-   "focus": [],
-   "label": "Thu Nov 26",
-   "concepts": [],
-   "review_url": "",
-   "review_names": [],
-   "focus_names": [],
-   "n_questions": 0,
-   "result": null
-  },
-  {
-   "date": "2026-11-27",
-   "kind": "light",
-   "learn": [],
-   "note": "Light day: review + redo my misses (about 30 min)",
-   "focus": [
-    "nlf",
-    "nleq",
-    "linf",
-    "wic"
-   ],
-   "math_share": 64,
-   "review": [
-    [
-     "lat",
-     2
-    ],
-    [
-     "area",
-     2
-    ],
-    [
-     "nleq",
-     3
-    ],
-    [
-     "nlf",
-     2
-    ],
-    [
-     "wic",
-     3
-    ],
-    [
-     "trans",
-     2
-    ],
-    [
-     "linf",
-     2
-    ],
-    [
-     "fss",
-     1
-    ],
-    [
-     "trig",
-     1
-    ],
-    [
-     "prob",
-     1
-    ],
-    [
-     "ratio",
-     1
-    ],
-    [
-     "bound",
-     1
-    ],
-    [
-     "lin2",
-     1
-    ],
-    [
-     "cid",
-     1
-    ],
-    [
-     "syn",
-     1
-    ],
-    [
-     "pct",
-     1
-    ],
-    [
-     "circ",
-     1
-    ]
-   ],
-   "label": "Fri Nov 27",
-   "concepts": [],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.2,area.2,nleq.3,nlf.2,wic.3,trans.2,linf.2,fss.1,trig.1,prob.1,ratio.1,bound.1,lin2.1,cid.1,syn.1,pct.1,circ.1",
-   "review_names": [
-    [
-     "Lines, angles and triangles",
-     2
-    ],
-    [
-     "Area and volume",
-     2
-    ],
-    [
-     "Nonlinear equations and systems",
-     3
-    ],
-    [
-     "Nonlinear functions",
-     2
-    ],
-    [
-     "Words in context",
-     3
-    ],
-    [
-     "Transitions",
-     2
-    ],
-    [
-     "Linear functions",
-     2
-    ],
-    [
-     "Form, structure and sense",
-     1
-    ],
-    [
-     "Right triangles and trigonometry",
-     1
-    ],
-    [
-     "Probability and conditional probability",
-     1
-    ],
-    [
-     "Ratios, rates, proportions and units",
-     1
-    ],
-    [
-     "Boundaries (punctuation)",
-     1
-    ],
-    [
-     "Linear equations in two variables",
-     1
-    ],
-    [
-     "Central ideas and details",
-     1
-    ],
-    [
-     "Rhetorical synthesis (notes)",
-     1
-    ],
-    [
-     "Percentages",
-     1
-    ],
-    [
-     "Circles",
-     1
-    ]
-   ],
-   "focus_names": [
-    "Nonlinear functions",
-    "Nonlinear equations and systems",
-    "Linear functions",
-    "Words in context"
-   ],
-   "n_questions": 26,
-   "result": null
-  },
-  {
-   "date": "2026-11-28",
-   "kind": "test",
-   "learn": [],
-   "note": "Practice Test 4 in Bluebook (full test, timed). Send the score report afterward.",
-   "review": [],
-   "math_share": null,
-   "focus": [],
-   "label": "Sat Nov 28",
-   "concepts": [],
-   "review_url": "",
-   "review_names": [],
-   "focus_names": [],
-   "n_questions": 0,
-   "result": null
-  },
-  {
-   "date": "2026-11-29",
+   "date": "2026-11-25",
    "kind": "learn",
    "learn": [
     "data1",
@@ -1577,7 +1365,7 @@
      1
     ]
    ],
-   "label": "Sun Nov 29",
+   "label": "Wed Nov 25",
    "concepts": [
     {
      "skill": "data1",
@@ -1709,7 +1497,227 @@
    "result": null
   },
   {
-   "date": "2026-11-30",
+   "date": "2026-11-26",
+   "kind": "off",
+   "learn": [],
+   "note": "Thanksgiving: off",
+   "review": [],
+   "math_share": null,
+   "focus": [],
+   "label": "Thu Nov 26",
+   "concepts": [],
+   "review_url": "",
+   "review_names": [],
+   "focus_names": [],
+   "n_questions": 0,
+   "result": null
+  },
+  {
+   "date": "2026-11-27",
+   "kind": "light",
+   "learn": [],
+   "note": "Light day: review + redo my misses (about 30 min)",
+   "focus": [
+    "nlf",
+    "nleq",
+    "linf",
+    "wic"
+   ],
+   "math_share": 64,
+   "review": [
+    [
+     "lat",
+     2
+    ],
+    [
+     "data2",
+     1
+    ],
+    [
+     "area",
+     1
+    ],
+    [
+     "nleq",
+     2
+    ],
+    [
+     "nlf",
+     2
+    ],
+    [
+     "wic",
+     3
+    ],
+    [
+     "trans",
+     1
+    ],
+    [
+     "linf",
+     2
+    ],
+    [
+     "fss",
+     1
+    ],
+    [
+     "inf",
+     1
+    ],
+    [
+     "trig",
+     1
+    ],
+    [
+     "prob",
+     1
+    ],
+    [
+     "ratio",
+     1
+    ],
+    [
+     "data1",
+     1
+    ],
+    [
+     "bound",
+     1
+    ],
+    [
+     "lin2",
+     1
+    ],
+    [
+     "cid",
+     1
+    ],
+    [
+     "syn",
+     1
+    ],
+    [
+     "pct",
+     1
+    ],
+    [
+     "circ",
+     1
+    ]
+   ],
+   "label": "Fri Nov 27",
+   "concepts": [],
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.2,data2.1,area.1,nleq.2,nlf.2,wic.3,trans.1,linf.2,fss.1,inf.1,trig.1,prob.1,ratio.1,data1.1,bound.1,lin2.1,cid.1,syn.1,pct.1,circ.1",
+   "review_names": [
+    [
+     "Lines, angles and triangles",
+     2
+    ],
+    [
+     "Two-variable data: models and scatterplots",
+     1
+    ],
+    [
+     "Area and volume",
+     1
+    ],
+    [
+     "Nonlinear equations and systems",
+     2
+    ],
+    [
+     "Nonlinear functions",
+     2
+    ],
+    [
+     "Words in context",
+     3
+    ],
+    [
+     "Transitions",
+     1
+    ],
+    [
+     "Linear functions",
+     2
+    ],
+    [
+     "Form, structure and sense",
+     1
+    ],
+    [
+     "Inferences",
+     1
+    ],
+    [
+     "Right triangles and trigonometry",
+     1
+    ],
+    [
+     "Probability and conditional probability",
+     1
+    ],
+    [
+     "Ratios, rates, proportions and units",
+     1
+    ],
+    [
+     "One-variable data: center and spread",
+     1
+    ],
+    [
+     "Boundaries (punctuation)",
+     1
+    ],
+    [
+     "Linear equations in two variables",
+     1
+    ],
+    [
+     "Central ideas and details",
+     1
+    ],
+    [
+     "Rhetorical synthesis (notes)",
+     1
+    ],
+    [
+     "Percentages",
+     1
+    ],
+    [
+     "Circles",
+     1
+    ]
+   ],
+   "focus_names": [
+    "Nonlinear functions",
+    "Nonlinear equations and systems",
+    "Linear functions",
+    "Words in context"
+   ],
+   "n_questions": 26,
+   "result": null
+  },
+  {
+   "date": "2026-11-28",
+   "kind": "test",
+   "learn": [],
+   "note": "Practice Test 4 in Bluebook (full test, timed). Send the score report afterward.",
+   "review": [],
+   "math_share": null,
+   "focus": [],
+   "label": "Sat Nov 28",
+   "concepts": [],
+   "review_url": "",
+   "review_names": [],
+   "focus_names": [],
+   "n_questions": 0,
+   "result": null
+  },
+  {
+   "date": "2026-11-29",
    "kind": "learn",
    "learn": [
     "sys",
@@ -1806,7 +1814,7 @@
      1
     ]
    ],
-   "label": "Mon Nov 30",
+   "label": "Sun Nov 29",
    "concepts": [
     {
      "skill": "sys",
@@ -1950,14 +1958,14 @@
    "result": null
   },
   {
-   "date": "2026-12-01",
+   "date": "2026-11-30",
    "kind": "learn",
    "learn": [
     "lin1",
     "equiv",
     "tsp"
    ],
-   "note": "Also: download the exam in Bluebook and charge the laptop",
+   "note": "",
    "focus": [
     "nlf",
     "nleq",
@@ -2059,7 +2067,7 @@
      1
     ]
    ],
-   "label": "Tue Dec 1",
+   "label": "Mon Nov 30",
    "concepts": [
     {
      "skill": "lin1",
@@ -2217,6 +2225,300 @@
     "Words in context"
    ],
    "n_questions": 57,
+   "result": null
+  },
+  {
+   "date": "2026-12-01",
+   "kind": "weak",
+   "learn": [
+    "nlf",
+    "nleq",
+    "linf",
+    "wic"
+   ],
+   "note": "His weakest concepts \u00b7 Also: download the exam in Bluebook and charge the laptop",
+   "focus": [
+    "lat",
+    "area",
+    "lin2",
+    "fss"
+   ],
+   "math_share": 70,
+   "review": [
+    [
+     "lat",
+     2
+    ],
+    [
+     "data2",
+     1
+    ],
+    [
+     "area",
+     2
+    ],
+    [
+     "tsp",
+     1
+    ],
+    [
+     "trans",
+     1
+    ],
+    [
+     "fss",
+     2
+    ],
+    [
+     "inf",
+     1
+    ],
+    [
+     "trig",
+     1
+    ],
+    [
+     "prob",
+     1
+    ],
+    [
+     "ratio",
+     1
+    ],
+    [
+     "data1",
+     1
+    ],
+    [
+     "ineq",
+     1
+    ],
+    [
+     "lin1",
+     1
+    ],
+    [
+     "bound",
+     1
+    ],
+    [
+     "lin2",
+     2
+    ],
+    [
+     "sys",
+     1
+    ],
+    [
+     "cid",
+     1
+    ],
+    [
+     "equiv",
+     1
+    ],
+    [
+     "coe",
+     1
+    ],
+    [
+     "syn",
+     1
+    ],
+    [
+     "pct",
+     1
+    ],
+    [
+     "circ",
+     1
+    ]
+   ],
+   "label": "Tue Dec 1",
+   "concepts": [
+    {
+     "skill": "nlf",
+     "name": "Nonlinear functions",
+     "sec": "Math",
+     "share": 16.8,
+     "acc": 40,
+     "tried": 42,
+     "lessons": [
+      {
+       "id": "t2",
+       "title": "Exponents",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/learn.html#t2"
+      },
+      {
+       "id": "a1",
+       "title": "Quadratics",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/learn.html#a1"
+      },
+      {
+       "id": "a3",
+       "title": "Functions",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/learn.html#a3"
+      }
+     ],
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:nlf"
+    },
+    {
+     "skill": "nleq",
+     "name": "Nonlinear equations and systems",
+     "sec": "Math",
+     "share": 10.7,
+     "acc": 36,
+     "tried": 28,
+     "lessons": [
+      {
+       "id": "a1",
+       "title": "Quadratics",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/learn.html#a1"
+      },
+      {
+       "id": "a4",
+       "title": "Absolute value",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/learn.html#a4"
+      }
+     ],
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:nleq"
+    },
+    {
+     "skill": "linf",
+     "name": "Linear functions",
+     "sec": "Math",
+     "share": 9.7,
+     "acc": 44,
+     "tried": 16,
+     "lessons": [
+      {
+       "id": "t1",
+       "title": "Lines and slope",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/learn.html#t1"
+      },
+      {
+       "id": "a3",
+       "title": "Functions",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/learn.html#a3"
+      }
+     ],
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:linf"
+    },
+    {
+     "skill": "wic",
+     "name": "Words in context",
+     "sec": "English",
+     "share": 15.5,
+     "acc": 42,
+     "tried": 24,
+     "lessons": [
+      {
+       "id": "r1",
+       "title": "Words in context",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/learn.html#r1"
+      }
+     ],
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=skill:wic"
+    }
+   ],
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/index.html#go=review:lat.2,data2.1,area.2,tsp.1,trans.1,fss.2,inf.1,trig.1,prob.1,ratio.1,data1.1,ineq.1,lin1.1,bound.1,lin2.2,sys.1,cid.1,equiv.1,coe.1,syn.1,pct.1,circ.1",
+   "review_names": [
+    [
+     "Lines, angles and triangles",
+     2
+    ],
+    [
+     "Two-variable data: models and scatterplots",
+     1
+    ],
+    [
+     "Area and volume",
+     2
+    ],
+    [
+     "Text structure and purpose",
+     1
+    ],
+    [
+     "Transitions",
+     1
+    ],
+    [
+     "Form, structure and sense",
+     2
+    ],
+    [
+     "Inferences",
+     1
+    ],
+    [
+     "Right triangles and trigonometry",
+     1
+    ],
+    [
+     "Probability and conditional probability",
+     1
+    ],
+    [
+     "Ratios, rates, proportions and units",
+     1
+    ],
+    [
+     "One-variable data: center and spread",
+     1
+    ],
+    [
+     "Linear inequalities",
+     1
+    ],
+    [
+     "Linear equations in one variable",
+     1
+    ],
+    [
+     "Boundaries (punctuation)",
+     1
+    ],
+    [
+     "Linear equations in two variables",
+     2
+    ],
+    [
+     "Systems of two linear equations",
+     1
+    ],
+    [
+     "Central ideas and details",
+     1
+    ],
+    [
+     "Equivalent expressions",
+     1
+    ],
+    [
+     "Command of evidence (text and data)",
+     1
+    ],
+    [
+     "Rhetorical synthesis (notes)",
+     1
+    ],
+    [
+     "Percentages",
+     1
+    ],
+    [
+     "Circles",
+     1
+    ]
+   ],
+   "focus_names": [
+    "Lines, angles and triangles",
+    "Area and volume",
+    "Linear equations in two variables",
+    "Form, structure and sense"
+   ],
+   "n_questions": 66,
    "result": null
   },
   {
