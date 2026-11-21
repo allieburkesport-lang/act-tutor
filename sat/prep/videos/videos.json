@@ -534,5 +534,39 @@
 "Say it out loud"
 ]
 ]
+},
+"d2": {
+"src": "videos/d2.mp4",
+"poster": "videos/d2.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+18,
+"The rules"
+],
+[
+39,
+"Example 1: Simple probability"
+],
+[
+68,
+"Example 2: “Given that”"
+],
+[
+108,
+"Example 3: Expected number"
+],
+[
+140,
+"Your turn: pause and pick"
+],
+[
+169,
+"Say it out loud"
+]
+]
 }
 }
