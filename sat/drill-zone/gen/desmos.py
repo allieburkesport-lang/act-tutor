@@ -68,6 +68,23 @@ def build(q):
     if m: return [f'Type 180 - {m[1]}'], 'These two angles add to 180°.'
     if sk == 'lat' and ('directly across' in p or 'corresponding' in p):
         a = re.search(r'measures (\d+)°', p)[1]; return [f'No typing needed: the answer is the same angle, {a}°'], 'Vertical (across) angles and corresponding angles are EQUAL. Desmos is not needed, but you can check: 180 − ' + a + ' is the OTHER angle size, which is the trap.'
+    m = re.search(r'sin\(A\) = (\d+)/(\d+)\. What is cos\(B\)', p)
+    if m: return [f'Type {m[1]}/{m[2]}'] + [f'Type {dz(c)}' for c in q['ch']], f'Side BC is across from A AND touches B, so cos(B) = sin(A) = {m[1]}/{m[2]}. Find the choice whose decimal matches the first line.'
+    m = re.search(r'first term of a sequence is (\d+)\. Each term after the first is (\d+) times', p)
+    if m:
+        a, r = int(m[1]), int(m[2]); fx = lambda c: dz(re.sub(r'<sup>(.*?)</sup>', r'^(\1)', c)).replace('w = ', '')
+        return [f'Type f_{"ABCD"[i]}(n) = {fx(c)}' for i, c in enumerate(q['ch'])] + ['Type f_A(1), then f_B(1), f_C(1), f_D(1)', 'Then type f_A(2), f_B(2), f_C(2), f_D(2)'], \
+            f'Term 1 must be {a}. Term 2 must be {a} × {r} = {a * r}. Only one choice gives {a} and then {a * r}.'
+    m = re.search(r'charges \$(\d+) for the first (\d+ hours|hour) of work plus \$(\d+) for each additional hour', p)
+    if m:
+        base, k, rate = int(m[1]), (int(m[2].split()[0]) if m[2] != 'hour' else 1), int(m[3])
+        fx = lambda c: dz(c).replace('C(h) = ', '')
+        return [f'Type f_{"ABCD"[i]}(h) = {fx(c)}' for i, c in enumerate(q['ch'])] + [f'Type f_A({k + 1}), f_B({k + 1}), f_C({k + 1}), f_D({k + 1})'], \
+            f'Test {k + 1} hours: the first {"hour" if k == 1 else str(k) + " hours"} cost ${base}, plus 1 extra hour at ${rate} = ${base + rate}. The choice that gives {base + rate} is right.'
+    m = re.search(r'sells (\w+) for \$([\d.]+) each and (\w+) for \$([\d.]+) each\. A customer bought (\d+) items in total for \$([\d.,]+)\. How many (\w+)', p)
+    if m:
+        return [f'Type x + y = {m[5]}', f'Type {m[2]}x + {m[4]}y = {num(m[6])}', 'Click the point where the two lines cross'], \
+            f'x = {m[1]}, y = {m[3]}. The question asks for {m[7]}, so read the {"x" if m[7] == m[1] else "y"}-value of the crossing point.'
     if sk == 'infer' or sk == 'claims':
         return [], ''
     return None
