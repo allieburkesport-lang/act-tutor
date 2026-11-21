@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Patrick's SAT Prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@400;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#111827;--mute:#4b5563;--line:#e5e7eb;--navy:#1e3a8a;--navy2:#eef2ff;--bg:#f6f7f9;--or:#c2410c}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+a{color:#1d4ed8}a:hover{color:var(--navy)}
+button{font:inherit;cursor:pointer}
+.hd{font-family:'Space Grotesk',sans-serif}
+.btn{font-weight:700;padding:10px 16px;min-height:44px;border-radius:10px;border:0;background:var(--navy);color:#fff}
+.btn.o{background:#fff;color:var(--navy);border:1px solid var(--navy)}
+.btn.g{background:#fff;color:var(--ink);border:1px solid #d1d5db;font-weight:600}
+.btn.sm{padding:8px 12px;font-size:14px}
+.pill{display:inline-block;padding:4px 10px;border-radius:999px;font-size:13px;font-weight:600}
+/* top header (home + learn + video) */
+.top{background:#fff;border-bottom:1px solid var(--line)}
+.top .in{padding:16px 3vw;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.logo{width:42px;height:42px;border-radius:10px;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:700}
+.nav a{padding:10px 14px;border-radius:8px;text-decoration:none;font-weight:600;color:#374151}
+.nav a.on{background:var(--navy2);color:var(--navy)}
+.page{padding:26px 3vw 60px;display:flex;flex-direction:column;gap:22px}
+.today{background:var(--navy);color:#fff;border-radius:16px;padding:22px 26px;display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between}
+.today .k{font-size:13px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:#c7d2fe}
+.today .t{font-size:27px;font-weight:700;margin-top:4px}
+.today .s{font-size:16px;color:#e0e7ff;margin-top:4px;max-width:900px}
+.today .btn{background:#fff;color:var(--navy)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px}
+.stat{padding:16px 18px}.stat .l{font-size:14px;color:var(--mute)}.stat .v{font-size:30px;font-weight:700;margin-top:4px}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:start}
+.sec h2{margin:0;font-size:22px}
+.sec .h{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.row{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1.1fr) 70px 112px auto;gap:12px;padding:11px 20px;align-items:center;border-top:1px solid #f1f2f4}
+.row.hd2{font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--mute);background:#f9fafb;border-top:0;font-family:Inter}
+.row .nm{font-weight:600}
+.bar{flex:1;height:8px;background:#eef0f3;border-radius:4px;overflow:hidden}.bar i{display:block;height:8px;background:var(--navy)}
+.acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+@media (max-width:1250px){.cols{grid-template-columns:1fr}}
+@media (max-width:760px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.row{grid-template-columns:1fr 1fr}.row.hd2{display:none}.acts{justify-content:flex-start;grid-column:1/-1}}
+/* drill (SAT style) */
+.dr{min-height:100vh;display:flex;flex-direction:column;background:#fff}
+.dr .bar1{border-bottom:2px dashed #d1d5db;padding:10px 24px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.dr .timer{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700}
+.dr .body{display:flex;flex:1;min-height:0}
+.dr main{flex:1 1 560px;min-width:0;padding:26px 40px;overflow:auto}
+.qcol{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.qhead{display:flex;align-items:center;justify-content:space-between;background:#f3f4f6;border-radius:6px;padding-right:12px}
+.qnum{background:var(--ink);color:#fff;font-weight:700;padding:9px 15px;border-radius:6px 0 0 6px}
+.mark{background:transparent;border:0;padding:10px 6px;min-height:44px;color:var(--ink)}
+.help{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.help .b{font-weight:700;font-size:15px;padding:8px 16px;min-height:44px;border-radius:22px;background:#fff;color:var(--navy);border:1px solid var(--navy)}
+.help .b.on{background:var(--navy);color:#fff}
+.passage{font-family:'Source Serif 4',Georgia,serif;font-size:19px;line-height:1.6;border-left:3px solid #e5e7eb;padding-left:16px}
+.qtext{font-family:'Source Serif 4',Georgia,serif;font-size:20px;line-height:1.55}
+.qtext .stem,.stem{font-family:'Source Serif 4',Georgia,serif;font-size:19px;margin-top:10px}
+.qtext table{border-collapse:collapse;margin:8px 0}.qtext td,.qtext th{border:1px solid #9ca3af;padding:4px 10px}
+.ch{display:flex;flex-direction:column;gap:12px}
+.ch button{text-align:left;display:flex;align-items:center;gap:14px;padding:12px 16px;min-height:58px;border:1.5px solid #9ca3af;border-radius:10px;background:#fff}
+.ch button .L{flex:0 0 32px;height:32px;border-radius:50%;border:1.5px solid var(--ink);display:grid;place-items:center;font-weight:700;font-size:14px}
+.ch button .t{font-family:'Source Serif 4',Georgia,serif;font-size:19px}
+.ch button.right{border:2.5px solid #15803d;background:#f0fdf4}.ch button.right .L{background:#15803d;color:#fff;border-color:#15803d}
+.ch button.wrong{border:2px solid #c2410c;background:#fff7ed;opacity:.75}.ch button.wrong .t{text-decoration:line-through}.ch button.wrong .L{background:#c2410c;color:#fff;border-color:#c2410c}
+.ch button:disabled{cursor:default}
+.fb{border-radius:10px;padding:12px 16px;font-size:16px}
+.fb.ok{background:#f0fdf4;border:1px solid #86efac;color:#14532d}.fb.no{background:#fff7ed;border:1px solid #fdba74;color:#7c2d12}
+.grid-in{display:flex;gap:10px;align-items:center}.grid-in input{font:inherit;font-size:20px;padding:10px 12px;border:2px solid var(--ink);border-radius:8px;width:200px}
+.dr footer{border-top:2px dashed #d1d5db;padding:10px 24px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.nb{font-weight:700;padding:10px 24px;min-height:44px;border-radius:22px;border:0;background:var(--navy);color:#fff}
+.nb:disabled{opacity:.4;cursor:default}
+.qn{font-weight:700;padding:9px 16px;min-height:44px;border-radius:8px;border:0;background:var(--ink);color:#fff}
+.navgrid{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.15);padding:16px;display:flex;gap:8px;flex-wrap:wrap;max-width:520px;z-index:20}
+.navgrid button{width:44px;height:44px;border-radius:8px;border:1.5px dashed #9ca3af;background:#fff;font-weight:700}
+.navgrid button.ok{border:2px solid #15803d;color:#15803d}.navgrid button.no{border:2px solid #c2410c;color:#c2410c}.navgrid button.cur{outline:3px solid var(--navy)}
+/* right panel */
+aside.pan{flex:0 0 min(560px,40vw);border-left:1px solid var(--line);background:#fafafa;padding:20px 22px 30px;overflow:auto;display:flex;flex-direction:column;gap:14px}
+aside.pan .ph{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+aside.pan .ph .t{font-size:21px;font-weight:700}aside.pan .ph .s{font-size:14px;color:var(--mute);margin-top:2px}
+.x{width:44px;height:44px;border-radius:8px;border:1px solid #d1d5db;background:#fff;font-size:18px;flex:0 0 44px}
+.box{border-radius:10px;padding:12px 14px;border:1px solid}
+.box .lab{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.box .c{margin-top:6px;font-size:16px;line-height:1.55}
+.b-blue{background:#eef2ff;border-color:#c7d2fe}.b-blue .lab{color:#1e3a8a}
+.b-green{background:#f0fdf4;border-color:#bbf7d0}.b-green .lab{color:#14532d}
+.b-yel{background:#fefce8;border-color:#fde68a}.b-yel .lab{color:#854d0e}
+.b-red{background:#fff1e6;border-color:#fdba74}.b-red .lab{color:#9a3412}
+.b-pur{background:#faf5ff;border-color:#e9d5ff}.b-pur .lab{color:#6b21a8}
+.step{display:flex;gap:12px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.step .n{flex:0 0 28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px}
+.step .c{font-size:16px;line-height:1.55}
+.co{color:#9a3412;background:#ffedd5;border-bottom:2px solid #ea580c;padding:0 3px;border-radius:3px;font-weight:700}
+.cot{font-size:11px;font-weight:700;color:#fff;background:var(--or);border-radius:9px;padding:1px 7px;margin-left:3px;vertical-align:2px;white-space:nowrap}
+.vid{aspect-ratio:16/9;width:100%;border-radius:10px;background:#000}
+.vph{aspect-ratio:16/9;background:#2b3a33;border:8px solid #8a5a2b;border-radius:10px;display:grid;place-items:center;color:#f5f5dc;text-align:center;padding:16px}
+iframe.desmos{width:100%;height:calc(100vh - 190px);border:1px solid var(--line);border-radius:10px;background:#fff}
+@media (max-width:1000px){.dr .body{flex-direction:column}aside.pan{flex:none;border-left:0;border-top:1px solid var(--line)}.dr main{padding:20px}}
+@media (min-width:1600px){.qcol{max-width:900px}.qtext{font-size:22px}.passage,.ch button .t{font-size:21px}}
+/* lesson page */
+.lframe{width:100%;height:calc(100vh - 160px);border:1px solid var(--line);border-radius:14px;background:#fff}
+.end{max-width:640px;margin:40px auto;text-align:center;display:flex;flex-direction:column;gap:14px;align-items:center}
+</style>
+</head>
+<body>
+<div id="app"><p style="padding:30px">Loading…</p></div>
+<script src="../drill-zone/mathhelp.js"></script>
+<script>
+const SB='https://wsoevgmculmcnxymivbp.supabase.co/rest/v1/answers', SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indzb2V2Z21jdWxtY254eW1pdmJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ3OTIwMTAsImV4cCI6MjExMDM2ODAxMH0.wl408Zf5rJjh-uhPbPuykvUtETHinQXQdttAJPvn1Jk';
+const H={apikey:SK,Authorization:'Bearer '+SK}, WHO='Patrick', TEST='2026-12-05', PACE={Math:95,English:71}, SET=10;
+const LESSONS_OF={"lin1":["m1","m4"],"lin2":["t1"],"linf":["t1","a3"],"sys":["a2"],"ineq":["a5"],"equiv":["t2"],"nleq":["a1","a4"],"nlf":["t2","a1","a3"],"ratio":["a6"],"pct":["m2"],"data1":["d1"],"data2":["d3"],"prob":["d2"],"infer":["m2"],"claims":["d3"],"area":["t3","e1"],"lat":["e2"],"trig":["t3"],"circ":["t3"],"wic":["r1"],"tsp":["r5"],"cross":["r5"],"cid":["r2"],"coe":["r4"],"inf":["r3"],"bound":["s1","s4"],"fss":["s5","g3"],"trans":["s6"],"syn":["r6"]};
+const VIDEOS={}; // lesson id -> {src, chapters:[[sec,label]]}; filled as chalkboard videos are made
+const L='ABCD', DIFF={E:'Easy',M:'Medium',H:'Hard'};
+let BPS={},BANK,PLAN,LES,SK2={},QBY={},LOG=[],D=null,UI={panel:null};
+const $=s=>document.querySelector(s), app=()=>document.getElementById('app');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const plain=h=>{const d=document.createElement('div');d.innerHTML=h;return d.textContent.replace(/\s+/g,' ').trim()};
+const store={get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const today=()=>new Date().toLocaleDateString('en-CA');
+
+/* ---------- data ---------- */
+async function load(){
+  const [b,p,l,bpj]=await Promise.all([fetch('../drill-zone/bank.json').then(r=>r.json()),fetch('../drill-zone/plan.json').then(r=>r.json()).catch(()=>null),fetch('lessons.json').then(r=>r.json()),fetch('../drill-zone/blueprint.json').then(r=>r.json()).catch(()=>({skills:{}}))]);BPS=bpj.skills||{};
+  BANK=b;PLAN=p;LES=l;b.skills.forEach(s=>SK2[s.id]=s);b.qs.forEach(q=>QBY[q.id]=q);
+  if(p)p.skills.forEach(s=>{if(SK2[s.skill])SK2[s.skill].share=s.share});
+  LOG=store.get('satbank_log',[]);
+  pullOnline();
+}
+async function pullOnline(){try{const r=await fetch(SB+'?select=question,correct,first_try,attempt,seconds,created_at&kind=eq.bank&student=eq.'+WHO+'&order=created_at.asc&limit=10000',{headers:H});const rows=await r.json();if(!Array.isArray(rows))return;
+  const near=(id,t)=>LOG.some(x=>x.id===id&&Math.abs(x.ts-t)<120000);let add=0;
+  rows.forEach(w=>{const id=(w.question||'').split(' ')[0];if(!QBY[id])return;const t=Date.parse(w.created_at);if(near(id,t))return;add++;LOG.push({id,ts:t,day:new Date(t).toLocaleDateString('en-CA'),ok:w.correct,first:w.first_try,attempt:w.attempt,sec:w.seconds,picked:''});});
+  if(add){LOG.sort((a,b)=>a.ts-b.ts);store.set('satbank_log',LOG.slice(-5000));if(!D)route();}}catch(e){}}
+function save(row){LOG.push(row);store.set('satbank_log',LOG.slice(-5000));const q=QBY[row.id],s=SK2[q.skill];
+  fetch(SB,{method:'POST',headers:Object.assign({'Content-Type':'application/json',Prefer:'return=minimal'},H),body:JSON.stringify({student:WHO,kind:'bank',concept_id:q.skill,concept_no:BANK.skills.indexOf(s)+1,concept_title:s.name,
+   part:`${s.sec} · ${DIFF[q.diff]}${row.coached?' · coached':''} · new site`,question_no:+row.id.split('-').pop(),question:(row.id+' '+plain(q.q)).slice(0,600),picked:String(row.picked).slice(0,300),correct:row.ok,first_try:row.first,attempt:row.attempt,seconds:row.sec})}).catch(()=>{});}
+function stats(skill){// same blend as the nightly plan: earlier practice (Blueprint) + Drill Zone first tries counted double
+  const firsts=LOG.filter(x=>x.first&&QBY[x.id]&&QBY[x.id].skill===skill);const dn=firsts.length,dok=firsts.filter(x=>x.ok).length;const b=BPS[skill]||{n:0,ok:0};
+  const n=b.n+2*dn,ok=b.ok+2*dok;return {n:b.n+dn,dn,dok,acc:n?Math.round(100*ok/n):null}}
+function level(a,n){if(!n)return ['Not tried','#374151','#eef0f3'];if(a<50)return ['Needs work','#9a3412','#fff1e6'];if(a<70)return ['Getting there','#1e40af','#e8efff'];return ['Strong','#14532d','#e7f6ec']}
+
+/* ---------- router ---------- */
+function route(){const h=decodeURIComponent(location.hash.slice(1)||'/');const [_,v,a]=h.split('/');UI.nav=false;
+  if(v==='drill')return startDrill(a);if(v==='learn')return learnPage(a);if(v==='video')return videoPage(a);D=null;home();}
+window.addEventListener('hashchange',route);
+
+/* ---------- home ---------- */
+function topbar(on){const days=Math.max(0,Math.round((new Date(TEST+'T08:00')-new Date())/864e5));
+  return `<header class="top"><div class="in"><div style="display:flex;align-items:center;gap:12px"><div class="logo hd">SAT</div><div><div class="hd" style="font-weight:700;font-size:20px">Patrick's SAT Prep</div><div style="font-size:14px;color:var(--mute)">Test day Sat, Dec 5 · ${days} days left · Goal 1300</div></div></div>
+  <nav class="nav" style="display:flex;gap:6px;flex-wrap:wrap"><a href="#/" class="${on==='home'?'on':''}">Home</a><a href="../drill-zone/plan.html">Daily plan</a><a href="../drill-zone/report.html">Score report</a></nav></div></header>`}
+function todayCard(){const d=PLAN&&PLAN.days.find(x=>x.date===today());
+  if(!d)return `<section class="today"><div><div class="k">Today</div><div class="t hd">Pick a skill below</div><div class="s">Start with the ones marked “Needs work” that count the most.</div></div></section>`;
+  const dn=new Date(d.date+'T12:00').toLocaleDateString('en-US',{weekday:'long'});
+  if(!d.concepts||!d.concepts.length)return `<section class="today"><div><div class="k">Today · ${dn}</div><div class="t hd">${esc(d.note||'Day off')}</div></div></section>`;
+  const names=d.concepts.map(c=>c.name).join(' · ');const rv=(d.review||[]).map(r=>r[0]+'.'+r[1]).join(',');
+  return `<section class="today"><div><div class="k">Today · ${dn}</div><div class="t hd">${esc(names)}</div><div class="s">For each one: Learn it, then Drill (10 questions).${rv?' Then a short review of earlier skills.':''} ${esc(d.note||'')}</div></div>
+   <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" data-go="#/drill/${d.concepts[0].skill}">Start: ${esc(d.concepts[0].name)}</button>${rv?`<button class="btn o" style="background:transparent;color:#fff;border-color:#fff" data-go="#/drill/review:${rv}">Review</button>`:''}</div></section>`}
+function home(){const all=BANK.skills;let tot=0,ok=0;all.forEach(k=>{const t=stats(k.id),b=BPS[k.id]||{n:0,ok:0};tot+=t.n;ok+=b.ok+t.dok});
+  const tday=LOG.filter(x=>x.day===today()&&x.first).length;
+  const sec=(name,key)=>{const rows=all.filter(s=>s.sec===key).sort((a,b)=>(b.share||0)-(a.share||0));
+   return `<section class="card sec"><div class="h"><h2 class="hd">${name}</h2><div style="font-size:14px;color:var(--mute)">Biggest share of the test first</div></div>
+   <div class="row hd2"><div>Skill</div><div>Share of section</div><div>Patrick</div><div>Status</div><div style="text-align:right">Open</div></div>`+
+   rows.map(s=>{const st=stats(s.id),lv=level(st.acc,st.n),sh=s.share||0;return `<div class="row"><div class="nm">${esc(s.name)}</div>
+    <div style="display:flex;align-items:center;gap:8px"><div class="bar"><i style="width:${Math.min(100,sh*5)}%"></i></div><span style="font-size:14px;font-weight:600;min-width:34px">${Math.round(sh)}%</span></div>
+    <div><div style="font-weight:700">${st.acc==null?'—':st.acc+'%'}</div><div style="font-size:12px;color:var(--mute)">${st.n} done</div></div>
+    <div><span class="pill" style="color:${lv[1]};background:${lv[2]}">${lv[0]}</span></div>
+    <div class="acts"><button class="btn g sm" data-go="#/learn/${s.id}">Learn it</button><button class="btn g sm" data-go="#/video/${s.id}">Video</button><button class="btn sm" data-go="#/drill/${s.id}">Drill</button></div></div>`}).join('')+`</section>`};
+  app().innerHTML=topbar('home')+`<div class="page">${todayCard()}
+   <section class="stats"><div class="card stat"><div class="l">Practice questions done</div><div class="v hd">${tot}</div></div><div class="card stat"><div class="l">Right on the first try</div><div class="v hd">${tot?Math.round(100*ok/tot)+'%':'—'}</div></div><div class="card stat"><div class="l">Done today</div><div class="v hd">${tday}</div></div><div class="card stat"><div class="l">Our time split</div><div class="v hd">65% Math · 35% English</div></div></section>
+   <div class="cols">${sec('Math','Math')}${sec('Reading and Writing','English')}</div></div>`;window.scrollTo(0,0);}
+
+/* ---------- learn + video pages ---------- */
+function lessonFor(skill){return (LESSONS_OF[skill]||[SK2[skill]&&SK2[skill].lesson]).filter(Boolean)}
+function learnPage(skill){const s=SK2[skill];if(!s)return home();const ls=lessonFor(skill);const id=UI.lid&&ls.includes(UI.lid)?UI.lid:ls[0];
+  app().innerHTML=topbar('')+`<div class="page" style="gap:14px"><div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center">
+   <div><a href="#/">← Home</a><h1 class="hd" style="margin:6px 0 0;font-size:28px">Learn it · ${esc(s.name)}</h1></div>
+   <div style="display:flex;gap:8px;flex-wrap:wrap">${ls.length>1?ls.map(l=>`<button class="btn ${l===id?'':'g'} sm" data-lid="${l}">${esc(LES[l]?LES[l].title:l)}</button>`).join(''):''}<button class="btn g" data-go="#/video/${skill}">Video</button><button class="btn" data-go="#/drill/${skill}">Drill this skill →</button></div></div>
+   ${id?`<iframe class="lframe" src="../drill-zone/learn.html?embed=1#${id}" title="Lesson"></iframe>`:'<div class="card" style="padding:20px">The walk-through for this skill is coming. Use Drill and press “Show me how” on each question.</div>'}</div>`;window.scrollTo(0,0);}
+function videoHTML(skill){const ls=lessonFor(skill);const v=ls.map(l=>VIDEOS[l]).find(Boolean);
+  if(v)return `<video class="vid" controls preload="metadata" src="${v.src}"></video>`+(v.chapters?`<div class="box b-blue"><div class="lab">Jump to</div><div class="c" style="display:flex;flex-direction:column;gap:6px">${v.chapters.map(c=>`<button class="btn g sm" style="text-align:left" data-seek="${c[0]}"><b style="color:var(--navy)">${Math.floor(c[0]/60)}:${String(c[0]%60).padStart(2,'0')}</b> &nbsp;${esc(c[1])}</button>`).join('')}</div></div>`:'');
+  return `<div class="vph"><div><div class="hd" style="font-size:22px;font-weight:700">${esc(SK2[skill].name)}</div><div style="margin-top:8px">Chalkboard video coming soon.</div></div></div><div class="box b-yel"><div class="lab">For now</div><div class="c">Use <b>Learn it</b> for the walk-through, or <b>Show me how</b> on any drill question.</div></div>`}
+function videoPage(skill){const s=SK2[skill];if(!s)return home();
+  app().innerHTML=topbar('')+`<div class="page" style="max-width:1100px;margin:0 auto;width:100%"><div><a href="#/">← Home</a><h1 class="hd" style="margin:6px 0 0;font-size:28px">Video · ${esc(s.name)}</h1></div>${videoHTML(skill)}
+   <div style="display:flex;gap:8px"><button class="btn g" data-go="#/learn/${skill}">Learn it</button><button class="btn" data-go="#/drill/${skill}">Drill this skill →</button></div></div>`;window.scrollTo(0,0);}
+
+/* ---------- drill ---------- */
+function pickQs(arg){let pool=[];
+  if(arg.startsWith('review:')){arg.slice(7).split(',').forEach(x=>{const [sk,n]=x.split('.');pool=pool.concat(order(BANK.qs.filter(q=>q.skill===sk)).slice(0,+n||2))});return {qs:pool,title:'Review',skill:null}}
+  const qs=BANK.qs.filter(q=>q.skill===arg);return {qs:order(qs).slice(0,SET),title:SK2[arg].name,skill:arg};}
+function order(qs){const last={};LOG.forEach(x=>{last[x.id]=x});
+  const score=q=>{const l=last[q.id];if(!l)return 1;if(!l.ok||!l.first)return 0;return 2+(l.ts/1e13)};
+  return qs.slice().sort((a,b)=>score(a)-score(b)||(a.diff>b.diff?1:-1))}
+function startDrill(arg){if(!arg)return home();if(!arg.startsWith('review:')&&!SK2[arg])return home();const p=pickQs(arg);
+  D={...p,arg,i:0,st:p.qs.map(()=>({tried:[],ok:false,shown:0,t0:0,coached:false})),t0:Date.now(),done:false};UI.panel=null;showQ();}
+function cur(){return D.qs[D.i]} function sec(q){return SK2[q.skill].sec}
+function showQ(){const q=cur(),st=D.st[D.i];if(!st.t0)st.t0=Date.now();drawDrill();}
+function drawDrill(){if(D.done)return drawEnd();const q=cur(),st=D.st[D.i],s=SK2[q.skill],eng=s.sec==='English';
+  let passage='',stem=q.q;if(eng&&q.q.includes('<div class="stem">')){const k=q.q.indexOf('<div class="stem">');passage=q.q.slice(0,k);stem=q.q.slice(k)}
+  const fin=st.ok;
+  let chs='';if(q.ch)chs=`<div class="ch">${q.ch.map((c,j)=>{const cls=st.tried.includes(j)?(j===q.ans?'right':'wrong'):(fin&&j===q.ans?'right':'');return `<button class="${cls}" data-pick="${j}" ${fin||st.tried.includes(j)?'disabled':''}><span class="L">${L[j]}</span><span class="t">${c}</span></button>`}).join('')}</div>`;
+  else chs=`<div class="grid-in"><label for="gin" style="font-weight:600">Your answer</label><input id="gin" ${fin?'disabled':''} value="${fin?esc(q.show||q.grid[0]):''}" autocomplete="off"><button class="btn" data-grid="1" ${fin?'disabled':''}>Check</button></div>`;
+  let fb='';if(fin)fb=`<div class="fb ok"><b>${st.tried.length===1&&!st.coached?'Right on the first try ✓':'Got it ✓'}</b> ${esc(q.trap?'Trap to watch: '+q.trap:'')}</div>`;
+  else if(st.tried.length)fb=`<div class="fb no"><b>Not quite.</b> Try another answer, or press <b>Show me how</b>.</div>`;
+  const help=[['show','Show me how'],['learn','Learn it'],['video','Video']].map(([k,t])=>`<button class="b ${UI.panel===k?'on':''}" data-pan="${k}">${t}</button>`).join('');
+  const left=Math.max(0,D.qs.length*PACE[s.sec]-Math.round((Date.now()-D.t0)/1000));
+  app().innerHTML=`<div class="dr"><div class="bar1"><div><div style="font-weight:700;font-size:17px">${esc(s.sec==='English'?'Reading and Writing':'Math')} · ${esc(D.title)}</div><a href="#/" style="font-size:14px">← Home</a></div>
+   <div class="timer" id="tmr" aria-label="Time left">${fmt(left)}</div>
+   <div style="display:flex;gap:8px;flex-wrap:wrap">${eng?'':`<button class="btn g sm" data-pan="desmos">Desmos</button><button class="btn g sm" data-pan="ref">Reference</button>`}</div></div>
+   <div class="body"><main><div class="qcol">
+    <div class="qhead"><div style="display:flex;align-items:center;gap:10px"><span class="qnum">${D.i+1}</span><button class="mark" data-mark="1">${st.mark?'☑':'☐'} Mark for review</button></div><span style="font-size:13px;color:var(--mute)">${DIFF[q.diff]}</span></div>
+    <div class="help"><span style="font-size:14px;color:var(--mute);margin-right:4px">Need help?</span>${help}</div>
+    ${passage?`<div class="passage">${passage}</div>`:''}
+    <div class="qtext">${stem}</div>${chs}${fb}
+   </div></main>${UI.panel?`<aside class="pan" id="pan">${panelHTML()}</aside>`:''}</div>
+   <footer><div style="font-weight:600">Patrick</div><button class="qn" data-navg="1">Question ${D.i+1} of ${D.qs.length} ▴</button>
+   <div style="display:flex;gap:8px"><button class="nb" data-mv="-1" ${D.i===0?'disabled':''}>Back</button><button class="nb" data-mv="1">${D.i===D.qs.length-1?'Finish':'Next'}</button></div></footer>
+   ${UI.nav?`<div class="navgrid">${D.qs.map((x,k)=>{const t=D.st[k];return `<button class="${t.ok?(t.tried.length===1&&!t.coached?'ok':'no'):(t.tried.length?'no':'')} ${k===D.i?'cur':''}" data-jump="${k}">${k+1}</button>`}).join('')}</div>`:''}</div>`;
+  const g=$('#gin');if(g&&!fin)g.addEventListener('keydown',e=>{if(e.key==='Enter')gridCheck()});
+  const v=document.querySelector('#pan video');if(v&&UI.seek){v.currentTime=UI.seek;UI.seek=0;v.play().catch(()=>{})}}
+const fmt=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+setInterval(()=>{const t=$('#tmr');if(t&&D&&!D.done){const s=SK2[cur().skill];t.textContent=fmt(Math.max(0,D.qs.length*PACE[s.sec]-Math.round((Date.now()-D.t0)/1000)))}},1000);
+function answer(ok,picked){const q=cur(),st=D.st[D.i];const first=st.tried.length===1&&!st.coached;
+  save({id:q.id,ts:Date.now(),day:today(),ok,first:st.tried.length===1,attempt:st.tried.length,sec:Math.round((Date.now()-st.t0)/1000),picked,coached:st.coached});
+  if(ok)st.ok=true;drawDrill();}
+function gridCheck(){const q=cur(),st=D.st[D.i],v=($('#gin').value||'').trim();if(!v)return;const norm=x=>String(x).replace(/\s/g,'').replace(/−/g,'-').toLowerCase();
+  const num=x=>{x=norm(x);if(/^-?\d*\.?\d+\/\d+$/.test(x)){const [a,b]=x.split('/');return a/b}return parseFloat(x)};
+  const ok=q.grid.some(g=>norm(g)===norm(v)||(!isNaN(num(g))&&Math.abs(num(g)-num(v))<1e-3));st.tried.push(v);answer(ok,v);}
+
+/* ---------- right panels ---------- */
+function carried(q,steps){// numbers found as results in earlier steps and reused later (not given in the question)
+  const given=new Set((plain(q.q).match(/-?\d+(?:\.\d+)?/g)||[]));const res=[];
+  steps.forEach((s,i)=>{const t=s.replace(/✓/g,'');const k=Math.max(t.lastIndexOf('='),t.lastIndexOf(':'),t.lastIndexOf('→'));const seg=k>=0?t.slice(k+1):'';const m=seg.match(/-?\d+(?:\.\d+)?/);if(m&&!given.has(m[0].replace('-','')) && !given.has(m[0]))res.push([m[0],i])});
+  return res;}
+function markCarry(text,i,res){let h=esc(text);res.forEach(([v,from])=>{if(from>=i)return;const e=v.replace(/[.\-]/g,'\\$&');const rx=new RegExp('(^|[^0-9.,])('+e+')(?![0-9.])');if(rx.test(h)&&!h.includes('from step '+(from+1)))h=h.replace(rx,`$1<span class="co">$2</span><span class="cot">from step ${from+1}</span>`)});return h}
+function stepHTML(s,i,res){const k=s.indexOf(': ');const head=k>0&&k<60?s.slice(0,k):'',body=k>0&&k<60?s.slice(k+2):s;
+  return `<div class="step"><span class="n">${i+1}</span><div class="c">${head?`<b>${markCarry(head,i,res)}</b><br>`:''}${markCarry(body,i,res)}</div></div>`}
+function lessonData(skill){const id=lessonFor(skill)[0];return id&&LES[id]}
+function formulaBox(skill){const id=lessonFor(skill).find(l=>LES[l]&&LES[l].math);if(!id)return '';const keys=Object.keys(typeof MH!=='undefined'?MH:{}).filter(k=>k.startsWith(id+'|'));
+  const seen=new Set(),fs=[];keys.forEach(k=>{const f=MH[k].f;if(Array.isArray(f))f.forEach(x=>{if(!seen.has(x.eq)&&fs.length<4){seen.add(x.eq);fs.push(x)}})});
+  if(!fs.length)return '';return `<div class="box b-pur"><div class="lab">Formulas for this skill</div><div class="c">${fs.map(x=>`<b>${esc(x.eq)}</b> <span style="color:var(--mute);font-size:14px">· ${esc(x.n)} (${esc(/Reference/.test(x.frm)?'Reference sheet':'learn it')})</span>`).join('<br>')}</div></div>`}
+function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
+  const head=(t,sub)=>`<div class="ph"><div><div class="t hd">${t}</div><div class="s">${sub}</div></div><button class="x" aria-label="Close panel" data-pan="${k}">✕</button></div>`;
+  if(k==='show'){const res=carried(q,q.steps);const n=Math.max(1,st.shown);
+    return head('Show me how','This question, one step at a time')+q.steps.slice(0,n).map((x,i)=>stepHTML(x,i,res)).join('')+
+     (n<q.steps.length?`<button class="btn" data-next="1" style="align-self:flex-start">Show the next step (${n+1} of ${q.steps.length})</button>`:`<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(q.trap)}</div></div>`)+
+     `<div class="box b-blue"><div class="lab">${s.sec==='Math'?'Desmos or calculator':'Strategy'}</div><div class="c">${esc(q.tool)}</div></div>`+(s.sec==='Math'?formulaBox(q.skill):'');}
+  if(k==='learn'){const ls=lessonData(q.skill);if(!ls)return head('Learn it',esc(s.name))+'<div class="box b-yel"><div class="c">Use Show me how for this one.</div></div>';const ex=ls.ex[0];
+    return head('Learn it · '+esc(s.name),'How to do this type of question')+
+     `<div class="box b-yel"><div class="lab">Big idea</div><div class="c">${ls.big}</div></div>`+
+     (ls.defn?`<div class="box ${ls.math?'b-pur':'b-blue'}"><div class="lab">${ls.math?'Formulas and rules':'The rule'}</div><div class="c">${ls.defn}</div></div>`:'')+
+     (ls.how.length?`<div class="box b-blue"><div class="lab">Do this every time</div><div class="c">${ls.how.map((h,i)=>(i+1)+'. '+h).join('<br>')}</div></div>`:'')+
+     (ex?`<div class="box b-green"><div class="lab">Example</div><div class="c">${ex.s.replace(/\[\[(.+?)\]\]/g,'<b>$1</b>')}<br>${ex.parts.map(p=>p.replace(/\[\[(.+?)\]\]/g,'<b>$1</b>')).join(' → ')}</div></div>`:'')+
+     (ls.rem?`<div class="box b-red"><div class="lab">Remember · traps</div><div class="c">${ls.rem}</div></div>`:'')+
+     (ls.hook?`<div class="box b-green"><div class="lab">Memory hook</div><div class="c">${ls.hook}</div></div>`:'')+
+     `<a class="btn o" style="align-self:flex-start;text-decoration:none" href="#/learn/${q.skill}">Open the full walk-through</a>`;}
+  if(k==='video')return head('Video · '+esc(s.name),'Chalkboard lesson')+videoHTML(q.skill);
+  if(k==='desmos')return head('Desmos','Same calculator as the test. Type, then click points on the graph.')+`<iframe class="desmos" src="https://www.desmos.com/calculator" title="Desmos graphing calculator"></iframe>`;
+  if(k==='ref')return head('Reference sheet','The same formulas the SAT gives you')+`<div class="box b-pur"><div class="lab">Shapes</div><div class="c">Circle: <b>A = πr²</b>, <b>C = 2πr</b><br>Rectangle: <b>A = ℓw</b> · Triangle: <b>A = ½bh</b><br>Pythagorean: <b>c² = a² + b²</b><br>Special right triangles: 30-60-90 is <b>x, x√3, 2x</b> · 45-45-90 is <b>s, s, s√2</b></div></div>
+   <div class="box b-pur"><div class="lab">Volume</div><div class="c">Box: <b>V = ℓwh</b> · Cylinder: <b>V = πr²h</b><br>Sphere: <b>V = ⁴⁄₃πr³</b> · Cone: <b>V = ⅓πr²h</b> · Pyramid: <b>V = ⅓ℓwh</b></div></div>
+   <div class="box b-blue"><div class="lab">Facts</div><div class="c">A circle has 360° or 2π radians. A triangle's angles add to 180°.</div></div>`;
+  return '';}
+
+/* ---------- end of set ---------- */
+function drawEnd(){const n=D.qs.length,first=D.st.filter(t=>t.ok&&t.tried.length===1&&!t.coached).length,miss=D.qs.filter((q,k)=>!(D.st[k].ok&&D.st[k].tried.length===1));
+  app().innerHTML=topbar('')+`<div class="end"><h1 class="hd" style="font-size:30px;margin:0">${esc(D.title)}: done</h1><div style="font-size:22px"><b>${first} of ${n}</b> right on the first try</div>
+   <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">${miss.length?`<button class="btn" data-redo="1">Redo the ${miss.length} I missed</button>`:''}${D.skill?`<button class="btn o" data-go="#/drill/${D.skill}?${Date.now()}">10 more</button><button class="btn g" data-go="#/learn/${D.skill}">Learn it</button>`:''}<button class="btn g" data-go="#/">Home</button></div></div>`;}
+
+/* ---------- clicks ---------- */
+document.addEventListener('click',e=>{const b=e.target.closest('button,[data-go]');if(!b)return;const d=b.dataset;
+  if(d.go){const h=d.go.split('?')[0];if(location.hash===h)route();else location.hash=h;return}
+  if(d.lid){UI.lid=d.lid;return route()}
+  if(!D)return;
+  const q=D.done?null:cur(),st=D.done?null:D.st[D.i];
+  if(d.pick!==undefined){const j=+d.pick;if(st.tried.includes(j)||st.ok)return;st.tried.push(j);answer(j===q.ans,q.ch[j]);return}
+  if(d.grid)return gridCheck();
+  if(d.pan){UI.panel=UI.panel===d.pan?null:d.pan;if(UI.panel==='show'){st.coached=st.coached||!st.ok;if(!st.shown)st.shown=1}return drawDrill()}
+  if(d.next){st.shown=(st.shown||1)+1;return drawDrill()}
+  if(d.seek){UI.seek=+d.seek;const v=document.querySelector('video');if(v){v.currentTime=+d.seek;v.play().catch(()=>{})}return}
+  if(d.mark){st.mark=!st.mark;return drawDrill()}
+  if(d.navg){UI.nav=!UI.nav;return drawDrill()}
+  if(d.jump!==undefined){D.i=+d.jump;UI.nav=false;return showQ()}
+  if(d.mv){const n=D.i+(+d.mv);if(n>=D.qs.length){D.done=true;return drawEnd()}if(n>=0){D.i=n;UI.nav=false;if(UI.panel==='show')UI.panel=null;showQ()}return}
+  if(d.redo){const miss=D.qs.filter((q,k)=>!(D.st[k].ok&&D.st[k].tried.length===1));D={...D,qs:miss,i:0,st:miss.map(()=>({tried:[],ok:false,shown:0,t0:0,coached:false})),t0:Date.now(),done:false,title:D.title+' · redo'};return showQ()}
+});
+load().then(route);
+</script>
+</body>
+</html>
