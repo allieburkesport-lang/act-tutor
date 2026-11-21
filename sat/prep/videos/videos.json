@@ -120,5 +120,43 @@
 "Say it out loud"
 ]
 ]
+},
+"t1": {
+"src": "videos/t1.mp4",
+"poster": "videos/t1.jpg",
+"chapters": [
+[
+0,
+"Start"
+],
+[
+19,
+"The rules"
+],
+[
+36,
+"Example 1: Slope from Ax + By = C"
+],
+[
+66,
+"Example 2: Perpendicular slope"
+],
+[
+98,
+"Example 3: x-intercept"
+],
+[
+125,
+"Example 4: Slope from a table"
+],
+[
+161,
+"Your turn: pause and pick"
+],
+[
+187,
+"Say it out loud"
+]
+]
 }
 }
