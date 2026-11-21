@@ -27,7 +27,7 @@ test = datetime.date(2026, 12, 5); left = (test - D0).days
 R = [a for a in A if et(a['created_at']).strftime('%Y-%m-%d') == day]
 F = [a for a in R if (a.get('attempt') or 1) == 1]
 n = len(F); ok = sum(a['correct'] for a in F)
-NAVY, G, AMB, RED, MU, LN = '#13315C', '#047857', '#B45309', '#B91C1C', '#64748B', '#E2E8F0'
+NAVY, G, AMB, RED, MU, LN = '#13315C', '#047857', '#B45309', '#B91C1C', '#334155', '#E2E8F0'
 col = lambda p: G if p >= 80 else (AMB if p >= 60 else RED)
 nolink = lambda s: s.replace(':', '&#8288;:&#8288;')
 FONT = 'font-family:-apple-system,Helvetica,Arial,sans-serif'
@@ -43,18 +43,20 @@ plan_html = ''
 if pd:
     reset = datetime.datetime.fromtimestamp(pd['reset_at'] / 1000, datetime.timezone.utc) if pd.get('reset_at') else None
     tag = f'plan {day}'
-    done_rows = [a for a in R if tag in (a.get('part') or '') and (not reset or datetime.datetime.fromisoformat(a['created_at']) > reset)]
-    done = len({a['question'].split(' ')[0] for a in done_rows}); planned = pd.get('n_questions') or 0
-    pct_done = round(100 * done / planned) if planned else 0
-    status = ('✅ Finished' if pct_done >= 100 else '🟡 Partly done' if done else '❌ Not started')
-    extra = len([a for a in R if tag not in (a.get('part') or '')])
-    note = ''
-    if reset and any(datetime.datetime.fromisoformat(a['created_at']) <= reset for a in R):
-        note = f"<div style='font-size:13px;color:{MU};margin-top:6px'>The plan was restarted at {nolink(reset.astimezone(ET).strftime('%-I:%M %p'))} with harder questions. The work he did before that counts in the numbers below, but not toward the plan.</div>"
-    plan_html = (h3(f"Did he finish the day's plan? {status}") +
-        f"<div style='font-size:15px'><b>{done} of {planned}</b> planned questions done ({pct_done}%)</div>{bar(pct_done, G if pct_done >= 100 else AMB if done else RED)}" +
-        f"<div style='font-size:13px;color:{MU}'>Plan: new skills {', '.join(nm(k) for k in pd.get('learn', []))}; review of {', '.join(pd.get('focus_names', []))}." +
-        (f" Plus {extra} extra practice questions outside the plan." if extra else '') + "</div>" + note)
+    rows = [a for a in R if tag in (a.get('part') or '') and (not reset or datetime.datetime.fromisoformat(a['created_at']) > reset)]
+    firsts = {}
+    for a in sorted(rows, key=lambda a: a['created_at']): firsts.setdefault(a['question'].split(' ')[0], a)
+    done = len(firsts); right = sum(a['correct'] for a in firsts.values()); planned = pd.get('n_questions') or 0
+    pc = min(100, round(100 * done / planned)) if planned else 0
+    c = G if pc >= 100 else AMB if done else RED
+    word = 'Yes' if pc >= 100 else 'No'
+    box = lambda lab, v: f"<td width='33%' align='center' style='padding:4px'><div style='border:2px solid {LN};border-radius:12px;padding:10px 4px'><div style='font-size:28px;line-height:32px;font-weight:800;color:{NAVY}'>{v}</div><div style='font-size:14px;font-weight:700;color:#334155'>{lab}</div></div></td>"
+    when = 'today' if day == datetime.datetime.now(ET).strftime('%Y-%m-%d') else pretty(day)
+    plan_html = (f"<div style='border:3px solid {c};border-radius:14px;padding:14px;margin:18px 0 6px'>"
+        f"<div style='font-size:20px;line-height:25px;font-weight:800;color:{NAVY}'>Did he complete {'today' if when=='today' else when}’s plan? <span style='color:{c}'>{word}</span></div>"
+        f"<div style='background:{LN};border-radius:10px;height:34px;margin:12px 0;overflow:hidden'><div style='background:{c};width:{max(12,pc)}%;height:34px;border-radius:10px;color:#fff;font-size:17px;font-weight:800;line-height:34px;text-align:center;white-space:nowrap'>{pc}%</div></div>"
+        f"<div style='font-size:22px;font-weight:800;color:{c};text-align:center;margin-bottom:8px'>{pc}% complete</div>"
+        f"<table role='presentation' width='100%' cellpadding='0' cellspacing='0'><tr>{box('Total', planned)}{box('Completed', done)}{box('Correct', right)}</tr></table></div>")
 
 # ---- day numbers ----
 if n:
@@ -64,7 +66,7 @@ if n:
     by = collections.defaultdict(lambda: [0, 0, 0])
     for a in F: s = by[a['concept_id']]; s[0] += 1; s[1] += a['correct']; s[2] += a.get('seconds') or 0
     miss = [a for a in F if not a['correct']]
-    kpis = f"<table role='presentation' width='100%' cellpadding='0' cellspacing='0' style='margin:10px 0 0'><tr>{kpi('Right on first try', f'{round(100*ok/n)}%', f'{ok} of {n}')}{kpi('Questions', str(n), f'{fixed} more fixed on retry')}</tr><tr>{kpi('Time per question', f'{secs}s', 'SAT pace: 70–95s')}{kpi('Time on HELM', f'{round((t1-t0).seconds/60)} min', nolink(t0.strftime('%-I:%M')) + '–' + nolink(t1.strftime('%-I:%M %p')))}</tr></table>"
+    kpis = f"<table role='presentation' width='100%' cellpadding='0' cellspacing='0' style='margin:10px 0 0'><tr>{kpi('Right on first try', f'{round(100*ok/n)}%', f'{ok} of {n}')}{kpi('Questions', str(n), f'{fixed} more fixed on retry')}</tr><tr>{kpi('Time per question', f'{secs}s', '')}{kpi('Time on HELM', f'{round((t1-t0).seconds/60)} min', nolink(t0.strftime('%-I:%M')) + '–' + nolink(t1.strftime('%-I:%M %p')))}</tr></table>"
     skills = ''.join(f"<tr><td style='padding:10px 0;border-top:1px solid {LN}'><div style='font-size:15px;font-weight:600'>{nm(k)}</div><div style='font-size:12px;color:{MU}'>{secn(k)} · {v[1]} of {v[0]} right · {round(v[2]/v[0])}s each</div></td><td align='right' style='padding:10px 0;border-top:1px solid {LN};font-size:18px;font-weight:800;color:{col(round(100*v[1]/v[0]))};white-space:nowrap'>{round(100*v[1]/v[0])}%</td></tr>" for k, v in sorted(by.items(), key=lambda x: (x[1][1] / x[1][0], -x[1][0])))
     def q(s): s = re.sub(r'^\S+ ', '', s); s = re.sub(r'(?<=[a-z])\.(?=[A-Z][a-z])', '. ', s); return html.escape(s[:140] + ('…' if len(s) > 140 else ''))
     misses = ''.join(f"<div style='border-left:4px solid {RED};background:#FEF2F2;border-radius:8px;padding:10px 12px;margin:0 0 8px'><div style='font-size:12px;color:{MU}'>{nm(a['concept_id'])}</div><div style='font-size:14px;margin:3px 0'>{q(a['question'])}</div><div style='font-size:13px'>He picked: <b style='color:{RED}'>{html.escape(str(a['picked']))}</b></div></div>" for a in miss) or f"<div style='font-size:15px'>None. Every question right on the first try.</div>"
@@ -76,10 +78,10 @@ if n:
     watch = []
     weak = [(k, v) for k, v in by.items() if v[0] >= 4]
     if weak:
-        k, v = min(weak, key=lambda x: x[1][1] / x[1][0]); watch.append(f"<b>{nm(k)} ({round(100*v[1]/v[0])}%)</b> was his weakest skill with enough questions to tell.")
+        k, v = min(weak, key=lambda x: x[1][1] / x[1][0]); watch.append(f"<b>{nm(k)} ({round(100*v[1]/v[0])}%)</b> was his weakest skill.")
         k, v = max(weak, key=lambda x: x[1][2] / x[1][0]); watch.append(f"<b>{nm(k)}</b> was his slowest skill (about {round(v[2]/v[0])}s a question).")
-    watch.append(f"<b>Speed:</b> {secs}s a question. SAT pace is about 70s (English) and 95s (math)." + (" Faster than that is fine on easy questions, but watch for rushing on harder ones." if secs < 60 else ''))
-    day_html = plan_html + h3('The day in numbers') + kpis + h3('By skill (weakest first)') + f"<table role='presentation' width='100%' cellpadding='0' cellspacing='0'>{skills}</table>" + h3(f'Questions he missed ({len(miss)})') + misses + h3('Help he used') + ul(helps) + h3('What to watch') + ul(watch)
+    watch.append(f"<b>Speed:</b> {secs}s a question (SAT pace: 70–95s).")
+    day_html = plan_html + h3('All work that day') + kpis + h3('By skill (weakest first)') + f"<table role='presentation' width='100%' cellpadding='0' cellspacing='0'>{skills}</table>" + h3(f'Questions he missed ({len(miss)})') + misses + h3('Help he used') + ul(helps) + h3('What to watch') + ul(watch)
 else:
     day_html = plan_html + f"<div style='font-size:16px;margin:14px 0'>❌ <b>No HELM work on {pretty(day)}.</b></div>"
 
@@ -97,12 +99,12 @@ nd = next((d for d in P['days'] if d['date'] == nxt), None)
 plan_next = ul([f"<b>New skills:</b> {', '.join(nm(k) for k in nd.get('learn', [])) or 'review day'}", f"<b>Extra practice:</b> {', '.join(nd.get('focus_names', []))}", f"About {nd.get('n_questions', '?')} questions"]) if nd else ''
 
 H = f"""<div style="{FONT};color:#0F172A;max-width:600px;margin:0 auto;padding:0 4px;-webkit-text-size-adjust:100%">{banner}
-<div style="font-size:13px;color:{MU}">SAT HELM · Daily report</div>
+
 <div style="font-size:24px;line-height:29px;font-weight:800;color:{NAVY}">Patrick · {pretty(day)}</div>
-<div style="font-size:13px;color:{MU};padding-bottom:10px;border-bottom:3px solid {NAVY}">SAT on Dec 5 · {left} days left · Goal 1300</div>
+<div style="font-size:15px;font-weight:600;color:{MU};padding-bottom:10px;border-bottom:3px solid {NAVY}">SAT on Dec 5 · {left} days left · Goal 1300</div>
 {day_html}
 {h3('Overall so far')}{ul(overall)}
 {h3('Today’s plan · ' + pretty(nxt)) + plan_next if nd else ''}
 <div style="margin:24px 0 6px"><a href="https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/stats" style="display:inline-block;background:{NAVY};color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;padding:12px 18px;border-radius:10px">Open the Stats dashboard</a></div>
-<div style="font-size:11px;color:{MU};margin-top:14px">Sent automatically each morning by SAT HELM.</div></div>"""
+</div>"""
 print(H)
