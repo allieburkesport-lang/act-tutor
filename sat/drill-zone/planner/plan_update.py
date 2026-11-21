@@ -81,7 +81,7 @@ def main():
     # --- re-work: concepts from past learn days he did not practise move to the next learn day
     days = [dict(date=d, kind=k, learn=list(sk), note=n) for d, k, sk, n in BASE]
     carry, changes = [], []
-    START = datetime.date(2026, 11, 20)   # the plan (and the nightly re-work) starts Fri Nov 20; Nov 19 was done in 1500 Blueprint
+    START = datetime.date(2026, 11, 20)   # the plan (and the nightly re-work) starts Fri Nov 20; Nov 19 was done in Blueprint
     for day in days:
         dd = datetime.date.fromisoformat(day['date'])
         if dd < START:
