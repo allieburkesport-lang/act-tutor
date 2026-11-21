@@ -274,5 +274,163 @@
    "time": "13s"
   }
  ],
- "note": "Nov 21: added Nov 19 course quiz (two-variable data 4/7) and Nov 20 (Question Bank area 4/7, vocab drill words in context 7/7, percents quiz 4/7, converting units quiz 2/7; the 4-second-per-question retake of the units quiz, 6/7, is left out as a repeat)."
+ "note": "Nov 21: added Nov 19 course quiz (two-variable data 4/7) and Nov 20 (Question Bank area 4/7, vocab drill words in context 7/7, percents quiz 4/7, converting units quiz 2/7; the 4-second-per-question retake of the units quiz, 6/7, is left out as a repeat).",
+ "daily": [
+  {
+   "day": "2026-11-06",
+   "n": 8,
+   "acc": 50,
+   "rw": {
+    "acc": 50,
+    "n": 8
+   },
+   "math": null
+  },
+  {
+   "day": "2026-11-07",
+   "n": 3,
+   "acc": 0,
+   "rw": {
+    "acc": 0,
+    "n": 1
+   },
+   "math": {
+    "acc": 0,
+    "n": 2
+   }
+  },
+  {
+   "day": "2026-11-08",
+   "n": 17,
+   "acc": 41,
+   "rw": {
+    "acc": 40,
+    "n": 10
+   },
+   "math": {
+    "acc": 43,
+    "n": 7
+   }
+  },
+  {
+   "day": "2026-11-09",
+   "n": 7,
+   "acc": 57,
+   "rw": null,
+   "math": {
+    "acc": 57,
+    "n": 7
+   }
+  },
+  {
+   "day": "2026-11-10",
+   "n": 16,
+   "acc": 63,
+   "rw": null,
+   "math": null
+  },
+  {
+   "day": "2026-11-11",
+   "n": 30,
+   "acc": 70,
+   "rw": null,
+   "math": null
+  },
+  {
+   "day": "2026-11-12",
+   "n": 37,
+   "acc": 62,
+   "rw": {
+    "acc": 54,
+    "n": 24
+   },
+   "math": {
+    "acc": 100,
+    "n": 5
+   }
+  },
+  {
+   "day": "2026-11-13",
+   "n": 34,
+   "acc": 50,
+   "rw": {
+    "acc": 44,
+    "n": 9
+   },
+   "math": {
+    "acc": 0,
+    "n": 5
+   }
+  },
+  {
+   "day": "2026-11-14",
+   "n": 98,
+   "acc": 51,
+   "rw": {
+    "acc": 50,
+    "n": 54
+   },
+   "math": {
+    "acc": 52,
+    "n": 44
+   }
+  },
+  {
+   "day": "2026-11-15",
+   "n": 15,
+   "acc": 87,
+   "rw": null,
+   "math": {
+    "acc": 100,
+    "n": 5
+   }
+  },
+  {
+   "day": "2026-11-16",
+   "n": 1,
+   "acc": 0,
+   "rw": {
+    "acc": 0,
+    "n": 1
+   },
+   "math": null
+  },
+  {
+   "day": "2026-11-18",
+   "n": 18,
+   "acc": 61,
+   "rw": {
+    "acc": 33,
+    "n": 6
+   },
+   "math": {
+    "acc": 40,
+    "n": 5
+   }
+  },
+  {
+   "day": "2026-11-19",
+   "n": 12,
+   "acc": 67,
+   "rw": null,
+   "math": {
+    "acc": 80,
+    "n": 5
+   }
+  },
+  {
+   "day": "2026-11-20",
+   "n": 35,
+   "acc": 66,
+   "rw": {
+    "acc": 100,
+    "n": 7
+   },
+   "math": {
+    "acc": 57,
+    "n": 7
+   }
+  }
+ ],
+ "daily_note": "From the 1500 Blueprint daily report (all question sources: Question Bank, drills, course quizzes). R&W/Math split covers Question Bank + drills only."
 }

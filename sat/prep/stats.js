@@ -1,0 +1,176 @@
+/* ---------- STATS: BI dashboard (#/stats, #/stats/<skill>, #/stats/sec:Math) ---------- */
+const ST = {period: 'all', sec: 'all'};
+const SCOL = {Math: '#1e3a8a', English: '#0f766e'};
+let CH = [];
+function dkey(d) { return d.toLocaleDateString('en-CA') }
+function firstTries() {  // one row per question per day: the first attempt that day
+  const seen = {}, out = [];
+  LOG.forEach(x => { const q = QBY[x.id]; if (!q || !SK2[q.skill]) return; if ((x.attempt || 1) !== 1) return; const k = x.id + '|' + x.day; if (seen[k]) return; seen[k] = 1; out.push(Object.assign({q, s: SK2[q.skill]}, x)) });
+  return out.sort((a, b) => a.ts - b.ts)
+}
+function inPeriod(rows, per) {
+  if (per === 'all') return rows; const n = per === 'day' ? 1 : per === 'week' ? 7 : 30;
+  const from = new Date(); from.setHours(0, 0, 0, 0); from.setDate(from.getDate() - (n - 1)); const f = dkey(from);
+  return rows.filter(r => r.day >= f)
+}
+function prevPeriod(rows, per) {
+  if (per === 'all') return []; const n = per === 'day' ? 1 : per === 'week' ? 7 : 30;
+  const a = new Date(); a.setHours(0, 0, 0, 0); a.setDate(a.getDate() - (2 * n - 1)); const b = new Date(); b.setHours(0, 0, 0, 0); b.setDate(b.getDate() - n);
+  return rows.filter(r => r.day >= dkey(a) && r.day <= dkey(b))
+}
+const pct = (rows) => rows.length ? Math.round(100 * rows.filter(r => r.ok).length / rows.length) : null;
+const avgSec = rows => { const t = rows.filter(r => r.sec > 0 && r.sec < 1800); return t.length ? Math.round(t.reduce((a, r) => a + r.sec, 0) / t.length) : null };
+const paceOf = rows => rows.length ? Math.round(rows.reduce((a, r) => a + PACE[r.s.sec], 0) / rows.length) : null;
+const mmss = s => s == null ? '—' : Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+function delta(now, prev) { if (now == null || prev == null) return ''; const d = now - prev; return `<span style="font-size:14px;font-weight:700;color:${d >= 0 ? '#15803d' : '#b91c1c'}">${d >= 0 ? '▲' : '▼'} ${Math.abs(d)}${typeof now === 'number' && now <= 100 ? ' pts' : ''}</span>` }
+function kpi(lab, val, sub, extra) { return `<div class="card stat"><div class="l">${lab}</div><div class="v hd">${val}</div><div style="font-size:13px;color:var(--mute);margin-top:2px">${sub || ''} ${extra || ''}</div></div>` }
+function bucketKey(day, gran) { if (gran === 'day') return day; const d = new Date(day + 'T12:00'); const m = new Date(d); m.setDate(d.getDate() - ((d.getDay() + 6) % 7)); return dkey(m) }
+function series(rows, gran) {
+  const b = {}; rows.forEach(r => { const k = bucketKey(r.day, gran); (b[k] = b[k] || []).push(r) });
+  const keys = Object.keys(b).sort();
+  return {keys, lab: keys.map(k => { const d = new Date(k + 'T12:00'); return (gran === 'week' ? 'wk of ' : '') + d.toLocaleDateString('en-US', {month: 'short', day: 'numeric'}) }),
+    acc: keys.map(k => pct(b[k])), m: keys.map(k => b[k].filter(r => r.s.sec === 'Math').length), e: keys.map(k => b[k].filter(r => r.s.sec !== 'Math').length),
+    accM: keys.map(k => pct(b[k].filter(r => r.s.sec === 'Math'))), accE: keys.map(k => pct(b[k].filter(r => r.s.sec !== 'Math')))}
+}
+function chart(id, cfg) { const el = document.getElementById(id); if (!el || typeof Chart === 'undefined') return; CH.push(new Chart(el, cfg)) }
+function killCharts() { CH.forEach(c => { try { c.destroy() } catch (e) {} }); CH = [] }
+function ensureChartJs(cb) { if (typeof Chart !== 'undefined') return cb(); const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js'; s.onload = cb; s.onerror = cb; document.head.appendChild(s) }
+function filters() {
+  const b = (k, v, t) => `<button class="btn sm ${ST[k] === v ? '' : 'g'}" data-st="${k}:${v}">${t}</button>`;
+  return `<div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center"><div style="display:flex;gap:6px;align-items:center"><span style="font-size:13px;color:var(--mute);font-weight:600">PERIOD</span>${b('period', 'day', 'Today')}${b('period', 'week', 'Last 7 days')}${b('period', 'month', 'Last 30 days')}${b('period', 'all', 'All time')}</div>
+   <div style="display:flex;gap:6px;align-items:center"><span style="font-size:13px;color:var(--mute);font-weight:600">SECTION</span>${b('sec', 'all', 'Both')}${b('sec', 'Math', 'Math')}${b('sec', 'English', 'Reading & Writing')}</div></div>`
+}
+function statsPage(arg) {
+  killCharts(); if (arg && arg !== 'sec:Math' && arg !== 'sec:English') return ensureChartJs(() => skillStats(arg));
+  if (arg) ST.sec = arg.slice(4);
+  ensureChartJs(drawStats)
+}
+function drawStats() {
+  killCharts();
+  let all = firstTries(); if (ST.sec !== 'all') all = all.filter(r => r.s.sec === ST.sec);
+  const rows = inPeriod(all, ST.period), prev = prevPeriod(all, ST.period);
+  const acc = pct(rows), pacc = pct(prev), avg = avgSec(rows), pace = paceOf(rows);
+  const days = new Set(all.map(r => r.day)); let streak = 0; const d = new Date(); while (days.has(dkey(d))) { streak++; d.setDate(d.getDate() - 1) }
+  const skills = BANK.skills.filter(s => ST.sec === 'all' || s.sec === ST.sec);
+  const per = skills.map(s => { const r = rows.filter(x => x.q.skill === s.id), b = BPS[s.id] || {n: 0, ok: 0}; return {s, n: r.length, ok: r.filter(x => x.ok).length, acc: pct(r), base: b.n ? Math.round(100 * b.ok / b.n) : null, bn: b.n, avg: avgSec(r)} });
+  const strong = per.filter(p => p.n >= 3 && p.acc >= 70).length;
+  const gran = 'day';
+  const from = ST.period === 'all' ? '0000' : (() => { const n = ST.period === 'day' ? 1 : ST.period === 'week' ? 7 : 30; const d = new Date(); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - (n - 1)); return dkey(d) })();
+  const bpd = (typeof BPD !== 'undefined' ? BPD : []).filter(x => x.day >= from).map(x => ({day: x.day, n: ST.sec === 'all' ? x.n : ST.sec === 'Math' ? (x.math ? x.math.n : 0) : (x.rw ? x.rw.n : 0), acc: ST.sec === 'all' ? x.acc : ST.sec === 'Math' ? (x.math ? x.math.acc : null) : (x.rw ? x.rw.acc : null)})).filter(x => x.n);
+  const dz = series(rows, 'day'); const days2 = [...new Set([...dz.keys, ...bpd.map(x => x.day)])].sort();
+  const pick = (arr) => days2.map(d => { const i = dz.keys.indexOf(d); return i < 0 ? null : arr[i] });
+  const se = {lab: days2.map(k => new Date(k + 'T12:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'})), accM: pick(dz.accM), accE: pick(dz.accE), m: pick(dz.m).map(x => x || 0), e: pick(dz.e).map(x => x || 0),
+    bpA: days2.map(d => { const x = bpd.find(y => y.day === d); return x ? x.acc : null }), bpN: days2.map(d => { const x = bpd.find(y => y.day === d); return x ? x.n : 0 })};
+  const bpTot = bpd.reduce((a, x) => a + x.n, 0), bpOk = Math.round(bpd.reduce((a, x) => a + x.n * (x.acc || 0) / 100, 0));
+  const diff = ['E', 'M', 'H'].map(k => ({k, M: pct(rows.filter(r => r.q.diff === k && r.s.sec === 'Math')), E: pct(rows.filter(r => r.q.diff === k && r.s.sec !== 'Math')), n: rows.filter(r => r.q.diff === k).length}));
+  // week x skill heat
+  const wks = [...new Set(all.map(r => bucketKey(r.day, 'week')))].sort().slice(-6);
+  const heat = skills.map(s => ({s, cells: wks.map(w => { const r = all.filter(x => x.q.skill === s.id && bucketKey(x.day, 'week') === w); return {n: r.length, a: pct(r)} })})).filter(h => h.cells.some(c => c.n));
+  const hc = a => a == null ? '#f3f4f6' : a < 50 ? '#fde2e2' : a < 70 ? '#fef3c7' : '#dcfce7';
+  const order = per.filter(p => p.n).sort((a, b) => a.acc - b.acc || (b.s.share || 0) - (a.s.share || 0));
+  const missed = rows.filter(r => !r.ok).slice(-12).reverse();
+  app().innerHTML = topbar('stats') + `<div class="page" style="gap:18px"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;align-items:flex-end"><div><h1 class="hd" style="margin:0;font-size:30px">Stats</h1><div style="color:var(--mute);font-size:14px">First try on each question, on this site plus his 1500 Blueprint days. Click any category to see why.</div></div>${filters()}</div>
+   <section class="stats" style="grid-template-columns:repeat(6,minmax(0,1fr))">
+    ${kpi('Questions', rows.length, ST.period === 'all' ? `${days.size} days of practice` : `prev period: ${prev.length}`)}
+    ${kpi('Right on first try', acc == null ? '—' : acc + '%', pacc == null ? '' : 'prev ' + pacc + '%', delta(acc, pacc))}
+    ${kpi('Right / wrong', rows.length ? `${rows.filter(r => r.ok).length} / ${rows.filter(r => !r.ok).length}` : '—', '')}
+    ${kpi('Avg time / question', mmss(avg), 'SAT pace ' + mmss(pace), avg && pace ? (avg <= pace ? '<span style="color:#15803d;font-weight:700">on pace</span>' : '<span style="color:#b91c1c;font-weight:700">slow</span>') : '')}
+    ${kpi('Strong categories', strong + ' / ' + skills.length, '70%+ with 3+ questions')}
+    ${kpi('1500 Blueprint (tutor site)', bpTot ? Math.round(100 * bpOk / bpTot) + '%' : '—', bpTot ? bpTot + ' questions in this period' : 'none in this period')}
+   </section>
+   <div class="cols" style="grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)">
+    <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 6px;font-size:19px">Accuracy over time</h2><div style="height:260px"><canvas id="c1"></canvas></div></section>
+    <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 6px;font-size:19px">Questions per ${gran}</h2><div style="height:260px"><canvas id="c2"></canvas></div></section>
+   </div>
+   <div class="cols" style="grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)">
+    <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 2px;font-size:19px">By category <span style="font-size:13px;color:var(--mute);font-weight:500">· weakest first · bar = now, ◆ = 1500 Blueprint before · click a bar</span></h2><div style="height:${Math.max(220, 30 * order.length + 40)}px"><canvas id="c3"></canvas></div></section>
+    <div style="display:flex;flex-direction:column;gap:18px">
+     <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 6px;font-size:19px">By difficulty</h2><div style="height:200px"><canvas id="c4"></canvas></div></section>
+     <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 6px;font-size:19px">Time per question vs SAT pace</h2><div style="height:${Math.max(180, 24 * order.length)}px"><canvas id="c5"></canvas></div></section>
+    </div>
+   </div>
+   <section class="card" style="padding:16px 18px;overflow-x:auto"><h2 class="hd" style="margin:0 0 8px;font-size:19px">Category × week <span style="font-size:13px;color:var(--mute);font-weight:500">red under 50% · yellow 50–69% · green 70%+</span></h2>
+    ${heat.length ? `<table class="rep"><thead><tr><th>Category</th>${wks.map(w => `<th>wk of ${new Date(w + 'T12:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'})}</th>`).join('')}</tr></thead><tbody>${heat.map(h => `<tr style="cursor:pointer" data-go="#/stats/${h.s.id}"><td><b>${esc(h.s.name)}</b></td>${h.cells.map(c => `<td style="background:${hc(c.a)};text-align:center;font-weight:700">${c.n ? c.a + '%<div style="font-size:11px;font-weight:500;color:var(--mute)">' + c.n + ' Qs</div>' : ''}</td>`).join('')}</tr>`).join('')}</tbody></table>` : '<div style="color:var(--mute)">No practice yet in this view.</div>'}</section>
+   <section class="card" style="padding:16px 18px;overflow-x:auto"><h2 class="hd" style="margin:0 0 8px;font-size:19px">Every category</h2>
+    <table class="rep"><thead><tr><th>Category</th><th>Section</th><th>% of SAT (est.)</th><th>Qs</th><th>Right</th><th>Wrong</th><th>Score</th><th>Blueprint before</th><th>Change</th><th>Avg time</th><th></th></tr></thead><tbody>
+    ${per.sort((a, b) => (b.s.share || 0) - (a.s.share || 0)).map(p => { const lv = level(p.acc, p.n); return `<tr style="cursor:pointer" data-go="#/stats/${p.s.id}"><td><b>${esc(p.s.name)}</b></td><td>${p.s.sec === 'Math' ? 'Math' : 'R&W'}</td><td>${Math.round(p.s.share || 0)}%</td><td>${p.n}</td><td style="color:#15803d;font-weight:700">${p.ok}</td><td style="color:#b91c1c;font-weight:700">${p.n - p.ok}</td><td>${p.n ? `<span class="pill" style="color:${lv[1]};background:${lv[2]}">${p.acc}%</span>` : '—'}</td><td>${p.base == null ? '—' : p.base + '% <span style="color:var(--mute);font-size:12px">(' + p.bn + ')</span>'}</td><td>${p.n && p.base != null ? delta(p.acc, p.base) : ''}</td><td>${mmss(p.avg)}</td><td><button class="btn g sm" data-go="#/stats/${p.s.id}">Details →</button></td></tr>` }).join('')}</tbody></table></section>
+   <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 8px;font-size:19px">Latest misses</h2>${missed.length ? missed.map(missRow).join('') : '<div style="color:var(--mute)">None in this period.</div>'}</section>
+  </div>`;
+  window.scrollTo(0, 0);
+  const tick = {font: {family: 'Inter', size: 12}};
+  chart('c1', {type: 'line', data: {labels: se.lab, datasets: [
+    ST.sec !== 'English' ? {label: 'Math', data: se.accM, borderColor: SCOL.Math, backgroundColor: SCOL.Math, tension: .3, spanGaps: true} : null,
+    ST.sec !== 'Math' ? {label: 'Reading & Writing', data: se.accE, borderColor: SCOL.English, backgroundColor: SCOL.English, tension: .3, spanGaps: true} : null,
+    {label: '1500 Blueprint', data: se.bpA, borderColor: '#9ca3af', backgroundColor: '#9ca3af', borderDash: [4, 4], tension: .3, spanGaps: true},
+    {label: 'Goal (1300 ≈ 75%)', data: se.lab.map(() => 75), borderColor: '#ca8a04', borderDash: [6, 6], pointRadius: 0}].filter(Boolean)},
+    options: {maintainAspectRatio: false, scales: {y: {min: 0, max: 100, ticks: {...tick, callback: v => v + '%'}}, x: {ticks: tick}}, plugins: {legend: {labels: tick}}}});
+  chart('c2', {type: 'bar', data: {labels: se.lab, datasets: [ST.sec !== 'English' ? {label: 'Math', data: se.m, backgroundColor: SCOL.Math} : null, ST.sec !== 'Math' ? {label: 'Reading & Writing', data: se.e, backgroundColor: SCOL.English} : null, {label: '1500 Blueprint', data: se.bpN, backgroundColor: '#cbd5e1'}].filter(Boolean)},
+    options: {maintainAspectRatio: false, scales: {x: {stacked: true, ticks: tick}, y: {stacked: true, ticks: tick}}, plugins: {legend: {labels: tick}}}});
+  chart('c3', {type: 'bar', data: {labels: order.map(p => p.s.name), datasets: [
+    {label: 'Now', data: order.map(p => p.acc), backgroundColor: order.map(p => p.acc < 50 ? '#f87171' : p.acc < 70 ? '#fbbf24' : '#4ade80')},
+    {label: 'Blueprint before', type: 'scatter', order: 0, data: order.filter(p => p.base != null).map(p => ({x: p.base, y: p.s.name})), backgroundColor: '#111827', pointStyle: 'rectRot', pointRadius: 6}]},
+    options: {indexAxis: 'y', maintainAspectRatio: false, scales: {x: {min: 0, max: 100, ticks: {...tick, callback: v => v + '%'}}, y: {ticks: tick}}, plugins: {legend: {display: false}, tooltip: {callbacks: {label: c => c.datasetIndex ? 'Blueprint before: ' + c.raw.x + '%' : `Now: ${c.raw}% (${order[c.dataIndex].ok}/${order[c.dataIndex].n})`}}},
+      onClick: (e, els) => { if (els.length) location.hash = '#/stats/' + order[els[0].index].s.id }}});
+  chart('c4', {type: 'bar', data: {labels: ['Easy', 'Medium', 'Hard'], datasets: [ST.sec !== 'English' ? {label: 'Math', data: diff.map(d => d.M), backgroundColor: SCOL.Math} : null, ST.sec !== 'Math' ? {label: 'Reading & Writing', data: diff.map(d => d.E), backgroundColor: SCOL.English} : null].filter(Boolean)},
+    options: {maintainAspectRatio: false, scales: {y: {min: 0, max: 100, ticks: {...tick, callback: v => v + '%'}}, x: {ticks: tick}}, plugins: {legend: {labels: tick}}}});
+  const tt = order.filter(p => p.avg != null);
+  chart('c5', {type: 'bar', data: {labels: tt.map(p => p.s.name), datasets: [{label: 'His avg (sec)', order: 1, data: tt.map(p => p.avg), backgroundColor: tt.map(p => p.avg > PACE[p.s.sec] ? '#fb923c' : '#4ade80')}, {label: 'SAT pace', type: 'scatter', order: 0, data: tt.map(p => ({x: PACE[p.s.sec], y: p.s.name})), backgroundColor: '#111827', pointStyle: 'line', pointRadius: 10, borderWidth: 3, borderColor: '#111827'}]},
+    options: {indexAxis: 'y', maintainAspectRatio: false, scales: {x: {ticks: {...tick, callback: v => v + 's'}}, y: {ticks: tick}}, plugins: {legend: {display: false}}, onClick: (e, els) => { if (els.length) location.hash = '#/stats/' + tt[els[0].index].s.id }}});
+}
+function missRow(r) {
+  const q = r.q; const ans = q.ch ? q.ch[q.ans] : (q.show || (q.grid || [])[0]);
+  return `<details class="miss" style="border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:8px;background:#fff"><summary style="cursor:pointer;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="pill" style="background:#fde2e2;color:#b91c1c">✗ missed</span><b>${esc(r.s.name)}</b><span style="color:var(--mute);font-size:13px">${new Date(r.ts).toLocaleDateString('en-US', {month: 'short', day: 'numeric'})} · ${DIFF[q.diff]} · ${mmss(r.sec)}</span><span style="flex:1;min-width:200px;color:var(--ink);font-size:14px">${esc(plain(q.q).slice(0, 110))}…</span></summary>
+   <div style="margin-top:10px;display:grid;gap:8px"><div style="font-family:'Source Serif 4',Georgia,serif;font-size:16px">${q.q}</div>
+   <div><span style="color:#b91c1c;font-weight:700">He picked:</span> ${r.picked ? r.picked : '(not recorded)'} &nbsp; <span style="color:#15803d;font-weight:700">Right answer:</span> ${ans || ''}</div>
+   <div class="box b-blue"><div class="lab">How to do it</div><div class="c">${q.steps.map((s, i) => (i + 1) + '. ' + esc(s)).join('<br>')}</div></div>${q.trap ? `<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(q.trap)}</div></div>` : ''}
+   <div><button class="btn sm" data-go="#/drill/ids:${q.id}">Try it again</button></div></div></details>`
+}
+function skillStats(id) {
+  killCharts(); const s = SK2[id]; if (!s) return drawStats();
+  const all = firstTries().filter(r => r.q.skill === id), rows = inPeriod(all, ST.period);
+  const acc = pct(rows), b = BPS[id] || {n: 0, ok: 0}, base = b.n ? Math.round(100 * b.ok / b.n) : null, avg = avgSec(rows);
+  const se = series(rows, 'day');
+  const diff = ['E', 'M', 'H'].map(k => { const r = rows.filter(x => x.q.diff === k); return {k, n: r.length, ok: r.filter(x => x.ok).length, a: pct(r)} });
+  // question-type breakdown (same template = same kind of question)
+  const kinds = {}; rows.forEach(r => { const t = (typeof QT !== 'undefined' && QT[r.q.id] != null) ? QT[r.q.id] : 'x'; const nm = (typeof QF !== 'undefined' && QF[r.q.id] && QF[r.q.id][0]) ? QF[r.q.id][0].n : 'Questions'; (kinds[t] = kinds[t] || {nm, r: []}).r.push(r) });
+  const kl = Object.values(kinds).map(k => ({nm: k.nm, n: k.r.length, ok: k.r.filter(x => x.ok).length, a: pct(k.r), ex: k.r[0].q})).sort((a, b) => a.a - b.a);
+  const traps = {}; rows.filter(r => !r.ok && r.q.trap).forEach(r => traps[r.q.trap] = (traps[r.q.trap] || 0) + 1);
+  const tl = Object.entries(traps).sort((a, b) => b[1] - a[1]).slice(0, 5);
+  const missed = rows.filter(r => !r.ok).reverse(), right = rows.filter(r => r.ok).reverse();
+  const why = [];
+  if (rows.length < 5) why.push('Only ' + rows.length + ' questions so far, so this score can still swing a lot.');
+  const hard = diff.find(d => d.k === 'H'), easy = diff.find(d => d.k === 'E');
+  if (easy.n >= 2 && easy.a < 70) why.push(`Easy questions are only ${easy.a}%: the basics of this skill still need work. Start with Learn it.`);
+  if (hard.n >= 2 && hard.a < 50) why.push(`Hard questions are ${hard.a}%: most points are lost on the harder versions.`);
+  if (avg && avg > PACE[s.sec] * 1.5) why.push(`He takes ${mmss(avg)} per question, much slower than SAT pace (${mmss(PACE[s.sec])}).`);
+  if (avg && avg < PACE[s.sec] * .4 && acc != null && acc < 60) why.push(`He answers in ${mmss(avg)} on average, very fast for this many misses: he may be rushing.`);
+  if (kl.length > 1 && kl[0].a != null && kl[0].a < 50) why.push(`Weakest kind: “${kl[0].nm}” at ${kl[0].a}% (${kl[0].ok}/${kl[0].n}).`);
+  if (tl.length) why.push(`Most common trap: “${tl[0][0]}” (${tl[0][1]}×).`);
+  const lv = level(acc, rows.length);
+  app().innerHTML = topbar('stats') + `<div class="page" style="gap:18px"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;align-items:flex-end"><div><a href="#/stats">← All stats</a><h1 class="hd" style="margin:4px 0 0;font-size:30px">${esc(s.name)}</h1><div style="color:var(--mute);font-size:14px">${s.sec === 'Math' ? 'Math' : 'Reading & Writing'} · about ${Math.round(s.share || 0)}% of the section (est.)</div></div>${filters()}</div>
+   <section class="stats" style="grid-template-columns:repeat(5,minmax(0,1fr))">
+    ${kpi('Score now', acc == null ? '—' : `<span style="color:${lv[1]}">${acc}%</span>`, `${rows.filter(r => r.ok).length} right of ${rows.length}`)}
+    ${kpi('1500 Blueprint before', base == null ? '—' : base + '%', b.n ? `${b.ok} of ${b.n}` : '', acc != null && base != null ? delta(acc, base) : '')}
+    ${kpi('Wrong', rows.length - rows.filter(r => r.ok).length, 'first tries missed')}
+    ${kpi('Avg time / question', mmss(avg), 'SAT pace ' + mmss(PACE[s.sec]))}
+    ${kpi('Next step', `<span style="font-size:18px">${acc == null || acc < 50 ? 'Learn it, then drill' : acc < 70 ? 'Drill + redo misses' : 'Keep it warm'}</span>`, '')}
+   </section>
+   <section class="card" style="padding:16px 18px;border-left:6px solid #b91c1c"><h2 class="hd" style="margin:0 0 6px;font-size:19px">Why the score is ${acc == null ? '—' : acc + '%'}</h2>${why.length ? `<ul style="margin:0;padding-left:20px;display:grid;gap:6px">${why.map(w => `<li>${esc(w)}</li>`).join('')}</ul>` : '<div>Nothing stands out. Keep practicing.</div>'}
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">${missed.length ? `<button class="btn" data-go="#/drill/ids:${[...new Set(missed.map(r => r.q.id))].join(',')}">Redo the ${new Set(missed.map(r => r.q.id)).size} missed</button>` : ''}<button class="btn o" data-go="#/drill/${id}">Drill 10 more</button><button class="btn g" data-go="#/learn/${id}">Learn it</button><button class="btn g" data-go="#/video/${id}">▶ Video</button></div></section>
+   <div class="cols" style="grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)">
+    <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 6px;font-size:19px">Accuracy over time</h2><div style="height:240px"><canvas id="k1"></canvas></div></section>
+    <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 6px;font-size:19px">By difficulty</h2><div style="height:240px"><canvas id="k2"></canvas></div></section>
+   </div>
+   ${kl.length ? `<section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 8px;font-size:19px">By kind of question</h2><table class="rep"><thead><tr><th>Kind</th><th>Qs</th><th>Right</th><th>Score</th><th>Example</th></tr></thead><tbody>${kl.map(k => { const l = level(k.a, k.n); return `<tr><td><b>${esc(k.nm)}</b></td><td>${k.n}</td><td>${k.ok}</td><td><span class="pill" style="color:${l[1]};background:${l[2]}">${k.a}%</span></td><td style="font-size:13px;color:var(--mute)">${esc(plain(k.ex.q).slice(0, 90))}…</td></tr>` }).join('')}</tbody></table></section>` : ''}
+   ${tl.length ? `<section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 8px;font-size:19px">Traps he fell for</h2>${tl.map(([t, n]) => `<div style="display:flex;gap:10px;padding:6px 0;border-top:1px solid #f1f2f4"><span class="pill" style="background:#fde2e2;color:#b91c1c">${n}×</span>${esc(t)}</div>`).join('')}</section>` : ''}
+   <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 8px;font-size:19px">Every missed question <span style="font-size:13px;color:var(--mute);font-weight:500">click to see his answer, the right one, and how to do it</span></h2>${missed.length ? missed.map(missRow).join('') : '<div style="color:var(--mute)">No misses in this period.</div>'}</section>
+   <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 8px;font-size:19px">Right on the first try (${right.length})</h2>${right.slice(0, 30).map(r => `<div style="display:flex;gap:10px;padding:6px 0;border-top:1px solid #f1f2f4;font-size:14px"><span class="pill" style="background:#dcfce7;color:#15803d">✓</span><span style="color:var(--mute)">${new Date(r.ts).toLocaleDateString('en-US', {month: 'short', day: 'numeric'})} · ${DIFF[r.q.diff]} · ${mmss(r.sec)}</span>${esc(plain(r.q.q).slice(0, 110))}…</div>`).join('') || '<div style="color:var(--mute)">None yet.</div>'}</section>
+  </div>`;
+  window.scrollTo(0, 0);
+  const tick = {font: {family: 'Inter', size: 12}};
+  chart('k1', {type: 'line', data: {labels: se.lab, datasets: [{label: 'Accuracy', data: se.acc, borderColor: SCOL[s.sec] || SCOL.Math, backgroundColor: SCOL[s.sec] || SCOL.Math, pointRadius: 5, tension: .3, spanGaps: true}, ...(base != null ? [{label: 'Blueprint before', data: se.lab.map(() => base), borderColor: '#111827', borderDash: [5, 5], pointRadius: 0}] : []), {label: 'Goal 75%', data: se.lab.map(() => 75), borderColor: '#ca8a04', borderDash: [6, 6], pointRadius: 0}]},
+    options: {maintainAspectRatio: false, scales: {y: {min: 0, max: 100, ticks: {...tick, callback: v => v + '%'}}, x: {ticks: tick}}, plugins: {legend: {labels: tick}}}});
+  chart('k2', {type: 'bar', data: {labels: diff.map(d => ({E: 'Easy', M: 'Medium', H: 'Hard'})[d.k] + ` (${d.ok}/${d.n})`), datasets: [{label: 'Accuracy', data: diff.map(d => d.a), backgroundColor: diff.map(d => d.a == null ? '#e5e7eb' : d.a < 50 ? '#f87171' : d.a < 70 ? '#fbbf24' : '#4ade80')}]},
+    options: {maintainAspectRatio: false, scales: {y: {min: 0, max: 100, ticks: {...tick, callback: v => v + '%'}}, x: {ticks: tick}}, plugins: {legend: {display: false}}}});
+}
+document.addEventListener('click', e => { const b = e.target.closest('[data-st]'); if (!b) return; const [k, v] = b.dataset.st.split(':'); ST[k] = v; const h = decodeURIComponent(location.hash.slice(1)); const a = h.split('/')[2]; if (a && SK2[a]) skillStats(a); else drawStats() });
