@@ -59,29 +59,52 @@ if pd:
         f"<table role='presentation' width='100%' cellpadding='0' cellspacing='0'><tr>{box('Total', planned)}{box('Completed', done)}{box('Correct', right)}</tr></table></div>")
 
 # ---- day numbers ----
+SITE = 'https://allieburkesport-lang.github.io/act-tutor/sat/prep/'
+HN = {'show': 'Show me how', 'desm': 'Desmos steps', 'form': 'Formula', 'learn': 'Learn it', 'video': 'Video', 'tutor': 'Ask the tutor', 'desmos': 'Desmos calculator', 'ref': 'Reference sheet'}
+TOOLS = {'desmos', 'ref'}
+def qlabel(qid): k, _, num = qid.rpartition('-'); return f"{nm(k)} #{int(num) if num.isdigit() else num}"
+def qlink(qid): return f"<a href='{SITE}#/look/{qid}' style='color:{NAVY};font-weight:700;text-decoration:underline'>{html.escape(qlabel(qid))}</a>"
+def tile(lab, val, c=NAVY): return f"<td width='50%' style='padding:4px'><div style='border:2px solid {LN};border-radius:12px;padding:10px;text-align:center'><div style='font-size:28px;line-height:32px;font-weight:800;color:{c}'>{val}</div><div style='font-size:14px;font-weight:700;color:#334155'>{lab}</div></div></td>"
+def row(left, right=''): return f"<tr><td style='padding:9px 0;border-top:1px solid {LN};font-size:15px'>{left}</td><td align='right' style='padding:9px 0;border-top:1px solid {LN};font-size:14px;font-weight:700;white-space:nowrap'>{right}</td></tr>"
+tbl = lambda rows: f"<table role='presentation' width='100%' cellpadding='0' cellspacing='0'>{rows}</table>"
+asks = [m for m in T if m.get('role') == 'student' and et(m['created_at']).strftime('%Y-%m-%d') == day]
 if n:
+    Q = collections.OrderedDict()
+    for a in sorted(R, key=lambda a: a['created_at']):
+        qid = a['question'].split(' ')[0]; e = Q.setdefault(qid, {'first': None, 'help': set(), 'ok': False})
+        if e['first'] is None: e['first'] = a['correct']
+        e['ok'] = e['ok'] or a['correct']
+        hm = re.search(r'help ([\w+]+)', a.get('part') or '')
+        if hm: e['help'] |= set(hm.group(1).split('+'))
+        elif 'coached' in (a.get('part') or ''): e['help'].add('show')
+    for m in asks:
+        if m.get('question_id') in Q: Q[m['question_id']]['help'].add('tutor')
+    wrong = [k for k, e in Q.items() if e['first'] is False]
+    helped = [k for k, e in Q.items() if e['help'] - TOOLS]
+    calc = [k for k, e in Q.items() if e['help'] & TOOLS]
     secs = round(sum(a.get('seconds') or 0 for a in F) / n)
     t0 = min(et(a['created_at']) for a in R); t1 = max(et(a['created_at']) for a in R)
-    fixed = sum(1 for a in R if (a.get('attempt') or 1) > 1 and a['correct'])
-    by = collections.defaultdict(lambda: [0, 0, 0])
-    for a in F: s = by[a['concept_id']]; s[0] += 1; s[1] += a['correct']; s[2] += a.get('seconds') or 0
-    miss = [a for a in F if not a['correct']]
-    kpis = f"<table role='presentation' width='100%' cellpadding='0' cellspacing='0' style='margin:10px 0 0'><tr>{kpi('Right on first try', f'{round(100*ok/n)}%', f'{ok} of {n}')}{kpi('Questions', str(n), f'{fixed} more fixed on retry')}</tr><tr>{kpi('Time per question', f'{secs}s', '')}{kpi('Time on HELM', f'{round((t1-t0).seconds/60)} min', nolink(t0.strftime('%-I:%M')) + '–' + nolink(t1.strftime('%-I:%M %p')))}</tr></table>"
-    skills = ''.join(f"<tr><td style='padding:10px 0;border-top:1px solid {LN}'><div style='font-size:15px;font-weight:600'>{nm(k)}</div><div style='font-size:12px;color:{MU}'>{secn(k)} · {v[1]} of {v[0]} right · {round(v[2]/v[0])}s each</div></td><td align='right' style='padding:10px 0;border-top:1px solid {LN};font-size:18px;font-weight:800;color:{col(round(100*v[1]/v[0]))};white-space:nowrap'>{round(100*v[1]/v[0])}%</td></tr>" for k, v in sorted(by.items(), key=lambda x: (x[1][1] / x[1][0], -x[1][0])))
-    def q(s): s = re.sub(r'^\S+ ', '', s); s = re.sub(r'(?<=[a-z])\.(?=[A-Z][a-z])', '. ', s); return html.escape(s[:140] + ('…' if len(s) > 140 else ''))
-    misses = ''.join(f"<div style='border-left:4px solid {RED};background:#FEF2F2;border-radius:8px;padding:10px 12px;margin:0 0 8px'><div style='font-size:12px;color:{MU}'>{nm(a['concept_id'])}</div><div style='font-size:14px;margin:3px 0'>{q(a['question'])}</div><div style='font-size:13px'>He picked: <b style='color:{RED}'>{html.escape(str(a['picked']))}</b></div></div>" for a in miss) or f"<div style='font-size:15px'>None. Every question right on the first try.</div>"
-    helpc = collections.Counter(h for a in R for h in re.findall(r'help ([\w+]+)', a.get('part') or '') for h in h.split('+'))
-    HN = {'show': 'Show me how', 'desmos': 'Desmos', 'form': 'Formula', 'learn': 'Learn it', 'video': 'Video', 'tutor': 'Ask the tutor'}
-    asks = [m['content'] for m in T if m['role'] == 'student' and et(m['created_at']).strftime('%Y-%m-%d') == day]
-    helps = [', '.join(f'{HN.get(k,k)} ×{v}' for k, v in helpc.most_common()) or 'He didn\'t open any help.',
-             'Tutor: ' + ('; '.join('“' + html.escape(x) + '”' for x in asks) if asks else 'no questions asked.')]
-    watch = []
-    weak = [(k, v) for k, v in by.items() if v[0] >= 4]
-    if weak:
-        k, v = min(weak, key=lambda x: x[1][1] / x[1][0]); watch.append(f"<b>{nm(k)} ({round(100*v[1]/v[0])}%)</b> was his weakest skill.")
-        k, v = max(weak, key=lambda x: x[1][2] / x[1][0]); watch.append(f"<b>{nm(k)}</b> was his slowest skill (about {round(v[2]/v[0])}s a question).")
-    watch.append(f"<b>Speed:</b> {secs}s a question (SAT pace: 70–95s).")
-    day_html = plan_html + h3('All work that day') + kpis + h3('By skill (weakest first)') + f"<table role='presentation' width='100%' cellpadding='0' cellspacing='0'>{skills}</table>" + h3(f'Questions he missed ({len(miss)})') + misses + h3('Help he used') + ul(helps) + h3('What to watch') + ul(watch)
+    summary = (f"<table role='presentation' width='100%' cellpadding='0' cellspacing='0' style='margin:6px 0 0'>"
+        f"<tr>{tile('Questions done', len(Q))}{tile('Right first try', f'{round(100*ok/n)}%', col(round(100*ok/n)))}</tr>"
+        f"<tr>{tile('Wrong', len(wrong), RED if wrong else G)}{tile('Used help on', len(helped), AMB if helped else G)}</tr>"
+        f"<tr>{tile('Asked the tutor', len(asks))}{tile('Used calculator on', len(calc))}</tr>"
+        f"<tr>{tile('Time per question', f'{secs}s')}{tile('Time on HELM', f'{round((t1-t0).seconds/60)} min')}</tr></table>")
+    badge = lambda h: ' '.join(f"<span style='display:inline-block;background:#FEF3C7;border:1px solid #F59E0B;border-radius:10px;padding:1px 7px;margin:2px 2px 0 0;font-size:12px;font-weight:700'>{HN.get(x,x)}</span>" for x in sorted(h))
+    res = lambda k: f"<span style='color:{G if Q[k]['first'] else RED}'>{'✓ right' if Q[k]['first'] else '✗ wrong'}</span>"
+    help_html = tbl(''.join(row(qlink(k) + '<br>' + badge(Q[k]['help'] - TOOLS), res(k)) for k in helped)) if helped else f"<div style='font-size:15px'>None.</div>"
+    miss_html = tbl(''.join(row(qlink(k), f"<span style='color:{G if Q[k]['ok'] else RED}'>{'fixed on retry' if Q[k]['ok'] else 'not fixed'}</span>") for k in wrong)) if wrong else f"<div style='font-size:15px'>None. Every question right on the first try.</div>"
+    ask_html = tbl(''.join(row((qlink(m['question_id']) + '<br>' if m.get('question_id') else '') + '“' + html.escape(m['content'][:200]) + '”') for m in asks)) if asks else f"<div style='font-size:15px'>He didn't ask the tutor anything.</div>"
+    calc_html = (f"<div style='font-size:15px'>{len(calc)} question{'s' if len(calc)!=1 else ''}: " + ', '.join(qlink(k) + ' (' + ', '.join(HN[x] for x in sorted(Q[k]['help'] & TOOLS)) + ')' for k in calc) + "</div>") if calc else f"<div style='font-size:15px'>None.</div>"
+    by = collections.defaultdict(lambda: [0, 0])
+    for a in F: by[a['concept_id']][0] += 1; by[a['concept_id']][1] += a['correct']
+    skills = tbl(''.join(row(f"<b>{nm(k)}</b> · {v[1]} of {v[0]}", f"<span style='font-size:17px;color:{col(round(100*v[1]/v[0]))}'>{round(100*v[1]/v[0])}%</span>") for k, v in sorted(by.items(), key=lambda x: (x[1][1] / x[1][0], -x[1][0]))))
+    day_html = (plan_html + h3('Summary of the day') + summary
+        + h3(f'Questions he got help on ({len(helped)})') + help_html
+        + h3(f'Questions he got wrong ({len(wrong)})') + miss_html
+        + h3(f'What he asked the tutor ({len(asks)})') + ask_html
+        + h3('Calculator / reference sheet (allowed on the SAT)') + calc_html
+        + h3('By skill (weakest first)') + skills
+        + f"<div style='font-size:14px;margin-top:10px'>Tap any question to open it. It opens in practice mode and nothing is saved.</div>")
 else:
     day_html = plan_html + f"<div style='font-size:16px;margin:14px 0'>❌ <b>No HELM work on {pretty(day)}.</b></div>"
 
