@@ -1,5 +1,5 @@
 {
- "updated": "Sat Nov 21, 9:08 AM ET",
+ "updated": "Sat Nov 21, 10:15 AM ET",
  "online": true,
  "today": "2026-11-21",
  "test": "2026-12-05",
@@ -16,7 +16,7 @@
    "skill": "wic",
    "name": "Words in context",
    "sec": "English",
-   "share": 15.5,
+   "share": 15.7,
    "acc": 55,
    "tried": 31
   },
@@ -24,7 +24,7 @@
    "skill": "tsp",
    "name": "Text structure and purpose",
    "sec": "English",
-   "share": 8.9,
+   "share": 8.7,
    "acc": 33,
    "tried": 3
   },
@@ -32,7 +32,7 @@
    "skill": "cross",
    "name": "Cross-text connections",
    "sec": "English",
-   "share": 3.6,
+   "share": 2.0,
    "acc": 50,
    "tried": 6
   },
@@ -40,7 +40,7 @@
    "skill": "cid",
    "name": "Central ideas and details",
    "sec": "English",
-   "share": 6.5,
+   "share": 4.3,
    "acc": 57,
    "tried": 21
   },
@@ -48,7 +48,7 @@
    "skill": "coe",
    "name": "Command of evidence (text and data)",
    "sec": "English",
-   "share": 13.0,
+   "share": 13.5,
    "acc": 66,
    "tried": 35
   },
@@ -56,7 +56,7 @@
    "skill": "inf",
    "name": "Inferences",
    "sec": "English",
-   "share": 6.6,
+   "share": 10.2,
    "acc": 46,
    "tried": 24
   },
@@ -64,7 +64,7 @@
    "skill": "bound",
    "name": "Boundaries (punctuation)",
    "sec": "English",
-   "share": 13.2,
+   "share": 12.4,
    "acc": 55,
    "tried": 31
   },
@@ -72,7 +72,7 @@
    "skill": "fss",
    "name": "Form, structure and sense",
    "sec": "English",
-   "share": 12.8,
+   "share": 9.4,
    "acc": 46,
    "tried": 39
   },
@@ -80,7 +80,7 @@
    "skill": "syn",
    "name": "Rhetorical synthesis (notes)",
    "sec": "English",
-   "share": 10.3,
+   "share": 13.1,
    "acc": 67,
    "tried": 3
   },
@@ -88,7 +88,7 @@
    "skill": "trans",
    "name": "Transitions",
    "sec": "English",
-   "share": 9.7,
+   "share": 10.7,
    "acc": 44,
    "tried": 34
   },
@@ -96,7 +96,7 @@
    "skill": "lin1",
    "name": "Linear equations in one variable",
    "sec": "Math",
-   "share": 6.4,
+   "share": 6.1,
    "acc": 50,
    "tried": 52
   },
@@ -104,7 +104,7 @@
    "skill": "lin2",
    "name": "Linear equations in two variables",
    "sec": "Math",
-   "share": 7.4,
+   "share": 7.0,
    "acc": 55,
    "tried": 33
   },
@@ -112,7 +112,7 @@
    "skill": "linf",
    "name": "Linear functions",
    "sec": "Math",
-   "share": 9.7,
+   "share": 10.5,
    "acc": 44,
    "tried": 16
   },
@@ -120,7 +120,7 @@
    "skill": "sys",
    "name": "Systems of two linear equations",
    "sec": "Math",
-   "share": 7.2,
+   "share": 7.0,
    "acc": 56,
    "tried": 25
   },
@@ -128,7 +128,7 @@
    "skill": "ineq",
    "name": "Linear inequalities",
    "sec": "Math",
-   "share": 4.4,
+   "share": 4.1,
    "acc": 50,
    "tried": 8
   },
@@ -136,7 +136,7 @@
    "skill": "equiv",
    "name": "Equivalent expressions",
    "sec": "Math",
-   "share": 7.5,
+   "share": 5.5,
    "acc": 58,
    "tried": 31
   },
@@ -144,7 +144,7 @@
    "skill": "nleq",
    "name": "Nonlinear equations and systems",
    "sec": "Math",
-   "share": 10.7,
+   "share": 10.0,
    "acc": 36,
    "tried": 28
   },
@@ -160,7 +160,7 @@
    "skill": "ratio",
    "name": "Ratios, rates, proportions and units",
    "sec": "Math",
-   "share": 3.3,
+   "share": 3.6,
    "acc": 29,
    "tried": 7
   },
@@ -168,7 +168,7 @@
    "skill": "pct",
    "name": "Percentages",
    "sec": "Math",
-   "share": 3.0,
+   "share": 3.6,
    "acc": 67,
    "tried": 15
   },
@@ -176,7 +176,7 @@
    "skill": "data1",
    "name": "One-variable data: center and spread",
    "sec": "Math",
-   "share": 3.0,
+   "share": 4.1,
    "acc": 50,
    "tried": 2
   },
@@ -184,7 +184,7 @@
    "skill": "data2",
    "name": "Two-variable data: models and scatterplots",
    "sec": "Math",
-   "share": 2.5,
+   "share": 3.6,
    "acc": 44,
    "tried": 9
   },
@@ -192,7 +192,7 @@
    "skill": "prob",
    "name": "Probability and conditional probability",
    "sec": "Math",
-   "share": 1.7,
+   "share": 1.8,
    "acc": null,
    "tried": 0
   },
@@ -200,7 +200,7 @@
    "skill": "infer",
    "name": "Sample statistics and margin of error",
    "sec": "Math",
-   "share": 1.0,
+   "share": 0.9,
    "acc": 75,
    "tried": 4
   },
@@ -208,7 +208,7 @@
    "skill": "claims",
    "name": "Observational studies and experiments",
    "sec": "Math",
-   "share": 0.4,
+   "share": 0.2,
    "acc": 0,
    "tried": 2
   },
@@ -216,7 +216,7 @@
    "skill": "area",
    "name": "Area and volume",
    "sec": "Math",
-   "share": 4.7,
+   "share": 4.1,
    "acc": 43,
    "tried": 14
   },
@@ -224,7 +224,7 @@
    "skill": "lat",
    "name": "Lines, angles and triangles",
    "sec": "Math",
-   "share": 4.4,
+   "share": 5.0,
    "acc": 0,
    "tried": 6
   },
@@ -232,7 +232,7 @@
    "skill": "trig",
    "name": "Right triangles and trigonometry",
    "sec": "Math",
-   "share": 3.0,
+   "share": 3.4,
    "acc": null,
    "tried": 0
   },
@@ -240,7 +240,7 @@
    "skill": "circ",
    "name": "Circles",
    "sec": "Math",
-   "share": 2.9,
+   "share": 3.4,
    "acc": 80,
    "tried": 5
   }
@@ -313,7 +313,7 @@
      "skill": "nleq",
      "name": "Nonlinear equations and systems",
      "sec": "Math",
-     "share": 10.7,
+     "share": 10.0,
      "acc": 36,
      "tried": 28,
      "lessons": [
@@ -334,7 +334,7 @@
      "skill": "fss",
      "name": "Form, structure and sense",
      "sec": "English",
-     "share": 12.8,
+     "share": 9.4,
      "acc": 46,
      "tried": 39,
      "lessons": [
@@ -448,7 +448,7 @@
      "skill": "trig",
      "name": "Right triangles and trigonometry",
      "sec": "Math",
-     "share": 3.0,
+     "share": 3.4,
      "acc": null,
      "tried": 0,
      "lessons": [
@@ -464,7 +464,7 @@
      "skill": "circ",
      "name": "Circles",
      "sec": "Math",
-     "share": 2.9,
+     "share": 3.4,
      "acc": 80,
      "tried": 5,
      "lessons": [
@@ -480,7 +480,7 @@
      "skill": "trans",
      "name": "Transitions",
      "sec": "English",
-     "share": 9.7,
+     "share": 10.7,
      "acc": 44,
      "tried": 34,
      "lessons": [
@@ -602,7 +602,7 @@
      "skill": "trig",
      "name": "Right triangles and trigonometry",
      "sec": "Math",
-     "share": 3.0,
+     "share": 3.4,
      "acc": null,
      "tried": 0,
      "lessons": [
@@ -618,7 +618,7 @@
      "skill": "nleq",
      "name": "Nonlinear equations and systems",
      "sec": "Math",
-     "share": 10.7,
+     "share": 10.0,
      "acc": 36,
      "tried": 28,
      "lessons": [
@@ -639,7 +639,7 @@
      "skill": "prob",
      "name": "Probability and conditional probability",
      "sec": "Math",
-     "share": 1.7,
+     "share": 1.8,
      "acc": null,
      "tried": 0,
      "lessons": [
@@ -655,7 +655,7 @@
      "skill": "cid",
      "name": "Central ideas and details",
      "sec": "English",
-     "share": 6.5,
+     "share": 4.3,
      "acc": 57,
      "tried": 21,
      "lessons": [
@@ -774,7 +774,7 @@
      "skill": "circ",
      "name": "Circles",
      "sec": "Math",
-     "share": 2.9,
+     "share": 3.4,
      "acc": 80,
      "tried": 5,
      "lessons": [
@@ -790,7 +790,7 @@
      "skill": "ratio",
      "name": "Ratios, rates, proportions and units",
      "sec": "Math",
-     "share": 3.3,
+     "share": 3.6,
      "acc": 29,
      "tried": 7,
      "lessons": [
@@ -806,7 +806,7 @@
      "skill": "pct",
      "name": "Percentages",
      "sec": "Math",
-     "share": 3.0,
+     "share": 3.6,
      "acc": 67,
      "tried": 15,
      "lessons": [
@@ -822,7 +822,7 @@
      "skill": "bound",
      "name": "Boundaries (punctuation)",
      "sec": "English",
-     "share": 13.2,
+     "share": 12.4,
      "acc": 55,
      "tried": 31,
      "lessons": [
@@ -912,9 +912,9 @@
     "nlf",
     "nleq",
     "lat",
-    "fss"
+    "tsp"
    ],
-   "math_share": 62,
+   "math_share": 61,
    "review": [
     [
      "ratio",
@@ -930,7 +930,7 @@
     ],
     [
      "fss",
-     2
+     1
     ],
     [
      "trig",
@@ -959,6 +959,10 @@
     [
      "lat",
      3
+    ],
+    [
+     "tsp",
+     2
     ]
    ],
    "label": "Mon Nov 23",
@@ -967,7 +971,7 @@
      "skill": "trans",
      "name": "Transitions",
      "sec": "English",
-     "share": 9.7,
+     "share": 10.7,
      "acc": 44,
      "tried": 34,
      "lessons": [
@@ -983,7 +987,7 @@
      "skill": "linf",
      "name": "Linear functions",
      "sec": "Math",
-     "share": 9.7,
+     "share": 10.5,
      "acc": 44,
      "tried": 16,
      "lessons": [
@@ -1004,7 +1008,7 @@
      "skill": "lin2",
      "name": "Linear equations in two variables",
      "sec": "Math",
-     "share": 7.4,
+     "share": 7.0,
      "acc": 55,
      "tried": 33,
      "lessons": [
@@ -1020,7 +1024,7 @@
      "skill": "wic",
      "name": "Words in context",
      "sec": "English",
-     "share": 15.5,
+     "share": 15.7,
      "acc": 55,
      "tried": 31,
      "lessons": [
@@ -1033,7 +1037,7 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/wic"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:ratio.2,nleq.3,nlf.3,fss.2,trig.2,prob.2,bound.1,cid.1,pct.2,circ.2,lat.3",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:ratio.2,nleq.3,nlf.3,fss.1,trig.2,prob.2,bound.1,cid.1,pct.2,circ.2,lat.3,tsp.2",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-11-23",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-11-23",
    "review_names": [
@@ -1051,7 +1055,7 @@
     ],
     [
      "Form, structure and sense",
-     2
+     1
     ],
     [
      "Right triangles and trigonometry",
@@ -1080,15 +1084,19 @@
     [
      "Lines, angles and triangles",
      3
+    ],
+    [
+     "Text structure and purpose",
+     2
     ]
    ],
    "focus_names": [
     "Nonlinear functions",
     "Nonlinear equations and systems",
     "Lines, angles and triangles",
-    "Form, structure and sense"
+    "Text structure and purpose"
    ],
-   "n_questions": 63,
+   "n_questions": 64,
    "result": null
   },
   {
@@ -1171,7 +1179,7 @@
      "skill": "area",
      "name": "Area and volume",
      "sec": "Math",
-     "share": 4.7,
+     "share": 4.1,
      "acc": 43,
      "tried": 14,
      "lessons": [
@@ -1192,7 +1200,7 @@
      "skill": "lat",
      "name": "Lines, angles and triangles",
      "sec": "Math",
-     "share": 4.4,
+     "share": 5.0,
      "acc": 0,
      "tried": 6,
      "lessons": [
@@ -1208,7 +1216,7 @@
      "skill": "syn",
      "name": "Rhetorical synthesis (notes)",
      "sec": "English",
-     "share": 10.3,
+     "share": 13.1,
      "acc": 67,
      "tried": 3,
      "lessons": [
@@ -1383,7 +1391,7 @@
      "skill": "data1",
      "name": "One-variable data: center and spread",
      "sec": "Math",
-     "share": 3.0,
+     "share": 4.1,
      "acc": 50,
      "tried": 2,
      "lessons": [
@@ -1399,7 +1407,7 @@
      "skill": "data2",
      "name": "Two-variable data: models and scatterplots",
      "sec": "Math",
-     "share": 2.5,
+     "share": 3.6,
      "acc": 44,
      "tried": 9,
      "lessons": [
@@ -1415,7 +1423,7 @@
      "skill": "inf",
      "name": "Inferences",
      "sec": "English",
-     "share": 6.6,
+     "share": 10.2,
      "acc": 46,
      "tried": 24,
      "lessons": [
@@ -1840,7 +1848,7 @@
      "skill": "sys",
      "name": "Systems of two linear equations",
      "sec": "Math",
-     "share": 7.2,
+     "share": 7.0,
      "acc": 56,
      "tried": 25,
      "lessons": [
@@ -1856,7 +1864,7 @@
      "skill": "ineq",
      "name": "Linear inequalities",
      "sec": "Math",
-     "share": 4.4,
+     "share": 4.1,
      "acc": 50,
      "tried": 8,
      "lessons": [
@@ -1872,7 +1880,7 @@
      "skill": "coe",
      "name": "Command of evidence (text and data)",
      "sec": "English",
-     "share": 13.0,
+     "share": 13.5,
      "acc": 66,
      "tried": 35,
      "lessons": [
@@ -2095,7 +2103,7 @@
      "skill": "lin1",
      "name": "Linear equations in one variable",
      "sec": "Math",
-     "share": 6.4,
+     "share": 6.1,
      "acc": 50,
      "tried": 52,
      "lessons": [
@@ -2116,7 +2124,7 @@
      "skill": "equiv",
      "name": "Equivalent expressions",
      "sec": "Math",
-     "share": 7.5,
+     "share": 5.5,
      "acc": 58,
      "tried": 31,
      "lessons": [
@@ -2132,7 +2140,7 @@
      "skill": "tsp",
      "name": "Text structure and purpose",
      "sec": "English",
-     "share": 8.9,
+     "share": 8.7,
      "acc": 33,
      "tried": 3,
      "lessons": [
@@ -2264,8 +2272,8 @@
    "focus": [
     "lat",
     "lin2",
-    "lin1",
-    "fss"
+    "sys",
+    "trans"
    ],
    "math_share": 70,
    "review": [
@@ -2287,7 +2295,7 @@
     ],
     [
      "trans",
-     1
+     2
     ],
     [
      "data2",
@@ -2295,7 +2303,7 @@
     ],
     [
      "fss",
-     2
+     1
     ],
     [
      "inf",
@@ -2319,7 +2327,7 @@
     ],
     [
      "lin1",
-     2
+     1
     ],
     [
      "bound",
@@ -2331,7 +2339,7 @@
     ],
     [
      "sys",
-     1
+     2
     ],
     [
      "cid",
@@ -2390,7 +2398,7 @@
      "skill": "nleq",
      "name": "Nonlinear equations and systems",
      "sec": "Math",
-     "share": 10.7,
+     "share": 10.0,
      "acc": 36,
      "tried": 28,
      "lessons": [
@@ -2411,7 +2419,7 @@
      "skill": "linf",
      "name": "Linear functions",
      "sec": "Math",
-     "share": 9.7,
+     "share": 10.5,
      "acc": 44,
      "tried": 16,
      "lessons": [
@@ -2432,7 +2440,7 @@
      "skill": "wic",
      "name": "Words in context",
      "sec": "English",
-     "share": 15.5,
+     "share": 15.7,
      "acc": 55,
      "tried": 31,
      "lessons": [
@@ -2445,7 +2453,7 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/wic"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:lat.2,ratio.1,tsp.1,area.1,trans.1,data2.1,fss.2,inf.1,trig.1,prob.1,data1.1,ineq.1,lin1.2,bound.1,lin2.2,sys.1,cid.1,equiv.1,coe.1,pct.1,syn.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:lat.2,ratio.1,tsp.1,area.1,trans.2,data2.1,fss.1,inf.1,trig.1,prob.1,data1.1,ineq.1,lin1.1,bound.1,lin2.2,sys.2,cid.1,equiv.1,coe.1,pct.1,syn.1,circ.1",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-12-01",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-12-01",
    "review_names": [
@@ -2467,7 +2475,7 @@
     ],
     [
      "Transitions",
-     1
+     2
     ],
     [
      "Two-variable data: models and scatterplots",
@@ -2475,7 +2483,7 @@
     ],
     [
      "Form, structure and sense",
-     2
+     1
     ],
     [
      "Inferences",
@@ -2499,7 +2507,7 @@
     ],
     [
      "Linear equations in one variable",
-     2
+     1
     ],
     [
      "Boundaries (punctuation)",
@@ -2511,7 +2519,7 @@
     ],
     [
      "Systems of two linear equations",
-     1
+     2
     ],
     [
      "Central ideas and details",
@@ -2541,8 +2549,8 @@
    "focus_names": [
     "Lines, angles and triangles",
     "Linear equations in two variables",
-    "Linear equations in one variable",
-    "Form, structure and sense"
+    "Systems of two linear equations",
+    "Transitions"
    ],
    "n_questions": 66,
    "result": null
@@ -2552,18 +2560,18 @@
    "kind": "weak",
    "learn": [
     "infer",
-    "claims",
     "cross",
-    "nlf"
+    "nlf",
+    "nleq"
    ],
-   "note": "Small topics + his weakest math concept so far",
+   "note": "Small topics + his weakest concepts (statistical claims dropped: 0 per test in the official practice tests)",
    "focus": [
-    "nleq",
     "linf",
     "lat",
+    "lin2",
     "wic"
    ],
-   "math_share": 70,
+   "math_share": 69,
    "review": [
     [
      "lat",
@@ -2576,10 +2584,6 @@
     [
      "tsp",
      1
-    ],
-    [
-     "nleq",
-     2
     ],
     [
      "area",
@@ -2631,7 +2635,7 @@
     ],
     [
      "lin2",
-     1
+     2
     ],
     [
      "wic",
@@ -2672,7 +2676,7 @@
      "skill": "infer",
      "name": "Sample statistics and margin of error",
      "sec": "Math",
-     "share": 1.0,
+     "share": 0.9,
      "acc": 75,
      "tried": 4,
      "lessons": [
@@ -2685,26 +2689,10 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/infer"
     },
     {
-     "skill": "claims",
-     "name": "Observational studies and experiments",
-     "sec": "Math",
-     "share": 0.4,
-     "acc": 0,
-     "tried": 2,
-     "lessons": [
-      {
-       "id": "d3",
-       "title": "Scatterplots",
-       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/claims"
-      }
-     ],
-     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/claims"
-    },
-    {
      "skill": "cross",
      "name": "Cross-text connections",
      "sec": "English",
-     "share": 3.6,
+     "share": 2.0,
      "acc": 50,
      "tried": 6,
      "lessons": [
@@ -2741,9 +2729,30 @@
       }
      ],
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/nlf"
+    },
+    {
+     "skill": "nleq",
+     "name": "Nonlinear equations and systems",
+     "sec": "Math",
+     "share": 10.0,
+     "acc": 36,
+     "tried": 28,
+     "lessons": [
+      {
+       "id": "a1",
+       "title": "Quadratics",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/nleq"
+      },
+      {
+       "id": "a4",
+       "title": "Absolute value",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/nleq"
+      }
+     ],
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/nleq"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:lat.2,ratio.1,tsp.1,nleq.2,area.1,trans.1,linf.2,data2.1,fss.1,inf.1,trig.1,prob.1,data1.1,ineq.1,lin1.1,bound.1,lin2.1,wic.2,sys.1,cid.1,equiv.1,coe.1,pct.1,syn.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:lat.2,ratio.1,tsp.1,area.1,trans.1,linf.2,data2.1,fss.1,inf.1,trig.1,prob.1,data1.1,ineq.1,lin1.1,bound.1,lin2.2,wic.2,sys.1,cid.1,equiv.1,coe.1,pct.1,syn.1,circ.1",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-12-02",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-12-02",
    "review_names": [
@@ -2758,10 +2767,6 @@
     [
      "Text structure and purpose",
      1
-    ],
-    [
-     "Nonlinear equations and systems",
-     2
     ],
     [
      "Area and volume",
@@ -2813,7 +2818,7 @@
     ],
     [
      "Linear equations in two variables",
-     1
+     2
     ],
     [
      "Words in context",
@@ -2849,12 +2854,12 @@
     ]
    ],
    "focus_names": [
-    "Nonlinear equations and systems",
     "Linear functions",
     "Lines, angles and triangles",
+    "Linear equations in two variables",
     "Words in context"
    ],
-   "n_questions": 69,
+   "n_questions": 68,
    "result": null
   },
   {
@@ -2870,18 +2875,14 @@
    "focus": [
     "lat",
     "lin2",
-    "lin1",
-    "fss"
+    "sys",
+    "trans"
    ],
-   "math_share": 70,
+   "math_share": 69,
    "review": [
     [
      "lat",
      2
-    ],
-    [
-     "claims",
-     1
     ],
     [
      "ratio",
@@ -2897,7 +2898,7 @@
     ],
     [
      "trans",
-     1
+     2
     ],
     [
      "data2",
@@ -2905,7 +2906,7 @@
     ],
     [
      "fss",
-     2
+     1
     ],
     [
      "inf",
@@ -2929,7 +2930,7 @@
     ],
     [
      "lin1",
-     2
+     1
     ],
     [
      "cross",
@@ -2945,7 +2946,7 @@
     ],
     [
      "sys",
-     1
+     2
     ],
     [
      "cid",
@@ -3008,7 +3009,7 @@
      "skill": "nleq",
      "name": "Nonlinear equations and systems",
      "sec": "Math",
-     "share": 10.7,
+     "share": 10.0,
      "acc": 36,
      "tried": 28,
      "lessons": [
@@ -3029,7 +3030,7 @@
      "skill": "linf",
      "name": "Linear functions",
      "sec": "Math",
-     "share": 9.7,
+     "share": 10.5,
      "acc": 44,
      "tried": 16,
      "lessons": [
@@ -3050,7 +3051,7 @@
      "skill": "wic",
      "name": "Words in context",
      "sec": "English",
-     "share": 15.5,
+     "share": 15.7,
      "acc": 55,
      "tried": 31,
      "lessons": [
@@ -3063,17 +3064,13 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/wic"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:lat.2,claims.1,ratio.1,tsp.1,area.1,trans.1,data2.1,fss.2,inf.1,trig.1,prob.1,data1.1,ineq.1,lin1.2,cross.1,bound.1,lin2.2,sys.1,cid.1,equiv.1,coe.1,pct.1,syn.1,infer.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:lat.2,ratio.1,tsp.1,area.1,trans.2,data2.1,fss.1,inf.1,trig.1,prob.1,data1.1,ineq.1,lin1.1,cross.1,bound.1,lin2.2,sys.2,cid.1,equiv.1,coe.1,pct.1,syn.1,infer.1,circ.1",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-12-03",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-12-03",
    "review_names": [
     [
      "Lines, angles and triangles",
      2
-    ],
-    [
-     "Observational studies and experiments",
-     1
     ],
     [
      "Ratios, rates, proportions and units",
@@ -3089,7 +3086,7 @@
     ],
     [
      "Transitions",
-     1
+     2
     ],
     [
      "Two-variable data: models and scatterplots",
@@ -3097,7 +3094,7 @@
     ],
     [
      "Form, structure and sense",
-     2
+     1
     ],
     [
      "Inferences",
@@ -3121,7 +3118,7 @@
     ],
     [
      "Linear equations in one variable",
-     2
+     1
     ],
     [
      "Cross-text connections",
@@ -3137,7 +3134,7 @@
     ],
     [
      "Systems of two linear equations",
-     1
+     2
     ],
     [
      "Central ideas and details",
@@ -3171,10 +3168,10 @@
    "focus_names": [
     "Lines, angles and triangles",
     "Linear equations in two variables",
-    "Linear equations in one variable",
-    "Form, structure and sense"
+    "Systems of two linear equations",
+    "Transitions"
    ],
-   "n_questions": 69,
+   "n_questions": 68,
    "result": null
   },
   {
@@ -3188,14 +3185,10 @@
     "linf",
     "wic"
    ],
-   "math_share": 65,
+   "math_share": 64,
    "review": [
     [
      "lat",
-     1
-    ],
-    [
-     "claims",
      1
     ],
     [
@@ -3309,16 +3302,12 @@
    ],
    "label": "Fri Dec 4",
    "concepts": [],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:lat.1,claims.1,ratio.1,tsp.1,nleq.2,nlf.2,area.1,trans.1,linf.2,data2.1,fss.1,inf.1,trig.1,prob.1,data1.1,ineq.1,lin1.1,cross.1,bound.1,lin2.1,wic.2,sys.1,cid.1,equiv.1,coe.1,pct.1,syn.1,infer.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:lat.1,ratio.1,tsp.1,nleq.2,nlf.2,area.1,trans.1,linf.2,data2.1,fss.1,inf.1,trig.1,prob.1,data1.1,ineq.1,lin1.1,cross.1,bound.1,lin2.1,wic.2,sys.1,cid.1,equiv.1,coe.1,pct.1,syn.1,infer.1,circ.1",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-12-04",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-12-04",
    "review_names": [
     [
      "Lines, angles and triangles",
-     1
-    ],
-    [
-     "Observational studies and experiments",
      1
     ],
     [
@@ -3436,7 +3425,7 @@
     "Linear functions",
     "Words in context"
    ],
-   "n_questions": 33,
+   "n_questions": 32,
    "result": null
   },
   {

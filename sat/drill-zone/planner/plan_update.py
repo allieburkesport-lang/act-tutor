@@ -19,9 +19,10 @@ LESSONS = {'lin1':['m1','m4'],'lin2':['t1'],'linf':['t1','a3'],'sys':['a2'],'ine
  'wic':['r1'],'tsp':['r5'],'cross':['r5'],'cid':['r2'],'coe':['r4'],'inf':['r3'],'bound':['s1','s2','s4'],'fss':['s3','s5','g1','g2','g3'],'trans':['s6'],'syn':['r6']}
 LTITLE = {'s1':'Sentences','s2':'No wall','s3':'Apostrophes','s4':'Pairs','s5':'Subject X-ray','s6':'CARE transitions','r1':'Words in context','r2':'Main idea','r3':'Inferences','r4':'Evidence','r5':'Purpose + two texts','r6':'Notes questions',
  'm1':'Define FIND','m2':'Trap words','m4':'Verify','t1':'Lines and slope','t2':'Exponents','t3':'Circles, volume, trig','a1':'Quadratics','a2':'Systems','a3':'Functions','a4':'Absolute value','a5':'Inequalities','a6':'Ratios and units','d1':'Mean and median','d2':'Probability','d3':'Scatterplots','e1':'Similar shapes','e2':'Angles','g1':'Modifiers','g2':'Lists','g3':'Verb tense'}
-# % of its section on the SAT (domain % from College Board, split by question-bank share)
-SHARE = {'wic':15.5,'tsp':8.9,'cross':3.6,'cid':6.5,'coe':13.0,'inf':6.6,'bound':13.2,'fss':12.8,'syn':10.3,'trans':9.7,'lin1':6.4,'lin2':7.4,'linf':9.7,'sys':7.2,'ineq':4.4,'equiv':7.5,'nleq':10.7,'nlf':16.8,
- 'ratio':3.3,'pct':3.0,'data1':3.0,'data2':2.5,'prob':1.7,'infer':1.0,'claims':0.4,'area':4.7,'lat':4.4,'trig':3.0,'circ':2.9}
+# % of its section on the SAT, per question type (Nov 21, 2026 research; College Board publishes only domain counts):
+#  Math = Sigma Prep count of all 8 official Bluebook practice tests (PT 4-11, 528 questions, College Board's own skill labels)
+#  Reading & Writing = The Test Advantage count of 57 real test forms (Jun 2023 - Dec 2025), share of 54
+SHARE = {'wic':15.7,'tsp':8.7,'cross':2.0,'cid':4.3,'coe':13.5,'inf':10.2,'bound':12.4,'fss':9.4,'syn':13.1,'trans':10.7,'lin1':6.1,'lin2':7.0,'linf':10.5,'sys':7.0,'ineq':4.1,'equiv':5.5,'nleq':10.0,'nlf':16.8,'ratio':3.6,'pct':3.6,'data1':4.1,'data2':3.6,'prob':1.8,'infer':0.9,'claims':0.2,'area':4.1,'lat':5.0,'trig':3.4,'circ':3.4}
 # Base schedule (Allie approved the dashboard plan on Nov 19; Nov 20 rebuilt as concept + drills + cumulative review)
 # kind: learn | test | off | light | weak | final | sat
 BASE = [
@@ -38,7 +39,7 @@ BASE = [
  ('2026-11-29','learn',['sys','ineq','coe'],""),
  ('2026-11-30','learn',['lin1','equiv','tsp'],""),
  ('2026-12-01','weak',[],"His weakest concepts · Also: download the exam in Bluebook and charge the laptop"),
- ('2026-12-02','weak',['infer','claims','cross'],"Small topics + his weakest math concept so far"),
+ ('2026-12-02','weak',['infer','cross'],"Small topics + his weakest concepts (statistical claims dropped: 0 per test in the official practice tests)"),
  ('2026-12-03','weak',[],"His weakest concepts + mixed set at SAT pace"),
  ('2026-12-04','light',[],"Light: redo my misses, pack the bag, early bed"),
  ('2026-12-05','sat',[],"SAT · check in by 7:45 AM"),
