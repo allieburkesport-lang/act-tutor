@@ -318,7 +318,7 @@ function drawDrill(){if(D.done)return drawEnd();const q=cur(),st=D.st[D.i],s=SK2
   let chs='';if(q.ch)chs=`<div class="ch">${q.ch.map((c,j)=>{const cls=st.tried.includes(j)?(j===q.ans?'right':'wrong'):(fin&&j===q.ans?'right':'');return `<button class="${cls}" data-pick="${j}" ${fin||st.tried.includes(j)?'disabled':''}><span class="L">${L[j]}</span><span class="t">${c}</span></button>`}).join('')}</div>`;
   else chs=`<div class="grid-in"><label for="gin" style="font-weight:600">Your answer</label><input id="gin" ${fin?'disabled':''} value="${fin?esc(q.show||q.grid[0]):''}" autocomplete="off"><button class="btn" data-grid="1" ${fin?'disabled':''}>Check</button></div>`;
   let fb='';if(fin)fb=`<div class="fb ok"><b>${st.tried.length===1&&!st.coached?'Right on the first try ✓':'Got it ✓'}</b> ${esc(q.trap?'Trap to watch: '+q.trap:'')}</div>`;
-  else if(st.tried.length)fb=`<div class="fb no"><b>Not quite.</b> Try another answer, or press <b>Show me how</b>.</div>`;
+  else if(st.tried.length)fb=`<div class="fb no"><b>Not quite. Try again.</b> Pick another answer before you move on. Stuck? Press <b>Show me how</b>.</div>`;
   const help=(eng?[['show','Show me how'],['learn','Learn it'],['video','Video']]:[['show','Show me how'],['desm','Desmos / calculator'],['form','Formula'],['learn','Learn it'],['video','Video']]).map(([k,t])=>`<button class="b ${UI.panel===k?'on':''}" data-pan="${k}">${t}</button>`).join('');
   const left=Math.max(0,D.qs.length*PACE[s.sec]-Math.round((Date.now()-D.t0)/1000));
   app().innerHTML=`<div class="dr"><div class="bar1"><div><div style="font-weight:700;font-size:17px">${esc(s.sec==='English'?'Reading and Writing':'Math')} · ${esc(D.secs?D.secs[D.i]:D.title)}</div><a href="#/" style="font-size:14px">← Home</a></div>
@@ -331,7 +331,7 @@ function drawDrill(){if(D.done)return drawEnd();const q=cur(),st=D.st[D.i],s=SK2
     <div class="qtext">${stem}</div>${chs}${fb}
    </div></main>${UI.panel?`<aside class="pan" id="pan">${panelHTML()}</aside>`:''}</div>
    <footer><div style="font-weight:600">Patrick</div><button class="qn" data-navg="1">Question ${D.i+1} of ${D.qs.length} ▴</button>
-   <div style="display:flex;gap:8px"><button class="nb" data-mv="-1" ${D.i===0?'disabled':''}>Back</button><button class="nb" data-mv="1">${D.i===D.qs.length-1?'Finish':'Next'}</button></div></footer>
+   <div style="display:flex;gap:8px"><button class="nb" data-mv="-1" ${D.i===0?'disabled':''}>Back</button><button class="nb" data-mv="1" ${st.tried.length&&!st.ok?'disabled title="Try again first"':''}>${D.i===D.qs.length-1?'Finish':'Next'}</button></div></footer>
    ${UI.nav?`<div class="navgrid">${D.qs.map((x,k)=>{const t=D.st[k];return `<button class="${t.ok?(t.tried.length===1&&!t.coached?'ok':'no'):(t.tried.length?'no':'')} ${k===D.i?'cur':''}" data-jump="${k}">${k+1}</button>`}).join('')}</div>`:''}</div>`;
   const g=$('#gin');if(g&&!fin)g.addEventListener('keydown',e=>{if(e.key==='Enter')gridCheck()});
   const v=document.querySelector('#pan video');if(v&&UI.seek){v.currentTime=UI.seek;UI.seek=0;v.play().catch(()=>{})}}
@@ -443,8 +443,8 @@ document.addEventListener('click',e=>{const b=e.target.closest('button,[data-go]
   if(d.seek){UI.seek=+d.seek;const v=document.querySelector('video');if(v){v.currentTime=+d.seek;v.play().catch(()=>{})}return}
   if(d.mark){st.mark=!st.mark;return drawDrill()}
   if(d.navg){UI.nav=!UI.nav;return drawDrill()}
-  if(d.jump!==undefined){D.i=+d.jump;UI.nav=false;UI.dtab=null;return showQ()}
-  if(d.mv){const n=D.i+(+d.mv);if(n>=D.qs.length){D.done=true;return drawEnd()}if(n>=0){D.i=n;dayStore();UI.nav=false;if(UI.panel==='show')UI.panel=null;UI.dtab=null;showQ()}return}
+  if(d.jump!==undefined){if(+d.jump>D.i&&st&&st.tried.length&&!st.ok)return;D.i=+d.jump;UI.nav=false;UI.dtab=null;return showQ()}
+  if(d.mv){if(+d.mv>0&&st&&st.tried.length&&!st.ok)return;const n=D.i+(+d.mv);if(n>=D.qs.length){D.done=true;return drawEnd()}if(n>=0){D.i=n;dayStore();UI.nav=false;if(UI.panel==='show')UI.panel=null;UI.dtab=null;showQ()}return}
   if(d.redo){const miss=D.qs.filter((q,k)=>!(D.st[k].ok&&D.st[k].tried.length===1));D={...D,qs:miss,i:0,st:miss.map(()=>({tried:[],ok:false,shown:0,t0:0,coached:false})),t0:Date.now(),done:false,title:D.title+' · redo'};return showQ()}
 });
 load().then(route);
