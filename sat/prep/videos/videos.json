@@ -301,37 +301,42 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea: scale factor k"
    ],
    [
-    18,
-    "The rules"
+    11,
+    "Zoom a photo"
    ],
    [
-    33,
-    "Example 1: Sides"
+    19,
+    "k, k², k³"
    ],
    [
-    54,
-    "Example 2: Area"
+    31,
+    "Sides"
    ],
    [
-    81,
-    "Example 3: Volume"
+    49,
+    "Area"
    ],
    [
-    109,
-    "Example 4: Backward from area"
+    69,
+    "Volume"
    ],
    [
-    139,
-    "Your turn: pause and pick"
+    89,
+    "SAT question"
    ],
    [
-    167,
-    "Say it out loud"
+    121,
+    "Your turn"
+   ],
+   [
+    146,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "a5": {
   "src": "videos/a5.mp4",

@@ -1,0 +1,17 @@
+[
+"Similar shapes have the same shape, but a different size. Every side gets multiplied by the same number. We call that number the scale factor, k.",
+"Think about zooming a photo two times bigger. Each side doubles. But the picture now takes up four times the space.",
+"Here's the whole lesson in one line. Lengths and perimeter multiply by k. Area multiplies by k squared. Volume multiplies by k cubed.",
+"Sides first. A three, four, five triangle is scaled by two. Multiply every side by two, and you get six, eight, and ten.",
+"Trap alert. Five, six, seven is wrong. That's adding two. Similar means multiply, never add.",
+"Now area. A shape has area ten, and it's scaled by three. Area uses k squared, so multiply by nine. The new area is ninety.",
+"If you said thirty, you used k instead of k squared. Area is two dimensions, so square the scale factor.",
+"Volume. A box is scaled by two. Volume uses k cubed. Two cubed is eight, so the volume is eight times bigger.",
+"Here's how to remember it. Length is one dimension, so k to the first. Area is two dimensions, so k squared. Volume is three dimensions, so k cubed.",
+"Let's try an SAT style question. Two similar shapes have areas twenty five and nine. What is the ratio of their sides?",
+"Areas use k squared, so go backward with a square root. The square root of twenty five is five. The square root of nine is three. The sides are in a five to three ratio.",
+"Trap alert. Twenty five to nine is the area ratio, not the side ratio. Always take the square root to go from area back to sides.",
+"Your turn. Pause the video. Two similar cubes have sides two and six. How many times bigger is the volume of the larger cube?",
+"The scale factor is six divided by two, which is three. Volume uses k cubed. Three cubed is twenty seven. If you said nine, that's area.",
+"Remember three things. Similar means multiply by k. Area uses k squared, volume uses k cubed. And to go from area back to sides, take the square root. Great work."
+]
