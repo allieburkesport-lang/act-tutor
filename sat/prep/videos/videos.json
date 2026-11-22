@@ -154,37 +154,38 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea: slope and intercept"
    ],
    [
-    19,
-    "The rules"
+    10,
+    "Slope: rise over run"
    ],
    [
-    36,
-    "Example 1: Slope from Ax + By = C"
+    30,
+    "Reading equations and intercepts"
    ],
    [
-    66,
-    "Example 2: Perpendicular slope"
+    67,
+    "Perpendicular: flip and switch"
    ],
    [
-    98,
-    "Example 3: x-intercept"
+    81,
+    "How many solutions"
    ],
    [
-    125,
-    "Example 4: Slope from a table"
+    99,
+    "SAT question"
    ],
    [
-    161,
-    "Your turn: pause and pick"
+    138,
+    "Your turn"
    ],
    [
-    187,
-    "Say it out loud"
+    166,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "t2": {
   "src": "videos/t2.mp4",

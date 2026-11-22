@@ -1,0 +1,19 @@
+[
+"Almost every line question asks about one of two things. The slope, which is how steep it is, or the intercept, which is where it crosses.",
+"Think of a staircase. Slope is rise over run: how far up, divided by how far across. A line through one comma five and three comma eleven rises six and runs two. Six over two is a slope of three.",
+"Trap alert. Two is just the run. Slope is rise divided by run.",
+"In y equals m x plus b, m is the slope, and b is the y intercept, where the line crosses the y axis. That's where it starts.",
+"If the line is written as three x plus four y equals twelve, solve for y. Four y equals negative three x plus twelve, so y equals negative three fourths x plus three. The slope is negative three fourths.",
+"To find where a line crosses the x axis, set y to zero. Zero equals seven x plus fourteen. Seven x is negative fourteen, so x is negative two.",
+"Perpendicular lines meet at a right angle. Their slopes flip and switch. Flip the fraction, and switch the sign. A line perpendicular to a slope of two thirds has a slope of negative three halves.",
+"Now, how many solutions? Picture two lines on a graph.",
+"If they cross, there's one solution. If they're parallel, with the same slope but different intercepts, there's no solution. If they're the same line, there are infinitely many.",
+"Let's try an SAT style question. A line has a slope of negative four. What is the slope of a line perpendicular to it?",
+"Step one. Write negative four as a fraction: negative four over one.",
+"Step two. Flip it: negative one fourth.",
+"Step three. Switch the sign: positive one fourth. Check it. Negative four times one fourth is negative one.",
+"Trap alert. Four is an answer choice, but that only switches the sign. Negative four times four is negative sixteen, not negative one. You must flip and switch.",
+"Your turn. Pause the video. How many solutions does three times x plus two, equals three x plus six, have?",
+"Distribute the left side to get three x plus six. Both sides are exactly the same, so every x works. There are infinitely many solutions. If you said one, try x equals zero and x equals five. Both work.",
+"Remember three things. Slope is rise over run. Perpendicular means flip and switch. And the same slope with a different intercept means no solution. Great work."
+]
