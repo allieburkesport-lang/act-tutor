@@ -1093,33 +1093,38 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea"
    ],
    [
-    17,
-    "The rules"
+    10,
+    "Claim and evidence"
+   ],
+   [
+    21,
+    "The method"
    ],
    [
     33,
-    "Example 1: Support a claim"
+    "Support vs. weaken"
    ],
    [
-    66,
-    "Example 2: Weaken a claim"
+    68,
+    "Illustrate with a quote"
    ],
    [
-    101,
-    "Example 3: Challenge with the opposite case"
+    88,
+    "SAT question"
    ],
    [
-    136,
-    "Example 4: Illustrate with a quotation"
+    115,
+    "Your turn"
    ],
    [
-    175,
-    "Say it out loud"
+    142,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "r5": {
   "src": "videos/r5.mp4",
