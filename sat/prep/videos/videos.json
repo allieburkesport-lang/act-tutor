@@ -791,37 +791,42 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea"
    ],
    [
-    17,
-    "The rules"
+    11,
+    "Like socks"
    ],
    [
-    34,
-    "Example 1: Two commas"
+    21,
+    "The method"
    ],
    [
-    80,
-    "Example 2: Two dashes"
+    32,
+    "Two commas"
    ],
    [
-    122,
-    "Example 3: Two parentheses"
+    53,
+    "Two dashes"
    ],
    [
-    170,
-    "Example 4: Extra info at the start"
+    70,
+    "At the edge"
    ],
    [
-    213,
-    "Your turn: pause and pick"
+    85,
+    "SAT question"
    ],
    [
-    244,
-    "Say it out loud"
+    110,
+    "Your turn"
+   ],
+   [
+    135,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "s5": {
   "src": "videos/s5.mp4",
