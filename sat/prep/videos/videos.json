@@ -84,37 +84,34 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea: a machine"
    ],
    [
-    20,
-    "The rules"
+    7,
+    "f(3): put 3 in"
    ],
    [
-    38,
-    "Example 1: Find f(number)"
+    27,
+    "Input or output?"
    ],
    [
-    66,
-    "Example 2: Given the output"
+    54,
+    "Rearranging and shifts"
    ],
    [
-    99,
-    "Example 3: Missing constant"
+    85,
+    "SAT question"
    ],
    [
-    137,
-    "Example 4: Rearrange a formula"
+    124,
+    "Your turn"
    ],
    [
-    162,
-    "Your turn: pause and pick"
-   ],
-   [
-    205,
-    "Say it out loud"
+    151,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "a1": {
   "src": "videos/a1.mp4",

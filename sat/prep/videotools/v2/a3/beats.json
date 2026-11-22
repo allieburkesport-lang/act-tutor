@@ -1,0 +1,19 @@
+[
+"A function is a machine. You drop a number in, the machine follows its rule, and a new number comes out.",
+"In f of x equals three x minus five, x is what goes in, and f of x is what comes out. The rule is: times three, then minus five.",
+"f of three means put three in. Three times three is nine, and nine minus five is four. So f of three is four.",
+"Here's the big question to ask every time. Are they giving you the input, or the output?",
+"If they say f of x equals seven, seven is the output. Work backwards. Three x minus five equals seven. Add five, and three x is twelve. Divide by three, and x is four.",
+"Trap alert. Don't plug seven in as x. f of seven is sixteen, which answers a different question.",
+"Rearranging a formula is like unpacking a gear bag. The last thing packed comes out first. Undo plus and minus first, then times and divide.",
+"A equals one half b h. Solve for h. Multiply both sides by two, and two A equals b h. Divide by b, and h equals two A over b.",
+"Shifts work backwards from what you'd guess. f of x minus three moves the graph three units to the right, not to the left.",
+"Let's try an SAT style question. g of x equals a x plus two, and g of five equals thirty seven. What is a?",
+"Step one. g of five means x is five. Put it in: five a plus two equals thirty seven.",
+"Step two. Undo the plus two. Five a equals thirty five.",
+"Step three. Undo the times five. a equals seven.",
+"Trap alert. Thirty five is an answer choice, but that's five a, not a. Finish the last step and divide by five.",
+"Your turn. Pause the video. f of x equals two x squared minus nineteen. What is f of negative four?",
+"Negative four squared is positive sixteen. Two times sixteen is thirty two, and thirty two minus nineteen is thirteen. If you got negative thirteen, remember that a negative number squared is positive.",
+"Remember three things. A function is a machine. Ask: input, or output? And rearrange by undoing plus and minus first, then times and divide. Great work."
+]
