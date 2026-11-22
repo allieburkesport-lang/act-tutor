@@ -873,37 +873,38 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea"
    ],
    [
-    17,
-    "The rules"
+    7,
+    "C · A · R · E"
    ],
    [
-    28,
-    "Example 1: Pushback"
+    19,
+    "The method"
    ],
    [
-    68,
-    "Example 2: Replaces"
+    29,
+    "Contrast and add"
    ],
    [
-    112,
-    "Example 3: Still true anyway"
+    59,
+    "Contrast flavors"
    ],
    [
-    158,
-    "Example 4: Admits a weakness"
+    77,
+    "SAT question"
    ],
    [
-    193,
-    "Your turn: pause and pick"
+    108,
+    "Your turn"
    ],
    [
-    220,
-    "Say it out loud"
+    130,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "r1": {
   "src": "videos/r1.mp4",
