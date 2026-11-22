@@ -748,37 +748,42 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea"
+   ],
+   [
+    8,
+    "3 strong joiners"
    ],
    [
     19,
-    "The rules"
+    "Picture it"
    ],
    [
-    38,
-    "Example 1: Period"
+    28,
+    "The method"
    ],
    [
-    83,
-    "Example 2: Semicolon"
+    39,
+    "Splices and run-ons"
    ],
    [
-    125,
-    "Example 3: Comma + FANBOYS"
+    65,
+    "FANBOYS vs. however"
    ],
    [
-    171,
-    "Example 4: Semicolon + however"
+    87,
+    "SAT question"
    ],
    [
-    219,
-    "Your turn: pause and pick"
+    121,
+    "Your turn"
    ],
    [
-    255,
-    "Say it out loud"
+    142,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "s4": {
   "src": "videos/s4.mp4",
