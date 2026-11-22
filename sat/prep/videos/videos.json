@@ -1279,33 +1279,42 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea"
    ],
    [
-    14,
-    "The rules"
+    8,
+    "Matching shapes"
    ],
    [
-    29,
-    "Example 1: -ing list"
+    15,
+    "The method"
    ],
    [
-    65,
-    "Example 2: One “to” + plain verbs"
+    21,
+    "-ing lists"
    ],
    [
-    100,
-    "Example 3: Noun list"
+    39,
+    "Verbs and nouns"
    ],
    [
-    131,
-    "Example 4: Not only … but also"
+    60,
+    "Pairs"
    ],
    [
-    158,
-    "Say it out loud"
+    69,
+    "SAT question"
+   ],
+   [
+    93,
+    "Your turn"
+   ],
+   [
+    109,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "g3": {
   "src": "videos/g3.mp4",
