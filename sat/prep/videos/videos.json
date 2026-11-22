@@ -477,37 +477,42 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea: line up the units"
    ],
    [
-    15,
-    "The rules"
+    8,
+    "Ratios: lemonade"
    ],
    [
-    30,
-    "Example 1: Proportion"
+    25,
+    "Rates: per one"
    ],
    [
-    63,
-    "Example 2: Unit conversion"
+    32,
+    "Proportions"
    ],
    [
-    100,
-    "Example 3: Split by a ratio"
+    70,
+    "Unit conversions"
    ],
    [
-    135,
-    "Example 4: Rate × time"
+    90,
+    "Splitting by a ratio"
    ],
    [
-    163,
-    "Your turn: pause and pick"
+    113,
+    "SAT question"
    ],
    [
-    185,
-    "Say it out loud"
+    162,
+    "Your turn"
+   ],
+   [
+    186,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "d1": {
   "src": "videos/d1.mp4",
