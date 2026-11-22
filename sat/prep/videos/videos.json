@@ -424,37 +424,30 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea"
    ],
    [
-    15,
-    "The rules"
+    18,
+    "Percent change"
    ],
    [
-    24,
-    "Example 1: Percent increase"
+    55,
+    "Square units"
    ],
    [
-    63,
-    "Example 2: Increase vs. total"
+    76,
+    "SAT question"
    ],
    [
-    116,
-    "Example 3: Square units"
+    106,
+    "Your turn"
    ],
    [
-    161,
-    "Example 4: “Additional”"
-   ],
-   [
-    206,
-    "Your turn: pause and pick"
-   ],
-   [
-    232,
-    "Say it out loud"
+    131,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "a6": {
   "src": "videos/a6.mp4",
