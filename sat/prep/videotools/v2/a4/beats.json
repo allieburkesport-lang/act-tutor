@@ -1,0 +1,16 @@
+[
+"Absolute value is distance from zero. The absolute value of five is five. The absolute value of negative five is also five. Distance is never negative.",
+"Think of it as distance from home. You can be five blocks east or five blocks west. Either way, you're five blocks from home.",
+"So the absolute value of x minus a equals b means x is b away from a, in either direction. That's why you always write two equations.",
+"Solve the absolute value of x minus three equals five. Five above three is eight. Five below three is negative two.",
+"Write it as two equations. x minus three equals five gives eight. x minus three equals negative five gives negative two. Two answers.",
+"Trap alert. If you only said eight, you missed the other side. Check negative two: negative two minus three is negative five, and its absolute value is five. It works.",
+"What if the absolute value equals a negative number? Distance can't be negative. So there's no solution.",
+"And if it equals zero, there's only one answer. Zero has no other side.",
+"Let's try an SAT style question. A temperature t stays within two degrees of seventy. Which inequality shows this?",
+"Distance from seventy is the absolute value of t minus seventy. Within two means at most two. So the absolute value of t minus seventy is less than or equal to two.",
+"Trap alert. Greater than or equal to two means at least two away. Eighty would fit, but it's ten degrees away. That's not within two.",
+"Your turn. Pause the video. Solve the absolute value of x plus one equals four.",
+"x plus one equals four gives three. x plus one equals negative four gives negative five. The answers are three and negative five.",
+"Remember three things. Absolute value is distance. Write two equations, one for each side. And a negative distance means no solution. Great work."
+]

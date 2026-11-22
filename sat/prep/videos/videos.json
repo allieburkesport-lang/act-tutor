@@ -612,37 +612,38 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea"
    ],
    [
-    17,
-    "The rules"
+    11,
+    "Distance from home"
    ],
    [
-    36,
-    "Example 1: Two answers"
+    20,
+    "Two equations"
    ],
    [
-    77,
-    "Example 2: Equals a negative"
+    31,
+    "Two answers"
    ],
    [
-    106,
-    "Example 3: Equals 0"
+    63,
+    "Special cases"
    ],
    [
-    134,
-    "Example 4: “Within” in words"
+    76,
+    "SAT question"
    ],
    [
-    176,
-    "Your turn: pause and pick"
+    107,
+    "Your turn"
    ],
    [
-    202,
-    "Say it out loud"
+    129,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "m3": {
   "src": "videos/m3.mp4",
