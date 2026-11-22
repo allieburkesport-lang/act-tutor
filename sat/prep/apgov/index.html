@@ -200,6 +200,7 @@ table.data td{padding:8px 16px;border-bottom:1px solid var(--line);vertical-alig
 .undo{margin-left:10px;border:0;background:none;padding:2px 4px;font:inherit;font-size:12px;font-weight:600;color:var(--muted);text-decoration:underline;cursor:pointer}.undo:hover{color:var(--text)}
 .need{margin-top:6px;font-size:12.5px;font-weight:600;color:var(--muted)}.step.done .need{color:var(--ok)}
 .chk{pointer-events:none}
+.chk.tog{pointer-events:auto;cursor:pointer;border-style:solid}.chk.tog:hover{border-color:var(--accent)}
 .drop{display:flex;align-items:center;justify-content:center;min-height:64px;border:1.5px dashed var(--line);border-radius:8px;cursor:pointer;font-weight:600;background:var(--panel2)}
 .drop:hover{border-color:var(--accent)}.drop input{position:absolute;width:1px;height:1px;opacity:0}
 .res{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;padding:16px 20px}
@@ -334,12 +335,13 @@ const STUDY_GUIDE='ch4/guide.html';
 /* ---------- progress: every step marks itself done when he actually does it ----------
    teacher read-along pages watched (from the read-along pages), notebook pages opened,
    quiz finished, photos uploaded. Saved on this device and in Supabase (HELM_PROGRESS). */
-let PG=Object.assign({photos:{},opened:{},pages:{},quiz:{}},HELM_PROGRESS.get('apgov',{}));
+let PG=Object.assign({photos:{},opened:{},pages:{},quiz:{},checked:{}},HELM_PROGRESS.get('apgov',{}));
 function savePG(){HELM_PROGRESS.put('apgov',PG)}
 function pageDone(key,p){if(PG.pages[key+p])return true;const c=LS(key+p,null),r=(D.req[key]||{})[p];const ok=!!(c&&r&&r.every(i=>c[i]));if(ok){PG.pages[key+p]=1;savePG()}return ok}
 function quizRec(date){const l=LS('apgov_quiz_'+date,null),r=PG.quiz[date];if(l&&(!r||l.best>r.best)){PG.quiz[date]=l;savePG()}return PG.quiz[date]||l}
 const photos=(d,k)=>PG.photos[d.date+':'+k]||0;
 const opened=(d,k)=>!!PG.opened[d.date+':'+k];
+const checked=(d,k)=>!!PG.checked[d.date+':'+k];
 function stepsFor(d){
   const pages=[];for(let p=d.lo;p<=d.hi;p++)pages.push(p);
   const nb='NB p. '+d.nb[0]+'–'+d.nb[d.nb.length-1];
@@ -348,17 +350,17 @@ function stepsFor(d){
   const upBtn=(k,lbl)=>{const n=photos(d,k);return `<button class="btn ${n?'g':'o'} sm" data-up="${d.date}|${k}">📷 ${n?'Add more photos':lbl}</button>`};
   const how=(txt)=>`<span class="how">${txt}</span>`;
   if(d.kind==='learn')return [
-    {id:'read',n:'Read pp. '+d.lo+'–'+d.hi+' in your textbook',d:'Read every page yourself first. Highlight key terms in BLUE and dates, laws, and court cases in GREEN.',need:photos(d,'book')?how(`✓ ${photos(d,'book')} photo${photos(d,'book')>1?'s':''} of your highlighted pages uploaded`):how('Done when you upload photos of your highlighted pages'),auto:()=>photos(d,'book')>0,act:upBtn('book','Upload highlighted pages')},
-    ...(STUDY_GUIDE?[{id:'guide',n:'Study guide',d:'Go through the study guide for these pages.',need:opened(d,'guide')?how('✓ Study guide opened')+`<button class="undo" type="button" data-undo="${d.date}|guide">Undo</button>`:how('Done when you open the study guide'),auto:()=>opened(d,'guide'),act:`<a class="btn g sm" data-open="${d.date}|guide" href="${STUDY_GUIDE}" target="_blank" rel="noopener">📘 Study guide</a>`}]:[]),
+    {id:'read',n:'Read pp. '+d.lo+'–'+d.hi+' in your textbook',d:'Read every page yourself first. Highlight key terms in BLUE and dates, laws, and court cases in GREEN.',manual:true,need:checked(d,'read')?how('✓ Checked off'):how('Check this off when you finish reading'),auto:()=>checked(d,'read')},
     {id:'teach',n:'Teacher overview: pp. '+d.lo+'–'+d.hi,d:'She walks you through each page, adds notebook pages with you, and stops for check-in questions.',need:how(`${pages.filter(p=>pageDone(CH4.key,p)).length} of ${pages.length} pages watched · done when every page is green`),auto:()=>pages.every(p=>pageDone(CH4.key,p)),chips:pages,act:`<a class="btn sm" href="${CH4.read}#p${firstUnfinished(pages)}">▶ ${pages.some(p=>pageDone(CH4.key,p))?'Continue':'Start'}</a>`},
+    ...(STUDY_GUIDE?[{id:'guide',n:'Study guide',d:'Go through the study guide for these pages.',need:opened(d,'guide')?how('✓ Study guide opened')+`<button class="undo" type="button" data-undo="${d.date}|guide">Undo</button>`:how('Done when you open the study guide'),auto:()=>opened(d,'guide'),act:`<a class="btn g sm" data-open="${d.date}|guide" href="${STUDY_GUIDE}" target="_blank" rel="noopener">📘 Study guide</a>`}]:[]),
     {id:'notes',n:'Review the notebook pages: '+nb,d:'Open the notebook pages and copy each one into your notebook, using the same pen and highlighter colors.',need:opened(d,'nb')?how('✓ Notebook pages opened')+`<button class="undo" type="button" data-undo="${d.date}|nb">Undo</button>`:how('Done when you open the notebook pages'),auto:()=>opened(d,'nb'),act:nbBtn('Notebook pages')},
     {id:'quiz',n:'Practice quiz ('+d.quiz.length+' questions)',d:quizScore?`Best score: ${quizScore.best}%. Textbook questions are marked 📘.`:'Questions from the read-along plus the textbook\'s own questions (marked 📘).',need:quizScore?'':how('Done when you finish the quiz'),auto:()=>!!quizRec(d.date),act:`<button class="btn sm" data-quiz="${d.date}">${quizScore?'Retake':'Start quiz'}</button>`},
     {id:'check',n:'Upload your notebook pages',d:'Take a clear photo of each notebook page you did today ('+nb+'). Then Claude can check them against the book.',need:photos(d,'nb')?how(`✓ ${photos(d,'nb')} notebook photo${photos(d,'nb')>1?'s':''} uploaded`):how('Done when you upload photos of your notebook pages'),auto:()=>photos(d,'nb')>0,act:upBtn('nb','Upload photos')},
   ];
   return [
     {id:'teach',n:'Finish any teacher-overview pages you missed',d:'Every page from pp. '+d.lo+'–'+d.hi+' should be green.',need:how(`${pages.filter(p=>pageDone(CH4.key,p)).length} of ${pages.length} pages watched`),auto:()=>pages.every(p=>pageDone(CH4.key,p)),chips:pages,act:`<a class="btn sm" href="${CH4.read}#p${firstUnfinished(pages)}">▶ Open</a>`},
-    {id:'flip',n:'Review your notebook, NB p. 1–'+d.nb[d.nb.length-1],d:'Open the notebook pages. Cover the definitions on the key terms index (NB p. 1–2) and say each one out loud.',need:opened(d,'nb')?how('✓ Notebook pages opened')+`<button class="undo" type="button" data-undo="${d.date}|nb">Undo</button>`:how('Done when you open the notebook pages'),auto:()=>opened(d,'nb'),act:nbBtn('Notebook pages')},
     ...(STUDY_GUIDE?[{id:'guide',n:'Study guide',d:'Review the whole study guide.',need:opened(d,'guide')?how('✓ Study guide opened')+`<button class="undo" type="button" data-undo="${d.date}|guide">Undo</button>`:how('Done when you open the study guide'),auto:()=>opened(d,'guide'),act:`<a class="btn g sm" data-open="${d.date}|guide" href="${STUDY_GUIDE}" target="_blank" rel="noopener">📘 Study guide</a>`}]:[]),
+    {id:'flip',n:'Review your notebook, NB p. 1–'+d.nb[d.nb.length-1],d:'Open the notebook pages. Cover the definitions on the key terms index (NB p. 1–2) and say each one out loud.',need:opened(d,'nb')?how('✓ Notebook pages opened')+`<button class="undo" type="button" data-undo="${d.date}|nb">Undo</button>`:how('Done when you open the notebook pages'),auto:()=>opened(d,'nb'),act:nbBtn('Notebook pages')},
     {id:'ct',n:'Answer the Critical Thinking questions (p. 163)',d:'Write 1–2 lines for each in your notebook (NB p. 14).',need:photos(d,'ct')?how('✓ Photo uploaded'):how('Done when you upload a photo of NB p. 14'),auto:()=>photos(d,'ct')>0,act:upBtn('ct','Upload NB p. 14')},
     {id:'quiz',n:'Chapter review quiz ('+d.quiz.length+' questions)',d:quizScore?`Best score: ${quizScore.best}%.`:'A mix from the whole chapter plus every textbook question.',need:quizScore?'':how('Done when you finish the quiz'),auto:()=>!!quizRec(d.date),act:`<button class="btn sm" data-quiz="${d.date}">${quizScore?'Retake':'Start quiz'}</button>`},
     {id:'check',n:'Final notes check: upload all Chapter 4 pages',d:'Photos of all your Chapter 4 notebook pages, so Claude can check that nothing is missing before the test.',need:photos(d,'nb')?how(`✓ ${photos(d,'nb')} photos uploaded`):how('Done when you upload photos of your notebook pages'),auto:()=>photos(d,'nb')>0,act:upBtn('nb','Upload photos')},
@@ -390,7 +392,7 @@ function _render(){
     const st=stepsFor(d),done=st.filter(s=>isDone(d,s)).length;
     const tag=dayDone(d)?'<span class="tag done">✓ Done</span>':d.date===todayISO?'<span class="tag today">Today</span>':d.date===tomISO?'<span class="tag tom">Tomorrow</span>':d.date<todayISO?'<span class="tag late">Not finished</span>':'';
     return `<section class="card day"><div class="h"><div><h2>${esc(d.label)} ${tag}</h2><div class="sub">${esc(d.title)} · ${done} of ${st.length} steps done</div></div><div class="dpct"><b class="tnum">${dayPct(d)}%</b><div class="pbar"><i style="width:${dayPct(d)}%"></i></div></div></div>`+
-      st.map(s=>{const ok=isDone(d,s);return `<div class="step ${ok?'done':''}"><span class="chk" role="img" aria-label="${ok?'Done':'Not done yet'}">${ok?'✓':''}</span>
+      st.map(s=>{const ok=isDone(d,s);return `<div class="step ${ok?'done':''}">${s.manual?`<button class="chk tog" type="button" data-tog="${d.date}|${s.id}" aria-pressed="${ok}" aria-label="${ok?'Uncheck':'Check off'}: ${esc(s.n)}">${ok?'✓':''}</button>`:`<span class="chk" role="img" aria-label="${ok?'Done':'Not done yet'}">${ok?'✓':''}</span>`}
         <div><div class="n">${esc(s.n)}</div><div class="d">${esc(s.d)}</div>${s.need?`<div class="need">${s.need}</div>`:''}${s.chips?`<div class="chips">${s.chips.map(p=>`<a class="${pageDone(CH4.key,p)?'done':''}" href="${CH4.read}#p${p}">p. ${p}${pageDone(CH4.key,p)?' ✓':''}</a>`).join('')}</div>`:''}</div>
         <div class="acts">${s.act||''}</div></div>`}).join('')+`</section>`}).join('');
   $('res').innerHTML=D.chapters.filter(c=>c.lo>=150&&c.hi<=173).map(c=>{let n=0,t=0;for(let p=c.lo;p<=c.hi;p++){t++;if(pageDone(c.key,p))n++}
@@ -398,6 +400,7 @@ function _render(){
 }
 document.addEventListener('click',e=>{
   const dt=e.target.closest('[data-day]');if(dt){pick=dt.dataset.day;render();return}
+  const tg=e.target.closest('[data-tog]');if(tg){const k=tg.dataset.tog.replace('|',':');PG.checked[k]=PG.checked[k]?0:Date.now();savePG();render();return}
   const un=e.target.closest('[data-undo]');if(un){PG.opened[un.dataset.undo.replace('|',':')]=0;savePG();render();return}
   const o=e.target.closest('[data-open]');if(o){PG.opened[o.dataset.open.replace('|',':')]=Date.now();savePG();setTimeout(render,50)}
   const u=e.target.closest('[data-up]');if(u){const[d,k]=u.dataset.up.split('|');openUpload(D.days.find(x=>x.date===d),k);return}
@@ -407,7 +410,7 @@ document.addEventListener('click',e=>{
 
 addEventListener('focus',render);addEventListener('pageshow',render);
 (window.HELM_AUTH||Promise.reject()).then(async()=>{const r=await HELM_PROGRESS.pull('apgov');
-  if(r){['photos','opened','pages','quiz'].forEach(k=>{PG[k]=Object.assign({},r[k]||{},PG[k]||{})});
+  if(r){['photos','opened','pages','quiz','checked'].forEach(k=>{PG[k]=Object.assign({},r[k]||{},PG[k]||{})});
     Object.keys(r.photos||{}).forEach(k=>PG.photos[k]=Math.max(PG.photos[k]||0,r.photos[k]))}
   for(const d of D.days)for(const k of ['book','nb','ct']){const n=await HELM_PROGRESS.count(`apgov/${d.date}/${k}`);if(n!=null)PG.photos[d.date+':'+k]=Math.max(PG.photos[d.date+':'+k]||0,n)}
   savePG();render()}).catch(()=>{});
