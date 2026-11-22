@@ -1171,33 +1171,42 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea"
    ],
    [
-    17,
-    "The rules"
+    9,
+    "Do the order"
    ],
    [
-    32,
-    "Example 1: Emphasize something"
+    16,
+    "The method"
    ],
    [
-    67,
-    "Example 2: Explain an outcome"
+    26,
+    "Emphasize"
    ],
    [
-    96,
-    "Example 3: Specify a number"
+    45,
+    "Specify a number"
    ],
    [
-    127,
-    "Example 4: Emphasize a similarity"
+    62,
+    "Similarity vs. difference"
    ],
    [
-    156,
-    "Say it out loud"
+    87,
+    "SAT question"
+   ],
+   [
+    117,
+    "Your turn"
+   ],
+   [
+    142,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "g1": {
   "src": "videos/g1.mp4",
