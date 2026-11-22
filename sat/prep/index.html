@@ -651,11 +651,32 @@ render();
 setTimeout(() => { state.loading = false; renderCanvas(); }, 600);
 fetch('../drill-zone/blueprint.json?' + Date.now()).then((r) => r.json()).then((b) => { SUM.bp = b.daily || []; render(); }).catch(() => {});
 (window.HELM_AUTH || Promise.reject()).then(async () => {
-  const [a, s] = await Promise.all([HELM_PROGRESS.pull('apgov_summary'), HELM_PROGRESS.pull('sat_summary')]);
-  if (a) SUM.apgov = a; if (s) SUM.sat = s; render();
+  await refreshSums(); render();
 }).catch(() => {});
-async function refreshSums() { try { const [a, s] = await Promise.all([HELM_PROGRESS.pull('apgov_summary'), HELM_PROGRESS.pull('sat_summary')]); if (a) SUM.apgov = a; if (s) SUM.sat = s; renderCanvas(); renderNotif(); } catch (e) {} }
-setInterval(() => { if (!document.hidden && !state.drawer && !state.searchOpen) refreshSums(); }, 45000);
+/* SAT Helm progress counted straight from his saved answers (same rule as SAT HELM: first tries on
+   distinct questions for that plan day, after any restart), so it never waits on his SAT HELM tab. */
+let PLANRESET = null;
+async function liveSat() {
+  try {
+    if (!PLANRESET) { const pj = await fetch('../drill-zone/plan.json?' + Date.now()).then((r) => r.json()); PLANRESET = {}; (pj.days || []).forEach((d) => { if (d.reset_at) PLANRESET[d.date] = d.reset_at; }); }
+    const since = new Date(Date.now() - 4 * DAYMS).toISOString();
+    const { data, error } = await HELM_SB.from('answers').select('question,part,attempt,created_at').eq('kind', 'bank').gte('created_at', since).limit(5000);
+    if (error) throw error;
+    const per = {}; let last = 0;
+    (data || []).forEach((w) => {
+      const t = Date.parse(w.created_at); last = Math.max(last, t);
+      const m = /plan (\d{4}-\d\d-\d\d)/.exec(w.part || ''); const day = m ? m[1] : isoOf(new Date(t));
+      if ((w.attempt || 1) !== 1 || (PLANRESET[day] && t < PLANRESET[day])) return;
+      (per[day] = per[day] || new Set()).add((w.question || '').split(' ')[0]);
+    });
+    const sat = SUM.sat || { days: [] };
+    sat.days = (sat.days || []).map((d) => { const n = per[d.date] ? per[d.date].size : 0, a = Math.max(n, d.answered || 0); return Object.assign({}, d, { answered: d.total ? Math.min(a, d.total) : a, pct: d.total ? Math.round(100 * Math.min(a, d.total) / d.total) : d.pct, done: d.done || (d.total > 0 && a >= d.total) }); });
+    Object.keys(per).forEach((day) => { if (!sat.days.some((d) => d.date === day)) sat.days.push({ date: day, answered: per[day].size, total: 0, pct: 0, done: false }); });
+    sat.updated = Math.max(sat.updated || 0, last); SUM.sat = sat;
+  } catch (e) {}
+}
+async function refreshSums() { try { const [a, s] = await Promise.all([HELM_PROGRESS.pull('apgov_summary'), HELM_PROGRESS.pull('sat_summary')]); if (a) SUM.apgov = a; if (s) SUM.sat = s; await liveSat(); renderCanvas(); renderNotif(); } catch (e) {} }
+setInterval(() => { if (!document.hidden && !state.drawer && !state.searchOpen) refreshSums(); }, 30000);
 document.addEventListener('visibilitychange', () => { if (!document.hidden) refreshSums(); });
 addEventListener('pageshow', () => { SUM.apgov = HELM_PROGRESS.get('apgov_summary', SUM.apgov); SUM.sat = HELM_PROGRESS.get('sat_summary', SUM.sat); render(); });
 
