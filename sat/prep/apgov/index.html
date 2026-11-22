@@ -159,7 +159,14 @@ table.data td{padding:8px 16px;border-bottom:1px solid var(--line);vertical-alig
 .today .s{font-size:15px;opacity:.85;margin-top:6px}
 .key{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;margin-top:14px;opacity:.9}
 .key span{display:inline-flex;align-items:center;gap:6px}.key i{display:inline-block;width:18px;height:10px;border-radius:3px}
-#days{display:grid !important;grid-template-columns:repeat(auto-fit,minmax(560px,1fr));gap:20px !important;align-items:start}
+#days{display:flex;flex-direction:column;gap:20px}
+.daytabs{display:flex;gap:8px;flex-wrap:wrap}
+.dtab{display:flex;flex-direction:column;align-items:center;gap:1px;min-width:76px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--muted);font-size:12px;font-weight:600}
+.dtab b{font-size:18px;color:var(--text);line-height:1.2}
+.dtab i{font-style:normal;font-size:10.5px;font-weight:700}
+.dtab:hover{border-color:var(--accent)}
+.dtab.on{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);background:var(--panel2);color:var(--text)}
+.dtab.done i{color:var(--ok)}.dtab.today i{color:var(--accent)}.dtab.late i{color:var(--bad)}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:12px}
 .day .h{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
 .day .h h2{margin:0;font-size:18px;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
@@ -217,7 +224,7 @@ table.data td{padding:8px 16px;border-bottom:1px solid var(--line);vertical-alig
 .dlg h3{margin:0 0 6px;font-size:20px;font-weight:700}
 .dlg ol{padding-left:20px;line-height:1.7;margin:10px 0 16px}
 .dlg .acts{display:flex;gap:10px;flex-wrap:wrap}
-@media (max-width:767px){.page{padding:16px 16px 92px}#days{grid-template-columns:minmax(0,1fr)}.step{grid-template-columns:32px 1fr}.step .acts{grid-column:1/-1;justify-content:flex-start}.today .t{font-size:24px}}
+@media (max-width:767px){.page{padding:16px 16px 92px}.step{grid-template-columns:32px 1fr}.step .acts{grid-column:1/-1;justify-content:flex-start}.today .t{font-size:24px}}
 </style>
 </head>
 <body>
@@ -277,8 +284,9 @@ table.data td{padding:8px 16px;border-bottom:1px solid var(--line);vertical-alig
   <div class="today"><div class="k" id="tk">Today in AP Gov</div><div class="t" id="tt"></div><div class="s" id="ts"></div>
     <div class="key"><span><i style="background:#a9d8ff"></i>Key terms + definitions (blue)</span><span><i style="background:#a8f0a0"></i>Dates, laws, court cases (green)</span><span><i style="background:#dcc4ff"></i>Examples (purple)</span><span><i style="background:#fff27a"></i>Main point (yellow)</span><span><i style="background:#ffb3d6"></i>Traps (pink, red pen)</span><span><i style="background:#ffc58a"></i>Titles (orange)</span></div>
   </div>
-  <div id="days" style="display:flex;flex-direction:column;gap:18px"></div>
-  <button class="btn g more" id="allbtn">▾ Show all days</button>
+  <div class="daytabs" id="daytabs" role="tablist" aria-label="Pick a day"></div>
+  <div id="days"></div>
+  
   <section class="card day"><div class="h"><div><h2>Chapters</h2><div class="sub">Teacher read-alongs and color notebook pages</div></div></div><div class="res" id="res"></div></section>
 </div>
 
@@ -337,9 +345,12 @@ function stepsFor(d){
 function firstUnfinished(pages){return pages.find(p=>!pageDone(CH4.key,p))||pages[0]}
 function isDone(d,s){return s.auto?s.auto():!!LS(stepKey(d,s.id),false)}
 function dayDone(d){return stepsFor(d).every(s=>isDone(d,s))}
-let showAll=false;
+let pick=null;   // the one day shown
 function render(){
-  const vis=D.days.filter(d=>showAll||d.date===todayISO||d.date===tomISO||(d.date<todayISO&&!dayDone(d)));
+  if(!pick||!D.days.some(d=>d.date===pick)){const late=D.days.find(d=>d.date<todayISO&&!dayDone(d));pick=(D.days.find(d=>d.date===todayISO)||late||D.days.find(d=>d.date>todayISO)||D.days[D.days.length-1]).date}
+  const vis=D.days.filter(d=>d.date===pick);
+  $('daytabs').innerHTML=D.days.map(d=>{const st=dayDone(d)?'done':d.date===todayISO?'today':d.date<todayISO?'late':'';
+    return `<button type="button" role="tab" class="dtab ${d.date===pick?'on':''} ${st}" aria-selected="${d.date===pick}" data-day="${d.date}"><span>${esc(d.label.split(',')[0].slice(0,3))}</span><b>${esc((d.label.match(/\d+/)||[''])[0])}</b>${st==='done'?'<i>✓</i>':st==='today'?'<i>Today</i>':st==='late'?'<i>Not done</i>':''}</button>`}).join('');
   const tday=D.days.find(d=>d.date===todayISO)||D.days.find(d=>d.date>todayISO);
   if(tday){const st=stepsFor(tday),n=st.filter(s=>isDone(tday,s)).length;
     $('tk').textContent=tday.date===todayISO?'Today in AP Gov · '+tday.label:'Next up · '+tday.label;
@@ -353,16 +364,16 @@ function render(){
       st.map(s=>{const ok=isDone(d,s);return `<div class="step ${ok?'done':''}"><button class="chk" ${s.manual?`data-tog="${d.date}|${s.id}"`:'disabled title="Checks itself when you finish"'} aria-label="Mark done">${ok?'✓':''}</button>
         <div><div class="n">${esc(s.n)}</div><div class="d">${esc(s.d)}</div>${s.chips?`<div class="chips">${s.chips.map(p=>`<a class="${pageDone(CH4.key,p)?'done':''}" href="${CH4.read}#p${p}">p. ${p}${pageDone(CH4.key,p)?' ✓':''}</a>`).join('')}</div>`:''}</div>
         <div class="acts">${s.act||''}</div></div>`}).join('')+`</section>`}).join('');
-  $('allbtn').textContent=showAll?'▴ Show today and tomorrow only':'▾ Show all days';
   $('res').innerHTML=D.chapters.map(c=>{let n=0,t=0;for(let p=c.lo;p<=c.hi;p++){t++;if(pageDone(c.key,p))n++}
     return `<div class="r"><b>${esc(c.name)}</b><span>${c.pages} · read-along ${n}/${t} pages done</span><div class="acts"><a class="btn sm" href="${c.read}">▶ Read-along</a><a class="btn g sm" href="${c.nb}" target="_blank" rel="noopener">📓 Notebook PDF</a></div></div>`}).join('');
 }
 document.addEventListener('click',e=>{
+  const dt=e.target.closest('[data-day]');if(dt){pick=dt.dataset.day;render();return}
   const t=e.target.closest('[data-tog]');if(t){const[d,s]=t.dataset.tog.split('|');const k='apgov_'+d+'_'+s;SV(k,!LS(k,false));render();return}
   const q=e.target.closest('[data-quiz]');if(q){openQuiz(D.days.find(d=>d.date===q.dataset.quiz));return}
   const c=e.target.closest('[data-check]');if(c){openCheck(D.days.find(d=>d.date===c.dataset.check));return}
 });
-$('allbtn').onclick=()=>{showAll=!showAll;render()};
+
 addEventListener('focus',render);addEventListener('pageshow',render);
 
 /* ---------- practice quiz (one question at a time, SAT HELM style) ---------- */
