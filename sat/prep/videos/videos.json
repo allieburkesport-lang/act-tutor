@@ -228,33 +228,34 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea: two clues"
    ],
    [
-    18,
-    "The rules"
+    11,
+    "Where the lines cross"
    ],
    [
-    29,
-    "Example 1: Words → two equations"
+    20,
+    "Words to equations"
    ],
    [
-    69,
-    "Example 2: “Times as many”"
+    57,
+    "Elimination"
    ],
    [
-    107,
-    "Example 3: Elimination"
+    75,
+    "SAT question"
    ],
    [
-    141,
-    "Your turn: pause and pick"
+    125,
+    "Your turn"
    ],
    [
-    166,
-    "Say it out loud"
+    150,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "m1": {
   "src": "videos/m1.mp4",
