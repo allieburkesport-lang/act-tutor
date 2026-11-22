@@ -1,0 +1,15 @@
+[
+"Before you click an answer, plug it back in. And when the answer is at an edge number, test the edge itself.",
+"Think of it as checking your work before you hand it in. It takes ten seconds and catches the mistakes that cost points.",
+"Two choices often look right. Plugging in decides between them in seconds.",
+"Which line has slope negative one half and passes through four, one? Both y equals negative one half x plus one, and y equals negative one half x plus three, have the right slope.",
+"Plug in x equals four. Negative one half times four plus one is negative one. Not one. Negative one half times four plus three is one. That's the line.",
+"Edge numbers. Three k plus ninety is less than zero. What is the greatest possible integer k? Solve: k is less than negative thirty.",
+"Test the edge. Three times negative thirty plus ninety is zero. Is zero less than zero? No. With less than, the edge doesn't count. So step one past it: negative thirty one.",
+"Let's try an SAT style question. Two times x plus three equals two x plus k has no solution. Which could be k?",
+"The left side is two x plus six. If k were six, both sides would be identical, and every x would work. That's infinitely many solutions, not none.",
+"So k can be anything except six, like five. Then two x plus six equals two x plus five, which is never true. No solution.",
+"Your turn. Pause the video. x plus four is greater than ten. What is the smallest integer x?",
+"x is greater than six. Test six: six plus four is ten, and ten is not greater than ten. So the answer is seven.",
+"Remember three things. Plug your answer back in. Test the edge number itself. And with less than or greater than, the edge doesn't count. Great work."
+]

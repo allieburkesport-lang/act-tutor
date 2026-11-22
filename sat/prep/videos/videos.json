@@ -677,33 +677,30 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea"
    ],
    [
-    16,
-    "The rules"
+    21,
+    "Plug it in"
    ],
    [
-    29,
-    "Example 1: Plug the point in"
+    44,
+    "Edge numbers"
    ],
    [
-    69,
-    "Example 2: Edge number in an inequality"
+    68,
+    "SAT question"
    ],
    [
-    115,
-    "Example 3: No solution vs. infinitely many"
+    99,
+    "Your turn"
    ],
    [
-    159,
-    "Your turn: pause and pick"
-   ],
-   [
-    184,
-    "Say it out loud"
+    120,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "m5": {
   "src": "videos/m5.mp4",
