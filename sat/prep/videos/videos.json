@@ -986,33 +986,38 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea"
+   ],
+   [
+    8,
+    "Think like a judge"
    ],
    [
     17,
-    "The rules"
+    "The method"
    ],
    [
-    29,
-    "Example 1: “This suggests that…”"
+    28,
+    "\"This suggests that\""
    ],
    [
-    67,
-    "Example 2: Trap: goes too far"
+    64,
+    "Flipped facts"
    ],
    [
-    96,
-    "Example 3: “Proves that” (what was shown)"
+    83,
+    "SAT question"
    ],
    [
-    135,
-    "Example 4: Ruling things out"
+    112,
+    "Your turn"
    ],
    [
-    170,
-    "Say it out loud"
+    138,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "s2": {
   "src": "videos/s2.mp4",
