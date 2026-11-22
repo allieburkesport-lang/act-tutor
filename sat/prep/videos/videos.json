@@ -1030,33 +1030,38 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea"
    ],
    [
-    17,
-    "The rules"
+    10,
+    "Holding hands"
+   ],
+   [
+    18,
+    "The method"
    ],
    [
     30,
-    "Example 1: Who | did"
+    "Who + did"
    ],
    [
-    65,
-    "Example 2: Did | what"
+    50,
+    "More pairs"
    ],
    [
-    97,
-    "Example 3: Little word | its words"
+    80,
+    "SAT question"
    ],
    [
-    134,
-    "Example 4: Title right before a name"
+    111,
+    "Your turn"
    ],
    [
-    175,
-    "Say it out loud"
+    131,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "s3": {
   "src": "videos/s3.mp4",

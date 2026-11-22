@@ -51,3 +51,19 @@ def steps(ctx, items, x, y, p, a=0, z=.9, size=30, gap=70):
         if k <= 0: continue
         disc(ctx, x + 22, y + i * gap - 10, 22, c, k); text(ctx, str(i + 1), x + 22, y + i * gap, 24, C['bg'], k, 'c')
         text(ctx, s, x + 62, y + i * gap, size, C['ink'], k)
+
+def join(ctx, L, M, R, y, k, mc=None, tags=None, size=30, x=80):
+    """Draw 'L M R' on one line; M in big colored type. tags=(lt, rt) labels under each side."""
+    if k <= 0: return
+    mc = mc or C['yel']
+    wl = twidth(ctx, L, size, False); wm = twidth(ctx, M, size + 8) if M.strip() else 30
+    text(ctx, L, x, y, size, C['ink'], k, 'l', False)
+    if M.strip(): text(ctx, M, x + wl + 4, y, size + 8, mc, k)
+    else: rrect(ctx, x + wl + 6, y - size, 18, size + 6, 4, stroke=mc, a=k, lw=2)
+    text(ctx, R, x + wl + wm + 14, y, size, C['ink'], k, 'l', False)
+    if tags:
+        for (lab, xx, ww, ok) in [(tags[0], x, wl, tags[0] == 'FULL'), (tags[1], x + wl + wm + 14, twidth(ctx, R, size, False), tags[1] == 'FULL')]:
+            if not lab: continue
+            c = C['green'] if ok else C['org']
+            line(ctx, xx, y + 14, xx + ww, y + 14, c, 3, 1, k); text(ctx, lab, xx + ww / 2, y + 44, 20, c, k, 'c')
+
