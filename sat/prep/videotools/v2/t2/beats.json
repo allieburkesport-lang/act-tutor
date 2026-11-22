@@ -1,0 +1,19 @@
+[
+"Two kinds of growth show up all over the SAT. Linear adds the same amount every step. Exponential multiplies by the same number every step.",
+"Linear is like saving ten dollars every week. Ten, twenty, thirty, forty. The same amount is added each time.",
+"Exponential is like a rumor. Each person tells two friends. Two, four, eight, sixteen. Multiplying makes it explode.",
+"In a times b to the x, a is the starting amount, and b is what you multiply by each step. If b is bigger than one, it grows. If b is less than one, it shrinks.",
+"Take five hundred times zero point eight five to the x. The base, zero point eight five, means eighty five percent is left after each step. So it decreases by fifteen percent.",
+"Trap alert. Eighty five percent is what remains, not what's lost. The loss is one minus zero point eight five, which is fifteen percent.",
+"Doubling time. In three hundred times two to the t over four, the exponent becomes one when t is four. So it doubles every four, not every eight.",
+"To test a table, divide neighbors. Three, six, twelve, twenty four. Six over three is two, and twelve over six is two. The same ratio means exponential.",
+"One exponent rule to know. For a power of a power, multiply the exponents. x cubed, squared, is x to the sixth.",
+"Let's try an SAT style question. Which expression is equivalent to six x squared plus nine x?",
+"Step one. Find what both terms share. Six and nine share three, and both terms have an x. So the common factor is three x.",
+"Step two. Divide each term by three x. Six x squared over three x is two x. Nine x over three x is three.",
+"Step three. Put it together: three x, times two x plus three.",
+"Trap alert. Three x, times two x plus nine, is wrong. You have to divide every term, including the nine x. Check by multiplying back out.",
+"Your turn. Pause the video. A value is modeled by two hundred times one point zero six to the t. By what percent does it grow each year?",
+"The base is one point zero six. One point zero six minus one is zero point zero six, so it grows six percent per year. If you said one hundred six percent, that's the amount you keep, not the growth.",
+"Remember three things. Linear adds, and exponential multiplies. The base tells you grow or shrink, and by how much. And factor out what every term shares. Great work."
+]

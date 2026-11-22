@@ -192,37 +192,34 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea: add vs multiply"
    ],
    [
-    18,
-    "The rules"
+    10,
+    "Saving vs a rumor"
    ],
    [
-    34,
-    "Example 1: Growth or decay"
+    27,
+    "a · bˣ: growth and decay"
    ],
    [
-    76,
-    "Example 2: Doubling time"
+    72,
+    "Tables and power rules"
    ],
    [
-    108,
-    "Example 3: Table test"
+    94,
+    "SAT question"
    ],
    [
-    140,
-    "Example 4: Factor the common chunk"
+    139,
+    "Your turn"
    ],
    [
-    180,
-    "Your turn: pause and pick"
-   ],
-   [
-    210,
-    "Say it out loud"
+    167,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "a2": {
   "src": "videos/a2.mp4",
