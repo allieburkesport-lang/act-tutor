@@ -6,6 +6,7 @@ rad = math.radians
 def chip(ctx, s, c):
     w = twidth(ctx, s, 15) + 26; rrect(ctx, 28, 58, w, 30, 15, fill=C['bg2'], stroke=c, lw=1.5); text(ctx, s, 41, 78, 15, c)
 def trap(ctx, x, y, w, l1, l2, k, size=21):
+    while size > 14 and max(twidth(ctx, l1, size), twidth(ctx, l2, size)) > w - 40: size -= 1
     rrect(ctx, x, y, w, 110, 12, fill=(0.25, 0.08, 0.08), stroke=C['red'], a=seg(k, 0, .2))
     text(ctx, 'TRAP', x + 20, y + 28, 15, C['red'], seg(k, 0, .2))
     text(ctx, l1, x + 20, y + 62, size, C['ink'], seg(k, .15, .4))
@@ -14,9 +15,10 @@ def question(ctx, s, k, size=24):
     chip(ctx, 'SAT-style question', C['yel'])
     rrect(ctx, 60, 100, 1160, 70, 12, fill=C['bg2'], stroke=C['mute'], lw=1)
     write(ctx, s, 80, 145, size, C['ink'], k)
-def answer(ctx, s, x, y, w, k):
+def answer(ctx, s, x, y, w, k, size=32):
+    while size > 16 and twidth(ctx, s, size) > w - 30: size -= 1
     rrect(ctx, x, y, w, 64, 12, fill=C['bg2'], stroke=C['green'], a=k)
-    text(ctx, s, x + w / 2, y + 43, 32, C['green'], k, 'c')
+    text(ctx, s, x + w / 2, y + 32 + size * .36, size, C['green'], k, 'c')
 def recap(ctx, p, items):
     text(ctx, 'Lock it in', 640, 150, 54, C['ink'], seg(p, 0, .1), 'c')
     for i, (s, c) in enumerate(items):
