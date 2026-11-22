@@ -419,7 +419,7 @@ const state = {
 
 /* ---------- real progress from the other HELM pages (no manual checking) ----------
    AP Gov page -> "apgov_summary", SAT HELM -> "sat_summary", Blueprint -> ../drill-zone/blueprint.json */
-const SUM = { apgov: (window.HELM_PROGRESS && HELM_PROGRESS.get('apgov_summary', null)) || null, sat: (window.HELM_PROGRESS && HELM_PROGRESS.get('sat_summary', null)) || null, bp: null };
+const SUM = { time: null, apgov: (window.HELM_PROGRESS && HELM_PROGRESS.get('apgov_summary', null)) || null, sat: (window.HELM_PROGRESS && HELM_PROGRESS.get('sat_summary', null)) || null, bp: null };
 const prevISO = (iso) => isoOf(new Date(parse(iso).getTime() - DAYMS));
 function govItems() {
   if (!SUM.apgov || !SUM.apgov.days) return null;
@@ -466,6 +466,7 @@ function weekDates() {
 const checkBtn = (t) => t.tracked ? `<span class="check auto${t.done ? ' on' : ''}" role="img" aria-label="${esc((t.done ? 'Done: ' : 'Not done yet: ') + t.title)}" title="Checks itself off in ${esc(t.trackWhere)}"><span class="box">${ICON.check}</span></span>` : `<button class="check${t.done ? ' on' : ''}" type="button" data-action="toggle" data-id="${t.id}" aria-label="${esc((t.done ? 'Mark not done: ' : 'Mark done: ') + t.title)}"><span class="box">${ICON.check}</span></button>`;
 const pill = (t, label) => `<span class="pill ${t.sc}">${esc(label || t.st)}</span>`;
 
+const hmin = (s) => { const m = Math.round((s || 0) / 60); return m < 60 ? m + ' min' : Math.floor(m / 60) + ' h ' + (m % 60) + ' min'; };
 function freshLabel() { const t = Math.max((SUM.sat && SUM.sat.updated) || 0, (SUM.apgov && SUM.apgov.updated) || 0); if (!t) return 'Live'; const m = Math.round((Date.now() - t) / 60000); return m < 1 ? 'Updated just now' : m < 60 ? 'Updated ' + m + ' min ago' : 'Updated ' + new Date(t).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }); }
 function renderCanvas() {
   const fr = document.getElementById('fresh'); if (fr) fr.textContent = freshLabel();
@@ -496,6 +497,7 @@ function renderCanvas() {
     return `<section class="s6 card tile m2" aria-labelledby="${k}-h">
       <div class="tile-h"><div style="display:flex;flex-direction:column;gap:4px"><span class="mod mod-${k}">${esc(sub)}</span><h2 id="${k}-h" style="margin:0;font-size:22px">${esc(title)}</h2></div>
       <span class="tnum muted" style="font-weight:700">${d}/${list.length}</span></div>
+      ${k === 'sat' && SUM.time && SUM.time.cal && SUM.time.cal[TODAY] ? `<p class="muted" style="margin:-6px 0 0;font-size:13px;font-weight:600">${hmin(SUM.time.cal[TODAY])} in SAT Helm today</p>` : ''}
       <div class="meter"><i style="width:${pct(d, list.length)}%"></i></div>
       <ul class="checklist">${list.length ? list.map((t) => `<li class="item${t.done ? ' is-done' : ''}">${checkBtn(t)}<button class="linkbtn ttl" type="button" data-action="open" data-id="${t.id}" style="flex:1">${esc(t.title)}</button>${pill(t)}</li>`).join('') : '<li class="muted" style="padding:8px 2px">Nothing assigned today.</li>'}</ul>
       <a class="btn btn-primary big" href="${esc(href)}" style="margin-top:auto">${esc(MOD[k].link)}${ICON.arrow}</a></section>`;
@@ -547,7 +549,7 @@ function renderCanvas() {
     <div class="card stat prog"><span class="label">Today</span><span class="metric tnum">${tp}<small>%</small></span><span class="delta">${td}/${tt} tasks</span><div class="pbar"><i style="width:${tp}%"></i></div></div>
     <div class="card stat prog"><span class="label">This week</span><span class="metric tnum">${pct(cnt(weekT), weekT.length)}<small>%</small></span><span class="delta">${cnt(weekT)}/${weekT.length} tasks</span><div class="pbar"><i style="width:${pct(cnt(weekT), weekT.length)}%"></i></div></div>
     <a class="card stat prog" href="${esc(MOD.gov.href)}"><span class="label">AP Gov · Ch. 4 part 2</span><span class="metric tnum">${SUM.apgov ? SUM.apgov.pct : 0}<small>%</small></span><span class="delta${quiz ? ' warn' : ''}">${quiz ? 'Quiz in ' + quiz.rel + (quiz.rel === 1 ? ' day' : ' days') : (SUM.apgov ? SUM.apgov.done + '/' + SUM.apgov.total + ' steps' : 'Open AP Gov')}</span><div class="pbar"><i style="width:${SUM.apgov ? SUM.apgov.pct : 0}%"></i></div></a>
-    <a class="card stat prog" href="${esc(MOD.sat.href)}"><span class="label">SAT Helm · questions so far</span><span class="metric tnum">${satQ.pct}<small>%</small></span><span class="delta">${SUM.sat ? satQ.n + '/' + satQ.t + ' answered' : 'Open SAT Helm'}</span><div class="pbar"><i style="width:${satQ.pct}%"></i></div></a>
+    <a class="card stat prog" href="${esc(MOD.sat.href)}"><span class="label">SAT Helm · questions so far</span><span class="metric tnum">${satQ.pct}<small>%</small></span><span class="delta">${SUM.sat ? satQ.n + '/' + satQ.t + ' answered' : 'Open SAT Helm'}${SUM.time && SUM.time.cal && SUM.time.cal[TODAY] ? ' · ' + hmin(SUM.time.cal[TODAY]) + ' today' : ''}</span><div class="pbar"><i style="width:${satQ.pct}%"></i></div></a>
   </section>
   ${modTile('sat', 'SAT Helm', 'SAT', MOD.sat.href)}
   ${modTile('gov', 'AP Government', 'AP Gov · Mr. Thomas', MOD.gov.href)}
@@ -675,7 +677,7 @@ async function liveSat() {
     sat.updated = Math.max(sat.updated || 0, last); SUM.sat = sat;
   } catch (e) {}
 }
-async function refreshSums() { try { const [a, s] = await Promise.all([HELM_PROGRESS.pull('apgov_summary'), HELM_PROGRESS.pull('sat_summary')]); if (a) SUM.apgov = a; if (s) SUM.sat = s; await liveSat(); renderCanvas(); renderNotif(); } catch (e) {} }
+async function refreshSums() { try { const [a, s, tm] = await Promise.all([HELM_PROGRESS.pull('apgov_summary'), HELM_PROGRESS.pull('sat_summary'), HELM_PROGRESS.pull('sat_time')]); if (a) SUM.apgov = a; if (s) SUM.sat = s; if (tm) SUM.time = tm; await liveSat(); renderCanvas(); renderNotif(); } catch (e) {} }
 setInterval(() => { if (!document.hidden && !state.drawer && !state.searchOpen) refreshSums(); }, 30000);
 document.addEventListener('visibilitychange', () => { if (!document.hidden) refreshSums(); });
 addEventListener('pageshow', () => { SUM.apgov = HELM_PROGRESS.get('apgov_summary', SUM.apgov); SUM.sat = HELM_PROGRESS.get('sat_summary', SUM.sat); render(); });

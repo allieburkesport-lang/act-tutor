@@ -209,7 +209,7 @@ async function pullOnline(){try{const r=await fetch(SB+'?select=question,part,co
 
   rows.forEach(w=>{const id=(w.question||'').split(' ')[0];if(!QBY[id])return;const t=Date.parse(w.created_at);if(near(id,t,w.attempt))return;add++;const pm=/plan (\d{4}-\d\d-\d\d)/.exec(w.part||''),hm=/help ([a-z+]+)/.exec(w.part||'');LOG.push({id,ts:t,day:new Date(t).toLocaleDateString('en-CA'),ok:w.correct,first:w.first_try,attempt:w.attempt,sec:w.seconds==null?null:+w.seconds,picked:'',plan:pm?pm[1]:undefined,help:hm?hm[1].split('+'):(/coached/.test(w.part||'')?['show']:[]),helpFirst:(w.attempt||1)===1?(hm?hm[1].split('+'):(/coached/.test(w.part||'')?['show']:[])):undefined});});
   if(add){LOG.sort((a,b)=>a.ts-b.ts);store.set('satbank_log',LOG.slice(-5000));if(!D)route();}}catch(e){}}
-function save(row){if(D&&D.view)return;LOG.push(row);store.set('satbank_log',LOG.slice(-5000));clearTimeout(window._pubT);window._pubT=setTimeout(publishSat,1500);const q=QBY[row.id],s=SK2[q.skill];
+function save(row){if(D&&D.view)return;if(row.plan)lastPlan=row.plan;LOG.push(row);store.set('satbank_log',LOG.slice(-5000));clearTimeout(window._pubT);window._pubT=setTimeout(publishSat,1500);const q=QBY[row.id],s=SK2[q.skill];
   fetch(SB,{method:'POST',headers:Object.assign({'Content-Type':'application/json',Prefer:'return=minimal'},H),body:JSON.stringify({student:WHO,kind:'bank',concept_id:q.skill,concept_no:BANK.skills.indexOf(s)+1,concept_title:s.name,
    part:`${s.sec} · ${DIFF[q.diff]}${row.coached?' · coached':''} · new site${row.plan?' · plan '+row.plan:''}${row.help&&row.help.length?' · help '+row.help.join('+'):''}`,question_no:+row.id.split('-').pop(),question:(row.id+' '+plain(q.q)).slice(0,600),picked:String(row.picked).slice(0,300),correct:row.ok,first_try:row.first,attempt:row.attempt,seconds:row.sec})}).catch(()=>{});}
 function stats(skill){// same blend as the nightly plan: earlier practice (Blueprint) + Drill Zone first tries counted double
@@ -288,7 +288,7 @@ function schedule(){if(!PLAN)return todayCard();const t=today(),tm=tomorrowOf(t)
     const drill=hasDrill(d);const isNow=d.date===t,isOwed=d.date<t,isTm=d.date===tm;
     const dn=new Date(d.date+'T12:00');const lab=dn.toLocaleDateString('en-US',{weekday:'short'})+' '+dn.toLocaleDateString('en-US',{month:'short',day:'numeric'});
     const newS=(d.learn||[]).map(s=>SK2[s]?SK2[s].name:s);const rq=(d.review||[]).reduce((a,r)=>a+r[1],0);
-    const status=f.length?`<b>${ok}/${f.length}</b> right · ${mins(spent)}${run&&!run.done?'<br><span style="color:var(--mute)">in progress</span>':''}`:(isNow?(dayHold(d.date)?'<b>Restarting today</b><br><span style="color:var(--mute)">Real SAT questions loading</span>':''):isOwed?'<b style="color:#9b1c1c">Not started</b>':'<span style="color:var(--mute)">Upcoming</span>');
+    const status=f.length?`<b>${ok}/${f.length}</b> right · ${mins(spent)} answering${TIME.plan[d.date]?' · '+hm(TIME.plan[d.date])+' in SAT HELM':''}${run&&!run.done?'<br><span style="color:var(--mute)">in progress</span>':''}`:(isNow?(dayHold(d.date)?'<b>Restarting today</b><br><span style="color:var(--mute)">Real SAT questions loading</span>':''):isOwed?'<b style="color:#9b1c1c">Not started</b>':'<span style="color:var(--mute)">Upcoming</span>');
     const left=isOwed&&drill?Math.max(0,buildDay(d,true).qs.length-f.length):0;
     const btn=dayHold(d.date)?`<span style="font-weight:700;color:#9a3412">New questions coming</span>`:drill?`<button class="btn sm" data-go="#/day/${d.date}">${run&&!run.done?'Continue':f.length?'Keep going':'Start'}</button>${f.length?` <button class="btn g sm" data-go="#/report/${d.date}">Report</button>`:''}`:'';
     return `<tr class="${drill?'click':''} ${isNow?'now':''} ${isOwed?'owed':''}" ${drill?`data-go="#/day/${d.date}"`:''}><td style="white-space:nowrap"><b>${lab}</b>${isNow?'<div style="font-size:12px;color:var(--navy);font-weight:700">TODAY</div>':isOwed?`<div style="font-size:12px;color:#9b1c1c;font-weight:700">NOT FINISHED</div><div style="font-size:12px;color:var(--mute)">${left} question${left===1?'':'s'} left</div>`:isTm?'<div style="font-size:12px;color:var(--mute);font-weight:700">TOMORROW</div>':''}</td>
@@ -645,6 +645,20 @@ document.addEventListener('click',e=>{const b=e.target.closest('button,[data-go]
 });
 HELM_AUTH.then(s=>{H.Authorization='Bearer '+s.access_token;return load()}).then(route).then(publishSat);
 window.addEventListener('hashchange',()=>setTimeout(publishSat,300));
+/* ---------- time in SAT HELM ----------
+   Counts time while this page is visible AND he is active (a tap, key, scroll or mouse move in the last
+   2 minutes, or a video playing). Saved per calendar day ("cal") and per plan day he is working on ("plan"). */
+const TIME=Object.assign({cal:{},plan:{}},(window.HELM_PROGRESS&&HELM_PROGRESS.get('sat_time',{}))||{});
+let lastAct=Date.now(),lastPlan=null;
+['pointerdown','keydown','scroll','mousemove','touchstart','wheel'].forEach(ev=>addEventListener(ev,()=>{lastAct=Date.now()},{passive:true,capture:true}));
+function curPlanDay(){const m=/#\/(?:day|drill|report)\/(\d{4}-\d\d-\d\d)/.exec(location.hash);return m?m[1]:lastPlan}
+setInterval(()=>{const vid=[...document.querySelectorAll('video,audio')].some(v=>!v.paused&&!v.ended);
+  if(document.hidden||(!vid&&Date.now()-lastAct>120000))return;
+  const c=today(),pd=curPlanDay();TIME.cal[c]=(TIME.cal[c]||0)+15;if(pd)TIME.plan[pd]=(TIME.plan[pd]||0)+15;
+  if(window.HELM_PROGRESS)HELM_PROGRESS.put('sat_time',TIME)},15000);
+(window.HELM_AUTH||Promise.reject()).then(async()=>{const r=window.HELM_PROGRESS&&await HELM_PROGRESS.pull('sat_time');if(r)['cal','plan'].forEach(k=>Object.keys(r[k]||{}).forEach(d=>{TIME[k][d]=Math.max(TIME[k][d]||0,r[k][d])}))}).catch(()=>{});
+const hm=s=>{const m=Math.round((s||0)/60);return m<60?m+' min':Math.floor(m/60)+' h '+(m%60)+' min'};
+
 /* Tell the HELM homepage how each SAT HELM plan day is going (saved to helm_progress as "sat_summary"). */
 function publishSat(){try{if(!PLAN||!window.HELM_PROGRESS)return;
   const days=PLAN.days.map(d=>{let total=0,n=0;try{total=buildDay(d,true).qs.length;n=dayFirst(d.date).length}catch(e){}
