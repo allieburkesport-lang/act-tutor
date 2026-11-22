@@ -405,7 +405,7 @@ const ICON = {
 const urlDate = new URLSearchParams(location.search).get('date');   // ?date=2026-11-22 to preview a day
 const TODAY = urlDate && /^\d{4}-\d{2}-\d{2}$/.test(urlDate) ? urlDate : isoOf(new Date());
 const state = {
-  dark: store.get('dark', window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches),
+  dark: store.get('theme', 'light') === 'dark',   // always opens in the white (light) design unless he picks dark
   collapsed: store.get('collapsed', false),
   done: store.get('done', {}),
   tab: 'all', drawer: null, searchOpen: false, query: '', notifOpen: false, loading: true
@@ -592,7 +592,7 @@ document.addEventListener('click', (e) => {
   if (a === 'open') { lastFocus = lastFocus || document.activeElement; state.drawer = id; state.searchOpen = false; state.notifOpen = false; render(); const c = document.querySelector('#drawer .iconbtn'); if (c) c.focus(); return; }
   if (a === 'close') { state.drawer = null; render(); if (lastFocus && lastFocus.isConnected) lastFocus.focus(); lastFocus = null; return; }
   if (a === 'tab') { state.tab = id; renderCanvas(); return; }
-  if (a === 'theme') { state.dark = !state.dark; store.set('dark', state.dark); render(); return; }
+  if (a === 'theme') { state.dark = !state.dark; store.set('theme', state.dark ? 'dark' : 'light'); render(); return; }
   if (a === 'side') { state.collapsed = !state.collapsed; store.set('collapsed', state.collapsed); render(); return; }
   if (a === 'search') { lastFocus = document.activeElement; state.searchOpen = true; state.query = ''; renderOverlays(); return; }
   if (a === 'closeSearch') { state.searchOpen = false; renderOverlays(); return; }
