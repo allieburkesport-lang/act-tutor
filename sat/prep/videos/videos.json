@@ -943,33 +943,42 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea"
    ],
    [
-    13,
-    "The rules"
+    8,
+    "The headline"
    ],
    [
-    24,
-    "Example 1: Old belief → new finding"
+    15,
+    "The method"
    ],
    [
-    52,
-    "Example 2: “Some think X. However, Y argues Z.”"
+    33,
+    "Watch for the turn"
    ],
    [
-    85,
-    "Example 3: Change over time"
+    41,
+    "Old belief, new finding"
    ],
    [
-    123,
-    "Example 4: Process with steps"
+    66,
+    "\"However\" texts"
    ],
    [
-    158,
-    "Say it out loud"
+    88,
+    "SAT question"
+   ],
+   [
+    115,
+    "Your turn"
+   ],
+   [
+    145,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "r3": {
   "src": "videos/r3.mp4",

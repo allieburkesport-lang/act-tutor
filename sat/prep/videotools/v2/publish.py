@@ -8,7 +8,7 @@ v = json.load(open(f'{R}/videos/videos.json')); v[vid].update(src=f'videos/{vid}
 json.dump(v, open(f'{R}/videos/videos.json', 'w'), indent=1, ensure_ascii=False)
 os.makedirs(f'{R}/videotools/v2/{vid}', exist_ok=True)
 for f in (script, 'beats.json'): shutil.copy(f'{D}/{f}', f'{R}/videotools/v2/{vid}/{f}')
-for f in ('common.py', 'engine.py', 'fetch.py', 'qa.py', 'publish.py'): shutil.copy(f'/home/claude/v2/{f}', f'{R}/videotools/v2/{f}')
+for f in ('common.py', 'engine.py', 'rw.py', 'fetch.py', 'qa.py', 'publish.py'): shutil.copy(f'/home/claude/v2/{f}', f'{R}/videotools/v2/{f}')
 sh = lambda *a: subprocess.run(a, cwd='/home/claude/act-tutor', check=True)
 sh('git', 'add', f'sat/prep/videos/{vid}.mp4', f'sat/prep/videos/{vid}.jpg', 'sat/prep/videos/videos.json', 'sat/prep/videotools/v2')
 sh('git', 'commit', '-qm', f'Remake: {title} video in the new animated style\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>\nClaude-Session: https://claude.ai/code/session_011qG37i91ZKBgh4bTMod1hU')
