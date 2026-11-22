@@ -834,37 +834,38 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea"
    ],
    [
-    21,
-    "The rules"
+    9,
+    "X-ray it"
    ],
    [
-    46,
-    "Example 1: “Of” phrase in the middle"
+    16,
+    "The method"
    ],
    [
-    85,
-    "Example 2: Dashes or commas in the middle"
+    25,
+    "\"Of\" phrases"
    ],
    [
-    121,
-    "Example 3: Two subjects with “and”"
+    48,
+    "Counting the who"
    ],
    [
-    148,
-    "Example 4: “Along with” / “as well as”"
+    75,
+    "SAT question"
    ],
    [
-    182,
-    "Your turn: pause and pick"
+    101,
+    "Your turn"
    ],
    [
-    214,
-    "Say it out loud"
+    119,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "s6": {
   "src": "videos/s6.mp4",
