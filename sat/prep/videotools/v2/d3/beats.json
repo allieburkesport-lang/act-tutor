@@ -1,0 +1,18 @@
+[
+"A line of best fit runs through a scatterplot so you can predict y from x. The SAT loves to ask what the numbers in that line actually mean.",
+"Here's a model. y equals two point five x plus forty, where x is hours studied and y is a test score.",
+"The slope is two point five. Slope is a rate, like miles per hour. For each one more hour of studying, the predicted score goes up two point five points.",
+"The intercept is forty. It's the predicted y when x is zero. So a student who studies zero hours is predicted to score forty.",
+"Trap alert. Don't swap them. The slope is the rate of change. The intercept is the starting value, when x is zero.",
+"Now predict. For six hours, plug in six. Two point five times six is fifteen. Add forty, and the prediction is fifty five.",
+"If you said fifteen, you forgot the intercept. Always add the b.",
+"A residual is actual minus predicted. Points above the line have positive residuals. Points below the line have negative residuals.",
+"A student studied six hours and actually scored sixty. Predicted was fifty five. Sixty minus fifty five is a residual of five.",
+"Trap alert. Predicted minus actual gives negative five. That's backwards. It's always actual minus predicted.",
+"Let's try an SAT style question. Compare y equals three to the x, and y equals four x plus one. Is the exponential always greater?",
+"Test small x. At x equals one, three to the x is three, but four x plus one is five. The linear one is bigger.",
+"Now try x equals three. Three cubed is twenty seven, but four times three plus one is thirteen. The exponential eventually passes the linear one, but not always.",
+"Your turn. Pause the video. The model is y equals three x plus ten. What is y when x is four, and what does the three mean?",
+"Three times four is twelve, plus ten is twenty two. The three means y goes up three for each one more x.",
+"Remember three things. Slope is the change in y for each one more x. Intercept is y when x is zero. And a residual is actual minus predicted. Great work."
+]

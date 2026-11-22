@@ -546,37 +546,34 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea"
    ],
    [
-    19,
-    "The rules"
+    9,
+    "Slope and intercept"
    ],
    [
-    35,
-    "Example 1: Slope meaning"
+    47,
+    "Predict"
    ],
    [
-    69,
-    "Example 2: Intercept meaning"
+    63,
+    "Residuals"
    ],
    [
-    100,
-    "Example 3: Predict"
+    90,
+    "SAT question"
    ],
    [
-    129,
-    "Example 4: Residual"
+    124,
+    "Your turn"
    ],
    [
-    161,
-    "Your turn: pause and pick"
-   ],
-   [
-    193,
-    "Say it out loud"
+    147,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "d2": {
   "src": "videos/d2.mp4",
