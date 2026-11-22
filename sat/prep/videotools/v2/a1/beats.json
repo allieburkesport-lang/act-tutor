@@ -1,0 +1,20 @@
+[
+"Every quadratic has an x squared, and its graph is a U shape called a parabola. The trick is knowing which form shows you what you need.",
+"Picture a ball thrown through the air. Its path is a parabola. The top point is called the vertex, and the points where it crosses the ground are called the zeros.",
+"A quadratic can be written three ways. Each form is like a different camera angle, and each one shows you one thing clearly.",
+"Standard form, a x squared plus b x plus c, shows the y intercept. It's c, because when x is zero, everything else disappears.",
+"Factored form shows the zeros. In y equals two, times x minus three, times x plus five, set each piece equal to zero. The zeros are three and negative five.",
+"Watch the signs. x minus three gives positive three. x plus five gives negative five. The sign always flips.",
+"Vertex form, a times x minus h squared, plus k, shows the vertex. In y equals x minus four squared, plus seven, the vertex is four comma seven. Again, h flips its sign.",
+"In standard form, you can still find the vertex. Its x coordinate is negative b over two a.",
+"Now, how many solutions? Use the discriminant, b squared minus four a c. Think of it as a traffic light.",
+"Positive means go: two solutions. Zero means one solution, where the U just touches the axis. Negative means stop: no real solutions.",
+"Let's try an SAT style question. How many real solutions does x squared plus four x plus five equals zero have?",
+"Step one. Name a, b, and c. a is one, b is four, and c is five.",
+"Step two. b squared minus four a c is sixteen minus twenty, which is negative four.",
+"Step three. Negative means stop. There are zero real solutions. In Desmos, the U stays above the x axis.",
+"Trap alert. Don't assume every quadratic has two answers. Check the sign of the discriminant first.",
+"Your turn. Pause the video. y equals two x squared, minus twelve x, plus one. What is the x coordinate of the vertex?",
+"Negative b over two a is twelve over four, which is three. If you got negative three, you missed the double negative. The negative of negative twelve is positive twelve.",
+"Remember three things. Factored form shows the zeros, with the signs flipped. Vertex form shows the vertex. And b squared minus four a c counts the solutions. Great work."
+]

@@ -53,3 +53,25 @@ def run(D, NAR, PLAN, SC, header, hook, pads, CH):
         for i, n in enumerate(PLAN):
             if n not in seen and n in CH: seen.add(n); ch.append([int(starts[i]), CH[n]])
         json.dump(ch, open(f'{D}/chapters.json', 'w'))
+
+class Graph:
+    """maps math coords to screen inside box (x0,y0,w,h) for ranges xr, yr"""
+    def __init__(s, x0, y0, w, h, xr, yr): s.x0, s.y0, s.w, s.h, s.xr, s.yr = x0, y0, w, h, xr, yr
+    def X(s, x): return s.x0 + (x - s.xr[0]) / (s.xr[1] - s.xr[0]) * s.w
+    def Y(s, y): return s.y0 + s.h - (y - s.yr[0]) / (s.yr[1] - s.yr[0]) * s.h
+    def axes(s, ctx, k=1, grid=1):
+        if k <= 0: return
+        if grid:
+            for gx in range(math.ceil(s.xr[0]), math.floor(s.xr[1]) + 1, grid): line(ctx, s.X(gx), s.y0, s.X(gx), s.y0 + s.h, C['grid'], 1, k)
+            for gy in range(math.ceil(s.yr[0]), math.floor(s.yr[1]) + 1, grid): line(ctx, s.x0, s.Y(gy), s.x0 + s.w, s.Y(gy), C['grid'], 1, k)
+        line(ctx, s.x0, s.Y(0), s.x0 + s.w, s.Y(0), C['mute'], 2, k); line(ctx, s.X(0), s.y0, s.X(0), s.y0 + s.h, C['mute'], 2, k)
+    def plot(s, ctx, f, c, w=4, k=1, n=160):
+        if k <= 0: return
+        col(ctx, c); ctx.set_line_width(w); ctx.set_line_cap(cairo.LINE_CAP_ROUND); first = True
+        for i in range(int(n * k) + 1):
+            x = s.xr[0] + (s.xr[1] - s.xr[0]) * i / n; y = f(x)
+            if y < s.yr[0] or y > s.yr[1]: first = True; continue
+            (ctx.move_to if first else ctx.line_to)(s.X(x), s.Y(y)); first = False
+        ctx.stroke()
+    def dot(s, ctx, x, y, c, k=1, r=8): 
+        if k > 0: disc(ctx, s.X(x), s.Y(y), r * clamp(k * 1.5), c)

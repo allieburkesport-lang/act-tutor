@@ -133,37 +133,34 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea"
    ],
    [
-    18,
-    "The rules"
+    9,
+    "Parabola: vertex and zeros"
    ],
    [
-    43,
-    "Example 1: Zeros from factored form"
+    19,
+    "Three forms"
    ],
    [
-    81,
-    "Example 2: Vertex from vertex form"
+    83,
+    "Discriminant: traffic light"
    ],
    [
-    119,
-    "Example 3: y-intercept from standard form"
+    102,
+    "SAT question"
    ],
    [
-    150,
-    "Example 4: Vertex x from standard form"
+    142,
+    "Your turn"
    ],
    [
-    188,
-    "Your turn: pause and pick"
-   ],
-   [
-    215,
-    "Say it out loud"
+    167,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "t1": {
   "src": "videos/t1.mp4",
