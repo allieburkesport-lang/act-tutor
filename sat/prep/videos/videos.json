@@ -900,37 +900,42 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea"
    ],
    [
-    16,
-    "The rules"
+    9,
+    "The method"
    ],
    [
-    30,
-    "Example 1: Example clue"
+    18,
+    "Find the clue"
    ],
    [
-    60,
-    "Example 2: Colon clue"
+    33,
+    "Kinds of clues"
    ],
    [
-    93,
-    "Example 3: Describing clue"
+    44,
+    "\"Unlike\" clues"
    ],
    [
-    123,
-    "Example 4: “Whereas” clue"
+    68,
+    "Effect clues"
    ],
    [
-    155,
-    "Your turn: pause and pick"
+    83,
+    "SAT question"
    ],
    [
-    183,
-    "Say it out loud"
+    112,
+    "Your turn"
+   ],
+   [
+    138,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "r2": {
   "src": "videos/r2.mp4",
