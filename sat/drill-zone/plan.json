@@ -1,15 +1,18 @@
 {
- "updated": "Sat Nov 21, 10:15 AM ET",
+ "updated": "Sun Nov 22, 12:08 AM ET",
  "online": true,
- "today": "2026-11-21",
+ "today": "2026-11-22",
  "test": "2026-12-05",
  "total_concepts": 29,
  "math": 19,
  "english": 10,
  "changes": [
-  "Right triangles and trigonometry moved to 2026-11-21 (not practised on its day)",
-  "Circles moved to 2026-11-22 (not practised on its day)",
-  "Transitions moved to 2026-11-23 (not practised on its day)"
+  "Right triangles and trigonometry moved to 2026-11-22 (not practised on its day)",
+  "Circles moved to 2026-11-23 (not practised on its day)",
+  "Transitions moved to 2026-11-24 (not practised on its day)",
+  "Nonlinear equations and systems moved to 2026-11-25 (not practised on its day)",
+  "Probability and conditional probability moved to 2026-11-29 (not practised on its day)",
+  "Central ideas and details moved to 2026-11-30 (not practised on its day)"
  ],
  "skills": [
   {
@@ -17,16 +20,16 @@
    "name": "Words in context",
    "sec": "English",
    "share": 15.7,
-   "acc": 55,
-   "tried": 31
+   "acc": 62,
+   "tried": 57
   },
   {
    "skill": "tsp",
    "name": "Text structure and purpose",
    "sec": "English",
    "share": 8.7,
-   "acc": 33,
-   "tried": 3
+   "acc": 27,
+   "tried": 11
   },
   {
    "skill": "cross",
@@ -41,64 +44,64 @@
    "name": "Central ideas and details",
    "sec": "English",
    "share": 4.3,
-   "acc": 57,
-   "tried": 21
+   "acc": 73,
+   "tried": 31
   },
   {
    "skill": "coe",
    "name": "Command of evidence (text and data)",
    "sec": "English",
    "share": 13.5,
-   "acc": 66,
-   "tried": 35
+   "acc": 67,
+   "tried": 70
   },
   {
    "skill": "inf",
    "name": "Inferences",
    "sec": "English",
    "share": 10.2,
-   "acc": 46,
-   "tried": 24
+   "acc": 50,
+   "tried": 44
   },
   {
    "skill": "bound",
    "name": "Boundaries (punctuation)",
    "sec": "English",
    "share": 12.4,
-   "acc": 55,
-   "tried": 31
+   "acc": 50,
+   "tried": 52
   },
   {
    "skill": "fss",
    "name": "Form, structure and sense",
    "sec": "English",
    "share": 9.4,
-   "acc": 46,
-   "tried": 39
+   "acc": 45,
+   "tried": 60
   },
   {
    "skill": "syn",
    "name": "Rhetorical synthesis (notes)",
    "sec": "English",
    "share": 13.1,
-   "acc": 67,
-   "tried": 3
+   "acc": 36,
+   "tried": 11
   },
   {
    "skill": "trans",
    "name": "Transitions",
    "sec": "English",
    "share": 10.7,
-   "acc": 44,
-   "tried": 34
+   "acc": 52,
+   "tried": 65
   },
   {
    "skill": "lin1",
    "name": "Linear equations in one variable",
    "sec": "Math",
    "share": 6.1,
-   "acc": 50,
-   "tried": 52
+   "acc": 51,
+   "tried": 83
   },
   {
    "skill": "lin2",
@@ -113,8 +116,8 @@
    "name": "Linear functions",
    "sec": "Math",
    "share": 10.5,
-   "acc": 44,
-   "tried": 16
+   "acc": 50,
+   "tried": 33
   },
   {
    "skill": "sys",
@@ -145,16 +148,16 @@
    "name": "Nonlinear equations and systems",
    "sec": "Math",
    "share": 10.0,
-   "acc": 36,
-   "tried": 28
+   "acc": 60,
+   "tried": 56
   },
   {
    "skill": "nlf",
    "name": "Nonlinear functions",
    "sec": "Math",
    "share": 16.8,
-   "acc": 40,
-   "tried": 42
+   "acc": 64,
+   "tried": 92
   },
   {
    "skill": "ratio",
@@ -193,8 +196,8 @@
    "name": "Probability and conditional probability",
    "sec": "Math",
    "share": 1.8,
-   "acc": null,
-   "tried": 0
+   "acc": 80,
+   "tried": 10
   },
   {
    "skill": "infer",
@@ -225,24 +228,24 @@
    "name": "Lines, angles and triangles",
    "sec": "Math",
    "share": 5.0,
-   "acc": 0,
-   "tried": 6
+   "acc": 50,
+   "tried": 9
   },
   {
    "skill": "trig",
    "name": "Right triangles and trigonometry",
    "sec": "Math",
    "share": 3.4,
-   "acc": null,
-   "tried": 0
+   "acc": 89,
+   "tried": 18
   },
   {
    "skill": "circ",
    "name": "Circles",
    "sec": "Math",
    "share": 3.4,
-   "acc": 80,
-   "tried": 5
+   "acc": 89,
+   "tried": 7
   }
  ],
  "days": [
@@ -258,9 +261,9 @@
    "status": "done",
    "focus": [
     "linf",
-    "lat",
     "lin2",
-    "wic"
+    "sys",
+    "syn"
    ],
    "math_share": 67,
    "review": [
@@ -269,15 +272,15 @@
      3
     ],
     [
-     "lat",
-     3
-    ],
-    [
      "lin2",
      3
     ],
     [
-     "wic",
+     "sys",
+     3
+    ],
+    [
+     "syn",
      3
     ]
    ],
@@ -288,8 +291,8 @@
      "name": "Nonlinear functions",
      "sec": "Math",
      "share": 16.8,
-     "acc": 40,
-     "tried": 42,
+     "acc": 64,
+     "tried": 92,
      "lessons": [
       {
        "id": "t2",
@@ -314,8 +317,8 @@
      "name": "Nonlinear equations and systems",
      "sec": "Math",
      "share": 10.0,
-     "acc": 36,
-     "tried": 28,
+     "acc": 60,
+     "tried": 56,
      "lessons": [
       {
        "id": "a1",
@@ -335,8 +338,8 @@
      "name": "Form, structure and sense",
      "sec": "English",
      "share": 9.4,
-     "acc": 46,
-     "tried": 39,
+     "acc": 45,
+     "tried": 60,
      "lessons": [
       {
        "id": "s3",
@@ -367,7 +370,7 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/fss"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:linf.3,lat.3,lin2.3,wic.3",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:linf.3,lin2.3,sys.3,syn.3",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-11-19",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-11-19",
    "review_names": [
@@ -376,23 +379,23 @@
      3
     ],
     [
-     "Lines, angles and triangles",
-     3
-    ],
-    [
      "Linear equations in two variables",
      3
     ],
     [
-     "Words in context",
+     "Systems of two linear equations",
+     3
+    ],
+    [
+     "Rhetorical synthesis (notes)",
      3
     ]
    ],
    "focus_names": [
     "Linear functions",
-    "Lines, angles and triangles",
     "Linear equations in two variables",
-    "Words in context"
+    "Systems of two linear equations",
+    "Rhetorical synthesis (notes)"
    ],
    "n_questions": 42,
    "result": {
@@ -414,23 +417,23 @@
    "note": "",
    "status": "not done",
    "focus": [
-    "nlf",
-    "nleq",
     "linf",
-    "wic"
+    "lin2",
+    "sys",
+    "syn"
    ],
-   "math_share": 65,
+   "math_share": 67,
    "review": [
     [
+     "fss",
+     2
+    ],
+    [
      "nleq",
-     3
+     2
     ],
     [
      "nlf",
-     3
-    ],
-    [
-     "fss",
      2
     ],
     [
@@ -438,7 +441,15 @@
      3
     ],
     [
-     "wic",
+     "lin2",
+     3
+    ],
+    [
+     "sys",
+     3
+    ],
+    [
+     "syn",
      3
     ]
    ],
@@ -449,8 +460,8 @@
      "name": "Right triangles and trigonometry",
      "sec": "Math",
      "share": 3.4,
-     "acc": null,
-     "tried": 0,
+     "acc": 89,
+     "tried": 18,
      "lessons": [
       {
        "id": "t3",
@@ -465,8 +476,8 @@
      "name": "Circles",
      "sec": "Math",
      "share": 3.4,
-     "acc": 80,
-     "tried": 5,
+     "acc": 89,
+     "tried": 7,
      "lessons": [
       {
        "id": "t3",
@@ -481,8 +492,8 @@
      "name": "Transitions",
      "sec": "English",
      "share": 10.7,
-     "acc": 44,
-     "tried": 34,
+     "acc": 52,
+     "tried": 65,
      "lessons": [
       {
        "id": "s6",
@@ -493,20 +504,20 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/trans"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:nleq.3,nlf.3,fss.2,linf.3,wic.3",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:fss.2,nleq.2,nlf.2,linf.3,lin2.3,sys.3,syn.3",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-11-20",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-11-20",
    "review_names": [
     [
+     "Form, structure and sense",
+     2
+    ],
+    [
      "Nonlinear equations and systems",
-     3
+     2
     ],
     [
      "Nonlinear functions",
-     3
-    ],
-    [
-     "Form, structure and sense",
      2
     ],
     [
@@ -514,17 +525,25 @@
      3
     ],
     [
-     "Words in context",
+     "Linear equations in two variables",
+     3
+    ],
+    [
+     "Systems of two linear equations",
+     3
+    ],
+    [
+     "Rhetorical synthesis (notes)",
      3
     ]
    ],
    "focus_names": [
-    "Nonlinear functions",
-    "Nonlinear equations and systems",
     "Linear functions",
-    "Words in context"
+    "Linear equations in two variables",
+    "Systems of two linear equations",
+    "Rhetorical synthesis (notes)"
    ],
-   "n_questions": 44,
+   "n_questions": 48,
    "result": {
     "questions": 0,
     "first_try": 0,
@@ -550,33 +569,35 @@
    "date": "2026-11-21",
    "kind": "learn",
    "learn": [
-    "trig",
     "nleq",
     "prob",
     "cid"
    ],
-   "note": "Drills today instead of Practice Test 3 (Allie, Nov 21) \u00b7 Carried over: Right triangles and trigonometry \u00b7 Restarted Nov 21 (the morning set was a warm-up of easy questions)",
-   "carried": [
-    "trig"
-   ],
+   "note": "Drills today instead of Practice Test 3 (Allie, Nov 21)",
+   "reset_at": 1795281483496,
+   "status": "not done",
    "focus": [
-    "nlf",
     "linf",
-    "lat",
-    "wic"
+    "lin2",
+    "sys",
+    "syn"
    ],
-   "math_share": 69,
+   "math_share": 66,
    "review": [
     [
-     "nlf",
-     3
+     "fss",
+     2
     ],
     [
      "trans",
      2
     ],
     [
-     "fss",
+     "nlf",
+     2
+    ],
+    [
+     "trig",
      2
     ],
     [
@@ -588,39 +609,27 @@
      3
     ],
     [
-     "lat",
+     "lin2",
      3
     ],
     [
-     "wic",
+     "sys",
+     3
+    ],
+    [
+     "syn",
      3
     ]
    ],
    "label": "Sat Nov 21",
    "concepts": [
     {
-     "skill": "trig",
-     "name": "Right triangles and trigonometry",
-     "sec": "Math",
-     "share": 3.4,
-     "acc": null,
-     "tried": 0,
-     "lessons": [
-      {
-       "id": "t3",
-       "title": "Circles, volume, trig",
-       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/trig"
-      }
-     ],
-     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/trig"
-    },
-    {
      "skill": "nleq",
      "name": "Nonlinear equations and systems",
      "sec": "Math",
      "share": 10.0,
-     "acc": 36,
-     "tried": 28,
+     "acc": 60,
+     "tried": 56,
      "lessons": [
       {
        "id": "a1",
@@ -640,8 +649,8 @@
      "name": "Probability and conditional probability",
      "sec": "Math",
      "share": 1.8,
-     "acc": null,
-     "tried": 0,
+     "acc": 80,
+     "tried": 10,
      "lessons": [
       {
        "id": "d2",
@@ -656,8 +665,8 @@
      "name": "Central ideas and details",
      "sec": "English",
      "share": 4.3,
-     "acc": 57,
-     "tried": 21,
+     "acc": 73,
+     "tried": 31,
      "lessons": [
       {
        "id": "r2",
@@ -668,20 +677,24 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/cid"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:nlf.3,trans.2,fss.2,circ.2,linf.3,lat.3,wic.3",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:fss.2,trans.2,nlf.2,trig.2,circ.2,linf.3,lin2.3,sys.3,syn.3",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-11-21",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-11-21",
    "review_names": [
     [
-     "Nonlinear functions",
-     3
+     "Form, structure and sense",
+     2
     ],
     [
      "Transitions",
      2
     ],
     [
-     "Form, structure and sense",
+     "Nonlinear functions",
+     2
+    ],
+    [
+     "Right triangles and trigonometry",
      2
     ],
     [
@@ -693,71 +706,97 @@
      3
     ],
     [
-     "Lines, angles and triangles",
+     "Linear equations in two variables",
      3
     ],
     [
-     "Words in context",
+     "Systems of two linear equations",
+     3
+    ],
+    [
+     "Rhetorical synthesis (notes)",
      3
     ]
    ],
    "focus_names": [
-    "Nonlinear functions",
     "Linear functions",
-    "Lines, angles and triangles",
-    "Words in context"
+    "Linear equations in two variables",
+    "Systems of two linear equations",
+    "Rhetorical synthesis (notes)"
    ],
-   "n_questions": 58,
-   "result": null,
-   "reset_at": 1795281483496
+   "n_questions": 52,
+   "result": {
+    "questions": 5,
+    "first_try": 3,
+    "pct": 60,
+    "lessons": 0,
+    "by_skill": {
+     "Right triangles and trigonometry": [
+      4,
+      3
+     ],
+     "Nonlinear equations and systems": [
+      1,
+      0
+     ],
+     "Probability and conditional probability": [
+      0,
+      0
+     ],
+     "Central ideas and details": [
+      0,
+      0
+     ]
+    }
+   }
   },
   {
    "date": "2026-11-22",
    "kind": "learn",
    "learn": [
-    "circ",
+    "trig",
     "ratio",
     "pct",
     "bound"
    ],
-   "note": "Carried over: Circles",
+   "note": "Carried over: Right triangles and trigonometry",
    "carried": [
-    "circ"
+    "trig"
    ],
    "focus": [
-    "nlf",
-    "nleq",
     "linf",
-    "wic"
+    "lin2",
+    "sys",
+    "syn"
    ],
-   "math_share": 68,
+   "math_share": 71,
    "review": [
     [
-     "nleq",
-     3
-    ],
-    [
-     "nlf",
-     3
+     "fss",
+     2
     ],
     [
      "trans",
      2
     ],
     [
-     "fss",
+     "nleq",
      2
     ],
     [
-     "trig",
+     "nlf",
      2
+    ],
+    [
+     "cid",
+     1
     ],
     [
      "prob",
      2
     ],
     [
-     "cid",
+     "circ",
      2
     ],
     [
@@ -765,27 +804,35 @@
      3
     ],
     [
-     "wic",
+     "lin2",
+     3
+    ],
+    [
+     "sys",
+     3
+    ],
+    [
+     "syn",
      3
     ]
    ],
    "label": "Sun Nov 22",
    "concepts": [
     {
-     "skill": "circ",
-     "name": "Circles",
+     "skill": "trig",
+     "name": "Right triangles and trigonometry",
      "sec": "Math",
      "share": 3.4,
-     "acc": 80,
-     "tried": 5,
+     "acc": 89,
+     "tried": 18,
      "lessons": [
       {
        "id": "t3",
        "title": "Circles, volume, trig",
-       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/circ"
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/trig"
       }
      ],
-     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/circ"
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/trig"
     },
     {
      "skill": "ratio",
@@ -824,8 +871,8 @@
      "name": "Boundaries (punctuation)",
      "sec": "English",
      "share": 12.4,
-     "acc": 55,
-     "tried": 31,
+     "acc": 50,
+     "tried": 52,
      "lessons": [
       {
        "id": "s1",
@@ -846,36 +893,36 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/bound"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:nleq.3,nlf.3,trans.2,fss.2,trig.2,prob.2,cid.2,linf.3,wic.3",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:fss.2,trans.2,nleq.2,nlf.2,cid.1,prob.2,circ.2,linf.3,lin2.3,sys.3,syn.3",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-11-22",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-11-22",
    "review_names": [
     [
-     "Nonlinear equations and systems",
-     3
-    ],
-    [
-     "Nonlinear functions",
-     3
+     "Form, structure and sense",
+     2
     ],
     [
      "Transitions",
      2
     ],
     [
-     "Form, structure and sense",
+     "Nonlinear equations and systems",
      2
     ],
     [
-     "Right triangles and trigonometry",
+     "Nonlinear functions",
      2
+    ],
+    [
+     "Central ideas and details",
+     1
     ],
     [
      "Probability and conditional probability",
      2
     ],
     [
-     "Central ideas and details",
+     "Circles",
      2
     ],
     [
@@ -883,66 +930,74 @@
      3
     ],
     [
-     "Words in context",
+     "Linear equations in two variables",
+     3
+    ],
+    [
+     "Systems of two linear equations",
+     3
+    ],
+    [
+     "Rhetorical synthesis (notes)",
      3
     ]
    ],
    "focus_names": [
-    "Nonlinear functions",
-    "Nonlinear equations and systems",
     "Linear functions",
-    "Words in context"
+    "Linear equations in two variables",
+    "Systems of two linear equations",
+    "Rhetorical synthesis (notes)"
    ],
-   "n_questions": 62,
+   "n_questions": 65,
    "result": null
   },
   {
    "date": "2026-11-23",
    "kind": "learn",
    "learn": [
-    "trans",
+    "circ",
     "linf",
     "lin2",
     "wic"
    ],
-   "note": "Carried over: Transitions",
+   "note": "Carried over: Circles",
    "carried": [
-    "trans"
+    "circ"
    ],
    "focus": [
-    "nlf",
-    "nleq",
-    "lat",
-    "tsp"
+    "sys",
+    "lin1",
+    "ratio",
+    "syn"
    ],
-   "math_share": 61,
+   "math_share": 68,
    "review": [
     [
      "ratio",
-     2
-    ],
-    [
-     "nleq",
-     3
-    ],
-    [
-     "nlf",
      3
     ],
     [
      "fss",
-     1
-    ],
-    [
-     "trig",
-     2
-    ],
-    [
-     "prob",
      2
     ],
     [
      "bound",
+     2
+    ],
+    [
+     "trans",
+     2
+    ],
+    [
+     "nleq",
+     2
+    ],
+    [
+     "nlf",
+     2
+    ],
+    [
+     "pct",
      1
     ],
     [
@@ -950,47 +1005,51 @@
      1
     ],
     [
-     "pct",
-     2
+     "prob",
+     1
     ],
     [
-     "circ",
-     2
+     "trig",
+     1
     ],
     [
-     "lat",
+     "sys",
      3
     ],
     [
-     "tsp",
-     2
+     "lin1",
+     3
+    ],
+    [
+     "syn",
+     3
     ]
    ],
    "label": "Mon Nov 23",
    "concepts": [
     {
-     "skill": "trans",
-     "name": "Transitions",
-     "sec": "English",
-     "share": 10.7,
-     "acc": 44,
-     "tried": 34,
+     "skill": "circ",
+     "name": "Circles",
+     "sec": "Math",
+     "share": 3.4,
+     "acc": 89,
+     "tried": 7,
      "lessons": [
       {
-       "id": "s6",
-       "title": "CARE transitions",
-       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/trans"
+       "id": "t3",
+       "title": "Circles, volume, trig",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/circ"
       }
      ],
-     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/trans"
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/circ"
     },
     {
      "skill": "linf",
      "name": "Linear functions",
      "sec": "Math",
      "share": 10.5,
-     "acc": 44,
-     "tried": 16,
+     "acc": 50,
+     "tried": 33,
      "lessons": [
       {
        "id": "t1",
@@ -1026,8 +1085,8 @@
      "name": "Words in context",
      "sec": "English",
      "share": 15.7,
-     "acc": 55,
-     "tried": 31,
+     "acc": 62,
+     "tried": 57,
      "lessons": [
       {
        "id": "r1",
@@ -1038,36 +1097,36 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/wic"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:ratio.2,nleq.3,nlf.3,fss.1,trig.2,prob.2,bound.1,cid.1,pct.2,circ.2,lat.3,tsp.2",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:ratio.3,fss.2,bound.2,trans.2,nleq.2,nlf.2,pct.1,cid.1,prob.1,trig.1,sys.3,lin1.3,syn.3",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-11-23",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-11-23",
    "review_names": [
     [
      "Ratios, rates, proportions and units",
-     2
-    ],
-    [
-     "Nonlinear equations and systems",
-     3
-    ],
-    [
-     "Nonlinear functions",
      3
     ],
     [
      "Form, structure and sense",
-     1
-    ],
-    [
-     "Right triangles and trigonometry",
-     2
-    ],
-    [
-     "Probability and conditional probability",
      2
     ],
     [
      "Boundaries (punctuation)",
+     2
+    ],
+    [
+     "Transitions",
+     2
+    ],
+    [
+     "Nonlinear equations and systems",
+     2
+    ],
+    [
+     "Nonlinear functions",
+     2
+    ],
+    [
+     "Percentages",
      1
     ],
     [
@@ -1075,90 +1134,90 @@
      1
     ],
     [
-     "Percentages",
-     2
+     "Probability and conditional probability",
+     1
     ],
     [
-     "Circles",
-     2
+     "Right triangles and trigonometry",
+     1
     ],
     [
-     "Lines, angles and triangles",
+     "Systems of two linear equations",
      3
     ],
     [
-     "Text structure and purpose",
-     2
+     "Linear equations in one variable",
+     3
+    ],
+    [
+     "Rhetorical synthesis (notes)",
+     3
     ]
    ],
    "focus_names": [
-    "Nonlinear functions",
-    "Nonlinear equations and systems",
-    "Lines, angles and triangles",
-    "Text structure and purpose"
+    "Systems of two linear equations",
+    "Linear equations in one variable",
+    "Ratios, rates, proportions and units",
+    "Rhetorical synthesis (notes)"
    ],
-   "n_questions": 64,
+   "n_questions": 66,
    "result": null
   },
   {
    "date": "2026-11-24",
    "kind": "learn",
    "learn": [
+    "trans",
     "area",
     "lat",
     "syn"
    ],
-   "note": "",
-   "focus": [
-    "nlf",
-    "nleq",
-    "linf",
-    "wic"
+   "note": "Carried over: Transitions",
+   "carried": [
+    "trans"
    ],
-   "math_share": 65,
+   "focus": [
+    "linf",
+    "lin2",
+    "sys",
+    "tsp"
+   ],
+   "math_share": 61,
    "review": [
     [
      "ratio",
      2
     ],
     [
-     "nleq",
-     3
+     "fss",
+     1
     ],
     [
-     "nlf",
-     3
-    ],
-    [
-     "trans",
-     2
+     "bound",
+     1
     ],
     [
      "linf",
      3
     ],
     [
-     "fss",
-     2
-    ],
-    [
-     "trig",
-     2
-    ],
-    [
-     "prob",
-     1
-    ],
-    [
-     "bound",
-     2
-    ],
-    [
      "lin2",
-     1
+     3
+    ],
+    [
+     "nleq",
+     2
     ],
     [
      "wic",
+     1
+    ],
+    [
+     "nlf",
+     2
+    ],
+    [
+     "pct",
      2
     ],
     [
@@ -1166,16 +1225,44 @@
      1
     ],
     [
-     "pct",
+     "prob",
+     1
+    ],
+    [
+     "trig",
      1
     ],
     [
      "circ",
      1
+    ],
+    [
+     "sys",
+     3
+    ],
+    [
+     "tsp",
+     2
     ]
    ],
    "label": "Tue Nov 24",
    "concepts": [
+    {
+     "skill": "trans",
+     "name": "Transitions",
+     "sec": "English",
+     "share": 10.7,
+     "acc": 52,
+     "tried": 65,
+     "lessons": [
+      {
+       "id": "s6",
+       "title": "CARE transitions",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/trans"
+      }
+     ],
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/trans"
+    },
     {
      "skill": "area",
      "name": "Area and volume",
@@ -1202,8 +1289,8 @@
      "name": "Lines, angles and triangles",
      "sec": "Math",
      "share": 5.0,
-     "acc": 0,
-     "tried": 6,
+     "acc": 50,
+     "tried": 9,
      "lessons": [
       {
        "id": "e2",
@@ -1218,8 +1305,8 @@
      "name": "Rhetorical synthesis (notes)",
      "sec": "English",
      "share": 13.1,
-     "acc": 67,
-     "tried": 3,
+     "acc": 36,
+     "tried": 11,
      "lessons": [
       {
        "id": "r6",
@@ -1230,7 +1317,7 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/syn"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:ratio.2,nleq.3,nlf.3,trans.2,linf.3,fss.2,trig.2,prob.1,bound.2,lin2.1,wic.2,cid.1,pct.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:ratio.2,fss.1,bound.1,linf.3,lin2.3,nleq.2,wic.1,nlf.2,pct.2,cid.1,prob.1,trig.1,circ.1,sys.3,tsp.2",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-11-24",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-11-24",
    "review_names": [
@@ -1239,43 +1326,35 @@
      2
     ],
     [
-     "Nonlinear equations and systems",
-     3
+     "Form, structure and sense",
+     1
     ],
     [
-     "Nonlinear functions",
-     3
-    ],
-    [
-     "Transitions",
-     2
+     "Boundaries (punctuation)",
+     1
     ],
     [
      "Linear functions",
      3
     ],
     [
-     "Form, structure and sense",
-     2
-    ],
-    [
-     "Right triangles and trigonometry",
-     2
-    ],
-    [
-     "Probability and conditional probability",
-     1
-    ],
-    [
-     "Boundaries (punctuation)",
-     2
-    ],
-    [
      "Linear equations in two variables",
-     1
+     3
+    ],
+    [
+     "Nonlinear equations and systems",
+     2
     ],
     [
      "Words in context",
+     1
+    ],
+    [
+     "Nonlinear functions",
+     2
+    ],
+    [
+     "Percentages",
      2
     ],
     [
@@ -1283,62 +1362,74 @@
      1
     ],
     [
-     "Percentages",
+     "Probability and conditional probability",
+     1
+    ],
+    [
+     "Right triangles and trigonometry",
      1
     ],
     [
      "Circles",
      1
+    ],
+    [
+     "Systems of two linear equations",
+     3
+    ],
+    [
+     "Text structure and purpose",
+     2
     ]
    ],
    "focus_names": [
-    "Nonlinear functions",
-    "Nonlinear equations and systems",
     "Linear functions",
-    "Words in context"
+    "Linear equations in two variables",
+    "Systems of two linear equations",
+    "Text structure and purpose"
    ],
-   "n_questions": 56,
+   "n_questions": 66,
    "result": null
   },
   {
    "date": "2026-11-25",
    "kind": "learn",
    "learn": [
+    "nleq",
     "data1",
     "data2",
     "inf"
    ],
-   "note": "",
-   "focus": [
-    "nlf",
-    "nleq",
-    "linf",
-    "wic"
+   "note": "Carried over: Nonlinear equations and systems",
+   "carried": [
+    "nleq"
    ],
-   "math_share": 65,
+   "focus": [
+    "linf",
+    "lin2",
+    "sys",
+    "syn"
+   ],
+   "math_share": 67,
    "review": [
-    [
-     "lat",
-     2
-    ],
     [
      "ratio",
      2
     ],
     [
-     "nleq",
+     "syn",
      3
-    ],
-    [
-     "nlf",
-     2
     ],
     [
      "area",
      1
     ],
     [
-     "trans",
+     "fss",
+     2
+    ],
+    [
+     "bound",
      2
     ],
     [
@@ -1346,31 +1437,23 @@
      2
     ],
     [
-     "fss",
+     "lat",
+     1
+    ],
+    [
+     "trans",
      2
-    ],
-    [
-     "trig",
-     1
-    ],
-    [
-     "prob",
-     1
-    ],
-    [
-     "bound",
-     1
     ],
     [
      "lin2",
-     1
-    ],
-    [
-     "wic",
      2
     ],
     [
-     "cid",
+     "wic",
+     1
+    ],
+    [
+     "nlf",
      1
     ],
     [
@@ -1378,16 +1461,49 @@
      1
     ],
     [
-     "syn",
+     "cid",
+     1
+    ],
+    [
+     "prob",
+     1
+    ],
+    [
+     "trig",
      1
     ],
     [
      "circ",
      1
+    ],
+    [
+     "sys",
+     2
     ]
    ],
    "label": "Wed Nov 25",
    "concepts": [
+    {
+     "skill": "nleq",
+     "name": "Nonlinear equations and systems",
+     "sec": "Math",
+     "share": 10.0,
+     "acc": 60,
+     "tried": 56,
+     "lessons": [
+      {
+       "id": "a1",
+       "title": "Quadratics",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/nleq"
+      },
+      {
+       "id": "a4",
+       "title": "Absolute value",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/nleq"
+      }
+     ],
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/nleq"
+    },
     {
      "skill": "data1",
      "name": "One-variable data: center and spread",
@@ -1425,8 +1541,8 @@
      "name": "Inferences",
      "sec": "English",
      "share": 10.2,
-     "acc": 46,
-     "tried": 24,
+     "acc": 50,
+     "tried": 44,
      "lessons": [
       {
        "id": "r3",
@@ -1437,32 +1553,28 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/inf"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:lat.2,ratio.2,nleq.3,nlf.2,area.1,trans.2,linf.2,fss.2,trig.1,prob.1,bound.1,lin2.1,wic.2,cid.1,pct.1,syn.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:ratio.2,syn.3,area.1,fss.2,bound.2,linf.2,lat.1,trans.2,lin2.2,wic.1,nlf.1,pct.1,cid.1,prob.1,trig.1,circ.1,sys.2",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-11-25",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-11-25",
    "review_names": [
-    [
-     "Lines, angles and triangles",
-     2
-    ],
     [
      "Ratios, rates, proportions and units",
      2
     ],
     [
-     "Nonlinear equations and systems",
+     "Rhetorical synthesis (notes)",
      3
-    ],
-    [
-     "Nonlinear functions",
-     2
     ],
     [
      "Area and volume",
      1
     ],
     [
-     "Transitions",
+     "Form, structure and sense",
+     2
+    ],
+    [
+     "Boundaries (punctuation)",
      2
     ],
     [
@@ -1470,31 +1582,23 @@
      2
     ],
     [
-     "Form, structure and sense",
+     "Lines, angles and triangles",
+     1
+    ],
+    [
+     "Transitions",
      2
-    ],
-    [
-     "Right triangles and trigonometry",
-     1
-    ],
-    [
-     "Probability and conditional probability",
-     1
-    ],
-    [
-     "Boundaries (punctuation)",
-     1
     ],
     [
      "Linear equations in two variables",
-     1
-    ],
-    [
-     "Words in context",
      2
     ],
     [
-     "Central ideas and details",
+     "Words in context",
+     1
+    ],
+    [
+     "Nonlinear functions",
      1
     ],
     [
@@ -1502,21 +1606,33 @@
      1
     ],
     [
-     "Rhetorical synthesis (notes)",
+     "Central ideas and details",
+     1
+    ],
+    [
+     "Probability and conditional probability",
+     1
+    ],
+    [
+     "Right triangles and trigonometry",
      1
     ],
     [
      "Circles",
      1
+    ],
+    [
+     "Systems of two linear equations",
+     2
     ]
    ],
    "focus_names": [
-    "Nonlinear functions",
-    "Nonlinear equations and systems",
     "Linear functions",
-    "Words in context"
+    "Linear equations in two variables",
+    "Systems of two linear equations",
+    "Rhetorical synthesis (notes)"
    ],
-   "n_questions": 56,
+   "n_questions": 66,
    "result": null
   },
   {
@@ -1543,40 +1659,24 @@
    "learn": [],
    "note": "Light day: review + redo my misses (about 30 min)",
    "focus": [
-    "nlf",
-    "nleq",
     "linf",
-    "wic"
+    "lin2",
+    "sys",
+    "syn"
    ],
    "math_share": 64,
    "review": [
-    [
-     "lat",
-     2
-    ],
     [
      "ratio",
      1
     ],
     [
-     "nleq",
-     2
-    ],
-    [
-     "nlf",
-     2
+     "syn",
+     3
     ],
     [
      "area",
      1
-    ],
-    [
-     "trans",
-     2
-    ],
-    [
-     "linf",
-     2
     ],
     [
      "data2",
@@ -1587,15 +1687,15 @@
      1
     ],
     [
-     "inf",
+     "bound",
      1
     ],
     [
-     "trig",
-     1
+     "linf",
+     2
     ],
     [
-     "prob",
+     "lat",
      1
     ],
     [
@@ -1603,19 +1703,27 @@
      1
     ],
     [
-     "bound",
+     "inf",
+     1
+    ],
+    [
+     "trans",
      1
     ],
     [
      "lin2",
+     2
+    ],
+    [
+     "nleq",
      1
     ],
     [
      "wic",
-     2
+     1
     ],
     [
-     "cid",
+     "nlf",
      1
     ],
     [
@@ -1623,47 +1731,43 @@
      1
     ],
     [
-     "syn",
+     "cid",
+     1
+    ],
+    [
+     "prob",
+     1
+    ],
+    [
+     "trig",
      1
     ],
     [
      "circ",
      1
+    ],
+    [
+     "sys",
+     2
     ]
    ],
    "label": "Fri Nov 27",
    "concepts": [],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:lat.2,ratio.1,nleq.2,nlf.2,area.1,trans.2,linf.2,data2.1,fss.1,inf.1,trig.1,prob.1,data1.1,bound.1,lin2.1,wic.2,cid.1,pct.1,syn.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:ratio.1,syn.3,area.1,data2.1,fss.1,bound.1,linf.2,lat.1,data1.1,inf.1,trans.1,lin2.2,nleq.1,wic.1,nlf.1,pct.1,cid.1,prob.1,trig.1,circ.1,sys.2",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-11-27",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-11-27",
    "review_names": [
-    [
-     "Lines, angles and triangles",
-     2
-    ],
     [
      "Ratios, rates, proportions and units",
      1
     ],
     [
-     "Nonlinear equations and systems",
-     2
-    ],
-    [
-     "Nonlinear functions",
-     2
+     "Rhetorical synthesis (notes)",
+     3
     ],
     [
      "Area and volume",
      1
-    ],
-    [
-     "Transitions",
-     2
-    ],
-    [
-     "Linear functions",
-     2
     ],
     [
      "Two-variable data: models and scatterplots",
@@ -1674,15 +1778,15 @@
      1
     ],
     [
-     "Inferences",
+     "Boundaries (punctuation)",
      1
     ],
     [
-     "Right triangles and trigonometry",
-     1
+     "Linear functions",
+     2
     ],
     [
-     "Probability and conditional probability",
+     "Lines, angles and triangles",
      1
     ],
     [
@@ -1690,19 +1794,27 @@
      1
     ],
     [
-     "Boundaries (punctuation)",
+     "Inferences",
+     1
+    ],
+    [
+     "Transitions",
      1
     ],
     [
      "Linear equations in two variables",
+     2
+    ],
+    [
+     "Nonlinear equations and systems",
      1
     ],
     [
      "Words in context",
-     2
+     1
     ],
     [
-     "Central ideas and details",
+     "Nonlinear functions",
      1
     ],
     [
@@ -1710,19 +1822,31 @@
      1
     ],
     [
-     "Rhetorical synthesis (notes)",
+     "Central ideas and details",
+     1
+    ],
+    [
+     "Probability and conditional probability",
+     1
+    ],
+    [
+     "Right triangles and trigonometry",
      1
     ],
     [
      "Circles",
      1
+    ],
+    [
+     "Systems of two linear equations",
+     2
     ]
    ],
    "focus_names": [
-    "Nonlinear functions",
-    "Nonlinear equations and systems",
     "Linear functions",
-    "Words in context"
+    "Linear equations in two variables",
+    "Systems of two linear equations",
+    "Rhetorical synthesis (notes)"
    ],
    "n_questions": 26,
    "result": null
@@ -1749,46 +1873,34 @@
    "date": "2026-11-29",
    "kind": "learn",
    "learn": [
+    "prob",
     "sys",
     "ineq",
     "coe"
    ],
-   "note": "",
-   "focus": [
-    "nlf",
-    "nleq",
-    "linf",
-    "wic"
+   "note": "Carried over: Probability and conditional probability",
+   "carried": [
+    "prob"
    ],
-   "math_share": 65,
+   "focus": [
+    "linf",
+    "lin2",
+    "lin1",
+    "syn"
+   ],
+   "math_share": 68,
    "review": [
-    [
-     "lat",
-     2
-    ],
     [
      "ratio",
      1
     ],
     [
-     "nleq",
-     2
-    ],
-    [
-     "nlf",
-     2
+     "syn",
+     3
     ],
     [
      "area",
      1
-    ],
-    [
-     "trans",
-     2
-    ],
-    [
-     "linf",
-     2
     ],
     [
      "data2",
@@ -1796,18 +1908,18 @@
     ],
     [
      "fss",
+     2
+    ],
+    [
+     "bound",
      1
     ],
     [
-     "inf",
-     1
+     "linf",
+     2
     ],
     [
-     "trig",
-     1
-    ],
-    [
-     "prob",
+     "lat",
      1
     ],
     [
@@ -1815,19 +1927,27 @@
      1
     ],
     [
-     "bound",
+     "inf",
+     1
+    ],
+    [
+     "trans",
      1
     ],
     [
      "lin2",
+     2
+    ],
+    [
+     "nleq",
      1
     ],
     [
      "wic",
-     2
+     1
     ],
     [
-     "cid",
+     "nlf",
      1
     ],
     [
@@ -1835,16 +1955,40 @@
      1
     ],
     [
-     "syn",
+     "cid",
+     1
+    ],
+    [
+     "trig",
      1
     ],
     [
      "circ",
      1
+    ],
+    [
+     "lin1",
+     2
     ]
    ],
    "label": "Sun Nov 29",
    "concepts": [
+    {
+     "skill": "prob",
+     "name": "Probability and conditional probability",
+     "sec": "Math",
+     "share": 1.8,
+     "acc": 80,
+     "tried": 10,
+     "lessons": [
+      {
+       "id": "d2",
+       "title": "Probability",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/prob"
+      }
+     ],
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/prob"
+    },
     {
      "skill": "sys",
      "name": "Systems of two linear equations",
@@ -1882,8 +2026,8 @@
      "name": "Command of evidence (text and data)",
      "sec": "English",
      "share": 13.5,
-     "acc": 66,
-     "tried": 35,
+     "acc": 67,
+     "tried": 70,
      "lessons": [
       {
        "id": "r4",
@@ -1894,37 +2038,21 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/coe"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:lat.2,ratio.1,nleq.2,nlf.2,area.1,trans.2,linf.2,data2.1,fss.1,inf.1,trig.1,prob.1,data1.1,bound.1,lin2.1,wic.2,cid.1,pct.1,syn.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:ratio.1,syn.3,area.1,data2.1,fss.2,bound.1,linf.2,lat.1,data1.1,inf.1,trans.1,lin2.2,nleq.1,wic.1,nlf.1,pct.1,cid.1,trig.1,circ.1,lin1.2",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-11-29",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-11-29",
    "review_names": [
-    [
-     "Lines, angles and triangles",
-     2
-    ],
     [
      "Ratios, rates, proportions and units",
      1
     ],
     [
-     "Nonlinear equations and systems",
-     2
-    ],
-    [
-     "Nonlinear functions",
-     2
+     "Rhetorical synthesis (notes)",
+     3
     ],
     [
      "Area and volume",
      1
-    ],
-    [
-     "Transitions",
-     2
-    ],
-    [
-     "Linear functions",
-     2
     ],
     [
      "Two-variable data: models and scatterplots",
@@ -1932,18 +2060,18 @@
     ],
     [
      "Form, structure and sense",
+     2
+    ],
+    [
+     "Boundaries (punctuation)",
      1
     ],
     [
-     "Inferences",
-     1
+     "Linear functions",
+     2
     ],
     [
-     "Right triangles and trigonometry",
-     1
-    ],
-    [
-     "Probability and conditional probability",
+     "Lines, angles and triangles",
      1
     ],
     [
@@ -1951,19 +2079,27 @@
      1
     ],
     [
-     "Boundaries (punctuation)",
+     "Inferences",
+     1
+    ],
+    [
+     "Transitions",
      1
     ],
     [
      "Linear equations in two variables",
+     2
+    ],
+    [
+     "Nonlinear equations and systems",
      1
     ],
     [
      "Words in context",
-     2
+     1
     ],
     [
-     "Central ideas and details",
+     "Nonlinear functions",
      1
     ],
     [
@@ -1971,67 +2107,63 @@
      1
     ],
     [
-     "Rhetorical synthesis (notes)",
+     "Central ideas and details",
+     1
+    ],
+    [
+     "Right triangles and trigonometry",
      1
     ],
     [
      "Circles",
      1
+    ],
+    [
+     "Linear equations in one variable",
+     2
     ]
    ],
    "focus_names": [
-    "Nonlinear functions",
-    "Nonlinear equations and systems",
     "Linear functions",
-    "Words in context"
+    "Linear equations in two variables",
+    "Linear equations in one variable",
+    "Rhetorical synthesis (notes)"
    ],
-   "n_questions": 56,
+   "n_questions": 66,
    "result": null
   },
   {
    "date": "2026-11-30",
    "kind": "learn",
    "learn": [
+    "cid",
     "lin1",
     "equiv",
     "tsp"
    ],
-   "note": "",
-   "focus": [
-    "nlf",
-    "nleq",
-    "linf",
-    "wic"
+   "note": "Carried over: Central ideas and details",
+   "carried": [
+    "cid"
    ],
-   "math_share": 66,
+   "focus": [
+    "linf",
+    "lin2",
+    "sys",
+    "syn"
+   ],
+   "math_share": 58,
    "review": [
-    [
-     "lat",
-     1
-    ],
     [
      "ratio",
      1
     ],
     [
-     "nleq",
-     2
-    ],
-    [
-     "nlf",
+     "syn",
      2
     ],
     [
      "area",
      1
-    ],
-    [
-     "trans",
-     1
-    ],
-    [
-     "linf",
-     2
     ],
     [
      "data2",
@@ -2042,15 +2174,15 @@
      1
     ],
     [
-     "inf",
+     "bound",
      1
     ],
     [
-     "trig",
-     1
+     "linf",
+     2
     ],
     [
-     "prob",
+     "lat",
      1
     ],
     [
@@ -2058,31 +2190,35 @@
      1
     ],
     [
+     "inf",
+     1
+    ],
+    [
      "ineq",
      1
     ],
     [
-     "bound",
+     "trans",
      1
     ],
     [
      "lin2",
-     1
-    ],
-    [
-     "wic",
      2
     ],
     [
      "sys",
+     2
+    ],
+    [
+     "nleq",
      1
     ],
     [
-     "cid",
+     "wic",
      1
     ],
     [
-     "coe",
+     "nlf",
      1
     ],
     [
@@ -2090,7 +2226,15 @@
      1
     ],
     [
-     "syn",
+     "coe",
+     1
+    ],
+    [
+     "prob",
+     1
+    ],
+    [
+     "trig",
      1
     ],
     [
@@ -2101,12 +2245,28 @@
    "label": "Mon Nov 30",
    "concepts": [
     {
+     "skill": "cid",
+     "name": "Central ideas and details",
+     "sec": "English",
+     "share": 4.3,
+     "acc": 73,
+     "tried": 31,
+     "lessons": [
+      {
+       "id": "r2",
+       "title": "Main idea",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/cid"
+      }
+     ],
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/cid"
+    },
+    {
      "skill": "lin1",
      "name": "Linear equations in one variable",
      "sec": "Math",
      "share": 6.1,
-     "acc": 50,
-     "tried": 52,
+     "acc": 51,
+     "tried": 83,
      "lessons": [
       {
        "id": "m1",
@@ -2142,8 +2302,8 @@
      "name": "Text structure and purpose",
      "sec": "English",
      "share": 8.7,
-     "acc": 33,
-     "tried": 3,
+     "acc": 27,
+     "tried": 11,
      "lessons": [
       {
        "id": "r5",
@@ -2154,37 +2314,21 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/tsp"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:lat.1,ratio.1,nleq.2,nlf.2,area.1,trans.1,linf.2,data2.1,fss.1,inf.1,trig.1,prob.1,data1.1,ineq.1,bound.1,lin2.1,wic.2,sys.1,cid.1,coe.1,pct.1,syn.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:ratio.1,syn.2,area.1,data2.1,fss.1,bound.1,linf.2,lat.1,data1.1,inf.1,ineq.1,trans.1,lin2.2,sys.2,nleq.1,wic.1,nlf.1,pct.1,coe.1,prob.1,trig.1,circ.1",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-11-30",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-11-30",
    "review_names": [
-    [
-     "Lines, angles and triangles",
-     1
-    ],
     [
      "Ratios, rates, proportions and units",
      1
     ],
     [
-     "Nonlinear equations and systems",
-     2
-    ],
-    [
-     "Nonlinear functions",
+     "Rhetorical synthesis (notes)",
      2
     ],
     [
      "Area and volume",
      1
-    ],
-    [
-     "Transitions",
-     1
-    ],
-    [
-     "Linear functions",
-     2
     ],
     [
      "Two-variable data: models and scatterplots",
@@ -2195,15 +2339,15 @@
      1
     ],
     [
-     "Inferences",
+     "Boundaries (punctuation)",
      1
     ],
     [
-     "Right triangles and trigonometry",
-     1
+     "Linear functions",
+     2
     ],
     [
-     "Probability and conditional probability",
+     "Lines, angles and triangles",
      1
     ],
     [
@@ -2211,31 +2355,35 @@
      1
     ],
     [
+     "Inferences",
+     1
+    ],
+    [
      "Linear inequalities",
      1
     ],
     [
-     "Boundaries (punctuation)",
+     "Transitions",
      1
     ],
     [
      "Linear equations in two variables",
-     1
-    ],
-    [
-     "Words in context",
      2
     ],
     [
      "Systems of two linear equations",
+     2
+    ],
+    [
+     "Nonlinear equations and systems",
      1
     ],
     [
-     "Central ideas and details",
+     "Words in context",
      1
     ],
     [
-     "Command of evidence (text and data)",
+     "Nonlinear functions",
      1
     ],
     [
@@ -2243,7 +2391,15 @@
      1
     ],
     [
-     "Rhetorical synthesis (notes)",
+     "Command of evidence (text and data)",
+     1
+    ],
+    [
+     "Probability and conditional probability",
+     1
+    ],
+    [
+     "Right triangles and trigonometry",
      1
     ],
     [
@@ -2252,12 +2408,12 @@
     ]
    ],
    "focus_names": [
-    "Nonlinear functions",
-    "Nonlinear equations and systems",
     "Linear functions",
-    "Words in context"
+    "Linear equations in two variables",
+    "Systems of two linear equations",
+    "Rhetorical synthesis (notes)"
    ],
-   "n_questions": 57,
+   "n_questions": 66,
    "result": null
   },
   {
@@ -2265,21 +2421,21 @@
    "kind": "weak",
    "learn": [
     "nlf",
-    "nleq",
     "linf",
-    "wic"
+    "nleq",
+    "syn"
    ],
    "note": "His weakest concepts \u00b7 Also: download the exam in Bluebook and charge the laptop",
    "focus": [
-    "lat",
     "lin2",
     "sys",
-    "trans"
+    "lin1",
+    "tsp"
    ],
    "math_share": 70,
    "review": [
     [
-     "lat",
+     "tsp",
      2
     ],
     [
@@ -2287,16 +2443,8 @@
      1
     ],
     [
-     "tsp",
-     1
-    ],
-    [
      "area",
      1
-    ],
-    [
-     "trans",
-     2
     ],
     [
      "data2",
@@ -2307,19 +2455,19 @@
      1
     ],
     [
-     "inf",
+     "bound",
      1
     ],
     [
-     "trig",
-     1
-    ],
-    [
-     "prob",
+     "lat",
      1
     ],
     [
      "data1",
+     1
+    ],
+    [
+     "inf",
      1
     ],
     [
@@ -2328,10 +2476,10 @@
     ],
     [
      "lin1",
-     1
+     2
     ],
     [
-     "bound",
+     "trans",
      1
     ],
     [
@@ -2343,15 +2491,11 @@
      2
     ],
     [
-     "cid",
-     1
-    ],
-    [
      "equiv",
      1
     ],
     [
-     "coe",
+     "wic",
      1
     ],
     [
@@ -2359,7 +2503,19 @@
      1
     ],
     [
-     "syn",
+     "coe",
+     1
+    ],
+    [
+     "cid",
+     1
+    ],
+    [
+     "prob",
+     1
+    ],
+    [
+     "trig",
      1
     ],
     [
@@ -2374,8 +2530,8 @@
      "name": "Nonlinear functions",
      "sec": "Math",
      "share": 16.8,
-     "acc": 40,
-     "tried": 42,
+     "acc": 64,
+     "tried": 92,
      "lessons": [
       {
        "id": "t2",
@@ -2396,33 +2552,12 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/nlf"
     },
     {
-     "skill": "nleq",
-     "name": "Nonlinear equations and systems",
-     "sec": "Math",
-     "share": 10.0,
-     "acc": 36,
-     "tried": 28,
-     "lessons": [
-      {
-       "id": "a1",
-       "title": "Quadratics",
-       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/nleq"
-      },
-      {
-       "id": "a4",
-       "title": "Absolute value",
-       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/nleq"
-      }
-     ],
-     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/nleq"
-    },
-    {
      "skill": "linf",
      "name": "Linear functions",
      "sec": "Math",
      "share": 10.5,
-     "acc": 44,
-     "tried": 16,
+     "acc": 50,
+     "tried": 33,
      "lessons": [
       {
        "id": "t1",
@@ -2438,28 +2573,49 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/linf"
     },
     {
-     "skill": "wic",
-     "name": "Words in context",
-     "sec": "English",
-     "share": 15.7,
-     "acc": 55,
-     "tried": 31,
+     "skill": "nleq",
+     "name": "Nonlinear equations and systems",
+     "sec": "Math",
+     "share": 10.0,
+     "acc": 60,
+     "tried": 56,
      "lessons": [
       {
-       "id": "r1",
-       "title": "Words in context",
-       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/wic"
+       "id": "a1",
+       "title": "Quadratics",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/nleq"
+      },
+      {
+       "id": "a4",
+       "title": "Absolute value",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/nleq"
       }
      ],
-     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/wic"
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/nleq"
+    },
+    {
+     "skill": "syn",
+     "name": "Rhetorical synthesis (notes)",
+     "sec": "English",
+     "share": 13.1,
+     "acc": 36,
+     "tried": 11,
+     "lessons": [
+      {
+       "id": "r6",
+       "title": "Notes questions",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/syn"
+      }
+     ],
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/syn"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:lat.2,ratio.1,tsp.1,area.1,trans.2,data2.1,fss.1,inf.1,trig.1,prob.1,data1.1,ineq.1,lin1.1,bound.1,lin2.2,sys.2,cid.1,equiv.1,coe.1,pct.1,syn.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:tsp.2,ratio.1,area.1,data2.1,fss.1,bound.1,lat.1,data1.1,inf.1,ineq.1,lin1.2,trans.1,lin2.2,sys.2,equiv.1,wic.1,pct.1,coe.1,cid.1,prob.1,trig.1,circ.1",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-12-01",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-12-01",
    "review_names": [
     [
-     "Lines, angles and triangles",
+     "Text structure and purpose",
      2
     ],
     [
@@ -2467,16 +2623,8 @@
      1
     ],
     [
-     "Text structure and purpose",
-     1
-    ],
-    [
      "Area and volume",
      1
-    ],
-    [
-     "Transitions",
-     2
     ],
     [
      "Two-variable data: models and scatterplots",
@@ -2487,19 +2635,19 @@
      1
     ],
     [
-     "Inferences",
+     "Boundaries (punctuation)",
      1
     ],
     [
-     "Right triangles and trigonometry",
-     1
-    ],
-    [
-     "Probability and conditional probability",
+     "Lines, angles and triangles",
      1
     ],
     [
      "One-variable data: center and spread",
+     1
+    ],
+    [
+     "Inferences",
      1
     ],
     [
@@ -2508,10 +2656,10 @@
     ],
     [
      "Linear equations in one variable",
-     1
+     2
     ],
     [
-     "Boundaries (punctuation)",
+     "Transitions",
      1
     ],
     [
@@ -2523,15 +2671,11 @@
      2
     ],
     [
-     "Central ideas and details",
-     1
-    ],
-    [
      "Equivalent expressions",
      1
     ],
     [
-     "Command of evidence (text and data)",
+     "Words in context",
      1
     ],
     [
@@ -2539,7 +2683,19 @@
      1
     ],
     [
-     "Rhetorical synthesis (notes)",
+     "Command of evidence (text and data)",
+     1
+    ],
+    [
+     "Central ideas and details",
+     1
+    ],
+    [
+     "Probability and conditional probability",
+     1
+    ],
+    [
+     "Right triangles and trigonometry",
      1
     ],
     [
@@ -2548,10 +2704,10 @@
     ]
    ],
    "focus_names": [
-    "Lines, angles and triangles",
     "Linear equations in two variables",
     "Systems of two linear equations",
-    "Transitions"
+    "Linear equations in one variable",
+    "Text structure and purpose"
    ],
    "n_questions": 66,
    "result": null
@@ -2563,40 +2719,32 @@
     "infer",
     "cross",
     "nlf",
-    "nleq"
+    "linf"
    ],
    "note": "Small topics + his weakest concepts (statistical claims dropped: 0 per test in the official practice tests)",
    "focus": [
-    "linf",
-    "lat",
     "lin2",
-    "wic"
+    "sys",
+    "lin1",
+    "syn"
    ],
    "math_share": 69,
    "review": [
     [
-     "lat",
-     2
+     "tsp",
+     1
     ],
     [
      "ratio",
      1
     ],
     [
-     "tsp",
-     1
+     "syn",
+     2
     ],
     [
      "area",
      1
-    ],
-    [
-     "trans",
-     1
-    ],
-    [
-     "linf",
-     2
     ],
     [
      "data2",
@@ -2607,19 +2755,19 @@
      1
     ],
     [
-     "inf",
+     "bound",
      1
     ],
     [
-     "trig",
-     1
-    ],
-    [
-     "prob",
+     "lat",
      1
     ],
     [
      "data1",
+     1
+    ],
+    [
+     "inf",
      1
     ],
     [
@@ -2628,10 +2776,10 @@
     ],
     [
      "lin1",
-     1
+     2
     ],
     [
-     "bound",
+     "trans",
      1
     ],
     [
@@ -2639,23 +2787,19 @@
      2
     ],
     [
-     "wic",
-     2
-    ],
-    [
      "sys",
-     1
-    ],
-    [
-     "cid",
-     1
+     2
     ],
     [
      "equiv",
      1
     ],
     [
-     "coe",
+     "nleq",
+     1
+    ],
+    [
+     "wic",
      1
     ],
     [
@@ -2663,7 +2807,19 @@
      1
     ],
     [
-     "syn",
+     "coe",
+     1
+    ],
+    [
+     "cid",
+     1
+    ],
+    [
+     "prob",
+     1
+    ],
+    [
+     "trig",
      1
     ],
     [
@@ -2710,8 +2866,8 @@
      "name": "Nonlinear functions",
      "sec": "Math",
      "share": 16.8,
-     "acc": 40,
-     "tried": 42,
+     "acc": 64,
+     "tried": 92,
      "lessons": [
       {
        "id": "t2",
@@ -2732,54 +2888,46 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/nlf"
     },
     {
-     "skill": "nleq",
-     "name": "Nonlinear equations and systems",
+     "skill": "linf",
+     "name": "Linear functions",
      "sec": "Math",
-     "share": 10.0,
-     "acc": 36,
-     "tried": 28,
+     "share": 10.5,
+     "acc": 50,
+     "tried": 33,
      "lessons": [
       {
-       "id": "a1",
-       "title": "Quadratics",
-       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/nleq"
+       "id": "t1",
+       "title": "Lines and slope",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/linf"
       },
       {
-       "id": "a4",
-       "title": "Absolute value",
-       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/nleq"
+       "id": "a3",
+       "title": "Functions",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/linf"
       }
      ],
-     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/nleq"
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/linf"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:lat.2,ratio.1,tsp.1,area.1,trans.1,linf.2,data2.1,fss.1,inf.1,trig.1,prob.1,data1.1,ineq.1,lin1.1,bound.1,lin2.2,wic.2,sys.1,cid.1,equiv.1,coe.1,pct.1,syn.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:tsp.1,ratio.1,syn.2,area.1,data2.1,fss.1,bound.1,lat.1,data1.1,inf.1,ineq.1,lin1.2,trans.1,lin2.2,sys.2,equiv.1,nleq.1,wic.1,pct.1,coe.1,cid.1,prob.1,trig.1,circ.1",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-12-02",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-12-02",
    "review_names": [
     [
-     "Lines, angles and triangles",
-     2
+     "Text structure and purpose",
+     1
     ],
     [
      "Ratios, rates, proportions and units",
      1
     ],
     [
-     "Text structure and purpose",
-     1
+     "Rhetorical synthesis (notes)",
+     2
     ],
     [
      "Area and volume",
      1
-    ],
-    [
-     "Transitions",
-     1
-    ],
-    [
-     "Linear functions",
-     2
     ],
     [
      "Two-variable data: models and scatterplots",
@@ -2790,19 +2938,19 @@
      1
     ],
     [
-     "Inferences",
+     "Boundaries (punctuation)",
      1
     ],
     [
-     "Right triangles and trigonometry",
-     1
-    ],
-    [
-     "Probability and conditional probability",
+     "Lines, angles and triangles",
      1
     ],
     [
      "One-variable data: center and spread",
+     1
+    ],
+    [
+     "Inferences",
      1
     ],
     [
@@ -2811,10 +2959,10 @@
     ],
     [
      "Linear equations in one variable",
-     1
+     2
     ],
     [
-     "Boundaries (punctuation)",
+     "Transitions",
      1
     ],
     [
@@ -2822,23 +2970,19 @@
      2
     ],
     [
-     "Words in context",
-     2
-    ],
-    [
      "Systems of two linear equations",
-     1
-    ],
-    [
-     "Central ideas and details",
-     1
+     2
     ],
     [
      "Equivalent expressions",
      1
     ],
     [
-     "Command of evidence (text and data)",
+     "Nonlinear equations and systems",
+     1
+    ],
+    [
+     "Words in context",
      1
     ],
     [
@@ -2846,7 +2990,19 @@
      1
     ],
     [
-     "Rhetorical synthesis (notes)",
+     "Command of evidence (text and data)",
+     1
+    ],
+    [
+     "Central ideas and details",
+     1
+    ],
+    [
+     "Probability and conditional probability",
+     1
+    ],
+    [
+     "Right triangles and trigonometry",
      1
     ],
     [
@@ -2855,10 +3011,10 @@
     ]
    ],
    "focus_names": [
-    "Linear functions",
-    "Lines, angles and triangles",
     "Linear equations in two variables",
-    "Words in context"
+    "Systems of two linear equations",
+    "Linear equations in one variable",
+    "Rhetorical synthesis (notes)"
    ],
    "n_questions": 68,
    "result": null
@@ -2868,21 +3024,21 @@
    "kind": "weak",
    "learn": [
     "nlf",
-    "nleq",
     "linf",
-    "wic"
+    "nleq",
+    "syn"
    ],
    "note": "His weakest concepts + mixed set at SAT pace",
    "focus": [
-    "lat",
     "lin2",
     "sys",
-    "trans"
+    "lin1",
+    "tsp"
    ],
    "math_share": 69,
    "review": [
     [
-     "lat",
+     "tsp",
      2
     ],
     [
@@ -2890,16 +3046,8 @@
      1
     ],
     [
-     "tsp",
-     1
-    ],
-    [
      "area",
      1
-    ],
-    [
-     "trans",
-     2
     ],
     [
      "data2",
@@ -2910,15 +3058,11 @@
      1
     ],
     [
-     "inf",
+     "bound",
      1
     ],
     [
-     "trig",
-     1
-    ],
-    [
-     "prob",
+     "lat",
      1
     ],
     [
@@ -2926,11 +3070,11 @@
      1
     ],
     [
-     "ineq",
+     "inf",
      1
     ],
     [
-     "lin1",
+     "ineq",
      1
     ],
     [
@@ -2938,7 +3082,11 @@
      1
     ],
     [
-     "bound",
+     "lin1",
+     2
+    ],
+    [
+     "trans",
      1
     ],
     [
@@ -2950,15 +3098,11 @@
      2
     ],
     [
-     "cid",
-     1
-    ],
-    [
      "equiv",
      1
     ],
     [
-     "coe",
+     "wic",
      1
     ],
     [
@@ -2966,11 +3110,23 @@
      1
     ],
     [
-     "syn",
+     "coe",
+     1
+    ],
+    [
+     "cid",
      1
     ],
     [
      "infer",
+     1
+    ],
+    [
+     "prob",
+     1
+    ],
+    [
+     "trig",
      1
     ],
     [
@@ -2985,8 +3141,8 @@
      "name": "Nonlinear functions",
      "sec": "Math",
      "share": 16.8,
-     "acc": 40,
-     "tried": 42,
+     "acc": 64,
+     "tried": 92,
      "lessons": [
       {
        "id": "t2",
@@ -3007,33 +3163,12 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/nlf"
     },
     {
-     "skill": "nleq",
-     "name": "Nonlinear equations and systems",
-     "sec": "Math",
-     "share": 10.0,
-     "acc": 36,
-     "tried": 28,
-     "lessons": [
-      {
-       "id": "a1",
-       "title": "Quadratics",
-       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/nleq"
-      },
-      {
-       "id": "a4",
-       "title": "Absolute value",
-       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/nleq"
-      }
-     ],
-     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/nleq"
-    },
-    {
      "skill": "linf",
      "name": "Linear functions",
      "sec": "Math",
      "share": 10.5,
-     "acc": 44,
-     "tried": 16,
+     "acc": 50,
+     "tried": 33,
      "lessons": [
       {
        "id": "t1",
@@ -3049,28 +3184,49 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/linf"
     },
     {
-     "skill": "wic",
-     "name": "Words in context",
-     "sec": "English",
-     "share": 15.7,
-     "acc": 55,
-     "tried": 31,
+     "skill": "nleq",
+     "name": "Nonlinear equations and systems",
+     "sec": "Math",
+     "share": 10.0,
+     "acc": 60,
+     "tried": 56,
      "lessons": [
       {
-       "id": "r1",
-       "title": "Words in context",
-       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/wic"
+       "id": "a1",
+       "title": "Quadratics",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/nleq"
+      },
+      {
+       "id": "a4",
+       "title": "Absolute value",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/nleq"
       }
      ],
-     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/wic"
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/nleq"
+    },
+    {
+     "skill": "syn",
+     "name": "Rhetorical synthesis (notes)",
+     "sec": "English",
+     "share": 13.1,
+     "acc": 36,
+     "tried": 11,
+     "lessons": [
+      {
+       "id": "r6",
+       "title": "Notes questions",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/syn"
+      }
+     ],
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/syn"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:lat.2,ratio.1,tsp.1,area.1,trans.2,data2.1,fss.1,inf.1,trig.1,prob.1,data1.1,ineq.1,lin1.1,cross.1,bound.1,lin2.2,sys.2,cid.1,equiv.1,coe.1,pct.1,syn.1,infer.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:tsp.2,ratio.1,area.1,data2.1,fss.1,bound.1,lat.1,data1.1,inf.1,ineq.1,cross.1,lin1.2,trans.1,lin2.2,sys.2,equiv.1,wic.1,pct.1,coe.1,cid.1,infer.1,prob.1,trig.1,circ.1",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-12-03",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-12-03",
    "review_names": [
     [
-     "Lines, angles and triangles",
+     "Text structure and purpose",
      2
     ],
     [
@@ -3078,16 +3234,8 @@
      1
     ],
     [
-     "Text structure and purpose",
-     1
-    ],
-    [
      "Area and volume",
      1
-    ],
-    [
-     "Transitions",
-     2
     ],
     [
      "Two-variable data: models and scatterplots",
@@ -3098,15 +3246,11 @@
      1
     ],
     [
-     "Inferences",
+     "Boundaries (punctuation)",
      1
     ],
     [
-     "Right triangles and trigonometry",
-     1
-    ],
-    [
-     "Probability and conditional probability",
+     "Lines, angles and triangles",
      1
     ],
     [
@@ -3114,11 +3258,11 @@
      1
     ],
     [
-     "Linear inequalities",
+     "Inferences",
      1
     ],
     [
-     "Linear equations in one variable",
+     "Linear inequalities",
      1
     ],
     [
@@ -3126,7 +3270,11 @@
      1
     ],
     [
-     "Boundaries (punctuation)",
+     "Linear equations in one variable",
+     2
+    ],
+    [
+     "Transitions",
      1
     ],
     [
@@ -3138,15 +3286,11 @@
      2
     ],
     [
-     "Central ideas and details",
-     1
-    ],
-    [
      "Equivalent expressions",
      1
     ],
     [
-     "Command of evidence (text and data)",
+     "Words in context",
      1
     ],
     [
@@ -3154,11 +3298,23 @@
      1
     ],
     [
-     "Rhetorical synthesis (notes)",
+     "Command of evidence (text and data)",
+     1
+    ],
+    [
+     "Central ideas and details",
      1
     ],
     [
      "Sample statistics and margin of error",
+     1
+    ],
+    [
+     "Probability and conditional probability",
+     1
+    ],
+    [
+     "Right triangles and trigonometry",
      1
     ],
     [
@@ -3167,10 +3323,10 @@
     ]
    ],
    "focus_names": [
-    "Lines, angles and triangles",
     "Linear equations in two variables",
     "Systems of two linear equations",
-    "Transitions"
+    "Linear equations in one variable",
+    "Text structure and purpose"
    ],
    "n_questions": 68,
    "result": null
@@ -3181,15 +3337,15 @@
    "learn": [],
    "note": "Light: redo my misses, pack the bag, early bed",
    "focus": [
-    "nlf",
-    "nleq",
     "linf",
-    "wic"
+    "lin2",
+    "sys",
+    "syn"
    ],
    "math_share": 64,
    "review": [
     [
-     "lat",
+     "tsp",
      1
     ],
     [
@@ -3197,28 +3353,12 @@
      1
     ],
     [
-     "tsp",
-     1
-    ],
-    [
-     "nleq",
-     2
-    ],
-    [
-     "nlf",
+     "syn",
      2
     ],
     [
      "area",
      1
-    ],
-    [
-     "trans",
-     1
-    ],
-    [
-     "linf",
-     2
     ],
     [
      "data2",
@@ -3229,15 +3369,15 @@
      1
     ],
     [
-     "inf",
+     "bound",
      1
     ],
     [
-     "trig",
-     1
+     "linf",
+     2
     ],
     [
-     "prob",
+     "lat",
      1
     ],
     [
@@ -3245,11 +3385,11 @@
      1
     ],
     [
-     "ineq",
+     "inf",
      1
     ],
     [
-     "lin1",
+     "ineq",
      1
     ],
     [
@@ -3257,31 +3397,35 @@
      1
     ],
     [
-     "bound",
+     "lin1",
+     1
+    ],
+    [
+     "trans",
      1
     ],
     [
      "lin2",
-     1
-    ],
-    [
-     "wic",
      2
     ],
     [
      "sys",
-     1
-    ],
-    [
-     "cid",
-     1
+     2
     ],
     [
      "equiv",
      1
     ],
     [
-     "coe",
+     "nleq",
+     1
+    ],
+    [
+     "wic",
+     1
+    ],
+    [
+     "nlf",
      1
     ],
     [
@@ -3289,11 +3433,23 @@
      1
     ],
     [
-     "syn",
+     "coe",
+     1
+    ],
+    [
+     "cid",
      1
     ],
     [
      "infer",
+     1
+    ],
+    [
+     "prob",
+     1
+    ],
+    [
+     "trig",
      1
     ],
     [
@@ -3303,12 +3459,12 @@
    ],
    "label": "Fri Dec 4",
    "concepts": [],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:lat.1,ratio.1,tsp.1,nleq.2,nlf.2,area.1,trans.1,linf.2,data2.1,fss.1,inf.1,trig.1,prob.1,data1.1,ineq.1,lin1.1,cross.1,bound.1,lin2.1,wic.2,sys.1,cid.1,equiv.1,coe.1,pct.1,syn.1,infer.1,circ.1",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:tsp.1,ratio.1,syn.2,area.1,data2.1,fss.1,bound.1,linf.2,lat.1,data1.1,inf.1,ineq.1,cross.1,lin1.1,trans.1,lin2.2,sys.2,equiv.1,nleq.1,wic.1,nlf.1,pct.1,coe.1,cid.1,infer.1,prob.1,trig.1,circ.1",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-12-04",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-12-04",
    "review_names": [
     [
-     "Lines, angles and triangles",
+     "Text structure and purpose",
      1
     ],
     [
@@ -3316,28 +3472,12 @@
      1
     ],
     [
-     "Text structure and purpose",
-     1
-    ],
-    [
-     "Nonlinear equations and systems",
-     2
-    ],
-    [
-     "Nonlinear functions",
+     "Rhetorical synthesis (notes)",
      2
     ],
     [
      "Area and volume",
      1
-    ],
-    [
-     "Transitions",
-     1
-    ],
-    [
-     "Linear functions",
-     2
     ],
     [
      "Two-variable data: models and scatterplots",
@@ -3348,15 +3488,15 @@
      1
     ],
     [
-     "Inferences",
+     "Boundaries (punctuation)",
      1
     ],
     [
-     "Right triangles and trigonometry",
-     1
+     "Linear functions",
+     2
     ],
     [
-     "Probability and conditional probability",
+     "Lines, angles and triangles",
      1
     ],
     [
@@ -3364,11 +3504,11 @@
      1
     ],
     [
-     "Linear inequalities",
+     "Inferences",
      1
     ],
     [
-     "Linear equations in one variable",
+     "Linear inequalities",
      1
     ],
     [
@@ -3376,31 +3516,35 @@
      1
     ],
     [
-     "Boundaries (punctuation)",
+     "Linear equations in one variable",
+     1
+    ],
+    [
+     "Transitions",
      1
     ],
     [
      "Linear equations in two variables",
-     1
-    ],
-    [
-     "Words in context",
      2
     ],
     [
      "Systems of two linear equations",
-     1
-    ],
-    [
-     "Central ideas and details",
-     1
+     2
     ],
     [
      "Equivalent expressions",
      1
     ],
     [
-     "Command of evidence (text and data)",
+     "Nonlinear equations and systems",
+     1
+    ],
+    [
+     "Words in context",
+     1
+    ],
+    [
+     "Nonlinear functions",
      1
     ],
     [
@@ -3408,11 +3552,23 @@
      1
     ],
     [
-     "Rhetorical synthesis (notes)",
+     "Command of evidence (text and data)",
+     1
+    ],
+    [
+     "Central ideas and details",
      1
     ],
     [
      "Sample statistics and margin of error",
+     1
+    ],
+    [
+     "Probability and conditional probability",
+     1
+    ],
+    [
+     "Right triangles and trigonometry",
      1
     ],
     [
@@ -3421,10 +3577,10 @@
     ]
    ],
    "focus_names": [
-    "Nonlinear functions",
-    "Nonlinear equations and systems",
     "Linear functions",
-    "Words in context"
+    "Linear equations in two variables",
+    "Systems of two linear equations",
+    "Rhetorical synthesis (notes)"
    ],
    "n_questions": 32,
    "result": null
