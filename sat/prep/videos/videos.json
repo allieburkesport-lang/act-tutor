@@ -642,33 +642,34 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea"
    ],
    [
-    15,
-    "The rules"
+    19,
+    "The method"
    ],
    [
-    26,
-    "Example 1: Solve an equation"
+    30,
+    "Solve an equation"
    ],
    [
-    62,
-    "Example 2: Minimum or maximum"
+    61,
+    "Min and max"
    ],
    [
-    103,
-    "Example 3: Zeros"
+    75,
+    "SAT question"
    ],
    [
-    146,
-    "Example 4: Vertex from zeros"
+    100,
+    "Your turn"
    ],
    [
-    178,
-    "Say it out loud"
+    123,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "m4": {
   "src": "videos/m4.mp4",

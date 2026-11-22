@@ -1,0 +1,15 @@
+[
+"Don't solve in your head. Type it into Desmos, the graphing calculator built into the SAT, and let the graph show you the answer.",
+"Desmos is your calculator superpower. It can solve equations, find where a graph crosses the x axis, and find the lowest or highest point.",
+"Here's the method. If you can type the equation, type it. Then click the points Desmos shows you. It's faster, and you won't make arithmetic slips.",
+"To solve an equation, type the left side as y one and the right side as y two. Where the two graphs cross, the x value is your answer.",
+"For example, zero point one zero times nine, plus zero point two zero y, equals zero point one seven times nine plus y. Type it in, and the lines cross at twenty one.",
+"Trap alert. Twenty two is a mental math slip. Desmos doesn't make arithmetic mistakes.",
+"For a minimum or maximum, type the equation and click the vertex. y equals x squared minus eight point five x plus twenty has its low point at x equals four point two five. Not a whole number.",
+"Let's try an SAT style question. What are the zeros of y equals x squared minus x minus twelve?",
+"Type it in Desmos and click where the curve crosses the x axis. The zeros are four and negative three.",
+"Trap alert. Three and negative four have the signs flipped. Plug in three: nine minus three minus twelve is negative six, not zero.",
+"Your turn. Pause the video. A parabola has zeros at two and ten. What is the x value of the vertex?",
+"The vertex is halfway between the zeros. Two plus ten is twelve, divided by two is six. Eight is the distance, not the middle.",
+"Remember three things. Type it in Desmos. Click the points it shows you. And don't do the math in your head. Great work."
+]
