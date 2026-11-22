@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script src="../../auth.js?v=3"></script>
+<script src="../../progress.js?v=1"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HELM · AP Gov Ch. 4 Part 2 Study Guide</title>
+<link rel="icon" href="../../helm-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+.helm{--bg:#F6F7F9;--panel:#FFFFFF;--panel2:#F1F3F6;--line:#E3E6EB;--text:#0B1220;--muted:#566070;--accent:#0B2545;--onaccent:#FFFFFF;--gold:#C9A227;--gov:#3B6FB6;--ok:#15803D;--okbg:#E6F5EC;--warn:#B45309;--warnbg:#FDF0E1;--bad:#B91C1C;--badbg:#FCE8E8;--focus:#2563EB;--scrim:rgba(11,18,32,.42);font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--text);background:var(--bg);min-height:100vh;font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+.helm.dark{--bg:#060B14;--panel:#0B1422;--panel2:#111C2E;--line:#1C2940;--text:#E8EDF5;--muted:#9BA7B9;--accent:#C9A227;--onaccent:#0B2545;--gov:#8DB3E8;--ok:#4ADE80;--okbg:#0E2A1B;--warn:#FBBF24;--warnbg:#2B2110;--bad:#F87171;--badbg:#2E1416;--focus:#93C5FD;--scrim:rgba(0,0,0,.6)}
+.helm *{box-sizing:border-box}
+.helm button{font:inherit;color:inherit;cursor:pointer}
+.helm a{color:inherit}
+.helm :focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.tnum{font-variant-numeric:tabular-nums}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px}
+.inner{border:1px solid var(--line);border-radius:8px}
+.muted{color:var(--muted)}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0}
+.pill{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.pill-ok{color:var(--ok);background:var(--okbg)}.pill-warn{color:var(--warn);background:var(--warnbg)}.pill-bad{color:var(--bad);background:var(--badbg)}.pill-neutral{color:var(--muted);background:var(--panel2)}.pill-today{color:var(--text);background:var(--panel2)}
+.mod{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;letter-spacing:.02em;color:var(--muted)}
+.mod::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--muted)}
+.mod-sat::before{background:var(--gold)}.mod-pre::before{background:#1F8A8A}.mod-gov::before{background:var(--gov)}
+.check{width:44px;height:44px;flex:0 0 44px;display:grid;place-items:center;background:none;border:0;padding:0;margin:-11px}
+.check .box{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--muted);display:grid;place-items:center;color:transparent;transition:all .15s}
+.check.on .box{background:var(--ok);border-color:var(--ok);color:#fff}
+.helm.dark .check.on .box{color:#06210F}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 14px;border-radius:8px;border:1px solid var(--line);background:var(--panel);font-weight:600;text-decoration:none;white-space:nowrap}
+.btn:hover{background:var(--panel2)}
+.btn-primary{background:var(--accent);color:var(--onaccent) !important;border-color:var(--accent)}
+.btn-primary:hover{background:var(--accent);filter:brightness(1.12)}
+.iconbtn{position:relative;width:40px;height:40px;display:inline-grid;place-items:center;border-radius:8px;border:1px solid transparent;background:transparent;color:var(--muted);flex:0 0 auto}
+.iconbtn:hover{background:var(--panel2);color:var(--text)}
+.badge-dot{position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:50%;background:var(--warn);border:2px solid var(--panel)}
+.segwrap{display:inline-flex;padding:3px;gap:2px;border:1px solid var(--line);border-radius:8px;background:var(--panel2)}
+.seg{height:30px;padding:0 12px;border-radius:6px;border:0;background:transparent;color:var(--muted);font-weight:600;font-size:13px}
+.seg.on{background:var(--panel);color:var(--text);box-shadow:0 0 0 1px var(--line)}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line)}
+.tab{height:40px;padding:0 12px;border:0;background:none;color:var(--muted);font-weight:600;border-bottom:2px solid transparent;margin-bottom:-1px;display:inline-flex;align-items:center;gap:8px}
+.tab .n{font-size:11px;padding:1px 7px;border-radius:999px;background:var(--panel2)}
+.tab.on{color:var(--text);border-bottom-color:var(--accent)}
+.shell{display:flex;min-height:100vh}
+.side{position:sticky;top:0;height:100vh;width:240px;flex:0 0 240px;background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;gap:2px;padding:12px;transition:width .18s,flex-basis .18s;z-index:20;overflow:hidden}
+.collapsed .side{width:64px;flex-basis:64px;padding:12px 8px}
+.collapsed .side .lbl{display:none}
+.brand{display:flex;align-items:center;gap:10px;height:44px;padding:0 6px;margin-bottom:6px}
+.brand .word{font-weight:700;letter-spacing:.14em;font-size:16px}
+.collapsed .brand{justify-content:center;padding:0}
+.nav{display:flex;align-items:center;gap:12px;min-height:40px;padding:0 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-weight:600;border:0;background:none;width:100%;text-align:left;white-space:nowrap}
+.nav svg{flex:0 0 auto}
+.nav:hover{background:var(--panel2);color:var(--text)}
+.nav.active{background:var(--panel2);color:var(--text)}
+.collapsed .nav{justify-content:center;padding:0}
+.nav .kbd{margin-left:auto;font-size:11px;border:1px solid var(--line);border-radius:4px;padding:0 5px;color:var(--muted)}
+.navgroup{margin:14px 0 4px 12px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.soon{margin-left:auto;font-size:11px;color:var(--muted)}
+.side .spacer{flex:1}
+.ws{display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;border:1px solid var(--line);background:none;width:100%;text-align:left}
+.collapsed .ws{justify-content:center;border-color:transparent}
+.avatar{width:28px;height:28px;flex:0 0 28px;border-radius:8px;background:var(--accent);color:var(--onaccent);display:grid;place-items:center;font-weight:700;font-size:13px}
+.main{flex:1 1 0;min-width:0;display:flex;flex-direction:column}
+.top{position:sticky;top:0;z-index:10;height:56px;display:flex;align-items:center;gap:12px;padding:0 20px;background:var(--panel);border-bottom:1px solid var(--line)}
+.crumbs{display:flex;align-items:center;gap:8px;font-weight:600;min-width:0}
+.crumbs .sep{color:var(--muted)}
+.crumbs .root{color:var(--muted);font-weight:500}
+.top .grow{flex:1}
+.fresh{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);white-space:nowrap}
+.fresh::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok)}
+.canvas{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:20px;padding:20px;align-content:start}
+.s12{grid-column:span 12}.s8{grid-column:span 8}.s4{grid-column:span 4}.s6{grid-column:span 6}.s3{grid-column:span 3}.s9{grid-column:span 9}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.kpi{padding:16px;display:flex;flex-direction:column;gap:10px;min-height:132px}
+.kpi .top-row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.kpi .label{font-size:13px;font-weight:600;color:var(--muted)}
+.kpi .metric{font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+.kpi .metric small{font-size:15px;font-weight:600;color:var(--muted);letter-spacing:0}
+.delta{font-size:12px;font-weight:600;padding:2px 8px;border-radius:6px;background:var(--panel2);color:var(--muted);white-space:nowrap}
+.delta.warn{background:var(--warnbg);color:var(--warn)}.delta.ok{background:var(--okbg);color:var(--ok)}
+.meter{height:6px;border-radius:999px;background:var(--panel2);overflow:hidden}
+.meter > i{display:block;height:100%;background:var(--accent);border-radius:999px;transition:width .3s}
+.bars{display:flex;align-items:flex-end;gap:6px;height:38px}
+.bars .bar{flex:1;background:var(--panel2);border-radius:3px;position:relative;overflow:hidden;display:flex;align-items:flex-end}
+.bars .bar > i{display:block;width:100%;background:var(--ok);transition:height .3s}
+.bars .bar.today{outline:1.5px solid var(--accent);outline-offset:1px}
+.ticks{display:flex;gap:3px;align-items:flex-end;height:38px}
+.tick{flex:1;height:14px;border-radius:2px;background:var(--panel2)}
+.tick.now{background:var(--accent);height:22px}
+.tick.ptest{background:var(--muted);height:22px}
+.tick.test{background:var(--gold);height:38px}
+.panel-h{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px 0}
+.panel-h h2{margin:0;font-size:15px;font-weight:700}
+.tablewrap{overflow:auto;max-height:440px;border-top:1px solid var(--line)}
+table.data{width:100%;border-collapse:separate;border-spacing:0;min-width:720px}
+table.data th{position:sticky;top:0;background:var(--panel);text-align:left;font-size:12px;font-weight:600;color:var(--muted);border-bottom:1px solid var(--line);padding:0;z-index:1}
+table.data th button{all:unset;cursor:pointer;display:flex;gap:6px;align-items:center;padding:10px 16px;width:100%;box-sizing:border-box}
+table.data th button:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
+table.data td{padding:8px 16px;border-bottom:1px solid var(--line);vertical-align:middle}
+.trow{cursor:pointer}
+.trow:hover td{background:var(--panel2)}
+.trow.is-done .ttl{color:var(--muted);text-decoration:line-through}
+.linkbtn{all:unset;cursor:pointer;font-weight:600}
+.linkbtn:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
+.skel{background:linear-gradient(90deg,var(--panel2) 0%,var(--line) 50%,var(--panel2) 100%);background-size:200% 100%;animation:sh 1.2s linear infinite;border-radius:8px}
+@keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.scrim{position:fixed;inset:0;background:var(--scrim);z-index:40;border:0;padding:0;width:100%;cursor:default}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:420px;max-width:100%;background:var(--panel);border-left:1px solid var(--line);z-index:41;display:flex;flex-direction:column;animation:slin .2s ease-out}
+@keyframes slin{from{transform:translateX(24px);opacity:0}to{transform:none;opacity:1}}
+.drawer header{display:flex;align-items:center;justify-content:space-between;gap:12px;height:56px;padding:0 12px 0 20px;border-bottom:1px solid var(--line)}
+.drawer .body{padding:20px;display:flex;flex-direction:column;gap:18px;overflow:auto;flex:1}
+.drawer h3{margin:0;font-size:20px;line-height:1.3}
+.drawer footer{padding:16px 20px;border-top:1px solid var(--line);display:flex;gap:10px;flex-wrap:wrap}
+.kv{display:grid;grid-template-columns:96px 1fr;gap:10px 12px;font-size:13px}
+.kv dt{color:var(--muted)}.kv dd{margin:0;font-weight:600}
+.mini{display:flex;align-items:center;gap:10px;padding:10px 12px}
+.palette{position:fixed;top:12vh;left:50%;transform:translateX(-50%);width:min(560px,92vw);z-index:41;overflow:hidden;animation:slin .15s ease-out}
+.palette .inp{display:flex;align-items:center;gap:10px;padding:0 16px;height:52px;border-bottom:1px solid var(--line)}
+.palette input{flex:1;border:0;background:transparent;font:inherit;font-size:15px;color:var(--text);outline:none;height:100%}
+.palette .res{max-height:360px;overflow:auto;padding:6px}
+.res-item{display:flex;align-items:center;gap:12px;width:100%;min-height:44px;padding:0 12px;border:0;border-radius:8px;background:none;text-align:left}
+.res-item:hover,.res-item:focus-visible{background:var(--panel2)}
+.popover{position:absolute;top:48px;right:0;width:300px;z-index:30;padding:6px}
+@media (max-width:1279px){
+.side{width:64px;flex-basis:64px;padding:12px 8px}.side .lbl{display:none}.side .nav,.side .brand,.side .ws{justify-content:center;padding-left:0;padding-right:0}.side .ws{border-color:transparent}
+.canvas{grid-template-columns:repeat(6,minmax(0,1fr))}
+.s12,.s8,.s4,.s9{grid-column:span 6}.s6,.s3{grid-column:span 3}
+.hide-md{display:none !important}}
+@media (max-width:767px){
+.shell{flex-direction:column}
+.side{position:fixed;top:auto;bottom:0;left:0;right:0;height:64px;width:auto;flex-direction:row;align-items:center;justify-content:space-around;border-right:0;border-top:1px solid var(--line);padding:8px;overflow:visible}
+.side .nav{width:auto;min-width:48px;min-height:48px}
+.hide-sm{display:none !important}
+.canvas{grid-template-columns:minmax(0,1fr);padding:16px 16px 92px;gap:16px}
+.s12,.s8,.s4,.s6,.s3,.s9{grid-column:1/-1}
+.m1{order:-3}.m2{order:-2}.m3{order:-1}
+.drawer{width:100%}
+.top{padding:0 12px}
+.kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.kpi{min-height:0}}
+
+/* ---------- AP Gov page in the HELM style ---------- */
+.helm{--navy:var(--accent);--mute:var(--muted);--ink:var(--text);--green:var(--ok);--greenBg:var(--okbg)}
+.page{padding:20px;display:flex;flex-direction:column;gap:20px}
+.helm .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--onaccent);font-weight:600;text-decoration:none;white-space:nowrap}
+.helm .btn:hover{filter:brightness(1.12)}
+.helm .btn.o{background:var(--panel);color:var(--accent);border-color:var(--accent)}
+.helm .btn.g{background:var(--panel);color:var(--text);border-color:var(--line)}
+.helm .btn.g:hover,.helm .btn.o:hover{background:var(--panel2);filter:none}
+.helm .btn.sm{min-height:36px;padding:0 12px;font-size:13.5px}
+.helm .btn:disabled{opacity:.45;cursor:not-allowed}
+.today{background:#0B2545;color:#F3F5F9;border:1px solid #0B2545;border-radius:12px;padding:24px 28px}
+.helm.dark .today{background:#0F2340;border-color:#1C2940}
+.today .k{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#C9A227}
+.today .t{font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.15;margin-top:6px}
+.today .s{font-size:15px;opacity:.85;margin-top:6px}
+.key{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;margin-top:14px;opacity:.9}
+.key span{display:inline-flex;align-items:center;gap:6px}.key i{display:inline-block;width:18px;height:10px;border-radius:3px}
+#days{display:flex;flex-direction:column;gap:20px}
+.daytabs{display:flex;gap:8px;flex-wrap:wrap}
+.dtab{display:flex;flex-direction:column;align-items:center;gap:1px;min-width:76px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--muted);font-size:12px;font-weight:600}
+.dtab b{font-size:18px;color:var(--text);line-height:1.2}
+.dtab i{font-style:normal;font-size:10.5px;font-weight:700}
+.dtab:hover{border-color:var(--accent)}
+.dtab.on{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);background:var(--panel2);color:var(--text)}
+.dtab.done i{color:var(--ok)}.dtab.today i{color:var(--accent)}.dtab.late i{color:var(--bad)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px}
+.day .h{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.day .h h2{margin:0;font-size:18px;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.day .h .sub{color:var(--muted);font-size:13px;margin-top:4px}
+.tag{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 9px;border-radius:999px;font-size:12px;font-weight:600;letter-spacing:0;text-transform:none}
+.tag::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.tag.today{background:var(--panel2);color:var(--text)}.tag.tom{background:var(--panel2);color:var(--muted)}.tag.late{background:var(--badbg);color:var(--bad)}.tag.done{background:var(--okbg);color:var(--ok)}
+.step{display:grid;grid-template-columns:36px 1fr auto;gap:14px;padding:14px 20px;border-top:1px solid var(--line);align-items:center}
+.step:first-of-type{border-top:0}
+.chk{width:24px;height:24px;border-radius:6px;border:1.5px solid var(--muted);background:var(--panel);display:grid;place-items:center;font-weight:800;font-size:13px;color:#fff;justify-self:center}
+.chk:disabled{cursor:default;border-style:dashed}
+.step.done .chk{background:var(--ok);border-color:var(--ok);border-style:solid}
+.helm.dark .step.done .chk{color:#06210F}
+.step.done .n{color:var(--muted);text-decoration:line-through}
+.step .n{font-weight:600;font-size:15px}
+.step .d{color:var(--muted);font-size:13.5px;margin-top:3px;line-height:1.45}
+.step .acts{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chips a{font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;border:1px solid var(--line);color:var(--text);text-decoration:none;background:var(--panel)}
+.chips a:hover{border-color:var(--accent)}
+.chips a.done{background:var(--okbg);border-color:transparent;color:var(--ok)}
+.more{align-self:flex-start}
+.tprog{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px 28px;margin-top:16px;max-width:880px}
+.pbox .plab{display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:6px}.pbox .plab b{font-size:15px}
+.pbar{height:8px;border-radius:999px;background:rgba(127,127,127,.25);overflow:hidden}.pbar i{display:block;height:100%;border-radius:999px;background:#C9A227;transition:width .3s}
+.card .pbar{background:var(--panel2)}.card .pbar i{background:var(--ok)}
+.dpct{min-width:160px;display:flex;flex-direction:column;gap:6px;align-items:flex-end}.dpct b{font-size:22px;font-weight:700}.dpct .pbar{width:160px}
+.dtab .mini-bar{display:block;width:100%;height:4px;border-radius:999px;background:var(--panel2);overflow:hidden;margin:3px 0 2px}.dtab .mini-bar u{display:block;height:100%;background:var(--ok);text-decoration:none}
+.dtab{min-width:96px}.dtab b{font-size:17px}
+.need{margin-top:6px;font-size:12.5px;font-weight:600;color:var(--muted)}.step.done .need{color:var(--ok)}
+.chk{pointer-events:none}
+.drop{display:flex;align-items:center;justify-content:center;min-height:64px;border:1.5px dashed var(--line);border-radius:8px;cursor:pointer;font-weight:600;background:var(--panel2)}
+.drop:hover{border-color:var(--accent)}.drop input{position:absolute;width:1px;height:1px;opacity:0}
+.res{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;padding:16px 20px}
+.res .r{border:1px solid var(--line);border-radius:8px;padding:14px 16px;background:var(--panel)}
+.res .r b{display:block;font-size:15px}.res .r span{color:var(--muted);font-size:13px}
+.res .r .acts{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+/* quiz */
+.qz{position:fixed;inset:0;background:var(--bg);z-index:60;display:none;flex-direction:column}
+.qz.on{display:flex}
+.qz .bar1{height:56px;background:var(--panel);border-bottom:1px solid var(--line);padding:0 20px;display:flex;gap:12px;align-items:center;justify-content:space-between}
+.qz .prog{flex:1;max-width:420px;height:6px;background:var(--panel2);border-radius:999px;overflow:hidden}.qz .prog i{display:block;height:6px;background:var(--accent);border-radius:999px}
+.qz main{flex:1;overflow:auto;padding:28px 20px}
+.qcol{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:16px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px}
+.qhead{display:flex;align-items:center;gap:10px;background:var(--panel2);border-radius:8px}
+.qnum{background:var(--accent);color:var(--onaccent);font-weight:700;padding:8px 14px;border-radius:8px 0 0 8px}
+.book{font-size:12px;font-weight:600;color:var(--gov);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:2px 9px}
+.qtext{font-size:19px;line-height:1.55;font-weight:500}
+.ch{display:flex;flex-direction:column;gap:10px}
+.ch button{text-align:left;display:flex;align-items:center;gap:14px;padding:12px 16px;min-height:56px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text)}
+.ch button:hover{border-color:var(--accent)}
+.ch button .L{flex:0 0 30px;height:30px;border-radius:50%;border:1.5px solid var(--text);display:grid;place-items:center;font-weight:700;font-size:13px}
+.ch button .t{font-size:17px}
+.ch button:disabled{color:var(--text)}
+.ch button.right{border:2px solid var(--ok);background:var(--okbg)}.ch button.right .L{background:var(--ok);color:#fff;border-color:var(--ok)}
+.ch button.wrong{border:2px solid var(--bad);background:var(--badbg);opacity:.75}.ch button.wrong .t{text-decoration:line-through}.ch button.wrong .L{background:var(--bad);color:#fff;border-color:var(--bad)}
+.fb{border-radius:8px;padding:12px 14px;font-size:15px;line-height:1.5}
+.fb.ok{background:var(--okbg);color:var(--ok)}.fb.no{background:var(--warnbg);color:var(--warn)}.fb.m{background:var(--panel2);color:var(--text)}
+.helm textarea{width:100%;min-height:110px;font:16px/1.5 Inter,system-ui,sans-serif;border:1px solid var(--line);border-radius:8px;padding:12px;background:var(--panel);color:var(--text)}
+.qz .foot{height:64px;background:var(--panel);border-top:1px solid var(--line);padding:0 20px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.score{font-size:56px;font-weight:800;letter-spacing:-.03em;color:var(--accent)}
+/* check-my-notes dialog */
+.dlg{position:fixed;inset:0;background:var(--scrim);z-index:70;display:none;place-items:center;padding:16px}
+.dlg.on{display:grid}
+.dlg .box{background:var(--panel);border:1px solid var(--line);border-radius:12px;max-width:560px;width:100%;padding:24px}
+.dlg h3{margin:0 0 6px;font-size:20px;font-weight:700}
+.dlg ol{padding-left:20px;line-height:1.7;margin:10px 0 16px}
+.dlg .acts{display:flex;gap:10px;flex-wrap:wrap}
+@media (max-width:767px){.page{padding:16px 16px 92px}.step{grid-template-columns:32px 1fr}.step .acts{grid-column:1/-1;justify-content:flex-start}.today .t{font-size:24px}}
+
+
+/* ---------- study guide ---------- */
+.gwrap{padding:20px;display:flex;flex-direction:column;gap:20px;max-width:1100px}
+.g-head{background:#0B2545;color:#F3F5F9;border-radius:12px;padding:24px 28px}
+.helm.dark .g-head{background:#0F2340}
+.g-head .eyebrow{color:#C9A227}
+.g-head h1{margin:6px 0 8px;font-size:28px;letter-spacing:-.02em}
+.g-head .sub{margin:0;font-size:13.5px;line-height:1.9;opacity:.92}
+.g-head .sub mark{color:#0B1220}
+.g-sec{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 24px}
+.g-sec h2{margin:0 0 14px;font-size:20px;display:flex;align-items:center;gap:10px}
+.g-sec h2 .num{width:28px;height:28px;border-radius:8px;background:var(--accent);color:var(--onaccent);display:grid;place-items:center;font-size:14px}
+.g-sec h3{margin:20px 0 10px;font-size:15px;color:#C2410C}
+.helm.dark .g-sec h3{color:#FDBA74}
+.t{width:100%;border-collapse:collapse;font-size:14px;line-height:1.45}
+.t th{text-align:left;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;padding:8px 10px;border-bottom:1.5px solid var(--line)}
+.t td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.t tr:last-child td{border-bottom:0}
+.vocab td:first-child{font-weight:600}
+mark{padding:0 3px;border-radius:3px;color:inherit}
+mark.b{background:#BFE3FF}mark.g{background:#C8F2C2}mark.p{background:#E6D6FF}mark.y{background:#FFF1A8}mark.r{background:#FFD1E3;color:#B4232C}
+.helm.dark mark{color:#0B1220}.helm.dark mark.r{color:#9F1239}
+.tip{margin:12px 0 0;padding:10px 14px;border-radius:8px;background:var(--panel2);font-size:14px}
+.ideas{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px}
+.idea{border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.idea>b{font-size:14.5px}
+.idea p{margin:8px 0 0;font-size:14px;line-height:1.5}
+.idea .rem{font-size:13px;font-weight:700;color:var(--ok)}
+.small,.small-list{font-size:14px;line-height:1.5}
+.steps{margin:0;padding-left:22px;line-height:1.7;font-size:14px}
+.quiz{margin:0;padding-left:32px;line-height:1.8;font-size:14.5px}
+.answers{margin-top:14px;border:1px solid var(--line);border-radius:8px;padding:12px 16px}
+.answers summary{cursor:pointer;font-weight:700;color:var(--accent)}
+.cheat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.cheat-grid>div{border:1px solid var(--line);border-radius:8px;padding:10px 14px}
+.cheat-grid h4{margin:0 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.cheat-grid ul{margin:0;padding-left:16px;font-size:13px;line-height:1.5}
+.gbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.toc{display:flex;gap:6px;flex-wrap:wrap}
+.toc a{font-size:12.5px;font-weight:600;padding:5px 10px;border-radius:999px;border:1px solid var(--line);text-decoration:none;color:var(--text);background:var(--panel)}
+.toc a:hover{border-color:var(--accent)}
+@media (max-width:900px){.cheat-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:767px){.gwrap{padding:16px 16px 92px}.cheat-grid{grid-template-columns:1fr}.t{font-size:13px}.g-sec{padding:16px}}
+@media print{
+  @page{size:letter;margin:.5in}
+  .side,.top,.gbar,.helm-who{display:none !important}
+  html,body,.helm{background:#fff !important}
+  .shell{display:block}.gwrap{padding:0;max-width:none;gap:12px}
+  .g-head{background:#fff !important;color:#0B2545;border:2px solid #0B2545;padding:14px 18px}
+  .g-head .eyebrow{color:#7A5F0B}.g-head h1{font-size:22px}
+  .g-sec{border:0;padding:0;break-inside:auto}
+  .g-sec h2{break-after:avoid}.t tr,.idea,.cheat-grid>div{break-inside:avoid}
+  #quiz{break-before:page}.answers{display:block}.answers summary{display:none}
+  .answers{break-before:page;border:0;padding:0}.answers::before{content:"Answer key";display:block;font-weight:800;font-size:18px;margin-bottom:8px}
+  #cheat{break-before:page}
+  .cheat-grid{grid-template-columns:repeat(3,minmax(0,1fr)) !important}
+  .ideas{grid-template-columns:1fr 1fr !important}
+  mark{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .t,.idea p,.small,.quiz{font-size:11.5pt}
+}
+
+</style>
+</head>
+<body>
+<div id="app" class="helm light">
+<div class="shell">
+<nav class="side" aria-label="Primary">
+<div class="brand hide-sm">
+<svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true" style="color: var(--accent); flex: 0 0 auto"><g stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="16" y1="3" x2="16" y2="29"></line><line x1="3" y1="16" x2="29" y2="16"></line><line x1="6.8" y1="6.8" x2="25.2" y2="25.2"></line><line x1="25.2" y1="6.8" x2="6.8" y2="25.2"></line></g><circle cx="16" cy="16" r="8.5" fill="var(--panel)" stroke="currentColor" stroke-width="2.6"></circle><circle cx="16" cy="16" r="3.4" fill="#C9A227"></circle></svg>
+<span class="word lbl">HELM</span>
+</div>
+<a class="nav hide-sm" href="../../" title="Search on HELM home">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="20" y1="20" x2="16.5" y2="16.5"></line></svg>
+<span class="lbl">Search</span><span class="kbd lbl">⌘K</span>
+</a>
+<a class="nav" href="../../" title="Today">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>
+<span class="lbl">Today</span>
+</a>
+<a class="nav" href="../../sat.html" title="SAT Helm">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+<span class="lbl">SAT Helm</span>
+</a>
+<a class="nav active" href="../" aria-current="page" title="AP Gov">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10l9-5 9 5"></path><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8"></path><path d="M3 20h18"></path></svg>
+<span class="lbl">AP Gov</span>
+</a>
+<a class="nav" href="../../#wk-h" title="This week">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>
+<span class="lbl">This week</span>
+</a>
+<a class="nav" href="../../sat.html#/videos" title="Videos">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M10 9.5v5l4.5-2.5z"></path></svg>
+<span class="lbl">Videos</span>
+</a>
+<p class="navgroup lbl hide-sm">Other classes</p>
+<span class="nav lbl hide-sm" aria-disabled="true">Law<span class="soon">Soon</span></span>
+<span class="nav lbl hide-sm" aria-disabled="true">Stats<span class="soon">Soon</span></span>
+<span class="nav lbl hide-sm" aria-disabled="true">AP Business<span class="soon">Soon</span></span>
+<div class="spacer hide-sm"></div>
+<button class="nav hide-sm" id="side-btn" type="button" data-action="side" aria-label="Collapse sidebar">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M9 4v16"></path></svg>
+<span class="lbl">Collapse</span>
+</button>
+<button class="ws hide-sm" type="button" aria-label="Switch workspace: Patrick's Helm">
+<span class="avatar">P</span>
+<span class="lbl" style="display: flex; flex-direction: column; line-height: 1.2; min-width: 0"><span style="font-weight: 600">Patrick's Helm</span><span class="muted" style="font-size: 12px">Fall 2026</span></span>
+</button>
+</nav>
+<div class="main">
+<header class="top">
+<div class="crumbs"><a class="root hide-sm" href="../../" style="text-decoration:none">Helm</a><span class="sep hide-sm">/</span><a class="root hide-sm" href="../" style="text-decoration:none">AP Gov</a><span class="sep hide-sm">/</span><span>Study guide</span></div>
+<div class="grow"></div>
+<a class="btn g sm" href="study-guide.pdf" download="AP_Gov_Ch4_Part2_Study_Guide.pdf">⬇ Download PDF</a>
+<button class="iconbtn" id="theme-btn" type="button" data-action="theme" aria-label="Switch theme"></button>
+</header>
+<div class="gwrap">
+<div class="gbar">
+<a class="btn sm" href="study-guide.pdf" download="AP_Gov_Ch4_Part2_Study_Guide.pdf">⬇ Download PDF to print</a>
+<a class="btn g sm" href="../">← Back to AP Gov</a>
+<nav class="toc" aria-label="Sections"><a href="#plan">Plan</a><a href="#vocab">Vocab</a><a href="#ideas">Big ideas</a><a href="#sections">Key facts</a><a href="#mix">Don’t mix up</a><a href="#quiz">Quiz</a><a href="#cheat">Cheat sheet</a></nav>
+</div>
+<header class="g-head">
+  <p class="eyebrow">AP Gov · Chapter 4: Congress (Part 2)</p>
+  <h1>Study Guide · Textbook pp. 150–173</h1>
+  <p class="sub">Every key term and main point from pp. 150–173, checked against the read-along pages. Color key: <mark class="b">blue = key term</mark> <mark class="g">green = dates, laws, numbers</mark> <mark class="p">purple = example</mark> <mark class="y">yellow = main point</mark> <mark class="r">pink = trap</mark></p>
+</header>
+
+<section class="g-sec" id="plan">
+<h2><span class="num">1</span>Cram Plan (30–40 min a night)</h2>
+<table class="t">
+<tr><th style="width:16%">Day</th><th>Do this</th></tr>
+<tr><td><b>Sunday</b><br><span class="muted">pp. 150–161</span></td><td>Read Vocab A (pp. 150–161) out loud, then cover the <i>Meaning</i> column and say each one. Read Big Ideas 1–5. Do the teacher read-along for pp. 150–161 on HELM.</td></tr>
+<tr><td><b>Monday</b><br><span class="muted">pp. 162–173</span></td><td>Re-test Vocab A from memory (1 pass). Read Vocab B (pp. 162–173) and Big Ideas 6–10. Read “Don’t Mix These Up.” Do the teacher read-along for pp. 162–173.</td></tr>
+<tr><td><b>Tuesday</b><br><span class="muted">review</span></td><td>Take the Memory Quiz <b>without looking</b>. Check the answers, circle what you missed, and re-read only those. Last 5 minutes: the Cheat Sheet.</td></tr>
+</table>
+<p class="tip"><b>The rule:</b> cover it and say it out loud. Recognizing a word is not the same as remembering it.</p>
+</section>
+
+<section class="g-sec" id="vocab">
+<h2><span class="num">2</span>Must-Know Vocabulary</h2>
+<h3>Vocab A · pp. 150–161 (Sunday)</h3>
+<table class="t vocab">
+<tr><th style="width:24%">Term (page)</th><th>Meaning</th><th style="width:28%">Memory hook</th></tr>
+<tr><td><mark class="b">Gridlock</mark> (150)</td><td>Congress can’t pass laws because of party fighting (inside Congress or with the president).</td><td>Traffic jam: nobody moves.</td></tr>
+<tr><td><mark class="b">Universalism</mark> (151)</td><td>Norm: spread federal money to as many districts and states as possible.</td><td>Everybody gets a slice.</td></tr>
+<tr><td><mark class="b">Logrolling</mark> (151)</td><td>Trading votes: I vote for your bill, you vote for mine.</td><td>“You scratch my back, I’ll scratch yours.”</td></tr>
+<tr><td><mark class="b">Earmarks</mark> (151)</td><td>Federally funded local projects attached to bills. Called pork-barrel spending.</td><td>A tag on the bill: “this $ goes to MY town.”</td></tr>
+<tr><td><mark class="b">Specialization</mark> (152)</td><td>Norm: become an expert on a few issues. Stronger in the House; senators are generalists.</td><td>House = specialists, Senate = generalists.</td></tr>
+<tr><td><mark class="b">Seniority</mark> (152)</td><td>Norm: the longest-serving member on a committee usually becomes chair.</td><td>Longest on the team = captain. <mark class="r">A norm, not a rule.</mark></td></tr>
+<tr><td><mark class="b">Speaker of the House</mark> (152)</td><td>Elected leader of the House. The <b>only</b> House leader named in the Constitution. All House members vote for the Speaker.</td><td>The Speaker speaks for the whole House.</td></tr>
+<tr><td><mark class="b">Majority Leader</mark> (154)</td><td>Head of the party with the most seats in the House or Senate; runs day-to-day work. In the Senate, controls what reaches the floor.</td><td>Most seats = most say.</td></tr>
+<tr><td><mark class="b">Minority Leader</mark> (154)</td><td>Head of the party with fewer seats.</td><td>Leader of the smaller team.</td></tr>
+<tr><td><mark class="b">Whip system</mark> (154)</td><td>House party leaders who 1) gather information, 2) spread information, 3) build coalitions. They count votes and persuade.</td><td>Fox hunt “whipper-in” keeps the hounds with the pack.</td></tr>
+<tr><td><mark class="b">President pro tempore</mark> (154)</td><td>Symbolic Senate job, usually the most senior majority senator.</td><td>“Pro tem” = for the time being. <mark class="r">No real power.</mark></td></tr>
+<tr><td><mark class="b">Roll call vote</mark> (156)</td><td>A recorded vote: yes, no, present, or abstain.</td><td>Like roll call in class: your name is on it.</td></tr>
+<tr><td><mark class="b">Party vote</mark> (156)</td><td>Most of one party votes against most of the other.</td><td>Team vs. team.</td></tr>
+<tr><td><mark class="b">Party unity</mark> (156)</td><td>How often members of the same party vote together on party votes.</td><td>Teammates sticking together.</td></tr>
+<tr><td><mark class="b">Conditional party government</mark> (157)</td><td>Party leaders are strong <b>only if</b> members agree to follow, which is likelier when the parties are very different and united inside.</td><td>Strong leader <i>on one condition</i>: the team agrees.</td></tr>
+<tr><td><mark class="b">Standing committees</mark> (158)</td><td>Permanent committees that do most of the work: write bills, oversee laws. <mark class="g">21 in the House, 20 in the Senate.</mark></td><td>Standing = always there.</td></tr>
+<tr><td><mark class="b">Select committees</mark> (158)</td><td>Handle one specific issue for one or two terms.</td><td>Selected for one job.</td></tr>
+<tr><td><mark class="b">Joint committees</mark> (158)</td><td>Members of both chambers; limited power.</td><td>Joint = House + Senate together.</td></tr>
+<tr><td><mark class="b">Conference committees</mark> (159)</td><td>Temporary; work out differences when the House and Senate pass different versions of a bill.</td><td>A conference to settle the argument.</td></tr>
+<tr><td><mark class="b">Distributive theory</mark> (159)</td><td>Members pick committees that help their district (farm-state members on Agriculture) and back each other’s bills.</td><td>Distribute goodies back home.</td></tr>
+<tr><td><mark class="b">Informational theory</mark> (159)</td><td>Committees full of experts help everyone make well-informed decisions.</td><td>Committees = information.</td></tr>
+<tr><td><mark class="b">House Rules Committee</mark> (160, 168)</td><td>Sets how long a bill is debated and which amendments are allowed; an arm of the majority leaders. Majority holds <mark class="g">9 of 13 seats</mark>.</td><td>Rules Committee = the referee who sets the game rules.</td></tr>
+<tr><td><mark class="b">Unorthodox lawmaking</mark> (160)</td><td>Barbara Sinclair’s term: many important laws skip the neat textbook steps.</td><td>Un-orthodox = not by the book.</td></tr>
+</table>
+
+<h3>Vocab B · pp. 162–173 (Monday)</h3>
+<table class="t vocab">
+<tr><th style="width:24%">Term (page)</th><th>Meaning</th><th style="width:28%">Memory hook</th></tr>
+<tr><td><mark class="b">Multiple referral</mark> (164)</td><td>In the House, a big bill goes to more than one committee.</td><td>Referred to many.</td></tr>
+<tr><td><mark class="b">Markup</mark> (165)</td><td>Committee debates and amends the bill to settle its final wording.</td><td>Marking up a rough draft with a red pen.</td></tr>
+<tr><td><mark class="b">Veto</mark> (166)</td><td>President rejects a bill. Override = <mark class="g">2/3 of both chambers</mark>.</td><td>Veto = “I forbid.”</td></tr>
+<tr><td><mark class="b">Pocket veto</mark> (166)</td><td>President does nothing for <mark class="g">10 days (not counting Sundays)</mark> and Congress has gone home, so the bill dies.</td><td>Bill stuck in the president’s pocket.</td></tr>
+<tr><td><mark class="b">Authorization vs. appropriation</mark> (166)</td><td>Authorization sets the rules and limits; appropriation sets the actual dollars.</td><td>Permission slip vs. the cash.</td></tr>
+<tr><td><mark class="b">Continuing resolution</mark> (166)</td><td>Keeps spending at last year’s levels when Congress misses budget deadlines.</td><td>Hit “repeat” on last year.</td></tr>
+<tr><td><mark class="b">Discharge petition</mark> (166)</td><td>Forces a House committee to release a bill to the floor; needs a <b>majority</b> of House members to sign.</td><td>Discharge = let it out.</td></tr>
+<tr><td><mark class="b">Omnibus legislation</mark> (167)</td><td>Huge bills covering many topics, often with pork. <mark class="g">2018 omnibus: 2,232 pages, over $1.3 trillion.</mark></td><td>Omni = all. A bus with everything on it.</td></tr>
+<tr><td><mark class="b">Rider</mark> (167)</td><td>An extra item attached to a must-pass bill.</td><td>It rides along for free.</td></tr>
+<tr><td><mark class="b">Filibuster</mark> (168)</td><td>Senate only: a senator keeps talking (unlimited debate) to block a bill.</td><td>Talk it to death.</td></tr>
+<tr><td><mark class="b">Cloture</mark> (168)</td><td>Ends a filibuster. Needs <mark class="g">60 votes</mark>.</td><td>Cloture = closure.</td></tr>
+<tr><td><mark class="b">Unanimous consent agreement</mark> (168)</td><td>Senate leaders’ deal that limits debate and amendments. Most Senate business runs this way.</td><td>Everyone (unanimous) has to say OK.</td></tr>
+<tr><td><mark class="b">Hold</mark> (168)</td><td>One senator objects to a unanimous consent agreement, which stalls the bill.</td><td>One hand up = “hold on.”</td></tr>
+<tr><td><mark class="b">Reconciliation</mark> (163, 168)</td><td>Certain tax, spending, and debt bills pass the Senate with a <mark class="g">simple majority (51)</mark>. No filibuster allowed.</td><td>Reconcile the budget. Skip the 60.</td></tr>
+<tr><td><mark class="b">Closed / open / modified rule</mark> (168)</td><td>House special rules: closed = no amendments; open = any relevant amendment; modified = only some.</td><td>Door closed, open, half-open. <mark class="g">No open rules since 2017.</mark></td></tr>
+<tr><td><mark class="b">Oversight</mark> (169)</td><td>Congress checks that the bureaucracy carries out laws the way Congress intended.</td><td>Over-see = watch over.</td></tr>
+<tr><td><mark class="b">Power of the purse</mark> (169)</td><td>Congress’s power to raise and spend money; it can cut an agency’s funding.</td><td>Whoever holds the wallet has power.</td></tr>
+<tr><td><mark class="b">Fire alarm vs. police patrol oversight</mark> (170)</td><td>Fire alarm: wait for a crisis, then act (far more common). Police patrol: watch all the time.</td><td>Fire alarm rings, then you act.</td></tr>
+<tr><td><mark class="b">Advice and consent</mark> (170)</td><td>The Senate approves the president’s appointments and treaties.</td><td>Senate says “OK” to picks and treaties.</td></tr>
+<tr><td><mark class="b">Impeachment</mark> (170)</td><td>House <b>impeaches</b> (brings charges); Senate holds the <b>trial</b>.</td><td>House = charges, Senate = court.</td></tr>
+<tr><td><mark class="b">Supply side vs. demand side</mark> (172)</td><td>Supply side (linked to the right): money or tax cuts to businesses. Demand side / Keynesian (linked to the left): money to people, who spend it.</td><td>Supply = sellers. Demand = shoppers.</td></tr>
+<tr><td><mark class="b">Shell bill</mark> (173)</td><td>An existing House bill emptied and rewritten (the CARES Act used H.R. 748) so a money bill “starts” in the House.</td><td>Empty shell, new filling.</td></tr>
+</table>
+</section>
+
+<section class="g-sec" id="ideas">
+<h2><span class="num">3</span>Top 10 Big Ideas</h2>
+<div class="ideas">
+<div class="idea"><b>1 · The dilemma (p. 150)</b><p><mark class="y">People like their own member but dislike Congress.</mark> Members have 2 jobs that clash: <b>responsibility</b> (good policy for the nation) vs. <b>responsiveness</b> (deliver for home). Voters want lower taxes, more spending, and a balanced budget, all at once. Members pick home, so Congress looks stuck.</p><p class="rem">Remember: home beats nation.</p></div>
+<div class="idea"><b>2 · Structure (pp. 150–152)</b><p><mark class="y">The reelection goal shapes how Congress is built.</mark> Formal: staff, committees, parties, leaders. Informal: <b>norms</b> = universalism, logrolling, specialization, seniority.</p><p class="rem">Remember: formal = official, norms = unwritten.</p></div>
+<div class="idea"><b>3 · Party leaders (pp. 152–154)</b><p>House: <b>Speaker</b> (all members vote; only leader in the Constitution), Majority Leader, whip. Senate: Majority Leader, whip, president pro tempore; the <b>vice president</b> is president of the Senate but only shows up to break a tie. <mark class="y">Senate leaders are weaker</mark> because senators have unlimited debate.</p><p class="rem">Remember: House leaders strong, Senate leaders weak.</p></div>
+<div class="idea"><b>4 · Parties got stronger (pp. 155–157)</b><p>U.S. parties are weak compared with parliamentary systems, but <mark class="y">much stronger since the 1960s</mark>. About <mark class="g">70%</mark> of roll call votes are party votes; in <mark class="g">2019, 95% of House Democrats</mark> voted together. Why: Southern Democrats now vote like northern Democrats, and moderate Republicans mostly disappeared. Most polarized ever (Figure 4.6).</p><p class="rem">Remember: no middle left.</p></div>
+<div class="idea"><b>5 · How leaders lead (pp. 157–158)</b><p>Leaders can’t give orders. They persuade, control the agenda (friendly bills come up, party-splitting votes don’t), and do favors: campaign visits, fund raising, good committee seats. <mark class="p">Obama = “Fundraiser in Chief” (2014).</mark> <mark class="y">Reelection always beats party.</mark> <mark class="p">The Freedom Caucus pushed out Speaker Boehner (2015); the Squad pressured Pelosi.</mark></p><p class="rem">Remember: persuade, don’t order.</p></div>
+<div class="idea"><b>6 · Committees (pp. 158–160)</b><p>4 types: standing, select, joint, conference. Two theories: distributive (help my district) and informational (expertise). <mark class="y">The majority gives itself extra seats on key committees</mark> (Ways and Means, Appropriations, Rules). Staff grew in the 1970s–80s. Congress is the creation of its members, so they can change it.</p><p class="rem">Remember: S-S-J-C.</p></div>
+<div class="idea"><b>7 · How a bill becomes a law (pp. 160–165)</b><p><mark class="y">The one rule that never changes: pass both chambers in identical form, then the president signs.</mark> Only members can introduce bills (House: the <b>hopper</b>; even the president needs a member). <mark class="g">80–90% of bills die in committee or subcommittee.</mark> House floor: tight time limits; Senate: usually unlimited debate. Votes: voice, division (stand), recorded (25 members ask).</p><p class="rem">Remember: same bill, both chambers, president.</p></div>
+<div class="idea"><b>8 · Shortcuts (pp. 166–167)</b><p>Many big bills skip steps: 1) <b>bypass committees</b> (up to <mark class="g">20%</mark>; discharge petition or special rule; <mark class="p">Patriot Act after 9/11</mark>), 2) <b>changed after committee</b> (about <mark class="g">1/3</mark>; <mark class="p">the ACA</mark>), 3) <b>summits</b> (president + leaders make a deal), 4) <b>omnibus bills</b> with riders.</p><p class="rem">Remember: bypass, change, summit, omnibus.</p></div>
+<div class="idea"><b>9 · House vs. Senate (pp. 167–168)</b><p><mark class="y">House = majoritarian</mark> (since <mark class="g">Reed’s Rules, 1890</mark>): the majority almost always wins; Rules Committee writes a special rule for each major bill. <mark class="y">Senate = individualistic</mark> (“herding cats”): filibuster, cloture (60), unanimous consent, holds, reconciliation (51). <mark class="g">2013:</mark> Democrats ended filibusters for most presidential nominees; <mark class="g">2017:</mark> Republicans did the same for Supreme Court nominees. 2/3 of senators carry over, so Senate rules stay stable; the House re-adopts its rules every session.</p><p class="rem">Remember: House = team, Senate = individuals.</p></div>
+<div class="idea"><b>10 · Oversight + CARES Act (pp. 169–173)</b><p>After a law passes, Congress watches the bureaucracy: power of the purse (blunt, rarely used), hearings and investigations (common), advice and consent, impeachment. <mark class="g">Impeached: Andrew Johnson, Bill Clinton, Donald Trump; none removed.</mark> <mark class="g">2020: Supreme Court ruled 7–2</mark> against Trump’s claim of total immunity from congressional subpoenas. <mark class="p">COVID: the White House refused to let officials testify; 200+ House letters were rejected or ignored.</mark></p><p class="rem">Remember: pass it, then watch it.</p></div>
+</div>
+</section>
+
+<section class="g-sec" id="sections">
+<h2><span class="num">4</span>Key Facts by Section</h2>
+<h3>Party leadership (Nuts & Bolts 4.2, p. 153)</h3>
+<table class="t">
+<tr><th>House (majority party picks)</th><th>Senate (majority party picks)</th></tr>
+<tr><td>Speaker (elected by <b>all</b> House members)</td><td>Majority Leader (controls what reaches the floor)</td></tr>
+<tr><td>Majority Leader, Whip</td><td>Whip</td></tr>
+<tr><td>Conference chair, policy committee chair</td><td>Conference chair, policy committee chair</td></tr>
+<tr><td>Steering committee nominates committee members and chairs</td><td>Committee on committees nominates committee members</td></tr>
+<tr><td>—</td><td>President pro tempore (most senior majority member, by custom)</td></tr>
+<tr><td>—</td><td>Vice president = president of the Senate (breaks ties)</td></tr>
+</table>
+<p class="small">Speakers: <mark class="g">Pelosi, first woman Speaker (2007)</mark> → Boehner (2011) → Ryan (2015) → Pelosi again (2019).</p>
+
+<h3>The 8 steps (p. 161)</h3>
+<ol class="steps">
+<li>A member <b>introduces</b> the bill.</li>
+<li><b>Committees and subcommittees</b> craft it (hearings, witnesses, markup).</li>
+<li>It passes the <b>floor of one chamber</b>.</li>
+<li><b>Committee and floor action in the other chamber.</b></li>
+<li>A <b>conference committee</b> works out differences (minor bills: one chamber accepts the other’s version, or amendments go back and forth).</li>
+<li><b>Both chambers approve</b> the final version.</li>
+<li>The <b>president signs or vetoes</b> it.</li>
+<li>Congress can <b>override a veto</b> with 2/3 of both chambers.</li>
+</ol>
+<p class="small"><mark class="r">Trap: the House path has the Rules Committee; the Senate path does not (the Majority Leader controls the floor).</mark> A committee can pass, change, or <b>table</b> (kill) a bill. Its report becomes part of the <b>legislative history</b> courts and agencies use later.</p>
+
+<h3>4 types of legislation (Nuts & Bolts 4.3, p. 161)</h3>
+<table class="t">
+<tr><th style="width:24%">Type</th><th>What it does</th><th style="width:22%">Becomes law?</th></tr>
+<tr><td>Bill</td><td>The normal way to make a law.</td><td>Yes</td></tr>
+<tr><td>Simple resolution</td><td>Speaks for one chamber. <mark class="p">Fig. 4.7: Senate congratulating the Kansas City Chiefs.</mark></td><td>No (not signed)</td></tr>
+<tr><td>Concurrent resolution</td><td>Speaks for both chambers on things like adjournment.</td><td>No (not signed)</td></tr>
+<tr><td>Joint resolution</td><td>Works like a bill, except when it proposes a constitutional amendment.</td><td>Yes, like a bill</td></tr>
+</table>
+
+<h3>Real example: the 2017 Tax Cuts and Jobs Act (p. 163)</h3>
+<ul class="small-list">
+<li><mark class="g">All tax bills must start in the House</mark>, so House Ways and Means wrote <b>H.R. 1</b>; the House passed it.</li>
+<li>Senate Republicans lacked the <mark class="g">60</mark> votes to stop a filibuster, so the Senate Budget Committee made it a <b>reconciliation</b> bill (<mark class="g">51</mark> votes). It kept the House title.</li>
+<li>A <b>vote-a-rama</b>: <mark class="g">355 amendments</mark> in an overnight marathon. Deals with holdouts + conference committee → both chambers passed it → President Trump signed it.</li>
+</ul>
+
+<h3>AP Policy in Practice: the CARES Act (pp. 171–173)</h3>
+<table class="t">
+<tr><th style="width:26%">Policy stage</th><th>What happened</th></tr>
+<tr><td>Background</td><td>Federalism: each state handled COVID differently; the Trump administration left most decisions to the states. <mark class="p">France (unitary government): national leaders decided for the whole country.</mark> Unemployment not seen since the Great Depression. CARES was the 3rd COVID bill and the first only about the economy.</td></tr>
+<tr><td>1. Problem recognition</td><td>A pandemic, rising unemployment, overloaded hospitals.</td></tr>
+<tr><td>2. Agenda setting</td><td>Phase 1: <mark class="g">$8.3 billion</mark> for supplies and vaccines. Phase 2: the Families First Act (free testing, paid leave). Andrew Yang’s universal basic income idea (<mark class="g">$1,000/month</mark>) came back into the news.</td></tr>
+<tr><td>3. Deliberation</td><td>Revenue bills must start in the House, so the Senate used a <b>shell bill</b> (<mark class="g">H.R. 748</mark>). Republicans wanted more for businesses; Democrats wanted more for workers.</td></tr>
+<tr><td>4. Enactment</td><td>Senate passed it <mark class="g">96–0 on March 25, 2020</mark>; House agreed by voice vote; Trump signed <mark class="g">March 27</mark>.</td></tr>
+<tr><td>5. Implementation</td><td>Individuals got <mark class="g">30%</mark> (<mark class="g">$1,200 per adult, $500 per child</mark>); big business <mark class="g">25%</mark>; small business <mark class="g">19%</mark>.</td></tr>
+</table>
+<p class="small">Economists disagree: supply side (businesses, linked to the right) vs. demand side / Keynesian (people, linked to the left). <mark class="y">The CARES Act was a middle ground.</mark> Bismarck: laws are like sausages, better not to see them made. Knowing the steps and veto points helps you judge complaints about gridlock.</p>
+</section>
+
+<section class="g-sec" id="mix">
+<h2><span class="num">5</span>Don’t Mix These Up</h2>
+<table class="t">
+<tr><th style="width:24%"></th><th>This one…</th><th>…vs. this one</th></tr>
+<tr><td>Responsibility vs. responsiveness</td><td><b>Responsibility</b>: good policy for the whole nation</td><td><b>Responsiveness</b>: deliver for the folks back home</td></tr>
+<tr><td>Logrolling vs. earmark</td><td><b>Logrolling</b>: trading <i>votes</i></td><td><b>Earmark</b>: a <i>local project</i> attached to a bill</td></tr>
+<tr><td>Speaker vs. president pro tempore</td><td><b>Speaker</b>: powerful House leader, in the Constitution</td><td><b>Pro tem</b>: symbolic Senate job, no real power</td></tr>
+<tr><td>Party vote vs. party unity</td><td><b>Party vote</b>: most of one party vs. most of the other</td><td><b>Party unity</b>: how often teammates vote together on those votes</td></tr>
+<tr><td>Select vs. joint vs. conference</td><td><b>Select</b>: one issue, 1–2 terms. <b>Joint</b>: both chambers, little power.</td><td><b>Conference</b>: temporary, fixes House/Senate differences on one bill</td></tr>
+<tr><td>Distributive vs. informational</td><td><b>Distributive</b>: committees help my district</td><td><b>Informational</b>: committees give expertise</td></tr>
+<tr><td>Filibuster vs. cloture</td><td><b>Filibuster</b>: keep talking to block</td><td><b>Cloture</b>: 60 votes to stop the talking</td></tr>
+<tr><td>Cloture vs. reconciliation</td><td><b>Cloture</b>: 60 votes to end debate</td><td><b>Reconciliation</b>: 51 votes, no filibuster (tax, spending, debt)</td></tr>
+<tr><td>Veto vs. pocket veto</td><td><b>Veto</b>: president rejects; 2/3 of both can override</td><td><b>Pocket veto</b>: 10 days, no signature, Congress gone home → bill dies</td></tr>
+<tr><td>Authorization vs. appropriation</td><td><b>Authorization</b>: the rules and limits</td><td><b>Appropriation</b>: the actual dollars</td></tr>
+<tr><td>Discharge petition vs. hold</td><td><b>Discharge petition</b>: House majority forces a bill out of committee</td><td><b>Hold</b>: one senator objects and stalls a bill</td></tr>
+<tr><td>Fire alarm vs. police patrol</td><td><b>Fire alarm</b>: wait for a crisis (most common)</td><td><b>Police patrol</b>: watch all the time</td></tr>
+<tr><td>Impeach vs. remove</td><td><b>House impeaches</b> = brings charges</td><td><b>Senate trial</b> decides removal. <mark class="r">Impeached ≠ removed.</mark></td></tr>
+<tr><td>Supply side vs. demand side</td><td><b>Supply</b>: money to businesses (right)</td><td><b>Demand / Keynesian</b>: money to people (left)</td></tr>
+</table>
+</section>
+
+<section class="g-sec" id="quiz">
+<h2><span class="num">6</span>Memory Quiz (answer out loud, then check)</h2>
+<ol class="quiz">
+<li>What is the responsibility-responsiveness dilemma?</li>
+<li>Name the 4 norms of Congress.</li>
+<li>What is logrolling? Give the textbook example.</li>
+<li>Who is the only House leader named in the Constitution, and who votes for that person?</li>
+<li>What are the 3 jobs of the whip system?</li>
+<li>Why are Senate leaders weaker than House leaders?</li>
+<li>About what percent of roll call votes are party votes? Name one reason parties are more polarized.</li>
+<li>Name the 4 types of committees. Which ones are permanent?</li>
+<li>What percent of bills die in committee or subcommittee?</li>
+<li>What is a pocket veto?</li>
+<li>How many votes does cloture take? How many does reconciliation take?</li>
+<li>What does a closed rule do? An open rule?</li>
+<li>Name 2 ways major bills skip the normal steps.</li>
+<li>Which chamber impeaches, and which holds the trial? Name the 3 impeached presidents.</li>
+<li>CARES Act: what was a shell bill, and what did each adult and child get?</li>
+</ol>
+<details class="answers" id="answers"><summary>Show the answers (only after you try)</summary>
+<ol class="quiz">
+<li>Members must make good policy for the nation (responsibility) but also deliver for home (responsiveness). The two clash, and members usually choose home.</li>
+<li>Universalism, logrolling, specialization, seniority.</li>
+<li>Trading votes: I vote for your bill, you vote for mine. A dairy-state member votes for a tobacco bill, and the tobacco-state member votes for the dairy bill.</li>
+<li>The Speaker of the House. All House members vote.</li>
+<li>Gather information, spread information, build coalitions (count votes and persuade).</li>
+<li>Individual senators have more power because of unlimited debate.</li>
+<li>About 70%. Southern Democrats now vote like northern Democrats, and moderate Republicans mostly disappeared.</li>
+<li>Standing, select, joint, conference. Standing committees are permanent.</li>
+<li>80–90%.</li>
+<li>The president does nothing for 10 days (not counting Sundays) while Congress has gone home, so the bill dies.</li>
+<li>Cloture: 60. Reconciliation: a simple majority (51).</li>
+<li>Closed: no amendments. Open: any relevant amendment. (No bill has come up under an open rule since 2017.)</li>
+<li>Any two: bypass committees (discharge petition or special rule), change the bill after committee, summit deals, omnibus bills.</li>
+<li>The House impeaches; the Senate holds the trial. Andrew Johnson, Bill Clinton, Donald Trump (none removed).</li>
+<li>An existing House bill (H.R. 748) rewritten so the money bill started in the House. $1,200 per adult and $500 per child.</li>
+</ol>
+</details>
+</section>
+
+<section class="g-sec cheat" id="cheat">
+<h2><span class="num">7</span>One-Page Cheat Sheet (last 5 minutes)</h2>
+<div class="cheat-grid">
+<div><h4>The big picture</h4><ul><li>Home beats nation (dilemma).</li><li>Reelection shapes everything.</li><li>Norms: universalism, logrolling, specialization, seniority.</li><li>Parties: weak vs. other countries, but strongest ever; ~70% party votes.</li></ul></div>
+<div><h4>Leaders</h4><ul><li>Speaker = only one in Constitution, all vote.</li><li>Whip: gather, spread, build.</li><li>Pro tem = symbolic. VP breaks ties.</li><li>Conditional party government: strong only if members follow.</li></ul></div>
+<div><h4>Committees</h4><ul><li>Standing (permanent: 21 House / 20 Senate), select, joint, conference.</li><li>Distributive vs. informational.</li><li>80–90% of bills die here.</li><li>Markup = final wording.</li></ul></div>
+<div><h4>Bill → law</h4><ul><li>Same bill, both chambers, president.</li><li>House: hopper, Rules Committee (closed/open/modified).</li><li>Senate: filibuster, cloture 60, reconciliation 51, unanimous consent, holds.</li><li>Veto override 2/3 both. Pocket veto 10 days.</li></ul></div>
+<div><h4>Shortcuts</h4><ul><li>Bypass committees (~20%; discharge petition).</li><li>Changed after committee (~1/3; ACA).</li><li>Summits. Omnibus + riders.</li><li>2017 tax law: reconciliation + vote-a-rama.</li></ul></div>
+<div><h4>Oversight + CARES</h4><ul><li>Power of the purse (blunt), hearings (common).</li><li>Fire alarm (common) vs. police patrol.</li><li>House impeaches, Senate tries: Johnson, Clinton, Trump.</li><li>CARES: shell bill H.R. 748, 96–0, $1,200/adult.</li></ul></div>
+</div>
+</section>
+
+</div>
+</div>
+</div>
+<script>
+/* HELM shell: theme + sidebar, shared with the HELM homepage */
+(function(){
+  const get=(k,d)=>{try{const v=localStorage.getItem('helm.'+k);return v==null?d:JSON.parse(v)}catch(e){return d}};
+  const set=(k,v)=>{try{localStorage.setItem('helm.'+k,JSON.stringify(v))}catch(e){}};
+  const SUN='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+  const MOON='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+  const app=document.getElementById('app');
+  function paint(){const dark=get('theme','light')==='dark',col=get('collapsed',false);
+    app.className='helm '+(dark?'dark':'light')+(col?' collapsed':'');
+    const t=document.getElementById('theme-btn');t.innerHTML=dark?SUN:MOON;t.setAttribute('aria-label',dark?'Switch to light theme':'Switch to dark theme');
+    const s=document.getElementById('side-btn');if(s)s.setAttribute('aria-label',col?'Expand sidebar':'Collapse sidebar')}
+  document.addEventListener('click',e=>{const el=e.target.closest('[data-action]');if(!el)return;
+    if(el.dataset.action==='theme'){set('theme',get('theme','light')==='dark'?'light':'dark');paint()}
+    if(el.dataset.action==='side'){set('collapsed',!get('collapsed',false));paint()}});
+  paint();
+})();
+</script>
+</div>
+<script>addEventListener("beforeprint",()=>{const a=document.getElementById("answers");if(a)a.open=true});</script>
+</body>
+</html>
