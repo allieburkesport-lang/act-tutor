@@ -1,0 +1,20 @@
+[
+"Most of these questions use one formula from the reference sheet at the start of each math module. Find the right formula, find the radius, and plug in.",
+"Quick circle warm up. A circle has an area of thirty six pi. Area is pi r squared, so r squared is thirty six, and r is six.",
+"Circumference is two pi r. Two times pi times six is twelve pi. If you got six pi, you forgot the two.",
+"Now volume. A cylinder is a stack of circles, like a stack of pancakes. Its volume is the circle's area times the height: pi r squared h.",
+"A cone that fits inside that cylinder holds exactly one third as much. So a cone's volume is one third pi r squared h.",
+"If a cone has radius three and height eight, one third times pi times nine times eight is twenty four pi. Seventy two pi is the cylinder. Don't forget the one third.",
+"Now trig. In a right triangle, label the sides from one acute angle, A. The side across from A is the opposite. The side touching A is the adjacent. The longest side is the hypotenuse.",
+"Remember SOH CAH TOA. Sine is opposite over hypotenuse. Cosine is adjacent over hypotenuse. Tangent is opposite over adjacent.",
+"Here's the SAT's favorite trick. Look at the same triangle from the other acute angle, B. The side that was opposite A is now adjacent to B.",
+"So the sine of A always equals the cosine of B. The two acute angles add to ninety, so sine of forty degrees equals cosine of fifty degrees.",
+"Let's try an SAT style question. In right triangle A B C, angle C is the right angle, and sine of A is thirty three over sixty five. What is cosine of B?",
+"Step one. A and B are the two acute angles, so they add to ninety degrees.",
+"Step two. The sine of one acute angle equals the cosine of the other.",
+"Step three. So cosine of B equals sine of A, which is thirty three over sixty five. No other math needed.",
+"Trap alert. Fifty six over sixty five is cosine of A, not cosine of B. Read which angle the question asks about.",
+"Your turn. Pause the video. Convert two pi over three radians to degrees.",
+"Replace pi with one hundred eighty degrees. Two times one eighty is three sixty, and three sixty over three is one hundred twenty degrees. If you got sixty, you dropped the two.",
+"Remember three things. Use the reference sheet. A cone is one third of a cylinder. And the sine of one acute angle equals the cosine of the other. Great work."
+]

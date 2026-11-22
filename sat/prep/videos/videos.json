@@ -49,45 +49,34 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea: use the reference sheet"
    ],
    [
-    24,
-    "The formulas"
+    9,
+    "Circle warm-up"
    ],
    [
-    54,
-    "Example 1: area to circumference"
+    29,
+    "Volume: cylinder and cone"
    ],
    [
-    96,
-    "Example 1: the trap and the calculator"
+    62,
+    "Trig: SOH CAH TOA, sin = cos"
    ],
    [
-    111,
-    "Example 2: scale the radius"
+    108,
+    "SAT question"
    ],
    [
-    141,
-    "Example 3: cone volume"
+    148,
+    "Your turn"
    ],
    [
-    177,
-    "Example 4: sin and cos"
-   ],
-   [
-    204,
-    "Example 5: radians to degrees"
-   ],
-   [
-    226,
-    "Your turn: pause and pick"
-   ],
-   [
-    267,
-    "Say it out loud"
+    170,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "a3": {
   "src": "videos/a3.mp4",
