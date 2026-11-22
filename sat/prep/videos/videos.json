@@ -507,37 +507,38 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea"
    ],
    [
-    17,
-    "The rules"
+    9,
+    "Mean vs. median"
    ],
    [
-    34,
-    "Example 1: Mean and median"
+    18,
+    "Find mean and median"
    ],
    [
-    74,
-    "Example 2: Outlier"
+    44,
+    "Outliers"
    ],
    [
-    126,
-    "Example 3: Add the same to every value"
+    66,
+    "Spread"
    ],
    [
-    155,
-    "Example 4: Find a missing value"
+    91,
+    "SAT question"
    ],
    [
-    190,
-    "Your turn: pause and pick"
+    129,
+    "Your turn"
    ],
    [
-    222,
-    "Say it out loud"
+    153,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "d3": {
   "src": "videos/d3.mp4",

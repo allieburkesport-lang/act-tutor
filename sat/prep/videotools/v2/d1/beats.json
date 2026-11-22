@@ -1,0 +1,18 @@
+[
+"Three words run this whole topic. The mean is the average. The median is the middle. And spread is how far apart the values are.",
+"Picture a class lined up by height. The mean is the class average. The median is the student standing in the exact middle of the line.",
+"Let's find both for four, eight, nine, eleven, eighteen. For the mean, add them up to get fifty. Divide by five values. The mean is ten.",
+"For the median, put the numbers in order first, then take the middle one. The median is nine.",
+"Trap alert. If the list isn't in order, you must sort it before you pick the middle. Skipping that step is the most common mistake.",
+"Now an outlier. Add one hundred to that list. The new mean is one fifty divided by six, which is twenty five. It jumped by fifteen.",
+"The new median is the average of the two middles, nine and eleven, which is ten. It only moved by one. Outliers pull the mean a lot, and barely move the median.",
+"Spread is about distance. The range is max minus min. Standard deviation is the typical distance from the mean. If the values bunch together, the spread is small.",
+"What if you add five to every value? Everything slides right together. The mean goes up five, but the distances between values stay the same. The spread doesn't change.",
+"Let's try an SAT style question. The mean of four tests is eighty five. After a fifth test, the mean is eighty six. What was the fifth score?",
+"Use totals, not averages. The old total is four times eighty five, which is three forty. The new total is five times eighty six, which is four thirty.",
+"The difference is the fifth score. Four thirty minus three forty is ninety.",
+"Trap alert. Eighty six is the new mean, not the new score. To raise the average by one point across five tests, the new test has to be well above the old average.",
+"Your turn. Pause the video. The data set is two, three, three, five, and twenty. Which is bigger, the mean or the median?",
+"The sum is thirty three, so the mean is six point six. The median is three. The mean is bigger, because the outlier, twenty, pulls it up.",
+"Remember three things. Sort before you find the median. Outliers move the mean, not the median. And for a missing value, work with totals. Great work."
+]
