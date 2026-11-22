@@ -344,37 +344,38 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea"
    ],
    [
-    22,
-    "The rules"
+    13,
+    "Trap words"
    ],
    [
-    37,
-    "Example 1: Words → symbol"
+    26,
+    "\"At least\""
    ],
    [
-    71,
-    "Example 2: Flip for a negative"
+    44,
+    "Flip the sign"
    ],
    [
-    100,
-    "Example 3: Test a point"
+    67,
+    "Test a point"
    ],
    [
-    131,
-    "Example 4: Cost terms"
+    81,
+    "SAT question"
    ],
    [
-    161,
-    "Your turn: pause and pick"
+    108,
+    "Your turn"
    ],
    [
-    195,
-    "Say it out loud"
+    126,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "e2": {
   "src": "videos/e2.mp4",
