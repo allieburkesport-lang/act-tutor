@@ -593,33 +593,30 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea: part over total"
    ],
    [
-    18,
-    "The rules"
+    10,
+    "Marbles: count the total"
    ],
    [
-    39,
-    "Example 1: Simple probability"
+    43,
+    "Two-way tables and \"given that\""
    ],
    [
-    68,
-    "Example 2: “Given that”"
+    71,
+    "SAT question"
    ],
    [
-    108,
-    "Example 3: Expected number"
+    111,
+    "Your turn"
    ],
    [
-    140,
-    "Your turn: pause and pick"
-   ],
-   [
-    169,
-    "Say it out loud"
+    137,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "a4": {
   "src": "videos/a4.mp4",

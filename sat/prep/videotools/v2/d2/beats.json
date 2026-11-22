@@ -1,0 +1,18 @@
+[
+"Every probability question is a fraction. The part you want goes on top, and the total goes on the bottom. The hard part is choosing the right total.",
+"Picture a bag with four red, six blue, and ten green marbles. You reach in without looking. What's the chance you pull out a blue one?",
+"First, count everything in the bag. Four plus six plus ten is twenty. That's the bottom.",
+"Six of them are blue. That's the top. So the probability is six over twenty, which is three tenths.",
+"Trap alert. Don't leave blue out of the total. Six over fourteen is wrong. The bottom is every marble in the bag.",
+"Now two way tables. Here's a table of students in grade ten and grade eleven, and whether or not they play a sport.",
+"Watch for the words given that, of those who, or among. They mean zoom in. Like a spotlight, they shrink the total to one row or one column.",
+"Expected number is simpler. Multiply the probability by how many there are. If one in fifty parts is broken, about thirty out of fifteen hundred will be.",
+"Let's try an SAT style question. Given that a student doesn't play a sport, what is the probability that the student is in grade ten?",
+"Step one. Circle given that. The spotlight goes on the doesn't play column.",
+"Step two. That column is the new total. Twenty plus thirty five is fifty five.",
+"Step three. Grade ten in that column is twenty. Twenty over fifty five simplifies to four elevenths.",
+"Trap alert. Twenty over one hundred uses the whole table. Given that changed the bottom number to fifty five.",
+"Your turn. Pause the video. A bag has twelve red, nine blue, and six green marbles. What is the probability of pulling a blue one?",
+"The total is twelve plus nine plus six, which is twenty seven. Blue is nine. Nine over twenty seven is one third. If you got nine over twenty eight, recount the total.",
+"Remember three things. Probability is the part over the total. Count every item for the total. And given that shrinks the total to one row or column. Great work."
+]
