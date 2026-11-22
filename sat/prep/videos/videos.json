@@ -1322,36 +1322,33 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea"
    ],
    [
-    15,
-    "The rules"
+    6,
+    "Time stamp"
    ],
    [
-    30,
-    "Example 1: A past date → past"
+    13,
+    "The method"
    ],
    [
-    57,
-    "Example 2: “Since” → has / have"
+    25,
+    "Time clues"
    ],
    [
-    87,
-    "Example 3: “By the time” → had"
+    72,
+    "SAT question"
    ],
    [
-    120,
-    "Example 4: In the middle of it → was / were + -ing"
+    100,
+    "Your turn"
    ],
    [
-    152,
-    "Your turn: pause and pick"
-   ],
-   [
-    176,
-    "Say it out loud"
+    119,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  }
 }
