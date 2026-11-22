@@ -1069,33 +1069,38 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea"
    ],
    [
-    16,
-    "The rules"
+    6,
+    "The method"
    ],
    [
-    35,
-    "Example 1: One owner"
+    15,
+    "One owner"
    ],
    [
-    70,
-    "Example 2: Many owners ending in s"
+    33,
+    "Many owners"
    ],
    [
-    108,
-    "Example 3: Plural that doesn’t end in s"
+    57,
+    "Pronouns"
    ],
    [
-    137,
-    "Example 4: Just more than one (no owning)"
+    77,
+    "SAT question"
    ],
    [
-    170,
-    "Say it out loud"
+    103,
+    "Your turn"
+   ],
+   [
+    122,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "r4": {
   "src": "videos/r4.mp4",
