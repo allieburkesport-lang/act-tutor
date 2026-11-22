@@ -21,7 +21,7 @@
    ],
    [
     92,
-    "Plot twist: double r = 4\u00d7 area"
+    "Plot twist: double r = 4× area"
    ],
    [
     109,
@@ -255,11 +255,11 @@
    ],
    [
     29,
-    "Example 1: Words \u2192 two equations"
+    "Example 1: Words → two equations"
    ],
    [
     69,
-    "Example 2: \u201cTimes as many\u201d"
+    "Example 2: “Times as many”"
    ],
    [
     107,
@@ -365,7 +365,7 @@
    ],
    [
     37,
-    "Example 1: Words \u2192 symbol"
+    "Example 1: Words → symbol"
    ],
    [
     71,
@@ -395,37 +395,43 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea: 180, 90, equal"
    ],
    [
-    21,
-    "The rules"
+    10,
+    "Straight line = 180°"
    ],
    [
-    44,
-    "Example 1: Triangle sum"
+    30,
+    "Vertical angles"
    ],
    [
-    69,
-    "Example 2: Straight line"
+    48,
+    "Triangles add to 180°"
    ],
    [
-    97,
-    "Example 3: Vertical angles"
+    70,
+    "Parallel lines"
    ],
    [
-    119,
-    "Example 4: Parallel lines"
+    99,
+    "SAT question: parallel lines"
    ],
    [
-    151,
-    "Your turn: pause and pick"
+    139,
+    "SAT question: triangle"
    ],
    [
-    178,
-    "Say it out loud"
+    162,
+    "Your turn"
+   ],
+   [
+    186,
+    "Lock it in"
    ]
-  ]
+  ],
+  "math": true,
+  "v2": true
  },
  "m2": {
   "src": "videos/m2.mp4",
@@ -453,7 +459,7 @@
    ],
    [
     161,
-    "Example 4: \u201cAdditional\u201d"
+    "Example 4: “Additional”"
    ],
    [
     206,
@@ -491,7 +497,7 @@
    ],
    [
     135,
-    "Example 4: Rate \u00d7 time"
+    "Example 4: Rate × time"
    ],
    [
     163,
@@ -597,7 +603,7 @@
    ],
    [
     68,
-    "Example 2: \u201cGiven that\u201d"
+    "Example 2: “Given that”"
    ],
    [
     108,
@@ -639,7 +645,7 @@
    ],
    [
     134,
-    "Example 4: \u201cWithin\u201d in words"
+    "Example 4: “Within” in words"
    ],
    [
     176,
@@ -839,7 +845,7 @@
    ],
    [
     46,
-    "Example 1: \u201cOf\u201d phrase in the middle"
+    "Example 1: “Of” phrase in the middle"
    ],
    [
     85,
@@ -847,11 +853,11 @@
    ],
    [
     121,
-    "Example 3: Two subjects with \u201cand\u201d"
+    "Example 3: Two subjects with “and”"
    ],
    [
     148,
-    "Example 4: \u201cAlong with\u201d / \u201cas well as\u201d"
+    "Example 4: “Along with” / “as well as”"
    ],
    [
     182,
@@ -927,7 +933,7 @@
    ],
    [
     123,
-    "Example 4: \u201cWhereas\u201d clue"
+    "Example 4: “Whereas” clue"
    ],
    [
     155,
@@ -953,11 +959,11 @@
    ],
    [
     24,
-    "Example 1: Old belief \u2192 new finding"
+    "Example 1: Old belief → new finding"
    ],
    [
     52,
-    "Example 2: \u201cSome think X. However, Y argues Z.\u201d"
+    "Example 2: “Some think X. However, Y argues Z.”"
    ],
    [
     85,
@@ -987,7 +993,7 @@
    ],
    [
     29,
-    "Example 1: \u201cThis suggests that\u2026\u201d"
+    "Example 1: “This suggests that…”"
    ],
    [
     67,
@@ -995,7 +1001,7 @@
    ],
    [
     96,
-    "Example 3: \u201cProves that\u201d (what was shown)"
+    "Example 3: “Proves that” (what was shown)"
    ],
    [
     135,
@@ -1063,7 +1069,7 @@
    ],
    [
     108,
-    "Example 3: Plural that doesn\u2019t end in s"
+    "Example 3: Plural that doesn’t end in s"
    ],
    [
     137,
@@ -1203,7 +1209,7 @@
    ],
    [
     128,
-    "Example 4: \u201cAs a \u2026\u201d opening"
+    "Example 4: “As a …” opening"
    ],
    [
     160,
@@ -1229,7 +1235,7 @@
    ],
    [
     65,
-    "Example 2: One \u201cto\u201d + plain verbs"
+    "Example 2: One “to” + plain verbs"
    ],
    [
     100,
@@ -1237,7 +1243,7 @@
    ],
    [
     131,
-    "Example 4: Not only \u2026 but also"
+    "Example 4: Not only … but also"
    ],
    [
     158,
@@ -1259,19 +1265,19 @@
    ],
    [
     30,
-    "Example 1: A past date \u2192 past"
+    "Example 1: A past date → past"
    ],
    [
     57,
-    "Example 2: \u201cSince\u201d \u2192 has / have"
+    "Example 2: “Since” → has / have"
    ],
    [
     87,
-    "Example 3: \u201cBy the time\u201d \u2192 had"
+    "Example 3: “By the time” → had"
    ],
    [
     120,
-    "Example 4: In the middle of it \u2192 was / were + -ing"
+    "Example 4: In the middle of it → was / were + -ing"
    ],
    [
     152,
