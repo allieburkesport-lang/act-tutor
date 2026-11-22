@@ -263,37 +263,34 @@
   "chapters": [
    [
     0,
-    "Start"
+    "The big idea"
    ],
    [
-    18,
-    "The rules"
+    15,
+    "One step past x"
    ],
    [
-    34,
-    "Example 1: Asks for an expression, not x"
+    29,
+    "The method"
    ],
    [
-    72,
-    "Example 2: Asks for 2x"
+    39,
+    "Examples"
    ],
    [
-    102,
-    "Example 3: Diameter, not radius"
+    80,
+    "SAT question"
    ],
    [
-    145,
-    "Example 4: The other part"
+    103,
+    "Your turn"
    ],
    [
-    184,
-    "Your turn: pause and pick"
-   ],
-   [
-    210,
-    "Say it out loud"
+    121,
+    "Lock it in"
    ]
-  ]
+  ],
+  "v2": true
  },
  "e1": {
   "src": "videos/e1.mp4",
