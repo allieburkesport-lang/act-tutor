@@ -114,6 +114,7 @@ iframe.desmos{width:100%;height:calc(100vh - 190px);border:1px solid var(--line)
 .src2{margin:4px 0 0 4px;font-size:13px;line-height:1.5}.src2 .sl{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}.src2 .lab{min-width:62px;color:var(--mute);font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.04em}.src2 .mute{color:var(--mute)}.src2 .up{color:#15803d;font-weight:600}.src2 .dn{color:#c2410c;font-weight:600}.src2 .eq{color:var(--mute)}
 </style>
 <script src="auth.js?v=3"></script>
+<script src="progress.js?v=1"></script>
 </head>
 <body>
 <div id="app"><p style="padding:30px">Loading…</p></div>
@@ -642,7 +643,14 @@ document.addEventListener('click',e=>{const b=e.target.closest('button,[data-go]
   if(d.stopmore){D.done=true;return drawEnd()}
   if(d.redo){const miss=D.qs.filter((q,k)=>!(D.st[k].ok&&D.st[k].tried.length===1));D={...D,qs:miss,i:0,st:miss.map(()=>({tried:[],ok:false,shown:0,t0:0,coached:false})),t0:Date.now(),done:false,title:D.title+' · redo'};return showQ()}
 });
-HELM_AUTH.then(s=>{H.Authorization='Bearer '+s.access_token;return load()}).then(route);
+HELM_AUTH.then(s=>{H.Authorization='Bearer '+s.access_token;return load()}).then(route).then(publishSat);
+window.addEventListener('hashchange',()=>setTimeout(publishSat,300));
+/* Tell the HELM homepage how each SAT HELM plan day is going (saved to helm_progress as "sat_summary"). */
+function publishSat(){try{if(!PLAN||!window.HELM_PROGRESS)return;
+  const days=PLAN.days.map(d=>{let total=0,n=0;try{total=buildDay(d,true).qs.length;n=dayFirst(d.date).length}catch(e){}
+    return {date:d.date,done:!!dayDone(d),answered:Math.min(n,total),total,pct:total?Math.round(100*Math.min(n,total)/total):0}});
+  const due=days.filter(d=>d.date<=today()),fin=due.filter(d=>d.done).length;
+  HELM_PROGRESS.put('sat_summary',{updated:Date.now(),days,daysDone:days.filter(d=>d.done).length,daysTotal:days.length,dueDone:fin,dueTotal:due.length})}catch(e){}}
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
 <script src="stats.js?v=11"></script><script src="bi.js?v=6"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script>

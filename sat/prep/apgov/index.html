@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <script src="../auth.js?v=3"></script>
+<script src="../progress.js?v=1"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>HELM · AP Gov</title>
 <link rel="icon" href="../helm-logo.png">
@@ -189,6 +190,17 @@ table.data td{padding:8px 16px;border-bottom:1px solid var(--line);vertical-alig
 .chips a:hover{border-color:var(--accent)}
 .chips a.done{background:var(--okbg);border-color:transparent;color:var(--ok)}
 .more{align-self:flex-start}
+.tprog{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px 28px;margin-top:16px;max-width:880px}
+.pbox .plab{display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:6px}.pbox .plab b{font-size:15px}
+.pbar{height:8px;border-radius:999px;background:rgba(127,127,127,.25);overflow:hidden}.pbar i{display:block;height:100%;border-radius:999px;background:#C9A227;transition:width .3s}
+.card .pbar{background:var(--panel2)}.card .pbar i{background:var(--ok)}
+.dpct{min-width:160px;display:flex;flex-direction:column;gap:6px;align-items:flex-end}.dpct b{font-size:22px;font-weight:700}.dpct .pbar{width:160px}
+.dtab .mini-bar{display:block;width:100%;height:4px;border-radius:999px;background:var(--panel2);overflow:hidden;margin:3px 0 2px}.dtab .mini-bar u{display:block;height:100%;background:var(--ok);text-decoration:none}
+.dtab{min-width:96px}.dtab b{font-size:17px}
+.need{margin-top:6px;font-size:12.5px;font-weight:600;color:var(--muted)}.step.done .need{color:var(--ok)}
+.chk{pointer-events:none}
+.drop{display:flex;align-items:center;justify-content:center;min-height:64px;border:1.5px dashed var(--line);border-radius:8px;cursor:pointer;font-weight:600;background:var(--panel2)}
+.drop:hover{border-color:var(--accent)}.drop input{position:absolute;width:1px;height:1px;opacity:0}
 .res{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;padding:16px 20px}
 .res .r{border:1px solid var(--line);border-radius:8px;padding:14px 16px;background:var(--panel)}
 .res .r b{display:block;font-size:15px}.res .r span{color:var(--muted);font-size:13px}
@@ -281,7 +293,7 @@ table.data td{padding:8px 16px;border-bottom:1px solid var(--line);vertical-alig
 <button class="iconbtn" id="theme-btn" type="button" data-action="theme" aria-label="Switch theme"></button>
 </header>
 <div class="page">
-  <div class="today"><div class="k" id="tk">Today in AP Gov</div><div class="t" id="tt"></div><div class="s" id="ts"></div>
+  <div class="today"><div class="k" id="tk">Today in AP Gov</div><div class="t" id="tt"></div><div class="s" id="ts"></div><div class="tprog" id="tprog"></div>
     <div class="key"><span><i style="background:#a9d8ff"></i>Key terms + definitions (blue)</span><span><i style="background:#a8f0a0"></i>Dates, laws, court cases (green)</span><span><i style="background:#dcc4ff"></i>Examples (purple)</span><span><i style="background:#fff27a"></i>Main point (yellow)</span><span><i style="background:#ffb3d6"></i>Traps (pink, red pen)</span><span><i style="background:#ffc58a"></i>Titles (orange)</span></div>
   </div>
   <div class="daytabs" id="daytabs" role="tablist" aria-label="Pick a day"></div>
@@ -296,17 +308,13 @@ table.data td{padding:8px 16px;border-bottom:1px solid var(--line);vertical-alig
   <main><div class="qcol" id="qzb"></div></main>
   <div class="foot"><span id="qzs" style="color:var(--mute)"></span><button class="btn" id="qzn" disabled>Next ▶</button></div></div>
 
-<div class="dlg" id="dlg"><div class="box">
-  <h3>📷 Check my notes</h3>
+<div class="dlg" id="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgT"><div class="box">
+  <h3 id="dlgT">Upload photos</h3>
   <div id="dlgSub" style="color:var(--mute)"></div>
-  <ol>
-    <li>Take a clear, flat photo of each notebook page you did today (<b id="dlgNb"></b>).</li>
-    <li>Tap <b>Open Claude</b>. Your notes checklist is already filled in.</li>
-    <li>In Claude, tap <b>+</b> (or the paperclip), add your photos, then press send.</li>
-    <li>Fix anything Claude says is missing, then come back and tap <b>I checked my notes</b>.</li>
-  </ol>
-  <div class="acts"><button class="btn" id="dlgGo">Open Claude ↗</button><button class="btn o" id="dlgDone">✓ I checked my notes</button><button class="btn g" id="dlgX">Close</button></div>
-  <div id="dlgMsg" style="margin-top:12px;font-size:14px;color:var(--mute)"></div>
+  <ol id="dlgSteps"></ol>
+  <label class="drop" for="dlgFile"><span id="dlgPick">📷 Take or choose photos</span><input id="dlgFile" type="file" accept="image/*" multiple></label>
+  <div id="dlgMsg" style="margin:10px 0 14px;font-size:14px;color:var(--mute)"></div>
+  <div class="acts"><button class="btn" id="dlgUp" disabled>Upload</button><button class="btn o" id="dlgGo" hidden>Have Claude check my notes ↗</button><button class="btn g" id="dlgX">Close</button></div>
 </div></div>
 
 <script>
@@ -319,62 +327,88 @@ const todayISO=new Date().toLocaleDateString('en-CA');
 const tomISO=(()=>{const d=new Date();d.setDate(d.getDate()+1);return d.toLocaleDateString('en-CA')})();
 $('hdate').textContent=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
 const CH4=D.chapters[0];
+/* Chapter 4 Part 2 study guide: paste its link here and a 'Study guide' step appears each day (done when he opens it). */
+const STUDY_GUIDE='';
 
-/* read-along progress comes from the read-along pages (same site) */
-function pageDone(key,p){const c=LS(key+p,null),r=(D.req[key]||{})[p];return !!(c&&r&&r.every(i=>c[i]))}
-function stepKey(d,s){return 'apgov_'+d.date+'_'+s}
+/* ---------- progress: every step marks itself done when he actually does it ----------
+   teacher read-along pages watched (from the read-along pages), notebook pages opened,
+   quiz finished, photos uploaded. Saved on this device and in Supabase (HELM_PROGRESS). */
+let PG=Object.assign({photos:{},opened:{},pages:{},quiz:{}},HELM_PROGRESS.get('apgov',{}));
+function savePG(){HELM_PROGRESS.put('apgov',PG)}
+function pageDone(key,p){if(PG.pages[key+p])return true;const c=LS(key+p,null),r=(D.req[key]||{})[p];const ok=!!(c&&r&&r.every(i=>c[i]));if(ok){PG.pages[key+p]=1;savePG()}return ok}
+function quizRec(date){const l=LS('apgov_quiz_'+date,null),r=PG.quiz[date];if(l&&(!r||l.best>r.best)){PG.quiz[date]=l;savePG()}return PG.quiz[date]||l}
+const photos=(d,k)=>PG.photos[d.date+':'+k]||0;
+const opened=(d,k)=>!!PG.opened[d.date+':'+k];
 function stepsFor(d){
   const pages=[];for(let p=d.lo;p<=d.hi;p++)pages.push(p);
   const nb='NB p. '+d.nb[0]+'–'+d.nb[d.nb.length-1];
-  const quizScore=LS('apgov_quiz_'+d.date,null);
+  const quizScore=quizRec(d.date);
+  const nbBtn=(lbl)=>`<a class="btn g sm" data-open="${d.date}|nb" href="${CH4.nb}#page=${d.nb[0]}" target="_blank" rel="noopener">📓 ${lbl}</a>`;
+  const upBtn=(k,lbl)=>{const n=photos(d,k);return `<button class="btn ${n?'g':'o'} sm" data-up="${d.date}|${k}">📷 ${n?'Add more photos':lbl}</button>`};
+  const how=(txt)=>`<span class="how">${txt}</span>`;
   if(d.kind==='learn')return [
-    {id:'read',n:'Read pp. '+d.lo+'–'+d.hi+' in your textbook',d:'Read every page yourself first. Highlight key terms in BLUE and dates, laws, and court cases in GREEN.',manual:true},
-    {id:'teach',n:'Teacher overview: pp. '+d.lo+'–'+d.hi,d:'She walks you through each page, adds notebook pages with you, and stops for check-in questions.',auto:()=>pages.every(p=>pageDone(CH4.key,p)),chips:pages,act:`<a class="btn sm" href="${CH4.read}#p${firstUnfinished(pages)}">▶ ${pages.some(p=>pageDone(CH4.key,p))?'Keep going':'Start'}</a>`},
-    {id:'notes',n:'Take notes: '+nb,d:'Copy each notebook page in your notebook, using the same pen and highlighter colors.',manual:true,act:`<a class="btn g sm" href="${CH4.nb}#page=${d.nb[0]}" target="_blank" rel="noopener">📓 Notebook pages</a>`},
-    {id:'quiz',n:'Practice quiz ('+d.quiz.length+' questions)',d:quizScore?`Best score: ${quizScore.best}%. Textbook questions are marked 📘.`:'Questions from the read-along plus the textbook\'s own questions (marked 📘).',auto:()=>!!LS('apgov_quiz_'+d.date,null),act:`<button class="btn sm" data-quiz="${d.date}">${quizScore?'Retake':'Start quiz'}</button>`},
-    {id:'check',n:'Check my notes',d:'Take photos of today\'s notebook pages. Claude checks them against the book and tells you what is missing.',manual:true,act:`<button class="btn o sm" data-check="${d.date}">📷 Upload photos</button>`},
+    {id:'read',n:'Read pp. '+d.lo+'–'+d.hi+' in your textbook',d:'Read every page yourself first. Highlight key terms in BLUE and dates, laws, and court cases in GREEN.',need:photos(d,'book')?how(`✓ ${photos(d,'book')} photo${photos(d,'book')>1?'s':''} of your highlighted pages uploaded`):how('Done when you upload photos of your highlighted pages'),auto:()=>photos(d,'book')>0,act:upBtn('book','Upload highlighted pages')},
+    ...(STUDY_GUIDE?[{id:'guide',n:'Study guide',d:'Go through the study guide for these pages.',need:opened(d,'guide')?how('✓ Study guide opened'):how('Done when you open the study guide'),auto:()=>opened(d,'guide'),act:`<a class="btn g sm" data-open="${d.date}|guide" href="${STUDY_GUIDE}" target="_blank" rel="noopener">📘 Study guide</a>`}]:[]),
+    {id:'teach',n:'Teacher overview: pp. '+d.lo+'–'+d.hi,d:'She walks you through each page, adds notebook pages with you, and stops for check-in questions.',need:how(`${pages.filter(p=>pageDone(CH4.key,p)).length} of ${pages.length} pages watched · done when every page is green`),auto:()=>pages.every(p=>pageDone(CH4.key,p)),chips:pages,act:`<a class="btn sm" href="${CH4.read}#p${firstUnfinished(pages)}">▶ ${pages.some(p=>pageDone(CH4.key,p))?'Continue':'Start'}</a>`},
+    {id:'notes',n:'Review the notebook pages: '+nb,d:'Open the notebook pages and copy each one into your notebook, using the same pen and highlighter colors.',need:opened(d,'nb')?how('✓ Notebook pages opened'):how('Done when you open the notebook pages'),auto:()=>opened(d,'nb'),act:nbBtn('Notebook pages')},
+    {id:'quiz',n:'Practice quiz ('+d.quiz.length+' questions)',d:quizScore?`Best score: ${quizScore.best}%. Textbook questions are marked 📘.`:'Questions from the read-along plus the textbook\'s own questions (marked 📘).',need:quizScore?'':how('Done when you finish the quiz'),auto:()=>!!quizRec(d.date),act:`<button class="btn sm" data-quiz="${d.date}">${quizScore?'Retake':'Start quiz'}</button>`},
+    {id:'check',n:'Upload your notebook pages',d:'Take a clear photo of each notebook page you did today ('+nb+'). Then Claude can check them against the book.',need:photos(d,'nb')?how(`✓ ${photos(d,'nb')} notebook photo${photos(d,'nb')>1?'s':''} uploaded`):how('Done when you upload photos of your notebook pages'),auto:()=>photos(d,'nb')>0,act:upBtn('nb','Upload photos')},
   ];
   return [
-    {id:'teach',n:'Finish any teacher-overview pages you missed',d:'Every page from pp. '+d.lo+'–'+d.hi+' should be green.',auto:()=>pages.every(p=>pageDone(CH4.key,p)),chips:pages,act:`<a class="btn sm" href="${CH4.read}#p${firstUnfinished(pages)}">▶ Open</a>`},
-    {id:'flip',n:'Flip through your notebook, NB p. 1–'+d.nb[d.nb.length-1],d:'Cover the definitions on the key terms index (NB p. 1–2) and say each one out loud.',manual:true,act:`<a class="btn g sm" href="${CH4.nb}" target="_blank" rel="noopener">📓 Notebook pages</a>`},
-    {id:'ct',n:'Answer the Critical Thinking questions (p. 163)',d:'Write 1–2 lines for each in your notebook (NB p. 14).',manual:true},
-    {id:'quiz',n:'Chapter review quiz ('+d.quiz.length+' questions)',d:quizScore?`Best score: ${quizScore.best}%.`:'A mix from the whole chapter plus every textbook question.',auto:()=>!!LS('apgov_quiz_'+d.date,null),act:`<button class="btn sm" data-quiz="${d.date}">${quizScore?'Retake':'Start quiz'}</button>`},
-    {id:'check',n:'Final notes check',d:'Photos of all your Chapter 4 notebook pages. Claude checks that nothing is missing before the test.',manual:true,act:`<button class="btn o sm" data-check="${d.date}">📷 Upload photos</button>`},
+    {id:'teach',n:'Finish any teacher-overview pages you missed',d:'Every page from pp. '+d.lo+'–'+d.hi+' should be green.',need:how(`${pages.filter(p=>pageDone(CH4.key,p)).length} of ${pages.length} pages watched`),auto:()=>pages.every(p=>pageDone(CH4.key,p)),chips:pages,act:`<a class="btn sm" href="${CH4.read}#p${firstUnfinished(pages)}">▶ Open</a>`},
+    {id:'flip',n:'Review your notebook, NB p. 1–'+d.nb[d.nb.length-1],d:'Open the notebook pages. Cover the definitions on the key terms index (NB p. 1–2) and say each one out loud.',need:opened(d,'nb')?how('✓ Notebook pages opened'):how('Done when you open the notebook pages'),auto:()=>opened(d,'nb'),act:nbBtn('Notebook pages')},
+    ...(STUDY_GUIDE?[{id:'guide',n:'Study guide',d:'Review the whole study guide.',need:opened(d,'guide')?how('✓ Study guide opened'):how('Done when you open the study guide'),auto:()=>opened(d,'guide'),act:`<a class="btn g sm" data-open="${d.date}|guide" href="${STUDY_GUIDE}" target="_blank" rel="noopener">📘 Study guide</a>`}]:[]),
+    {id:'ct',n:'Answer the Critical Thinking questions (p. 163)',d:'Write 1–2 lines for each in your notebook (NB p. 14).',need:photos(d,'ct')?how('✓ Photo uploaded'):how('Done when you upload a photo of NB p. 14'),auto:()=>photos(d,'ct')>0,act:upBtn('ct','Upload NB p. 14')},
+    {id:'quiz',n:'Chapter review quiz ('+d.quiz.length+' questions)',d:quizScore?`Best score: ${quizScore.best}%.`:'A mix from the whole chapter plus every textbook question.',need:quizScore?'':how('Done when you finish the quiz'),auto:()=>!!quizRec(d.date),act:`<button class="btn sm" data-quiz="${d.date}">${quizScore?'Retake':'Start quiz'}</button>`},
+    {id:'check',n:'Final notes check: upload all Chapter 4 pages',d:'Photos of all your Chapter 4 notebook pages, so Claude can check that nothing is missing before the test.',need:photos(d,'nb')?how(`✓ ${photos(d,'nb')} photos uploaded`):how('Done when you upload photos of your notebook pages'),auto:()=>photos(d,'nb')>0,act:upBtn('nb','Upload photos')},
   ];
 }
 function firstUnfinished(pages){return pages.find(p=>!pageDone(CH4.key,p))||pages[0]}
-function isDone(d,s){return s.auto?s.auto():!!LS(stepKey(d,s.id),false)}
+function isDone(d,s){return !!s.auto()}
 function dayDone(d){return stepsFor(d).every(s=>isDone(d,s))}
+function dayPct(d){const st=stepsFor(d);return Math.round(100*st.filter(s=>isDone(d,s)).length/st.length)}
+function chapterPct(){let n=0,t=0;D.days.forEach(d=>{const st=stepsFor(d);t+=st.length;n+=st.filter(s=>isDone(d,s)).length});return {pct:t?Math.round(100*n/t):0,n,t}}
+function publish(){const c=chapterPct();HELM_PROGRESS.put('apgov_summary',{updated:Date.now(),chapter:CH4.name,pct:c.pct,done:c.n,total:c.t,
+  days:D.days.map(d=>{const st=stepsFor(d);return {date:d.date,label:d.label,title:d.title,pct:dayPct(d),steps:st.map(s=>({id:s.id,n:s.n,done:isDone(d,s)}))}})})}
 let pick=null;   // the one day shown
-function render(){
+function render(){try{_render()}finally{publish()}}
+function _render(){
   if(!pick||!D.days.some(d=>d.date===pick)){const late=D.days.find(d=>d.date<todayISO&&!dayDone(d));pick=(D.days.find(d=>d.date===todayISO)||late||D.days.find(d=>d.date>todayISO)||D.days[D.days.length-1]).date}
   const vis=D.days.filter(d=>d.date===pick);
   $('daytabs').innerHTML=D.days.map(d=>{const st=dayDone(d)?'done':d.date===todayISO?'today':d.date<todayISO?'late':'';
-    return `<button type="button" role="tab" class="dtab ${d.date===pick?'on':''} ${st}" aria-selected="${d.date===pick}" data-day="${d.date}"><span>${esc(d.label.split(',')[0].slice(0,3))}</span><b>${esc((d.label.match(/\d+/)||[''])[0])}</b>${st==='done'?'<i>✓</i>':st==='today'?'<i>Today</i>':st==='late'?'<i>Not done</i>':''}</button>`}).join('');
+    return `<button type="button" role="tab" class="dtab ${d.date===pick?'on':''} ${st}" aria-selected="${d.date===pick}" data-day="${d.date}"><span>${esc(d.label.split(',')[0].slice(0,3))} ${esc((d.label.match(/\d+/)||[''])[0])}</span><b class="tnum">${dayPct(d)}%</b><em class="mini-bar"><u style="width:${dayPct(d)}%"></u></em>${st==='done'?'<i>✓ Done</i>':st==='today'?'<i>Today</i>':st==='late'?'<i>Not done</i>':'<i>&nbsp;</i>'}</button>`}).join('');
   const tday=D.days.find(d=>d.date===todayISO)||D.days.find(d=>d.date>todayISO);
   if(tday){const st=stepsFor(tday),n=st.filter(s=>isDone(tday,s)).length;
     $('tk').textContent=tday.date===todayISO?'Today in AP Gov · '+tday.label:'Next up · '+tday.label;
     $('tt').textContent=tday.title;
-    $('ts').textContent=n===st.length?'All done for today. Nice work!':`${n} of ${st.length} steps done. Work top to bottom.`}
+    $('ts').textContent=n===st.length?'All done for today. Nice work!':`${n} of ${st.length} steps done. Work top to bottom.`;
+    const c=chapterPct(),tp=dayPct(tday);
+    $('tprog').innerHTML=`<div class="pbox"><div class="plab"><span>Today</span><b class="tnum">${tp}%</b></div><div class="pbar"><i style="width:${tp}%"></i></div></div><div class="pbox"><div class="plab"><span>Chapter 4 · ${c.n} of ${c.t} steps</span><b class="tnum">${c.pct}%</b></div><div class="pbar"><i style="width:${c.pct}%"></i></div></div>`}
   else{$('tt').textContent='Chapter 4 is done!';$('ts').textContent='Use the chapters below to review any time.'}
   $('days').innerHTML=vis.map(d=>{
     const st=stepsFor(d),done=st.filter(s=>isDone(d,s)).length;
     const tag=dayDone(d)?'<span class="tag done">✓ Done</span>':d.date===todayISO?'<span class="tag today">Today</span>':d.date===tomISO?'<span class="tag tom">Tomorrow</span>':d.date<todayISO?'<span class="tag late">Not finished</span>':'';
-    return `<section class="card day"><div class="h"><div><h2>${esc(d.label)} ${tag}</h2><div class="sub">${esc(d.title)} · ${done}/${st.length} steps</div></div></div>`+
-      st.map(s=>{const ok=isDone(d,s);return `<div class="step ${ok?'done':''}"><button class="chk" ${s.manual?`data-tog="${d.date}|${s.id}"`:'disabled title="Checks itself when you finish"'} aria-label="Mark done">${ok?'✓':''}</button>
-        <div><div class="n">${esc(s.n)}</div><div class="d">${esc(s.d)}</div>${s.chips?`<div class="chips">${s.chips.map(p=>`<a class="${pageDone(CH4.key,p)?'done':''}" href="${CH4.read}#p${p}">p. ${p}${pageDone(CH4.key,p)?' ✓':''}</a>`).join('')}</div>`:''}</div>
+    return `<section class="card day"><div class="h"><div><h2>${esc(d.label)} ${tag}</h2><div class="sub">${esc(d.title)} · ${done} of ${st.length} steps done</div></div><div class="dpct"><b class="tnum">${dayPct(d)}%</b><div class="pbar"><i style="width:${dayPct(d)}%"></i></div></div></div>`+
+      st.map(s=>{const ok=isDone(d,s);return `<div class="step ${ok?'done':''}"><span class="chk" role="img" aria-label="${ok?'Done':'Not done yet'}">${ok?'✓':''}</span>
+        <div><div class="n">${esc(s.n)}</div><div class="d">${esc(s.d)}</div>${s.need?`<div class="need">${s.need}</div>`:''}${s.chips?`<div class="chips">${s.chips.map(p=>`<a class="${pageDone(CH4.key,p)?'done':''}" href="${CH4.read}#p${p}">p. ${p}${pageDone(CH4.key,p)?' ✓':''}</a>`).join('')}</div>`:''}</div>
         <div class="acts">${s.act||''}</div></div>`}).join('')+`</section>`}).join('');
   $('res').innerHTML=D.chapters.map(c=>{let n=0,t=0;for(let p=c.lo;p<=c.hi;p++){t++;if(pageDone(c.key,p))n++}
     return `<div class="r"><b>${esc(c.name)}</b><span>${c.pages} · read-along ${n}/${t} pages done</span><div class="acts"><a class="btn sm" href="${c.read}">▶ Read-along</a><a class="btn g sm" href="${c.nb}" target="_blank" rel="noopener">📓 Notebook PDF</a></div></div>`}).join('');
 }
 document.addEventListener('click',e=>{
   const dt=e.target.closest('[data-day]');if(dt){pick=dt.dataset.day;render();return}
-  const t=e.target.closest('[data-tog]');if(t){const[d,s]=t.dataset.tog.split('|');const k='apgov_'+d+'_'+s;SV(k,!LS(k,false));render();return}
+  const o=e.target.closest('[data-open]');if(o){PG.opened[o.dataset.open.replace('|',':')]=Date.now();savePG();setTimeout(render,50)}
+  const u=e.target.closest('[data-up]');if(u){const[d,k]=u.dataset.up.split('|');openUpload(D.days.find(x=>x.date===d),k);return}
   const q=e.target.closest('[data-quiz]');if(q){openQuiz(D.days.find(d=>d.date===q.dataset.quiz));return}
   const c=e.target.closest('[data-check]');if(c){openCheck(D.days.find(d=>d.date===c.dataset.check));return}
 });
 
 addEventListener('focus',render);addEventListener('pageshow',render);
+(window.HELM_AUTH||Promise.reject()).then(async()=>{const r=await HELM_PROGRESS.pull('apgov');
+  if(r){['photos','opened','pages','quiz'].forEach(k=>{PG[k]=Object.assign({},r[k]||{},PG[k]||{})});
+    Object.keys(r.photos||{}).forEach(k=>PG.photos[k]=Math.max(PG.photos[k]||0,r.photos[k]))}
+  for(const d of D.days)for(const k of ['book','nb','ct']){const n=await HELM_PROGRESS.count(`apgov/${d.date}/${k}`);if(n!=null)PG.photos[d.date+':'+k]=Math.max(PG.photos[d.date+':'+k]||0,n)}
+  savePG();render()}).catch(()=>{});
 
 /* ---------- practice quiz (one question at a time, SAT HELM style) ---------- */
 let QZ=null;
@@ -383,7 +417,7 @@ function openQuiz(d){QZ={d,i:0,right:0,qs:d.quiz};$('qz').classList.add('on');$(
 function showQ(){
   const {qs,i}=QZ,B=$('qzb');$('qzp').style.width=(100*i/qs.length)+'%';$('qzs').textContent=`Question ${i+1} of ${qs.length}`;
   if(i>=qs.length){const mcN=qs.filter(q=>q.type==='mc').length,pct=Math.round(100*QZ.right/Math.max(1,mcN));
-    const prev=LS('apgov_quiz_'+QZ.d.date,null);SV('apgov_quiz_'+QZ.d.date,{best:Math.max(pct,prev?prev.best:0),last:pct});
+    const prev=LS('apgov_quiz_'+QZ.d.date,null);SV('apgov_quiz_'+QZ.d.date,{best:Math.max(pct,prev?prev.best:0),last:pct});PG.quiz[QZ.d.date]={best:Math.max(pct,prev?prev.best:0,(PG.quiz[QZ.d.date]||{}).best||0),last:pct,at:Date.now()};savePG();
     B.innerHTML=`<div style="text-align:center;padding:30px 0"><div style="color:var(--mute)">Multiple-choice score</div><div class="score">${pct}%</div><div style="font-size:17px">${QZ.right} of ${mcN} right on the first try${qs.length>mcN?` · ${qs.length-mcN} written answers practiced`:''}.</div><p style="color:var(--mute)">${pct>=80?'Great job. You are ready.':'Go back to the read-along pages for the ones you missed, then retake it.'}</p></div>`;
     $('qzn').textContent='Done';$('qzn').disabled=false;$('qzs').textContent='';$('qzp').style.width='100%';return}
   const q=qs[i];$('qzn').textContent='Next ▶';$('qzn').disabled=true;
@@ -401,8 +435,18 @@ $('qzn').onclick=()=>{if(QZ.i>=QZ.qs.length){$('qz').classList.remove('on');rend
 $('qzx').onclick=()=>{$('qz').classList.remove('on');render()};
 
 /* ---------- check my notes: open Claude with the expected notes ready ---------- */
-let CK=null;
-function openCheck(d){CK=d;$('dlgSub').textContent=d.title;$('dlgNb').textContent='NB p. '+d.nb[0]+'–'+d.nb[d.nb.length-1];$('dlgMsg').textContent='';$('dlg').classList.add('on')}
+let CK=null,CKK=null;
+const UPK={book:{t:'Upload your highlighted textbook pages',s:d=>`Textbook pp. ${d.lo}–${d.hi}`,li:['Lay each page flat in good light.','Take one clear photo per page so the BLUE and GREEN highlights show.','Pick the photos below and tap Upload.']},
+  nb:{t:'Upload your notebook pages',s:d=>`Notebook pages ${'NB p. '+d.nb[0]+'–'+d.nb[d.nb.length-1]}`,li:['Take a clear, flat photo of each notebook page.','Pick the photos below and tap Upload.','Then tap Have Claude check my notes to find anything missing.']},
+  ct:{t:'Upload your Critical Thinking answers',s:()=>'Notebook page 14',li:['Take a clear photo of NB p. 14.','Pick the photo below and tap Upload.']}};
+function openUpload(d,k){CK=d;CKK=k;const u=UPK[k];$('dlgT').textContent=u.t;$('dlgSub').textContent=u.s(d)+(photos(d,k)?` · ${photos(d,k)} already uploaded`:'');
+  $('dlgSteps').innerHTML=u.li.map(x=>`<li>${esc(x)}</li>`).join('');$('dlgFile').value='';$('dlgPick').textContent='📷 Take or choose photos';$('dlgUp').disabled=true;$('dlgMsg').textContent='';$('dlgGo').hidden=!(k==='nb'&&photos(d,k));$('dlg').classList.add('on')}
+$('dlgFile').onchange=()=>{const n=$('dlgFile').files.length;$('dlgPick').textContent=n?`📷 ${n} photo${n>1?'s':''} picked`:'📷 Take or choose photos';$('dlgUp').disabled=!n};
+$('dlgUp').onclick=async()=>{const files=$('dlgFile').files;if(!files.length)return;$('dlgUp').disabled=true;
+  try{const n=await HELM_PROGRESS.upload(`apgov/${CK.date}/${CKK}`,files,(i,t)=>$('dlgMsg').textContent=`Uploading ${i} of ${t}…`);
+    const key=CK.date+':'+CKK;PG.photos[key]=(PG.photos[key]||0)+n;savePG();render();
+    $('dlgMsg').textContent=`✓ ${n} photo${n>1?'s':''} uploaded. This step is done.`;$('dlgFile').value='';$('dlgPick').textContent='📷 Add more photos';$('dlgGo').hidden=CKK!=='nb'}
+  catch(e){$('dlgMsg').textContent='Upload didn\'t work: '+(e&&e.message||e)+'. Check the internet connection and try again.';$('dlgUp').disabled=false}};
 function checkPrompt(d){
   return `Hi Claude, I'm Patrick. Please check my AP Gov notebook pages for textbook ${d.title.replace(/^.*·\s*/,'')} (Chapter 4, Congress Part 2). My photos are attached.
 
@@ -415,8 +459,7 @@ Keep it short and in plain words. Don't rewrite all my notes, just what I need t
 EXPECTED NOTES:
 ${d.notes}`.slice(0,6200)}
 $('dlgGo').onclick=async()=>{const p=checkPrompt(CK);const w=window.open('https://claude.ai/new?q='+encodeURIComponent(p),'_blank');try{await navigator.clipboard.writeText(p)}catch(e){}
-  $('dlgMsg').textContent=w?'Claude opened in a new tab. Add your photos there, then send. (The checklist is also copied, so you can paste it if it doesn\'t show up.)':'Your browser blocked the new tab. Allow pop-ups for this site, then tap Open Claude again.'};
-$('dlgDone').onclick=()=>{SV('apgov_'+CK.date+'_check',true);$('dlg').classList.remove('on');render()};
+  $('dlgMsg').textContent=w?'Claude opened in a new tab. Add the same photos there, then send.':'Your browser blocked the new tab. Allow pop-ups for this site, then try again.'};
 $('dlgX').onclick=()=>$('dlg').classList.remove('on');
 render();
 </script>
