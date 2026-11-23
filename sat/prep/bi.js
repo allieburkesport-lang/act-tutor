@@ -107,6 +107,15 @@ const HC = {navy: '#4F46E5', navyL: '#A5B4FC', gold: '#0D9488', goldL: '#99F6E4'
   .bi section h2.hd span,.bi section h3.hd span{font-size:12px!important;font-weight:400!important;color:var(--mu)!important}
   .bi section .hd[style*="font-size:28px"],.bi section .hd[style*="font-size:22px"],.bi section .hd[style*="font-size:40px"],.bi section .hd[style*="font-size:44px"],.bi section .hd[style*="font-size:36px"]{font-family:var(--mono);font-weight:600!important;letter-spacing:-.03em}
   .bi .box .lab{text-transform:none;letter-spacing:0;font-size:13px;font-weight:600}
+  .bi .lg{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:14px;font-size:15px;font-weight:600;color:var(--tx)}
+  .bi .lg span{display:inline-flex;align-items:center;gap:8px}.bi .lg i{display:inline-block;width:30px;height:0}.bi .lg b{display:inline-block;width:14px;height:14px;border-radius:3px}
+  .bi .ch b{font-size:19px!important}.bi .ch2{font-size:14px!important;color:#52525B}
+  .bi .seg button{font-size:14px!important;padding:7px 14px!important}
+  .bi .rk .nm,.bi .rk .val{font-size:15px!important}.bi .rk .tr{height:10px!important}
+  .bi .kpi .lab{font-size:14px!important;color:#3F3F46}
+  .bi table.pv td{font-size:14px!important}.bi table.pv th{font-size:13px!important;color:#3F3F46!important}
+  .bi .gtip{font-size:14px}
+  .bi.dark .ch2,.bi.dark .kpi .lab,.bi.dark table.pv th{color:#D4D4D8!important}
   @media(max-width:1100px){.bi .t2{grid-template-columns:1fr!important}}
   @media(max-width:760px){.bi .cbar{margin:0 -14px;padding:12px 14px}}`;
   document.head.appendChild(s);
@@ -186,7 +195,9 @@ function drawStats() {
    </div>
    <div class="t2">
     <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><div><div class="ch"><b>Questions and accuracy over time</b></div><div class="ch2">% right on the first try vs. the 75% goal · gray bars = questions answered · click a point to filter that ${BI.gran}</div></div>
-     <div class="seg">${['day', 'week', 'month'].map(g => `<button class="${BI.gran === g ? 'on' : ''}" data-bi="gran:${g}">${({day: 'Daily', week: 'Weekly', month: 'Monthly'})[g]}</button>`).join('')}</div></div><div style="height:300px;margin-top:8px"><canvas id="bi-t"></canvas></div></section>
+     <div class="seg">${['day', 'week', 'month'].map(g => `<button class="${BI.gran === g ? 'on' : ''}" data-bi="gran:${g}">${({day: 'Daily', week: 'Weekly', month: 'Monthly'})[g]}</button>`).join('')}</div></div>
+     <div class="lg">${[['Overall % right', '#2563EB', 'solid', 4], ['Math % right', '#7C3AED', 'dashed', 3], ['Reading & Writing % right', '#0D9488', 'dotted', 3], ['Goal 75% (≈1300)', '#52525B', 'dashed', 2]].map(([n, c, s, w]) => `<span><i style="border-top:${w}px ${s} ${c}"></i>${n}</span>`).join('')}<span><b style="background:#CBD5E1"></b>Questions answered</span></div>
+     <div style="height:380px;margin-top:6px"><canvas id="bi-t"></canvas></div></section>
     <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div><div class="ch"><b>Accuracy by ${lvName.toLowerCase()}</b></div><div class="ch2">${lv === 'diff' ? 'HELM only (Blueprint has no difficulty)' : 'Weakest first · click a row to drill in: Section › Domain › Skill › Difficulty'}</div></div>
      ${lv !== 'sec' ? `<button class="xbtn" data-bi="back">← Back to ${BI_LEVELS[BI_LEVELS.findIndex(x => x[0] === lv) - 1][1]}</button>` : ''}</div><div id="bi-rk-wrap"></div></section>
    </div>
@@ -217,18 +228,18 @@ function biTrend(rows) {
   const aM = keys.map(k => biAgg(dated.filter(r => biBucket(r.date, g) === k && r.sec === 'Math')).acc), aE = keys.map(k => biAgg(dated.filter(r => biBucket(r.date, g) === k && r.sec === 'Reading & Writing')).acc);
   const grad = c => { const {ctx, chartArea: a} = c.chart; if (!a) return 'rgba(37,99,235,.12)'; const gr = ctx.createLinearGradient(0, a.top, 0, a.bottom); gr.addColorStop(0, 'rgba(37,99,235,.22)'); gr.addColorStop(1, 'rgba(37,99,235,0)'); return gr };
   chart('bi-t', {data: {labels: keys.map(lab), datasets: [
-    {type: 'line', label: 'Overall % right', data: aAll, borderColor: HC.blue, backgroundColor: grad, fill: 'origin', borderWidth: 2.5, cubicInterpolationMode: 'monotone', pointRadius: aAll.length > 20 ? 0 : 3, pointBackgroundColor: HC.blue, yAxisID: 'y2', order: 1, spanGaps: true},
-    {type: 'line', label: 'Math', data: aM, borderColor: HC.navy, borderWidth: 1.75, cubicInterpolationMode: 'monotone', pointRadius: 0, yAxisID: 'y2', order: 2, spanGaps: true},
-    {type: 'line', label: 'Reading & Writing', data: aE, borderColor: HC.gold, borderWidth: 1.75, cubicInterpolationMode: 'monotone', pointRadius: 0, yAxisID: 'y2', order: 2, spanGaps: true},
-    {type: 'line', label: 'Goal 75% (≈1300)', data: keys.map(() => 75), borderColor: '#A1A1AA', borderDash: [5, 5], borderWidth: 1.25, pointRadius: 0, yAxisID: 'y2', order: 3},
-    {type: 'bar', label: 'Questions', data: qn, backgroundColor: BI.dark ? 'rgba(161,161,170,.18)' : 'rgba(161,161,170,.22)', borderRadius: 3, yAxisID: 'y', order: 4, maxBarThickness: 28}]},
+    {type: 'line', label: 'Overall % right', data: aAll, borderColor: '#2563EB', backgroundColor: grad, fill: 'origin', borderWidth: 4, cubicInterpolationMode: 'monotone', pointRadius: aAll.length > 20 ? 0 : 5, pointBackgroundColor: '#2563EB', pointBorderColor: '#fff', pointBorderWidth: 2, yAxisID: 'y2', order: 1, spanGaps: true},
+    {type: 'line', label: 'Math', data: aM, borderColor: '#7C3AED', borderWidth: 3, borderDash: [9, 5], cubicInterpolationMode: 'monotone', pointRadius: aM.length > 20 ? 0 : 4, pointStyle: 'triangle', pointBackgroundColor: '#7C3AED', yAxisID: 'y2', order: 2, spanGaps: true},
+    {type: 'line', label: 'Reading & Writing', data: aE, borderColor: '#0D9488', borderWidth: 3, borderDash: [2, 4], borderCapStyle: 'round', cubicInterpolationMode: 'monotone', pointRadius: aE.length > 20 ? 0 : 4, pointStyle: 'rect', pointBackgroundColor: '#0D9488', yAxisID: 'y2', order: 2, spanGaps: true},
+    {type: 'line', label: 'Goal 75% (≈1300)', data: keys.map(() => 75), borderColor: '#52525B', borderDash: [6, 6], borderWidth: 2, pointRadius: 0, yAxisID: 'y2', order: 3},
+    {type: 'bar', label: 'Questions', data: qn, backgroundColor: BI.dark ? '#3F3F46' : '#CBD5E1', borderRadius: 4, yAxisID: 'y', order: 4, maxBarThickness: 40}]},
     options: {maintainAspectRatio: false, interaction: {mode: 'index', intersect: false},
-      plugins: {legend: {position: 'top', align: 'end', labels: {color: C.tick, usePointStyle: true, pointStyle: 'line', boxWidth: 18, font: {size: 12}}}, tooltip: {enabled: false, external: biGlassTip(i => {
+      plugins: {legend: {display: false}, tooltip: {enabled: false, external: biGlassTip(i => {
         const pv = i > 0 ? aAll[i - 1] : null, d = aAll[i] != null && pv != null ? aAll[i] - pv : null;
-        return {title: keys.map(lab)[i], rows: [['Overall % right', aAll[i] == null ? '—' : aAll[i] + '%', HC.blue], ['Math', aM[i] == null ? '—' : aM[i] + '%', HC.navy], ['Reading & Writing', aE[i] == null ? '—' : aE[i] + '%', HC.gold], ['Questions', qn[i], '#A1A1AA']],
+        return {title: keys.map(lab)[i], rows: [['Overall % right', aAll[i] == null ? '—' : aAll[i] + '%', '#2563EB'], ['Math', aM[i] == null ? '—' : aM[i] + '%', '#7C3AED'], ['Reading & Writing', aE[i] == null ? '—' : aE[i] + '%', '#0D9488'], ['Questions', qn[i], '#CBD5E1']],
           foot: d == null ? '' : `${d >= 0 ? '▲' : '▼'} ${Math.abs(d)} pts vs. previous ${g}`, good: d >= 0} })}},
-      scales: {x: {ticks: {color: C.tick, maxRotation: 0, autoSkip: true}, grid: {display: false}}, y: {position: 'right', beginAtZero: true, ticks: {color: C.tick, precision: 0}, grid: {display: false}, title: {display: true, text: 'Questions', color: C.tick, font: {size: 11}}},
-        y2: {position: 'left', min: 0, max: 100, ticks: {color: C.tick, callback: v => v + '%', stepSize: 25}, grid: {color: BI.dark ? 'rgba(63,63,70,.4)' : 'rgba(161,161,170,.4)'}, border: {display: false, dash: [3, 3]}}},
+      scales: {x: {ticks: {color: BI.dark ? '#D4D4D8' : '#3F3F46', maxRotation: 0, autoSkip: true, font: {size: 14}}, grid: {display: false}}, y: {position: 'right', beginAtZero: true, ticks: {color: BI.dark ? '#D4D4D8' : '#3F3F46', precision: 0, font: {size: 13}}, grid: {display: false}, title: {display: true, text: 'Questions answered', color: BI.dark ? '#D4D4D8' : '#3F3F46', font: {size: 13, weight: '600'}}},
+        y2: {position: 'left', min: 0, max: 100, ticks: {color: BI.dark ? '#D4D4D8' : '#3F3F46', callback: v => v + '%', stepSize: 25, font: {size: 14}}, title: {display: true, text: '% right on first try', color: BI.dark ? '#D4D4D8' : '#3F3F46', font: {size: 13, weight: '600'}}, grid: {color: BI.dark ? 'rgba(63,63,70,.4)' : 'rgba(161,161,170,.4)'}, border: {display: false, dash: [3, 3]}}},
       onClick: (e, els) => { if (!els.length) return; const k = keys[els[0].index]; BI.f.date = k; BI.f.dateG = g; BI.f.dateL = lab(k); setTimeout(drawStats) }}})
 }
 // glassmorphism tooltip (HTML, follows the cursor inside the card)
