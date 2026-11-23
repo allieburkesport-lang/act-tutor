@@ -45,7 +45,7 @@ BASE = [
  ('2026-12-04','light',[],"Light: redo my misses, pack the bag, early bed"),
  ('2026-12-05','sat',[],"SAT · check in by 7:45 AM"),
 ]
-FOCUS = ['nlf', 'linf', 'nleq', 'lin2', 'bound', 'fss', 'trans', 'syn']   # 4 Math + 4 Reading & Writing (Allie, Nov 23)
+FOCUS = ['nlf', 'linf', 'nleq', 'lin2', 'bound', 'fss', 'trans', 'syn', 'wic']   # + Words in context (Allie, Nov 23)   # 4 Math + 4 Reading & Writing (Allie, Nov 23)
 FOCUS_FROM = datetime.date(2026, 11, 24)
 MATH = {'lin1','lin2','linf','sys','ineq','equiv','nleq','nlf','ratio','pct','data1','data2','prob','infer','claims','area','lat','trig','circ'}
 

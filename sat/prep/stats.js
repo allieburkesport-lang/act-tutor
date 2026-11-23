@@ -468,7 +468,7 @@ function focusPlanBlock(compact) {
 // ---------- Path to 1300 (Allie, Nov 23): one plain instruction per row, running score from his best SAT ----------
 function pathSteps() {
   const F = PLAN && PLAN.focus ? PLAN.focus.skills : ['nlf', 'linf', 'nleq', 'lin2', 'bound', 'fss', 'trans', 'syn'];
-  const EXTRA = ['inf', 'coe', 'wic'].filter(id => SK2[id] && !F.includes(id));
+  const EXTRA = ['inf', 'coe'].filter(id => SK2[id] && !F.includes(id));
   const {rows} = winsData(), SS = superscore(), FT = firstTries();
   const cat = id => { const r = rows.find(x => x.s.id === id); if (!r) return null; const B = satCatEst(r, 'best'), base = B ? B.n : (r.right || 0), ppq = 600 / SAT_QN[r.s.sec];
     const goal = Math.min(r.nq, Math.max(base + 1, r.nq <= 3 ? r.nq : Math.round(.8 * r.nq))); return {r, base, ppq, goal} };
@@ -481,8 +481,7 @@ function pathSteps() {
     EXTRA.map(cat).filter(c => c && c.r.s.sec === sec).forEach(c => add(c, c.base, c.r.nq, 'extra')) });
   // running score with section caps, stop once past the goal
   let m = SS.Math, e = SS['R&W']; const out = [];
-  for (let s of steps) { if (Math.round(m / 10) * 10 + Math.round(e / 10) * 10 >= GOAL) break; const before = m + e;
-    if (before + s.pts > GOAL && s.n > 1) { const k = Math.max(1, Math.ceil((GOAL - before) / s.c.ppq)); if (k < s.n) s = {...s, n: k, to: s.from + k, pts: Math.round(k * s.c.ppq)} }
+  for (let s of steps) { const before = m + e;
     if (s.c.r.s.sec === 'Math') m = Math.min(800, m + s.pts); else e = Math.min(800, e + s.pts);
     // in HELM, is he already getting that many right? (6+ first tries in this skill)
     const h = FT.filter(x => x.q.skill === s.c.r.s.id), hn = h.length, hacc = hn ? h.filter(x => x.ok).length / hn : 0;

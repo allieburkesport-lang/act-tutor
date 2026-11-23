@@ -8,11 +8,12 @@
    "bound",
    "fss",
    "trans",
-   "syn"
+   "syn",
+   "wic"
   ],
   "start": "2026-11-24"
  },
- "updated": "Mon Nov 23, 11:03 AM ET",
+ "updated": "Mon Nov 23, 12:02 PM ET",
  "online": true,
  "today": "2026-11-23",
  "test": "2026-12-05",
@@ -1224,13 +1225,13 @@
    "focus": [
     "linf",
     "lin2",
-    "fss"
+    "wic"
    ],
-   "math_share": 54,
+   "math_share": 53,
    "review": [
     [
      "fss",
-     2
+     1
     ],
     [
      "linf",
@@ -1243,6 +1244,10 @@
     [
      "lin2",
      3
+    ],
+    [
+     "wic",
+     2
     ]
    ],
    "label": "Tue Nov 24",
@@ -1337,13 +1342,13 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/syn"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:fss.2,linf.3,trans.1,lin2.3",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:fss.1,linf.3,trans.1,lin2.3,wic.2",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-11-24",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-11-24",
    "review_names": [
     [
      "Form, structure and sense",
-     2
+     1
     ],
     [
      "Linear functions",
@@ -1356,14 +1361,18 @@
     [
      "Linear equations in two variables",
      3
+    ],
+    [
+     "Words in context",
+     2
     ]
    ],
    "focus_names": [
     "Linear functions",
     "Linear equations in two variables",
-    "Form, structure and sense"
+    "Words in context"
    ],
-   "n_questions": 49,
+   "n_questions": 50,
    "result": null
   },
   {
@@ -1381,7 +1390,7 @@
     "lin2",
     "bound"
    ],
-   "math_share": 48,
+   "math_share": 47,
    "review": [
     [
      "bound",
@@ -1390,6 +1399,10 @@
     [
      "lin2",
      3
+    ],
+    [
+     "wic",
+     1
     ],
     [
      "syn",
@@ -1480,7 +1493,7 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/trans"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:bound.2,lin2.3,syn.1,nlf.3,nleq.3",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:bound.2,lin2.3,wic.1,syn.1,nlf.3,nleq.3",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-11-25",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-11-25",
    "review_names": [
@@ -1491,6 +1504,10 @@
     [
      "Linear equations in two variables",
      3
+    ],
+    [
+     "Words in context",
+     1
     ],
     [
      "Rhetorical synthesis (notes)",
@@ -1511,7 +1528,7 @@
     "Linear equations in two variables",
     "Boundaries (punctuation)"
    ],
-   "n_questions": 42,
+   "n_questions": 43,
    "result": null
   },
   {
@@ -1547,7 +1564,7 @@
    "review": [
     [
      "bound",
-     3
+     2
     ],
     [
      "fss",
@@ -1566,6 +1583,10 @@
      2
     ],
     [
+     "wic",
+     1
+    ],
+    [
      "syn",
      1
     ],
@@ -1580,13 +1601,13 @@
    ],
    "label": "Fri Nov 27",
    "concepts": [],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:bound.3,fss.1,linf.3,trans.1,lin2.2,syn.1,nlf.3,nleq.3",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:bound.2,fss.1,linf.3,trans.1,lin2.2,wic.1,syn.1,nlf.3,nleq.3",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-11-27",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-11-27",
    "review_names": [
     [
      "Boundaries (punctuation)",
-     3
+     2
     ],
     [
      "Form, structure and sense",
@@ -1603,6 +1624,10 @@
     [
      "Linear equations in two variables",
      2
+    ],
+    [
+     "Words in context",
+     1
     ],
     [
      "Rhetorical synthesis (notes)",
@@ -1657,13 +1682,13 @@
    "focus": [
     "nlf",
     "linf",
-    "fss"
+    "wic"
    ],
-   "math_share": 54,
+   "math_share": 53,
    "review": [
     [
      "fss",
-     2
+     1
     ],
     [
      "linf",
@@ -1672,6 +1697,10 @@
     [
      "trans",
      1
+    ],
+    [
+     "wic",
+     2
     ],
     [
      "nlf",
@@ -1760,13 +1789,13 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/syn"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:fss.2,linf.3,trans.1,nlf.3",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:fss.1,linf.3,trans.1,wic.2,nlf.3",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-11-29",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-11-29",
    "review_names": [
     [
      "Form, structure and sense",
-     2
+     1
     ],
     [
      "Linear functions",
@@ -1777,6 +1806,10 @@
      1
     ],
     [
+     "Words in context",
+     2
+    ],
+    [
      "Nonlinear functions",
      3
     ]
@@ -1784,9 +1817,9 @@
    "focus_names": [
     "Nonlinear functions",
     "Linear functions",
-    "Form, structure and sense"
+    "Words in context"
    ],
-   "n_questions": 49,
+   "n_questions": 50,
    "result": null
   },
   {
@@ -1804,7 +1837,7 @@
     "lin2",
     "bound"
    ],
-   "math_share": 54,
+   "math_share": 53,
    "review": [
     [
      "bound",
@@ -1813,6 +1846,10 @@
     [
      "lin2",
      3
+    ],
+    [
+     "wic",
+     1
     ],
     [
      "syn",
@@ -1925,7 +1962,7 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/trans"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:bound.2,lin2.3,syn.1,nleq.3",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:bound.2,lin2.3,wic.1,syn.1,nleq.3",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-11-30",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-11-30",
    "review_names": [
@@ -1936,6 +1973,10 @@
     [
      "Linear equations in two variables",
      3
+    ],
+    [
+     "Words in context",
+     1
     ],
     [
      "Rhetorical synthesis (notes)",
@@ -1951,7 +1992,7 @@
     "Linear equations in two variables",
     "Boundaries (punctuation)"
    ],
-   "n_questions": 49,
+   "n_questions": 50,
    "result": null
   },
   {
@@ -1966,9 +2007,9 @@
    "note": "Focus skills he is weakest in right now \u00b7 Also: download the exam in Bluebook and charge the laptop",
    "focus": [
     "lin2",
-    "syn"
+    "wic"
    ],
-   "math_share": 65,
+   "math_share": 64,
    "review": [
     [
      "fss",
@@ -1983,8 +2024,12 @@
      3
     ],
     [
-     "syn",
+     "wic",
      3
+    ],
+    [
+     "syn",
+     1
     ]
    ],
    "label": "Tue Dec 1",
@@ -2084,7 +2129,7 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/bound"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:fss.2,trans.2,lin2.3,syn.3",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:fss.2,trans.2,lin2.3,wic.3,syn.1",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-12-01",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-12-01",
    "review_names": [
@@ -2101,15 +2146,19 @@
      3
     ],
     [
-     "Rhetorical synthesis (notes)",
+     "Words in context",
      3
+    ],
+    [
+     "Rhetorical synthesis (notes)",
+     1
     ]
    ],
    "focus_names": [
     "Linear equations in two variables",
-    "Rhetorical synthesis (notes)"
+    "Words in context"
    ],
-   "n_questions": 50,
+   "n_questions": 51,
    "result": null
   },
   {
@@ -2124,9 +2173,9 @@
    "note": "Focus skills he is weakest in right now",
    "focus": [
     "lin2",
-    "syn"
+    "wic"
    ],
-   "math_share": 65,
+   "math_share": 64,
    "review": [
     [
      "fss",
@@ -2141,8 +2190,12 @@
      3
     ],
     [
-     "syn",
+     "wic",
      3
+    ],
+    [
+     "syn",
+     1
     ]
    ],
    "label": "Wed Dec 2",
@@ -2242,7 +2295,7 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/bound"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:fss.2,trans.2,lin2.3,syn.3",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:fss.2,trans.2,lin2.3,wic.3,syn.1",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-12-02",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-12-02",
    "review_names": [
@@ -2259,15 +2312,19 @@
      3
     ],
     [
-     "Rhetorical synthesis (notes)",
+     "Words in context",
      3
+    ],
+    [
+     "Rhetorical synthesis (notes)",
+     1
     ]
    ],
    "focus_names": [
     "Linear equations in two variables",
-    "Rhetorical synthesis (notes)"
+    "Words in context"
    ],
-   "n_questions": 50,
+   "n_questions": 51,
    "result": null
   },
   {
@@ -2282,9 +2339,9 @@
    "note": "Focus skills + mixed set at SAT pace",
    "focus": [
     "lin2",
-    "syn"
+    "wic"
    ],
-   "math_share": 65,
+   "math_share": 64,
    "review": [
     [
      "fss",
@@ -2299,8 +2356,12 @@
      3
     ],
     [
-     "syn",
+     "wic",
      3
+    ],
+    [
+     "syn",
+     1
     ]
    ],
    "label": "Thu Dec 3",
@@ -2400,7 +2461,7 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/bound"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:fss.2,trans.2,lin2.3,syn.3",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:fss.2,trans.2,lin2.3,wic.3,syn.1",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-12-03",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-12-03",
    "review_names": [
@@ -2417,15 +2478,19 @@
      3
     ],
     [
-     "Rhetorical synthesis (notes)",
+     "Words in context",
      3
+    ],
+    [
+     "Rhetorical synthesis (notes)",
+     1
     ]
    ],
    "focus_names": [
     "Linear equations in two variables",
-    "Rhetorical synthesis (notes)"
+    "Words in context"
    ],
-   "n_questions": 50,
+   "n_questions": 51,
    "result": null
   },
   {
@@ -2443,7 +2508,7 @@
    "review": [
     [
      "bound",
-     3
+     2
     ],
     [
      "fss",
@@ -2462,6 +2527,10 @@
      2
     ],
     [
+     "wic",
+     1
+    ],
+    [
      "syn",
      1
     ],
@@ -2476,13 +2545,13 @@
    ],
    "label": "Fri Dec 4",
    "concepts": [],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:bound.3,fss.1,linf.3,trans.1,lin2.2,syn.1,nlf.3,nleq.3",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:bound.2,fss.1,linf.3,trans.1,lin2.2,wic.1,syn.1,nlf.3,nleq.3",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-12-04",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-12-04",
    "review_names": [
     [
      "Boundaries (punctuation)",
-     3
+     2
     ],
     [
      "Form, structure and sense",
@@ -2499,6 +2568,10 @@
     [
      "Linear equations in two variables",
      2
+    ],
+    [
+     "Words in context",
+     1
     ],
     [
      "Rhetorical synthesis (notes)",
