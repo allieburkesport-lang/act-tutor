@@ -213,12 +213,16 @@ function save(row){if(D&&D.view)return;if(row.plan)lastPlan=row.plan;LOG.push(ro
   fetch(SB,{method:'POST',headers:Object.assign({'Content-Type':'application/json',Prefer:'return=minimal'},H),body:JSON.stringify({student:WHO,kind:'bank',concept_id:q.skill,concept_no:BANK.skills.indexOf(s)+1,concept_title:s.name,
    part:`${s.sec} · ${DIFF[q.diff]}${row.coached?' · coached':''} · new site${row.plan?' · plan '+row.plan:''}${row.help&&row.help.length?' · help '+row.help.join('+'):''}`,question_no:+row.id.split('-').pop(),question:(row.id+' '+plain(q.q)).slice(0,600),picked:String(row.picked).slice(0,300),correct:row.ok,first_try:row.first,attempt:row.attempt,seconds:row.sec})}).catch(()=>{});}
 function stats(skill){// same blend as the nightly plan: earlier practice (Blueprint) + Drill Zone first tries counted double
-  const firsts=LOG.filter(x=>x.first&&QBY[x.id]&&QBY[x.id].skill===skill);const dn=firsts.length,dok=firsts.filter(x=>x.ok).length;const b=BPS[skill]||{n:0,ok:0};
+  const firsts=LOG.filter(x=>isScored(x)&&QBY[x.id]&&QBY[x.id].skill===skill);const dn=firsts.length,dok=firsts.filter(x=>x.ok).length;const b=BPS[skill]||{n:0,ok:0};
   const n=b.n+2*dn,ok=b.ok+2*dok;return {n:b.n+dn,dn,dok,acc:n?Math.round(100*ok/n):null}}
 // Skill rows (Allie, Nov 21): HELM and Blueprint each shown now vs. before.
 // HELM counts only since the Nov 21 restart (the morning warm-up was easy questions); it stays in the Stats history.
+// SAT-style scoring: only the FIRST time he ever answers a question counts, and only if he answered with no help opened first (one try, no help, like the real SAT). Retries and helped answers feed the "When he used help" stats instead.
+let _scK='',_scS=new Set();
+function scoredSet(){const k=LOG.length+':'+(LOG.length?LOG[LOG.length-1].ts:0);if(k===_scK)return _scS;const s=new Set(),seen=new Set();LOG.filter(x=>(x.attempt||1)===1).sort((a,b)=>a.ts-b.ts).forEach(x=>{if(seen.has(x.id))return;seen.add(x.id);if(!(x.helpFirst||[]).length&&!x.coached)s.add(x)});_scK=k;_scS=s;return s}
+function isScored(x){return scoredSet().has(x)}
 function helmStart(){return Math.min(...(PLAN?PLAN.days:[]).map(d=>d.reset_at||Infinity))||0}
-function helmNow(sk){const t0=helmStart(),t=today();const f=LOG.filter(x=>x.first&&x.ts>=(isFinite(t0)?t0:0)&&QBY[x.id]&&QBY[x.id].skill===sk);
+function helmNow(sk){const t0=helmStart(),t=today();const f=LOG.filter(x=>isScored(x)&&x.ts>=(isFinite(t0)?t0:0)&&QBY[x.id]&&QBY[x.id].skill===sk);
   const pre=f.filter(x=>x.day<t);const pc=a=>a.length?Math.round(100*a.filter(x=>x.ok).length/a.length):null;
   return {n:f.length,ok:f.filter(x=>x.ok).length,p:pc(f),prev:pc(pre),prevN:pre.length,prevLab:'before today'}}
 function bpNow(sk){const b=BPS[sk]||{n:0,ok:0};const rec=(BPREC||[]).filter(x=>x.skill===sk);const last=rec.length?rec.map(x=>Date.parse(x.day.replace(/^\w+, /,''))).reduce((a,c)=>Math.max(a,c),0):0;
@@ -346,18 +350,18 @@ const SAT_OFFICIAL=[
 const SAT_DOM=[['R&W','ii','Information and Ideas'],['R&W','cs','Craft and Structure'],['R&W','eoi','Expression of Ideas'],['R&W','sec','Standard English Conventions'],
  ['Math','alg','Algebra'],['Math','adv','Advanced Math'],['Math','psda','Problem-Solving and Data Analysis'],['Math','geo','Geometry and Trigonometry']];
 const SAT_LAST=()=>SAT_OFFICIAL[SAT_OFFICIAL.length-1];
-function skAcc(sk,upto){const b=BPS[sk]||{n:0,ok:0};const f=LOG.filter(x=>x.first&&x.day<=upto&&QBY[x.id]&&QBY[x.id].skill===sk);const n=b.n+2*f.length,ok=b.ok+2*f.filter(x=>x.ok).length;return n>=3?ok/n:null}
+function skAcc(sk,upto){const b=BPS[sk]||{n:0,ok:0};const f=LOG.filter(x=>isScored(x)&&x.day<=upto&&QBY[x.id]&&QBY[x.id].skill===sk);const n=b.n+2*f.length,ok=b.ok+2*f.filter(x=>x.ok).length;return n>=3?ok/n:null}
 function projRaw(upto){const out={};[['Math','Math'],['English','R&W']].forEach(([sec,lab])=>{const sks=Object.values(SK2).filter(s=>s.sec===sec);const kn=sks.map(s=>skAcc(s.id,upto)).filter(v=>v!=null);const avg=kn.length?kn.reduce((a,b)=>a+b,0)/kn.length:.5;
   let w=0,t=0;sks.forEach(s=>{const a=skAcc(s.id,upto),sh=s.share||1;w+=sh;t+=sh*(a==null?avg:a)});out[lab]=Math.round((200+600*t/w)/10)*10});out.total=out.Math+out['R&W'];return out}
 // Projection uses ALL the data: official SATs (newest counts most) blended with practice accuracy (Blueprint + HELM first tries).
 // The more practice questions in a section, the more the practice side counts (up to 60%).
 function projParts(upto){const W=[.2,.3,.5].slice(-SAT_OFFICIAL.length),ws=W.reduce((a,b)=>a+b,0),raw=projRaw(upto),o={};
   [['Math','Math'],['English','R&W']].forEach(([sec,k])=>{const off=SAT_OFFICIAL.reduce((a,t,i)=>a+t[k]*W[i],0)/ws;
-    const ids=Object.values(SK2).filter(x=>x.sec===sec).map(x=>x.id),bp=ids.reduce((a,id)=>a+((BPS[id]||{}).n||0),0),sp=LOG.filter(x=>x.first&&x.day<=upto&&QBY[x.id]&&SK2[QBY[x.id].skill].sec===sec).length;
+    const ids=Object.values(SK2).filter(x=>x.sec===sec).map(x=>x.id),bp=ids.reduce((a,id)=>a+((BPS[id]||{}).n||0),0),sp=LOG.filter(x=>isScored(x)&&x.day<=upto&&QBY[x.id]&&SK2[QBY[x.id].skill].sec===sec).length;
     const n=bp+sp,wp=Math.min(.6,n/(n+300));o[k]={off:Math.round(off),prac:raw[k],wp,bp,sp,val:Math.max(200,Math.min(800,Math.round((off*(1-wp)+raw[k]*wp)/10)*10))}});return o}
 function proj(upto){const p=projParts(upto);return {Math:p.Math.val,'R&W':p['R&W'].val,total:p.Math.val+p['R&W'].val,parts:p}}
-function skPct(sk,day){const f=LOG.filter(x=>x.first&&(x.plan||x.day)===day&&QBY[x.id]&&QBY[x.id].skill===sk);return f.length>=2?{p:Math.round(100*f.filter(x=>x.ok).length/f.length),n:f.length}:null}
-function prevDayFor(sk,date){const ds=[...new Set(LOG.filter(x=>x.first&&(x.plan||x.day)<date&&QBY[x.id]&&QBY[x.id].skill===sk).map(x=>x.plan||x.day))].sort();for(let i=ds.length-1;i>=0;i--){const v=skPct(sk,ds[i]);if(v)return {d:ds[i],...v}}return null}
+function skPct(sk,day){const f=LOG.filter(x=>isScored(x)&&(x.plan||x.day)===day&&QBY[x.id]&&QBY[x.id].skill===sk);return f.length>=2?{p:Math.round(100*f.filter(x=>x.ok).length/f.length),n:f.length}:null}
+function prevDayFor(sk,date){const ds=[...new Set(LOG.filter(x=>isScored(x)&&(x.plan||x.day)<date&&QBY[x.id]&&QBY[x.id].skill===sk).map(x=>x.plan||x.day))].sort();for(let i=ds.length-1;i>=0;i--){const v=skPct(sk,ds[i]);if(v)return {d:ds[i],...v}}return null}
 function outlook(date,by,before){
   const wins=[];Object.keys(by).forEach(k=>{const xs=by[k];if(xs.length<3)return;const p=Math.round(100*xs.filter(x=>x.ok).length/xs.length),s=SK2[k],pts=d=>Math.round(600*(s.share||0)/100*d/100);
     const pd=prevDayFor(k,date),b=before(k);
@@ -405,7 +409,7 @@ function dayReport(date){const f=dayFirst(date),all=dayLog(date);const lab=new D
   if(!f.length){app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">${esc(lab)}</h1><p>No questions answered this day yet.</p><button class="btn" data-go="#/day/${date}">Start the day</button><button class="btn g" data-go="#/">Home</button></div>`;return}
   const later=id=>all.some(x=>x.id===id&&x.ok&&(x.attempt||1)>1);
   const by={};f.forEach(x=>{const q=QBY[x.id];(by[q.skill]=by[q.skill]||[]).push(x)});
-  const before=sk=>{const firsts=LOG.filter(x=>x.first&&x.day<date&&x.plan!==date&&QBY[x.id]&&QBY[x.id].skill===sk);const b=BPS[sk]||{n:0,ok:0};const n=b.n+2*firsts.length,ok=b.ok+2*firsts.filter(x=>x.ok).length;return n?Math.round(100*ok/n):null};
+  const before=sk=>{const firsts=LOG.filter(x=>isScored(x)&&x.day<date&&x.plan!==date&&QBY[x.id]&&QBY[x.id].skill===sk);const b=BPS[sk]||{n:0,ok:0};const n=b.n+2*firsts.length,ok=b.ok+2*firsts.filter(x=>x.ok).length;return n?Math.round(100*ok/n):null};
   const tot=f.length,right=f.filter(x=>x.ok).length,fixed=f.filter(x=>!x.ok&&later(x.id)).length,spent=f.reduce((a,x)=>a+(x.sec||0),0);
   const paceAll=f.reduce((a,x)=>a+PACE[SK2[QBY[x.id].skill].sec],0);
   const sk=Object.keys(by).sort((a,b)=>{const ra=by[a].filter(x=>x.ok).length/by[a].length,rb=by[b].filter(x=>x.ok).length/by[b].length;return ra-rb||(SK2[b].share||0)-(SK2[a].share||0)});
@@ -680,6 +684,6 @@ function publishSat(){try{if(!PLAN||!window.HELM_PROGRESS)return;
   HELM_PROGRESS.put('sat_summary',{updated:Date.now(),days,daysDone:days.filter(d=>d.done).length,daysTotal:days.length,dueDone:fin,dueTotal:due.length})}catch(e){}}
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=11"></script><script src="bi.js?v=9"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
+<script src="stats.js?v=12"></script><script src="bi.js?v=10"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
 </body>
 </html>

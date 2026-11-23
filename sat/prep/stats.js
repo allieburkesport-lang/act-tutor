@@ -4,9 +4,9 @@ const SITE_NAME = 'HELM';
 const SCOL = {Math: '#1e3a8a', English: '#0f766e'};
 let CH = [];
 function dkey(d) { return d.toLocaleDateString('en-CA') }
-function firstTries() {  // one row per question per day: the first attempt that day
-  const seen = {}, out = [];
-  LOG.forEach(x => { const q = QBY[x.id]; if (!q || !SK2[q.skill]) return; if ((x.attempt || 1) !== 1) return; const k = x.id + '|' + x.day; if (seen[k]) return; seen[k] = 1; out.push(Object.assign({q, s: SK2[q.skill]}, x)) });
+function firstTries() {  // SAT rules: the first time he ever saw each question, answered with no help (see isScored in sat.html)
+  const out = [];
+  LOG.forEach(x => { const q = QBY[x.id]; if (!q || !SK2[q.skill]) return; if (!isScored(x)) return; out.push(Object.assign({q, s: SK2[q.skill]}, x)) });
   return out.sort((a, b) => a.ts - b.ts)
 }
 function rangeOf(per) {  // [fromKey, toKey] inclusive
@@ -77,7 +77,7 @@ function drawStats() {
   const hc = a => a == null ? '#f3f4f6' : a < 50 ? '#fde2e2' : a < 70 ? '#fef3c7' : '#dcfce7';
   const order = per.filter(p => p.n).sort((a, b) => a.acc - b.acc || (b.s.share || 0) - (a.s.share || 0));
   const missed = rows.filter(r => !r.ok).slice(-12).reverse();
-  app().innerHTML = topbar('stats') + `<div class="page" style="gap:18px"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;align-items:flex-end"><div><h1 class="hd" style="margin:0;font-size:30px">Stats</h1><div style="color:var(--mute);font-size:14px">First try on each question, on this site plus his Blueprint days. Click any category to see why.</div></div>${filters()}</div>
+  app().innerHTML = topbar('stats') + `<div class="page" style="gap:18px"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;align-items:flex-end"><div><h1 class="hd" style="margin:0;font-size:30px">Stats</h1><div style="color:var(--mute);font-size:14px">Scored like the SAT: one try, no help. Only the first time he ever answers a question counts, and only if he didn't open help first. Retries and help are tracked separately under “When he used help.” Click any category to see why.</div></div>${filters()}</div>
    ${scoresBlock()}
    <section class="stats" style="grid-template-columns:repeat(6,minmax(0,1fr))">
     ${kpi('Questions', tot, [ST.site ? SITE_NAME + ' ' + rows.length : '', ST.bp ? 'Blueprint ' + bpTot : ''].filter(Boolean).join(' · '))}
@@ -103,6 +103,7 @@ function drawStats() {
    <section class="card" style="padding:16px 18px;overflow-x:auto"><h2 class="hd" style="margin:0 0 8px;font-size:19px">Every category</h2>
     <table class="rep"><thead><tr><th>Category</th><th>Section</th><th>% of SAT (est.)</th><th>Qs</th><th>Right</th><th>Wrong</th><th>Score</th><th>${SITE_NAME}</th><th>Blueprint</th><th>Change</th><th>Avg time</th><th></th></tr></thead><tbody>
     ${per.sort((a, b) => (b.s.share || 0) - (a.s.share || 0)).map(p => { const lv = level(p.acc, p.n); return `<tr style="cursor:pointer" data-go="#/stats/${p.s.id}"><td><b>${esc(p.s.name)}</b></td><td>${p.s.sec === 'Math' ? 'Math' : 'R&W'}</td><td>${Math.round(p.s.share || 0)}%</td><td>${p.n}</td><td style="color:#15803d;font-weight:700">${p.ok}</td><td style="color:#b91c1c;font-weight:700">${p.n - p.ok}</td><td>${p.n ? `<span class="pill" style="color:${lv[1]};background:${lv[2]}">${p.acc}%</span>` : '—'}</td><td>${p.sacc == null ? '—' : p.sacc + '% <span style="color:var(--mute);font-size:12px">(' + p.sn + ')</span>'}</td><td>${p.base == null ? '—' : p.base + '% <span style="color:var(--mute);font-size:12px">(' + p.bn + ')</span>'}</td><td>${p.sn && p.base != null ? delta(p.sacc, p.base) : ''}</td><td>${mmss(p.avg)}</td><td><button class="btn g sm" data-go="#/stats/${p.s.id}">Details →</button></td></tr>` }).join('')}</tbody></table></section>
+   ${helpSection(null)}
    <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 8px;font-size:19px">Latest misses</h2>${missed.length ? missed.map(missRow).join('') : '<div style="color:var(--mute)">None in this period.</div>'}</section>
   </div>`;
   window.scrollTo(0, 0);
@@ -174,6 +175,7 @@ function skillStats(id) {
    </div>
    ${kl.length ? `<section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 8px;font-size:19px">By kind of question</h2><table class="rep"><thead><tr><th>Kind</th><th>Qs</th><th>Right</th><th>Score</th><th>Example</th></tr></thead><tbody>${kl.map(k => { const l = level(k.a, k.n); return `<tr><td><b>${esc(k.nm)}</b></td><td>${k.n}</td><td>${k.ok}</td><td><span class="pill" style="color:${l[1]};background:${l[2]}">${k.a}%</span></td><td style="font-size:13px;color:var(--mute)">${esc(plain(k.ex.q).slice(0, 90))}…</td></tr>` }).join('')}</tbody></table></section>` : ''}
    ${tl.length ? `<section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 8px;font-size:19px">Traps he fell for</h2>${tl.map(([t, n]) => `<div style="display:flex;gap:10px;padding:6px 0;border-top:1px solid #f1f2f4"><span class="pill" style="background:#fde2e2;color:#b91c1c">${n}×</span>${esc(t)}</div>`).join('')}</section>` : ''}
+   ${helpSection(id)}
    <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 8px;font-size:19px">Every missed question <span style="font-size:13px;color:var(--mute);font-weight:500">click to see his answer, the right one, and how to do it</span></h2>${missed.length ? missed.map(missRow).join('') : '<div style="color:var(--mute)">No misses in this period.</div>'}</section>
    <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 8px;font-size:19px">Right on the first try (${right.length})</h2>${right.slice(0, 30).map(r => `<div style="display:flex;gap:10px;padding:6px 0;border-top:1px solid #f1f2f4;font-size:14px"><span class="pill" style="background:#dcfce7;color:#15803d">✓</span><span style="color:var(--mute)">${new Date(r.ts).toLocaleDateString('en-US', {month: 'short', day: 'numeric'})} · ${DIFF[r.q.diff]} · ${mmss(r.sec)}</span>${esc(plain(r.q.q).slice(0, 110))}…</div>`).join('') || '<div style="color:var(--mute)">None yet.</div>'}</section>
   </div>`;
@@ -232,4 +234,54 @@ function scoresChart() {
     {type: 'line', label: 'Goal ' + GOAL, data: labels.map(() => GOAL), borderColor: '#10B981', borderWidth: 2, borderDash: [2, 3], pointRadius: 0, order: 1, stack: 'goal'}]},
     options: {maintainAspectRatio: false, plugins: {legend: {position: 'bottom'}, tooltip: {callbacks: {footer: it => { const i = it[0].dataIndex; return i < pts.length ? 'Total: ' + (pts[i].M + pts[i].R) : '' }}}},
       scales: {x: {stacked: true}, y: {stacked: true, min: 0, suggestedMax: 1400, title: {display: true, text: 'SAT score'}}}}})
+}
+
+// ---------- When he used help: retries + help never count toward the score, they show whether the help works ----------
+// Episode = the first day he saw a question. It "needed help" if his first answer was wrong or he opened help before answering.
+function helpEpisodes(skillId) {
+  const byQ = {};
+  LOG.forEach(x => { const q = QBY[x.id]; if (!q || !SK2[q.skill]) return; if (skillId && q.skill !== skillId) return; if (!skillId && ST.sec !== 'all' && SK2[q.skill].sec !== ST.sec) return; (byQ[x.id] = byQ[x.id] || []).push(x) });
+  const eps = [];
+  Object.values(byQ).forEach(xs => {
+    xs.sort((a, b) => a.ts - b.ts); const f = xs.find(x => (x.attempt || 1) === 1) || xs[0]; const day = xs.filter(x => x.day === f.day && x.ts >= f.ts);
+    const pre = f.helpFirst || (f.coached ? ['show'] : []); const firstOk = !!f.ok && !pre.length;
+    if (firstOk) return;  // clean first-try right: nothing to learn from here
+    const used = [...new Set(day.flatMap(x => x.help || []).concat(pre))];
+    const okRow = day.find(x => x.ok); const q = QBY[f.id];
+    eps.push({id: f.id, q, s: SK2[q.skill], day: f.day, ts: f.ts, end: okRow ? okRow.ts : day[day.length - 1].ts, wrongFirst: !f.ok, pre, used, solved: !!okRow, tries: day.length});
+  });
+  // Did it stick? The next NEW question of the same skill he answered under SAT rules, after fixing this one with help
+  const scored = firstTries();
+  eps.forEach(e => { if (!e.solved || !e.used.length) return; const n = scored.find(r => r.q.skill === e.q.skill && r.ts > e.end && r.id !== e.id); e.next = n ? !!n.ok : null; e.nextId = n ? n.id : null });
+  return eps.sort((a, b) => a.ts - b.ts);
+}
+function helpSection(skillId) {
+  const eps = inPeriod(helpEpisodes(skillId), ST.period); if (!ST.site) return '';
+  const head = `<h2 class="hd" style="margin:0 0 2px;font-size:19px">When he used help <span style="font-size:13px;color:var(--mute);font-weight:500">· not part of the score · shows whether the help is working</span></h2>`;
+  if (!eps.length) return `<section class="card" style="padding:16px 18px">${head}<div style="color:var(--mute);margin-top:6px">No misses or help used in this period. Every question was answered on the first try with no help.</div></section>`;
+  const withHelp = eps.filter(e => e.used.length), fixedHelp = withHelp.filter(e => e.solved), own = eps.filter(e => !e.used.length && e.solved);
+  const stuck = eps.filter(e => !e.solved && e.used.length), stickN = eps.filter(e => e.next != null), stickOk = stickN.filter(e => e.next);
+  const types = Object.keys(HELPN).map(k => { const es = eps.filter(e => e.used.includes(k)), sn = es.filter(e => e.next != null); return {k, n: es.length, fix: es.filter(e => e.solved).length, sn: sn.length, sok: sn.filter(e => e.next).length} }).filter(x => x.n).sort((a, b) => b.fix / b.n - a.fix / a.n || b.n - a.n);
+  const rate = (a, b) => b ? Math.round(100 * a / b) + '%' : '—';
+  const col = (a, b) => !b ? 'var(--ink)' : a / b < .5 ? '#b91c1c' : a / b < .7 ? '#b45309' : '#15803d';
+  const best = types.filter(t => t.n >= 3)[0], worst = types.filter(t => t.n >= 3).slice(-1)[0];
+  const tips = [];
+  if (best) tips.push(`<b>${esc(HELPN[best.k])}</b> works best for him: he got ${best.fix} of ${best.n} right after using it. Point him there first when he's stuck.`);
+  if (worst && best && worst.k !== best.k && worst.fix / worst.n < .6) tips.push(`<b>${esc(HELPN[worst.k])}</b> helps least (${worst.fix} of ${worst.n}).`);
+  if (stickN.length >= 3) tips.push(stickOk.length / stickN.length >= .6 ? `It's sticking: after fixing a miss with help, he got the next new question right ${stickOk.length} of ${stickN.length} times.` : `Not sticking yet: after fixing a miss with help, he got the next new question right only ${stickOk.length} of ${stickN.length} times. He may be following the steps without owning them. Have him redo the miss later with no help.`);
+  if (stuck.length) tips.push(`${stuck.length} question${stuck.length > 1 ? 's' : ''} he never got right, even with help. Go over these with him.`);
+  if (!withHelp.length) tips.push('He has not opened any help on these yet. Encourage Show me how or the video after a miss.');
+  const big = (lab, a, b, sub) => `<div><div style="font-size:13px;color:var(--mute)">${lab}</div><div class="hd" style="font-size:28px;font-weight:800;color:${col(a, b)}">${b ? Math.round(100 * a / b) + '%' : '—'}</div><div style="font-size:13px;color:var(--mute)">${sub}</div></div>`;
+  const qline = e => `<div style="display:flex;gap:10px;align-items:center;padding:6px 0;border-top:1px solid #f1f2f4;font-size:14px;flex-wrap:wrap"><span class="pill" style="background:#fde2e2;color:#b91c1c">never right</span>${skillId ? '' : `<b>${esc(e.s.name)}</b>`}<span style="color:var(--mute)">${new Date(e.ts).toLocaleDateString('en-US', {month: 'short', day: 'numeric'})} · ${DIFF[e.q.diff]} · ${e.tries} tr${e.tries > 1 ? 'ies' : 'y'}${e.used.length ? ' · used ' + e.used.map(h => HELPN[h] || h).join(', ') : ' · no help opened'}</span><span style="flex:1;min-width:180px">${esc(plain(e.q.q).slice(0, 90))}${plain(e.q.q).length > 90 ? '…' : ''}</span><a href="#/look/${e.id}">Look at it</a></div>`;
+  return `<section class="card" style="padding:16px 18px;border-left:6px solid #1e40af">${head}
+   <div style="display:flex;gap:34px;flex-wrap:wrap;margin:12px 0 10px">
+    ${big('Fix rate with help', fixedHelp.length, withHelp.length, `${fixedHelp.length} of ${withHelp.length} got right after help`)}
+    ${big('Did it stick?', stickOk.length, stickN.length, `next new question right: ${stickOk.length} of ${stickN.length}`)}
+    <div><div style="font-size:13px;color:var(--mute)">Fixed on his own</div><div class="hd" style="font-size:28px;font-weight:800">${own.length}</div><div style="font-size:13px;color:var(--mute)">retried right, no help</div></div>
+    <div><div style="font-size:13px;color:var(--mute)">Stuck</div><div class="hd" style="font-size:28px;font-weight:800;color:${stuck.length ? '#b91c1c' : '#15803d'}">${stuck.length}</div><div style="font-size:13px;color:var(--mute)">never right, even with help</div></div>
+   </div>
+   ${tips.length ? `<div class="box b-yel" style="margin:4px 0 12px"><div class="lab">What this tells you</div><ul style="margin:4px 0 0;padding-left:20px;display:grid;gap:4px">${tips.map(x => `<li>${x}</li>`).join('')}</ul></div>` : ''}
+   ${types.length ? `<div style="overflow-x:auto"><table class="rep"><thead><tr><th>Help</th><th>Used on</th><th>Got it right after</th><th>Fix rate</th><th>Next new one right</th></tr></thead><tbody>${types.map(t => `<tr><td><b>${esc(HELPN[t.k] || t.k)}</b></td><td>${t.n} Qs</td><td>${t.fix}</td><td style="font-weight:700;color:${col(t.fix, t.n)}">${rate(t.fix, t.n)}</td><td>${t.sn ? `<b style="color:${col(t.sok, t.sn)}">${t.sok} of ${t.sn}</b>` : '<span style="color:var(--mute)">—</span>'}</td></tr>`).join('')}</tbody></table></div>` : ''}
+   ${stuck.length ? `<h3 class="hd" style="margin:14px 0 4px;font-size:16px">Stuck: go over these with him</h3>${stuck.slice(-10).reverse().map(qline).join('')}${stuck.length > 1 ? `<div style="margin-top:10px"><button class="btn sm" data-go="#/drill/ids:${stuck.map(e => e.id).join(',')}">Redo the ${stuck.length} stuck questions</button></div>` : ''}` : ''}
+   <div style="font-size:12px;color:var(--mute);margin-top:10px">Counts questions he missed on the first try or opened help on before answering. "Did it stick?" = after fixing one with help, was the next new question of that skill right on the first try with no help. Help tracking began mid-November, so older misses may show "no help opened."</div></section>`;
 }
