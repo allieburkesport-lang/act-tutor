@@ -297,6 +297,9 @@ th,.rep th,.sched th,table.pv th,table.pv2 th,table.pt th,table.bt th,#bi table.
 /* skill table fits: narrow skill column, no cut-off last column */
 #bi table.pv2{table-layout:auto}#bi table.pv2 td:first-child,#bi table.pv2 th:first-child{width:1%;white-space:normal!important;min-width:200px;max-width:240px}
 #bi table.pv2 td,#bi table.pv2 th{padding-left:8px!important;padding-right:8px!important}
+/* Every skill table (Allie, Nov 23): everything centered except the skill names */
+#bi table.pv2 td,#bi table.pv2 th{text-align:center!important;vertical-align:middle}#bi table.pv2 td>div,#bi table.pv2 td>span{justify-content:center;margin-left:auto;margin-right:auto}
+#bi table.pv2 td:first-child,#bi table.pv2 th:first-child{text-align:left!important}#bi table.pv2 td:first-child>div{justify-content:flex-start;margin-left:0}
 #bi table.pv2 .ub .tr{width:56px!important}
 #bi table.pv2 th{white-space:normal!important;font-size:12px!important;line-height:1.25}
 #bi table.pv2 tr.pvg th{background:#fff!important;border-bottom:0!important;padding-bottom:0!important;padding-top:10px!important;font-size:13px!important;color:#09090B!important;text-align:center}
