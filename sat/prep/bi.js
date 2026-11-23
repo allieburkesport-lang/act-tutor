@@ -61,7 +61,7 @@ const HC = {navy: '#4F46E5', navyL: '#A5B4FC', gold: '#0D9488', goldL: '#99F6E4'
   .bi .bc,.bi .card{background:var(--card)!important;border:1px solid var(--bd)!important;border-radius:12px!important;box-shadow:none!important}
   .bi .bc{padding:20px 22px!important}
   .bi .lab,.bi .ch{font-size:13px;font-weight:500;letter-spacing:0;text-transform:none;color:var(--mu)}
-  .bi .ch b{color:var(--tx);font-weight:600}
+  .bi .ch b{color:var(--tx);font-size:17px;font-weight:700;letter-spacing:-.01em}.bi .ch{margin-bottom:2px}
   .bi .ch2{font-size:12px;color:var(--mu);margin-top:2px}
   .bi .num,.bi .kpi .v,.bi table.pv td:not(:first-child),.bi .rk .val{font-family:var(--mono);font-variant-numeric:tabular-nums}
   .bi .kpi .v{font-size:30px!important;font-weight:600!important;letter-spacing:-.03em!important;margin-top:10px;color:var(--tx)}
@@ -100,7 +100,10 @@ const HC = {navy: '#4F46E5', navyL: '#A5B4FC', gold: '#0D9488', goldL: '#99F6E4'
   .bi .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#09090B;color:#fff;padding:10px 14px;border-radius:8px;font-size:13px;z-index:9999}
   .bi button,.bi .xbtn,.bi .bc,.bi .kpi,.bi .rk .it,.bi .pill2,.bi .tgl,.bi table.pv td,.bi .seg button{transition:background-color 150ms ease-out,border-color 150ms ease-out,color 150ms ease-out,opacity 150ms ease-out}
   .bi [data-bi]:focus-visible,.bi select:focus-visible,.bi input:focus-visible{outline:2px solid var(--ac);outline-offset:2px;border-radius:8px}
-  .bi section h2.hd,.bi section h3.hd{font-size:13px!important;font-weight:600!important;letter-spacing:0;color:var(--tx)}
+  .bi section h2.hd,.bi section h3.hd{font-size:17px!important;font-weight:700!important;letter-spacing:-.01em;color:var(--tx)}
+  .bi .bc,.bi .card.blk,.bi .subcard{border-color:#D4D4D8!important}
+  .bi.dark .bc,.bi.dark .card.blk,.bi.dark .subcard{border-color:#3F3F46!important;background:var(--card)!important}
+  .bi .blkh{border-color:var(--bd)}
   .bi section h2.hd span,.bi section h3.hd span{font-size:12px!important;font-weight:400!important;color:var(--mu)!important}
   .bi section .hd[style*="font-size:28px"],.bi section .hd[style*="font-size:22px"],.bi section .hd[style*="font-size:40px"],.bi section .hd[style*="font-size:44px"],.bi section .hd[style*="font-size:36px"]{font-family:var(--mono);font-weight:600!important;letter-spacing:-.03em}
   .bi .box .lab{text-transform:none;letter-spacing:0;font-size:13px;font-weight:600}
@@ -174,6 +177,7 @@ function drawStats() {
      <button class="xbtn" data-bi="dark" title="Dark / light mode">${BI.dark ? '☀' : '☾'}</button>
      <button class="xbtn" data-bi="share">Share</button><button class="xbtn pr" data-bi="export">Export CSV</button></div>
     ${pills.length ? `<div class="pills" style="flex-basis:100%">${pills.map(([k, t], i) => `${i ? '<span style="color:var(--mu)">›</span>' : ''}<span class="pill2">${esc(t)}<button data-bi="unf:${k}" aria-label="Remove filter">✕</button></span>`).join('')}<button class="xbtn" data-bi="reset" style="padding:3px 8px;font-size:12px">Clear all</button></div>` : ''}</div>
+   <div class="stitle" style="margin-top:6px">Practice at a glance</div>
    <div class="kpis">
     ${kpi('acc', 'Right on first try', A.acc == null ? '—' : A.acc + '%', `${A.ok} of ${A.n} · ${prevTxt}`, badge(A.acc, P && P.acc, ' pts'), perDay.map(x => x.acc), HC.navy)}
     ${kpi('n', 'Questions answered', A.n.toLocaleString(), prevTxt, badge(A.n, P && P.n), perDay.map(x => x.n), HC.blue)}
@@ -186,15 +190,18 @@ function drawStats() {
     <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div><div class="ch"><b>Accuracy by ${lvName.toLowerCase()}</b></div><div class="ch2">${lv === 'diff' ? 'HELM only (Blueprint has no difficulty)' : 'Weakest first · click a row to drill in: Section › Domain › Skill › Difficulty'}</div></div>
      ${lv !== 'sec' ? `<button class="xbtn" data-bi="back">← Back to ${BI_LEVELS[BI_LEVELS.findIndex(x => x[0] === lv) - 1][1]}</button>` : ''}</div><div id="bi-rk-wrap"></div></section>
    </div>
+   <div class="stitle">Skills</div>
    <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px"><div class="ch"><b>Every skill</b></div>
      <div class="ch2">Click a header to sort · click a row to see its questions · <b>Points at stake</b> = SAT points still being lost in that skill (share of section × % wrong × 600)</div></div>
     <div style="margin-top:12px"><input class="srch" id="bi-pq" placeholder="Search skills" value="${esc(BI.pq)}" autocomplete="off"></div><div style="overflow:auto;max-height:560px;margin-top:10px" id="bi-pv"></div></section>
+   <div class="stitle">Help and tutor</div>
    <div class="bi-help">${BI.src.helm ? helpSection(null, rg) : ''}</div>
    <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px"><div class="ch"><b>What he asked the tutor</b></div>
      <div style="font-size:13px;color:var(--mu)">Every question Patrick took to "Ask the tutor" in this date range, with his exact words · whether he got it right after, and how he did on new questions of that skill afterwards (first try, no help) · the nightly plan uses these to add look-alike questions and a new explanation the next two days</div></div><div id="bi-tutor" style="margin-top:8px;color:var(--mu);font-size:14px">Loading…</div></section>
+   <div class="stitle">Day by day</div>
    <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px"><div class="ch"><b>Day by day: Blueprint and HELM</b></div>
      <div style="font-size:13px;color:var(--mu)">First tries only · click a day to filter the whole page</div></div><div style="overflow:auto;margin-top:8px" id="bi-days"></div></section>
-   <div style="margin-top:8px"><div class="lab" style="margin-bottom:6px">Official SAT scores and projection</div>${scoresBlock()}</div>
+   <div class="stitle">Scores and projection</div>${scoresBlock()}
   </div><div id="bi-drw"></div></div>`;
   biTrend(rows); biRank(rows, lv); biDaysTable(R); biPivot(R, rg); if (BI.drawer) biOpen(BI.drawer, true);
   scoresChart(); biTutor(rg)
