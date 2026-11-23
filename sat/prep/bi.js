@@ -415,6 +415,11 @@ function biTrendChart(skill) {
       plugins: {legend: {position: 'bottom', labels: {color: C.tick, boxWidth: 14, font: {size: 11}}}, tooltip: {callbacks: {label: c => c.dataset.label + ': ' + c.raw + (c.dataset.yAxisID === 'y' ? '%' : '')}}},
       scales: {y: {min: 0, max: 100, ticks: {color: C.tick, callback: v => v + '%'}, grid: {color: C.grid}}, y2: {position: 'right', stacked: true, beginAtZero: true, ticks: {color: C.tick, precision: 0}, grid: {drawOnChartArea: false}, title: {display: true, text: 'Qs', color: C.tick}}, x: {stacked: true, ticks: {color: C.tick}, grid: {display: false}}}}})
 }
+// Official SAT columns (Allie, Nov 23): estimated % right in that category on each test, from the College Board score range of its domain
+function satCols(x) { const s = SK2[x.skillId] || Object.values(SK2).find(z => z.name === x.skill); if (!s) return SAT_OFFICIAL.map(() => '<td>—</td>').join('');
+  const N = s.sec === 'Math' ? 44 : 54, nq = Math.max(1, Math.round((s.share || 0) / 100 * N)), k = DOMK2[s.dom], best = satCatEst({s, nq}, 'best');
+  return SAT_OFFICIAL.map(o => { const b = k && o.dom[k]; if (!b) return '<td>—</td>'; const [a, z] = String(b).split('–').map(Number), n = Math.max(0, Math.min(nq, Math.round(((a + (z || a)) / 2 - 200) / 600 * nq)));
+    const isBest = best && best.d === o.label; return `<td style="white-space:nowrap${isBest ? ';background:#F0FDF4' : ''}"><b>${Math.round(((a + (z || a)) / 2 - 200) / 6)}%</b><div style="font-size:12px;color:var(--mu)">≈ ${n} of ${nq}${isBest ? ' · best' : ''}</div></td>` }).join('') }
 function biPivot(R, rg) {
   const rows = biFilter(R, rg).filter(r => r.kind !== 'daily' && (!BI.pq || r.skill.toLowerCase().includes(BI.pq.toLowerCase()))), pr = biPrevRange(), prev = pr ? biFilter(R, pr, {dated: true}).filter(r => r.kind !== 'daily') : [], g = {};
   rows.forEach(r => { (g[r.skill] = g[r.skill] || []).push(r) });
@@ -426,12 +431,12 @@ function biPivot(R, rg) {
   const el = document.getElementById('bi-pv'); if (!el) return;
   if (!list.length) { el.innerHTML = '<div style="color:var(--mu);padding:16px 0">No skill-level records in this range. (Blueprint skill totals appear when the range covers Aug 31–Nov 20, e.g. All time.)</div>'; return }
   const accCol = a => a == null ? '#A1A1AA' : a >= 70 ? '#10B981' : a >= 50 ? '#F59E0B' : '#F43F5E', stat = a => a == null ? 'No data' : a >= 70 ? 'Strong' : a >= 50 ? 'Getting there' : 'Needs work';
-  const H = [['skill', 'Skill'], ['share', 'Share of section'], ['n', 'Right / asked'], ['acc', 'Accuracy'], ['helm', 'HELM'], ['bp', 'Blueprint'], ['st', 'Status'], ['lost', 'If he gets all of them right'], ['go', '']];
-  const head = `<thead><tr>${H.map(([k, tl]) => k === 'go' || k === 'st' ? `<th>${tl}</th>` : `<th data-bi="sort:${k}">${tl}<span class="so">${S.k === k ? (S.d > 0 ? '▲' : '▼') : '↑↓'}</span></th>`).join('')}</tr></thead>`;
+  const H = [['skill', 'Skill'], ['share', 'Share of section'], ...SAT_OFFICIAL.map(o => ['sat:' + o.date, 'SAT ' + o.label]), ['n', 'Right / asked'], ['acc', 'Accuracy'], ['helm', 'HELM'], ['bp', 'Blueprint'], ['st', 'Status'], ['lost', 'If he gets all of them right'], ['go', '']];
+  const head = `<thead><tr>${H.map(([k, tl]) => k === 'go' || k === 'st' || k.startsWith('sat:') ? `<th>${tl}</th>` : `<th data-bi="sort:${k}">${tl}<span class="so">${S.k === k ? (S.d > 0 ? '▲' : '▼') : '↑↓'}</span></th>`).join('')}</tr></thead>`;
   const part = (sec, lab) => { const v = list.filter(x => sec === 'Math' ? x.sec === 'Math' : x.sec !== 'Math'); if (!v.length) return '';
     return `<div class="pvbox"><div class="pvh">${lab} <span>${v.length} categories</span></div><table class="pv2">${head}<tbody>${v.map(x => `<tr data-bi="row:${esc(x.skill)}" title="See every question in this skill">
     <td><div class="sk"><span class="lg" style="background:${x.sec === 'Math' ? '#4F46E5' : '#0D9488'}">${x.sec === 'Math' ? 'M' : 'RW'}</span><div><div style="font-weight:600">${esc(x.skill)}</div><div style="font-size:13px;color:var(--mu)">${esc(x.dom)}</div></div></div></td>
-    <td>${x.share ? `<b>${Math.round(x.share)}%</b><div style="font-size:12px;color:var(--mu)">${Math.max(1, Math.round(x.share / 100 * (x.sec === 'Math' ? 44 : 54)))} Qs · ≈ ${Math.round(Math.max(1, Math.round(x.share / 100 * (x.sec === 'Math' ? 44 : 54))) * 600 / (x.sec === 'Math' ? 44 : 54))} pts</div>` : '—'}</td><td>${x.ok} <span style="color:var(--mu)">/ ${x.n}</span></td>
+    <td>${x.share ? `<b>${Math.round(x.share)}%</b><div style="font-size:12px;color:var(--mu)">${Math.max(1, Math.round(x.share / 100 * (x.sec === 'Math' ? 44 : 54)))} Qs · ≈ ${Math.round(Math.max(1, Math.round(x.share / 100 * (x.sec === 'Math' ? 44 : 54))) * 600 / (x.sec === 'Math' ? 44 : 54))} pts</div>` : '—'}</td>${satCols(x)}<td>${x.ok} <span style="color:var(--mu)">/ ${x.n}</span></td>
     <td><div class="ub"><span class="tr"><i style="width:${x.acc ?? 0}%;background:${accCol(x.acc)}"></i></span><b>${x.acc == null ? '—' : x.acc + '%'}</b></div></td>
     <td>${x.helm == null ? '—' : x.helm + '%'}</td><td>${x.bp == null ? '—' : x.bp + '%'}</td>
     <td><span class="st2"><i style="background:${accCol(x.acc)}"></i>${stat(x.acc)}</span></td>
