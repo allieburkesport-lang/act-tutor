@@ -313,6 +313,17 @@ th,.rep th,.sched th,table.pv th,table.pv2 th,table.pt th,table.bt th,#bi table.
 #bi table.pv2 tr.pvg th.g1:after,#bi table.pv2 tr.pvg th.g2:after{content:'';position:absolute;left:8px;right:8px;bottom:0;height:2px;border-radius:2px}
 #bi table.pv2 tr.pvg th.g1:after{background:#1D4ED8}#bi table.pv2 tr.pvg th.g2:after{background:#7C3AED}
 #bi table.pv2 td.g2c:first-of-type,#bi table.pv2 td.g1c+td.g2c{border-left:2px solid #fff}
+
+/* Allie, Nov 23: bigger, easier text in the skill lists and stat cards; every title and column header in ALL CAPS */
+.sec h2{font-size:20px!important;font-weight:800!important;text-transform:uppercase;letter-spacing:.06em}
+.row{font-size:17px}.row .nm{font-size:17px}
+.row.hd2{font-size:13px!important}
+.src2{font-size:15px!important}.src2 .lab{font-size:13px!important}
+.row .pill{font-size:14px}
+.stat .l{font-size:14px!important}.stat .v{font-size:clamp(22px,1.8vw,34px)!important}
+.sec .row:not(.hd2),.sec .row.hd2{grid-template-columns:minmax(150px,1.3fr) 105px minmax(230px,1.4fr) auto!important}
+.src2 .lab{min-width:80px!important}
+.sec .h > div{font-size:14px!important}
 </style>
 <script src="embed.js?v=3"></script><script src="auth.js?v=3"></script>
 <script src="progress.js?v=1"></script>
@@ -507,7 +518,7 @@ function schedule(){if(!PLAN)return todayCard();const t=today(),tm=tomorrowOf(t)
      <td class="hide">${rq?`<b>${rq} review questions</b>${revList(d,'Math')}${revList(d,'English')}`:'—'}</td>
      <td class="hide" style="white-space:nowrap">${drill?`${buildDay(d,true).qs.length} Qs<div style="font-size:15px;color:var(--mute)">about ${mins(estSec(d))} at SAT pace</div>`:'—'}</td>
      <td style="white-space:nowrap">${drill?status:''}</td><td style="text-align:right;white-space:nowrap">${btn}</td></tr>${isNow&&d.mix&&d.mix.length&&typeof mixHTML==='function'?`<tr class="mxrow now"><td colspan="6" style="padding-top:0">${mixHTML(d)}</td></tr>`:''}`}).join('');
-  return `<section class="card" style="padding:18px 20px;overflow-x:auto"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:baseline"><h2 class="hd" style="margin:0;font-size:24px">${UI.allDays?'Schedule to test day':owed.length?'Finish these first':'Today and tomorrow'}</h2>
+  return `<section class="card" style="padding:18px 20px;overflow-x:auto"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:baseline"><h2 class="hd" style="margin:0;font-size:20px;font-weight:800;text-transform:uppercase;letter-spacing:.06em">${UI.allDays?'Schedule to test day':owed.length?'Finish these first':'Today and tomorrow'}</h2>
    <div style="font-size:15px;color:var(--mute)">Rebuilt every night from his results · red = extra practice on his weakest areas${PLAN.updated?' · last update '+esc(PLAN.updated):''}. Click a day to start its drills.</div></div>
    <table class="sched" style="margin-top:10px"><thead><tr><th>Day</th><th>What's in it</th><th class="hide">Review</th><th class="hide">Size + time</th><th>Result</th><th></th></tr></thead><tbody>${rows}</tbody></table>
    <div style="text-align:center;margin-top:10px"><button class="btn g sm" data-alldays="1">${UI.allDays?'▴ Show only today and tomorrow':'▾ Show all '+all.length+' days to the SAT'}</button></div></section>`}
