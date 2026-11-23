@@ -103,10 +103,10 @@ iframe.desmos{width:100%;height:calc(100vh - 190px);border:1px solid var(--line)
 .lframe{width:100%;height:calc(100vh - 160px);border:1px solid var(--line);border-radius:14px;background:#fff}
 .end{max-width:640px;margin:40px auto;text-align:center;display:flex;flex-direction:column;gap:14px;align-items:center}
 .sched{width:100%;border-collapse:collapse;font-size:15px}.sched th{text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--mute);padding:10px 12px;border-bottom:2px solid #e5e7eb}
-.mxg{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:14px;margin-top:8px}.mxb{border:1px solid #E4E4E7;border-radius:10px;overflow:hidden}
+.mxg{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:16px;margin:2px 0 6px}.sched tr.mxrow td{cursor:default}.mxb{border:1px solid #E4E4E7;border-radius:10px;overflow:hidden}
 .mxh{font-weight:800;font-size:14px;letter-spacing:.04em;padding:8px 12px;background:#F4F6FA;border-bottom:1px solid #E4E4E7}.mxh span{font-weight:600;color:#1D4ED8;letter-spacing:0;margin-left:6px}
 table.mxt{width:100%;border-collapse:collapse;font-size:14px}table.mxt th{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#52525B;text-align:center;padding:6px 8px;border-bottom:1px solid #E4E4E7}
-table.mxt td{border-left:0!important;box-shadow:none!important;background:#fff!important;padding:6px 8px;border-top:1px solid #F1F2F4;text-align:center;white-space:nowrap}table.mxt td:first-child,table.mxt th:first-child{text-align:left;white-space:normal}table.mxt tr.rot td{color:#6B7280}
+table.mxt td{border-left:0!important;box-shadow:none!important;background:#fff!important;padding:6px 8px;border-top:1px solid #F1F2F4;text-align:center;white-space:nowrap}table.mxt td:first-child,table.mxt th:first-child{text-align:left;white-space:normal;min-width:170px}table.mxt tr.rot td{color:#6B7280}
 .sched td{padding:11px 12px;border-top:1px solid #f1f2f4;vertical-align:top}.sched tr.click{cursor:pointer}.sched tr.click:hover td{background:#f6f8fc}.sched tr.now td{background:#eef3ff}.sched tr.owed td{background:#fff4f4}.sched tr.owed td:first-child{box-shadow:inset 4px 0 0 #9b1c1c}.sched tr.now td:first-child{box-shadow:inset 4px 0 0 var(--navy)}
 .tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;background:#eef0f3;color:#374151;margin-right:6px}.tag.learn{background:#e8efff;color:#1e40af}.tag.test{background:#fff1e6;color:#9a3412}.tag.weak{background:#fde8e8;color:#9b1c1c}.tag.light{background:#e7f6ec;color:#14532d}.tag.sat{background:var(--navy);color:#fff}
 .rep{width:100%;border-collapse:collapse;font-size:14px}.rep th{text-align:left;font-size:12px;color:var(--mute);padding:8px 10px;border-bottom:2px solid #e5e7eb;white-space:nowrap}.rep td{padding:10px;border-top:1px solid #f1f2f4;vertical-align:middle}
@@ -314,7 +314,7 @@ th,.rep th,.sched th,table.pv th,table.pv2 th,table.pt th,table.bt th,#bi table.
 #bi table.pv2 tr.pvg th.g1:after{background:#1D4ED8}#bi table.pv2 tr.pvg th.g2:after{background:#7C3AED}
 #bi table.pv2 td.g2c:first-of-type,#bi table.pv2 td.g1c+td.g2c{border-left:2px solid #fff}
 </style>
-<script src="embed.js?v=2"></script><script src="auth.js?v=3"></script>
+<script src="embed.js?v=3"></script><script src="auth.js?v=3"></script>
 <script src="progress.js?v=1"></script>
 </head>
 <body>
@@ -503,10 +503,10 @@ function schedule(){if(!PLAN)return todayCard();const t=today(),tm=tomorrowOf(t)
     const left=isOwed&&drill?Math.max(0,buildDay(d,true).qs.length-f.length):0;
     const btn=dayHold(d.date)?`<span style="font-weight:700;color:#9a3412">New questions coming</span>`:drill?`<button class="btn sm" data-go="#/day/${d.date}">${run&&!run.done?'Continue':f.length?'Keep going':'Start'}</button>${f.length?` <button class="btn g sm" data-go="#/report/${d.date}">Report</button>`:''}`:'';
     return `<tr class="${drill?'click':''} ${isNow?'now':''} ${isOwed?'owed':''}" ${drill?`data-go="#/day/${d.date}"`:''}><td style="white-space:nowrap"><b>${lab}</b>${isNow?'<div style="font-size:12px;color:var(--navy);font-weight:700">TODAY</div>':isOwed?`<div style="font-size:12px;color:#9b1c1c;font-weight:700">NOT FINISHED</div><div style="font-size:12px;color:var(--mute)">${left} question${left===1?'':'s'} left</div>`:isTm?'<div style="font-size:12px;color:var(--mute);font-weight:700">TOMORROW</div>':''}</td>
-     <td><span class="tag ${d.kind}">${d.mix&&d.mix.length?(d.kind==='light'?'Light focus set':'Focus set'):(KIND[d.kind]||d.kind)}</span>${d.mix&&d.mix.length&&typeof mixHTML==='function'?mixHTML(d):newS.length?esc(newS.join(' · ')):esc(d.note||'')}${newS.length&&d.note?`<div style="font-size:13px;color:var(--mute);margin-top:3px">${esc(d.note)}</div>`:''}</td>
+     <td><span class="tag ${d.kind}">${d.mix&&d.mix.length?(d.kind==='light'?'Light focus set':'Focus set'):(KIND[d.kind]||d.kind)}</span>${d.mix&&d.mix.length?(()=>{const n=sec=>d.mix.filter(m=>SK2[m[0]]&&SK2[m[0]].sec===sec).reduce((a,m)=>a+m[1],0);return `<b>${n('Math')} Math</b> · <b>${n('English')} Reading &amp; Writing</b><div style="font-size:13px;color:var(--mute);margin-top:3px">Biggest point-losers first, each category in a row${isNow?' · breakdown below':''}</div>`})():newS.length?esc(newS.join(' · ')):esc(d.note||'')}${newS.length&&d.note&&!(d.mix&&d.mix.length)?`<div style="font-size:13px;color:var(--mute);margin-top:3px">${esc(d.note)}</div>`:''}</td>
      <td class="hide">${rq?`<b>${rq} review questions</b>${revList(d,'Math')}${revList(d,'English')}`:'—'}</td>
      <td class="hide" style="white-space:nowrap">${drill?`${buildDay(d,true).qs.length} Qs<div style="font-size:13px;color:var(--mute)">about ${mins(estSec(d))} at SAT pace</div>`:'—'}</td>
-     <td style="white-space:nowrap">${drill?status:''}</td><td style="text-align:right;white-space:nowrap">${btn}</td></tr>`}).join('');
+     <td style="white-space:nowrap">${drill?status:''}</td><td style="text-align:right;white-space:nowrap">${btn}</td></tr>${isNow&&d.mix&&d.mix.length&&typeof mixHTML==='function'?`<tr class="mxrow"><td colspan="6" style="padding-top:0">${mixHTML(d)}</td></tr>`:''}`}).join('');
   return `<section class="card" style="padding:18px 20px;overflow-x:auto"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:baseline"><h2 class="hd" style="margin:0;font-size:24px">${UI.allDays?'Schedule to test day':owed.length?'Finish these first':'Today and tomorrow'}</h2>
    <div style="font-size:13px;color:var(--mute)">Rebuilt every night from his results · red = extra practice on his weakest areas${PLAN.updated?' · last update '+esc(PLAN.updated):''}. Click a day to start its drills.</div></div>
    <table class="sched" style="margin-top:10px"><thead><tr><th>Day</th><th>What's in it</th><th class="hide">Review</th><th class="hide">Size + time</th><th>Result</th><th></th></tr></thead><tbody>${rows}</tbody></table>
@@ -522,7 +522,7 @@ function buildDay(d,all){tfAdd();const ord=all?(qs=>qs):order;const used=new Set
   if(d.mix&&d.mix.length){const isOff=q=>/^(cb|pt|bpr)/.test(q.id);
     d.mix.forEach(([s,n,t])=>{if(!SK2[s])return;const pick=ord(BANK.qs.filter(q=>q.skill===s&&!used.has(q.id))).slice(0,n);
       const offF=all?pick:pick.filter(isOff).concat(pick.filter(q=>!isOff(q)));
-      add(offF,`${SK2[s].sec==='English'?'Reading & Writing':'Math'} · ${SK2[s].name} · ${n>1?n+' in a row':'1 question'}${t==='rotation'?' (review)':''}`)});
+      add(offF,`${SK2[s].name} · ${n>1?n+' in a row':'1 question'}${t==='rotation'?' (review)':''}`)});
     return {qs,secs}}
   const want=dayMix(d);
   if(d.date<MIRROR_FROM)(TF.items||[]).filter(it=>(it.days||[]).includes(d.date)).forEach(it=>add((it.qs||[]).map(q=>QBY[q.id]),`From your tutor questions: ${(SK2[it.skill]||{}).name||it.skill}`));
