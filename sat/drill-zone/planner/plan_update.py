@@ -31,19 +31,22 @@ BASE = [
  ('2026-11-21','learn',['nleq','prob','cid'],"Drills today instead of Practice Test 3 (Allie, Nov 21)"),
  ('2026-11-22','learn',['ratio','pct','bound'],""),
  ('2026-11-23','learn',['linf','lin2','wic'],""),
- ('2026-11-24','learn',['area','lat','syn'],""),
- ('2026-11-25','learn',['data1','data2','inf'],""),
+ # ---- FOCUS PLAN TO 1300 (Allie, Nov 23): from Nov 24 only the 8 biggest, most learnable point-winners. Nothing else is taught or reviewed.
+ ('2026-11-24','learn',['nlf','bound','syn'],"Focus plan to 1300 · round 1"),
+ ('2026-11-25','learn',['linf','fss','trans'],"Focus plan to 1300 · round 1"),
  ('2026-11-26','off',[],"Thanksgiving: off"),
- ('2026-11-27','light',[],"Light day: review + redo my misses (about 30 min)"),
+ ('2026-11-27','light',[],"Light day: redo my misses in the 8 focus skills (about 30 min)"),
  ('2026-11-28','test',[],"Practice Test 4 in Bluebook (full test, timed). Send the score report afterward."),
- ('2026-11-29','learn',['sys','ineq','coe'],""),
- ('2026-11-30','learn',['lin1','equiv','tsp'],""),
- ('2026-12-01','weak',[],"His weakest concepts · Also: download the exam in Bluebook and charge the laptop"),
- ('2026-12-02','weak',['infer','cross'],"Small topics + his weakest concepts (statistical claims dropped: 0 per test in the official practice tests)"),
- ('2026-12-03','weak',[],"His weakest concepts + mixed set at SAT pace"),
+ ('2026-11-29','learn',['nleq','lin2','bound','syn'],"Focus plan to 1300 · round 2"),
+ ('2026-11-30','learn',['nlf','linf','fss','trans'],"Focus plan to 1300 · round 2"),
+ ('2026-12-01','weak',[],"Focus skills he is weakest in right now · Also: download the exam in Bluebook and charge the laptop"),
+ ('2026-12-02','weak',[],"Focus skills he is weakest in right now"),
+ ('2026-12-03','weak',[],"Focus skills + mixed set at SAT pace"),
  ('2026-12-04','light',[],"Light: redo my misses, pack the bag, early bed"),
  ('2026-12-05','sat',[],"SAT · check in by 7:45 AM"),
 ]
+FOCUS = ['nlf', 'linf', 'nleq', 'lin2', 'bound', 'fss', 'trans', 'syn']   # 4 Math + 4 Reading & Writing (Allie, Nov 23)
+FOCUS_FROM = datetime.date(2026, 11, 24)
 MATH = {'lin1','lin2','linf','sys','ineq','equiv','nleq','nlf','ratio','pct','data1','data2','prob','infer','claims','area','lat','trig','circ'}
 
 def get_rows():
@@ -111,6 +114,7 @@ def main():
             carry += missed
     # spread missed concepts over the next learning days (max 4 concepts on any day)
     future = [d for d in days if datetime.date.fromisoformat(d['date']) >= today and d['kind'] in ('learn', 'weak')]
+    carry = [s for s in carry if s in FOCUS]   # focus plan: skills outside the 8 are not carried forward
     for s in carry:
         tgt = next((d for d in future if s not in d['learn'] and len(d['learn']) < 4), None)
         if tgt:
@@ -123,8 +127,8 @@ def main():
     def weakness(s):
         p, n = acc(s); p = 50 if p is None else p
         return (100 - p) * SHARE[s]
-    ranked_m = sorted([s for s in SHARE if s in MATH], key=weakness, reverse=True)
-    ranked_e = sorted([s for s in SHARE if s not in MATH], key=weakness, reverse=True)
+    ranked_m = sorted([s for s in FOCUS if s in MATH], key=weakness, reverse=True)
+    ranked_e = sorted([s for s in FOCUS if s not in MATH], key=weakness, reverse=True)
     for day in days:
         if day['kind'] == 'weak' and datetime.date.fromisoformat(day['date']) >= today:
             base = [s for s in day['learn']]
@@ -137,13 +141,14 @@ def main():
     seen = []
     for day in days:
         if day['kind'] in ('learn', 'weak', 'light'):
-            pool = [s for s in seen if s not in day['learn']]
+            fday = datetime.date.fromisoformat(day['date']) >= FOCUS_FROM
+            pool = [s for s in seen if s not in day['learn'] and (not fday or s in FOCUS)]
             pool.sort(key=lambda s: (acc(s)[0] if acc(s)[0] is not None else 50))
             # 1 question from EVERY earlier concept; extra questions go to math first so the whole day
             # (warm-up 6 math + 4 English, new concepts, review) is about 65% math / 35% English (USNA weights math)
             rev = [[s, 1] for s in pool]
             # still-weak skills (under 60% after at least 3 tries) always come back, even before their learn day
-            cand = sorted([s for s in SHARE if s not in day['learn'] and acc(s)[0] is not None and acc(s)[0] < 60 and acc(s)[1] >= 3], key=weakness, reverse=True)
+            cand = sorted([s for s in (FOCUS if fday else SHARE) if s not in day['learn'] and acc(s)[0] is not None and acc(s)[0] < 60 and acc(s)[1] >= 3], key=weakness, reverse=True)
             weak_now = [s for s in cand if s in MATH][:3] + [s for s in cand if s not in MATH][:1]   # his 4 biggest point-losers
             for s in weak_now:
                 r = next((r for r in rev if r[0] == s), None)
@@ -188,7 +193,7 @@ def main():
         q = sum(v[0] for v in res.values()); ok = sum(v[1] for v in res.values())
         day['result'] = dict(questions=q, first_try=ok, pct=round(100 * ok / q) if q else None, lessons=lessons_done.get(d0, 0),
                              by_skill={names[s]: v for s, v in res.items()}) if dd < today or q else None
-    out = dict(updated=now.strftime('%a %b %-d, %-I:%M %p ET'), online=online, today=today.isoformat(), test=TEST.isoformat(),
+    out = dict(focus=dict(skills=FOCUS, start=FOCUS_FROM.isoformat()), updated=now.strftime('%a %b %-d, %-I:%M %p ET'), online=online, today=today.isoformat(), test=TEST.isoformat(),
                total_concepts=len(SHARE), math=len(MATH), english=len(SHARE) - len(MATH), changes=changes,
                skills=[dict(skill=s, name=names[s], sec='Math' if s in MATH else 'English', share=SHARE[s], acc=acc(s)[0], tried=acc(s)[1]) for s in SHARE],
                days=days)

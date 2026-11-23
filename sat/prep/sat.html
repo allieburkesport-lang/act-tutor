@@ -322,7 +322,7 @@ function home(){const all=BANK.skills;let tot=0,ok=0;all.forEach(k=>{const t=sta
     <div style="display:flex;align-items:center;gap:8px"><div class="bar"><i style="width:${Math.min(100,sh*5)}%"></i></div><span style="font-size:14px;font-weight:600;min-width:34px">${Math.round(sh)}%</span></div>
     <div><span class="pill" style="color:${lv[1]};background:${lv[2]}">${lv[0]}</span><div class="src2">${srcLine('HELM',h)}${srcLine('Blueprint',b)}</div></div>
     <div class="acts"><button class="btn g sm" data-go="#/learn/${s.id}">Learn it</button><button class="btn g sm" data-go="#/video/${s.id}">Video</button><button class="btn sm" data-go="#/drill/${s.id}">Drill</button></div></div>`}).join('')+`</section>`};
-  app().innerHTML=topbar('home')+`<div class="page">${schedule()}
+  app().innerHTML=topbar('home')+`<div class="page">${typeof focusPlanBlock==='function'?focusPlanBlock(true):''}${schedule()}
    <section class="stats"><div class="card stat"><div class="l">Practice questions done</div><div class="v hd">${tot}</div></div><div class="card stat"><div class="l">Right on the first try</div><div class="v hd">${tot?Math.round(100*ok/tot)+'%':'—'}</div></div><div class="card stat"><div class="l">Done today</div><div class="v hd">${tday}</div></div><div class="card stat"><div class="l">Our time split</div><div class="v hd" style="font-size:24px">65% Math · 35% English</div></div></section>
    <div class="cols">${sec('Math','Math')}${sec('Reading and Writing','English')}</div></div>`;alignHeads();window.scrollTo(0,0);}
 
@@ -347,7 +347,7 @@ function tomorrowOf(t){const x=new Date(t+'T12:00');x.setDate(x.getDate()+1);ret
 function schedule(){if(!PLAN)return todayCard();const t=today(),tm=tomorrowOf(t);
   const all=PLAN.days.filter(d=>d.date>=t&&d.date<=TEST);
   const st=helmStart(),sd=isFinite(st)&&st?new Date(st).toLocaleDateString('en-CA'):t;// only days since the site restart count
-  const owed=PLAN.days.filter(d=>d.date<t&&d.date>=sd&&hasDrill(d)&&!dayHold(d.date)&&!dayDone(d));
+  const owed=PLAN.days.filter(d=>d.date<t&&d.date>=sd&&hasDrill(d)&&!dayHold(d.date)&&!dayDone(d)&&!(PLAN.focus&&d.date<PLAN.focus.start));  // focus plan: old catch-up days are dropped; their focus skills were carried forward
   const days=UI.allDays?owed.concat(all):owed.concat(all.filter(d=>d.date<=tm));
   const rows=days.map(d=>{const run=store.get(runKey(d.date),null),f=dayFirst(d.date),ok=f.filter(x=>x.ok).length,spent=f.reduce((a,x)=>a+(x.sec||0),0);
     const drill=hasDrill(d);const isNow=d.date===t,isOwed=d.date<t,isTm=d.date===tm;
@@ -380,8 +380,10 @@ function buildDay(d,all){tfAdd();const ord=all?(qs=>qs):order;const used=new Set
 // How many questions per skill today, by share of the test: about 36 math + 20 English across all skills (big ones get the most, at least 3 if 7%+),
 // learn-day skills get 10 if big, 6 if 4%+, 4 if small; the planner's weak-spot review counts are a minimum.
 const DAY_BUDGET={Math:36,English:20};
-function dayMix(d){const w={},sum={};Object.values(SK2).forEach(s=>{sum[s.sec]=(sum[s.sec]||0)+(s.share||0)});
-  Object.values(SK2).forEach(s=>{const sh=s.share||0;let n=Math.round(DAY_BUDGET[s.sec]*sh/(sum[s.sec]||1));if(sh>=7)n=Math.max(n,3);if(n>0)w[s.id]=n});
+// Focus plan (Allie, Nov 23): from plan.focus.start, the daily core questions go ONLY to the 8 focus skills.
+function focusOn(d){return PLAN&&PLAN.focus&&d&&d.date>=PLAN.focus.start?PLAN.focus.skills:null}
+function dayMix(d){const w={},sum={},F=focusOn(d),pool=Object.values(SK2).filter(s=>!F||F.includes(s.id));pool.forEach(s=>{sum[s.sec]=(sum[s.sec]||0)+(s.share||0)});
+  pool.forEach(s=>{const sh=s.share||0;let n=Math.round(DAY_BUDGET[s.sec]*sh/(sum[s.sec]||1));if(sh>=7)n=Math.max(n,3);if(n>0)w[s.id]=n});
   (d.learn||[]).forEach(s=>{const sh=(SK2[s]||{}).share||0;w[s]=Math.max(w[s]||0,sh>=7?10:sh>=4?6:4)});
   (d.review||[]).forEach(([s,n])=>{if(SK2[s])w[s]=Math.max(w[s]||0,Math.min(n,(SK2[s].share||0)>=4?n:2))});
   return w}
@@ -764,6 +766,6 @@ function publishSat(){try{if(!PLAN||!window.HELM_PROGRESS)return;
   HELM_PROGRESS.put('sat_summary',{updated:Date.now(),days,daysDone:days.filter(d=>d.done).length,daysTotal:days.length,dueDone:fin,dueTotal:due.length})}catch(e){}}
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=21"></script><script src="bi.js?v=18"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
+<script src="stats.js?v=22"></script><script src="bi.js?v=19"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
 </body>
 </html>

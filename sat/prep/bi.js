@@ -275,6 +275,7 @@ function drawStats() {
    <div class="segs2">${segs.map(([v, l]) => `<button class="${(BI.f.sec || '') === v ? 'on' : ''}" data-bi="seg:${v}">${l}</button>`).join('')}<span class="sp"></span>
     <button class="${BI.src.helm ? 'on' : ''}" data-bi="src:helm">HELM</button><button class="${BI.src.bp ? 'on' : ''}" data-bi="src:bp">Blueprint</button><button data-bi="dark" title="Dark / light mode">${BI.dark ? '☀ Light' : '☾ Dark'}</button></div>
    ${pills.length ? `<div class="pills">${pills.map(([k, t], i) => `${i ? '<span style="color:var(--mu)">›</span>' : ''}<span class="pill2">${esc(t)}<button data-bi="unf:${k}" aria-label="Remove filter">✕</button></span>`).join('')}<button class="xbtn" data-bi="reset" style="padding:3px 8px;font-size:12px">Clear all</button></div>` : ''}
+   ${focusPlanBlock(false)}
    <div class="kpis">
     ${kpi('acc', 'Right on first try', A.acc == null ? '—' : A.acc + '%', pill(A.acc, P && P.acc, ' pts'), P && P.acc != null && BI.cmp ? `vs. ${P.acc}%` : `${A.ok} of ${A.n}`, perDay.map(x => x.acc), '#2563EB', ['Math', (x => x.acc == null ? '—' : x.acc + '%')(secA('Math'))], ['R&W', (x => x.acc == null ? '—' : x.acc + '%')(secA('Reading & Writing'))])}
     ${kpi('n', 'Questions answered', A.n.toLocaleString(), pill(A.n, P && P.n), P && BI.cmp ? `vs. ${P.n.toLocaleString()}` : 'this range', perDay.map(x => x.n), '#7C3AED', ['HELM', hA.n.toLocaleString()], ['Blueprint', bA.n.toLocaleString()])}
