@@ -290,7 +290,7 @@ function drawStats() {
     <section class="bc"><div class="chd"><div><div class="ct">Accuracy by ${lvName.toLowerCase()}</div><div class="cs">${lv === 'diff' ? 'HELM only (Blueprint has no difficulty)' : 'Ranked by accuracy · click a row to drill in'}</div></div>
      ${lv !== 'sec' ? `<button class="xbtn" data-bi="back">← Back</button>` : ''}</div><div id="bi-rk-wrap"></div></section>
    </div>
-   <section class="bc"><div class="chd"><div><div class="ct">Every skill</div><div class="cs">Accuracy in practice, status, and what his best SAT (${superscore().total}) becomes if he gets every question in that category right and nothing else changes (exact points; the real SAT rounds to the nearest 10) · click a row to see its questions</div></div>
+   <section class="bc"><div class="chd"><div><div class="ct">Every skill</div><div class="cs">Accuracy in practice, status, and what his best SAT (${superscore().total}) becomes if he gets every question in that category right and nothing else changes (scores rounded to the nearest 10 like real SAT scores) · click a row to see its questions</div></div>
      <input class="srch" id="bi-pq" placeholder="Search skills…" value="${esc(BI.pq)}" autocomplete="off"></div>
     <div style="overflow:auto;margin-top:6px" id="bi-pv"></div></section>
    <div class="stitle">Help and tutor</div>
@@ -426,18 +426,19 @@ function biPivot(R, rg) {
   const el = document.getElementById('bi-pv'); if (!el) return;
   if (!list.length) { el.innerHTML = '<div style="color:var(--mu);padding:16px 0">No skill-level records in this range. (Blueprint skill totals appear when the range covers Aug 31–Nov 20, e.g. All time.)</div>'; return }
   const accCol = a => a == null ? '#A1A1AA' : a >= 70 ? '#10B981' : a >= 50 ? '#F59E0B' : '#F43F5E', stat = a => a == null ? 'No data' : a >= 70 ? 'Strong' : a >= 50 ? 'Getting there' : 'Needs work';
-  const PS = 10, pages = Math.max(1, Math.ceil(list.length / PS)); BI.pg = Math.min(BI.pg || 1, pages); const pg = BI.pg, view = list.slice((pg - 1) * PS, pg * PS);
   const H = [['skill', 'Skill'], ['share', 'Share of section'], ['n', 'Right / asked'], ['acc', 'Accuracy'], ['helm', 'HELM'], ['bp', 'Blueprint'], ['st', 'Status'], ['lost', 'If he gets all of them right'], ['go', '']];
-  el.innerHTML = `<table class="pv2"><thead><tr>${H.map(([k, tl]) => k === 'go' || k === 'st' ? `<th>${tl}</th>` : `<th data-bi="sort:${k}">${tl}<span class="so">${S.k === k ? (S.d > 0 ? '▲' : '▼') : '↑↓'}</span></th>`).join('')}</tr></thead><tbody>${view.map(x => `<tr data-bi="row:${esc(x.skill)}" title="See every question in this skill">
+  const head = `<thead><tr>${H.map(([k, tl]) => k === 'go' || k === 'st' ? `<th>${tl}</th>` : `<th data-bi="sort:${k}">${tl}<span class="so">${S.k === k ? (S.d > 0 ? '▲' : '▼') : '↑↓'}</span></th>`).join('')}</tr></thead>`;
+  const part = (sec, lab) => { const v = list.filter(x => sec === 'Math' ? x.sec === 'Math' : x.sec !== 'Math'); if (!v.length) return '';
+    return `<div class="pvbox"><div class="pvh">${lab} <span>${v.length} categories</span></div><table class="pv2">${head}<tbody>${v.map(x => `<tr data-bi="row:${esc(x.skill)}" title="See every question in this skill">
     <td><div class="sk"><span class="lg" style="background:${x.sec === 'Math' ? '#4F46E5' : '#0D9488'}">${x.sec === 'Math' ? 'M' : 'RW'}</span><div><div style="font-weight:600">${esc(x.skill)}</div><div style="font-size:13px;color:var(--mu)">${esc(x.dom)}</div></div></div></td>
     <td>${x.share ? `<b>${Math.round(x.share)}%</b><div style="font-size:12px;color:var(--mu)">${Math.max(1, Math.round(x.share / 100 * (x.sec === 'Math' ? 44 : 54)))} Qs · ≈ ${Math.round(Math.max(1, Math.round(x.share / 100 * (x.sec === 'Math' ? 44 : 54))) * 600 / (x.sec === 'Math' ? 44 : 54))} pts</div>` : '—'}</td><td>${x.ok} <span style="color:var(--mu)">/ ${x.n}</span></td>
     <td><div class="ub"><span class="tr"><i style="width:${x.acc ?? 0}%;background:${accCol(x.acc)}"></i></span><b>${x.acc == null ? '—' : x.acc + '%'}</b></div></td>
     <td>${x.helm == null ? '—' : x.helm + '%'}</td><td>${x.bp == null ? '—' : x.bp + '%'}</td>
     <td><span class="st2"><i style="background:${accCol(x.acc)}"></i>${stat(x.acc)}</span></td>
-    <td title="Points he would add over his superscore (${superscore().total}) by getting every question in this category right, starting from what he got on his best SAT (estimated)">${(() => { const SS = superscore(), k = x.sec === 'Math' ? 'Math' : 'R&W', lab = x.sec === 'Math' ? 'Math' : 'R&W', sec2 = Math.min(800, SS[k] + x.lost), add = sec2 - SS[k];
+    <td title="Points he would add over his superscore (${superscore().total}) by getting every question in this category right, starting from what he got on his best SAT (estimated)">${(() => { const SS = superscore(), k = x.sec === 'Math' ? 'Math' : 'R&W', lab = x.sec === 'Math' ? 'Math' : 'R&W', sec2 = Math.min(800, Math.round((SS[k] + x.lost) / 10) * 10), add = sec2 - SS[k];
       return x.lost ? `<b style="color:#047857;font-size:16px">+${add} pts</b><div style="font-size:13px;color:#3F3F46;line-height:1.5">${lab} ${SS[k]} → <b>${sec2}</b><br>Total ${SS.total} → <b>${SS.total + add}</b></div>` : '<b style="color:var(--mu)">✓ all</b>' })()}</td>
-    <td style="text-align:right;color:#A1A1AA">›</td></tr>`).join('')}</tbody></table>
-   <div class="pgr"><span>Showing ${(pg - 1) * PS + 1}–${Math.min(pg * PS, list.length)} of ${list.length} skills</span><div class="pg"><button data-bi="pg:${pg - 1}" ${pg <= 1 ? 'disabled' : ''} aria-label="Previous page">‹</button>${Array.from({length: pages}, (_, k) => `<button class="${k + 1 === pg ? 'on' : ''}" data-bi="pg:${k + 1}">${k + 1}</button>`).join('')}<button data-bi="pg:${pg + 1}" ${pg >= pages ? 'disabled' : ''} aria-label="Next page">›</button></div></div>`
+    <td style="text-align:right;color:#A1A1AA">›</td></tr>`).join('')}</tbody></table></div>` };
+  el.innerHTML = part('Math', 'Math') + part('RW', 'Reading &amp; Writing')
 }
 
 // ---------- inspector drawer ----------
