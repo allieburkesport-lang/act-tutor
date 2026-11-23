@@ -283,6 +283,7 @@ section.card{transition:box-shadow .2s}
 #bi .pvbox{border:1.5px solid #A1A1AA;border-radius:12px;overflow-x:auto;margin-top:14px}
 #bi .pvh{background:#F4F4F5;border-bottom:1.5px solid #D4D4D8;padding:12px 16px;font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#09090B}#bi .pvh span{font-size:13px;font-weight:500;text-transform:none;letter-spacing:0;color:#52525B;margin-left:8px}
 #bi .pvbox table.pv2 tr:last-child td{border-bottom:0!important}
+.path .pcat{font-weight:800;letter-spacing:.02em}
 </style>
 <script src="auth.js?v=3"></script>
 <script src="progress.js?v=1"></script>
@@ -884,6 +885,6 @@ function publishSat(){try{if(!PLAN||!window.HELM_PROGRESS)return;
   HELM_PROGRESS.put('sat_summary',{updated:Date.now(),days,daysDone:days.filter(d=>d.done).length,daysTotal:days.length,dueDone:fin,dueTotal:due.length})}catch(e){}}
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=49"></script><script src="bi.js?v=27"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
+<script src="stats.js?v=50"></script><script src="bi.js?v=27"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
 </body>
 </html>

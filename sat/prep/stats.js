@@ -501,7 +501,7 @@ function pathBlock(withDetails) {
   let num = 0;
   const row = c => { const nm = esc(c.c.r.s.name), g = lift(c, c.goal), a = lift(c, c.all), more = c.goal - c.c.base, hasAll = c.all > c.goal; num++;
     return `<tr class="${c.done ? 'dn' : ''}"><td class="pn">${c.done ? '✓' : num}</td>
-     <td class="pd"><b>Get ${more} more ${nm} right</b><div>His best SAT: ${c.c.base} of ${c.c.r.nq} · Goal: <b>${c.goal === c.c.r.nq ? 'all ' : ''}${c.goal} of ${c.c.r.nq}</b> right${c.phase === 'extra' ? ' · extra category to close the gap' : ''}${c.done ? ' · <span class="ok">already doing this in HELM</span>' : ''}</div>
+     <td class="pd"><b><span class="pcat">${nm.toUpperCase()}:</span> Get ${more} more question${more > 1 ? 's' : ''} right</b><div>His best SAT: ${c.c.base} of ${c.c.r.nq} · Goal: <b>${c.goal === c.c.r.nq ? 'all ' : ''}${c.goal} of ${c.c.r.nq}</b> right${c.phase === 'extra' ? ' · extra category to close the gap' : ''}${c.done ? ' · <span class="ok">already doing this in HELM</span>' : ''}</div>
       <div class="palt">${hasAll ? `Even better: all ${c.all} of ${c.c.r.nq} right → <b>+${a.pts}</b> · ${a.k} ${a.sec} · total <b>${a.tot}</b>` : `That's every question in this category → <b>+${g.pts}</b> · ${g.k} ${g.sec} · total <b>${g.tot}</b>`}</div></td>
      <td class="pp">+${g.pts}</td><td class="psc">${SS[g.k]} → ${g.sec}</td><td class="ps">${g.tot}</td>
      <td class="pb"><a class="btn sm ${c.done ? 'g' : ''}" href="#/drill/${c.c.r.s.id}">Practice</a></td></tr>` };
