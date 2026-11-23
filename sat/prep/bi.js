@@ -131,8 +131,9 @@ function drawStats() {
    <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px"><div class="hd" style="font-size:18px;font-weight:700">Every skill</div>
      <div style="font-size:13px;color:var(--mu)">Click a header to sort · click a row to see its questions · <b>Points at stake</b> = SAT points still being lost in that skill (share of section × % wrong × 600)</div></div>
     <div style="overflow:auto;max-height:560px;margin-top:8px" id="bi-pv"></div></section>
+   <div class="bi-help">${BI.src.helm ? helpSection(null, rg) : ''}</div>
    <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px"><div class="hd" style="font-size:18px;font-weight:700">What he asked the tutor</div>
-     <div style="font-size:13px;color:var(--mu)">Every question Patrick took to "Ask the tutor" in this date range, with his exact words · the nightly plan uses these to add look-alike questions and a new explanation the next two days</div></div><div id="bi-tutor" style="margin-top:8px;color:var(--mu);font-size:14px">Loading…</div></section>
+     <div style="font-size:13px;color:var(--mu)">Every question Patrick took to "Ask the tutor" in this date range, with his exact words · whether he got it right after, and how he did on new questions of that skill afterwards (first try, no help) · the nightly plan uses these to add look-alike questions and a new explanation the next two days</div></div><div id="bi-tutor" style="margin-top:8px;color:var(--mu);font-size:14px">Loading…</div></section>
    <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px"><div class="hd" style="font-size:18px;font-weight:700">Day by day: Blueprint and HELM</div>
      <div style="font-size:13px;color:var(--mu)">First tries only · click a day to filter the whole page</div></div><div style="overflow:auto;margin-top:8px" id="bi-days"></div></section>
    <div style="margin-top:8px"><div class="lab" style="margin-bottom:6px">Official SAT scores and projection</div>${scoresBlock()}</div>
@@ -337,15 +338,24 @@ async function biTutor(rg) {
   if (rg[1] !== '9999') q = q.lt('created_at', new Date(new Date(rg[1] + 'T00:00').getTime() + 864e5).toISOString());
   const {data, error} = await q; if (!document.getElementById('bi-tutor')) return;
   if (error) { el.textContent = 'Could not load tutor questions.'; return }
-  const G = {}; (data || []).forEach(m => { const day = dkey(new Date(m.created_at)), k = day + '|' + (m.question_id || '?'); (G[k] = G[k] || {day, id: m.question_id, skill: m.skill, asks: [], replies: 0}); if (m.role === 'student') G[k].asks.push(m.content); else G[k].replies++ });
+  const G = {}; (data || []).forEach(m => { const day = dkey(new Date(m.created_at)), k = day + '|' + (m.question_id || '?'); (G[k] = G[k] || {day, id: m.question_id, skill: m.skill, asks: [], replies: 0, t0: Infinity}); if (m.role === 'student') { G[k].asks.push(m.content); G[k].t0 = Math.min(G[k].t0, Date.parse(m.created_at)) } else G[k].replies++ });
   const L = Object.values(G).filter(g => g.asks.length).sort((a, b) => b.day.localeCompare(a.day));
   if (!L.length) { el.innerHTML = 'No tutor questions in this date range.'; return }
-  const bySk = {}; L.forEach(g => bySk[g.skill || 'Unknown'] = (bySk[g.skill || 'Unknown'] || 0) + 1);
-  const top = Object.entries(bySk).sort((a, b) => b[1] - a[1]);
+  // Results (Allie, Nov 23): did he get it right after asking, and how did he do on NEW questions of that skill afterwards (SAT rules: first try, no help)
+  const FT = firstTries();
+  L.forEach(g => { const q = QBY[g.id]; g.sk = q ? q.skill : null; const rows = LOG.filter(x => x.id === g.id);
+    g.res = rows.some(x => x.ts > g.t0 && x.ok) ? 'after' : rows.some(x => x.ts < g.t0 && x.ok) ? 'before' : 'no';
+    const nx = g.sk ? FT.filter(r => r.q.skill === g.sk && r.ts > g.t0 && r.id !== g.id) : []; g.an = nx.length; g.aok = nx.filter(r => r.ok).length });
+  const bySk = {}; L.forEach(g => { const k = g.sk || g.skill || 'Unknown'; const b = bySk[k] = bySk[k] || {n: 0, t0: Infinity}; b.n++; b.t0 = Math.min(b.t0, g.t0) });
+  const top = Object.entries(bySk).map(([k, b]) => { const r = FT.filter(x => x.q.skill === k), be = r.filter(x => x.ts < b.t0), af = r.filter(x => x.ts > b.t0); return [k, b.n, be.length, be.filter(x => x.ok).length, af.length, af.filter(x => x.ok).length] }).sort((a, b) => b[1] - a[1]);
+  const pc = (a, n) => n ? Math.round(100 * a / n) + '%' : '—', cc = (a, n) => !n ? 'var(--mu)' : a / n < .5 ? '#b91c1c' : a / n < .7 ? '#b45309' : '#15803d';
+  const skn = k => SK2[k] ? SK2[k].name : k;
+  const resCell = g => g.res === 'after' ? '<b style="color:#15803d">✓ Right after tutor</b>' : g.res === 'before' ? '<span style="color:#15803d">✓ Already right</span>' : '<b style="color:#b91c1c">✗ Not solved yet</b>';
   const qt = id => { const x = QBY[id]; return x ? esc(plain(x.q).slice(0, 110)) + (plain(x.q).length > 110 ? '…' : '') : '' };
-  el.innerHTML = `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">${top.map(([k, n]) => `<span class="pill2">${esc(k)} · ${n} question${n > 1 ? 's' : ''}</span>`).join('')}</div>
-   <table class="bt" style="width:100%;border-collapse:collapse;font-size:14px;color:var(--tx)"><thead><tr><th style="text-align:left;padding:6px">Day</th><th style="text-align:left;padding:6px">Skill</th><th style="text-align:left;padding:6px">Question</th><th style="text-align:left;padding:6px">What Patrick asked</th><th style="padding:6px"></th></tr></thead><tbody>
-   ${L.map(g => `<tr style="border-top:1px solid var(--ln,#e2e8f0);vertical-align:top"><td style="padding:6px;white-space:nowrap">${new Date(g.day + 'T12:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'})}</td><td style="padding:6px">${esc(g.skill || '')}</td><td style="padding:6px;max-width:280px">${qt(g.id)}</td>
+  el.innerHTML = `<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">${top.map(([k, n, bn, bok, an, aok]) => `<span class="pill2">${esc(skn(k))} · asked about ${n} question${n > 1 ? 's' : ''} · before tutor <b>${pc(bok, bn)}</b> → after <b style="color:${cc(aok, an)}">${pc(aok, an)}</b> <span style="opacity:.75">(${aok} of ${an} new, first try)</span></span>`).join('')}</div>
+   <table class="bt" style="width:100%;border-collapse:collapse;font-size:14px;color:var(--tx)"><thead><tr><th style="text-align:left;padding:6px">Day</th><th style="text-align:left;padding:6px">Skill</th><th style="text-align:left;padding:6px">Question</th><th style="text-align:left;padding:6px">What Patrick asked</th><th style="text-align:left;padding:6px">This question</th><th style="text-align:left;padding:6px">Same skill after</th><th style="padding:6px"></th></tr></thead><tbody>
+   ${L.map(g => `<tr style="border-top:1px solid var(--ln,#e2e8f0);vertical-align:top"><td style="padding:6px;white-space:nowrap">${new Date(g.day + 'T12:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'})}</td><td style="padding:6px">${esc(g.sk ? skn(g.sk) : (g.skill || ''))}</td><td style="padding:6px;max-width:280px">${qt(g.id)}</td>
      <td style="padding:6px">${g.asks.map(a => `<div style="margin-bottom:4px">“${esc(a)}”</div>`).join('')}<div style="font-size:12px;color:var(--mu)">${g.asks.length} message${g.asks.length > 1 ? 's' : ''} · ${g.replies} tutor repl${g.replies === 1 ? 'y' : 'ies'}</div></td>
+     <td style="padding:6px;white-space:nowrap">${resCell(g)}</td><td style="padding:6px;white-space:nowrap">${g.an ? `<b style="color:${cc(g.aok, g.an)}">${g.aok} of ${g.an}</b> right <div style="font-size:12px;color:var(--mu)">new questions, first try, no help</div>` : '<span style="color:var(--mu)">none yet</span>'}</td>
      <td style="padding:6px">${g.id && QBY[g.id] ? `<a href="#/drill/ids:${encodeURIComponent(g.id)}">Open</a>` : ''}</td></tr>`).join('')}</tbody></table>`;
 }

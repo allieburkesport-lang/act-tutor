@@ -168,7 +168,23 @@ if n:
     wrows = ''.join(item(ql(k), 'Fixed' if Q[k]['ok'] else 'Not fixed', '#00833E' if Q[k]['ok'] else '#C21D1D', i == 0) for i, k in enumerate(wrong)) or item('None', '', MUT, True)
     panels = (f"<div style='margin-top:18px'>{panel(f'Questions He Got Help On ({len(helped)})', 'okbub', '#E7F5ED', '#239D6C', TB + '>' + hrows + '</table>')}</div>"
               f"<div style='margin-top:12px'>{panel(f'Questions He Got Wrong ({len(wrong)})', 'nobub', '#FAE8E9', '#D83D37', TB + '>' + wrows + '</table>')}</div>")
-    tutor = (f"<div style='margin-top:12px'>{panel(f'What He Asked the Tutor ({len(asks)})', 'qbub', '#E9F2FC', '#24639E', TB + '>' + ''.join(item((ql(m['question_id']) + '<br>' if m.get('question_id') else '') + '“' + html.escape(m['content'][:200]) + '”', '', MUT, i == 0) for i, m in enumerate(asks)) + '</table>')}</div>") if asks else ''
+    # Tutor results (Allie, Nov 23): did he get the question right after asking, and how did he do on NEW questions of that skill afterwards (SAT rules: first try, no help)
+    def tutor_after(m):
+        qid = m.get('question_id'); qa = next((a for a in A if (a.get('question') or '').split(' ')[0] == qid), None)
+        sk = qa.get('concept_id') if qa else None; t0 = m['created_at']
+        rows = [a for a in A if a['created_at'] > t0 and (a.get('question') or '').split(' ')[0] == qid]
+        res = ('✓ Right after tutor', '#00833E') if any(a['correct'] for a in rows) else (('✓ Already right', '#00833E') if qid in Q and Q[qid]['first'] else ('✕ Not solved yet', '#C21D1D'))
+        nx = [a for a in SC if sk and a.get('concept_id') == sk and a['created_at'] > t0 and (a.get('question') or '').split(' ')[0] != qid]
+        after = f"<div style='font-size:12px;color:#5B6C80;margin-top:3px'>{html.escape(nm(sk)) if sk else 'This skill'} since: <b style='color:#101C34'>{sum(a['correct'] for a in nx)} of {len(nx)}</b> new questions right, no help</div>" if nx else f"<div style='font-size:12px;color:#5B6C80;margin-top:3px'>No new {html.escape(nm(sk)) if sk else ''} questions since yet</div>"
+        return res, after
+    tg = collections.OrderedDict()
+    for m in asks: tg.setdefault(m.get('question_id') or m['created_at'], []).append(m)
+    trows = list(tg.items())
+    def trow(i, k, ms):
+        res, after = tutor_after(ms[0])
+        left = (ql(ms[0]['question_id']) + '<br>' if ms[0].get('question_id') else '') + '<br>'.join('“' + html.escape(m['content'][:200]) + '”' for m in ms) + after
+        return item(left, res[0], res[1], i == 0)
+    tutor = (f"<div style='margin-top:12px'>{panel(f'What He Asked the Tutor ({len(trows)})', 'qbub', '#E9F2FC', '#24639E', TB + '>' + ''.join(trow(i, k, ms) for i, (k, ms) in enumerate(trows)) + '</table>')}</div>") if asks else ''
     by = collections.defaultdict(lambda: [0, 0, 0])
     for a in F: v = by[a['concept_id']]; v[0] += 1; v[1] += a['correct']; v[2] += a.get('seconds') or 0
     order = sorted(by.items(), key=lambda x: (x[1][1] / x[1][0], -x[1][0]))

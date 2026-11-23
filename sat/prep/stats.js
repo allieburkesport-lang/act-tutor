@@ -255,13 +255,14 @@ function helpEpisodes(skillId) {
   eps.forEach(e => { if (!e.solved || !e.used.length) return; const n = scored.find(r => r.q.skill === e.q.skill && r.ts > e.end && r.id !== e.id); e.next = n ? !!n.ok : null; e.nextId = n ? n.id : null });
   return eps.sort((a, b) => a.ts - b.ts);
 }
-function helpSection(skillId) {
-  const eps = inPeriod(helpEpisodes(skillId), ST.period); if (!ST.site) return '';
+function helpSection(skillId, rg) {  // rg = [fromDay, toDay] from the BI dashboard; otherwise the Stats period
+  const inRg = rows => rg ? rows.filter(r => r.day >= rg[0] && r.day <= rg[1]) : inPeriod(rows, ST.period);
+  const eps = inRg(helpEpisodes(skillId)); if (!rg && !ST.site) return '';
   const head = `<h2 class="hd" style="margin:0 0 2px;font-size:19px">When he used help <span style="font-size:13px;color:var(--mute);font-weight:500">· not part of the score · shows whether the help is working</span></h2>`;
   if (!eps.length) return `<section class="card" style="padding:16px 18px">${head}<div style="color:var(--mute);margin-top:6px">No misses or help used in this period. Every question was answered on the first try with no help.</div></section>`;
   const withHelp = eps.filter(e => e.used.length), fixedHelp = withHelp.filter(e => e.solved), own = eps.filter(e => !e.used.length && e.solved);
   const pv = LOG.filter(x => x.chk && (x.attempt || 1) === 1 && QBY[x.id] && (skillId ? QBY[x.id].skill === skillId : (ST.sec === 'all' || SK2[QBY[x.id].skill].sec === ST.sec)));
-  const pvR = inPeriod(pv, ST.period), pvOk = pvR.filter(x => isScored(x) && x.ok);
+  const pvR = inRg(pv), pvOk = pvR.filter(x => isScored(x) && x.ok);
   const stuck = eps.filter(e => !e.solved && e.used.length), stickN = eps.filter(e => e.next != null), stickOk = stickN.filter(e => e.next);
   const types = Object.keys(HELPN).map(k => { const es = eps.filter(e => e.used.includes(k)), sn = es.filter(e => e.next != null); return {k, n: es.length, fix: es.filter(e => e.solved).length, sn: sn.length, sok: sn.filter(e => e.next).length} }).filter(x => x.n).sort((a, b) => b.fix / b.n - a.fix / a.n || b.n - a.n);
   const rate = (a, b) => b ? Math.round(100 * a / b) + '%' : '—';
