@@ -120,7 +120,7 @@ function drawStats() {
     ${kpi('acc', 'Right on first try', A.acc == null ? '—' : A.acc + '%', `${A.ok} of ${A.n} · ${prevTxt}`, badge(A.acc, P && P.acc, ' pts'), perDay.map(x => x.acc), HC.navy)}
     ${kpi('n', 'Questions answered', A.n.toLocaleString(), prevTxt, badge(A.n, P && P.n), perDay.map(x => x.n), HC.gold)}
     ${kpi('time', 'Avg time per question', mmss(A.secs), A.pace ? `SAT pace ${mmss(A.pace)} · HELM only` : 'HELM only', badge(A.secs, P && P.secs, 's', true), perDay.map(x => x.secs), HC.steel)}
-    ${kpi('proj', 'Projected SAT', pjNow.total.toLocaleString(), `Math ${pjNow.Math} · R&W ${pjNow['R&W']}`, badge(pjNow.total, pjPrev && pjPrev.total), pjSpark, HC.green)}
+    ${(() => { const SS = superscore(); return kpi('proj', 'Projected SAT', pjNow.total.toLocaleString(), `vs. best superscore ${SS.total.toLocaleString()} · Math ${pjNow.Math} · R&W ${pjNow['R&W']}`, badge(pjNow.total, SS.total), pjSpark, HC.green) })()}
    </div>
    <div class="t2">
     <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><div><div class="hd" style="font-size:18px;font-weight:700">Questions and accuracy over time</div><div style="font-size:13px;color:var(--mu)">Bars = questions (Math / R&W / Blueprint quizzes) · line = % right · click a bar to filter that ${BI.gran}</div></div>

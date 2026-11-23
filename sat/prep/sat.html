@@ -383,7 +383,7 @@ function outlook(date,by,before){
    <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-end"><div><div style="font-size:13px;color:var(--mute)">Projected total (est.)</div><div class="hd" style="font-size:40px;font-weight:800">${now.total.toLocaleString()}</div></div>
     <div><div style="font-size:13px;color:var(--mute)">Math · R&W</div><div class="hd" style="font-size:22px;font-weight:700">${now.Math} · ${now['R&W']}</div></div>
     <div><div style="font-size:13px;color:var(--mute)">vs. yesterday</div><div style="font-size:20px;font-weight:700">${prev?arrow(now.total,prev.total):'—'}</div></div>
-    <div><div style="font-size:13px;color:var(--mute)">vs. ${base.label} SAT (${base.total})</div><div style="font-size:20px;font-weight:700">${arrow(now.total,base.total)}</div></div>
+    <div><div style="font-size:13px;color:var(--mute)">vs. best superscore (${superscore().total})</div><div style="font-size:20px;font-weight:700">${arrow(now.total,superscore().total)}</div></div>
     <div><div style="font-size:13px;color:var(--mute)">To the ${GOAL} goal</div><div style="font-size:20px;font-weight:700">${now.total>=GOAL?'<span style="color:#15803d">On target</span>':`${GOAL-now.total} to go`}</div></div></div>
    <div style="display:flex;gap:10px;align-items:flex-end;height:140px;margin-top:14px;border-bottom:1px solid #e5e7eb;position:relative">
     <div style="position:absolute;left:0;right:0;bottom:${y(GOAL)}%;border-top:2px dashed #15803d;font-size:11px;color:#15803d">&nbsp;Goal ${GOAL}</div>
@@ -705,6 +705,6 @@ function publishSat(){try{if(!PLAN||!window.HELM_PROGRESS)return;
   HELM_PROGRESS.put('sat_summary',{updated:Date.now(),days,daysDone:days.filter(d=>d.done).length,daysTotal:days.length,dueDone:fin,dueTotal:due.length})}catch(e){}}
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=12"></script><script src="bi.js?v=11"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
+<script src="stats.js?v=13"></script><script src="bi.js?v=12"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
 </body>
 </html>
