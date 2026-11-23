@@ -495,7 +495,8 @@ function pathBlock(withDetails) {
   const R10 = v => Math.round(v / 10) * 10, need = GOAL - SS.total;
   const cats = []; steps.forEach(s => { let c = cats.find(x => x.c === s.c); if (!c) cats.push(c = {c: s.c, goal: s.to, all: s.to, done: s.done, phase: s.phase}); if (s.phase === 'master') c.all = s.to; else { c.goal = s.to; c.all = Math.max(c.all, s.to) } if (s.phase !== 'master') c.done = s.done });
   const lift = (c, to) => { const sec = c.c.r.s.sec, k = sec === 'Math' ? 'Math' : 'R&W', ok = sec === 'Math' ? 'R&W' : 'Math', s2 = Math.min(800, R10(SS[k] + (to - c.c.base) * c.c.ppq)); return {sec: s2, tot: s2 + SS[ok], pts: s2 - SS[k], k} };
-  const secEnd = (sec, key) => { const k = sec === 'Math' ? 'Math' : 'R&W'; return Math.min(800, R10(SS[k] + cats.filter(c => c.c.r.s.sec === sec).reduce((a, c) => a + (c[key] - c.c.base) * c.c.ppq, 0))) };
+  // section totals = best SAT + the sum of the row points shown, so the header always matches the rows (Allie, Nov 23)
+  const secEnd = (sec, key) => { const k = sec === 'Math' ? 'Math' : 'R&W'; return Math.min(800, SS[k] + cats.filter(c => c.c.r.s.sec === sec).reduce((a, c) => a + lift(c, c[key]).pts, 0)) };
   const goalTot = secEnd('Math', 'goal') + secEnd('English', 'goal'), allTot = secEnd('Math', 'all') + secEnd('English', 'all');
   cats.forEach(c => { if (c.phase === 'extra') c.all = c.c.r.nq });   // extra categories also show the all-right option
   let num = 0;
