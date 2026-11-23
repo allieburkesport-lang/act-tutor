@@ -506,7 +506,8 @@ function pathBlock(withDetails) {
   const FTt = firstTries(), P = (a, n) => Math.round(100 * a / n) + '%';
   const helmT = c => { const h = FTt.filter(x => x.q.skill === c.c.r.s.id), r = h.slice(-10); if (r.length < 3) return '<span class="pht">HELM: not enough practice yet</span>';
     const ok = r.filter(x => x.ok).length, p = Math.round(100 * ok / r.length), sat = 100 * c.c.base / c.c.r.nq, up = p >= sat + 5, dn = p <= sat - 5;
-    return `<span class="pht ${up ? 'up' : dn ? 'dn' : ''}">HELM trending <b>${p}%</b> ${up ? '↑' : dn ? '↓' : '→'} <span class="phn">(${ok} of last ${r.length})</span></span>` };
+    const all = h.filter(x => x.ok).length, pa = Math.round(100 * all / h.length);
+    return `<span class="pht">HELM overall <b>${pa}%</b> <span class="phn">(${all} of ${h.length})</span></span> · <span class="pht ${up ? 'up' : dn ? 'dn' : ''}">last ${r.length}: <b>${p}%</b> ${up ? '↑' : dn ? '↓' : '→'}</span>` };
   const row = c => { const nm = esc(c.c.r.s.name), g = lift(c, c.goal), a = lift(c, c.all), more = c.goal - c.c.base, hasAll = c.all > c.goal; const nn = c.focus ? c._n : '·';
     const share = `<span class="pshare">${Math.round(c.c.r.s.share || 0)}% of the test · ${c.c.r.nq} question${c.c.r.nq > 1 ? 's' : ''}</span>`;
     if (more <= 0) return `<tr class="pfull"><td class="pn">${nn}</td><td class="pd"><b><span class="pcat">${nm.toUpperCase()}:</span> Keep it up</b> ${share}<div>His best SAT: ${c.c.r.nq} of ${c.c.r.nq} <span class="pct">100%</span> · No points to gain here · ${helmT(c)}</div></td><td class="pp" style="color:#A1A1AA">+0</td><td class="psc">${SS[g.k]}</td><td class="ps" style="color:#A1A1AA">${SS.total}</td><td class="pb"></td></tr>`;

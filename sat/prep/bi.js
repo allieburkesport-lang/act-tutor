@@ -431,7 +431,7 @@ function biPivot(R, rg) {
   const el = document.getElementById('bi-pv'); if (!el) return;
   if (!list.length) { el.innerHTML = '<div style="color:var(--mu);padding:16px 0">No skill-level records in this range. (Blueprint skill totals appear when the range covers Aug 31–Nov 20, e.g. All time.)</div>'; return }
   const accCol = a => a == null ? '#A1A1AA' : a >= 70 ? '#10B981' : a >= 50 ? '#F59E0B' : '#F43F5E', stat = a => a == null ? 'No data' : a >= 70 ? 'Strong' : a >= 50 ? 'Getting there' : 'Needs work';
-  const H = [['skill', 'Skill'], ['share', 'Share of section'], ...SAT_OFFICIAL.map(o => ['sat:' + o.date, 'SAT ' + o.label]), ['n', 'Right / asked'], ['acc', 'Accuracy'], ['helm', 'HELM'], ['bp', 'Blueprint'], ['st', 'Status'], ['lost', 'If he gets all of them right'], ['go', '']];
+  const H = [['skill', 'Skill'], ['share', 'Share of section'], ...SAT_OFFICIAL.map(o => ['sat:' + o.date, 'SAT ' + o.label]), ['n', 'Right / asked'], ['acc', 'Accuracy (date range)'], ['helm', 'HELM (date range)'], ['bp', 'Blueprint'], ['st', 'Status'], ['lost', 'If he gets all of them right'], ['go', '']];
   const head = `<thead><tr>${H.map(([k, tl]) => k === 'go' || k === 'st' || k.startsWith('sat:') ? `<th>${tl}</th>` : `<th data-bi="sort:${k}">${tl}<span class="so">${S.k === k ? (S.d > 0 ? '▲' : '▼') : '↑↓'}</span></th>`).join('')}</tr></thead>`;
   const part = (sec, lab) => { const v = list.filter(x => sec === 'Math' ? x.sec === 'Math' : x.sec !== 'Math'); if (!v.length) return '';
     return `<div class="pvbox"><div class="pvh">${lab} <span>${v.length} categories</span></div><table class="pv2">${head}<tbody>${v.map(x => `<tr data-bi="row:${esc(x.skill)}" title="See every question in this skill">
