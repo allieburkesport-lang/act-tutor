@@ -551,7 +551,7 @@ function mixGoal(id) { const {rows} = winsData(), r = rows.find(x => x.s.id === 
   return {nq: r.nq, base, goal, pts: Math.max(10, Math.round((goal - base) * r.ppq / 10) * 10), share: Math.round(r.s.share || 0)} }
 function mixHTML(d) { const box = sec => { const L = d.mix.filter(m => SK2[m[0]] && SK2[m[0]].sec === sec); if (!L.length) return '';
     const n = L.reduce((a, m) => a + m[1], 0);
-    return `<div class="mxb"><div class="mxh">${sec === 'Math' ? 'MATH' : 'READING &amp; WRITING'} <span>${n} questions</span></div><table class="mxt"><thead><tr><th>Category</th><th>Qs</th><th>Goal on the test</th><th>Why</th></tr></thead><tbody>${L.map(([id, k, t]) => { const g = mixGoal(id), nm = esc(SK2[id].name);
+    return `<div class="mxb"><div class="mxh">${sec === 'Math' ? 'MATH' : 'READING &amp; WRITING'} <span>${n} questions</span></div><table class="mxt"><thead><tr><th>Category</th><th>Qs</th><th>Goal on the test</th><th>Why? Points increase</th></tr></thead><tbody>${L.map(([id, k, t]) => { const g = mixGoal(id), nm = esc(SK2[id].name);
       if (!g) return `<tr><td>${nm}</td><td><b>${k}</b></td><td>—</td><td>—</td></tr>`;
       return t === 'rotation' ? `<tr class="rot"><td>${nm}</td><td><b>${k}</b></td><td>Keep it: ${g.base} of ${g.nq}</td><td>Review · ${g.share}% of ${sec === 'Math' ? 'Math' : 'R&amp;W'}</td></tr>`
         : `<tr><td><b>${nm}</b></td><td><b>${k}</b></td><td>${g.base} &rarr; <b>${g.goal} of ${g.nq}</b> right</td><td><b style="color:#047857">+${g.pts} pts</b> · ${g.share}% of ${sec === 'Math' ? 'Math' : 'R&amp;W'}</td></tr>` }).join('')}</tbody></table></div>` };
