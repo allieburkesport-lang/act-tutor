@@ -244,9 +244,9 @@ function helpEpisodes(skillId) {
   const eps = [];
   Object.values(byQ).forEach(xs => {
     xs.sort((a, b) => a.ts - b.ts); const f = xs.find(x => (x.attempt || 1) === 1) || xs[0]; const day = xs.filter(x => x.day === f.day && x.ts >= f.ts);
-    const pre = f.helpFirst || (f.coached ? ['show'] : []); const firstOk = !!f.ok && !pre.length;
+    const pre = realHelp(f.helpFirst || (f.coached ? ['show'] : [])); const firstOk = !!f.ok && !pre.length;
     if (firstOk) return;  // clean first-try right: nothing to learn from here
-    const used = [...new Set(day.flatMap(x => x.help || []).concat(pre))];
+    const used = realHelp([...new Set(day.flatMap(x => x.help || []).concat(pre))]);
     const okRow = day.find(x => x.ok); const q = QBY[f.id];
     eps.push({id: f.id, q, s: SK2[q.skill], day: f.day, ts: f.ts, end: okRow ? okRow.ts : day[day.length - 1].ts, wrongFirst: !f.ok, pre, used, solved: !!okRow, tries: day.length});
   });
@@ -260,6 +260,8 @@ function helpSection(skillId) {
   const head = `<h2 class="hd" style="margin:0 0 2px;font-size:19px">When he used help <span style="font-size:13px;color:var(--mute);font-weight:500">· not part of the score · shows whether the help is working</span></h2>`;
   if (!eps.length) return `<section class="card" style="padding:16px 18px">${head}<div style="color:var(--mute);margin-top:6px">No misses or help used in this period. Every question was answered on the first try with no help.</div></section>`;
   const withHelp = eps.filter(e => e.used.length), fixedHelp = withHelp.filter(e => e.solved), own = eps.filter(e => !e.used.length && e.solved);
+  const pv = LOG.filter(x => x.chk && (x.attempt || 1) === 1 && QBY[x.id] && (skillId ? QBY[x.id].skill === skillId : (ST.sec === 'all' || SK2[QBY[x.id].skill].sec === ST.sec)));
+  const pvR = inPeriod(pv, ST.period), pvOk = pvR.filter(x => isScored(x) && x.ok);
   const stuck = eps.filter(e => !e.solved && e.used.length), stickN = eps.filter(e => e.next != null), stickOk = stickN.filter(e => e.next);
   const types = Object.keys(HELPN).map(k => { const es = eps.filter(e => e.used.includes(k)), sn = es.filter(e => e.next != null); return {k, n: es.length, fix: es.filter(e => e.solved).length, sn: sn.length, sok: sn.filter(e => e.next).length} }).filter(x => x.n).sort((a, b) => b.fix / b.n - a.fix / a.n || b.n - a.n);
   const rate = (a, b) => b ? Math.round(100 * a / b) + '%' : '—';
@@ -277,11 +279,12 @@ function helpSection(skillId) {
    <div style="display:flex;gap:34px;flex-wrap:wrap;margin:12px 0 10px">
     ${big('Fix rate with help', fixedHelp.length, withHelp.length, `${fixedHelp.length} of ${withHelp.length} got right after help`)}
     ${big('Did it stick?', stickOk.length, stickN.length, `next new question right: ${stickOk.length} of ${stickN.length}`)}
+    ${pvR.length ? big('Prove it questions', pvOk.length, pvR.length, `right with no help: ${pvOk.length} of ${pvR.length}`) : ''}
     <div><div style="font-size:13px;color:var(--mute)">Fixed on his own</div><div class="hd" style="font-size:28px;font-weight:800">${own.length}</div><div style="font-size:13px;color:var(--mute)">retried right, no help</div></div>
     <div><div style="font-size:13px;color:var(--mute)">Stuck</div><div class="hd" style="font-size:28px;font-weight:800;color:${stuck.length ? '#b91c1c' : '#15803d'}">${stuck.length}</div><div style="font-size:13px;color:var(--mute)">never right, even with help</div></div>
    </div>
    ${tips.length ? `<div class="box b-yel" style="margin:4px 0 12px"><div class="lab">What this tells you</div><ul style="margin:4px 0 0;padding-left:20px;display:grid;gap:4px">${tips.map(x => `<li>${x}</li>`).join('')}</ul></div>` : ''}
    ${types.length ? `<div style="overflow-x:auto"><table class="rep"><thead><tr><th>Help</th><th>Used on</th><th>Got it right after</th><th>Fix rate</th><th>Next new one right</th></tr></thead><tbody>${types.map(t => `<tr><td><b>${esc(HELPN[t.k] || t.k)}</b></td><td>${t.n} Qs</td><td>${t.fix}</td><td style="font-weight:700;color:${col(t.fix, t.n)}">${rate(t.fix, t.n)}</td><td>${t.sn ? `<b style="color:${col(t.sok, t.sn)}">${t.sok} of ${t.sn}</b>` : '<span style="color:var(--mute)">—</span>'}</td></tr>`).join('')}</tbody></table></div>` : ''}
    ${stuck.length ? `<h3 class="hd" style="margin:14px 0 4px;font-size:16px">Stuck: go over these with him</h3>${stuck.slice(-10).reverse().map(qline).join('')}${stuck.length > 1 ? `<div style="margin-top:10px"><button class="btn sm" data-go="#/drill/ids:${stuck.map(e => e.id).join(',')}">Redo the ${stuck.length} stuck questions</button></div>` : ''}` : ''}
-   <div style="font-size:12px;color:var(--mute);margin-top:10px">Counts questions he missed on the first try or opened help on before answering. "Did it stick?" = after fixing one with help, was the next new question of that skill right on the first try with no help. Help tracking began mid-November, so older misses may show "no help opened."</div></section>`;
+   <div style="font-size:12px;color:var(--mute);margin-top:10px">Counts questions he missed on the first try or opened help on before answering. "Did it stick?" = after fixing one with help, was the next new question of that skill right on the first try with no help. "Prove it" = the 1–3 new questions of the same kind he gets right after fixing one with help. Desmos and the reference sheet are on the real SAT, so they don't count as help. Help tracking began mid-November, so older misses may show "no help opened."</div></section>`;
 }

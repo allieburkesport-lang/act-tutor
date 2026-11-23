@@ -3,7 +3,7 @@
 Reads his answers from Supabase + blueprint.json, re-works future days, writes
 ../plan.json (used by the dashboard) and plan_artifact.html (the pinned plan page).
 Run: python3 plan_update.py   (no arguments; safe to re-run any time)"""
-import json, os, datetime, urllib.request, collections, html
+import json, os, re, datetime, urllib.request, collections, html
 from zoneinfo import ZoneInfo
 HERE = os.path.dirname(os.path.abspath(__file__)); DZ = os.path.dirname(HERE)
 SITE = 'https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/'
@@ -52,7 +52,7 @@ def get_rows():
         # answers are private (sign-in only); the planner reads them through a token-protected function.
         # Token: env HELM_PLANNER_TOKEN or ~/.helm_planner_token (never in the repo).
         tok = os.environ.get('HELM_PLANNER_TOKEN') or open(os.path.expanduser('~/.helm_planner_token')).read().strip()
-        url = f"{SB.replace('/answers', '/rpc/planner_answers')}?student=ilike.patrick*&select=created_at,kind,concept_id,correct,first_try,attempt&order=created_at.asc&offset={off}&limit=1000"
+        url = f"{SB.replace('/answers', '/rpc/planner_answers')}?student=ilike.patrick*&select=created_at,kind,concept_id,correct,first_try,attempt,question,part&order=created_at.asc&offset={off}&limit=1000"
         req = urllib.request.Request(url, data=json.dumps({'tok': tok}).encode(), method='POST',
                                      headers={'apikey': KEY, 'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json'})
         part = json.load(urllib.request.urlopen(req, timeout=30)); rows += part
@@ -70,8 +70,16 @@ def main():
     # Restarted days (Allie, Nov 21): keep reset_at/hold from the current plan; answers before the restart stay in skill totals but not in that day's result
     try: KEEP = {d['date']: {k: d[k] for k in ('reset_at', 'hold') if k in d} for d in json.load(open(os.path.join(DZ, 'plan.json')))['days']}
     except Exception: KEEP = {}
+    # SAT rules (Allie, Nov 23): only the FIRST time he ever answers a question counts, and only if he opened no help before answering.
+    seen_q = set()
     for r in rows:
         if r.get('kind') not in ('bank', 'official') or (r.get('attempt') or 1) != 1: continue
+        qid = (r.get('question') or '').split(' ')[0]
+        if qid:
+            if qid in seen_q: continue
+            seen_q.add(qid)
+        hm = re.search(r'help ([a-z+]+)', r.get('part') or '')
+        if 'coached' in (r.get('part') or '') or (hm and set(hm.group(1).split('+')) - {'desmos', 'ref'}): continue  # Desmos + reference sheet are SAT tools, not help
         sk = r.get('concept_id')
         if sk not in SHARE: continue
         d = datetime.datetime.fromisoformat(r['created_at'].replace('Z', '+00:00')).astimezone(TZ).date().isoformat()

@@ -24,8 +24,21 @@ D0 = datetime.date.fromisoformat(day); nxt = (D0 + datetime.timedelta(days=1)).i
 pretty = lambda d: datetime.date.fromisoformat(d).strftime('%a, %b %-d')
 test = datetime.date(2026, 12, 5); left = (test - D0).days
 
+# SAT rules (Allie, Nov 23): a question scores only the FIRST time he ever answers it, and only if he opened no help before answering.
+def _scored(rows):
+    seen, out = set(), []
+    for a in sorted(rows, key=lambda a: a['created_at']):
+        if (a.get('attempt') or 1) != 1: continue
+        q = (a.get('question') or '').split(' ')[0]
+        if q in seen: continue
+        seen.add(q)
+        hm = re.search(r'help ([a-z+]+)', a.get('part') or '')
+        if 'coached' in (a.get('part') or '') or (hm and set(hm.group(1).split('+')) - {'desmos', 'ref'}): continue  # Desmos + reference sheet are SAT tools, not help
+        out.append(a)
+    return out
+SC = _scored(A); SCID = {id(a) for a in SC}
 R = [a for a in A if et(a['created_at']).strftime('%Y-%m-%d') == day]
-F = [a for a in R if (a.get('attempt') or 1) == 1]
+F = [a for a in R if id(a) in SCID]
 n = len(F); ok = sum(a['correct'] for a in F)
 # HELM palette
 FONT = 'font-family:-apple-system,Helvetica,Arial,sans-serif'
@@ -58,7 +71,7 @@ if pd:
     tag = f'plan {day}'; firsts = {}
     for a in sorted(R, key=lambda a: a['created_at']):
         if tag in (a.get('part') or '') and (not reset or datetime.datetime.fromisoformat(a['created_at']) > reset): firsts.setdefault(a['question'].split(' ')[0], a)
-    done = len(firsts); right = sum(a['correct'] for a in firsts.values()); planned = pd.get('n_questions') or 0
+    done = len(firsts); right = sum(a['correct'] for a in firsts.values() if id(a) in SCID); planned = pd.get('n_questions') or 0
     pc = min(100, round(100 * done / planned)) if planned else 0
 finished = pd and pc >= 100
 pcol = G if finished else PUR if done else RED
@@ -183,7 +196,7 @@ else:
     day_html = plan
 
 # overall + tomorrow inside takeaways
-AF = [a for a in A if (a.get('attempt') or 1) == 1]
+AF = SC
 hacc = round(100*sum(a['correct'] for a in AF)/len(AF)) if AF else 0
 bpn = sum(x['n'] for x in BP['daily']); bacc = round(100*sum(x['n']*x['acc']/100 for x in BP['daily'])/bpn) if bpn else 0
 takes.append(tk('Overall', f"HELM {len(AF)} questions at {hacc}% · Blueprint {bpn} at {bacc}% · Best SAT 1050 (goal 1300)"))
