@@ -223,6 +223,16 @@ section.card{transition:box-shadow .2s}
 .page,.top .in,#bi .page,#bi .main2{max-width:none!important;width:100%!important;margin-left:0!important;margin-right:0!important}
 .fp-lift>div{grid-template-columns:minmax(150px,1.2fr) minmax(0,1fr) minmax(0,1fr)!important}.fp-lift .gl,.fp-lift .ms{white-space:nowrap}
 .fp-meta{font-size:14px;color:#52525B}.fp-meta b{color:#09090B;font-weight:700}
+/* category cards (Allie, Nov 23): each category its own card with an identity color */
+.fp-col{background:#F4F4F5!important}
+.fp-row{background:#fff;border:1.5px solid #D4D4D8;border-left:7px solid var(--cc,#71717A);border-radius:12px;padding:16px 18px!important;margin-top:14px;box-shadow:0 1px 2px rgba(9,9,11,.05);transition:box-shadow .15s,transform .15s}
+.fp-row:last-child{border-bottom:1.5px solid #D4D4D8!important}
+.fp-row:hover{box-shadow:0 6px 18px rgba(9,9,11,.10);transform:translateY(-1px)}
+.fp-row .fp-rn{display:inline-flex;align-items:center;gap:10px;font-size:19px!important;color:var(--cc)!important}
+.fp-row:hover .fp-rn{color:var(--cc)!important;text-decoration:underline}
+.fp-badge{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--cc);color:#fff;font-size:14px;font-weight:800;flex:none}
+.fp-row .fp-rt{padding-bottom:8px;border-bottom:1px dashed #E4E4E7;margin-bottom:4px}
+.fp-row .fp-lift{background:#fff}
 </style>
 <script src="auth.js?v=3"></script>
 <script src="progress.js?v=1"></script>
@@ -818,6 +828,6 @@ function publishSat(){try{if(!PLAN||!window.HELM_PROGRESS)return;
   HELM_PROGRESS.put('sat_summary',{updated:Date.now(),days,daysDone:days.filter(d=>d.done).length,daysTotal:days.length,dueDone:fin,dueTotal:due.length})}catch(e){}}
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=33"></script><script src="bi.js?v=23"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
+<script src="stats.js?v=35"></script><script src="bi.js?v=23"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
 </body>
 </html>

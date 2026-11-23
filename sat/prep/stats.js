@@ -442,14 +442,15 @@ function focusPlanBlock(compact) {
   const when = id => (PLAN && PLAN.days || []).filter(d => d.date >= dkey(new Date()) && (d.learn || []).includes(id)).map(d => new Date(d.date + 'T12:00').toLocaleDateString('en-US', {weekday: 'short', month: 'short', day: 'numeric'}));
   const WHY = {nlf: 'Biggest Math category; Desmos graphing solves many', linf: 'Slope and intercept rules: same few patterns every time', nleq: 'Desmos: graph both sides, read the intersection', lin2: 'Desmos or one rule: plug in the point',
     bound: 'Punctuation rules: learn them once, apply every time', fss: 'Grammar rules (verb, pronoun, agreement): pure rules', trans: 'Logic words: same-direction vs. opposite-direction', syn: 'Strategy: read the goal, pick the choice that does exactly it'};
+  const CATC = ['#7C3AED', '#EA580C', '#DB2777', '#0891B2', '#92400E', '#C026D3', '#9F1239', '#334155'];   // identity colors (never blue/green: those mean goal/master)
   const pct = v => Math.max(0, Math.min(100, (v - 400) / (1600 - 400) * 100));
   const big = (lab, v, sub, c) => `<div class="fp-k"><div class="fp-kl">${lab}</div><div class="fp-kv" style="color:${c}">${v}</div><div class="fp-ks">${sub}</div></div>`;
   const col = (sec, lab) => { const rs = fr.filter(r => r.s.sec === sec), b = secBest(sec);
     return `<div class="fp-col"><div class="fp-ch"><div><div class="fp-ct">${lab}</div><div class="fp-cs">${rs.length} focus categories · best SAT ${b} (${esc(sec === 'Math' ? SS.mFrom : SS.rFrom)})</div></div>
       <div style="text-align:right"><div class="fp-big">${b} <span style="color:#A1A1AA;font-weight:500">→</span> <span style="color:#1D4ED8">${secTo(sec, 'gGoal')}</span> <span style="color:#A1A1AA;font-weight:500">→</span> <span style="color:#047857">${secTo(sec, 'gAll')}</span></div><div class="fp-cs">best SAT → <b style="color:#1D4ED8">at goal</b> → <b style="color:#047857">mastered</b></div></div></div>
-     ${rs.map(r => { const w = when(r.s.id), n = r.right || 0;
-       return `<a href="#/stats/${r.s.id}" class="fp-row">
-       <div class="fp-rt"><span class="fp-rn">${esc(r.s.name)}</span><span class="fp-meta"><b>${Math.round(r.s.share || 0)}%</b> of SAT ${sec === 'Math' ? 'Math' : 'R&W'} · <b>${r.nq}</b> questions · <b>≈ ${Math.round(r.nq * r.ppq)}</b> of 800 points · each ≈ ${Math.round(r.ppq)}</span></div>
+     ${rs.map(r => { const w = when(r.s.id), n = r.right || 0, ci = F.indexOf(r.s.id), cc = CATC[ci % CATC.length];
+       return `<a href="#/stats/${r.s.id}" class="fp-row" style="--cc:${cc}">
+       <div class="fp-rt"><span class="fp-rn"><span class="fp-badge">${ci + 1}</span>${esc(r.s.name)}</span><span class="fp-meta"><b>${Math.round(r.s.share || 0)}%</b> of SAT ${sec === 'Math' ? 'Math' : 'R&W'} · <b>${r.nq}</b> questions · <b>≈ ${Math.round(r.nq * r.ppq)}</b> of 800 points · each ≈ ${Math.round(r.ppq)}</span></div>
        <div class="fp-bar"><i style="width:${100 * n / r.nq}%"></i><u style="left:${100 * r.base / r.nq}%" title="Best SAT (est.)"></u><s style="left:${100 * r.goal / r.nq}%"></s><em style="left:100%"></em></div>
        <div class="fp-cnt"><span><i class="k0"></i>Best SAT${r.B ? ` (${esc(r.B.d)}, est.)` : ''}: <b>${r.base} of ${r.nq}</b></span><span><i class="k1"></i>HELM/practice now: <b>${n} of ${r.nq}</b></span><span class="gl"><i class="k2"></i>Goal: <b>${r.goal} of ${r.nq}</b></span><span class="ms"><i class="k3"></i>Master: <b>${r.nq} of ${r.nq}</b></span></div>
        <div class="fp-lift"><div><span class="lb">Lift over his best SAT (${SS.total})</span><span class="gl">goal <b>+${r.gGoal}</b> → ${r10(SS.total + r.gGoal)}</span><span class="ms">master <b>+${r.gAll}</b> → ${r10(SS.total + r.gAll)}</span></div></div>
