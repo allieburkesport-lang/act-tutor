@@ -9,12 +9,10 @@ if (/^#\/./.test(location.hash)) location.replace('sat.html' + location.hash);</
 <link rel="icon" href="helm-logo.png">
 <script src="auth.js?v=3"></script>
 <script src="progress.js?v=1"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 body{margin:0}
-.helm{--bg:#F6F7F9;--panel:#FFFFFF;--panel2:#F1F3F6;--line:#E3E6EB;--text:#0B1220;--muted:#566070;--accent:#0B2545;--onaccent:#FFFFFF;--gold:#C9A227;--gov:#3B6FB6;--ok:#15803D;--okbg:#E6F5EC;--warn:#B45309;--warnbg:#FDF0E1;--bad:#B91C1C;--badbg:#FCE8E8;--focus:#2563EB;--scrim:rgba(11,18,32,.42);font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--text);background:var(--bg);min-height:100vh;font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
-.helm.dark{--bg:#060B14;--panel:#0B1422;--panel2:#111C2E;--line:#1C2940;--text:#E8EDF5;--muted:#9BA7B9;--accent:#C9A227;--onaccent:#0B2545;--gov:#8DB3E8;--ok:#4ADE80;--okbg:#0E2A1B;--warn:#FBBF24;--warnbg:#2B2110;--bad:#F87171;--badbg:#2E1416;--focus:#93C5FD;--scrim:rgba(0,0,0,.6)}
+.helm{--bg:#F6F7F9;--panel:#FFFFFF;--panel2:#F1F3F6;--line:#E3E6EB;--text:#0B1220;--muted:#566070;--accent:#0B2545;--onaccent:#FFFFFF;--gold:#2563EB;--gov:#3B6FB6;--ok:#15803D;--okbg:#E6F5EC;--warn:#B45309;--warnbg:#FDF0E1;--bad:#B91C1C;--badbg:#FCE8E8;--focus:#2563EB;--scrim:rgba(11,18,32,.42);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--text);background:var(--bg);min-height:100vh;font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+.helm.dark{--bg:#060B14;--panel:#0B1422;--panel2:#111C2E;--line:#1C2940;--text:#E8EDF5;--muted:#9BA7B9;--accent:#60A5FA;--onaccent:#0B2545;--gov:#8DB3E8;--ok:#4ADE80;--okbg:#0E2A1B;--warn:#FBBF24;--warnbg:#2B2110;--bad:#F87171;--badbg:#2E1416;--focus:#93C5FD;--scrim:rgba(0,0,0,.6)}
 .helm *{box-sizing:border-box}
 .helm button{font:inherit;color:inherit;cursor:pointer}
 .helm a{color:inherit}
@@ -155,7 +153,7 @@ table.data td{padding:8px 16px;border-bottom:1px solid var(--line);vertical-alig
 .ticks.light .tick{background:rgba(255,255,255,.18)}
 .ticks.light .tick.now{background:#FFFFFF}
 .ticks.light .tick.ptest{background:rgba(255,255,255,.55)}
-.ticks.light .tick.test{background:#C9A227}
+.ticks.light .tick.test{background:#60A5FA}
 .stat{padding:14px 16px;display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;gap:6px 10px;align-items:center}
 .stat .label{grid-column:1/-1;font-size:13px;font-weight:600;color:var(--muted)}
 .stat .metric{font-size:28px;font-weight:700;letter-spacing:-.02em;line-height:1}
@@ -248,7 +246,7 @@ button.stat:hover{border-color:var(--accent)}
 <div class="shell">
 <nav class="side" aria-label="Primary">
 <div class="brand hide-sm">
-<svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true" style="color: var(--accent); flex: 0 0 auto"><g stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="16" y1="3" x2="16" y2="29"></line><line x1="3" y1="16" x2="29" y2="16"></line><line x1="6.8" y1="6.8" x2="25.2" y2="25.2"></line><line x1="25.2" y1="6.8" x2="6.8" y2="25.2"></line></g><circle cx="16" cy="16" r="8.5" fill="var(--panel)" stroke="currentColor" stroke-width="2.6"></circle><circle cx="16" cy="16" r="3.4" fill="#C9A227"></circle></svg>
+<svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true" style="color: var(--accent); flex: 0 0 auto"><g stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="16" y1="3" x2="16" y2="29"></line><line x1="3" y1="16" x2="29" y2="16"></line><line x1="6.8" y1="6.8" x2="25.2" y2="25.2"></line><line x1="25.2" y1="6.8" x2="6.8" y2="25.2"></line></g><circle cx="16" cy="16" r="8.5" fill="var(--panel)" stroke="currentColor" stroke-width="2.6"></circle><circle cx="16" cy="16" r="3.4" fill="#60A5FA"></circle></svg>
 <span class="word lbl">HELM</span>
 </div>
 <button class="nav hide-sm" type="button" data-action="search" aria-label="Search (Ctrl or Cmd + K)">

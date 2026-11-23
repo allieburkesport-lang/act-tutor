@@ -4,15 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SAT HELM</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@400;600&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#111827;--mute:#4b5563;--line:#e5e7eb;--navy:#1e3a8a;--navy2:#eef2ff;--bg:#f6f7f9;--or:#c2410c}
 *{box-sizing:border-box}
-body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+body{margin:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg)}
 a{color:#1d4ed8}a:hover{color:var(--navy)}
 button{font:inherit;cursor:pointer}
-.hd{font-family:'Space Grotesk',sans-serif}
+.hd{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
 .btn{font-weight:700;padding:10px 16px;min-height:44px;border-radius:10px;border:0;background:var(--navy);color:#fff}
 .btn.o{background:#fff;color:var(--navy);border:1px solid var(--navy)}
 .btn.g{background:#fff;color:var(--ink);border:1px solid #d1d5db;font-weight:600}
@@ -37,7 +35,7 @@ button{font:inherit;cursor:pointer}
 .sec h2{margin:0;font-size:22px}
 .sec .h{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
 .row{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1.1fr) 150px auto;gap:12px;padding:11px 20px;align-items:center;border-top:1px solid #f1f2f4}
-.row.hd2{font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--mute);background:#f9fafb;border-top:0;font-family:Inter}
+.row.hd2{font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--mute);background:#f9fafb;border-top:0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif}
 .row .nm{font-weight:600}
 .bar{flex:1;height:8px;background:#eef0f3;border-radius:4px;overflow:hidden}.bar i{display:block;height:8px;background:var(--navy)}
 .acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
@@ -46,7 +44,7 @@ button{font:inherit;cursor:pointer}
 /* drill (SAT style) */
 .dr{min-height:100vh;display:flex;flex-direction:column;background:#fff}
 .dr .bar1{border-bottom:2px dashed #d1d5db;padding:10px 24px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
-.dr .timer{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700}
+.dr .timer{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:22px;font-weight:700}
 .dr .body{display:flex;flex:1;min-height:0}
 .dr main{flex:1 1 560px;min-width:0;padding:26px 40px;overflow:auto}
 .qcol{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
@@ -56,14 +54,14 @@ button{font:inherit;cursor:pointer}
 .help{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .help .b{font-weight:700;font-size:15px;padding:8px 16px;min-height:44px;border-radius:22px;background:#fff;color:var(--navy);border:1px solid var(--navy)}
 .help .b.on{background:var(--navy);color:#fff}
-.passage{font-family:'Source Serif 4',Georgia,serif;font-size:19px;line-height:1.6;border-left:3px solid #e5e7eb;padding-left:16px}
-.qtext{font-family:'Source Serif 4',Georgia,serif;font-size:20px;line-height:1.55}
-.qtext .stem,.stem{font-family:'Source Serif 4',Georgia,serif;font-size:19px;margin-top:10px}
+.passage{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:19px;line-height:1.6;border-left:3px solid #e5e7eb;padding-left:16px}
+.qtext{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:20px;line-height:1.55}
+.qtext .stem,.stem{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:19px;margin-top:10px}
 .qtext table{border-collapse:collapse;margin:8px 0}.qtext td,.qtext th{border:1px solid #9ca3af;padding:4px 10px}
 .ch{display:flex;flex-direction:column;gap:12px}
 .ch button{text-align:left;display:flex;align-items:center;gap:14px;padding:12px 16px;min-height:58px;border:1.5px solid #9ca3af;border-radius:10px;background:#fff}
 .ch button .L{flex:0 0 32px;height:32px;border-radius:50%;border:1.5px solid var(--ink);display:grid;place-items:center;font-weight:700;font-size:14px}
-.ch button .t{font-family:'Source Serif 4',Georgia,serif;font-size:19px}
+.ch button .t{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:19px}
 .ch button.right{border:2.5px solid #15803d;background:#f0fdf4}.ch button.right .L{background:#15803d;color:#fff;border-color:#15803d}
 .ch button.wrong{border:2px solid #c2410c;background:#fff7ed;opacity:.75}.ch button.wrong .t{text-decoration:line-through}.ch button.wrong .L{background:#c2410c;color:#fff;border-color:#c2410c}
 .ch button:disabled{cursor:default}
@@ -112,6 +110,60 @@ iframe.desmos{width:100%;height:calc(100vh - 190px);border:1px solid var(--line)
 .wf{flex-basis:100%;margin-top:0;padding:8px 10px;border-radius:8px;background:#f0fdf4;border-left:4px solid #15803d;font-size:14px;line-height:1.5}.wf .wl{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#15803d;margin-bottom:2px}
 .keepon{font-size:20px;font-weight:700;color:#9a3412;background:#fff4ec;border:1px solid #fed7aa;border-radius:10px;padding:10px 16px}.keepon.ok{color:#14532d;background:#ecfdf3;border-color:#bbf7d0}.keepon.sm{font-size:13px;padding:4px 8px;margin-bottom:6px;display:block;text-align:center}
 .src2{margin:4px 0 0 4px;font-size:13px;line-height:1.5}.src2 .sl{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}.src2 .lab{min-width:62px;color:var(--mute);font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.04em}.src2 .mute{color:var(--mute)}.src2 .up{color:#15803d;font-weight:600}.src2 .dn{color:#c2410c;font-weight:600}.src2 .eq{color:var(--mute)}
+
+/* ===== HELM design system (Allie, Nov 22–23): Helvetica everywhere, BI-grade spacing, cool navy/blue/teal palette, no gold ===== */
+:root{--ink:#0F172A;--mute:#64748B;--line:#E2E8F0;--line2:#EEF2F6;--bg:#F4F6FA;--navy:#1E3A8A;--navy2:#EEF2FF;--blue:#2563EB;--sky:#0EA5E9;--teal:#0D9488;--or:#C2410C;
+  --ok:#059669;--okbg:#ECFDF5;--bad:#DC2626;--badbg:#FEF2F2;--warn:#D97706;--r-lg:16px;--r-md:12px;--r-sm:8px;--sh:0 1px 2px rgba(15,23,42,.04),0 1px 3px rgba(15,23,42,.06);--sh2:0 8px 24px rgba(15,23,42,.08)}
+html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+body{font-size:15px;line-height:1.5;letter-spacing:-.003em;font-variant-numeric:tabular-nums}
+h1,h2,h3,.hd{letter-spacing:-.018em;font-weight:700;color:var(--ink)}
+h1.hd{font-size:30px!important;line-height:1.15}
+a{color:var(--blue);text-decoration-thickness:1px;text-underline-offset:2px}
+.page{max-width:1680px;margin:0 auto;width:100%;padding:28px 32px 72px;gap:20px}
+/* header */
+.top{background:rgba(255,255,255,.92);backdrop-filter:saturate(180%) blur(10px);position:sticky;top:0;z-index:50;border-bottom:1px solid var(--line)}
+.top .in{max-width:1680px;margin:0 auto;padding:10px 32px}
+.nav{background:#F1F5F9;border-radius:12px;padding:4px}
+.nav a{padding:8px 14px;border-radius:9px;font-size:14px;color:#334155;transition:background .15s,color .15s}
+.nav a:hover{background:#fff;color:var(--ink)}
+.nav a.on{background:#fff;color:var(--navy);box-shadow:var(--sh)}
+/* surfaces */
+.card,.bi .bc{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--sh)}
+section.card{transition:box-shadow .2s}
+.card h2.hd{font-size:18px!important;font-weight:700}
+.stats{gap:16px}
+.stat{padding:18px 20px}.stat .l{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}.stat .v{font-size:32px;font-weight:700;letter-spacing:-.02em;margin-top:6px}
+.today{background:linear-gradient(135deg,#1E3A8A 0%,#1D4ED8 100%);border-radius:var(--r-lg);box-shadow:var(--sh2)}
+.today .k{color:#BFDBFE}
+/* buttons */
+.btn{border-radius:10px;font-weight:600;letter-spacing:-.005em;transition:transform .08s,box-shadow .15s,background .15s;box-shadow:0 1px 2px rgba(15,23,42,.12)}
+.btn:hover{background:#1E40AF}.btn:active{transform:translateY(1px)}
+.btn.o{background:#fff;color:var(--navy);border:1px solid #C7D2FE;box-shadow:none}.btn.o:hover{background:var(--navy2)}
+.btn.g{background:#fff;color:#334155;border:1px solid var(--line);box-shadow:none}.btn.g:hover{background:#F8FAFC;border-color:#CBD5E1}
+.btn:focus-visible,.nav a:focus-visible,button:focus-visible{outline:3px solid #93C5FD;outline-offset:2px}
+.pill{font-weight:700;font-size:12px;letter-spacing:.01em;padding:4px 10px}
+/* skill rows */
+.sec .h{padding:18px 22px}.sec h2{font-size:20px}
+.row{padding:12px 22px;border-top:1px solid var(--line2);transition:background .12s}.row:not(.hd2):hover{background:#F8FAFC}
+.row.hd2{font-size:11px;letter-spacing:.07em;background:#F8FAFC;color:var(--mute)}
+.bar{height:6px;background:#E8EDF4;border-radius:999px}.bar i{height:6px;border-radius:999px;background:linear-gradient(90deg,#1E3A8A,#2563EB)}
+/* tables */
+.rep,.sched{font-size:14px}
+.rep th,.sched th{font-size:11px!important;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--mute)!important;background:#F8FAFC;border-bottom:1px solid var(--line)!important;padding:10px 12px!important}
+.rep td,.sched td{border-top:1px solid var(--line2)!important;padding:11px 12px!important}
+.rep tbody tr:hover td{background:#F8FAFC}
+/* callouts: no yellow/gold */
+.box{border-radius:var(--r-md)}
+.b-yel{background:#F0F7FF;border-color:#C9DDF8}.b-yel .lab{color:#1E40AF}
+.b-blue{background:#EEF2FF;border-color:#C7D2FE}
+.fb{border-radius:var(--r-md)}
+/* drill */
+.dr .bar1,.dr footer{border-style:solid;border-color:var(--line);border-width:0 0 1px}.dr footer{border-width:1px 0 0}
+.ch button{border:1.5px solid #CBD5E1;border-radius:12px;transition:border-color .12s,background .12s,box-shadow .12s}
+.ch button:not(:disabled):hover{border-color:var(--blue);background:#F8FBFF;box-shadow:0 0 0 3px #DBEAFE}
+.help .b{border-radius:999px;border-color:#C7D2FE;font-size:14px}.help .b:hover{background:var(--navy2)}
+.nb,.qn{border-radius:999px}
+@media (max-width:760px){.page{padding:18px 14px 60px}.top .in{padding:10px 14px}}
 </style>
 <script src="auth.js?v=3"></script>
 <script src="progress.js?v=1"></script>
@@ -405,7 +457,7 @@ function helpReport(date,f){const all=dayLog(date),tracked=all.some(x=>Array.isA
     ${counts.map(c=>`<div><div style="font-size:13px;color:var(--mute)">${esc(HELPN[c.k])}</div><div class="hd" style="font-size:22px;font-weight:800">${c.n} <span style="font-size:14px;color:var(--mute)">Qs · ${c.ok} right 1st try</span></div></div>`).join('')}</div>
    <div style="overflow-x:auto"><table class="rep"><thead><tr><th>#</th><th>Question</th><th>Diff.</th><th>First try</th><th>Help before answering</th><th>Help after a miss</th></tr></thead><tbody>
    ${ids.map((id,i)=>{const q=QBY[id],b=before(id),a=after(id),ok=firstOk(id);return `<tr><td>${i+1}</td><td><b>${esc(SK2[q.skill].name)}</b><div style="font-size:12px;color:var(--mute);max-width:420px;white-space:normal">${esc(plain(q.q).slice(0,90))}${plain(q.q).length>90?'…':''}</div></td><td>${DIFF[q.diff]}</td>
-     <td style="font-weight:700;color:${ok?'#15803d':'#b91c1c'}">${ok==null?'—':ok?'✓':'✗'}</td><td>${b.length?b.map(h=>chip(h,'#dbeafe')).join(''):'<span style="color:var(--mute)">none</span>'}</td><td>${a.length?a.map(h=>chip(h,'#fef3c7')).join(''):'<span style="color:var(--mute)">—</span>'}</td></tr>`}).join('')}</tbody></table></div>
+     <td style="font-weight:700;color:${ok?'#15803d':'#b91c1c'}">${ok==null?'—':ok?'✓':'✗'}</td><td>${b.length?b.map(h=>chip(h,'#dbeafe')).join(''):'<span style="color:var(--mute)">none</span>'}</td><td>${a.length?a.map(h=>chip(h,'#FFEDD5')).join(''):'<span style="color:var(--mute)">—</span>'}</td></tr>`}).join('')}</tbody></table></div>
    <div style="font-size:12px;color:var(--mute);margin-top:8px">"Before answering" = he opened it before his first pick, so the first try had help. "After a miss" = he opened it to fix a wrong answer.</div></section>`}
 function dayReport(date){const f=dayFirst(date).map(x=>isScored(x)?x:Object.assign({},x,{ok:false,_ns:!!x.ok})),all=dayLog(date);  // SAT rules: a redo of an old question, or an answer after opening help, never counts as right
   const lab=new Date(date+'T12:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
@@ -635,7 +687,7 @@ function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
     return head('Formula','What this question uses, and what each letter means')+(typeof figFor==='function'?figFor(q):'')+(c||'<div class="box b-yel"><div class="c">No formula needed for this one. Use Show me how.</div></div>')+
      `<button class="btn o" data-pan="show" style="align-self:flex-start">Show me every step</button>`;}
   if(k==='learn'&&s.sec==='Math'&&QF[q.id]){const _S=seenIds(),_c=BANK.qs.filter(x=>x.id!==q.id&&QT[x.id]===QT[q.id]&&!(D&&D.qs.some(y=>y.id===x.id)));const sib=_c.find(x=>_S.has(x.id))||_c.find(x=>!_S.has(x.id));if(sib&&!_S.has(sib.id)){const sh=store.get('shown_ex',[]);sh.push(sib.id);store.set('shown_ex',sh)}const nm=(QF[q.id][0]||{}).n||s.name;
-    let ex='';if(sib){const res=carried(sib,sib.steps),seen=new Set();ex=`<div class="box b-green"><div class="lab">Worked example · same type, different numbers</div><div class="c" style="font-family:'Source Serif 4',Georgia,serif;font-size:17px">${sib.q}</div></div>`+(typeof figFor==='function'?figFor(sib):'')+sib.steps.map((x,i)=>stepHTML(x,i,res,whereFrom(sib,x,i,seen))).join('')+(sib.trap?`<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(sib.trap)}</div></div>`:'');}
+    let ex='';if(sib){const res=carried(sib,sib.steps),seen=new Set();ex=`<div class="box b-green"><div class="lab">Worked example · same type, different numbers</div><div class="c" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:17px">${sib.q}</div></div>`+(typeof figFor==='function'?figFor(sib):'')+sib.steps.map((x,i)=>stepHTML(x,i,res,whereFrom(sib,x,i,seen))).join('')+(sib.trap?`<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(sib.trap)}</div></div>`:'');}
     return head('Learn it · '+esc(nm),'How to do this type of question')+`<button class="btn o" data-pan="video" style="align-self:flex-start">▶ Watch the video</button>`+qCards(q)+ex+`<div class="box b-yel"><div class="lab">Now you</div><div class="c">Do the same steps with the numbers in your question.</div></div><a class="btn o" style="align-self:flex-start;text-decoration:none" href="#/learn/${q.skill}">Open the full lesson</a>`;}
   if(k==='learn'){const ls=lessonData(q.skill);if(!ls)return head('Learn it',esc(s.name))+'<div class="box b-yel"><div class="c">Use Show me how for this one.</div></div>';const ex=ls.ex[0];
     return head('Learn it · '+esc(s.name),'How to do this type of question')+`<button class="btn o" data-pan="video" style="align-self:flex-start">▶ Watch the video</button>`+
@@ -705,6 +757,6 @@ function publishSat(){try{if(!PLAN||!window.HELM_PROGRESS)return;
   HELM_PROGRESS.put('sat_summary',{updated:Date.now(),days,daysDone:days.filter(d=>d.done).length,daysTotal:days.length,dueDone:fin,dueTotal:due.length})}catch(e){}}
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=15"></script><script src="bi.js?v=12"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
+<script src="stats.js?v=16"></script><script src="bi.js?v=13"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
 </body>
 </html>

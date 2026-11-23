@@ -36,7 +36,13 @@ function series(rows, gran) {
 }
 function chart(id, cfg) { const el = document.getElementById(id); if (!el || typeof Chart === 'undefined') return; CH.push(new Chart(el, cfg)) }
 function killCharts() { CH.forEach(c => { try { c.destroy() } catch (e) {} }); CH = [] }
-function ensureChartJs(cb) { if (typeof Chart !== 'undefined') return cb(); const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js'; s.onload = cb; s.onerror = cb; document.head.appendChild(s) }
+function chartTheme() { if (typeof Chart === 'undefined' || Chart._helm) return; Chart._helm = 1; const D = Chart.defaults;
+  D.font.family = "'Helvetica Neue',Helvetica,Arial,sans-serif"; D.font.size = 12; D.color = '#64748B'; D.borderColor = '#EEF2F6';
+  D.plugins.legend.labels.usePointStyle = true; D.plugins.legend.labels.boxWidth = 8; D.plugins.legend.labels.padding = 14;
+  Object.assign(D.plugins.tooltip, {backgroundColor: '#0F172A', titleColor: '#fff', bodyColor: '#E2E8F0', padding: 10, cornerRadius: 8, displayColors: true, boxPadding: 4, titleFont: {weight: '700'}});
+  D.elements.bar.borderRadius = 4; D.elements.line.borderWidth = 2.5; D.elements.point.radius = 3; D.elements.point.hoverRadius = 5;
+  D.scale.grid.color = '#EEF2F6'; D.scale.border = {display: false} }
+function ensureChartJs(cb0) { const cb = () => { chartTheme(); cb0() }; if (typeof Chart !== 'undefined') return cb(); const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js'; s.onload = cb; s.onerror = cb; document.head.appendChild(s) }
 function filters() {
   const b = (k, v, t) => `<button class="btn sm ${ST[k] === v ? '' : 'g'}" data-st="${k}:${v}">${t}</button>`;
   return `<div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center"><div style="display:flex;gap:6px;align-items:center"><span style="font-size:13px;color:var(--mute);font-weight:600">PERIOD</span><select id="stper" style="font:inherit;font-weight:600;padding:8px 10px;border:1px solid #d1d5db;border-radius:10px;background:#fff">${[['day', 'Today'], ['7', 'Last 7 days'], ['14', 'Last 14 days'], ['30', 'Last 30 days'], ['all', 'All time'], ['custom', 'Custom dates…']].map(([v, t]) => `<option value="${v}" ${ST.period === v ? 'selected' : ''}>${t}</option>`).join('')}</select>
@@ -74,7 +80,7 @@ function drawStats() {
   // week x skill heat
   const wks = [...new Set(all.map(r => bucketKey(r.day, 'week')))].sort().slice(-6);
   const heat = skills.map(s => ({s, cells: wks.map(w => { const r = all.filter(x => x.q.skill === s.id && bucketKey(x.day, 'week') === w); return {n: r.length, a: pct(r)} })})).filter(h => h.cells.some(c => c.n));
-  const hc = a => a == null ? '#f3f4f6' : a < 50 ? '#fde2e2' : a < 70 ? '#fef3c7' : '#dcfce7';
+  const hc = a => a == null ? '#f3f4f6' : a < 50 ? '#fde2e2' : a < 70 ? '#FFEDD5' : '#dcfce7';
   const order = per.filter(p => p.n).sort((a, b) => a.acc - b.acc || (b.s.share || 0) - (a.s.share || 0));
   const missed = rows.filter(r => !r.ok).slice(-12).reverse();
   app().innerHTML = topbar('stats') + `<div class="page" style="gap:18px"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;align-items:flex-end"><div><h1 class="hd" style="margin:0;font-size:30px">Stats</h1><div style="color:var(--mute);font-size:14px">Scored like the SAT: one try, no help. Only the first time he ever answers a question counts, and only if he didn't open help first. Retries and help are tracked separately under “When he used help.” Click any category to see why.</div></div>${filters()}</div>
@@ -107,19 +113,19 @@ function drawStats() {
    <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 8px;font-size:19px">Latest misses</h2>${missed.length ? missed.map(missRow).join('') : '<div style="color:var(--mute)">None in this period.</div>'}</section>
   </div>`;
   window.scrollTo(0, 0);
-  const tick = {font: {family: 'Inter', size: 12}};
+  const tick = {font: {family: "'Helvetica Neue',Helvetica,Arial,sans-serif", size: 12}};
   scoresChart();
   chart('c1', {type: 'line', data: {labels: se.lab, datasets: [
     ST.site && ST.sec !== 'English' ? {label: 'Math', data: se.accM, borderColor: SCOL.Math, backgroundColor: SCOL.Math, tension: .3, spanGaps: true} : null,
     ST.site && ST.sec !== 'Math' ? {label: 'Reading & Writing', data: se.accE, borderColor: SCOL.English, backgroundColor: SCOL.English, tension: .3, spanGaps: true} : null,
     ST.bp ? {label: 'Blueprint', data: se.bpA, borderColor: '#9ca3af', backgroundColor: '#9ca3af', borderDash: [4, 4], tension: .3, spanGaps: true} : null,
     ST.bp && ST.site ? {label: 'Combined', data: se.comb, borderColor: '#111827', backgroundColor: '#111827', borderWidth: 3, tension: .3, spanGaps: true} : null,
-    {label: 'Goal (1300 ≈ 75%)', data: se.lab.map(() => 75), borderColor: '#ca8a04', borderDash: [6, 6], pointRadius: 0}].filter(Boolean)},
+    {label: 'Goal (1300 ≈ 75%)', data: se.lab.map(() => 75), borderColor: '#64748B', borderDash: [6, 6], pointRadius: 0}].filter(Boolean)},
     options: {maintainAspectRatio: false, scales: {y: {min: 0, max: 100, ticks: {...tick, callback: v => v + '%'}}, x: {ticks: tick}}, plugins: {legend: {labels: tick}}}});
   chart('c2', {type: 'bar', data: {labels: se.lab, datasets: [ST.sec !== 'English' ? {label: 'Math', data: se.m, backgroundColor: SCOL.Math} : null, ST.sec !== 'Math' ? {label: 'Reading & Writing', data: se.e, backgroundColor: SCOL.English} : null, ST.bp ? {label: 'Blueprint', data: se.bpN, backgroundColor: '#cbd5e1'} : null].filter(Boolean)},
     options: {maintainAspectRatio: false, scales: {x: {stacked: true, ticks: tick}, y: {stacked: true, ticks: tick}}, plugins: {legend: {labels: tick}}}});
   chart('c3', {type: 'bar', data: {labels: order.map(p => p.s.name), datasets: [
-    {label: 'Now', data: order.map(p => p.acc), backgroundColor: order.map(p => p.acc < 50 ? '#f87171' : p.acc < 70 ? '#fbbf24' : '#4ade80')},
+    {label: 'Now', data: order.map(p => p.acc), backgroundColor: order.map(p => p.acc < 50 ? '#f87171' : p.acc < 70 ? '#FB923C' : '#4ade80')},
     {label: 'Blueprint before', type: 'scatter', order: 0, data: order.filter(p => p.base != null).map(p => ({x: p.base, y: p.s.name})), backgroundColor: '#111827', pointStyle: 'rectRot', pointRadius: 6}]},
     options: {indexAxis: 'y', maintainAspectRatio: false, scales: {x: {min: 0, max: 100, ticks: {...tick, callback: v => v + '%'}}, y: {ticks: tick}}, plugins: {legend: {display: false}, tooltip: {callbacks: {label: c => c.datasetIndex ? 'Blueprint before: ' + c.raw.x + '%' : `Now: ${c.raw}% (${order[c.dataIndex].ok}/${order[c.dataIndex].n})`}}},
       onClick: (e, els) => { if (els.length) location.hash = '#/stats/' + order[els[0].index].s.id }}});
@@ -132,7 +138,7 @@ function drawStats() {
 function missRow(r) {
   const q = r.q; const ans = q.ch ? q.ch[q.ans] : (q.show || (q.grid || [])[0]);
   return `<details class="miss" style="border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:8px;background:#fff"><summary style="cursor:pointer;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="pill" style="background:#fde2e2;color:#b91c1c">✗ missed</span><b>${esc(r.s.name)}</b><span style="color:var(--mute);font-size:13px">${new Date(r.ts).toLocaleDateString('en-US', {month: 'short', day: 'numeric'})} · ${DIFF[q.diff]} · ${mmss(r.sec)}</span><span style="flex:1;min-width:200px;color:var(--ink);font-size:14px">${esc(plain(q.q).slice(0, 110))}…</span></summary>
-   <div style="margin-top:10px;display:grid;gap:8px"><div style="font-family:'Source Serif 4',Georgia,serif;font-size:16px">${q.q}</div>
+   <div style="margin-top:10px;display:grid;gap:8px"><div style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px">${q.q}</div>
    <div><span style="color:#b91c1c;font-weight:700">He picked:</span> ${r.picked ? r.picked : '(not recorded)'} &nbsp; <span style="color:#15803d;font-weight:700">Right answer:</span> ${ans || ''}</div>
    <div class="box b-blue"><div class="lab">How to do it</div><div class="c">${q.steps.map((s, i) => (i + 1) + '. ' + esc(s)).join('<br>')}</div></div>${q.trap ? `<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(q.trap)}</div></div>` : ''}
    <div><button class="btn sm" data-go="#/drill/ids:${q.id}">Try it again</button></div></div></details>`
@@ -181,10 +187,10 @@ function skillStats(id) {
    <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 8px;font-size:19px">Right on the first try (${right.length})</h2>${right.slice(0, 30).map(r => `<div style="display:flex;gap:10px;padding:6px 0;border-top:1px solid #f1f2f4;font-size:14px"><span class="pill" style="background:#dcfce7;color:#15803d">✓</span><span style="color:var(--mute)">${new Date(r.ts).toLocaleDateString('en-US', {month: 'short', day: 'numeric'})} · ${DIFF[r.q.diff]} · ${mmss(r.sec)}</span>${esc(plain(r.q.q).slice(0, 110))}…</div>`).join('') || '<div style="color:var(--mute)">None yet.</div>'}</section>
   </div>`;
   window.scrollTo(0, 0);
-  const tick = {font: {family: 'Inter', size: 12}};
-  chart('k1', {type: 'line', data: {labels: se.lab, datasets: [{label: 'Accuracy', data: se.acc, borderColor: SCOL[s.sec] || SCOL.Math, backgroundColor: SCOL[s.sec] || SCOL.Math, pointRadius: 5, tension: .3, spanGaps: true}, ...(base != null ? [{label: 'Blueprint before', data: se.lab.map(() => base), borderColor: '#111827', borderDash: [5, 5], pointRadius: 0}] : []), {label: 'Goal 75%', data: se.lab.map(() => 75), borderColor: '#ca8a04', borderDash: [6, 6], pointRadius: 0}]},
+  const tick = {font: {family: "'Helvetica Neue',Helvetica,Arial,sans-serif", size: 12}};
+  chart('k1', {type: 'line', data: {labels: se.lab, datasets: [{label: 'Accuracy', data: se.acc, borderColor: SCOL[s.sec] || SCOL.Math, backgroundColor: SCOL[s.sec] || SCOL.Math, pointRadius: 5, tension: .3, spanGaps: true}, ...(base != null ? [{label: 'Blueprint before', data: se.lab.map(() => base), borderColor: '#111827', borderDash: [5, 5], pointRadius: 0}] : []), {label: 'Goal 75%', data: se.lab.map(() => 75), borderColor: '#64748B', borderDash: [6, 6], pointRadius: 0}]},
     options: {maintainAspectRatio: false, scales: {y: {min: 0, max: 100, ticks: {...tick, callback: v => v + '%'}}, x: {ticks: tick}}, plugins: {legend: {labels: tick}}}});
-  chart('k2', {type: 'bar', data: {labels: diff.map(d => ({E: 'Easy', M: 'Medium', H: 'Hard'})[d.k] + ` (${d.ok}/${d.n})`), datasets: [{label: 'Accuracy', data: diff.map(d => d.a), backgroundColor: diff.map(d => d.a == null ? '#e5e7eb' : d.a < 50 ? '#f87171' : d.a < 70 ? '#fbbf24' : '#4ade80')}]},
+  chart('k2', {type: 'bar', data: {labels: diff.map(d => ({E: 'Easy', M: 'Medium', H: 'Hard'})[d.k] + ` (${d.ok}/${d.n})`), datasets: [{label: 'Accuracy', data: diff.map(d => d.a), backgroundColor: diff.map(d => d.a == null ? '#e5e7eb' : d.a < 50 ? '#f87171' : d.a < 70 ? '#FB923C' : '#4ade80')}]},
     options: {maintainAspectRatio: false, scales: {y: {min: 0, max: 100, ticks: {...tick, callback: v => v + '%'}}, x: {ticks: tick}}, plugins: {legend: {display: false}}}});
 }
 document.addEventListener('click', e => { const t = e.target.closest('[data-src]'); if (t) { const k = t.dataset.src; ST[k] = !ST[k]; if (!ST.bp && !ST.site) ST[k === 'bp' ? 'site' : 'bp'] = true; const h = decodeURIComponent(location.hash.slice(1)); const a = h.split('/')[2]; if (a && SK2[a]) skillStats(a); else drawStats(); return } const b = e.target.closest('[data-st]'); if (!b) return; const [k, v] = b.dataset.st.split(':'); ST[k] = v; const h = decodeURIComponent(location.hash.slice(1)); const a = h.split('/')[2]; if (a && SK2[a]) skillStats(a); else drawStats() });
