@@ -267,6 +267,7 @@ section.card{transition:box-shadow .2s}
 .path .pt th{border-bottom:1.5px solid #D4D4D8!important}
 .path .psc{width:110px;font-size:20px;font-weight:700;color:#3F3F46;white-space:nowrap}
 .path .ps{width:140px!important}
+.path .pd div b{color:#09090B;font-size:14px;font-weight:700}
 </style>
 <script src="auth.js?v=3"></script>
 <script src="progress.js?v=1"></script>
@@ -862,6 +863,6 @@ function publishSat(){try{if(!PLAN||!window.HELM_PROGRESS)return;
   HELM_PROGRESS.put('sat_summary',{updated:Date.now(),days,daysDone:days.filter(d=>d.done).length,daysTotal:days.length,dueDone:fin,dueTotal:due.length})}catch(e){}}
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=39"></script><script src="bi.js?v=26"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
+<script src="stats.js?v=40"></script><script src="bi.js?v=26"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
 </body>
 </html>

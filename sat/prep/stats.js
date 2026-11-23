@@ -481,12 +481,12 @@ function pathSteps() {
     EXTRA.map(cat).filter(c => c && c.r.s.sec === sec).forEach(c => add(c, c.base, c.r.nq, 'extra')) });
   // running score with section caps, stop once past the goal
   let m = SS.Math, e = SS['R&W']; const out = [];
-  for (let s of steps) { if (m + e >= GOAL) break; const before = m + e;
+  for (let s of steps) { if (Math.round(m / 10) * 10 + Math.round(e / 10) * 10 >= GOAL) break; const before = m + e;
     if (before + s.pts > GOAL && s.n > 1) { const k = Math.max(1, Math.ceil((GOAL - before) / s.c.ppq)); if (k < s.n) s = {...s, n: k, to: s.from + k, pts: Math.round(k * s.c.ppq)} }
     if (s.c.r.s.sec === 'Math') m = Math.min(800, m + s.pts); else e = Math.min(800, e + s.pts);
     // in HELM, is he already getting that many right? (6+ first tries in this skill)
     const h = FT.filter(x => x.q.skill === s.c.r.s.id), hn = h.length, hacc = hn ? h.filter(x => x.ok).length / hn : 0;
-    out.push({...s, gain: m + e - before, score: m + e, m, e, done: hn >= 6 && Math.round(hacc * s.c.r.nq) >= s.to, hn, hacc}) }
+    const R10 = v => Math.round(v / 10) * 10, mR = R10(m), eR = R10(e); out.push({...s, m: mR, e: eR, score: mR + eR, gain: mR + eR - (out.length ? out[out.length - 1].score : SS.total), done: hn >= 6 && Math.round(hacc * s.c.r.nq) >= s.to, hn, hacc}) }
   return {SS, steps: out};
 }
 function pathBlock(withDetails) {
@@ -494,7 +494,7 @@ function pathBlock(withDetails) {
   const last = steps[steps.length - 1].score, need = GOAL - SS.total;
   const row = (s, i) => { const nm = esc(s.c.r.s.name), reach = s.score >= GOAL;
     return `<tr class="${s.done ? 'dn' : ''} ${reach ? 'hit' : ''}"><td class="pn">${s.done ? '✓' : i + 1}</td>
-     <td class="pd"><b>Get ${s.n} more ${nm} right</b><div>${s.phase === 'master' ? `all ${s.to} of ${s.c.r.nq} (finishing this category)` : `${s.to} of ${s.c.r.nq} right · his best SAT: ${s.from} of ${s.c.r.nq}`}${s.phase === 'extra' ? ' · extra category to close the gap' : ''}${s.done ? ' · <span class="ok">already doing this in HELM</span>' : ''}</div></td>
+     <td class="pd"><b>Get ${s.n} more ${nm} right</b><div>${s.phase === 'master' ? `Goal: <b>all ${s.to} of ${s.c.r.nq}</b> right (finishing this category)` : `His best SAT: ${s.from} of ${s.c.r.nq} · Goal: <b>${s.to} of ${s.c.r.nq}</b> right`}${s.phase === 'extra' ? ' · extra category to close the gap' : ''}${s.done ? ' · <span class="ok">already doing this in HELM</span>' : ''}</div></td>
      <td class="pp">+${s.gain}</td><td class="psc">${s.c.r.s.sec === 'Math' ? s.m : s.e}</td><td class="ps">${s.score}${reach ? ' ✓' : ''}</td>
      <td class="pb"><a class="btn sm ${s.done ? 'g' : ''}" href="#/drill/${s.c.r.s.id}">Practice</a></td></tr>` };
   return `<section class="card blk path"><div class="blkh"><h2 class="hd">Your path to ${GOAL}</h2><span>Start from your best SAT. Each row is one thing to do on test day. Work top to bottom.</span></div>
@@ -503,6 +503,6 @@ function pathBlock(withDetails) {
      return `<div class="pbox"><div class="pbh"><div class="pbt">${sec === 'Math' ? 'Math' : 'Reading &amp; Writing'}</div><div class="pbs">best SAT <b>${SS[k]}</b> → <b class="g">${end}</b> <span>(+${end - SS[k]})</span></div></div>
       <table class="pt"><thead><tr><th></th><th>On test day…</th><th>Points</th><th>${sec === 'Math' ? 'Math' : 'R&amp;W'} score</th><th>Total score</th><th></th></tr></thead><tbody>${ss.map(s => row(s, steps.indexOf(s))).join('')}</tbody></table></div>` }).join('')}
    ${last < GOAL ? `<div class="pnote">These steps reach about <b>${last}</b>. The rest comes from small categories not listed here.</div>` : ''}
-   <div class="pnote">Each extra right answer is worth about 14 points in Math and 11 in Reading &amp; Writing; exact points shown; the real SAT rounds scores to the nearest 10. ✓ = HELM shows he's already getting that many right (6+ practice questions).${withDetails ? '' : ' Details on the <a href="#/stats">Stats page</a>.'}</div>
+   <div class="pnote">Each extra right answer is worth about 14 points in Math and 11 in Reading &amp; Writing. SAT section scores always end in 0, so each score is rounded to the nearest 10 and the points show how much the score actually moves (some steps +10, some +20 or +30). ✓ = HELM shows he's already getting that many right (6+ practice questions).${withDetails ? '' : ' Details on the <a href="#/stats">Stats page</a>.'}</div>
    ${withDetails ? `<details class="pdet"><summary>How we figured this out</summary><div style="margin-top:12px">${focusPlanBlock(false)}</div></details>` : ''}</section>`;
 }
