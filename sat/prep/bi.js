@@ -427,10 +427,10 @@ function biPivot(R, rg) {
   if (!list.length) { el.innerHTML = '<div style="color:var(--mu);padding:16px 0">No skill-level records in this range. (Blueprint skill totals appear when the range covers Aug 31–Nov 20, e.g. All time.)</div>'; return }
   const accCol = a => a == null ? '#A1A1AA' : a >= 70 ? '#10B981' : a >= 50 ? '#F59E0B' : '#F43F5E', stat = a => a == null ? 'No data' : a >= 70 ? 'Strong' : a >= 50 ? 'Getting there' : 'Needs work';
   const PS = 10, pages = Math.max(1, Math.ceil(list.length / PS)); BI.pg = Math.min(BI.pg || 1, pages); const pg = BI.pg, view = list.slice((pg - 1) * PS, pg * PS);
-  const H = [['skill', 'Skill'], ['share', '% of section'], ['n', 'Right / asked'], ['acc', 'Accuracy'], ['helm', 'HELM'], ['bp', 'Blueprint'], ['st', 'Status'], ['lost', 'Points he can still gain'], ['go', '']];
+  const H = [['skill', 'Skill'], ['share', 'Share of section'], ['n', 'Right / asked'], ['acc', 'Accuracy'], ['helm', 'HELM'], ['bp', 'Blueprint'], ['st', 'Status'], ['lost', 'Points he can still gain'], ['go', '']];
   el.innerHTML = `<table class="pv2"><thead><tr>${H.map(([k, tl]) => k === 'go' || k === 'st' ? `<th>${tl}</th>` : `<th data-bi="sort:${k}">${tl}<span class="so">${S.k === k ? (S.d > 0 ? '▲' : '▼') : '↑↓'}</span></th>`).join('')}</tr></thead><tbody>${view.map(x => `<tr data-bi="row:${esc(x.skill)}" title="See every question in this skill">
     <td><div class="sk"><span class="lg" style="background:${x.sec === 'Math' ? '#4F46E5' : '#0D9488'}">${x.sec === 'Math' ? 'M' : 'RW'}</span><div><div style="font-weight:600">${esc(x.skill)}</div><div style="font-size:13px;color:var(--mu)">${esc(x.dom)}</div></div></div></td>
-    <td>${x.share ? Math.round(x.share) + '%' : '—'}</td><td>${x.ok} <span style="color:var(--mu)">/ ${x.n}</span></td>
+    <td>${x.share ? `<b>${Math.round(x.share)}%</b><div style="font-size:12px;color:var(--mu)">${Math.max(1, Math.round(x.share / 100 * (x.sec === 'Math' ? 44 : 54)))} Qs · ≈ ${Math.round(Math.max(1, Math.round(x.share / 100 * (x.sec === 'Math' ? 44 : 54))) * 600 / (x.sec === 'Math' ? 44 : 54))} pts</div>` : '—'}</td><td>${x.ok} <span style="color:var(--mu)">/ ${x.n}</span></td>
     <td><div class="ub"><span class="tr"><i style="width:${x.acc ?? 0}%;background:${accCol(x.acc)}"></i></span><b>${x.acc == null ? '—' : x.acc + '%'}</b></div></td>
     <td>${x.helm == null ? '—' : x.helm + '%'}</td><td>${x.bp == null ? '—' : x.bp + '%'}</td>
     <td><span class="st2"><i style="background:${accCol(x.acc)}"></i>${stat(x.acc)}</span></td>
