@@ -206,7 +206,7 @@ function biRecords() {
   }
   return R
 }
-function biRange() { if (BI.range === 'custom') return [BI.from || '0000', BI.to || dkey(new Date())]; return rangeOf(BI.range === 'today' ? 'day' : BI.range) }
+function biRange() { if (BI.range === 'yest') { const y = new Date(); y.setDate(y.getDate() - 1); return [dkey(y), dkey(y)] } if (BI.range === 'custom') return [BI.from || '0000', BI.to || dkey(new Date())]; return rangeOf(BI.range === 'today' ? 'day' : BI.range) }
 function biPrevRange() { if (BI.range === 'all') return null; const [a, b] = biRange(), A = new Date(a + 'T12:00'), B = new Date(b + 'T12:00'), n = Math.round((B - A) / 864e5) + 1, pa = new Date(A), pb = new Date(A); pa.setDate(pa.getDate() - n); pb.setDate(pb.getDate() - 1); return [dkey(pa), dkey(pb)] }
 const biBpSkillOk = ([a, b]) => a <= BI_BP_FROM && b >= BI_BP_TO;   // undated Blueprint skill totals count only when the whole Nov 6–20 window is inside the range
 function biBucket(d, g) { if (!d) return null; if (g === 'day') return d; if (g === 'month') return d.slice(0, 7); return bucketKey(d, 'week') }
@@ -268,7 +268,7 @@ function drawStats() {
     <div class="me"><span class="av">P</span><div><div style="font-weight:700;font-size:14px">Patrick</div><div style="font-size:12px;color:var(--mu)">SAT · Dec 5</div></div></div></aside>
    <main class="main2">
    <div class="hdr2"><div><h1>SAT Progress Overview</h1><div class="sub2">First-try accuracy (no help), practice volume, pace, and projected score · HELM + Blueprint</div></div>
-    <div class="ctl2"><label class="dd">${ic('cal', 16)}<select id="bi-range" aria-label="Date range">${[['today', 'Today'], ['7', 'Last 7 days'], ['14', 'Last 14 days'], ['30', 'Last 30 days'], ['all', 'All time'], ['custom', 'Custom…']].map(([v, t]) => `<option value="${v}" ${BI.range === v ? 'selected' : ''}>${t}</option>`).join('')}</select><span class="rt">${rangeTxt}</span></label>
+    <div class="ctl2"><label class="dd">${ic('cal', 16)}<select id="bi-range" aria-label="Date range">${[['today', 'Today'], ['yest', 'Yesterday'], ['7', 'Last 7 days'], ['14', 'Last 14 days'], ['30', 'Last 30 days'], ['all', 'All time'], ['custom', 'Custom…']].map(([v, t]) => `<option value="${v}" ${BI.range === v ? 'selected' : ''}>${t}</option>`).join('')}</select><span class="rt">${rangeTxt}</span></label>
      ${BI.range === 'custom' ? `<input type="date" id="bi-from" value="${BI.from}"><input type="date" id="bi-to" value="${BI.to || dkey(new Date())}">` : ''}
      <label class="dd"><select id="bi-cmp" aria-label="Comparison"><option value="1" ${BI.cmp ? 'selected' : ''}>vs. Previous period</option><option value="" ${BI.cmp ? '' : 'selected'}>No comparison</option></select></label>
      <button class="b2" data-bi="export">${ic('down', 16)}Export</button><button class="b2 pri" data-bi="share">${ic('link', 16)}Share</button></div></div>
