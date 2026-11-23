@@ -290,7 +290,7 @@ function drawStats() {
     <section class="bc"><div class="chd"><div><div class="ct">Accuracy by ${lvName.toLowerCase()}</div><div class="cs">${lv === 'diff' ? 'HELM only (Blueprint has no difficulty)' : 'Ranked by accuracy · click a row to drill in'}</div></div>
      ${lv !== 'sec' ? `<button class="xbtn" data-bi="back">← Back</button>` : ''}</div><div id="bi-rk-wrap"></div></section>
    </div>
-   <section class="bc"><div class="chd"><div><div class="ct">Every skill</div><div class="cs">Accuracy in practice, status, and what his best SAT (${superscore().total}) becomes if he gets every question in that category right and nothing else changes (scores rounded to the nearest 10 like real SAT scores) · click a row to see its questions</div></div>
+   <section class="bc"><div class="chd"><div><div class="ct">Every skill</div><div class="cs"><b style="color:#09090B">Right / asked, Accuracy, HELM and Status are for the date range selected at the top of the page.</b> SAT columns are his official tests (estimated per category). The last column shows what his best SAT (${superscore().total}) becomes if he gets every question in that category right and nothing else changes (scores rounded to the nearest 10 like real SAT scores) · click a row to see its questions</div></div>
      <input class="srch" id="bi-pq" placeholder="Search skills…" value="${esc(BI.pq)}" autocomplete="off"></div>
     <div style="overflow:auto;margin-top:6px" id="bi-pv"></div></section>
    <div class="stitle">Help and tutor</div>
@@ -431,7 +431,7 @@ function biPivot(R, rg) {
   const el = document.getElementById('bi-pv'); if (!el) return;
   if (!list.length) { el.innerHTML = '<div style="color:var(--mu);padding:16px 0">No skill-level records in this range. (Blueprint skill totals appear when the range covers Aug 31–Nov 20, e.g. All time.)</div>'; return }
   const accCol = a => a == null ? '#A1A1AA' : a >= 70 ? '#10B981' : a >= 50 ? '#F59E0B' : '#F43F5E', stat = a => a == null ? 'No data' : a >= 70 ? 'Strong' : a >= 50 ? 'Getting there' : 'Needs work';
-  const H = [['skill', 'Skill'], ['share', 'Share of section'], ...SAT_OFFICIAL.map(o => ['sat:' + o.date, 'SAT ' + o.label]), ['n', 'Right / asked'], ['acc', 'Accuracy (date range)'], ['helm', 'HELM (date range)'], ['bp', 'Blueprint'], ['st', 'Status'], ['lost', 'If he gets all of them right'], ['go', '']];
+  const H = [['skill', 'Skill'], ['share', 'Share of section'], ...SAT_OFFICIAL.map(o => ['sat:' + o.date, 'SAT ' + o.label]), ['n', 'Right / asked'], ['acc', 'Accuracy'], ['helm', 'HELM'], ['bp', 'Blueprint'], ['st', 'Status'], ['lost', 'If he gets all of them right'], ['go', '']];
   const head = `<thead><tr>${H.map(([k, tl]) => k === 'go' || k === 'st' || k.startsWith('sat:') ? `<th>${tl}</th>` : `<th data-bi="sort:${k}">${tl}<span class="so">${S.k === k ? (S.d > 0 ? '▲' : '▼') : '↑↓'}</span></th>`).join('')}</tr></thead>`;
   const part = (sec, lab) => { const v = list.filter(x => sec === 'Math' ? x.sec === 'Math' : x.sec !== 'Math'); if (!v.length) return '';
     return `<div class="pvbox"><div class="pvh">${lab} <span>${v.length} categories</span></div><table class="pv2">${head}<tbody>${v.map(x => `<tr data-bi="row:${esc(x.skill)}" title="See every question in this skill">

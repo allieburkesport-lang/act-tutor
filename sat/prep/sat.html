@@ -291,6 +291,13 @@ section.card{transition:box-shadow .2s}
 .path .pct{font-weight:700;color:#09090B}.path .pct.b{color:#1D4ED8}
 .path .pht{font-weight:600;color:#3F3F46}.path .pht b{font-size:15px}.path .pht.up,.path .pht.up b{color:#047857}.path .pht.dn,.path .pht.dn b{color:#B91C1C}.path .phn{font-weight:400;color:#71717A}
 .path .pmb{display:block;width:100%;border:0;border-top:1px solid #D4D4D8;background:#FAFAFA;padding:12px;font:inherit;font-size:15px;font-weight:700;color:#1D4ED8;cursor:pointer}.path .pmb:hover{background:#F4F4F5}
+/* every column title in caps, site-wide (Allie, Nov 23) */
+th,.rep th,.sched th,table.pv th,table.pv2 th,table.pt th,table.bt th,#bi table.rep th,#bi table.sched th,#bi table.pv th,#bi table.pv2 th,#bi table.bt th,.row.hd2{text-transform:uppercase!important;letter-spacing:.05em!important;font-weight:700!important}
+/* skill table fits: narrow skill column, no cut-off last column */
+#bi table.pv2{table-layout:auto}#bi table.pv2 td:first-child,#bi table.pv2 th:first-child{width:1%;white-space:normal!important;min-width:200px;max-width:240px}
+#bi table.pv2 td,#bi table.pv2 th{padding-left:8px!important;padding-right:8px!important}
+#bi table.pv2 .ub .tr{width:56px!important}
+#bi table.pv2 th{white-space:normal!important;font-size:12px!important;line-height:1.25}
 </style>
 <script src="auth.js?v=3"></script>
 <script src="progress.js?v=1"></script>
@@ -892,6 +899,6 @@ function publishSat(){try{if(!PLAN||!window.HELM_PROGRESS)return;
   HELM_PROGRESS.put('sat_summary',{updated:Date.now(),days,daysDone:days.filter(d=>d.done).length,daysTotal:days.length,dueDone:fin,dueTotal:due.length})}catch(e){}}
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=57"></script><script src="bi.js?v=31"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
+<script src="stats.js?v=57"></script><script src="bi.js?v=32"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
 </body>
 </html>
