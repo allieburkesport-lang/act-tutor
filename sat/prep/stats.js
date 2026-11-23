@@ -474,9 +474,11 @@ function pathSteps() {
     const goal = Math.min(r.nq, Math.max(base + 1, r.nq <= 3 ? r.nq : Math.round(.8 * r.nq))); return {r, base, ppq, goal} };
   const steps = []; const add = (c, from, to, phase) => { if (!c || to <= from) return; steps.push({c, from, to, n: to - from, pts: Math.round((to - from) * c.ppq), phase}) };
   const fc = F.map(cat).filter(Boolean);
-  fc.slice().sort((a, b) => (b.goal - b.base) * b.ppq - (a.goal - a.base) * a.ppq).forEach(c => add(c, c.base, c.goal, 'goal'));
-  fc.slice().sort((a, b) => b.ppq - a.ppq).forEach(c => add(c, c.goal, c.r.nq, 'master'));
-  EXTRA.map(cat).filter(Boolean).forEach(c => add(c, c.base, c.r.nq, 'extra'));
+  ['Math', 'English'].forEach(sec => {   // Math block first, then Reading & Writing (Allie, Nov 23)
+    const fs = fc.filter(c => c.r.s.sec === sec);
+    fs.slice().sort((a, b) => (b.goal - b.base) * b.ppq - (a.goal - a.base) * a.ppq).forEach(c => add(c, c.base, c.goal, 'goal'));
+    fs.forEach(c => add(c, c.goal, c.r.nq, 'master'));
+    EXTRA.map(cat).filter(c => c && c.r.s.sec === sec).forEach(c => add(c, c.base, c.r.nq, 'extra')) });
   // running score with section caps, stop once past the goal
   let m = SS.Math, e = SS['R&W']; const out = [];
   for (let s of steps) { if (m + e >= GOAL) break; const before = m + e;
@@ -493,11 +495,13 @@ function pathBlock(withDetails) {
   const row = (s, i) => { const nm = esc(s.c.r.s.name), reach = s.score >= GOAL;
     return `<tr class="${s.done ? 'dn' : ''} ${reach ? 'hit' : ''}"><td class="pn">${s.done ? '✓' : i + 1}</td>
      <td class="pd"><b>Get ${s.n} more ${nm} right</b><div>${s.phase === 'master' ? `all ${s.to} of ${s.c.r.nq} (finishing this category)` : `${s.to} of ${s.c.r.nq} right · his best SAT: ${s.from} of ${s.c.r.nq}`}${s.phase === 'extra' ? ' · extra category to close the gap' : ''}${s.done ? ' · <span class="ok">already doing this in HELM</span>' : ''}</div></td>
-     <td class="pp">+${s.gain}</td><td class="ps">${s.score}${reach ? ' ✓' : ''}<div class="psec">Math ${s.m} · R&amp;W ${s.e}</div></td>
+     <td class="pp">+${s.gain}</td><td class="psc">${s.c.r.s.sec === 'Math' ? s.m : s.e}</td><td class="ps">${s.score}${reach ? ' ✓' : ''}</td>
      <td class="pb"><a class="btn sm ${s.done ? 'g' : ''}" href="#/drill/${s.c.r.s.id}">Practice</a></td></tr>` };
   return `<section class="card blk path"><div class="blkh"><h2 class="hd">Your path to ${GOAL}</h2><span>Start from your best SAT. Each row is one thing to do on test day. Work top to bottom.</span></div>
    <div class="ph"><div><span>Best SAT</span><b>${SS.total}</b></div><div><span>Goal</span><b>${GOAL}</b></div><div><span>Points needed</span><b class="g">+${need}</b></div></div>
-   <table class="pt"><thead><tr><th></th><th>On test day…</th><th>Points</th><th>Your score (Math + R&amp;W)</th><th></th></tr></thead><tbody>${steps.map(row).join('')}</tbody></table>
+   ${['Math', 'English'].map(sec => { const ss = steps.filter(s => s.c.r.s.sec === sec); if (!ss.length) return ''; const k = sec === 'Math' ? 'Math' : 'R&W', end = ss[ss.length - 1][sec === 'Math' ? 'm' : 'e'];
+     return `<div class="pbox"><div class="pbh"><div class="pbt">${sec === 'Math' ? 'Math' : 'Reading &amp; Writing'}</div><div class="pbs">best SAT <b>${SS[k]}</b> → <b class="g">${end}</b> <span>(+${end - SS[k]})</span></div></div>
+      <table class="pt"><thead><tr><th></th><th>On test day…</th><th>Points</th><th>${sec === 'Math' ? 'Math' : 'R&amp;W'} score</th><th>Total score</th><th></th></tr></thead><tbody>${ss.map(s => row(s, steps.indexOf(s))).join('')}</tbody></table></div>` }).join('')}
    ${last < GOAL ? `<div class="pnote">These steps reach about <b>${last}</b>. The rest comes from small categories not listed here.</div>` : ''}
    <div class="pnote">Each extra right answer is worth about 14 points in Math and 11 in Reading &amp; Writing; exact points shown; the real SAT rounds scores to the nearest 10. ✓ = HELM shows he's already getting that many right (6+ practice questions).${withDetails ? '' : ' Details on the <a href="#/stats">Stats page</a>.'}</div>
    ${withDetails ? `<details class="pdet"><summary>How we figured this out</summary><div style="margin-top:12px">${focusPlanBlock(false)}</div></details>` : ''}</section>`;

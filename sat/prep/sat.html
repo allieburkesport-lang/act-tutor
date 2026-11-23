@@ -259,6 +259,14 @@ section.card{transition:box-shadow .2s}
 .path .pdet{margin-top:16px}.path .pdet>summary{cursor:pointer;font-size:15px;font-weight:600;color:#1D4ED8}
 .path .pb a{text-decoration:none!important}
 .path .psec{font-size:13px;font-weight:500;color:#52525B;letter-spacing:0;margin-top:2px}.path .ps{width:190px!important}
+.path .pbox{border:1.5px solid #A1A1AA;border-radius:12px;overflow:hidden;margin-top:16px;background:#fff}
+.path .pbh{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;background:#F4F4F5;border-bottom:1.5px solid #D4D4D8;padding:14px 18px}
+.path .pbt{font-size:18px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#09090B}
+.path .pbs{font-size:16px;color:#3F3F46}.path .pbs b{font-size:22px;font-weight:800;color:#09090B}.path .pbs b.g{color:#047857}.path .pbs span{color:#047857;font-weight:700}
+.path .pbox .pt th:first-child,.path .pbox .pt td:first-child{padding-left:18px}.path .pbox .pt tr:last-child td{border-bottom:0}
+.path .pt th{border-bottom:1.5px solid #D4D4D8!important}
+.path .psc{width:110px;font-size:20px;font-weight:700;color:#3F3F46;white-space:nowrap}
+.path .ps{width:140px!important}
 </style>
 <script src="auth.js?v=3"></script>
 <script src="progress.js?v=1"></script>
@@ -854,6 +862,6 @@ function publishSat(){try{if(!PLAN||!window.HELM_PROGRESS)return;
   HELM_PROGRESS.put('sat_summary',{updated:Date.now(),days,daysDone:days.filter(d=>d.done).length,daysTotal:days.length,dueDone:fin,dueTotal:due.length})}catch(e){}}
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=38"></script><script src="bi.js?v=26"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
+<script src="stats.js?v=39"></script><script src="bi.js?v=26"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
 </body>
 </html>
