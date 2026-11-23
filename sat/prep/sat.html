@@ -484,7 +484,7 @@ function tfAdd(){(TF.items||[]).forEach(it=>(it.qs||[]).forEach(q=>{if(!QBY[q.id
 function tfFor(qid){const it=(TF.items||[]).find(i=>i.question_id===qid||(i.same_type||[]).includes(qid));return it&&it.another_way?it:null}
 function buildDay(d,all){tfAdd();const ord=all?(qs=>qs):order;const used=new Set(),qs=[],secs=[];const add=(list,label)=>list.forEach(q=>{if(q&&!used.has(q.id)){used.add(q.id);qs.push(q);secs.push(label)}});
   const want=dayMix(d);
-  (TF.items||[]).filter(it=>(it.days||[]).includes(d.date)).forEach(it=>add((it.qs||[]).map(q=>QBY[q.id]),`From your tutor questions: ${(SK2[it.skill]||{}).name||it.skill}`));
+  if(d.date<MIRROR_FROM)(TF.items||[]).filter(it=>(it.days||[]).includes(d.date)).forEach(it=>add((it.qs||[]).map(q=>QBY[q.id]),`From your tutor questions: ${(SK2[it.skill]||{}).name||it.skill}`));
   (d.learn||[]).forEach((s,k)=>{if(SK2[s])add(ord(BANK.qs.filter(q=>q.skill===s)).slice(0,want[s]),`New skill ${k+1}/${d.learn.length}: ${SK2[s].name} · ${Math.round(SK2[s].share||0)}% of the test`)});
   Object.keys(want).filter(s=>!(d.learn||[]).includes(s)).sort((a,b)=>(SK2[b].share||0)-(SK2[a].share||0)).forEach(s=>{
     add(ord(BANK.qs.filter(q=>q.skill===s&&!used.has(q.id))).slice(0,want[s]),`${(SK2[s].share||0)>=7?'Daily core':'Review'}: ${SK2[s].name} · ${Math.round(SK2[s].share||0)}% of the test`)});
@@ -494,7 +494,13 @@ function buildDay(d,all){tfAdd();const ord=all?(qs=>qs):order;const used=new Set
 const DAY_BUDGET={Math:36,English:20};
 // Focus plan (Allie, Nov 23): from plan.focus.start, the daily core questions go ONLY to the 8 focus skills.
 function focusOn(d){return PLAN&&PLAN.focus&&d&&d.date>=PLAN.focus.start?PLAN.focus.skills:null}
-function dayMix(d){const w={},sum={},F=focusOn(d),pool=Object.values(SK2).filter(s=>!F||F.includes(s.id));pool.forEach(s=>{sum[s.sec]=(sum[s.sec]||0)+(s.share||0)});
+// SAT mirror (Allie, Nov 23): from Nov 24, each day's questions match the real SAT: 44 Math : 54 R&W, and inside each section every category gets its SAT share
+// (largest-remainder rounding). No extra learn-day or review counts. Help -> 1-3 'Prove it' follow-ups are added on top while he works.
+const MIRROR_FROM='2026-11-24',MIRROR_N=54;
+function satMirror(){const w={},secN={Math:Math.round(MIRROR_N*44/98)},sk=Object.values(SK2);secN.English=MIRROR_N-secN.Math;
+  ['Math','English'].forEach(sec=>{const L=sk.filter(s=>s.sec===sec),tot=L.reduce((a,s)=>a+(s.share||0),0)||1;const raw=L.map(s=>({s,x:secN[sec]*(s.share||0)/tot}));
+    raw.forEach(r=>r.n=Math.floor(r.x));let left=secN[sec]-raw.reduce((a,r)=>a+r.n,0);raw.slice().sort((a,b)=>(b.x-b.n)-(a.x-a.n)).forEach(r=>{if(left>0){r.n++;left--}});raw.forEach(r=>{if(r.n>0)w[r.s.id]=r.n})});return w}
+function dayMix(d){if(d&&d.date>=MIRROR_FROM)return satMirror();const w={},sum={},F=focusOn(d),pool=Object.values(SK2).filter(s=>!F||F.includes(s.id));pool.forEach(s=>{sum[s.sec]=(sum[s.sec]||0)+(s.share||0)});
   pool.forEach(s=>{const sh=s.share||0;let n=Math.round(DAY_BUDGET[s.sec]*sh/(sum[s.sec]||1));if(sh>=7)n=Math.max(n,3);if(n>0)w[s.id]=n});
   (d.learn||[]).forEach(s=>{const sh=(SK2[s]||{}).share||0;w[s]=Math.max(w[s]||0,sh>=7?10:sh>=4?6:4)});
   (d.review||[]).forEach(([s,n])=>{if(SK2[s])w[s]=Math.max(w[s]||0,Math.min(n,(SK2[s].share||0)>=4?n:2))});
@@ -878,6 +884,6 @@ function publishSat(){try{if(!PLAN||!window.HELM_PROGRESS)return;
   HELM_PROGRESS.put('sat_summary',{updated:Date.now(),days,daysDone:days.filter(d=>d.done).length,daysTotal:days.length,dueDone:fin,dueTotal:due.length})}catch(e){}}
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=46"></script><script src="bi.js?v=27"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
+<script src="stats.js?v=47"></script><script src="bi.js?v=27"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
 </body>
 </html>
