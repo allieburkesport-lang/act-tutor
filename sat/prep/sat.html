@@ -422,7 +422,7 @@ setInterval(()=>{if(!D&&/^#\/(stats|report|$)/.test(location.hash||'#/')&&!docum
 /* ---------- home ---------- */
 function topbar(on){const days=Math.max(0,Math.round((new Date(TEST+'T08:00')-new Date())/864e5));
   return `<header class="top"><div class="in"><div style="display:flex;align-items:center;gap:12px"><a href="#/" aria-label="SAT HELM home"><img src="helm-logo.png" alt="SAT HELM" style="height:66px;width:auto;display:block"></a><div style="border-left:1px solid #e5e7eb;padding-left:12px"><div style="font-size:14px;color:var(--mute)">Test day Sat, Dec 5 · ${days} days left · Goal 1300</div></div></div>
-  <nav class="nav" style="display:flex;gap:6px;flex-wrap:wrap"><a href="#/" class="${on==='home'?'on':''}">Home</a><a href="#/stats" class="${on==='stats'?'on':''}">Stats</a><a href="#/videos" class="${on==='videos'?'on':''}">Videos</a><a href="apgov/">AP Gov</a><a href="../drill-zone/plan.html">Daily plan</a><a href="../drill-zone/report.html">Score report</a></nav></div></header>`}
+  <nav class="nav" style="display:flex;gap:6px;flex-wrap:wrap"><a href="#/" class="${on==='home'?'on':''}">Home</a><a href="#/stats" class="${on==='stats'?'on':''}">Stats</a><a href="#/videos" class="${on==='videos'?'on':''}">Videos</a><a href="apgov/">AP Gov</a><a href="#/">Daily plan</a><a href="../drill-zone/report.html">Score report</a></nav></div></header>`}
 function todayCard(){const d=PLAN&&PLAN.days.find(x=>x.date===today());
   if(!d)return `<section class="today"><div><div class="k">Today</div><div class="t hd">Pick a skill below</div><div class="s">Start with the ones marked “Needs work” that count the most.</div></div></section>`;
   const dn=new Date(d.date+'T12:00').toLocaleDateString('en-US',{weekday:'long'});
