@@ -405,10 +405,10 @@ async function unlockCBM(code){if(!window.crypto||!crypto.subtle)return false;co
     CBM=JSON.parse(new TextDecoder().decode(buf));store.set('cbm_code',c);CBM.forEach(q=>{if(!QBY[q.id]){BANK.qs.push(q);QBY[q.id]=q}});return true}catch(x){}}
   return false}
 let CBQ=[];
-async function pullOnline(){try{const r=await fetch(SB+'?select=question,part,correct,first_try,attempt,seconds,created_at&kind=eq.bank&student=eq.'+WHO+'&order=created_at.asc&limit=10000',{headers:H});const rows=await r.json();if(!Array.isArray(rows))return;
-  const near=(id,t,a)=>LOG.some(x=>x.id===id&&(x.attempt||1)===(a||1)&&Math.abs(x.ts-t)<120000);let add=0;// near = same question AND same attempt, so quick retries are kept
+async function pullOnline(){try{const r=await fetch(SB+'?select=question,part,correct,first_try,attempt,seconds,created_at,picked&kind=eq.bank&student=eq.'+WHO+'&order=created_at.asc&limit=10000',{headers:H});const rows=await r.json();if(!Array.isArray(rows))return;
+  const near=(id,t,a,pk)=>{const x=LOG.find(x=>x.id===id&&(x.attempt||1)===(a||1)&&Math.abs(x.ts-t)<120000);if(x&&!x.picked&&pk)x.picked=pk;return !!x};let add=0;// near = same question AND same attempt, so quick retries are kept
 
-  rows.forEach(w=>{const id=(w.question||'').split(' ')[0];if(!QBY[id])return;const t=Date.parse(w.created_at);if(near(id,t,w.attempt))return;add++;const pm=/plan (\d{4}-\d\d-\d\d)/.exec(w.part||''),hm=/help ([a-z+]+)/.exec(w.part||'');LOG.push({id,ts:t,day:new Date(t).toLocaleDateString('en-CA'),ok:w.correct,first:w.first_try,attempt:w.attempt,sec:w.seconds==null?null:+w.seconds,picked:'',plan:pm?pm[1]:undefined,help:hm?hm[1].split('+'):(/coached/.test(w.part||'')?['show']:[]),helpFirst:(w.attempt||1)===1?(hm?hm[1].split('+'):(/coached/.test(w.part||'')?['show']:[])):undefined});});
+  rows.forEach(w=>{const id=(w.question||'').split(' ')[0];if(!QBY[id])return;const t=Date.parse(w.created_at);if(near(id,t,w.attempt,w.picked))return;add++;const pm=/plan (\d{4}-\d\d-\d\d)/.exec(w.part||''),hm=/help ([a-z+]+)/.exec(w.part||'');LOG.push({id,ts:t,day:new Date(t).toLocaleDateString('en-CA'),ok:w.correct,first:w.first_try,attempt:w.attempt,sec:w.seconds==null?null:+w.seconds,picked:w.picked||'',plan:pm?pm[1]:undefined,help:hm?hm[1].split('+'):(/coached/.test(w.part||'')?['show']:[]),helpFirst:(w.attempt||1)===1?(hm?hm[1].split('+'):(/coached/.test(w.part||'')?['show']:[])):undefined});});
   if(add){LOG.sort((a,b)=>a.ts-b.ts);store.set('satbank_log',LOG.slice(-5000));if(!D)route();}}catch(e){}}
 function save(row){if(D&&D.view)return;if(row.plan)lastPlan=row.plan;LOG.push(row);store.set('satbank_log',LOG.slice(-5000));clearTimeout(window._pubT);window._pubT=setTimeout(publishSat,1500);const q=QBY[row.id],s=SK2[q.skill];
   fetch(SB,{method:'POST',headers:Object.assign({'Content-Type':'application/json',Prefer:'return=minimal'},H),body:JSON.stringify({student:WHO,kind:'bank',concept_id:q.skill,concept_no:BANK.skills.indexOf(s)+1,concept_title:s.name,
@@ -439,7 +439,7 @@ function level(a,n){if(!n)return ['Not tried','#374151','#eef0f3'];if(a<50)retur
 
 /* ---------- router ---------- */
 function route(){const h=decodeURIComponent(location.hash.slice(1)||'/');const [_,v,a]=h.split('/');UI.nav=false;
-  if(v==='drill')return startDrill(a);if(v==='look'){startDrill('ids:'+a);if(D){D.view=true;D.title='Look at this question (practice only, not saved)';UI.panel='show';drawDrill()}return}if(v==='day')return startDay(a);if(v==='report')return dayReport(a);if(v==='learn')return learnPage(a);if(v==='video')return videoPage(a);if(v==='stats')return statsPage(a);if(v==='videos')return videosPage();D=null;home();}
+  if(v==='drill')return startDrill(a);if(v==='look'){startDrill('ids:'+a);if(D){D.view=true;D.title='Look at this question (practice only, not saved)';UI.panel='show';drawDrill()}return}if(v==='day')return startDay(a);if(v==='report')return dayReport(a);if(v==='learn')return learnPage(a);if(v==='video')return videoPage(a);if(v==='stats')return statsPage(a);if(v==='skill'&&typeof skillPage==='function'){D=null;return skillPage(a)}if(v==='videos')return videosPage();D=null;home();}
 window.addEventListener('hashchange',route);
 setInterval(()=>{if(!D&&/^#\/(stats|report|$)/.test(location.hash||'#/')&&!document.querySelector('.drw.open'))pullOnline()},60000);
 
@@ -972,6 +972,6 @@ function publishSat(){try{if(!PLAN||!window.HELM_PROGRESS)return;
   HELM_PROGRESS.put('sat_summary',{updated:Date.now(),days,daysDone:days.filter(d=>d.done).length,daysTotal:days.length,dueDone:fin,dueTotal:due.length})}catch(e){}}
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=59"></script><script src="bi.js?v=39"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=2"></script>
+<script src="stats.js?v=59"></script><script src="bi.js?v=40"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=2"></script>
 </body>
 </html>
