@@ -176,25 +176,32 @@ function biRank(rows, lv) {
 }
 // ---------- per-skill trend (all-time HELM first tries for one skill) ----------
 function biSkillTrend(R, skill, gran) {
-  const h = R.filter(r => r.src === 'HELM' && r.skill === skill && r.date), sk = Object.values(SK2).find(x => x.name === skill), id = sk && sk.id;
-  // Blueprint per-skill scores have no dates: Aug 31–Nov 7 (skills_hist) and the running total through Nov 20 (skills). Split into two periods.
-  const bpp = [], tot = BI.src.bp && id && BPS[id] && BPS[id].n ? BPS[id] : null, h1 = tot && typeof BPH !== 'undefined' && BPH[id] && BPH[id].n ? BPH[id] : null;
-  if (tot) { if (h1) { bpp.push({lab: 'BP Aug 31–Nov 7', n: h1.n, ok: h1.ok}); if (tot.n - h1.n > 0) bpp.push({lab: 'BP Nov 8–20', n: tot.n - h1.n, ok: Math.max(0, tot.ok - h1.ok)}) } else bpp.push({lab: 'BP Aug 31–Nov 20', n: tot.n, ok: tot.ok}) }
-  bpp.forEach(p => p.acc = Math.round(100 * p.ok / p.n));
-  const days = new Set(h.map(r => r.date)).size, g = gran || (days > 14 ? 'week' : 'day');
-  const keys = [...new Set(h.map(r => biBucket(r.date, g)))].sort();
+  const sk = Object.values(SK2).find(x => x.name === skill), id = sk && sk.id, useBp = BI.src.bp && id;
+  const h = R.filter(r => r.src === 'HELM' && r.skill === skill && r.date).map(r => ({date: r.date, ok: r.ok, src: 'HELM'}));
+  // Blueprint: per-question records from the daily report PDFs (BPI), plus Aug 31–Oct 31 = Blueprint's Aug 31–Nov 7 skill total minus the Nov 1–7 questions it itemizes
+  const bi = useBp && typeof BPI !== 'undefined' ? BPI.filter(x => x.skill === id).map(x => ({date: x.day, ok: x.ok, src: 'Blueprint'})) : [];
+  const hist = useBp && typeof BPH !== 'undefined' && BPH[id] ? BPH[id] : null, pre = bi.filter(x => x.date <= '2026-11-07');
+  const early0 = hist ? {lab: 'BP Aug 31–Oct 31', n: hist.n - pre.length, ok: Math.max(0, hist.ok - pre.filter(x => x.ok).length)} : null;
+  const bpp = early0 && early0.n > 0 ? [Object.assign(early0, {acc: Math.round(100 * Math.min(early0.ok, early0.n) / early0.n)})] : [];
+  const all = [...bi, ...h].sort((x, y) => x.date < y.date ? -1 : x.date > y.date ? 1 : (x.src === 'Blueprint' ? -1 : 1));
+  const days = new Set(all.map(r => r.date)).size, g = gran || (days > 14 ? 'week' : 'day');
+  const keys = [...new Set(all.map(r => biBucket(r.date, g)))].sort();
   const lab = k => (g === 'week' ? 'wk ' : '') + new Date(k + 'T12:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'});
-  const per = keys.map(k => biAgg(h.filter(r => biBucket(r.date, g) === k)));
+  const agg = (k, src) => { const x = all.filter(r => biBucket(r.date, g) === k && (!src || r.src === src)); return {n: x.length, acc: x.length ? Math.round(100 * x.filter(r => r.ok).length / x.length) : null} };
   let run = 0, ok = 0; const cum = [];
-  bpp.forEach(p => { run += p.n; ok += p.ok; cum.push(Math.round(100 * ok / run)) });
-  keys.forEach(k => { h.filter(r => biBucket(r.date, g) === k).forEach(r => { run++; ok += r.ok }); cum.push(Math.round(100 * ok / run)) });
-  const n = h.length, m = Math.max(3, Math.floor(n / 3)), early = n >= 6 ? biAgg(h.slice(0, m)) : null, recent = n >= 6 ? biAgg(h.slice(-m)) : null;
-  // overall change: earliest Blueprint period (or his first HELM questions) → his most recent HELM questions (or latest Blueprint period)
-  const startP = bpp.length ? {lab: bpp[0].lab.replace('BP ', 'Blueprint '), acc: bpp[0].acc, n: bpp[0].n} : early ? {lab: `HELM first ${m} Qs`, acc: early.acc, n: m} : null;
-  const endP = recent ? {lab: `HELM last ${m} Qs`, acc: recent.acc, n: m} : n >= 3 ? {lab: `HELM so far`, acc: biAgg(h).acc, n} : bpp.length > 1 ? {lab: bpp[bpp.length - 1].lab.replace('BP ', 'Blueprint '), acc: bpp[bpp.length - 1].acc, n: bpp[bpp.length - 1].n} : null;
-  const chg = startP && endP ? endP.acc - startP.acc : null;
-  return {g, nb: bpp.length, lab: [...bpp.map(p => p.lab), ...keys.map(lab)], bpAcc: [...bpp.map(p => p.acc), ...keys.map(() => null)], acc: [...bpp.map(() => null), ...per.map(a => a.acc)],
-    all: [...bpp.map(p => p.acc), ...per.map(a => a.acc)], cnt: [...bpp.map(p => p.n), ...per.map(a => a.n)], cum, n, m, early, recent, startP, endP, chg, bpp}
+  bpp.forEach(p => { run += p.n; ok += Math.min(p.ok, p.n); cum.push(Math.round(100 * ok / run)) });
+  keys.forEach(k => { all.filter(r => biBucket(r.date, g) === k).forEach(r => { run++; ok += r.ok }); cum.push(Math.round(100 * ok / run)) });
+  const pad = bpp.map(() => null), n = all.length, m = Math.max(3, Math.floor(n / 3));
+  const span = rs => { const f = d => new Date(d + 'T12:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'}), a = rs[0].date, z = rs[rs.length - 1].date; return a === z ? f(a) : f(a) + '–' + f(z) };
+  const part = rs => ({acc: Math.round(100 * rs.filter(r => r.ok).length / rs.length), n: rs.length, lab: `${rs.length} Qs ${span(rs)}`});
+  const first = n >= 6 ? part(all.slice(0, m)) : null, last = n >= 6 ? part(all.slice(-m)) : n >= 3 ? part(all) : null;
+  const startP = bpp.length ? {lab: 'Blueprint Aug 31–Oct 31 (' + bpp[0].n + ' Qs)', acc: bpp[0].acc} : first ? {lab: 'first ' + first.lab, acc: first.acc} : null;
+  const endP = last ? {lab: (n >= 6 ? 'last ' : 'all ') + last.lab, acc: last.acc} : null;
+  const hh = h.length >= 6 ? [part(h.slice(0, Math.max(3, Math.floor(h.length / 3)))), part(h.slice(-Math.max(3, Math.floor(h.length / 3))))] : null;
+  return {g, nb: bpp.length, nbi: bi.length, n, nh: h.length, lab: [...bpp.map(p => p.lab), ...keys.map(lab)],
+    early: bpp.map(p => p.acc).concat(keys.map(() => null)), bpAcc: [...pad, ...keys.map(k => agg(k, 'Blueprint').acc)], acc: [...pad, ...keys.map(k => agg(k, 'HELM').acc)],
+    all: [...bpp.map(p => p.acc), ...keys.map(k => agg(k).acc)], cntB: [...bpp.map(p => p.n), ...keys.map(k => agg(k, 'Blueprint').n)], cntH: [...pad.map(() => 0), ...keys.map(k => agg(k, 'HELM').n)],
+    cum, startP, endP, chg: startP && endP ? endP.acc - startP.acc : null, hh}
 }
 function biTrendBlock(skill) {
   const T = biSkillTrend(biRecords(), skill, BI.tgran), chg = c => c == null ? '' : `<span class="badge ${c > 0 ? 'up' : c < 0 ? 'dn' : 'eq'}">${c > 0 ? '▲' : c < 0 ? '▼' : '±'} ${Math.abs(c)} pts</span>`;
@@ -202,8 +209,8 @@ function biTrendBlock(skill) {
   return `<div class="trd"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><div><div class="lab">Trend over time · Blueprint + HELM · all time</div>
     <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:4px;font-size:14px">
     ${T.chg != null ? `<span>${esc(T.startP.lab)} <b>${T.startP.acc}%</b> → ${esc(T.endP.lab)} <b>${T.endP.acc}%</b> ${chg(T.chg)}</span>` : `<span style="color:var(--mu)">Not enough questions yet to show a change</span>`}
-    ${T.early && T.nb ? `<span style="color:var(--mu)">Within HELM: ${T.early.acc}% → ${T.recent.acc}% ${chg(T.recent.acc - T.early.acc)}</span>` : ''}</div>
-    ${T.nb ? `<div style="font-size:12px;color:var(--mu);margin-top:2px">Blueprint only gives per-skill totals (no dates), so each Blueprint period is one point.</div>` : ''}</div>
+    ${T.hh ? `<span style="color:var(--mu)">HELM only: ${T.hh[0].acc}% → ${T.hh[1].acc}% ${chg(T.hh[1].acc - T.hh[0].acc)}</span>` : ''}</div>
+    <div style="font-size:12px;color:var(--mu);margin-top:2px">${T.nbi} Blueprint + ${T.nh} HELM questions with dates${T.nb ? ' · first point = Blueprint Aug 31–Oct 31 total' : ''} · Blueprint course quizzes have no skill tag; Nov 8 & 12 reports not in Drive</div></div>
     ${T.n ? `<div class="seg">${['day', 'week'].map(g => `<button class="${T.g === g ? 'on' : ''}" data-bi="tgran:${g}">${g === 'day' ? 'Daily' : 'Weekly'}</button>`).join('')}</div>` : ''}</div>
     <div style="height:230px;margin-top:8px"><canvas id="bi-tc"></canvas></div></div>`
 }
@@ -213,14 +220,16 @@ function biTrendChart(skill) {
   const T = biSkillTrend(biRecords(), skill, BI.tgran), C = biColors();
   const dot = a => a == null ? HC.steel : a >= 70 ? HC.green : a >= 50 ? HC.amber : HC.rose;
   BI.tc = new Chart(el, {data: {labels: T.lab, datasets: [
-    {type: 'bar', label: 'Questions', data: T.cnt, backgroundColor: T.lab.map((l, i) => i < T.nb ? (BI.dark ? '#334155' : '#cbd5e1') : (BI.dark ? '#1e293b' : '#e2e8f0')), borderRadius: 4, yAxisID: 'y2', order: 3},
-    ...(T.nb ? [{type: 'line', label: 'Blueprint % right', data: T.bpAcc, borderColor: HC.steel, borderDash: [5, 4], backgroundColor: T.bpAcc.map(dot), pointStyle: 'rectRot', pointRadius: 8, pointHoverRadius: 10, borderWidth: 2, spanGaps: true, yAxisID: 'y', order: 1}] : []),
-    ...(T.n ? [{type: 'line', label: 'HELM % right that ' + T.g, data: T.acc, borderColor: HC.navy, backgroundColor: T.acc.map(dot), pointRadius: 6, pointHoverRadius: 8, borderWidth: 2, tension: .3, spanGaps: true, yAxisID: 'y', order: 1}] : []),
+    {type: 'bar', label: 'Blueprint Qs', data: T.cntB, backgroundColor: BI.dark ? '#334155' : '#cbd5e1', borderRadius: 4, stack: 'q', yAxisID: 'y2', order: 3},
+    {type: 'bar', label: 'HELM Qs', data: T.cntH, backgroundColor: BI.dark ? '#1e3a5f' : '#dbe4f0', borderRadius: 4, stack: 'q', yAxisID: 'y2', order: 3},
+    ...(T.nb ? [{type: 'line', label: 'Blueprint Aug 31–Oct 31', data: T.early, borderColor: HC.steel, backgroundColor: T.early.map(dot), pointStyle: 'rectRot', pointRadius: 9, showLine: false, yAxisID: 'y', order: 1}] : []),
+    ...(T.nbi ? [{type: 'line', label: 'Blueprint % right', data: T.bpAcc, borderColor: HC.steel, borderDash: [5, 4], backgroundColor: T.bpAcc.map(dot), pointStyle: 'rectRot', pointRadius: 7, pointHoverRadius: 9, borderWidth: 2, spanGaps: true, yAxisID: 'y', order: 1}] : []),
+    ...(T.nh ? [{type: 'line', label: 'HELM % right', data: T.acc, borderColor: HC.navy, backgroundColor: T.acc.map(dot), pointRadius: 6, pointHoverRadius: 8, borderWidth: 2, tension: .3, spanGaps: true, yAxisID: 'y', order: 1}] : []),
     {type: 'line', label: 'Running total %', data: T.cum, borderColor: HC.gold, borderWidth: 2, borderDash: [4, 3], pointRadius: 0, tension: .3, yAxisID: 'y', order: 2},
     {type: 'line', label: 'Goal 75%', data: T.lab.map(() => 75), borderColor: HC.green, borderDash: [6, 6], borderWidth: 1.5, pointRadius: 0, yAxisID: 'y', order: 5}]},
     options: {maintainAspectRatio: false, interaction: {mode: 'index', intersect: false},
       plugins: {legend: {position: 'bottom', labels: {color: C.tick, boxWidth: 14, font: {size: 11}}}, tooltip: {callbacks: {label: c => c.dataset.label + ': ' + c.raw + (c.dataset.yAxisID === 'y' ? '%' : '')}}},
-      scales: {y: {min: 0, max: 100, ticks: {color: C.tick, callback: v => v + '%'}, grid: {color: C.grid}}, y2: {position: 'right', beginAtZero: true, ticks: {color: C.tick, precision: 0}, grid: {drawOnChartArea: false}, title: {display: true, text: 'Qs', color: C.tick}}, x: {ticks: {color: C.tick}, grid: {display: false}}}}})
+      scales: {y: {min: 0, max: 100, ticks: {color: C.tick, callback: v => v + '%'}, grid: {color: C.grid}}, y2: {position: 'right', stacked: true, beginAtZero: true, ticks: {color: C.tick, precision: 0}, grid: {drawOnChartArea: false}, title: {display: true, text: 'Qs', color: C.tick}}, x: {stacked: true, ticks: {color: C.tick}, grid: {display: false}}}}})
 }
 function biPivot(R, rg) {
   const rows = biFilter(R, rg).filter(r => r.kind !== 'daily'), pr = biPrevRange(), prev = pr ? biFilter(R, pr, {dated: true}).filter(r => r.kind !== 'daily') : [], g = {};
