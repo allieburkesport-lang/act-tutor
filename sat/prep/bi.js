@@ -314,11 +314,14 @@ function biTrend(rows) {
   const qn = keys.map(k => sum(k, () => true)), aAll = keys.map(acc);
   const aM = keys.map(k => biAgg(dated.filter(r => biBucket(r.date, g) === k && r.sec === 'Math')).acc), aE = keys.map(k => biAgg(dated.filter(r => biBucket(r.date, g) === k && r.sec === 'Reading & Writing')).acc);
   const grad = c => { const {ctx, chartArea: a} = c.chart; if (!a) return 'rgba(37,99,235,.12)'; const gr = ctx.createLinearGradient(0, a.top, 0, a.bottom); gr.addColorStop(0, 'rgba(37,99,235,.22)'); gr.addColorStop(1, 'rgba(37,99,235,0)'); return gr };
-  chart('bi-t', {data: {labels: keys.map(lab), datasets: [
-    {type: 'line', label: 'Overall % right', data: aAll, borderColor: '#2563EB', backgroundColor: grad, fill: 'origin', borderWidth: 3.5, cubicInterpolationMode: 'monotone', pointRadius: 0, pointHoverRadius: 6, pointBackgroundColor: '#2563EB', pointBorderColor: '#fff', pointBorderWidth: 2, yAxisID: 'y2', order: 1, spanGaps: true},
-    {type: 'line', label: 'Math', data: aM, borderColor: '#7C3AED', borderWidth: 2.5, cubicInterpolationMode: 'monotone', pointRadius: 0, pointHoverRadius: 5, pointBackgroundColor: '#7C3AED', yAxisID: 'y2', order: 2, spanGaps: true},
-    {type: 'line', label: 'Reading & Writing', data: aE, borderColor: '#0D9488', borderWidth: 2.5, cubicInterpolationMode: 'monotone', pointRadius: 0, pointHoverRadius: 5, pointBackgroundColor: '#0D9488', yAxisID: 'y2', order: 2, spanGaps: true},
-    {type: 'line', label: 'Goal 75% (≈1300)', data: keys.map(() => 75), borderColor: '#52525B', borderDash: [6, 6], borderWidth: 2, pointRadius: 0, yAxisID: 'y2', order: 3},
+  // One day selected (Today / Yesterday): pad both sides so the dots and the goal line show instead of a blank chart.
+  const one = keys.length === 1, pad = v => one ? [null, ...v, null] : v, pr = one ? 9 : (keys.length < 4 ? 6 : 0);
+  [qn, aAll, aM, aE].forEach(v => { if (one) { v.unshift(null); v.push(null) } });
+  chart('bi-t', {data: {labels: one ? ['', lab(keys[0]), ''] : keys.map(lab), datasets: [
+    {type: 'line', label: 'Overall % right', data: aAll, borderColor: '#2563EB', backgroundColor: grad, fill: 'origin', borderWidth: 3.5, cubicInterpolationMode: 'monotone', pointRadius: pr, pointHoverRadius: 10, pointBackgroundColor: '#2563EB', pointBorderColor: '#fff', pointBorderWidth: 2, yAxisID: 'y2', order: 1, spanGaps: true},
+    {type: 'line', label: 'Math', data: aM, borderColor: '#7C3AED', borderWidth: 2.5, cubicInterpolationMode: 'monotone', pointRadius: pr, pointHoverRadius: 8, pointBackgroundColor: '#7C3AED', yAxisID: 'y2', order: 2, spanGaps: true},
+    {type: 'line', label: 'Reading & Writing', data: aE, borderColor: '#0D9488', borderWidth: 2.5, cubicInterpolationMode: 'monotone', pointRadius: pr, pointHoverRadius: 8, pointBackgroundColor: '#0D9488', yAxisID: 'y2', order: 2, spanGaps: true},
+    {type: 'line', label: 'Goal 75% (≈1300)', data: (one ? [0, 0, 0] : keys).map(() => 75), borderColor: '#52525B', borderDash: [6, 6], borderWidth: 2, pointRadius: 0, yAxisID: 'y2', order: 3},
     ]},
     options: {maintainAspectRatio: false, interaction: {mode: 'index', intersect: false},
       plugins: {legend: {display: false}, tooltip: {enabled: false, external: biGlassTip(i => {
