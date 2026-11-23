@@ -284,12 +284,13 @@ section.card{transition:box-shadow .2s}
 #bi .pvh{background:#F4F4F5;border-bottom:1.5px solid #D4D4D8;padding:12px 16px;font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#09090B}#bi .pvh span{font-size:13px;font-weight:500;text-transform:none;letter-spacing:0;color:#52525B;margin-left:8px}
 #bi .pvbox table.pv2 tr:last-child td{border-bottom:0!important}
 .path .pcat{font-weight:800;letter-spacing:.02em}
-.path tr.pfoc td{background:#EDEDF0}
+
 .path .pshare{font-size:13px;font-weight:500;color:#52525B;margin-left:8px}
 .path .pftag{display:inline-block;margin-left:8px;font-size:11px;font-weight:800;letter-spacing:.06em;color:#fff;background:#3F3F46;border-radius:4px;padding:2px 6px;vertical-align:2px}
 .path tr.pfull .pd b,.path tr.pfull .pcat{color:#71717A}
 .path .pct{font-weight:700;color:#09090B}.path .pct.b{color:#1D4ED8}
 .path .pht{font-weight:600;color:#3F3F46}.path .pht b{font-size:15px}.path .pht.up,.path .pht.up b{color:#047857}.path .pht.dn,.path .pht.dn b{color:#B91C1C}.path .phn{font-weight:400;color:#71717A}
+.path .pmb{display:block;width:100%;border:0;border-top:1px solid #D4D4D8;background:#FAFAFA;padding:12px;font:inherit;font-size:15px;font-weight:700;color:#1D4ED8;cursor:pointer}.path .pmb:hover{background:#F4F4F5}
 </style>
 <script src="auth.js?v=3"></script>
 <script src="progress.js?v=1"></script>
@@ -891,6 +892,6 @@ function publishSat(){try{if(!PLAN||!window.HELM_PROGRESS)return;
   HELM_PROGRESS.put('sat_summary',{updated:Date.now(),days,daysDone:days.filter(d=>d.done).length,daysTotal:days.length,dueDone:fin,dueTotal:due.length})}catch(e){}}
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=53"></script><script src="bi.js?v=27"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
+<script src="stats.js?v=55"></script><script src="bi.js?v=27"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
 </body>
 </html>
