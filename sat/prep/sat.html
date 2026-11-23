@@ -171,6 +171,41 @@ section.card{transition:box-shadow .2s}
 .blkh span{font-size:13px;color:var(--mute)}
 .subcard{border:1px solid #D4D4D8;border-radius:10px;padding:16px 18px;background:#fff}
 .stitle{display:flex;align-items:center;gap:10px;margin:22px 0 2px;font-size:20px;font-weight:700;letter-spacing:-.015em;color:var(--ink)}.stitle:after{content:'';flex:1;height:1px;background:var(--line)}
+.fp-ks3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.fp-k{border:1px solid #D4D4D8;border-radius:14px;padding:20px 22px;background:#fff}
+.fp-kl{font-size:16px;font-weight:600;color:#3F3F46}.fp-kv{font-size:46px;font-weight:800;letter-spacing:-.03em;line-height:1.05;margin-top:8px;font-variant-numeric:tabular-nums}
+.fp-ks{font-size:14px;color:#52525B;margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}.fp-up{background:#DCFCE7;color:#047857;font-weight:700;border-radius:999px;padding:3px 10px}
+.fp-track{margin:22px 4px 8px}.fp-tb{position:relative;height:12px;border-radius:999px;background:#EEF0F3}
+.fp-tb i{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:linear-gradient(90deg,#93C5FD,#2563EB)}
+.fp-tb b{position:absolute;top:-4px;width:4px;height:20px;border-radius:2px;background:#1D4ED8;transform:translateX(-50%)}
+.fp-tb em{position:absolute;top:-8px;width:0;height:28px;border-left:2px dashed #047857;transform:translateX(-50%)}
+.fp-tl2{display:flex;gap:22px;flex-wrap:wrap;margin-top:14px;font-size:15px;color:var(--ink)}.fp-tl2 span{display:inline-flex;align-items:center;gap:8px}.fp-tl2 i{display:inline-block;width:12px;height:12px;border-radius:50%}
+.fp-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:16px;margin-top:18px}
+.fp-col{border:1px solid #D4D4D8;border-radius:14px;padding:20px 22px;background:#fff}
+.fp-ch{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:4px}
+.fp-ct{font-size:20px;font-weight:700;letter-spacing:-.015em}.fp-cs{font-size:13px;color:var(--mute);margin-top:2px}
+.fp-big{font-size:32px;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.fp-row{display:block;padding:16px 0;border-bottom:1px solid var(--line2);text-decoration:none;color:var(--ink)}.fp-row:last-child{border-bottom:0}.fp-row:hover .fp-rn{color:#1D4ED8}
+.fp-rt{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}.fp-rn{font-size:17px;font-weight:700}
+.fp-rp{font-size:14px;color:var(--mute);white-space:nowrap}.fp-rp b{font-size:18px;color:#047857;font-weight:800}.fp-sep{margin:0 4px}
+.fp-bar{position:relative;height:10px;border-radius:999px;background:#EEF0F3;margin:10px 0 8px}.fp-bar i{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:#2563EB}
+.fp-bar s{position:absolute;top:-4px;width:3px;height:18px;border-radius:2px;background:#047857;transform:translateX(-50%)}
+.fp-rs{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:14px;color:#52525B}.fp-rs b{color:var(--ink)}
+.fp-when{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.fp-when span{font-size:12px;font-weight:600;color:#1D4ED8;background:#EFF4FF;border-radius:999px;padding:3px 9px}.fp-when .rv{color:#52525B;background:#F4F4F5}
+.card.fp{border:2px solid #2563EB!important}
+@media(max-width:900px){.fp-ks3{grid-template-columns:1fr}.fp-cols{grid-template-columns:1fr}}
+/* ===== Clear section blocks (Allie, Nov 23): strong outline, left accent, shaded header, CAPS bold titles ===== */
+#bi .bc,#bi .card.blk,.card.blk{border:1.5px solid #A1A1AA!important;border-left:5px solid #2563EB!important;border-radius:14px!important;background:#fff!important;box-shadow:0 1px 3px rgba(9,9,11,.06)!important}
+#bi .card.fp{border:2px solid #2563EB!important;border-left:6px solid #2563EB!important}
+.blkh{background:#F4F4F5;margin:-20px -22px 16px!important;padding:14px 22px!important;border-bottom:1.5px solid #D4D4D8!important;border-radius:12px 12px 0 0}
+.blkh h2.hd,#bi .blkh h2.hd,#bi .ct,#bi .ch b,#bi section h2.hd{text-transform:uppercase!important;font-weight:800!important;letter-spacing:.05em!important;font-size:16px!important;color:#09090B!important}
+#bi .chd{background:#F4F4F5;margin:-22px -24px 16px;padding:14px 24px;border-bottom:1.5px solid #D4D4D8;border-radius:12px 12px 0 0}
+#bi .kpi2{border-left:1.5px solid #A1A1AA!important}
+#bi .kpi2 .kl{text-transform:uppercase;font-weight:800;letter-spacing:.05em;font-size:13px;color:#09090B}
+#bi .stitle{text-transform:uppercase;letter-spacing:.06em;font-weight:800;font-size:18px}
+#bi .subcard,#bi .fp-col,#bi .fp-k{border:1.5px solid #A1A1AA!important}
+#bi .fp-ct{text-transform:uppercase;font-weight:800;letter-spacing:.05em;font-size:17px}
+#bi .fp-kl{text-transform:uppercase;font-weight:800;letter-spacing:.05em;font-size:13px;color:#09090B}
 </style>
 <script src="auth.js?v=3"></script>
 <script src="progress.js?v=1"></script>
@@ -441,7 +476,7 @@ function outlook(date,by,before){
    <div style="font-size:12px;color:var(--mute);margin-top:8px">SAT points = accuracy gain × that category's share of its section × 600 (the section's 200–800 range).</div>`
    :`<div>No category jumped 15+ points today. Steady work still moves the projection below.</div>`}</section>
   <section class="card" style="padding:16px 18px"><h2 class="hd" style="margin:0 0 6px;font-size:22px">Where he's trending on the SAT</h2>
-   <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-end"><div><div style="font-size:13px;color:var(--mute)">Projected total (est.)</div><div class="hd" style="font-size:40px;font-weight:800">${now.total.toLocaleString()}</div></div>
+   <div style="display:flex;gap:28px;flex-wrap:wrap;align-items:flex-end"><div><div style="font-size:13px;color:var(--mute)">Projected total (est.)</div><div class="hd" style="font-size:40px;font-weight:800">${now.total}</div></div>
     <div><div style="font-size:13px;color:var(--mute)">Math · R&W</div><div class="hd" style="font-size:22px;font-weight:700">${now.Math} · ${now['R&W']}</div></div>
     <div><div style="font-size:13px;color:var(--mute)">vs. yesterday</div><div style="font-size:20px;font-weight:700">${prev?arrow(now.total,prev.total):'—'}</div></div>
     <div><div style="font-size:13px;color:var(--mute)">vs. best superscore (${superscore().total})</div><div style="font-size:20px;font-weight:700">${arrow(now.total,superscore().total)}</div></div>
@@ -766,6 +801,6 @@ function publishSat(){try{if(!PLAN||!window.HELM_PROGRESS)return;
   HELM_PROGRESS.put('sat_summary',{updated:Date.now(),days,daysDone:days.filter(d=>d.done).length,daysTotal:days.length,dueDone:fin,dueTotal:due.length})}catch(e){}}
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=23"></script><script src="bi.js?v=20"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
+<script src="stats.js?v=26"></script><script src="bi.js?v=21"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
 </body>
 </html>
