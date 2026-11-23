@@ -49,6 +49,38 @@ FOCUS = ['nlf', 'linf', 'nleq', 'lin2', 'bound', 'fss', 'trans', 'syn', 'wic']  
 FOCUS_FROM = datetime.date(2026, 11, 24)
 MATH = {'lin1','lin2','linf','sys','ineq','equiv','nleq','nlf','ratio','pct','data1','data2','prob','infer','claims','area','lat','trig','circ'}
 
+
+# ---- FOCUS SET (Allie, Nov 23): from Nov 23 every study day is ONE set built from where the points are.
+# Priority of a category = questions on the real SAT x share he currently misses (= questions he'd lose on test day).
+# Math 30 / R&W 20 (light days half). The top 6 categories per section get blocks sized by priority^1.3; the next ones rotate
+# (3 Math + 1 R&W a day). Each category is served as one block, all in a row. Re-ranked every night from his latest accuracy.
+GAP_FROM = datetime.date(2026, 11, 23)
+SECQ = {'Math': 44, 'English': 54}
+def gap_mix(accp, dd, light=False):
+    """accp(skill) -> fraction right (0-1) or None. Returns [[skill, n, 'core'|'rotation'], ...] in serving order."""
+    out = []; idx = (dd - GAP_FROM).days
+    for sec, total, rot_n in (('Math', 30, 3), ('English', 20, 1)):
+        if light: total, rot_n = total // 2, (1 if sec == 'Math' else 0)
+        sk = [s for s in SHARE if (s in MATH) == (sec == 'Math')]
+        miss = {}
+        for s in sk:
+            a = accp(s); a = 0.5 if a is None else a
+            miss[s] = SHARE[s] / 100 * SECQ[sec] * (1 - a)
+        ranked = sorted(sk, key=lambda s: -miss[s])
+        core, rest = ranked[:6], [s for s in ranked[6:] if miss[s] >= 0.6]
+        slots = total - rot_n
+        w = {s: miss[s] ** 1.3 for s in core}; W = sum(w.values())
+        raw = {s: slots * w[s] / W for s in core}; n = {s: max(1, int(raw[s])) for s in core}
+        for s in sorted(core, key=lambda s: -(raw[s] - int(raw[s]))):
+            if sum(n.values()) >= slots: break
+            n[s] += 1
+        while sum(n.values()) > slots: m = max(core, key=lambda s: n[s]); n[m] -= 1
+        out += [[s, n[s], 'core'] for s in core]
+        if rest and rot_n:
+            st = (idx * rot_n) % len(rest)
+            out += [[s, 1, 'rotation'] for s in (rest[st:] + rest[:st])[:rot_n]]
+    return out
+
 def get_rows():
     rows, off = [], 0
     while True:
@@ -96,6 +128,11 @@ def main():
         if r.get('kind') in ('drill', 'lesson'):
             d = datetime.datetime.fromisoformat(r['created_at'].replace('Z', '+00:00')).astimezone(TZ).date().isoformat()
             lessons_done[d] += 1
+    def acc_frac(sk):  # SAT-level accuracy for the focus set: Blueprint + HELM first tries (since Nov 22), smoothed
+        n = bp.get(sk, {}).get('n', 0) + dz[sk][0]; ok = bp.get(sk, {}).get('ok', 0) + dz[sk][1]
+        return (ok + 1) / (n + 2) if n else None
+    try: KEEPMIX = {d['date']: d['mix'] for d in json.load(open(os.path.join(DZ, 'plan.json')))['days'] if d.get('mix')}
+    except Exception: KEEPMIX = {}
     def acc(sk):  # blend: Drill Zone work counts double
         n = bp.get(sk, {}).get('n', 0) + 2 * dz[sk][0]; ok = bp.get(sk, {}).get('ok', 0) + 2 * dz[sk][1]
         return (round(100 * ok / n) if n else None), bp.get(sk, {}).get('n', 0) + dz[sk][0]
@@ -190,6 +227,16 @@ def main():
         day['review_names'] = [[names[s], n] for s, n in day['review']]
         day['focus_names'] = [names[s] for s in day.get('focus', [])]
         day['n_questions'] = 10 * len(day['learn']) + sum(n for _, n in day['review'])
+        if dd >= GAP_FROM and day['kind'] in ('learn', 'weak', 'light'):
+            if dd < today and KEEPMIX.get(d0): day['mix'] = KEEPMIX[d0]
+            else: day['mix'] = gap_mix(acc_frac, dd, light=day['kind'] == 'light')
+            day['learn'], day['review'] = [], []
+            day['concepts'] = [dict(skill=s2, name=names[s2], sec='Math' if s2 in MATH else 'English', share=SHARE[s2], acc=acc(s2)[0], tried=acc(s2)[1],
+                                    lessons=[dict(id=l, title=LTITLE[l], url=NEW + '#/learn/' + s2) for l in LESSONS[s2]], drill=NEW + '#/drill/' + s2)
+                               for s2, n2, t2 in day['mix'] if t2 == 'core']
+            day['mix_names'] = [[names[s2], n2, 'Math' if s2 in MATH else 'English', t2] for s2, n2, t2 in day['mix']]
+            day['n_questions'] = sum(n2 for _, n2, _ in day['mix']); day['review_url'] = ''; day['review_names'] = []
+            day['note'] = 'Focus set: biggest point-losers first, each category in a row'
         res = byday.get(d0, {})
         q = sum(v[0] for v in res.values()); ok = sum(v[1] for v in res.values())
         day['result'] = dict(questions=q, first_try=ok, pct=round(100 * ok / q) if q else None, lessons=lessons_done.get(d0, 0),
