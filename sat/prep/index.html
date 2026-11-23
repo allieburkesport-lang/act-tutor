@@ -674,7 +674,8 @@ document.addEventListener('keydown', (e) => {
 
 /* ---------- one site (Allie, Nov 23): SAT Helm opens INSIDE HELM, the left menu never changes ----------
    #/…  -> SAT Helm (sat.html) in the frame · #report -> score report · anything else -> Today */
-const FRAME_ROUTES = (h) => /^#\//.test(h) ? 'sat.html' + h : h === '#report' ? '../drill-zone/report.html' : null;
+const LOADV = Date.now();   // always load the newest SAT pages (no stale copy inside the frame)
+const FRAME_ROUTES = (h) => /^#\//.test(h) ? 'sat.html?v=' + LOADV + h : h === '#report' ? '../drill-zone/report.html?v=' + LOADV : null;
 let frameHash = null;
 window.HELM_FRAME_SYNC = (h) => { frameHash = h; navActive(h); };   // sat.html tells us when he moves around inside it
 function navActive(h) {
