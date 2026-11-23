@@ -313,10 +313,54 @@ function winsBlock() {
     r.steps.slice(0, 4).map((x, i) => `${i === r.steps.length - 1 ? `all ${r.nq}` : `${x.k} more`} = ${fmtPts(x.g)} <span style="color:var(--mute)">(${x.tot.toLocaleString()})</span>`).join(' · ') +
     (r.steps.length > 4 ? ` · all ${r.nq} = ${fmtPts(r.pts)} <span style="color:var(--mute)">(${(Math.round((now.total + r.pts) / 10) * 10).toLocaleString()})</span>` : '');
   const say = r => `The SAT will have about <b>${r.nq}</b> ${esc(r.s.name.toLowerCase())} question${r.nq > 1 ? 's' : ''}. At ${r.acc == null ? 'no data yet' : Math.round(100 * r.acc) + '%'}, you're on track to get <b>${r.right == null ? '?' : r.right} of ${r.nq}</b> right. ${r.steps.length ? `Get 1 more right and that's about <b>+${r.steps[0].g} points</b> (${r.steps[0].tot.toLocaleString()}). Get all ${r.nq} and it's <b>+${r.pts}</b> (${(Math.round((now.total + r.pts) / 10) * 10).toLocaleString()}).` : 'You are already getting all of them.'}`;
-  return `<h3 class="hd" style="margin:16px 0 6px;font-size:17px">Where the points are <span style="font-size:13px;color:var(--mute);font-weight:500">biggest wins first · each extra Math question ≈ +${Math.round(600 / 44)} points, each Reading &amp; Writing question ≈ +${Math.round(600 / 54)}</span></h3>
+  return quickWinsBlock() + `<h3 class="hd" style="margin:16px 0 6px;font-size:17px">Where the points are <span style="font-size:13px;color:var(--mute);font-weight:500">biggest wins first · each extra Math question ≈ +${Math.round(600 / 44)} points, each Reading &amp; Writing question ≈ +${Math.round(600 / 54)}</span></h3>
    ${top.length ? `<div class="box b-yel" style="margin-bottom:10px"><div class="lab">Your biggest wins, Patrick</div><ul style="margin:6px 0 0;padding-left:20px;display:grid;gap:6px;font-size:15px;line-height:1.5">${top.map(r => `<li><b>${esc(r.s.name)}:</b> ${say(r)}</li>`).join('')}</ul>
     <div style="margin-top:8px;font-size:15px">Master all three and your projected score goes from <b>${now.total.toLocaleString()}</b> to about <b style="color:#15803d">${t3Tot.toLocaleString()}</b>${t3Tot >= GOAL ? ` · that's your ${GOAL} goal ✓` : ` · ${GOAL - t3Tot} short of ${GOAL}, so add the next ones on the list`}.</div></div>` : ''}
    <div style="overflow-x:auto"><table class="rep" style="width:100%"><thead><tr><th>Category</th><th>Qs on the SAT (est.)</th><th>His accuracy</th><th>On track to get</th><th>Points still out there</th><th>If he gets… (projected total)</th><th></th></tr></thead><tbody>
    ${rows.map(r => `<tr><td><b>${esc(r.s.name)}</b><div style="font-size:12px;color:var(--mute)">${r.s.sec === 'Math' ? 'Math' : 'R&W'}</div></td><td>${r.nq}</td><td>${r.acc == null ? '<span style="color:var(--mute)">no data yet</span>' : Math.round(100 * r.acc) + '%'}</td><td><b>${r.right == null ? '?' : r.right} of ${r.nq}</b></td><td>${r.pts ? `<b style="color:#15803d">+${r.pts}</b>` : '—'}</td><td style="font-size:13px">${stepTxt(r)}</td><td><a href="#/drill/${r.s.id}">Drill</a></td></tr>`).join('')}</tbody></table></div>
    <div style="font-size:12px;color:var(--mute);margin-top:6px">Rough guide, not an official score. Question counts = the category's share of the section × ${SAT_QN.Math} Math or ${SAT_QN.English} R&amp;W questions. Accuracy = Blueprint + HELM first tries (no help). Points ≈ 600 ÷ questions in the section, added to today's projection (${now.total.toLocaleString()}); totals rounded to the nearest 10 like real SAT scores. The real SAT is adaptive and scaled, so the exact points can move a little.</div>`;
+}
+
+// ---------- Easiest wins first (Allie, Nov 23): not enough time to master everything, so rank by points he can REALISTICALLY add × how close he already is ----------
+function quickWins() {
+  const {now, rows} = winsData(), FT = firstTries(), days = Math.max(0, Math.round((new Date(TEST + 'T08:00') - new Date()) / 864e5));
+  const out = rows.filter(r => r.steps.length).map(r => {
+    const id = r.s.id, acc = r.acc == null ? .4 : r.acc, b = BPS[id] || {n: 0, ok: 0}, bp = b.n ? b.ok / b.n : null;
+    const h = FT.filter(x => x.q.skill === id), hr = h.slice(-10), hAcc = hr.length >= 4 ? hr.filter(x => x.ok).length / hr.length : null;
+    const eps = helpEpisodes(id).filter(e => e.used.length), fix = eps.length >= 3 ? eps.filter(e => e.solved).length / eps.length : null;
+    const st = eps.filter(e => e.next != null), stick = st.length >= 2 ? st.filter(e => e.next).length / st.length : null;
+    const easy = h.filter(x => x.q.diff === 'E'), easyAcc = easy.length >= 2 ? easy.filter(x => x.ok).length / easy.length : null;
+    const goal = Math.max(1, Math.min(r.miss, Math.round(.8 * r.nq) - (r.right || 0)));   // realistic: up to ~80% of these questions
+    const gain = r.steps[goal - 1].g;
+    let ease = acc, why = [];
+    if (acc >= .5) why.push(`he already gets about ${Math.round(100 * acc)}% right, so ${goal === 1 ? 'one more question' : goal + ' more questions'} per test is close`);
+    else if (acc < .35) { ease -= .1; why.push(`only ${Math.round(100 * acc)}% right so far, so the basics need work first`) }
+    else why.push(`he gets about ${Math.round(100 * acc)}% right now, so ${goal} more per test is a stretch but doable`);
+    if (hAcc != null && bp != null && hAcc - bp >= .1) { ease += .1; why.push(`he's improving: last ${hr.length} on HELM ${Math.round(100 * hAcc)}% vs Blueprint ${Math.round(100 * bp)}%`) }
+    if (hAcc != null && bp != null && bp - hAcc >= .15) { ease -= .05; why.push(`slipping lately: last ${hr.length} on HELM ${Math.round(100 * hAcc)}% vs Blueprint ${Math.round(100 * bp)}%`) }
+    if (fix != null && fix >= .7) { ease += .08; why.push(`help works here: he fixed ${eps.filter(e => e.solved).length} of ${eps.length} after using it`) }
+    if (stick != null && stick >= .6) { ease += .07; why.push('and it sticks on the next new question') }
+    if (stick != null && stick < .4) { ease -= .05; why.push('but it is not sticking yet on new questions') }
+    if (easyAcc != null && easyAcc >= .75 && acc < .7) { ease += .05; why.push('he gets the easy ones, so it is the medium/hard versions that cost him') }
+    if (r.nq >= 5) why.unshift(`big category: about ${r.nq} questions on the test`);
+    if (r.nq <= 2) why.push(`only about ${r.nq} on the test, so less payoff`);
+    ease = Math.max(.05, Math.min(1, ease));
+    return {...r, goal, gain, ease, score: gain * ease * ease, why, tot: Math.round((now.total + gain) / 10) * 10};
+  }).sort((a, b) => b.score - a.score);
+  return {now, days, list: out};
+}
+function quickWinsBlock() {
+  const {now, days, list} = quickWins(); if (!list.length) return '';
+  const pick = list.slice(0, 4), park = list.filter(r => !pick.includes(r) && (r.ease < .4 || r.nq <= 1)).sort((a, b) => a.score - b.score).slice(0, 4);
+  const sum = pick.reduce((a, r) => a + r.gain, 0), tot = Math.round((now.total + sum) / 10) * 10;
+  const lab = e => e >= .55 ? ['Close', '#15803d', '#dcfce7'] : e >= .4 ? ['Within reach', '#1e40af', '#e8efff'] : ['Stretch', '#9a3412', '#fff1e6'];
+  return `<h3 class="hd" style="margin:16px 0 6px;font-size:17px">Easiest wins first <span style="font-size:13px;color:var(--mute);font-weight:500">${days} days to the test · he can't master everything, so start where he's closest and it's worth the most</span></h3>
+   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px">
+   ${pick.map((r, i) => { const l = lab(r.ease); return `<div class="card" style="padding:12px 14px;border-top:4px solid ${l[1]}"><div style="display:flex;justify-content:space-between;align-items:center;gap:6px"><span style="font-size:13px;color:var(--mute);font-weight:700">#${i + 1}</span><span class="pill" style="color:${l[1]};background:${l[2]}">${l[0]}</span></div>
+     <div class="hd" style="font-size:17px;font-weight:700;margin:4px 0">${esc(r.s.name)}</div>
+     <div style="font-size:14px">Now <b>${r.right == null ? '?' : r.right} of ${r.nq}</b> → aim for <b>${(r.right || 0) + r.goal} of ${r.nq}</b> = <b style="color:#15803d">+${r.gain} points</b></div>
+     <ul style="margin:6px 0 8px;padding-left:18px;font-size:13px;color:var(--ink);display:grid;gap:2px">${r.why.slice(0, 4).map(w => `<li>${esc(w[0].toUpperCase() + w.slice(1))}</li>`).join('')}</ul>
+     <div style="display:flex;gap:6px"><button class="btn sm" data-go="#/learn/${r.s.id}">Learn it</button><button class="btn sm o" data-go="#/drill/${r.s.id}">Drill</button></div></div>` }).join('')}</div>
+   <div class="box b-yel" style="margin-top:10px"><div class="lab">The plan</div><div class="c" style="font-size:15px">Focus on these ${pick.length} first. Hitting those targets is worth about <b style="color:#15803d">+${sum} points</b>, taking his projection from <b>${now.total.toLocaleString()}</b> to about <b>${tot.toLocaleString()}</b>${tot >= GOAL ? ` (the ${GOAL} goal ✓)` : ''}. ${days >= 8 ? 'With ' + days + ' days left: two per day, Learn it then Drill, and use the review days to come back to them.' : 'With only ' + days + ' days left, stay on these and skip new topics.'}${park.length ? `<br><span style="color:var(--mute)">Leave for later: ${park.map(r => esc(r.s.name)).join(', ')} (harder for him right now or very few questions on the test).</span>` : ''}</div></div>
+   <div style="font-size:12px;color:var(--mute);margin-top:6px">How this is ranked: realistic points (getting to about 80% of that category's questions) × how close he is. "Close" counts his accuracy, whether his recent HELM work is above his Blueprint, whether help fixes his misses there and sticks on the next new question, and whether he already gets the easy versions. It updates every time he practices.</div>`;
 }
