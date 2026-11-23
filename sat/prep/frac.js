@@ -4,7 +4,7 @@
    keystrokes ("12 › ÷ › 6", "Type 42 ÷ 0.7") keep the ÷ key because that's the button to press.
    The slash stays in the text (hidden), so copying or sending a question to the tutor still reads "A/B". */
 (function () {
-  const AREAS = '.box .c, .eq, .qtext, .stem, .ch .t, .passage, .step, .lesson, .lframe, .fx, [data-frac]';
+  const AREAS = '.rem, .box .c, .eq, .qtext, .stem, .ch .t, .passage, .step, .lesson, .lframe, .fx, [data-frac]';
   const SKIP = 'script,style,textarea,input,code,pre,svg,math,.fr,.desmos,.keys,.navgrid,.qnum,.timer,[data-nofrac]';
   const css = document.createElement('style');
   css.textContent = `.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 .12em;line-height:1.1;font-size:.92em}
