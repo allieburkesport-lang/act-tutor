@@ -418,6 +418,13 @@ function quickWinsBlock() {
    <div style="font-size:12px;color:var(--mute);margin-top:6px">How this is ranked: realistic points (getting to about 80% of that category's questions) × how close he is. "Close" counts his accuracy, whether his recent HELM work is above his Blueprint, whether help fixes his misses there and sticks on the next new question, and whether he already gets the easy versions. It updates every time he practices.</div></section>`;
 }
 
+// Estimated right answers on an official SAT for a category, from the College Board score band of its domain (reports give no per-category counts)
+const DOMK2 = {'Information & Ideas': 'ii', 'Craft & Structure': 'cs', 'Expression of Ideas': 'eoi', 'Grammar (Conventions)': 'sec', 'Advanced Math': 'adv', 'Algebra': 'alg', 'Geometry & Trig': 'geo', 'Problem-Solving & Data': 'psda'};
+function satCatEst(r, which) {  // which: 'best' | 'last'
+  const k = DOMK2[r.s.dom]; if (!k) return null; const lo = b => +String(b || '0').split('–')[0];
+  const tests = which === 'last' ? [SAT_LAST()] : SAT_OFFICIAL.slice(); let best = null; tests.forEach(o => { const v = o.dom[k]; if (v && (!best || lo(v) > lo(best.v))) best = {v, d: o.label} });
+  if (!best) return null; const [a, z] = String(best.v).split('–').map(Number), mid = (a + (z || a)) / 2;
+  return {n: Math.max(0, Math.min(r.nq, Math.round((mid - 200) / 600 * r.nq))), d: best.d, band: best.v} }
 // ---------- Plan to 1300 (Allie, Nov 23): master 8 categories, nothing else ----------
 function focusPlanBlock(compact) {
   const F = PLAN && PLAN.focus ? PLAN.focus.skills : ['nlf', 'linf', 'nleq', 'lin2', 'bound', 'fss', 'trans', 'syn'];
@@ -432,14 +439,19 @@ function focusPlanBlock(compact) {
   const big = (lab, v, sub, c) => `<div class="fp-k"><div class="fp-kl">${lab}</div><div class="fp-kv" style="color:${c}">${v}</div><div class="fp-ks">${sub}</div></div>`;
   const col = (sec, lab) => { const rs = fr.filter(r => r.s.sec === sec), k = sec === 'Math' ? 'Math' : 'R&W', cur = now[k], to = Math.min(800, r10(cur + rs.reduce((a, r) => a + r.pts, 0)));
     return `<div class="fp-col"><div class="fp-ch"><div><div class="fp-ct">${lab}</div><div class="fp-cs">${rs.length} focus categories</div></div>
-      <div style="text-align:right"><div class="fp-big">${cur} <span style="color:#A1A1AA;font-weight:500">→</span> <span style="color:#047857">${to}</span></div><div class="fp-cs">projected now → if he masters these</div></div></div>
-     ${rs.map(r => { const w = when(r.s.id), g = tgt(r), n = r.right || 0; return `<a href="#/stats/${r.s.id}" class="fp-row">
-       <div class="fp-rt"><span class="fp-rn">${esc(r.s.name)}</span><span class="fp-rp"><b>+${g80(r)}</b> at goal <span class="fp-sep">·</span> <b>+${r.pts}</b> if all right</span></div>
-       <div class="fp-bar"><i style="width:${100 * n / r.nq}%"></i><s style="left:${100 * g / r.nq}%"></s></div>
-       <div class="fp-rs"><span>Now <b>${n} of ${r.nq}</b> · goal <b>${g} of ${r.nq}</b></span><span>${esc(WHY[r.s.id] || '')}</span></div>
+      <div style="text-align:right"><div class="fp-big">${cur} <span style="color:#A1A1AA;font-weight:500">→</span> <span style="color:#1D4ED8">${Math.min(800, r10(cur + rs.reduce((a, r) => a + g80(r), 0)))}</span> <span style="color:#A1A1AA;font-weight:500">→</span> <span style="color:#047857">${to}</span></div><div class="fp-cs">projected now → <b style="color:#1D4ED8">at goal</b> → <b style="color:#047857">mastered</b></div></div></div>
+     ${rs.map(r => { const w = when(r.s.id), g = tgt(r), n = r.right || 0, ppq = 600 / SAT_QN[sec], B = satCatEst(r, 'best'), SSt = superscore().total;
+       const fromBest = x => B ? Math.max(0, Math.round((x - B.n) * ppq)) : null, gNow = g80(r), aNow = r.pts;
+       return `<a href="#/stats/${r.s.id}" class="fp-row">
+       <div class="fp-rt"><span class="fp-rn">${esc(r.s.name)}</span><span class="fp-cs">about ${r.nq} questions on the SAT · each ≈ ${Math.round(ppq)} pts</span></div>
+       <div class="fp-bar"><i style="width:${100 * n / r.nq}%"></i>${B ? `<u style="left:${100 * B.n / r.nq}%" title="Best SAT (est.)"></u>` : ''}<s style="left:${100 * g / r.nq}%"></s><em style="left:100%"></em></div>
+       <div class="fp-cnt"><span><i class="k0"></i>Best SAT${B ? ` (${esc(B.d)}, est.)` : ''}: <b>${B ? B.n : '?'} of ${r.nq}</b></span><span><i class="k1"></i>Now: <b>${n} of ${r.nq}</b></span><span class="gl"><i class="k2"></i>Goal: <b>${g} of ${r.nq}</b></span><span class="ms"><i class="k3"></i>Master: <b>${r.nq} of ${r.nq}</b></span></div>
+       <div class="fp-lift"><div><span class="lb">From today's projection (${now.total})</span><span class="gl">goal <b>+${gNow}</b> → ${r10(now.total + gNow)}</span><span class="ms">master <b>+${aNow}</b> → ${r10(now.total + aNow)}</span></div>
+        ${B ? `<div><span class="lb">From his best SAT (superscore ${SSt})</span><span class="gl">goal <b>+${fromBest(g)}</b> → ${r10(SSt + fromBest(g))}</span><span class="ms">master <b>+${fromBest(r.nq)}</b> → ${r10(SSt + fromBest(r.nq))}</span></div>` : ''}</div>
+       <div class="fp-why">${esc(WHY[r.s.id] || '')}</div>
        ${w.length && !compact ? `<div class="fp-when">${w.map(x => `<span>${x}</span>`).join('')}<span class="rv">+ daily review</span></div>` : ''}</a>` }).join('')}</div>` };
   return `<section class="card blk fp"><div class="blkh"><h2 class="hd">Plan to ${GOAL}: master these 8, nothing else</h2><span>${days} days left · ${nQ} of 98 SAT questions (about half the test) · every daily set drills only these</span></div>
-   <div class="fp-ks3">${big('Projected now', now.total, `best superscore ${superscore().total}`, 'var(--ink)')}${big('Hit the goal on all 8', r10(now.total + sum80), `<span class="fp-up">+${sum80} points</span> about 80% right`, '#1D4ED8')}${big('Master all 8', r10(now.total + sumAll), `<span class="fp-up">+${sumAll} points</span> every question right`, '#047857')}</div>
+   <div class="fp-ks3">${big('Projected now', now.total, `best superscore ${superscore().total}`, 'var(--ink)')}${big('Hit the goal on all 8', r10(now.total + sum80), `<span class="fp-up" style="background:#DBEAFE;color:#1D4ED8">+${sum80} points</span> about 80% right`, '#1D4ED8')}${big('Master all 8', r10(now.total + sumAll), `<span class="fp-up">+${sumAll} points</span> every question right`, '#047857')}</div>
    <div class="fp-track"><div class="fp-tb"><i style="width:${pct(now.total)}%"></i><b style="left:${pct(r10(now.total + sum80))}%"></b><b style="left:${pct(r10(now.total + sumAll))}%;background:#047857"></b><em style="left:${pct(GOAL)}%"></em></div>
     <div class="fp-tl2"><span><i style="background:#2563EB"></i>Now <b>${now.total}</b></span><span><i style="background:#1D4ED8;width:4px;height:16px;border-radius:2px"></i>Goal on all 8 <b>${r10(now.total + sum80)}</b></span><span><i style="background:#047857;width:4px;height:16px;border-radius:2px"></i>Master all 8 <b>${r10(now.total + sumAll)}</b></span><span><i style="border-left:2px dashed #047857;width:0;height:16px;border-radius:0"></i>Goal <b>${GOAL}</b></span><span style="color:var(--mute)">scale 400–1600</span></div></div>
    <div class="fp-cols">${col('Math', 'Math')}${col('English', 'Reading & Writing')}</div>

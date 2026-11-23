@@ -57,7 +57,7 @@ const HC = {navy: '#4F46E5', navyL: '#A5B4FC', gold: '#0D9488', goldL: '#99F6E4'
   .bi,.bi .page{background:var(--bg)}
   body:has(#bi){background:var(--bg)}
   body:has(#bi) .top{position:static;box-shadow:none}
-  .bi .page{max-width:1680px;gap:16px!important;padding-top:0}
+  .bi .page{gap:16px!important;padding-top:0}
   .bi .bc,.bi .card{background:var(--card)!important;border:1px solid var(--bd)!important;border-radius:12px!important;box-shadow:none!important}
   .bi .bc{padding:20px 22px!important}
   .bi .lab,.bi .ch{font-size:13px;font-weight:500;letter-spacing:0;text-transform:none;color:var(--mu)}
@@ -280,7 +280,7 @@ function drawStats() {
     ${kpi('acc', 'Right on first try', A.acc == null ? '—' : A.acc + '%', pill(A.acc, P && P.acc, ' pts'), P && P.acc != null && BI.cmp ? `vs. ${P.acc}%` : `${A.ok} of ${A.n}`, perDay.map(x => x.acc), '#2563EB', ['Math', (x => x.acc == null ? '—' : x.acc + '%')(secA('Math'))], ['R&W', (x => x.acc == null ? '—' : x.acc + '%')(secA('Reading & Writing'))])}
     ${kpi('n', 'Questions answered', A.n.toLocaleString(), pill(A.n, P && P.n), P && BI.cmp ? `vs. ${P.n.toLocaleString()}` : 'this range', perDay.map(x => x.n), '#7C3AED', ['HELM', hA.n.toLocaleString()], ['Blueprint', bA.n.toLocaleString()])}
     ${kpi('time', 'Avg time per question', mmss(A.secs), pill(A.secs, P && P.secs, 's', true), A.pace ? `SAT pace ${mmss(A.pace)}` : 'HELM only', perDay.map(x => x.secs), '#0D9488', ['Math', mmss(secT('Math'))], ['R&W', mmss(secT('Reading & Writing'))])}
-    ${kpi('proj', 'Projected SAT', pjNow.total.toLocaleString(), pill(pjNow.total, SS.total, '*'), `vs. best ${SS.total.toLocaleString()}`, pjSpark, '#10B981', ['Math', pjNow.Math], ['R&W', pjNow['R&W']])}
+    ${kpi('proj', 'Projected SAT', pjNow.total, pill(pjNow.total, SS.total, '*'), `vs. best ${SS.total}`, pjSpark, '#10B981', ['Math', pjNow.Math], ['R&W', pjNow['R&W']])}
    </div>
    <div class="t2">
     <section class="bc"><div class="chd"><div><div class="ct">Accuracy vs. goal</div><div class="cs">% right on the first try by ${BI.gran}, against the 75% goal (≈1300) · click a point to filter</div></div>

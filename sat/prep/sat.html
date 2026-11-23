@@ -119,10 +119,10 @@ body{font-size:15px;line-height:1.5;letter-spacing:-.003em;font-variant-numeric:
 h1,h2,h3,.hd{letter-spacing:-.018em;font-weight:700;color:var(--ink)}
 h1.hd{font-size:30px!important;line-height:1.15}
 a{color:var(--blue);text-decoration-thickness:1px;text-underline-offset:2px}
-.page{max-width:1680px;margin:0 auto;width:100%;padding:28px 32px 72px;gap:20px}
+.page{width:100%;padding:28px 32px 72px;gap:20px}
 /* header */
 .top{background:rgba(255,255,255,.92);backdrop-filter:saturate(180%) blur(10px);position:sticky;top:0;z-index:50;border-bottom:1px solid var(--line)}
-.top .in{max-width:1680px;margin:0 auto;padding:10px 32px}
+.top .in{padding:10px 32px}
 .nav{background:#F1F5F9;border-radius:12px;padding:4px}
 .nav a{padding:8px 14px;border-radius:9px;font-size:14px;color:#334155;transition:background .15s,color .15s}
 .nav a:hover{background:#fff;color:var(--ink)}
@@ -210,6 +210,18 @@ section.card{transition:box-shadow .2s}
 .mv .mvl{font-size:13px;color:#14532D;flex-basis:100%}
 .mv .mvc{display:inline-flex;align-items:baseline;gap:6px;background:#fff;border:1px solid #86EFAC;border-radius:999px;padding:5px 12px;font-size:14px;color:#14532D;white-space:nowrap}
 .mv .mvc b.t{font-size:18px;font-weight:800;color:#047857}.mv .mvc span{font-size:12px;color:#15803D;font-weight:700}
+.fp-bar s{background:#1D4ED8!important}.fp-bar u{position:absolute;top:-4px;width:3px;height:18px;border-radius:2px;background:#71717A;transform:translateX(-50%)}.fp-bar em{position:absolute;top:-4px;width:3px;height:18px;border-radius:2px;background:#047857;transform:translateX(-100%)}
+.fp-bar i{background:#93C5FD!important}
+.fp-cnt{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;color:#3F3F46}.fp-cnt span{display:inline-flex;align-items:center;gap:6px}.fp-cnt i{display:inline-block;width:10px;height:10px;border-radius:2px}
+.fp-cnt .k0{background:#71717A}.fp-cnt .k1{background:#93C5FD}.fp-cnt .k2{background:#1D4ED8}.fp-cnt .k3{background:#047857}
+.gl,.gl b{color:#1D4ED8!important}.ms,.ms b{color:#047857!important}
+.fp-lift{margin-top:10px;border:1px solid #E4E4E7;border-radius:10px;overflow:hidden}
+.fp-lift>div{display:grid;grid-template-columns:minmax(0,1.3fr) 1fr 1fr;gap:10px;align-items:baseline;padding:8px 12px;font-size:14px}.fp-lift>div+div{border-top:1px solid #E4E4E7;background:#FAFAFA}
+.fp-lift .lb{color:#52525B}.fp-lift b{font-size:17px;font-weight:800}
+.fp-why{font-size:13px;color:#52525B;margin-top:8px}
+/* full width everywhere (Allie, Nov 23) */
+.page,.top .in,#bi .page,#bi .main2{max-width:none!important;width:100%!important;margin-left:0!important;margin-right:0!important}
+.fp-lift>div{grid-template-columns:minmax(150px,1.2fr) minmax(0,1fr) minmax(0,1fr)!important}.fp-lift .gl,.fp-lift .ms{white-space:nowrap}
 </style>
 <script src="auth.js?v=3"></script>
 <script src="progress.js?v=1"></script>
@@ -805,6 +817,6 @@ function publishSat(){try{if(!PLAN||!window.HELM_PROGRESS)return;
   HELM_PROGRESS.put('sat_summary',{updated:Date.now(),days,daysDone:days.filter(d=>d.done).length,daysTotal:days.length,dueDone:fin,dueTotal:due.length})}catch(e){}}
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=27"></script><script src="bi.js?v=21"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
+<script src="stats.js?v=29"></script><script src="bi.js?v=22"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
 </body>
 </html>
