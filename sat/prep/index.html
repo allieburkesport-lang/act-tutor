@@ -76,6 +76,13 @@ body{margin:0}
 .helm.collapsed .nav.sub{padding-left:12px}
 #framewrap{flex:1 1 auto;display:flex;min-height:0}#framewrap[hidden],.canvas[hidden]{display:none!important}#appframe{flex:1;width:100%;border:0;min-height:400px;background:#fff;display:block}
 .dn{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}.dn-grp{display:flex;flex-direction:column;border:1px solid var(--line,#E4E4E7);border-radius:12px;padding:14px 16px}.dn-h{display:flex;justify-content:space-between;align-items:center}
+.card.sx{border:2px solid #18181B!important;border-radius:14px!important;padding:0!important;overflow:hidden;display:flex;flex-direction:column}
+.sxh{background:#F4F4F5;border-bottom:1.5px solid #D4D4D8;padding:14px 22px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.sxh h2{margin:0;font-size:18px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:#09090B}.sxh span{font-weight:700;color:#52525B}
+.sxb{padding:18px 22px;display:flex;flex-direction:column;gap:12px}
+.helm.dark .sxh{background:#1C2940;border-color:#2A3A55}.helm.dark .sxh h2{color:#F3F5F9}.helm.dark .card.sx{border-color:#3A4A66!important}
+.sx .dn{display:block}.sx .dn-grp{border:0;padding:0}
+.sd li{font-size:15px}.sd-h{font-size:13px!important}
 .canvas{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:20px;padding:20px;align-content:start}
 .s12{grid-column:span 12}.s8{grid-column:span 8}.s4{grid-column:span 4}.s6{grid-column:span 6}.s3{grid-column:span 3}.s9{grid-column:span 9}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
@@ -151,7 +158,7 @@ table.data td{padding:8px 16px;border-bottom:1px solid var(--line);vertical-alig
 .btn.big{min-height:48px;padding:0 20px;font-size:15px;border-radius:10px}
 .ringwrap{position:relative;width:132px;height:132px;flex:0 0 132px;margin-left:auto}
 .ringlabel{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
-.satday{order:-1;padding:20px;display:flex;flex-direction:column;gap:10px}.sd{display:grid;grid-template-columns:1fr 1fr;gap:12px}.sd-h{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:4px}.sd-h b{color:var(--ink,inherit)}.sd ul{list-style:none;margin:0;padding:0;font-size:13px}.sd li{display:flex;justify-content:space-between;gap:6px;padding:3px 0;border-top:1px solid var(--line,#eee)}
+.satday{order:-1;display:flex;flex-direction:column;gap:10px}.sd{display:grid;grid-template-columns:1fr 1fr;gap:12px}.sd-h{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin-bottom:4px}.sd-h b{color:var(--ink,inherit)}.sd ul{list-style:none;margin:0;padding:0;font-size:13px}.sd li{display:flex;justify-content:space-between;gap:6px;padding:3px 0;border-top:1px solid var(--line,#eee)}
 .count{background:#0B2545;color:#F3F5F9;border-color:#0B2545;padding:24px;display:flex;flex-direction:column;gap:16px;justify-content:center}
 .helm.dark .count{background:#0F2340;border-color:#1C2940}
 .ticks.light .tick{background:rgba(255,255,255,.18)}
@@ -501,13 +508,12 @@ function renderCanvas() {
   const modTile = (k, title, sub, href) => {
     const list = today.filter((t) => t.mod === k);
     const d = cnt(list);
-    return `<section class="s6 card tile m2" aria-labelledby="${k}-h">
-      <div class="tile-h"><div style="display:flex;flex-direction:column;gap:4px"><span class="mod mod-${k}">${esc(sub)}</span><h2 id="${k}-h" style="margin:0;font-size:22px">${esc(title)}</h2></div>
-      <span class="tnum muted" style="font-weight:700">${d}/${list.length}</span></div>
+    return `<section class="s6 card sx m2" aria-labelledby="${k}-h">
+      <div class="sxh"><h2 id="${k}-h">${esc(title)}</h2><span class="tnum">${d}/${list.length} done</span></div><div class="sxb" style="flex:1">
       ${k === 'sat' ? `<div class="timegrid"><div><span>In SAT Helm today</span><b class="tnum">${hmin((SUM.time && SUM.time.cal && SUM.time.cal[TODAY]) || 0)}</b></div><div><span>Answering questions today</span><b class="tnum">${hmin(SUM.answering[TODAY] || 0)}</b></div></div>` : ''}
       <div class="meter"><i style="width:${pct(d, list.length)}%"></i></div>
       <ul class="checklist">${list.length ? list.map((t) => `<li class="item${t.done ? ' is-done' : ''}">${checkBtn(t)}<button class="linkbtn ttl" type="button" data-action="open" data-id="${t.id}" style="flex:1">${esc(t.title)}</button>${pill(t)}</li>`).join('') : '<li class="muted" style="padding:8px 2px">Nothing assigned today.</li>'}</ul>
-      <a class="btn btn-primary big" href="${esc(href)}" style="margin-top:auto">${esc(MOD[k].link)}${ICON.arrow}</a></section>`;
+      <a class="btn btn-primary big" href="${esc(href)}" style="margin-top:auto;align-self:flex-start">${esc(MOD[k].link)}${ICON.arrow}</a></div></section>`;
   };
 
   const head = week.map((iso) => { const dt = parse(iso); const isT = iso === TODAY;
@@ -535,12 +541,12 @@ function renderCanvas() {
     const note = { gov: qz ? `<b style="color:#B91C1C">Quiz ${qz.rel === 0 ? 'today' : 'tomorrow'}</b> · ${esc(qz.title.replace(/^AP Gov quiz — /, ''))} · finish the reading, then study for it` : 'Today’s reading and notes',
                    sat: pd && pd.mix ? `Today’s focus set: <b>${mixN('M')} Math</b> + <b>${mixN('E')} Reading &amp; Writing</b> · about 85 min · biggest point-losers first` : 'Today’s SAT practice' };
     const grp = (k) => { const L = today.filter((t) => t.mod === k); if (!L.length) return ''; const left = L.filter((t) => !t.done).length;
-      return `<div class="dn-grp"><div class="dn-h"><span class="mod mod-${k}" style="font-size:13px">${esc(MOD[k].full)}</span><span class="muted tnum" style="font-weight:700">${L.length - left}/${L.length} done</span></div>
-        <p style="margin:2px 0 8px;font-size:15px">${note[k] || ''}</p>
+      return `<div class="dn-grp">
+        <p style="margin:0 0 8px;font-size:16px">${note[k] || ''}</p>
         <ul class="checklist">${L.map((t) => `<li class="item${t.done ? ' is-done' : ''}">${checkBtn(t)}<button class="linkbtn ttl" type="button" data-action="open" data-id="${t.id}" style="flex:1">${esc(t.title)}</button>${pill(t)}</li>`).join('')}</ul>
         ${MOD[k].link ? `<a class="btn btn-primary" href="${esc(MOD[k].href)}" style="align-self:flex-start;margin-top:6px">${esc(MOD[k].link)}${ICON.arrow}</a>` : ''}</div>`; };
     const other = today.filter((t) => !['gov', 'sat'].includes(t.mod) && !t.done);
-    hero = `<h1 id="next-h" style="margin:0;font-size:30px;line-height:1.15;letter-spacing:-.02em">${qz ? `AP Gov quiz ${qz.rel === 0 ? 'today' : 'tomorrow'}: finish the reading, then study` : 'AP Gov today'}</h1>
+    hero = `<h3 id="next-h" style="margin:0;font-size:24px;line-height:1.2">${qz ? 'Finish the reading, then study for the quiz' : 'Today’s AP Gov work'}</h3>
       <div class="dn">${order.map(grp).join('')}</div>
       ${other.length ? `<p class="muted" style="margin:0;font-size:14px">Also today: ${[...new Set(other.map((t) => t.title))].map(esc).join(' · ')}</p>` : ''}`;
   }
@@ -553,21 +559,20 @@ function renderCanvas() {
     const NM = {nlf:'Nonlinear functions',linf:'Linear functions',nleq:'Nonlinear equations',lin2:'Linear eq. (2 var)',lin1:'Linear eq. (1 var)',lat:'Lines, angles, triangles',sys:'Systems',ratio:'Ratios & units',area:'Area & volume',pct:'Percents',equiv:'Equivalent expressions',ineq:'Inequalities',data1:'One-variable data',data2:'Two-variable data',trig:'Right triangles & trig',circ:'Circles',bound:'Boundaries',wic:'Words in context',syn:'Notes questions',fss:'Form, structure, sense',trans:'Transitions',inf:'Inferences',tsp:'Text structure',coe:'Command of evidence',cid:'Central ideas',cross:'Cross-text'};
     const sec = (isE) => { const m = pd && pd.mix ? pd.mix.filter((x) => E.includes(x[0]) === isE) : []; if (!m.length) return '';
       return `<div class="sd-sec"><div class="sd-h">${isE ? 'Reading &amp; Writing' : 'Math'} <b>${m.reduce((a, x) => a + x[1], 0)}</b></div><ul>${m.map((x) => `<li><span>${esc(NM[x[0]] || x[0])}</span><b class="tnum">${x[1]}</b></li>`).join('')}</ul></div>`; };
-    return `<div class="dn-h"><span class="mod mod-sat" style="font-size:13px">SAT prep · today</span><span class="muted tnum" style="font-weight:700">${L.length - left}/${L.length} done</span></div>
-      <h2 id="satday-h" style="margin:4px 0 0;font-size:22px">${pd && pd.mix ? `Focus set · ${pd.mix.reduce((a, x) => a + x[1], 0)} questions` : 'SAT Helm'}</h2>
-      <p class="muted" style="margin:0;font-size:13px">Each category in a row · biggest point-losers first · about 85 min</p>
+    return `<div class="sxh"><h2>SAT PREP · TODAY</h2><span class="tnum">${L.length - left}/${L.length} done</span></div><div class="sxb">
+      <h3 id="satday-h" style="margin:0;font-size:24px">${pd && pd.mix ? `Focus set · ${pd.mix.reduce((a, x) => a + x[1], 0)} questions` : 'SAT Helm'}</h3>
+      <p class="muted" style="margin:0;font-size:14px">Each category in a row · biggest point-losers first · about 85 min</p>
       ${pd && pd.mix ? `<div class="sd">${sec(false)}${sec(true)}</div>` : ''}
       <ul class="checklist">${L.map((t) => `<li class="item${t.done ? ' is-done' : ''}">${checkBtn(t)}<button class="linkbtn ttl" type="button" data-action="open" data-id="${t.id}" style="flex:1">${esc(t.title === 'SAT Helm' ? 'SAT Helm focus set' : t.title)}</button>${pill(t)}</li>`).join('')}</ul>
-      <a class="btn btn-primary" href="${esc(MOD.sat.href)}" style="align-self:flex-start">Start SAT Helm${ICON.arrow}</a>`;
+      <a class="btn btn-primary" href="${esc(MOD.sat.href)}" style="align-self:flex-start">Start SAT Helm${ICON.arrow}</a></div>`;
   })();
   $('#canvas').innerHTML = `
-  <section class="s6 card hero m1" aria-labelledby="next-h">
-    <div style="display:flex;flex-direction:column;gap:18px;flex:1;min-width:0">
-      <p class="eyebrow">${LONGWD[t0.getDay()]}, ${MON[t0.getMonth()]} ${t0.getDate()} · Your list</p>${hero}
-    </div>
+  <section class="s6 card sx m1" aria-labelledby="next-h">
+    <div class="sxh"><h2>AP GOV${quiz && quiz.rel <= 1 ? ' · QUIZ ' + (quiz.rel === 0 ? 'TODAY' : 'TOMORROW') : ''}</h2><span class="tnum">${cnt(today.filter((t) => t.mod === 'gov'))}/${today.filter((t) => t.mod === 'gov').length} done</span></div>
+    <div class="sxb">${hero}</div>
 
   </section>
-  <section class="s6 card satday m1" aria-labelledby="satday-h">${satCard}</section>
+  <section class="s6 card sx satday m1" aria-labelledby="satday-h">${satCard}</section>
   <section class="s12 kpis m3" aria-label="Progress" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
     <div class="card stat prog"><span class="label">Today</span><span class="metric tnum">${tp}<small>%</small></span><span class="delta">${td}/${tt} tasks</span><div class="pbar"><i style="width:${tp}%"></i></div></div>
     <div class="card stat prog"><span class="label">This week</span><span class="metric tnum">${pct(cnt(weekT), weekT.length)}<small>%</small></span><span class="delta">${cnt(weekT)}/${weekT.length} tasks</span><div class="pbar"><i style="width:${pct(cnt(weekT), weekT.length)}%"></i></div></div>
@@ -576,9 +581,9 @@ function renderCanvas() {
   </section>
   ${modTile('sat', 'SAT Helm', 'SAT', MOD.sat.href)}
   ${modTile('gov', 'AP Government', 'AP Gov · Mr. Thomas', MOD.gov.href)}
-  <section class="s12 card" aria-labelledby="wk-h">
-    <div class="panel-h" style="padding-bottom:12px"><h2 id="wk-h">Week of ${MON[parse(week[0]).getMonth()]} ${parse(week[0]).getDate()} \u2013 ${MON[parse(week[6]).getMonth()]} ${parse(week[6]).getDate()}</h2><span class="muted" style="font-size:13px">Tap anything for details</span></div>
-    <div class="pl-wrap"><div class="planner" role="table" aria-label="Weekly planner by class">
+  <section class="s12 card sx" aria-labelledby="wk-h">
+    <div class="sxh"><h2 id="wk-h">This week ·  ${MON[parse(week[0]).getMonth()]} ${parse(week[0]).getDate()} \u2013 ${MON[parse(week[6]).getMonth()]} ${parse(week[6]).getDate()}</h2><span style="font-size:14px;font-weight:500">Tap anything for details</span></div>
+    <div class="pl-wrap" style="padding:16px 22px"><div class="planner" role="table" aria-label="Weekly planner by class">
       <div class="pl-row pl-hrow" role="row"><div class="pl-label pl-corner" role="columnheader"><span style="position:absolute;left:-9999px">Class</span></div>${head}</div>
       ${planner}
     </div></div>
