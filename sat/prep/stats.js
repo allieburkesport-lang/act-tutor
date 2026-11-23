@@ -497,11 +497,12 @@ function pathBlock(withDetails) {
   const lift = (c, to) => { const sec = c.c.r.s.sec, k = sec === 'Math' ? 'Math' : 'R&W', ok = sec === 'Math' ? 'R&W' : 'Math', s2 = Math.min(800, R10(SS[k] + (to - c.c.base) * c.c.ppq)); return {sec: s2, tot: s2 + SS[ok], pts: s2 - SS[k], k} };
   const secEnd = (sec, key) => { const k = sec === 'Math' ? 'Math' : 'R&W'; return Math.min(800, R10(SS[k] + cats.filter(c => c.c.r.s.sec === sec).reduce((a, c) => a + (c[key] - c.c.base) * c.c.ppq, 0))) };
   const goalTot = secEnd('Math', 'goal') + secEnd('English', 'goal'), allTot = secEnd('Math', 'all') + secEnd('English', 'all');
+  cats.forEach(c => { if (c.phase === 'extra') c.all = c.c.r.nq });   // extra categories also show the all-right option
   let num = 0;
   const row = c => { const nm = esc(c.c.r.s.name), g = lift(c, c.goal), a = lift(c, c.all), more = c.goal - c.c.base, hasAll = c.all > c.goal; num++;
     return `<tr class="${c.done ? 'dn' : ''}"><td class="pn">${c.done ? '✓' : num}</td>
      <td class="pd"><b>Get ${more} more ${nm} right</b><div>His best SAT: ${c.c.base} of ${c.c.r.nq} · Goal: <b>${c.goal === c.c.r.nq ? 'all ' : ''}${c.goal} of ${c.c.r.nq}</b> right${c.phase === 'extra' ? ' · extra category to close the gap' : ''}${c.done ? ' · <span class="ok">already doing this in HELM</span>' : ''}</div>
-      ${hasAll ? `<div class="palt">Even better: all ${c.all} of ${c.c.r.nq} right → <b>+${a.pts}</b> · ${a.k} ${a.sec} · total <b>${a.tot}</b></div>` : ''}</td>
+      <div class="palt">${hasAll ? `Even better: all ${c.all} of ${c.c.r.nq} right → <b>+${a.pts}</b> · ${a.k} ${a.sec} · total <b>${a.tot}</b>` : `That's every question in this category → <b>+${g.pts}</b> · ${g.k} ${g.sec} · total <b>${g.tot}</b>`}</div></td>
      <td class="pp">+${g.pts}</td><td class="psc">${SS[g.k]} → ${g.sec}</td><td class="ps">${g.tot}</td>
      <td class="pb"><a class="btn sm ${c.done ? 'g' : ''}" href="#/drill/${c.c.r.s.id}">Practice</a></td></tr>` };
   const box = sec => { const cs = cats.filter(c => c.c.r.s.sec === sec); if (!cs.length) return ''; const k = sec === 'Math' ? 'Math' : 'R&W';
