@@ -1,7 +1,7 @@
 /* ---------- STATS v2: Looker-style BI dashboard for #/stats (replaces drawStats from stats.js) ----------
    One record set feeds every number: HELM first tries (1 row per question), Blueprint daily section totals (dated),
    and Blueprint skill totals (undated, Nov 6–20). Cross-filters, drill-down, inspector drawer with search, sort and CSV. */
-const BI = {cmp: true, pq: '', range: 'today', from: '', to: '', src: {helm: true, bp: true}, f: {}, gran: 'day', dark: false, sort: {k: 'lost', d: -1}, drawer: null, dq: '', dsort: {k: 'date', d: -1}};
+const BI = {cmp: true, pq: '', range: 'yest', from: '', to: '', src: {helm: true, bp: true}, f: {}, gran: 'day', dark: false, sort: {k: 'lost', d: -1}, drawer: null, dq: '', dsort: {k: 'date', d: -1}};
 const BI_BP_FROM = '2026-08-31', BI_BP_TO = '2026-11-20';
 const BI_LEVELS = [['sec', 'Section'], ['dom', 'Domain'], ['skill', 'Skill'], ['diff', 'Difficulty']];
 const BI_SEC = {Math: 'Math', English: 'Reading & Writing'};
@@ -493,7 +493,7 @@ function biCsv() {
 document.addEventListener('click', e => {
   const t = e.target.closest('[data-bi]'); if (!t || !document.getElementById('bi')) return; const [a, ...rest] = t.dataset.bi.split(':'), v = rest.join(':');
   if (a === 'src') { BI.src[v] = !BI.src[v]; if (!BI.src.helm && !BI.src.bp) BI.src[v === 'bp' ? 'helm' : 'bp'] = true; return drawStats() }
-  if (a === 'reset') { BI.f = {}; BI.range = 'today'; BI.src = {helm: true, bp: true}; BI.drawer = null; return drawStats() }
+  if (a === 'reset') { BI.f = {}; BI.range = 'yest'; BI.src = {helm: true, bp: true}; BI.drawer = null; return drawStats() }
   if (a === 'dark') { BI.dark = !BI.dark; try { localStorage.setItem('bi_dark', BI.dark ? '1' : '') } catch (x) {} return drawStats() }
   if (a === 'gran') { BI.gran = v; return drawStats() }
   if (a === 'unf') { if (v === 'date') { delete BI.f.date; delete BI.f.dateG; delete BI.f.dateL } else { const i = BI_LEVELS.findIndex(x => x[0] === v); BI_LEVELS.slice(i).forEach(([k]) => delete BI.f[k]) } return drawStats() }
