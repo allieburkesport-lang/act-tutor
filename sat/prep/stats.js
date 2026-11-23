@@ -464,3 +464,41 @@ function focusPlanBlock(compact) {
    ${compact ? '' : `<div class="box b-yel" style="margin-top:16px"><div class="lab">How he works it every day</div><div class="c" style="font-size:15px"><b>1.</b> Learn it (5 min) for the day's skills → <b>2.</b> Drill: first try with no help. Desmos and the reference sheet are allowed, like on the SAT → <b>3.</b> After any miss: Show me how, then <b>Prove it</b> (2 new ones right in a row) → <b>4.</b> Daily review: every focus skill, his weakest ones get more. A skill is "mastered" at 80% on the first try over 10+ questions.</div></div>
    <div style="font-size:13px;color:var(--mute);margin-top:8px">Baseline = his superscore (best Math + best Reading & Writing across all his official SATs). "Best SAT" per category is estimated from the College Board score range for that part of the test on his best test (reports don't give a count per category). Each extra right answer ≈ +14 points in Math, +11 in Reading & Writing; section scores cap at 800. Why these 8: most questions on the test × how close he already is × how fast they can be learned. Words in context is left out on purpose: vocabulary doesn't move much in ${days} days.</div>`}</section>`;
 }
+
+// ---------- Path to 1300 (Allie, Nov 23): one plain instruction per row, running score from his best SAT ----------
+function pathSteps() {
+  const F = PLAN && PLAN.focus ? PLAN.focus.skills : ['nlf', 'linf', 'nleq', 'lin2', 'bound', 'fss', 'trans', 'syn'];
+  const EXTRA = ['inf', 'coe', 'wic'].filter(id => SK2[id] && !F.includes(id));
+  const {rows} = winsData(), SS = superscore(), FT = firstTries();
+  const cat = id => { const r = rows.find(x => x.s.id === id); if (!r) return null; const B = satCatEst(r, 'best'), base = B ? B.n : (r.right || 0), ppq = 600 / SAT_QN[r.s.sec];
+    const goal = Math.min(r.nq, Math.max(base + 1, r.nq <= 3 ? r.nq : Math.round(.8 * r.nq))); return {r, base, ppq, goal} };
+  const steps = []; const add = (c, from, to, phase) => { if (!c || to <= from) return; steps.push({c, from, to, n: to - from, pts: Math.round((to - from) * c.ppq), phase}) };
+  const fc = F.map(cat).filter(Boolean);
+  fc.slice().sort((a, b) => (b.goal - b.base) * b.ppq - (a.goal - a.base) * a.ppq).forEach(c => add(c, c.base, c.goal, 'goal'));
+  fc.slice().sort((a, b) => b.ppq - a.ppq).forEach(c => add(c, c.goal, c.r.nq, 'master'));
+  EXTRA.map(cat).filter(Boolean).forEach(c => add(c, c.base, c.r.nq, 'extra'));
+  // running score with section caps, stop once past the goal
+  let m = SS.Math, e = SS['R&W']; const out = [];
+  for (let s of steps) { if (m + e >= GOAL) break; const before = m + e;
+    if (before + s.pts > GOAL && s.n > 1) { const k = Math.max(1, Math.ceil((GOAL - before) / s.c.ppq)); if (k < s.n) s = {...s, n: k, to: s.from + k, pts: Math.round(k * s.c.ppq)} }
+    if (s.c.r.s.sec === 'Math') m = Math.min(800, m + s.pts); else e = Math.min(800, e + s.pts);
+    // in HELM, is he already getting that many right? (6+ first tries in this skill)
+    const h = FT.filter(x => x.q.skill === s.c.r.s.id), hn = h.length, hacc = hn ? h.filter(x => x.ok).length / hn : 0;
+    out.push({...s, gain: m + e - before, score: m + e, done: hn >= 6 && Math.round(hacc * s.c.r.nq) >= s.to, hn, hacc}) }
+  return {SS, steps: out};
+}
+function pathBlock(withDetails) {
+  const {SS, steps} = pathSteps(); if (!steps.length) return '';
+  const last = steps[steps.length - 1].score, need = GOAL - SS.total;
+  const row = (s, i) => { const nm = esc(s.c.r.s.name), reach = s.score >= GOAL;
+    return `<tr class="${s.done ? 'dn' : ''} ${reach ? 'hit' : ''}"><td class="pn">${s.done ? '✓' : i + 1}</td>
+     <td class="pd"><b>Get ${s.n} more ${nm} right</b><div>${s.phase === 'master' ? `all ${s.to} of ${s.c.r.nq} (finishing this category)` : `${s.to} of ${s.c.r.nq} right · his best SAT: ${s.from} of ${s.c.r.nq}`}${s.phase === 'extra' ? ' · extra category to close the gap' : ''}${s.done ? ' · <span class="ok">already doing this in HELM</span>' : ''}</div></td>
+     <td class="pp">+${s.gain}</td><td class="ps">${s.score}${reach ? ' ✓' : ''}</td>
+     <td class="pb"><a class="btn sm ${s.done ? 'g' : ''}" href="#/drill/${s.c.r.s.id}">Practice</a></td></tr>` };
+  return `<section class="card blk path"><div class="blkh"><h2 class="hd">Your path to ${GOAL}</h2><span>Start from your best SAT. Each row is one thing to do on test day. Work top to bottom.</span></div>
+   <div class="ph"><div><span>Best SAT</span><b>${SS.total}</b></div><div><span>Goal</span><b>${GOAL}</b></div><div><span>Points needed</span><b class="g">+${need}</b></div></div>
+   <table class="pt"><thead><tr><th></th><th>On test day…</th><th>Points</th><th>Your score</th><th></th></tr></thead><tbody>${steps.map(row).join('')}</tbody></table>
+   ${last < GOAL ? `<div class="pnote">These steps reach about <b>${last}</b>. The rest comes from small categories not listed here.</div>` : ''}
+   <div class="pnote">Each extra right answer is worth about 14 points in Math and 11 in Reading &amp; Writing; the real SAT rounds scores to the nearest 10. ✓ = HELM shows he's already getting that many right (6+ practice questions).${withDetails ? '' : ' Details on the <a href="#/stats">Stats page</a>.'}</div>
+   ${withDetails ? `<details class="pdet"><summary>How we figured this out</summary><div style="margin-top:12px">${focusPlanBlock(false)}</div></details>` : ''}</section>`;
+}

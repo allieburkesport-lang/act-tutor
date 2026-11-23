@@ -242,6 +242,22 @@ section.card{transition:box-shadow .2s}
 #bi table.rep td,#bi table.pv td,#bi table.bt td,#bi table.pv2 td{font-size:15px!important;padding:12px!important;border-top:0!important;border-bottom:1px solid #E4E4E7!important}
 #bi .card .card div[style*="font-size:13px;color:var(--mute);font-weight:600"]{font-size:14px!important;color:#3F3F46!important;font-weight:600!important}
 #bi .box .lab{text-transform:none!important;letter-spacing:0!important;font-size:14px!important;font-weight:700!important}
+/* Path to 1300 ladder: one color (green = points), plain rows */
+.card.path{border:2px solid #18181B!important;border-left:2px solid #18181B!important}
+.path .ph{display:flex;gap:40px;flex-wrap:wrap;margin:4px 0 16px}.path .ph span{display:block;font-size:14px;color:#52525B}.path .ph b{font-size:40px;font-weight:800;letter-spacing:-.02em;color:#09090B}.path .ph b.g{color:#047857}
+.path table.pt{width:100%;border-collapse:collapse}
+.path .pt th{text-align:left;font-size:13px;font-weight:600;color:#52525B;padding:10px 12px;border-bottom:2px solid #18181B}
+.path .pt td{padding:14px 12px;border-bottom:1px solid #E4E4E7;vertical-align:middle}
+.path .pn{width:44px;font-size:18px;font-weight:800;color:#A1A1AA;text-align:center}
+.path .pd b{font-size:18px;font-weight:700;color:#09090B}.path .pd div{font-size:14px;color:#52525B;margin-top:3px}.path .pd .ok{color:#047857;font-weight:700}
+.path .pp{width:90px;font-size:20px;font-weight:800;color:#047857;white-space:nowrap}
+.path .ps{width:120px;font-size:24px;font-weight:800;color:#09090B;white-space:nowrap;font-variant-numeric:tabular-nums}
+.path .pb{width:110px;text-align:right}
+.path tr.dn .pn{color:#047857}.path tr.dn .pd b{color:#52525B}
+.path tr.hit td{background:#F0FDF4}.path tr.hit .ps{color:#047857}
+.path .pnote{font-size:13px;color:#52525B;margin-top:10px}
+.path .pdet{margin-top:16px}.path .pdet>summary{cursor:pointer;font-size:15px;font-weight:600;color:#1D4ED8}
+.path .pb a{text-decoration:none!important}
 </style>
 <script src="auth.js?v=3"></script>
 <script src="progress.js?v=1"></script>
@@ -393,7 +409,7 @@ function home(){const all=BANK.skills;let tot=0,ok=0;all.forEach(k=>{const t=sta
     <div style="display:flex;align-items:center;gap:8px"><div class="bar"><i style="width:${Math.min(100,sh*5)}%"></i></div><span style="font-size:14px;font-weight:600;min-width:34px">${Math.round(sh)}%</span></div>
     <div><span class="pill" style="color:${lv[1]};background:${lv[2]}">${lv[0]}</span><div class="src2">${srcLine('HELM',h)}${srcLine('Blueprint',b)}</div></div>
     <div class="acts"><button class="btn g sm" data-go="#/learn/${s.id}">Learn it</button><button class="btn g sm" data-go="#/video/${s.id}">Video</button><button class="btn sm" data-go="#/drill/${s.id}">Drill</button></div></div>`}).join('')+`</section>`};
-  app().innerHTML=topbar('home')+`<div class="page">${typeof focusPlanBlock==='function'?focusPlanBlock(true):''}${schedule()}
+  app().innerHTML=topbar('home')+`<div class="page">${typeof pathBlock==='function'?pathBlock(false):''}${schedule()}
    <section class="stats"><div class="card stat"><div class="l">Practice questions done</div><div class="v hd">${tot}</div></div><div class="card stat"><div class="l">Right on the first try</div><div class="v hd">${tot?Math.round(100*ok/tot)+'%':'—'}</div></div><div class="card stat"><div class="l">Done today</div><div class="v hd">${tday}</div></div><div class="card stat"><div class="l">Our time split</div><div class="v hd" style="font-size:24px">65% Math · 35% English</div></div></section>
    <div class="cols">${sec('Math','Math')}${sec('Reading and Writing','English')}</div></div>`;alignHeads();window.scrollTo(0,0);}
 
@@ -837,6 +853,6 @@ function publishSat(){try{if(!PLAN||!window.HELM_PROGRESS)return;
   HELM_PROGRESS.put('sat_summary',{updated:Date.now(),days,daysDone:days.filter(d=>d.done).length,daysTotal:days.length,dueDone:fin,dueTotal:due.length})}catch(e){}}
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=35"></script><script src="bi.js?v=24"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
+<script src="stats.js?v=37"></script><script src="bi.js?v=25"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
 </body>
 </html>
