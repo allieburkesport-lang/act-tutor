@@ -513,7 +513,7 @@ function pathBlock(withDetails) {
     const pace = acc == null ? null : Math.min(r.nq, Math.round(acc * r.nq)), ppq = 600 / SAT_QN[sec], k = sec === 'Math' ? 'Math' : 'R&W', ok2 = sec === 'Math' ? 'R&W' : 'Math';
     const gain = base != null && pace != null && pace > base ? pace - base : 0, s2 = Math.min(800, R10(SS[k] + gain * ppq));
     return {r, hn, hok, acc, base, B, pace, gain, s2, pts: s2 - SS[k], tot: s2 + SS[ok2], k} })
-    .filter(x => x.hn >= 5 && x.base != null && (x.gain > 0 || x.acc >= .65)).sort((a, b) => b.pts - a.pts || b.acc - a.acc);
+    .filter(x => x.r.nq >= 2 && x.hn >= 5 && x.base != null && (x.gain > 0 || x.acc >= .65))   // 1-question categories aren't worth the time.sort((a, b) => b.pts - a.pts || b.acc - a.acc);
   const progBox = sec => { const ps = prog(sec); if (!ps.length) return '';
     return `<div class="pprog"><div class="pph">Also progressing well <span>not in the plan, but HELM shows he's getting better here. Keep these warm.</span></div>
      <table class="pt"><thead><tr><th>Category</th><th>Best SAT</th><th>HELM now</th><th>Points</th><th>${sec === 'Math' ? 'Math' : 'R&amp;W'} score</th><th>Total score</th><th></th></tr></thead><tbody>
