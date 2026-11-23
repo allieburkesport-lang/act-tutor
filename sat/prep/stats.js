@@ -492,16 +492,21 @@ function pathBlock(withDetails) {
   // One row per category. Every number starts from his best SAT and shows ONLY that category's lift (Allie, Nov 23). Scores end in 0 like real SAT scores.
   const {SS, steps} = pathSteps(); if (!steps.length) return '';
   const R10 = v => Math.round(v / 10) * 10, need = GOAL - SS.total;
-  const cats = []; steps.forEach(s => { let c = cats.find(x => x.c === s.c); if (!c) cats.push(c = {c: s.c, goal: s.to, all: s.to, done: s.done, phase: s.phase}); if (s.phase === 'master') c.all = s.to; else { c.goal = s.to; c.all = Math.max(c.all, s.to) } if (s.phase !== 'master') c.done = s.done });
+  const cats = []; steps.forEach(s => { let c = cats.find(x => x.c === s.c); if (!c) cats.push(c = {c: s.c, goal: s.to, all: s.to, done: s.done, phase: s.phase, focus: true}); if (s.phase === 'master') c.all = s.to; else { c.goal = s.to; c.all = Math.max(c.all, s.to) } if (s.phase !== 'master') c.done = s.done });
   const lift = (c, to) => { const sec = c.c.r.s.sec, k = sec === 'Math' ? 'Math' : 'R&W', ok = sec === 'Math' ? 'R&W' : 'Math', s2 = Math.min(800, R10(SS[k] + (to - c.c.base) * c.c.ppq)); return {sec: s2, tot: s2 + SS[ok], pts: s2 - SS[k], k} };
-  // section totals = best SAT + the sum of the row points shown, so the header always matches the rows (Allie, Nov 23)
-  const secEnd = (sec, key) => { const k = sec === 'Math' ? 'Math' : 'R&W'; return Math.min(800, SS[k] + cats.filter(c => c.c.r.s.sec === sec).reduce((a, c) => a + lift(c, c[key]).pts, 0)) };
-  const goalTot = secEnd('Math', 'goal') + secEnd('English', 'goal'), allTot = secEnd('Math', 'all') + secEnd('English', 'all');
   cats.forEach(c => { if (c.phase === 'extra') c.all = c.c.r.nq });   // extra categories also show the all-right option
+  // section totals = best SAT + the sum of the row points shown, so the header always matches the rows (Allie, Nov 23)
+  const secEnd = (sec, key) => { const k = sec === 'Math' ? 'Math' : 'R&W'; return Math.min(800, SS[k] + cats.filter(c => c.focus && c.c.r.s.sec === sec).reduce((a, c) => a + lift(c, c[key]).pts, 0)) };
+  const goalTot = secEnd('Math', 'goal') + secEnd('English', 'goal'), allTot = secEnd('Math', 'all') + secEnd('English', 'all');
+  // every other category too (Allie, Nov 23): goal = 1 more than his best SAT; not counted in the totals; focus ones get a gray background
+  winsData().rows.forEach(r => { if (cats.some(c => c.c.r.s.id === r.s.id)) return; const B = satCatEst(r, 'best'), base = B ? B.n : (r.right || 0);
+    cats.push({c: {r, base, ppq: 600 / SAT_QN[r.s.sec]}, goal: Math.min(r.nq, base + 1), all: r.nq, done: false, phase: 'other', focus: false}) });
   let num = 0;
   const row = c => { const nm = esc(c.c.r.s.name), g = lift(c, c.goal), a = lift(c, c.all), more = c.goal - c.c.base, hasAll = c.all > c.goal; num++;
-    return `<tr class="${c.done ? 'dn' : ''}"><td class="pn">${c.done ? '✓' : num}</td>
-     <td class="pd"><b><span class="pcat">${nm.toUpperCase()}:</span> Get ${more} more question${more > 1 ? 's' : ''} right</b><div>His best SAT: ${c.c.base} of ${c.c.r.nq} · Goal: <b>${c.goal === c.c.r.nq ? 'all ' : ''}${c.goal} of ${c.c.r.nq}</b> right${c.phase === 'extra' ? ' · extra category to close the gap' : ''}${c.done ? ' · <span class="ok">already doing this in HELM</span>' : ''}</div>
+    const share = `<span class="pshare">${Math.round(c.c.r.s.share || 0)}% of the test · ${c.c.r.nq} question${c.c.r.nq > 1 ? 's' : ''}</span>`;
+    if (more <= 0) return `<tr class="pfull"><td class="pn">${num}</td><td class="pd"><b><span class="pcat">${nm.toUpperCase()}:</span> Keep it up</b> ${share}<div>He got all ${c.c.r.nq} right on his best SAT. No points to gain here.</div></td><td class="pp" style="color:#A1A1AA">+0</td><td class="psc">${SS[g.k]}</td><td class="ps" style="color:#A1A1AA">${SS.total}</td><td class="pb"></td></tr>`;
+    return `<tr class="${c.done ? 'dn' : ''} ${c.focus ? 'pfoc' : ''}"><td class="pn">${c.done ? '✓' : num}</td>
+     <td class="pd"><b><span class="pcat">${nm.toUpperCase()}:</span> Get ${more} more question${more > 1 ? 's' : ''} right</b> ${share}${c.focus ? '<span class="pftag">FOCUS</span>' : ''}<div>His best SAT: ${c.c.base} of ${c.c.r.nq} · Goal: <b>${c.goal === c.c.r.nq ? 'all ' : ''}${c.goal} of ${c.c.r.nq}</b> right${c.phase === 'extra' ? ' · extra category to close the gap' : ''}${c.done ? ' · <span class="ok">already doing this in HELM</span>' : ''}</div>
       <div class="palt">${hasAll ? `Even better: all ${c.all} of ${c.c.r.nq} right → <b>+${a.pts}</b> · ${a.k} ${a.sec} · total <b>${a.tot}</b>` : `That's every question in this category → <b>+${g.pts}</b> · ${g.k} ${g.sec} · total <b>${g.tot}</b>`}</div></td>
      <td class="pp">+${g.pts}</td><td class="psc">${SS[g.k]} → ${g.sec}</td><td class="ps">${g.tot}</td>
      <td class="pb"><a class="btn sm ${c.done ? 'g' : ''}" href="#/drill/${c.c.r.s.id}">Practice</a></td></tr>` };
@@ -512,7 +517,8 @@ function pathBlock(withDetails) {
     const pace = acc == null ? null : Math.min(r.nq, Math.round(acc * r.nq)), ppq = 600 / SAT_QN[sec], k = sec === 'Math' ? 'Math' : 'R&W', ok2 = sec === 'Math' ? 'R&W' : 'Math';
     const gain = base != null && pace != null && pace > base ? pace - base : 0, s2 = Math.min(800, R10(SS[k] + gain * ppq));
     return {r, hn, hok, acc, base, B, pace, gain, s2, pts: s2 - SS[k], tot: s2 + SS[ok2], k} })
-    .filter(x => x.r.nq >= 2 && x.hn >= 5 && x.base != null && x.gain > 0 && x.pts > 0)   // only real point gains over his best SAT   // 1-question categories aren't worth the time.sort((a, b) => b.pts - a.pts || b.acc - a.acc);
+    .filter(x => x.r.nq >= 2 && x.hn >= 5 && x.base != null && x.gain > 0 && x.pts > 0)
+    .sort((a, b) => b.pts - a.pts || b.acc - a.acc);
   const progBox = sec => { const ps = prog(sec); if (!ps.length) return '';
     return `<div class="pprog"><div class="pph">Also progressing well <span>not in the plan, but HELM shows he's beating his best SAT here, so these are extra points within reach.</span></div>
      <table class="pt"><thead><tr><th>Category</th><th>Best SAT</th><th>HELM now</th><th>Points</th><th>${sec === 'Math' ? 'Math' : 'R&amp;W'} score</th><th>Total score</th><th></th></tr></thead><tbody>
@@ -521,13 +527,13 @@ function pathBlock(withDetails) {
        <td class="pq"><b>${Math.round(100 * x.acc)}%</b> (${x.hok} of ${x.hn})<div>on pace for ${x.pace} of ${x.r.nq}</div></td>
        ${x.gain ? `<td class="pp">+${x.pts}</td><td class="psc">${SS[x.k]} → ${x.s2}</td><td class="ps">${x.tot}</td>` : `<td class="pp" style="color:#52525B">±0</td><td colspan="2" class="pq">holding his best SAT level</td>`}
        <td class="pb"><a class="btn sm g" href="#/drill/${x.r.s.id}">Practice</a></td></tr>`).join('')}</tbody></table></div>` };
-  const box = sec => { const cs = cats.filter(c => c.c.r.s.sec === sec); if (!cs.length) return ''; const k = sec === 'Math' ? 'Math' : 'R&W';
-    return `<div class="pbox"><div class="pbh"><div class="pbt">${sec === 'Math' ? 'Math' : 'Reading &amp; Writing'}</div><div class="pbs">best SAT <b>${SS[k]}</b> · every goal → <b class="b">${secEnd(sec, 'goal')}</b> · all right → <b class="g">${secEnd(sec, 'all')}</b></div></div>
-     <table class="pt"><thead><tr><th></th><th>On test day…</th><th>Points</th><th>${sec === 'Math' ? 'Math' : 'R&amp;W'} score</th><th>Total score</th><th></th></tr></thead><tbody>${cs.map(row).join('')}</tbody></table>${progBox(sec)}</div>` };
-  return `<section class="card blk path"><div class="blkh"><h2 class="hd">Your path to ${GOAL}</h2><span>Each row starts from your best SAT (${SS.total}) and shows your score if you improve just that one category.</span></div>
+  const box = sec => { const cs = cats.filter(c => c.c.r.s.sec === sec).sort((a, b) => (b.c.r.s.share || 0) - (a.c.r.s.share || 0)); if (!cs.length) return ''; const k = sec === 'Math' ? 'Math' : 'R&W';
+    return `<div class="pbox"><div class="pbh"><div class="pbt">${sec === 'Math' ? 'Math' : 'Reading &amp; Writing'}</div><div class="pbs">best SAT <b>${SS[k]}</b> · focus goals → <b class="b">${secEnd(sec, 'goal')}</b> · focus all right → <b class="g">${secEnd(sec, 'all')}</b></div></div>
+     <table class="pt"><thead><tr><th></th><th>On test day…</th><th>Points</th><th>${sec === 'Math' ? 'Math' : 'R&amp;W'} score</th><th>Total score</th><th></th></tr></thead><tbody>${cs.map(row).join('')}</tbody></table></div>` };
+  return `<section class="card blk path"><div class="blkh"><h2 class="hd">Your path to ${GOAL}</h2><span>Every category, biggest share of the test first. Gray rows = FOCUS: the most points for you. Each row starts from your best SAT (${SS.total}) and shows your score if you improve just that one category.</span></div>
    <div class="ph"><div><span>Best SAT</span><b>${SS.total}</b></div><div><span>Goal</span><b>${GOAL}</b></div><div><span>Points needed</span><b class="g">+${need}</b></div></div>
    ${box('Math')}${box('English')}
-   <div class="ptot"><div><span>Hit every goal above</span><b>${SS.total} → <span class="b">${goalTot}</span></b></div><div><span>Get every one of them right</span><b>${SS.total} → <span class="g">${allTot}</span></b>${allTot >= GOAL ? ' <em>✓ goal reached</em>' : ''}</div></div>
-   <div class="pnote">Each extra right answer is worth about 14 points in Math and 11 in Reading &amp; Writing; SAT section scores always end in 0, so scores are rounded to the nearest 10. Each row is on its own; the totals at the bottom are what the numbered rows together add up to (“Also progressing well” is not included). “On pace for” = his HELM first-try accuracy (no help) applied to that category's questions on the SAT. ✓ = HELM shows he's already getting that many right (6+ practice questions).${withDetails ? '' : ' Details on the <a href="#/stats">Stats page</a>.'}</div>
+   <div class="ptot"><div><span>Hit every focus goal (gray rows)</span><b>${SS.total} → <span class="b">${goalTot}</span></b></div><div><span>Get every focus question right</span><b>${SS.total} → <span class="g">${allTot}</span></b>${allTot >= GOAL ? ' <em>✓ goal reached</em>' : ''}</div></div>
+   <div class="pnote">Each extra right answer is worth about 14 points in Math and 11 in Reading &amp; Writing; SAT section scores always end in 0, so scores are rounded to the nearest 10. Each row is on its own; the totals at the bottom add up the gray FOCUS rows only. Other rows: goal = 1 more than his best SAT. “On pace for” = his HELM first-try accuracy (no help) applied to that category's questions on the SAT. ✓ = HELM shows he's already getting that many right (6+ practice questions).${withDetails ? '' : ' Details on the <a href="#/stats">Stats page</a>.'}</div>
    ${withDetails ? `<details class="pdet"><summary>How we figured this out</summary><div style="margin-top:12px">${focusPlanBlock(false)}</div></details>` : ''}</section>`;
 }
