@@ -32,6 +32,7 @@ def _scored(rows):
         q = (a.get('question') or '').split(' ')[0]
         if q in seen: continue
         seen.add(q)
+        if et(a['created_at']).strftime('%Y-%m-%d') < '2026-11-22': continue  # Nov 21 warm-up never counts (Allie, Nov 23)
         hm = re.search(r'help ([a-z+]+)', a.get('part') or '')
         if 'coached' in (a.get('part') or '') or (hm and set(hm.group(1).split('+')) - {'desmos', 'ref'}): continue  # Desmos + reference sheet are SAT tools, not help
         out.append(a)

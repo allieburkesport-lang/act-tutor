@@ -74,7 +74,7 @@ def main():
     try: KEEP = {d['date']: {k: d[k] for k in ('reset_at', 'hold') if k in d} for d in json.load(open(os.path.join(DZ, 'plan.json')))['days']}
     except Exception: KEEP = {}
     # SAT rules (Allie, Nov 23): only the FIRST time he ever answers a question counts, and only if he opened no help before answering.
-    seen_q = set()
+    seen_q = set(); HELM_COUNT_FROM = '2026-11-22'
     for r in rows:
         if r.get('kind') not in ('bank', 'official') or (r.get('attempt') or 1) != 1: continue
         qid = (r.get('question') or '').split(' ')[0]
@@ -85,6 +85,7 @@ def main():
         if 'coached' in (r.get('part') or '') or (hm and set(hm.group(1).split('+')) - {'desmos', 'ref'}): continue  # Desmos + reference sheet are SAT tools, not help
         sk = r.get('concept_id')
         if sk not in SHARE: continue
+        if datetime.datetime.fromisoformat(r['created_at'].replace('Z', '+00:00')).astimezone(TZ).date().isoformat() < HELM_COUNT_FROM: continue  # Nov 21 warm-up never counts (Allie, Nov 23)
         d = datetime.datetime.fromisoformat(r['created_at'].replace('Z', '+00:00')).astimezone(TZ).date().isoformat()
         dz[sk][0] += 1; dz[sk][1] += 1 if r.get('correct') else 0
         ts = datetime.datetime.fromisoformat(r['created_at'].replace('Z', '+00:00')).timestamp() * 1000

@@ -414,7 +414,9 @@ function stats(skill){// same blend as the nightly plan: earlier practice (Bluep
 // Desmos (top bar) and the reference sheet are on the real SAT, so using them is not "help".
 const SAT_TOOLS=['desmos','ref'];function realHelp(h){return (h||[]).filter(k=>!SAT_TOOLS.includes(k))}
 let _scK='',_scS=new Set();
-function scoredSet(){const k=LOG.length+':'+(LOG.length?LOG[LOG.length-1].ts:0);if(k===_scK)return _scS;const s=new Set(),seen=new Set();LOG.filter(x=>(x.attempt||1)===1).sort((a,b)=>a.ts-b.ts).forEach(x=>{if(seen.has(x.id))return;seen.add(x.id);if(!realHelp(x.helpFirst).length&&!x.coached)s.add(x)});_scK=k;_scS=s;return s}
+// Allie, Nov 23: the Nov 21 warm-up (mostly Easy, not SAT-like) and anything earlier never counts toward HELM stats. Rows are kept, just ignored.
+const HELM_COUNT_FROM='2026-11-22';
+function scoredSet(){const k=LOG.length+':'+(LOG.length?LOG[LOG.length-1].ts:0);if(k===_scK)return _scS;const s=new Set(),seen=new Set();LOG.filter(x=>(x.attempt||1)===1).sort((a,b)=>a.ts-b.ts).forEach(x=>{if(seen.has(x.id))return;seen.add(x.id);if(x.day<HELM_COUNT_FROM)return;if(!realHelp(x.helpFirst).length&&!x.coached)s.add(x)});_scK=k;_scS=s;return s}
 function isScored(x){return scoredSet().has(x)}
 function helmStart(){return Math.min(...(PLAN?PLAN.days:[]).map(d=>d.reset_at||Infinity))||0}
 function helmNow(sk){const t0=helmStart(),t=today();const f=LOG.filter(x=>isScored(x)&&x.ts>=(isFinite(t0)?t0:0)&&QBY[x.id]&&QBY[x.id].skill===sk);
@@ -906,6 +908,6 @@ function publishSat(){try{if(!PLAN||!window.HELM_PROGRESS)return;
   HELM_PROGRESS.put('sat_summary',{updated:Date.now(),days,daysDone:days.filter(d=>d.done).length,daysTotal:days.length,dueDone:fin,dueTotal:due.length})}catch(e){}}
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=57"></script><script src="bi.js?v=36"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
+<script src="stats.js?v=58"></script><script src="bi.js?v=36"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
 </body>
 </html>
