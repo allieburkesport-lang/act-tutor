@@ -50,6 +50,8 @@ const HC = {navy: '#13315C', navyL: '#8FA6CC', gold: '#C9A227', goldL: '#E9D48F'
   .bi.dark table.rep th,.bi.dark table.rep td{border-color:var(--bd)!important;color:var(--tx)}
   .bi.dark tr[style*="f5f3ff"]{background:#1e1b4b!important}
   .bi.dark .hd{color:var(--tx)}
+  .bi .tsp{display:inline-block;width:96px;height:26px;vertical-align:middle;margin-right:6px}.bi .tsp svg{width:100%;height:100%;display:block}
+  .bi .trd{padding:14px 18px;border-bottom:1px solid var(--bd)}
   @media(max-width:900px){.bi .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.bi .t2{grid-template-columns:1fr}}`;
   document.head.appendChild(s)
 })();
@@ -172,15 +174,51 @@ function biRank(rows, lv) {
       scales: {x: {min: 0, max: 100, ticks: {color: C.tick, callback: v => v + '%'}, grid: {color: C.grid}}, y: {ticks: {color: C.tick}, grid: {display: false}}},
       onClick: (e, els) => { if (!els.length) return; const k = ks[els[0].index].k; if (lv === 'diff') { BI.f.diff = k; return biOpen({t: 'filter'}) } BI.f[lv] = k; setTimeout(drawStats) }}})
 }
+// ---------- per-skill trend (all-time HELM first tries for one skill) ----------
+function biSkillTrend(R, skill, gran) {
+  const h = R.filter(r => r.src === 'HELM' && r.skill === skill && r.date), bp = R.find(r => r.kind === 'skill' && r.skill === skill);
+  const days = new Set(h.map(r => r.date)).size, g = gran || (days > 14 ? 'week' : 'day');
+  const keys = [...new Set(h.map(r => biBucket(r.date, g)))].sort();
+  const lab = k => (g === 'week' ? 'wk ' : '') + new Date(k + 'T12:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'});
+  const per = keys.map(k => biAgg(h.filter(r => biBucket(r.date, g) === k)));
+  let run = 0, ok = 0; const cum = h.length ? keys.map(k => { h.filter(r => biBucket(r.date, g) === k).forEach(r => { run++; ok += r.ok }); return Math.round(100 * ok / run) }) : [];
+  const n = h.length, m = Math.max(3, Math.floor(n / 3)), early = n >= 6 ? biAgg(h.slice(0, m)) : null, recent = n >= 6 ? biAgg(h.slice(-m)) : null;
+  return {g, keys, lab: keys.map(lab), acc: per.map(a => a.acc), cnt: per.map(a => a.n), cum, n, m, early, recent, chg: early && recent ? recent.acc - early.acc : null, base: bp ? Math.round(100 * bp.ok / bp.n) : null, bn: bp ? bp.n : 0}
+}
+function biTrendBlock(skill) {
+  const T = biSkillTrend(biRecords(), skill, BI.tgran), chg = c => c == null ? '' : `<span class="badge ${c > 0 ? 'up' : c < 0 ? 'dn' : 'eq'}">${c > 0 ? '▲' : c < 0 ? '▼' : '±'} ${Math.abs(c)} pts</span>`;
+  if (!T.n) return `<div class="trd"><div class="lab">Trend over time</div><div style="color:var(--mu);font-size:14px;margin-top:4px">No HELM questions in this skill yet${T.base != null ? ` · Blueprint before: ${T.base}% (${T.bn} Qs)` : ''}.</div></div>`;
+  const now = T.recent ? T.recent.acc : biAgg(biRecords().filter(r => r.src === 'HELM' && r.skill === skill)).acc;
+  return `<div class="trd"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><div><div class="lab">Trend over time · all time · HELM first tries</div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:4px;font-size:14px">
+    ${T.chg != null ? `<span>First ${T.m} Qs <b>${T.early.acc}%</b> → last ${T.m} Qs <b>${T.recent.acc}%</b> ${chg(T.chg)}</span>` : `<span style="color:var(--mu)">${T.n} question${T.n === 1 ? '' : 's'} so far · need 6+ to show a change</span>`}
+    ${T.base != null ? `<span>vs. Blueprint before (${T.base}%) ${chg(now - T.base)}</span>` : ''}</div></div>
+    <div class="seg">${['day', 'week'].map(g => `<button class="${T.g === g ? 'on' : ''}" data-bi="tgran:${g}">${g === 'day' ? 'Daily' : 'Weekly'}</button>`).join('')}</div></div>
+    <div style="height:220px;margin-top:8px"><canvas id="bi-tc"></canvas></div></div>`
+}
+function biTrendChart(skill) {
+  if (BI.tc) { try { BI.tc.destroy() } catch (x) {} BI.tc = null }
+  const el = document.getElementById('bi-tc'); if (!el || typeof Chart === 'undefined') return;
+  const T = biSkillTrend(biRecords(), skill, BI.tgran), C = biColors();
+  BI.tc = new Chart(el, {data: {labels: T.lab, datasets: [
+    {type: 'bar', label: 'Questions', data: T.cnt, backgroundColor: BI.dark ? '#1e293b' : '#e2e8f0', borderRadius: 4, yAxisID: 'y2', order: 3},
+    {type: 'line', label: '% right that ' + T.g, data: T.acc, borderColor: HC.navy, backgroundColor: T.acc.map(a => a == null ? HC.steel : a >= 70 ? HC.green : a >= 50 ? HC.amber : HC.rose), pointRadius: 6, pointHoverRadius: 8, borderWidth: 2, tension: .3, spanGaps: true, yAxisID: 'y', order: 1},
+    {type: 'line', label: 'Running total %', data: T.cum, borderColor: HC.gold, borderWidth: 2, borderDash: [4, 3], pointRadius: 0, tension: .3, yAxisID: 'y', order: 2},
+    ...(T.base != null ? [{type: 'line', label: `Blueprint before (${T.base}%)`, data: T.lab.map(() => T.base), borderColor: C.tick, borderDash: [2, 4], borderWidth: 1.5, pointRadius: 0, yAxisID: 'y', order: 4}] : []),
+    {type: 'line', label: 'Goal 75%', data: T.lab.map(() => 75), borderColor: HC.green, borderDash: [6, 6], borderWidth: 1.5, pointRadius: 0, yAxisID: 'y', order: 5}]},
+    options: {maintainAspectRatio: false, interaction: {mode: 'index', intersect: false},
+      plugins: {legend: {position: 'bottom', labels: {color: C.tick, boxWidth: 14, font: {size: 11}}}, tooltip: {callbacks: {label: c => c.dataset.label + ': ' + c.raw + (c.dataset.yAxisID === 'y' ? '%' : '')}}},
+      scales: {y: {min: 0, max: 100, ticks: {color: C.tick, callback: v => v + '%'}, grid: {color: C.grid}}, y2: {position: 'right', beginAtZero: true, ticks: {color: C.tick, precision: 0}, grid: {drawOnChartArea: false}, title: {display: true, text: 'Qs', color: C.tick}}, x: {ticks: {color: C.tick}, grid: {display: false}}}}})
+}
 function biPivot(R, rg) {
   const rows = biFilter(R, rg).filter(r => r.kind !== 'daily'), pr = biPrevRange(), prev = pr ? biFilter(R, pr, {dated: true}).filter(r => r.kind !== 'daily') : [], g = {};
   rows.forEach(r => { (g[r.skill] = g[r.skill] || []).push(r) });
   const list = Object.keys(g).map(k => { const a = biAgg(g[k]), h = biAgg(g[k].filter(r => r.src === 'HELM')), b = biAgg(g[k].filter(r => r.src === 'Blueprint')), r0 = g[k][0], pa = biAgg(prev.filter(r => r.skill === k));
     const dm = ['Easy', 'Medium', 'Hard'].map(d => { const x = g[k].filter(r => r.diff === d); return [d, x.length, x.filter(r => r.ok).length] });
-    return {dm, skill: k, sec: r0.sec, dom: r0.dom, share: r0.share || 0, n: a.n, ok: a.ok, wrong: a.wrong, acc: a.acc, helm: h.acc, bp: b.acc, secs: a.secs, pace: a.pace, chg: pa.acc != null && a.acc != null ? a.acc - pa.acc : null, lost: a.acc == null ? 0 : Math.round(600 * (r0.share || 0) / 100 * (100 - a.acc) / 100)} });
+    return {dm, skill: k, sec: r0.sec, dom: r0.dom, share: r0.share || 0, n: a.n, ok: a.ok, wrong: a.wrong, acc: a.acc, helm: h.acc, bp: b.acc, secs: a.secs, pace: a.pace, chg: pa.acc != null && a.acc != null ? a.acc - pa.acc : null, lost: a.acc == null ? 0 : Math.round(600 * (r0.share || 0) / 100 * (100 - a.acc) / 100), ...(t => ({trend: t.chg, tsp: spark(t.acc, (t.chg ?? 0) >= 0 ? HC.green : HC.rose)}))(biSkillTrend(R, k))} });
   const S = BI.sort; list.sort((a, b) => { const x = a[S.k], y = b[S.k]; if (x == null) return 1; if (y == null) return -1; return (typeof x === 'string' ? x.localeCompare(y) : x - y) * S.d });
   const maxLost = Math.max(1, ...list.map(x => x.lost));
-  const H = [['skill', 'Skill'], ['sec', 'Section'], ['share', '% of section'], ['n', 'Qs'], ['ok', 'Right'], ['wrong', 'Wrong'], ['acc', 'Accuracy'], ['helm', 'HELM'], ['bp', 'Blueprint'], ['chg', 'vs. prev.'], ['dm', 'Difficulty (right / asked)'], ['secs', 'Avg time'], ['lost', 'Points at stake'], ['go', '']];
+  const H = [['skill', 'Skill'], ['sec', 'Section'], ['share', '% of section'], ['n', 'Qs'], ['ok', 'Right'], ['wrong', 'Wrong'], ['acc', 'Accuracy'], ['helm', 'HELM'], ['bp', 'Blueprint'], ['chg', 'vs. prev.'], ['trend', 'Trend (all time)'], ['dm', 'Difficulty (right / asked)'], ['secs', 'Avg time'], ['lost', 'Points at stake'], ['go', '']];
   const el = document.getElementById('bi-pv'); if (!el) return;
   if (!list.length) { el.innerHTML = '<div style="color:var(--mu);padding:16px 0">No skill-level records in this range. (Blueprint skill totals appear when the range covers Aug 31–Nov 20, e.g. All time.)</div>'; return }
   const accCol = a => a == null ? HC.steel : a >= 70 ? HC.green : a >= 50 ? HC.amber : HC.rose;
@@ -209,6 +247,7 @@ function biOpen(spec, keep) {
     ${(() => { const h = rows.filter(r => r.src === 'HELM'); if (!h.length) return ''; return `<div style="display:flex;gap:6px;margin:6px 0 2px;flex-wrap:wrap">${['Easy', 'Medium', 'Hard'].map(d => { const x = h.filter(r => r.diff === d); return `<span class="badge" style="background:${d === 'Easy' ? '#dcfce7' : d === 'Medium' ? '#fef3c7' : '#fee2e2'};color:${d === 'Easy' ? '#166534' : d === 'Medium' ? '#92400e' : '#991b1b'}">${d}: ${x.filter(r => r.ok).length}/${x.length} right</span>` }).join('')}</div>` })()}
     <div style="font-size:13px;color:var(--mu)">${rows.length} records · ${A.n} questions · ${A.acc == null ? '—' : A.acc + '% right'}${Object.keys(BI.f).filter(k => BI_LEVELS.some(l => l[0] === k) || k === 'date').length ? ' · dashboard filters applied' : ''}</div></div>
     <div style="display:flex;gap:8px"><button class="xbtn pr" data-bi="csv">⬇ Export to CSV</button><button class="xbtn" data-bi="close" aria-label="Close">✕</button></div></div>
+    ${spec.t === 'row' ? biTrendBlock(spec.skill) : ''}
     <div style="padding:10px 18px;border-bottom:1px solid var(--bd)"><input id="bi-dq" placeholder="Search records (skill, date, question text…)" value="${esc(BI.dq)}" style="width:100%;font:inherit;padding:9px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--tx)"></div>
     <div class="bd"><table class="pv"><thead><tr>${H.map(([k, t]) => `<th data-bi="dsort:${k}">${t}${S.k === k ? (S.d > 0 ? ' ▲' : ' ▼') : ''}</th>`).join('')}</tr></thead><tbody>
     ${rows.slice(0, 500).map((r, i) => `<tr${r.qid ? ` class="c" data-bi="dq:${i}" style="cursor:pointer"` : ''}><td>${r.date ? (r.week ? 'Week of ' + r.date : r.date) : 'Aug 31–Nov 20'}</td><td>${r.src}${r.kind === 'skill' ? ' <span style="color:var(--mu);font-size:12px">(skill total)</span>' : r.kind === 'daily' ? ` <span style="color:var(--mu);font-size:12px">(${r.week ? 'week' : 'day'} total)</span>` : ''}</td><td>${r.sec === 'Reading & Writing' ? 'R&W' : r.sec}</td><td>${esc(r.skill)}</td><td>${r.diff}</td><td>${r.n}</td>
@@ -217,6 +256,7 @@ function biOpen(spec, keep) {
         <div style="font-size:13px">${(QBY[r.qid].steps || []).map((s, j) => (j + 1) + '. ' + esc(s)).join('<br>')}</div>${r.trap ? `<div style="font-size:13px"><b style="color:var(--dn)">Trap:</b> ${esc(r.trap)}</div>` : ''}<div><button class="btn sm" data-go="#/drill/ids:${r.qid}">Try it again</button></div></div></td></tr>` : ''}`).join('')}
     </tbody></table>${rows.length > 500 ? `<div style="padding:10px 18px;color:var(--mu)">Showing the first 500. Export to CSV for all ${rows.length}.</div>` : ''}${!rows.length ? '<div style="padding:18px;color:var(--mu)">No records match.</div>' : ''}</div></aside>`;
   requestAnimationFrame(() => { const d = host.querySelector('.drw'); if (d) d.classList.add('open') });
+  if (spec.t === 'row') biTrendChart(spec.skill); else if (BI.tc) { try { BI.tc.destroy() } catch (x) {} BI.tc = null }
   const inp = document.getElementById('bi-dq'); if (inp && keep && BI.dfocus) { inp.focus(); inp.setSelectionRange(inp.value.length, inp.value.length) }
 }
 function biCsv() {
@@ -238,6 +278,7 @@ document.addEventListener('click', e => {
   if (a === 'row') { BI.dopen = null; const [sk, only] = v.split('|'); return biOpen({t: 'row', skill: sk, only}) }
   if (a === 'close') { BI.drawer = null; BI.dopen = null; const d = document.querySelector('#bi-drw .drw'); if (d) d.classList.remove('open'); setTimeout(() => { const h = document.getElementById('bi-drw'); if (h && !BI.drawer) h.innerHTML = '' }, 220); return }
   if (a === 'csv') return biCsv();
+  if (a === 'tgran') { BI.tgran = v; return biOpen(BI.drawer, true) }
   if (a === 'dsort') { BI.dsort = {k: v, d: BI.dsort.k === v ? -BI.dsort.d : 1}; return biOpen(BI.drawer, true) }
   if (a === 'dq') { BI.dopen = BI.dopen === +v ? null : +v; BI.dfocus = false; return biOpen(BI.drawer, true) }
 }, true);
