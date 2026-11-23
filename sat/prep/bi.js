@@ -176,35 +176,47 @@ function biRank(rows, lv) {
 }
 // ---------- per-skill trend (all-time HELM first tries for one skill) ----------
 function biSkillTrend(R, skill, gran) {
-  const h = R.filter(r => r.src === 'HELM' && r.skill === skill && r.date), bp = R.find(r => r.kind === 'skill' && r.skill === skill);
+  const h = R.filter(r => r.src === 'HELM' && r.skill === skill && r.date), sk = Object.values(SK2).find(x => x.name === skill), id = sk && sk.id;
+  // Blueprint per-skill scores have no dates: Aug 31–Nov 7 (skills_hist) and the running total through Nov 20 (skills). Split into two periods.
+  const bpp = [], tot = BI.src.bp && id && BPS[id] && BPS[id].n ? BPS[id] : null, h1 = tot && typeof BPH !== 'undefined' && BPH[id] && BPH[id].n ? BPH[id] : null;
+  if (tot) { if (h1) { bpp.push({lab: 'BP Aug 31–Nov 7', n: h1.n, ok: h1.ok}); if (tot.n - h1.n > 0) bpp.push({lab: 'BP Nov 8–20', n: tot.n - h1.n, ok: Math.max(0, tot.ok - h1.ok)}) } else bpp.push({lab: 'BP Aug 31–Nov 20', n: tot.n, ok: tot.ok}) }
+  bpp.forEach(p => p.acc = Math.round(100 * p.ok / p.n));
   const days = new Set(h.map(r => r.date)).size, g = gran || (days > 14 ? 'week' : 'day');
   const keys = [...new Set(h.map(r => biBucket(r.date, g)))].sort();
   const lab = k => (g === 'week' ? 'wk ' : '') + new Date(k + 'T12:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'});
   const per = keys.map(k => biAgg(h.filter(r => biBucket(r.date, g) === k)));
-  let run = 0, ok = 0; const cum = h.length ? keys.map(k => { h.filter(r => biBucket(r.date, g) === k).forEach(r => { run++; ok += r.ok }); return Math.round(100 * ok / run) }) : [];
+  let run = 0, ok = 0; const cum = [];
+  bpp.forEach(p => { run += p.n; ok += p.ok; cum.push(Math.round(100 * ok / run)) });
+  keys.forEach(k => { h.filter(r => biBucket(r.date, g) === k).forEach(r => { run++; ok += r.ok }); cum.push(Math.round(100 * ok / run)) });
   const n = h.length, m = Math.max(3, Math.floor(n / 3)), early = n >= 6 ? biAgg(h.slice(0, m)) : null, recent = n >= 6 ? biAgg(h.slice(-m)) : null;
-  return {g, keys, lab: keys.map(lab), acc: per.map(a => a.acc), cnt: per.map(a => a.n), cum, n, m, early, recent, chg: early && recent ? recent.acc - early.acc : null, base: bp ? Math.round(100 * bp.ok / bp.n) : null, bn: bp ? bp.n : 0}
+  // overall change: earliest Blueprint period (or his first HELM questions) → his most recent HELM questions (or latest Blueprint period)
+  const startP = bpp.length ? {lab: bpp[0].lab.replace('BP ', 'Blueprint '), acc: bpp[0].acc, n: bpp[0].n} : early ? {lab: `HELM first ${m} Qs`, acc: early.acc, n: m} : null;
+  const endP = recent ? {lab: `HELM last ${m} Qs`, acc: recent.acc, n: m} : n >= 3 ? {lab: `HELM so far`, acc: biAgg(h).acc, n} : bpp.length > 1 ? {lab: bpp[bpp.length - 1].lab.replace('BP ', 'Blueprint '), acc: bpp[bpp.length - 1].acc, n: bpp[bpp.length - 1].n} : null;
+  const chg = startP && endP ? endP.acc - startP.acc : null;
+  return {g, nb: bpp.length, lab: [...bpp.map(p => p.lab), ...keys.map(lab)], bpAcc: [...bpp.map(p => p.acc), ...keys.map(() => null)], acc: [...bpp.map(() => null), ...per.map(a => a.acc)],
+    all: [...bpp.map(p => p.acc), ...per.map(a => a.acc)], cnt: [...bpp.map(p => p.n), ...per.map(a => a.n)], cum, n, m, early, recent, startP, endP, chg, bpp}
 }
 function biTrendBlock(skill) {
   const T = biSkillTrend(biRecords(), skill, BI.tgran), chg = c => c == null ? '' : `<span class="badge ${c > 0 ? 'up' : c < 0 ? 'dn' : 'eq'}">${c > 0 ? '▲' : c < 0 ? '▼' : '±'} ${Math.abs(c)} pts</span>`;
-  if (!T.n) return `<div class="trd"><div class="lab">Trend over time</div><div style="color:var(--mu);font-size:14px;margin-top:4px">No HELM questions in this skill yet${T.base != null ? ` · Blueprint before: ${T.base}% (${T.bn} Qs)` : ''}.</div></div>`;
-  const now = T.recent ? T.recent.acc : biAgg(biRecords().filter(r => r.src === 'HELM' && r.skill === skill)).acc;
-  return `<div class="trd"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><div><div class="lab">Trend over time · all time · HELM first tries</div>
+  if (!T.n && !T.nb) return `<div class="trd"><div class="lab">Trend over time</div><div style="color:var(--mu);font-size:14px;margin-top:4px">No HELM or Blueprint questions in this skill yet.</div></div>`;
+  return `<div class="trd"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><div><div class="lab">Trend over time · Blueprint + HELM · all time</div>
     <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:4px;font-size:14px">
-    ${T.chg != null ? `<span>First ${T.m} Qs <b>${T.early.acc}%</b> → last ${T.m} Qs <b>${T.recent.acc}%</b> ${chg(T.chg)}</span>` : `<span style="color:var(--mu)">${T.n} question${T.n === 1 ? '' : 's'} so far · need 6+ to show a change</span>`}
-    ${T.base != null ? `<span>vs. Blueprint before (${T.base}%) ${chg(now - T.base)}</span>` : ''}</div></div>
-    <div class="seg">${['day', 'week'].map(g => `<button class="${T.g === g ? 'on' : ''}" data-bi="tgran:${g}">${g === 'day' ? 'Daily' : 'Weekly'}</button>`).join('')}</div></div>
-    <div style="height:220px;margin-top:8px"><canvas id="bi-tc"></canvas></div></div>`
+    ${T.chg != null ? `<span>${esc(T.startP.lab)} <b>${T.startP.acc}%</b> → ${esc(T.endP.lab)} <b>${T.endP.acc}%</b> ${chg(T.chg)}</span>` : `<span style="color:var(--mu)">Not enough questions yet to show a change</span>`}
+    ${T.early && T.nb ? `<span style="color:var(--mu)">Within HELM: ${T.early.acc}% → ${T.recent.acc}% ${chg(T.recent.acc - T.early.acc)}</span>` : ''}</div>
+    ${T.nb ? `<div style="font-size:12px;color:var(--mu);margin-top:2px">Blueprint only gives per-skill totals (no dates), so each Blueprint period is one point.</div>` : ''}</div>
+    ${T.n ? `<div class="seg">${['day', 'week'].map(g => `<button class="${T.g === g ? 'on' : ''}" data-bi="tgran:${g}">${g === 'day' ? 'Daily' : 'Weekly'}</button>`).join('')}</div>` : ''}</div>
+    <div style="height:230px;margin-top:8px"><canvas id="bi-tc"></canvas></div></div>`
 }
 function biTrendChart(skill) {
   if (BI.tc) { try { BI.tc.destroy() } catch (x) {} BI.tc = null }
   const el = document.getElementById('bi-tc'); if (!el || typeof Chart === 'undefined') return;
   const T = biSkillTrend(biRecords(), skill, BI.tgran), C = biColors();
+  const dot = a => a == null ? HC.steel : a >= 70 ? HC.green : a >= 50 ? HC.amber : HC.rose;
   BI.tc = new Chart(el, {data: {labels: T.lab, datasets: [
-    {type: 'bar', label: 'Questions', data: T.cnt, backgroundColor: BI.dark ? '#1e293b' : '#e2e8f0', borderRadius: 4, yAxisID: 'y2', order: 3},
-    {type: 'line', label: '% right that ' + T.g, data: T.acc, borderColor: HC.navy, backgroundColor: T.acc.map(a => a == null ? HC.steel : a >= 70 ? HC.green : a >= 50 ? HC.amber : HC.rose), pointRadius: 6, pointHoverRadius: 8, borderWidth: 2, tension: .3, spanGaps: true, yAxisID: 'y', order: 1},
+    {type: 'bar', label: 'Questions', data: T.cnt, backgroundColor: T.lab.map((l, i) => i < T.nb ? (BI.dark ? '#334155' : '#cbd5e1') : (BI.dark ? '#1e293b' : '#e2e8f0')), borderRadius: 4, yAxisID: 'y2', order: 3},
+    ...(T.nb ? [{type: 'line', label: 'Blueprint % right', data: T.bpAcc, borderColor: HC.steel, borderDash: [5, 4], backgroundColor: T.bpAcc.map(dot), pointStyle: 'rectRot', pointRadius: 8, pointHoverRadius: 10, borderWidth: 2, spanGaps: true, yAxisID: 'y', order: 1}] : []),
+    ...(T.n ? [{type: 'line', label: 'HELM % right that ' + T.g, data: T.acc, borderColor: HC.navy, backgroundColor: T.acc.map(dot), pointRadius: 6, pointHoverRadius: 8, borderWidth: 2, tension: .3, spanGaps: true, yAxisID: 'y', order: 1}] : []),
     {type: 'line', label: 'Running total %', data: T.cum, borderColor: HC.gold, borderWidth: 2, borderDash: [4, 3], pointRadius: 0, tension: .3, yAxisID: 'y', order: 2},
-    ...(T.base != null ? [{type: 'line', label: `Blueprint before (${T.base}%)`, data: T.lab.map(() => T.base), borderColor: C.tick, borderDash: [2, 4], borderWidth: 1.5, pointRadius: 0, yAxisID: 'y', order: 4}] : []),
     {type: 'line', label: 'Goal 75%', data: T.lab.map(() => 75), borderColor: HC.green, borderDash: [6, 6], borderWidth: 1.5, pointRadius: 0, yAxisID: 'y', order: 5}]},
     options: {maintainAspectRatio: false, interaction: {mode: 'index', intersect: false},
       plugins: {legend: {position: 'bottom', labels: {color: C.tick, boxWidth: 14, font: {size: 11}}}, tooltip: {callbacks: {label: c => c.dataset.label + ': ' + c.raw + (c.dataset.yAxisID === 'y' ? '%' : '')}}},
@@ -215,10 +227,10 @@ function biPivot(R, rg) {
   rows.forEach(r => { (g[r.skill] = g[r.skill] || []).push(r) });
   const list = Object.keys(g).map(k => { const a = biAgg(g[k]), h = biAgg(g[k].filter(r => r.src === 'HELM')), b = biAgg(g[k].filter(r => r.src === 'Blueprint')), r0 = g[k][0], pa = biAgg(prev.filter(r => r.skill === k));
     const dm = ['Easy', 'Medium', 'Hard'].map(d => { const x = g[k].filter(r => r.diff === d); return [d, x.length, x.filter(r => r.ok).length] });
-    return {dm, skill: k, sec: r0.sec, dom: r0.dom, share: r0.share || 0, n: a.n, ok: a.ok, wrong: a.wrong, acc: a.acc, helm: h.acc, bp: b.acc, secs: a.secs, pace: a.pace, chg: pa.acc != null && a.acc != null ? a.acc - pa.acc : null, lost: a.acc == null ? 0 : Math.round(600 * (r0.share || 0) / 100 * (100 - a.acc) / 100), ...(t => ({trend: t.chg, tsp: spark(t.acc, (t.chg ?? 0) >= 0 ? HC.green : HC.rose)}))(biSkillTrend(R, k))} });
+    return {dm, skill: k, sec: r0.sec, dom: r0.dom, share: r0.share || 0, n: a.n, ok: a.ok, wrong: a.wrong, acc: a.acc, helm: h.acc, bp: b.acc, secs: a.secs, pace: a.pace, chg: pa.acc != null && a.acc != null ? a.acc - pa.acc : null, lost: a.acc == null ? 0 : Math.round(600 * (r0.share || 0) / 100 * (100 - a.acc) / 100), ...(t => ({trend: t.chg, tsp: spark(t.all, (t.chg ?? 0) >= 0 ? HC.green : HC.rose)}))(biSkillTrend(R, k)), ...(id => ({bp: BI.src.bp && id && BPS[id] && BPS[id].n ? Math.round(100 * BPS[id].ok / BPS[id].n) : null, bpn: id && BPS[id] ? BPS[id].n : 0}))(r0.skillId)} });
   const S = BI.sort; list.sort((a, b) => { const x = a[S.k], y = b[S.k]; if (x == null) return 1; if (y == null) return -1; return (typeof x === 'string' ? x.localeCompare(y) : x - y) * S.d });
   const maxLost = Math.max(1, ...list.map(x => x.lost));
-  const H = [['skill', 'Skill'], ['sec', 'Section'], ['share', '% of section'], ['n', 'Qs'], ['ok', 'Right'], ['wrong', 'Wrong'], ['acc', 'Accuracy'], ['helm', 'HELM'], ['bp', 'Blueprint'], ['chg', 'vs. prev.'], ['trend', 'Trend (all time)'], ['dm', 'Difficulty (right / asked)'], ['secs', 'Avg time'], ['lost', 'Points at stake'], ['go', '']];
+  const H = [['skill', 'Skill'], ['sec', 'Section'], ['share', '% of section'], ['n', 'Qs'], ['ok', 'Right'], ['wrong', 'Wrong'], ['acc', 'Accuracy'], ['helm', 'HELM'], ['bp', 'Blueprint (all)'], ['chg', 'vs. prev.'], ['trend', 'Trend (all time)'], ['dm', 'Difficulty (right / asked)'], ['secs', 'Avg time'], ['lost', 'Points at stake'], ['go', '']];
   const el = document.getElementById('bi-pv'); if (!el) return;
   if (!list.length) { el.innerHTML = '<div style="color:var(--mu);padding:16px 0">No skill-level records in this range. (Blueprint skill totals appear when the range covers Aug 31–Nov 20, e.g. All time.)</div>'; return }
   const accCol = a => a == null ? HC.steel : a >= 70 ? HC.green : a >= 50 ? HC.amber : HC.rose;
@@ -226,7 +238,7 @@ function biPivot(R, rg) {
     <td class="c" data-bi="row:${esc(x.skill)}"><b>${esc(x.skill)}</b><div style="font-size:12px;color:var(--mu)">${esc(x.dom)}</div></td><td>${x.sec === 'Reading & Writing' ? 'R&W' : x.sec}</td><td>${x.share ? Math.round(x.share) + '%' : '—'}</td>
     <td class="c" data-bi="row:${esc(x.skill)}">${x.n}</td><td class="c" data-bi="row:${esc(x.skill)}|ok" style="color:var(--up);font-weight:700">${x.ok}</td><td class="c" data-bi="row:${esc(x.skill)}|wrong" style="color:var(--dn);font-weight:700">${x.wrong}</td>
     <td class="cb c" data-bi="row:${esc(x.skill)}"><i style="width:${x.acc ?? 0}%;background:${accCol(x.acc)}"></i><span style="color:${accCol(x.acc)}">${x.acc == null ? '—' : x.acc + '%'}</span></td>
-    <td>${x.helm == null ? '—' : x.helm + '%'}</td><td>${x.bp == null ? '—' : x.bp + '%'}</td><td>${x.chg == null ? '—' : `<span style="color:${x.chg >= 0 ? 'var(--up)' : 'var(--dn)'};font-weight:700">${x.chg > 0 ? '▲' : x.chg < 0 ? '▼' : ''} ${Math.abs(x.chg)}</span>`}</td>
+    <td>${x.helm == null ? '—' : x.helm + '%'}</td><td title="Blueprint, Aug 31–Nov 20 (no dates)">${x.bp == null ? '—' : x.bp + '% <span style="color:var(--mu);font-size:12px">(' + x.bpn + ')</span>'}</td><td>${x.chg == null ? '—' : `<span style="color:${x.chg >= 0 ? 'var(--up)' : 'var(--dn)'};font-weight:700">${x.chg > 0 ? '▲' : x.chg < 0 ? '▼' : ''} ${Math.abs(x.chg)}</span>`}</td>
     <td>${x.dm.filter(d => d[1]).length ? x.dm.filter(d => d[1]).map(([d, n, ok]) => `<span class="badge" style="margin-right:4px;background:${d === 'Easy' ? '#dcfce7' : d === 'Medium' ? '#fef3c7' : '#fee2e2'};color:${d === 'Easy' ? '#166534' : d === 'Medium' ? '#92400e' : '#991b1b'}">${d[0]} ${ok}/${n}</span>`).join('') : '<span style="color:var(--mu);font-size:12px">Blueprint only</span>'}</td>
     <td>${x.secs == null ? '—' : `<span style="color:${x.secs > x.pace ? 'var(--dn)' : 'var(--up)'}">${mmss(x.secs)}</span>`}</td>
     <td class="cb"><i style="width:${100 * x.lost / maxLost}%;background:${HC.rose}"></i><span>${x.lost}</span></td><td><span class="xbtn" style="white-space:nowrap">Questions ›</span></td></tr>`).join('')}</tbody></table>`

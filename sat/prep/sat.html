@@ -148,7 +148,7 @@ circ:[['Area','A = πr²',[['r','radius: center to edge']],'R'],['Circumference'
 };
 let VIDEOS={}; // filled from videos/videos.json // lesson id -> {src, chapters:[[sec,label]]}; filled as chalkboard videos are made
 const L='ABCD', DIFF={E:'Easy',M:'Medium',H:'Hard'};
-let BPREC=[],BPD=[],QT={},QF={},QH={},BPS={},BANK,PLAN,LES,SK2={},QBY={},LOG=[],D=null,UI={panel:null};
+let BPH={},BPREC=[],BPD=[],QT={},QF={},QH={},BPS={},BANK,PLAN,LES,SK2={},QBY={},LOG=[],D=null,UI={panel:null};
 const $=s=>document.querySelector(s), app=()=>document.getElementById('app');
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const plain=h=>{const d=document.createElement('div');d.innerHTML=h;return d.textContent.replace(/\s+/g,' ').trim()};
@@ -157,7 +157,7 @@ const today=()=>new Date().toLocaleDateString('en-CA');
 
 /* ---------- data ---------- */
 async function load(){
-  const [b,p,l,bpj,qh,vj,qf,qt,tf]=await Promise.all([fetch('../drill-zone/bank.json?'+Date.now()).then(r=>r.json()),fetch('../drill-zone/plan.json?'+Date.now()).then(r=>r.json()).catch(()=>null),fetch('lessons.json?'+Date.now()).then(r=>r.json()),fetch('../drill-zone/blueprint.json?'+Date.now()).then(r=>r.json()).catch(()=>({skills:{}})),fetch('qhelp.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('videos/videos.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('qform.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('qtpl.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('../drill-zone/tutorfocus.json?'+Date.now()).then(r=>r.json()).catch(()=>({items:[]}))]);QF=qf||{};QT=qt||{};TF=tf||{items:[]};VIDEOS=vj||{};BPS=bpj.skills||{};BPREC=bpj.recent||[];BPD=bpj.daily||[];QH=qh||{};
+  const [b,p,l,bpj,qh,vj,qf,qt,tf]=await Promise.all([fetch('../drill-zone/bank.json?'+Date.now()).then(r=>r.json()),fetch('../drill-zone/plan.json?'+Date.now()).then(r=>r.json()).catch(()=>null),fetch('lessons.json?'+Date.now()).then(r=>r.json()),fetch('../drill-zone/blueprint.json?'+Date.now()).then(r=>r.json()).catch(()=>({skills:{}})),fetch('qhelp.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('videos/videos.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('qform.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('qtpl.json?'+Date.now()).then(r=>r.json()).catch(()=>({})),fetch('../drill-zone/tutorfocus.json?'+Date.now()).then(r=>r.json()).catch(()=>({items:[]}))]);QF=qf||{};QT=qt||{};TF=tf||{items:[]};VIDEOS=vj||{};BPS=bpj.skills||{};BPH=bpj.skills_hist||{};BPREC=bpj.recent||[];BPD=bpj.daily||[];QH=qh||{};
   BANK=b;PLAN=p;LES=l;b.skills.forEach(s=>SK2[s.id]=s);b.qs.forEach(q=>QBY[q.id]=q);
   if(p)p.skills.forEach(s=>{if(SK2[s.skill])SK2[s.skill].share=s.share});
   LOG=store.get('satbank_log',[]);LOG.forEach(x=>{if(x.sec!=null)x.sec=+x.sec||0});// seconds saved as text on some devices made times add up as text
@@ -680,6 +680,6 @@ function publishSat(){try{if(!PLAN||!window.HELM_PROGRESS)return;
   HELM_PROGRESS.put('sat_summary',{updated:Date.now(),days,daysDone:days.filter(d=>d.done).length,daysTotal:days.length,dueDone:fin,dueTotal:due.length})}catch(e){}}
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=11"></script><script src="bi.js?v=7"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
+<script src="stats.js?v=11"></script><script src="bi.js?v=8"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
 </body>
 </html>
