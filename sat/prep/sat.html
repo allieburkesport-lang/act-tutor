@@ -233,6 +233,15 @@ section.card{transition:box-shadow .2s}
 .fp-badge{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--cc);color:#fff;font-size:14px;font-weight:800;flex:none}
 .fp-row .fp-rt{padding-bottom:8px;border-bottom:1px dashed #E4E4E7;margin-bottom:4px}
 .fp-row .fp-lift{background:#fff}
+/* one type system on the dashboard (Allie, Nov 23): Helvetica everywhere, same table headers, same number style */
+#bi,#bi *{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif!important}
+#bi{--mono:'Helvetica Neue',Helvetica,Arial,sans-serif}
+#bi .hd[style*="font-size:28px"],#bi .hd[style*="font-size:22px"],#bi .hd[style*="font-size:36px"],#bi .hd[style*="font-size:40px"],#bi .hd[style*="font-size:44px"],#bi .kv,#bi .fp-kv,#bi .fp-big{font-weight:700!important;letter-spacing:-.02em!important;font-variant-numeric:tabular-nums}
+#bi .hd[style*="font-size:36px"],#bi .hd[style*="font-size:44px"]{font-size:32px!important}
+#bi table.rep th,#bi table.sched th,#bi table.pv th,#bi table.pv2 th,#bi table.bt th{font-size:13px!important;font-weight:600!important;letter-spacing:0!important;text-transform:none!important;color:#52525B!important;background:#FAFAFA!important;padding:11px 12px!important;border-bottom:1px solid #E4E4E7!important}
+#bi table.rep td,#bi table.pv td,#bi table.bt td,#bi table.pv2 td{font-size:15px!important;padding:12px!important;border-top:0!important;border-bottom:1px solid #E4E4E7!important}
+#bi .card .card div[style*="font-size:13px;color:var(--mute);font-weight:600"]{font-size:14px!important;color:#3F3F46!important;font-weight:600!important}
+#bi .box .lab{text-transform:none!important;letter-spacing:0!important;font-size:14px!important;font-weight:700!important}
 </style>
 <script src="auth.js?v=3"></script>
 <script src="progress.js?v=1"></script>
