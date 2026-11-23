@@ -298,6 +298,9 @@ th,.rep th,.sched th,table.pv th,table.pv2 th,table.pt th,table.bt th,#bi table.
 #bi table.pv2 td,#bi table.pv2 th{padding-left:8px!important;padding-right:8px!important}
 #bi table.pv2 .ub .tr{width:56px!important}
 #bi table.pv2 th{white-space:normal!important;font-size:12px!important;line-height:1.25}
+#bi table.pv2 tr.pvg th{background:#fff!important;border-bottom:0!important;padding-bottom:0!important;padding-top:10px!important;font-size:13px!important;color:#09090B!important;text-align:center}
+#bi table.pv2 tr.pvg th.g1{color:#1D4ED8!important;border-bottom:2px solid #1D4ED8!important}#bi table.pv2 tr.pvg th.g2{color:#7C3AED!important;border-bottom:2px solid #7C3AED!important}
+#bi table.pv2 td.g1c{background:#F8FAFF}#bi table.pv2 td.g2c{background:#FAF8FF}
 </style>
 <script src="auth.js?v=3"></script>
 <script src="progress.js?v=1"></script>
@@ -899,6 +902,6 @@ function publishSat(){try{if(!PLAN||!window.HELM_PROGRESS)return;
   HELM_PROGRESS.put('sat_summary',{updated:Date.now(),days,daysDone:days.filter(d=>d.done).length,daysTotal:days.length,dueDone:fin,dueTotal:due.length})}catch(e){}}
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=57"></script><script src="bi.js?v=34"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
+<script src="stats.js?v=57"></script><script src="bi.js?v=35"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
 </body>
 </html>
