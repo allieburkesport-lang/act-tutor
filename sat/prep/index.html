@@ -561,16 +561,13 @@ function renderCanvas() {
       <a class="btn btn-primary" href="${esc(MOD.sat.href)}" style="align-self:flex-start">Start SAT Helm${ICON.arrow}</a>`;
   })();
   $('#canvas').innerHTML = `
-  <section class="s8 card hero m1" aria-labelledby="next-h">
+  <section class="s6 card hero m1" aria-labelledby="next-h">
     <div style="display:flex;flex-direction:column;gap:18px;flex:1;min-width:0">
       <p class="eyebrow">${LONGWD[t0.getDay()]}, ${MON[t0.getMonth()]} ${t0.getDate()} · Your list</p>${hero}
     </div>
-    <div class="ringwrap" role="img" aria-label="${td} of ${tt} tasks done today">
-      <svg width="132" height="132" viewBox="0 0 132 132" aria-hidden="true"><circle cx="66" cy="66" r="52" fill="none" stroke="var(--panel2)" stroke-width="12"/><circle cx="66" cy="66" r="52" fill="none" stroke="var(--ok)" stroke-width="12" stroke-linecap="round" stroke-dasharray="${(tp / 100) * ringC} ${ringC}" transform="rotate(-90 66 66)" style="transition:stroke-dasharray .4s"/></svg>
-      <div class="ringlabel"><span class="tnum" style="font-size:30px;font-weight:700;line-height:1">${td}/${tt}</span><span class="muted" style="font-size:12px;font-weight:600">today</span></div>
-    </div>
+
   </section>
-  <section class="s4 card satday m3" aria-labelledby="satday-h">${satCard}</section>
+  <section class="s6 card satday m1" aria-labelledby="satday-h">${satCard}</section>
   <section class="s12 kpis m3" aria-label="Progress" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
     <div class="card stat prog"><span class="label">Today</span><span class="metric tnum">${tp}<small>%</small></span><span class="delta">${td}/${tt} tasks</span><div class="pbar"><i style="width:${tp}%"></i></div></div>
     <div class="card stat prog"><span class="label">This week</span><span class="metric tnum">${pct(cnt(weekT), weekT.length)}<small>%</small></span><span class="delta">${cnt(weekT)}/${weekT.length} tasks</span><div class="pbar"><i style="width:${pct(cnt(weekT), weekT.length)}%"></i></div></div>
