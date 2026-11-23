@@ -1,7 +1,7 @@
 /* ---------- STATS: BI dashboard (#/stats, #/stats/<skill>, #/stats/sec:Math) ---------- */
 const ST = {period: 'day', from: '', to: '', sec: 'all', bp: true, site: true};
 const SITE_NAME = 'HELM';
-const SCOL = {Math: '#1e3a8a', English: '#0f766e'};
+const SCOL = {Math: '#4F46E5', English: '#0D9488'};
 let CH = [];
 function dkey(d) { return d.toLocaleDateString('en-CA') }
 function firstTries() {  // SAT rules: the first time he ever saw each question, answered with no help (see isScored in sat.html)
@@ -41,7 +41,9 @@ function chartTheme() { if (typeof Chart === 'undefined' || Chart._helm) return;
   D.plugins.legend.labels.usePointStyle = true; D.plugins.legend.labels.boxWidth = 8; D.plugins.legend.labels.padding = 14;
   Object.assign(D.plugins.tooltip, {backgroundColor: '#0F172A', titleColor: '#fff', bodyColor: '#E2E8F0', padding: 10, cornerRadius: 8, displayColors: true, boxPadding: 4, titleFont: {weight: '700'}});
   D.elements.bar.borderRadius = 4; D.elements.line.borderWidth = 2.5; D.elements.point.radius = 3; D.elements.point.hoverRadius = 5;
-  D.scale.grid.color = '#EEF2F6'; D.scale.border = {display: false} }
+  D.scale.grid.color = 'rgba(161,161,170,.4)'; D.scale.border = {display: false, dash: [3, 3]};
+  D.plugins.legend.position = 'top'; D.plugins.legend.align = 'end';
+  D.animation.duration = 150; D.animation.easing = 'easeOutQuad' }
 function ensureChartJs(cb0) { const cb = () => { chartTheme(); cb0() }; if (typeof Chart !== 'undefined') return cb(); const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js'; s.onload = cb; s.onerror = cb; document.head.appendChild(s) }
 function filters() {
   const b = (k, v, t) => `<button class="btn sm ${ST[k] === v ? '' : 'g'}" data-st="${k}:${v}">${t}</button>`;
@@ -144,7 +146,7 @@ function missRow(r) {
    <div><button class="btn sm" data-go="#/drill/ids:${q.id}">Try it again</button></div></div></details>`
 }
 function skillStats(id) {
-  killCharts(); const s = SK2[id]; if (!s) return drawStats();
+  killCharts(); const s = SK2[id]; if (!s) return drawStats(); loadTutorQ(() => { if (location.hash.includes(id)) skillStats(id) });
   const all = firstTries().filter(r => r.q.skill === id), rows = ST.site ? inPeriod(all, ST.period) : [];
   const acc = pct(rows), b = BPS[id] || {n: 0, ok: 0}, base = b.n ? Math.round(100 * b.ok / b.n) : null, avg = avgSec(rows);
   const se = series(rows, 'day');
@@ -246,15 +248,22 @@ function scoresChart() {
 
 // ---------- When he used help: retries + help never count toward the score, they show whether the help works ----------
 // Episode = the first day he saw a question. It "needed help" if his first answer was wrong or he opened help before answering.
+// Tutor chats (Supabase tutor_messages) count as help even if he never answered again after asking (Allie, Nov 23)
+let TUTOR_Q = null;
+function loadTutorQ(redraw) { if (TUTOR_Q || !window.HELM_SB || loadTutorQ.busy) return; loadTutorQ.busy = 1;
+  window.HELM_SB.from('tutor_messages').select('question_id,role,created_at').eq('role', 'student').limit(5000).then(({data}) => {
+    TUTOR_Q = {}; (data || []).forEach(m => { if (m.question_id) (TUTOR_Q[m.question_id] = TUTOR_Q[m.question_id] || []).push(Date.parse(m.created_at)) }); if (redraw) redraw() }, () => { TUTOR_Q = {} }) }
 function helpEpisodes(skillId) {
+  if (typeof HELPN === 'object' && !HELPN.tutor) HELPN.tutor = 'Ask the tutor';
   const byQ = {};
   LOG.forEach(x => { const q = QBY[x.id]; if (!q || !SK2[q.skill]) return; if (skillId && q.skill !== skillId) return; if (!skillId && ST.sec !== 'all' && SK2[q.skill].sec !== ST.sec) return; (byQ[x.id] = byQ[x.id] || []).push(x) });
   const eps = [];
   Object.values(byQ).forEach(xs => {
     xs.sort((a, b) => a.ts - b.ts); const f = xs.find(x => (x.attempt || 1) === 1) || xs[0]; const day = xs.filter(x => x.day === f.day && x.ts >= f.ts);
-    const pre = realHelp(f.helpFirst || (f.coached ? ['show'] : [])); const firstOk = !!f.ok && !pre.length;
+    const tq = ((TUTOR_Q || {})[f.id] || []).filter(ts => new Date(ts).toLocaleDateString('en-CA') === f.day);
+    const pre = realHelp([...(f.helpFirst || (f.coached ? ['show'] : [])), ...(tq.some(ts => ts < f.ts) ? ['tutor'] : [])]); const firstOk = !!f.ok && !pre.length;
     if (firstOk) return;  // clean first-try right: nothing to learn from here
-    const used = realHelp([...new Set(day.flatMap(x => x.help || []).concat(pre))]);
+    const used = realHelp([...new Set(day.flatMap(x => x.help || []).concat(pre, tq.length ? ['tutor'] : []))]);
     const okRow = day.find(x => x.ok); const q = QBY[f.id];
     eps.push({id: f.id, q, s: SK2[q.skill], day: f.day, ts: f.ts, end: okRow ? okRow.ts : day[day.length - 1].ts, wrongFirst: !f.ok, pre, used, solved: !!okRow, tries: day.length});
   });

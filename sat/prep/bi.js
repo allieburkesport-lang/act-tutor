@@ -1,17 +1,17 @@
 /* ---------- STATS v2: Looker-style BI dashboard for #/stats (replaces drawStats from stats.js) ----------
    One record set feeds every number: HELM first tries (1 row per question), Blueprint daily section totals (dated),
    and Blueprint skill totals (undated, Nov 6–20). Cross-filters, drill-down, inspector drawer with search, sort and CSV. */
-const BI = {range: 'today', from: '', to: '', src: {helm: true, bp: true}, f: {}, gran: 'day', dark: false, sort: {k: 'lost', d: -1}, drawer: null, dq: '', dsort: {k: 'date', d: -1}};
+const BI = {cmp: true, pq: '', range: 'today', from: '', to: '', src: {helm: true, bp: true}, f: {}, gran: 'day', dark: false, sort: {k: 'lost', d: -1}, drawer: null, dq: '', dsort: {k: 'date', d: -1}};
 const BI_BP_FROM = '2026-08-31', BI_BP_TO = '2026-11-20';
 const BI_LEVELS = [['sec', 'Section'], ['dom', 'Domain'], ['skill', 'Skill'], ['diff', 'Difficulty']];
 const BI_SEC = {Math: 'Math', English: 'Reading & Writing'};
 const BI_DIFF = {E: 'Easy', M: 'Medium', H: 'Hard'};
-const HC = {navy: '#1E3A8A', navyL: '#93A8D8', gold: '#0D9488', goldL: '#99F6E4', steel: '#94A3B8', green: '#10B981', amber: '#F97316', rose: '#F43F5E', ink: '#0F172A'};
+const HC = {navy: '#4F46E5', navyL: '#A5B4FC', gold: '#0D9488', goldL: '#99F6E4', steel: '#A1A1AA', green: '#10B981', amber: '#F59E0B', rose: '#F43F5E', ink: '#09090B', violet: '#7C3AED', blue: '#2563EB'};
 
 (function css() {
   const s = document.createElement('style'); s.textContent = `
-  .bi{--bg:#f8fafc;--card:#fff;--bd:#e2e8f0;--tx:#0f172a;--mu:#64748b;--ac:#1E3A8A;--ac2:#0D9488;--up:#10B981;--dn:#F43F5E;--hv:#f1f5f9;color:var(--tx);font-variant-numeric:tabular-nums}
-  .bi.dark{--bg:#0b1220;--card:#111a2e;--bd:#1e293b;--tx:#e2e8f0;--mu:#94a3b8;--ac:#60a5fa;--hv:#16213a}
+  .bi{--bg:#FAFAFA;--card:#FFFFFF;--bd:#E4E4E7;--tx:#09090B;--mu:#71717A;--ac:#2563EB;--ac2:#0D9488;--up:#10B981;--dn:#F43F5E;--hv:#F4F4F5;--mono:'Geist Mono','JetBrains Mono','SF Mono',ui-monospace,Menlo,Consolas,monospace;color:var(--tx);font-variant-numeric:tabular-nums}
+  .bi.dark{--bg:#09090B;--card:#121215;--bd:#27272A;--tx:#FAFAFA;--mu:#A1A1AA;--ac:#3B82F6;--hv:#18181B}
   .bi.dark,.bi.dark .page{background:var(--bg)}
   .bi .bc{background:var(--card);border:1px solid var(--bd);border-radius:16px;box-shadow:0 1px 2px rgba(15,23,42,.04),0 1px 3px rgba(15,23,42,.06)}
   .bi .ctl{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
@@ -52,8 +52,62 @@ const HC = {navy: '#1E3A8A', navyL: '#93A8D8', gold: '#0D9488', goldL: '#99F6E4'
   .bi.dark .hd{color:var(--tx)}
   .bi .tsp{display:inline-block;width:96px;height:26px;vertical-align:middle;margin-right:6px}.bi .tsp svg{width:100%;height:100%;display:block}
   .bi .trd{padding:14px 18px;border-bottom:1px solid var(--bd)}
-  @media(max-width:900px){.bi .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.bi .t2{grid-template-columns:1fr}}`;
-  document.head.appendChild(s)
+  @media(max-width:900px){.bi .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.bi .t2{grid-template-columns:1fr}}
+  /* ===== Executive BI spec (Allie, Nov 23): neutral chrome, hairlines not shadows, color only for data ===== */
+  .bi,.bi .page{background:var(--bg)}
+  body:has(#bi){background:var(--bg)}
+  body:has(#bi) .top{position:static;box-shadow:none}
+  .bi .page{max-width:1680px;gap:16px!important;padding-top:0}
+  .bi .bc,.bi .card{background:var(--card)!important;border:1px solid var(--bd)!important;border-radius:12px!important;box-shadow:none!important}
+  .bi .bc{padding:20px 22px!important}
+  .bi .lab,.bi .ch{font-size:13px;font-weight:500;letter-spacing:0;text-transform:none;color:var(--mu)}
+  .bi .ch b{color:var(--tx);font-weight:600}
+  .bi .ch2{font-size:12px;color:var(--mu);margin-top:2px}
+  .bi .num,.bi .kpi .v,.bi table.pv td:not(:first-child),.bi .rk .val{font-family:var(--mono);font-variant-numeric:tabular-nums}
+  .bi .kpi .v{font-size:30px!important;font-weight:600!important;letter-spacing:-.03em!important;margin-top:10px;color:var(--tx)}
+  .bi .kpi svg{height:40px;opacity:1}
+  .bi .kpi:hover{transform:none;box-shadow:none;border-color:#A1A1AA!important}
+  .bi .info{display:inline-grid;place-items:center;width:15px;height:15px;border-radius:50%;border:1px solid var(--bd);font-size:10px;color:var(--mu);margin-left:4px;cursor:help;vertical-align:1px}
+  .bi .badge{font-family:var(--mono);font-weight:600;font-size:12px}
+  .bi .badge.up{background:#ECFDF5;color:#047857}.bi .badge.dn{background:#FFF1F2;color:#BE123C}
+  .bi.dark .badge.up{background:rgba(16,185,129,.14);color:#34D399}.bi.dark .badge.dn{background:rgba(244,63,94,.14);color:#FB7185}
+  .bi .cbar{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--bd);margin:0 -32px;padding:14px 32px;display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;justify-content:space-between}
+  .bi .cbar h1{font-size:20px!important;font-weight:600!important;letter-spacing:-.02em;margin:0}
+  .bi .cbar .sub{font-size:12px;color:var(--mu)}
+  .bi .tgl{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--tx);cursor:pointer;user-select:none;border:1px solid var(--bd);border-radius:8px;padding:6px 10px;background:var(--card)}
+  .bi .tgl i{width:26px;height:16px;border-radius:999px;background:#D4D4D8;position:relative;transition:background .15s}.bi .tgl i:after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:#fff;transition:left .15s}
+  .bi .tgl.on i{background:var(--ac)}.bi .tgl.on i:after{left:12px}
+  .bi .xbtn{border-radius:8px}.bi .xbtn.pr{background:var(--tx);border-color:var(--tx);color:var(--card)}
+  .bi .ctl select,.bi .ctl input{border-radius:8px}
+  .bi .seg{border-radius:8px;background:var(--hv);border:0;padding:2px}.bi .seg button{background:transparent;border-radius:6px;padding:5px 10px}.bi .seg button.on{background:var(--card);color:var(--tx);box-shadow:0 0 0 1px var(--bd)}
+  .bi .pills{position:static;background:transparent;border:0;padding:0}
+  .bi .pill2{background:var(--card);color:var(--tx);border:1px solid var(--bd);font-weight:500}
+  .bi .t2{grid-template-columns:minmax(0,2fr) minmax(0,1fr)!important;gap:16px}
+  .bi .kpis{gap:16px}
+  .bi .rk{display:grid;gap:12px;margin-top:14px}
+  .bi .rk .it{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:center;cursor:pointer;padding:6px 8px;margin:0 -8px;border-radius:8px}
+  .bi .rk .it:hover{background:var(--hv)}
+  .bi .rk .nm{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bi .rk .val{font-size:13px;font-weight:600;text-align:right;white-space:nowrap}.bi .rk .val span{color:var(--mu);font-weight:400;margin-left:6px}
+  .bi .rk .tr{grid-column:1/-1;height:6px;border-radius:999px;background:var(--hv);overflow:hidden}.bi .rk .tr i{display:block;height:100%;border-radius:999px}
+  .bi .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:8px;vertical-align:1px}
+  .bi table.pv th{background:var(--card);font-size:12px;font-weight:500;color:var(--mu);border-bottom:1px solid var(--bd)}
+  .bi table.pv td{border-bottom:1px solid var(--bd);font-size:13px}
+  .bi .srch{font:inherit;font-size:13px;padding:7px 10px 7px 30px;border:1px solid var(--bd);border-radius:8px;background:var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' stroke='%2371717A' stroke-width='2'%3E%3Ccircle cx='6' cy='6' r='4.5'/%3E%3Cpath d='M9.5 9.5 13 13'/%3E%3C/svg%3E") no-repeat 10px 50%;color:var(--tx);min-width:220px}
+  .bi .gtip{position:absolute;pointer-events:none;z-index:60;min-width:180px;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.72);backdrop-filter:blur(14px) saturate(160%);border:1px solid rgba(228,228,231,.9);box-shadow:0 10px 30px rgba(9,9,11,.12);font-size:12px;color:#09090B;transition:opacity .12s}
+  .bi.dark .gtip{background:rgba(18,18,21,.72);border-color:rgba(63,63,70,.9);color:#FAFAFA}
+  .bi .gtip .tt{font-weight:600;margin-bottom:6px}.bi .gtip .rw{display:flex;justify-content:space-between;gap:16px;margin-top:3px}.bi .gtip .rw b{font-family:var(--mono);font-weight:600}.bi .gtip .rw i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px}
+  .bi .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#09090B;color:#fff;padding:10px 14px;border-radius:8px;font-size:13px;z-index:9999}
+  .bi button,.bi .xbtn,.bi .bc,.bi .kpi,.bi .rk .it,.bi .pill2,.bi .tgl,.bi table.pv td,.bi .seg button{transition:background-color 150ms ease-out,border-color 150ms ease-out,color 150ms ease-out,opacity 150ms ease-out}
+  .bi [data-bi]:focus-visible,.bi select:focus-visible,.bi input:focus-visible{outline:2px solid var(--ac);outline-offset:2px;border-radius:8px}
+  .bi section h2.hd,.bi section h3.hd{font-size:13px!important;font-weight:600!important;letter-spacing:0;color:var(--tx)}
+  .bi section h2.hd span,.bi section h3.hd span{font-size:12px!important;font-weight:400!important;color:var(--mu)!important}
+  .bi section .hd[style*="font-size:28px"],.bi section .hd[style*="font-size:22px"],.bi section .hd[style*="font-size:40px"],.bi section .hd[style*="font-size:44px"],.bi section .hd[style*="font-size:36px"]{font-family:var(--mono);font-weight:600!important;letter-spacing:-.03em}
+  .bi .box .lab{text-transform:none;letter-spacing:0;font-size:13px;font-weight:600}
+  @media(max-width:1100px){.bi .t2{grid-template-columns:1fr!important}}
+  @media(max-width:760px){.bi .cbar{margin:0 -14px;padding:12px 14px}}`;
+  document.head.appendChild(s);
+  if (!document.getElementById('bi-mono')) { const l = document.createElement('link'); l.id = 'bi-mono'; l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap'; document.head.appendChild(l) }
 })();
 
 // ---------- the one dataset ----------
@@ -90,12 +144,14 @@ function biLevel() { const f = BI.f; return f.skill ? 'diff' : f.dom ? 'skill' :
 function biDays([a, b]) { const out = [], d = new Date((a === '0000' ? (BPD[0] || {}).day || dkey(new Date()) : a) + 'T12:00'), e = new Date((b === '9999' ? dkey(new Date()) : b) + 'T12:00'); while (d <= e && out.length < 400) { out.push(dkey(d)); d.setDate(d.getDate() + 1) } return out }
 function spark(vals, col) { const v = vals.filter(x => x != null); if (v.length < 2) return ''; const lo = Math.min(...v), hi = Math.max(...v), W = 200, H = 46;
   const pts = vals.map((x, i) => x == null ? null : [i * W / (vals.length - 1), H - 4 - (hi === lo ? (H - 8) / 2 : (x - lo) / (hi - lo) * (H - 8))]).filter(Boolean);
-  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><polygon points="0,${H} ${pts.map(p => p.join(',')).join(' ')} ${W},${H}" fill="${col}" opacity=".35"/><polyline points="${pts.map(p => p.join(',')).join(' ')}" fill="none" stroke="${col}" stroke-width="2"/></svg>` }
+  const gid = 'sg' + Math.random().toString(36).slice(2, 8);
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".22"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient></defs><polygon points="0,${H} ${pts.map(p => p.join(',')).join(' ')} ${W},${H}" fill="url(#${gid})"/><polyline points="${pts.map(p => p.join(',')).join(' ')}" fill="none" stroke="${col}" stroke-width="1.75" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg>` }
 function badge(now, prev, unit = '', invert = false) { if (now == null || prev == null) return '<span class="badge eq">no comparison</span>'; const d = now - prev; if (!d) return '<span class="badge eq">± 0</span>';
   const good = invert ? d < 0 : d > 0; return `<span class="badge ${good ? 'up' : 'dn'}">${d > 0 ? '▲' : '▼'} ${Math.abs(d)}${unit}</span>` }
 
 // ---------- page ----------
 function drawStats() {
+  loadTutorQ(() => { if (document.getElementById('bi')) drawStats() });
   killCharts(); const R = biRecords(), rg = biRange(), pr = biPrevRange();
   const rows = biFilter(R, rg), dated = biFilter(R, rg, {dated: true}), prev = pr ? biFilter(R, pr, {dated: true}) : null;
   const A = biAgg(dated), P = prev ? biAgg(prev) : null, days = biDays(rg).slice(-30);
@@ -105,36 +161,38 @@ function drawStats() {
   const lv = biLevel(), lvName = BI_LEVELS.find(x => x[0] === lv)[1];
   const rangeTxt = BI.range === 'all' ? 'All time' : rg[0] === rg[1] ? new Date(rg[0] + 'T12:00').toLocaleDateString('en-US', {weekday: 'short', month: 'short', day: 'numeric'}) : `${new Date(rg[0] + 'T12:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'})} – ${new Date(rg[1] + 'T12:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'})}`;
   const pills = [...BI_LEVELS.filter(([k]) => BI.f[k]).map(([k, n]) => [k, `${n}: ${BI.f[k]}`]), ...(BI.f.date ? [['date', `${BI.f.dateG === 'month' ? 'Month' : BI.f.dateG === 'week' ? 'Week of' : 'Day'}: ${BI.f.dateL}`]] : [])];
-  const kpi = (id, lab, val, sub, b, sp, col) => `<div class="bc kpi" data-bi="kpi:${id}" title="Click to see the records behind this number">${spark(sp, col)}<div class="lab" style="position:relative">${lab}</div><div class="v hd">${val}</div><div style="position:relative;display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:4px;font-size:13px;color:var(--mu)">${b}<span>${sub}</span></div></div>`;
-  const prevTxt = P ? 'vs. previous period' : 'all time';
+  const KINFO = {acc: 'Share of questions he got right on the first try with no help, like the real SAT. Click to see every question.', n: 'HELM questions (first time he saw them) plus Blueprint questions in this range.', time: 'Average seconds per HELM question vs. the SAT pace for that section. Lower is better.', proj: 'Estimated SAT score from his official tests + practice accuracy, compared with his best superscore.'};
+  const kpi = (id, lab, val, sub, b, sp, col) => `<div class="bc kpi" data-bi="kpi:${id}"><div class="lab" style="position:relative">${lab}<span class="info" title="${esc(KINFO[id] || '')}">i</span></div><div class="v">${val}</div><div style="position:relative;display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0 34px;font-size:12px;color:var(--mu)">${BI.cmp || id === 'proj' ? b : ''}<span>${sub}</span></div>${spark(sp, col)}</div>`;
+  const prevTxt = !BI.cmp ? '' : P ? 'vs. previous period' : 'all time';
   app().innerHTML = topbar('stats') + `<div class="bi ${BI.dark ? 'dark' : ''}" id="bi"><div class="page" style="gap:16px">
-   <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;align-items:flex-end">
-    <div><h1 class="hd" style="margin:0;font-size:30px">Stats</h1><div style="color:var(--mu);font-size:14px">Every number comes from one dataset: HELM first tries + Blueprint. Click any bar, number or cell to filter or see the records behind it.</div></div>
-    <div class="ctl"><span class="lab">Date</span><select id="bi-range">${[['today', 'Today'], ['7', 'Last 7 days'], ['14', 'Last 14 days'], ['30', 'Last 30 days'], ['all', 'All time'], ['custom', 'Custom…']].map(([v, t]) => `<option value="${v}" ${BI.range === v ? 'selected' : ''}>${t}</option>`).join('')}</select>
+   <div class="cbar"><div><h1 class="hd">Stats</h1><div class="sub">HELM first tries (no help) + Blueprint · ${rangeTxt}</div></div>
+    <div class="ctl"><select id="bi-range" aria-label="Date range">${[['today', 'Today'], ['7', 'Last 7 days'], ['14', 'Last 14 days'], ['30', 'Last 30 days'], ['all', 'All time'], ['custom', 'Custom…']].map(([v, t]) => `<option value="${v}" ${BI.range === v ? 'selected' : ''}>${t}</option>`).join('')}</select>
      ${BI.range === 'custom' ? `<input type="date" id="bi-from" value="${BI.from}"><span style="color:var(--mu)">to</span><input type="date" id="bi-to" value="${BI.to || dkey(new Date())}">` : ''}
-     <span class="lab" style="margin-left:6px">Section</span><select id="bi-sec"><option value="">Both</option>${['Math', 'Reading & Writing'].map(s => `<option ${BI.f.sec === s ? 'selected' : ''}>${s}</option>`).join('')}</select>
-     <span class="lab" style="margin-left:6px">Data</span><div class="seg"><button class="${BI.src.helm ? 'on' : ''}" data-bi="src:helm">HELM</button><button class="${BI.src.bp ? 'on' : ''}" data-bi="src:bp">Blueprint</button></div>
-     <button class="xbtn" data-bi="reset">↺ Reset all filters</button><button class="xbtn" data-bi="dark" title="Dark / light mode">${BI.dark ? '☀ Light' : '☾ Dark'}</button></div></div>
-   <div class="pills"><span class="lab">Showing</span><span class="pill2" style="background:transparent">${rangeTxt}</span>${pills.length ? pills.map(([k, t], i) => `${i ? '<span style="color:var(--mu)">›</span>' : ''}<span class="pill2">${esc(t)}<button data-bi="unf:${k}" aria-label="Remove filter">✕</button></span>`).join('') : '<span style="color:var(--mu);font-size:13px">No filters. Click a bar or row to filter.</span>'}</div>
+     <span class="tgl ${BI.cmp && BI.range !== 'all' ? 'on' : ''}" data-bi="cmp" role="switch" aria-checked="${BI.cmp}"><i></i>vs. previous period</span>
+     <select id="bi-sec" aria-label="Section"><option value="">Both sections</option>${['Math', 'Reading & Writing'].map(s => `<option ${BI.f.sec === s ? 'selected' : ''}>${s}</option>`).join('')}</select>
+     <div class="seg" aria-label="Data source"><button class="${BI.src.helm ? 'on' : ''}" data-bi="src:helm">HELM</button><button class="${BI.src.bp ? 'on' : ''}" data-bi="src:bp">Blueprint</button></div>
+     <button class="xbtn" data-bi="dark" title="Dark / light mode">${BI.dark ? '☀' : '☾'}</button>
+     <button class="xbtn" data-bi="share">Share</button><button class="xbtn pr" data-bi="export">Export CSV</button></div>
+    ${pills.length ? `<div class="pills" style="flex-basis:100%">${pills.map(([k, t], i) => `${i ? '<span style="color:var(--mu)">›</span>' : ''}<span class="pill2">${esc(t)}<button data-bi="unf:${k}" aria-label="Remove filter">✕</button></span>`).join('')}<button class="xbtn" data-bi="reset" style="padding:3px 8px;font-size:12px">Clear all</button></div>` : ''}</div>
    <div class="kpis">
     ${kpi('acc', 'Right on first try', A.acc == null ? '—' : A.acc + '%', `${A.ok} of ${A.n} · ${prevTxt}`, badge(A.acc, P && P.acc, ' pts'), perDay.map(x => x.acc), HC.navy)}
-    ${kpi('n', 'Questions answered', A.n.toLocaleString(), prevTxt, badge(A.n, P && P.n), perDay.map(x => x.n), HC.gold)}
+    ${kpi('n', 'Questions answered', A.n.toLocaleString(), prevTxt, badge(A.n, P && P.n), perDay.map(x => x.n), HC.blue)}
     ${kpi('time', 'Avg time per question', mmss(A.secs), A.pace ? `SAT pace ${mmss(A.pace)} · HELM only` : 'HELM only', badge(A.secs, P && P.secs, 's', true), perDay.map(x => x.secs), HC.steel)}
     ${(() => { const SS = superscore(); return kpi('proj', 'Projected SAT', pjNow.total.toLocaleString(), `vs. best superscore ${SS.total.toLocaleString()} · Math ${pjNow.Math} · R&W ${pjNow['R&W']}`, badge(pjNow.total, SS.total), pjSpark, HC.green) })()}
    </div>
    <div class="t2">
-    <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><div><div class="hd" style="font-size:18px;font-weight:700">Questions and accuracy over time</div><div style="font-size:13px;color:var(--mu)">Bars = questions (Math / R&W / Blueprint quizzes) · line = % right · click a bar to filter that ${BI.gran}</div></div>
+    <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><div><div class="ch"><b>Questions and accuracy over time</b></div><div class="ch2">% right on the first try vs. the 75% goal · gray bars = questions answered · click a point to filter that ${BI.gran}</div></div>
      <div class="seg">${['day', 'week', 'month'].map(g => `<button class="${BI.gran === g ? 'on' : ''}" data-bi="gran:${g}">${({day: 'Daily', week: 'Weekly', month: 'Monthly'})[g]}</button>`).join('')}</div></div><div style="height:300px;margin-top:8px"><canvas id="bi-t"></canvas></div></section>
-    <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div><div class="hd" style="font-size:18px;font-weight:700">Accuracy by ${lvName.toLowerCase()}</div><div style="font-size:13px;color:var(--mu)">${lv === 'diff' ? 'HELM only (Blueprint has no difficulty)' : 'Click a bar to drill in: Section › Domain › Skill › Difficulty'}</div></div>
-     ${lv !== 'sec' ? `<button class="xbtn" data-bi="back">← Back to ${BI_LEVELS[BI_LEVELS.findIndex(x => x[0] === lv) - 1][1]}</button>` : ''}</div><div id="bi-rk-wrap" style="margin-top:8px"><canvas id="bi-rk"></canvas></div></section>
+    <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div><div class="ch"><b>Accuracy by ${lvName.toLowerCase()}</b></div><div class="ch2">${lv === 'diff' ? 'HELM only (Blueprint has no difficulty)' : 'Weakest first · click a row to drill in: Section › Domain › Skill › Difficulty'}</div></div>
+     ${lv !== 'sec' ? `<button class="xbtn" data-bi="back">← Back to ${BI_LEVELS[BI_LEVELS.findIndex(x => x[0] === lv) - 1][1]}</button>` : ''}</div><div id="bi-rk-wrap"></div></section>
    </div>
-   <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px"><div class="hd" style="font-size:18px;font-weight:700">Every skill</div>
-     <div style="font-size:13px;color:var(--mu)">Click a header to sort · click a row to see its questions · <b>Points at stake</b> = SAT points still being lost in that skill (share of section × % wrong × 600)</div></div>
-    <div style="overflow:auto;max-height:560px;margin-top:8px" id="bi-pv"></div></section>
+   <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px"><div class="ch"><b>Every skill</b></div>
+     <div class="ch2">Click a header to sort · click a row to see its questions · <b>Points at stake</b> = SAT points still being lost in that skill (share of section × % wrong × 600)</div></div>
+    <div style="margin-top:12px"><input class="srch" id="bi-pq" placeholder="Search skills" value="${esc(BI.pq)}" autocomplete="off"></div><div style="overflow:auto;max-height:560px;margin-top:10px" id="bi-pv"></div></section>
    <div class="bi-help">${BI.src.helm ? helpSection(null, rg) : ''}</div>
-   <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px"><div class="hd" style="font-size:18px;font-weight:700">What he asked the tutor</div>
+   <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px"><div class="ch"><b>What he asked the tutor</b></div>
      <div style="font-size:13px;color:var(--mu)">Every question Patrick took to "Ask the tutor" in this date range, with his exact words · whether he got it right after, and how he did on new questions of that skill afterwards (first try, no help) · the nightly plan uses these to add look-alike questions and a new explanation the next two days</div></div><div id="bi-tutor" style="margin-top:8px;color:var(--mu);font-size:14px">Loading…</div></section>
-   <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px"><div class="hd" style="font-size:18px;font-weight:700">Day by day: Blueprint and HELM</div>
+   <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px"><div class="ch"><b>Day by day: Blueprint and HELM</b></div>
      <div style="font-size:13px;color:var(--mu)">First tries only · click a day to filter the whole page</div></div><div style="overflow:auto;margin-top:8px" id="bi-days"></div></section>
    <div style="margin-top:8px"><div class="lab" style="margin-bottom:6px">Official SAT scores and projection</div>${scoresBlock()}</div>
   </div><div id="bi-drw"></div></div>`;
@@ -148,15 +206,34 @@ function biTrend(rows) {
   const lab = k => g === 'month' ? new Date(k + '-15T12:00').toLocaleDateString('en-US', {month: 'short', year: 'numeric'}) : (g === 'week' ? 'wk ' : '') + new Date(k + 'T12:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'});
   const sum = (k, f) => dated.filter(r => biBucket(r.date, g) === k && f(r)).reduce((a, r) => a + r.n, 0);
   const acc = k => biAgg(dated.filter(r => biBucket(r.date, g) === k)).acc;
+  const qn = keys.map(k => sum(k, () => true)), aAll = keys.map(acc);
+  const aM = keys.map(k => biAgg(dated.filter(r => biBucket(r.date, g) === k && r.sec === 'Math')).acc), aE = keys.map(k => biAgg(dated.filter(r => biBucket(r.date, g) === k && r.sec === 'Reading & Writing')).acc);
+  const grad = c => { const {ctx, chartArea: a} = c.chart; if (!a) return 'rgba(37,99,235,.12)'; const gr = ctx.createLinearGradient(0, a.top, 0, a.bottom); gr.addColorStop(0, 'rgba(37,99,235,.22)'); gr.addColorStop(1, 'rgba(37,99,235,0)'); return gr };
   chart('bi-t', {data: {labels: keys.map(lab), datasets: [
-    {type: 'bar', label: 'Math', data: keys.map(k => sum(k, r => r.sec === 'Math')), backgroundColor: HC.navy, borderRadius: 4, stack: 'q', yAxisID: 'y', order: 2},
-    {type: 'bar', label: 'Reading & Writing', data: keys.map(k => sum(k, r => r.sec === 'Reading & Writing')), backgroundColor: HC.gold, borderRadius: 4, stack: 'q', yAxisID: 'y', order: 2},
-    {type: 'bar', label: 'Blueprint quizzes (mixed)', data: keys.map(k => sum(k, r => r.sec === 'Mixed')), backgroundColor: HC.steel, borderRadius: 4, stack: 'q', yAxisID: 'y', order: 2},
-    {type: 'line', label: '% right', data: keys.map(acc), borderColor: HC.green, backgroundColor: HC.green, borderWidth: 3, tension: .3, cubicInterpolationMode: 'monotone', pointRadius: 3, yAxisID: 'y2', order: 0, spanGaps: true}]},
-    options: {maintainAspectRatio: false, interaction: {mode: 'index', intersect: false}, plugins: {legend: {position: 'bottom', labels: {color: C.tick}}},
-      scales: {x: {stacked: true, ticks: {color: C.tick}, grid: {display: false}}, y: {stacked: true, title: {display: true, text: 'Questions', color: C.tick}, ticks: {color: C.tick}, grid: {color: C.grid}},
-        y2: {position: 'right', min: 0, max: 100, ticks: {color: C.tick, callback: v => v + '%'}, grid: {drawOnChartArea: false}}},
+    {type: 'line', label: 'Overall % right', data: aAll, borderColor: HC.blue, backgroundColor: grad, fill: 'origin', borderWidth: 2.5, cubicInterpolationMode: 'monotone', pointRadius: aAll.length > 20 ? 0 : 3, pointBackgroundColor: HC.blue, yAxisID: 'y2', order: 1, spanGaps: true},
+    {type: 'line', label: 'Math', data: aM, borderColor: HC.navy, borderWidth: 1.75, cubicInterpolationMode: 'monotone', pointRadius: 0, yAxisID: 'y2', order: 2, spanGaps: true},
+    {type: 'line', label: 'Reading & Writing', data: aE, borderColor: HC.gold, borderWidth: 1.75, cubicInterpolationMode: 'monotone', pointRadius: 0, yAxisID: 'y2', order: 2, spanGaps: true},
+    {type: 'line', label: 'Goal 75% (≈1300)', data: keys.map(() => 75), borderColor: '#A1A1AA', borderDash: [5, 5], borderWidth: 1.25, pointRadius: 0, yAxisID: 'y2', order: 3},
+    {type: 'bar', label: 'Questions', data: qn, backgroundColor: BI.dark ? 'rgba(161,161,170,.18)' : 'rgba(161,161,170,.22)', borderRadius: 3, yAxisID: 'y', order: 4, maxBarThickness: 28}]},
+    options: {maintainAspectRatio: false, interaction: {mode: 'index', intersect: false},
+      plugins: {legend: {position: 'top', align: 'end', labels: {color: C.tick, usePointStyle: true, pointStyle: 'line', boxWidth: 18, font: {size: 12}}}, tooltip: {enabled: false, external: biGlassTip(i => {
+        const pv = i > 0 ? aAll[i - 1] : null, d = aAll[i] != null && pv != null ? aAll[i] - pv : null;
+        return {title: keys.map(lab)[i], rows: [['Overall % right', aAll[i] == null ? '—' : aAll[i] + '%', HC.blue], ['Math', aM[i] == null ? '—' : aM[i] + '%', HC.navy], ['Reading & Writing', aE[i] == null ? '—' : aE[i] + '%', HC.gold], ['Questions', qn[i], '#A1A1AA']],
+          foot: d == null ? '' : `${d >= 0 ? '▲' : '▼'} ${Math.abs(d)} pts vs. previous ${g}`, good: d >= 0} })}},
+      scales: {x: {ticks: {color: C.tick, maxRotation: 0, autoSkip: true}, grid: {display: false}}, y: {position: 'right', beginAtZero: true, ticks: {color: C.tick, precision: 0}, grid: {display: false}, title: {display: true, text: 'Questions', color: C.tick, font: {size: 11}}},
+        y2: {position: 'left', min: 0, max: 100, ticks: {color: C.tick, callback: v => v + '%', stepSize: 25}, grid: {color: BI.dark ? 'rgba(63,63,70,.4)' : 'rgba(161,161,170,.4)'}, border: {display: false, dash: [3, 3]}}},
       onClick: (e, els) => { if (!els.length) return; const k = keys[els[0].index]; BI.f.date = k; BI.f.dateG = g; BI.f.dateL = lab(k); setTimeout(drawStats) }}})
+}
+// glassmorphism tooltip (HTML, follows the cursor inside the card)
+function biGlassTip(build) {
+  return ({chart: c, tooltip: tp}) => {
+    const host = c.canvas.parentNode; host.style.position = 'relative'; let el = host.querySelector('.gtip');
+    if (!el) { el = document.createElement('div'); el.className = 'gtip'; host.appendChild(el) }
+    if (tp.opacity === 0 || !tp.dataPoints || !tp.dataPoints.length) { el.style.opacity = 0; return }
+    const d = build(tp.dataPoints[0].dataIndex);
+    el.innerHTML = `<div class="tt">${esc(d.title)}</div>${d.rows.map(([n, v, c]) => `<div class="rw"><span><i style="background:${c}"></i>${esc(n)}</span><b>${v}</b></div>`).join('')}${d.foot ? `<div style="margin-top:6px;font-weight:600;color:${d.good ? '#047857' : '#BE123C'}">${d.foot}</div>` : ''}`;
+    el.style.opacity = 1; const x = tp.caretX + 14, w = el.offsetWidth; el.style.left = (x + w > host.clientWidth ? tp.caretX - w - 14 : x) + 'px'; el.style.top = Math.max(0, tp.caretY - 20) + 'px'
+  }
 }
 const BI_LBL = {id: 'bilbl', afterDatasetsDraw(c) { const ctx = c.ctx, ds = c.data.datasets[0], meta = c.getDatasetMeta(0); ctx.save(); ctx.font = '600 12px system-ui'; ctx.textBaseline = 'middle';
   meta.data.forEach((bar, i) => { const t = c.data.extra[i]; ctx.fillStyle = BI.dark ? '#e2e8f0' : '#0f172a'; ctx.fillText(t, Math.min(bar.x + 6, c.chartArea.right - ctx.measureText(t).width - 2), bar.y) }); ctx.restore() }};
@@ -167,13 +244,13 @@ function biRank(rows, lv) {
   items.forEach(r => { (grp[r[lv]] = grp[r[lv]] || []).push(r) });
   let ks = Object.keys(grp).map(k => ({k, ...biAgg(grp[k])})).filter(x => x.n);
   if (lv === 'diff') ks.sort((a, b) => 'EasyMediumHard'.indexOf(a.k) - 'EasyMediumHard'.indexOf(b.k)); else ks.sort((a, b) => (a.acc ?? 0) - (b.acc ?? 0));
-  const wrap = document.getElementById('bi-rk-wrap'); if (wrap) wrap.style.height = Math.max(200, 38 * ks.length + 40) + 'px';
-  if (!ks.length) { if (wrap) wrap.innerHTML = '<div style="color:var(--mu);padding:20px 0">No questions in this range yet.</div>'; return }
-  const C = biColors(), col = x => x.acc >= 70 ? HC.green : x.acc >= 50 ? HC.amber : HC.rose;
-  chart('bi-rk', {type: 'bar', plugins: [BI_LBL], data: {labels: ks.map(x => x.k.length > 34 ? x.k.slice(0, 33) + '…' : x.k), extra: ks.map(x => `${x.acc}% · ${x.ok}/${x.n}`), datasets: [{data: ks.map(x => x.acc), backgroundColor: ks.map(col), borderRadius: 6, barThickness: 22}]},
-    options: {indexAxis: 'y', maintainAspectRatio: false, layout: {padding: {right: 70}}, plugins: {legend: {display: false}, tooltip: {callbacks: {label: c => `${ks[c.dataIndex].acc}% right · ${ks[c.dataIndex].n} questions`}}},
-      scales: {x: {min: 0, max: 100, ticks: {color: C.tick, callback: v => v + '%'}, grid: {color: C.grid}}, y: {ticks: {color: C.tick}, grid: {display: false}}},
-      onClick: (e, els) => { if (!els.length) return; const k = ks[els[0].index].k; if (lv === 'diff') { BI.f.diff = k; return biOpen({t: 'filter'}) } BI.f[lv] = k; setTimeout(drawStats) }}})
+  const wrap = document.getElementById('bi-rk-wrap'); if (!wrap) return;
+  if (!ks.length) { wrap.innerHTML = '<div style="color:var(--mu);padding:20px 0;font-size:13px">No questions in this range yet.</div>'; return }
+  const col = x => x.acc >= 70 ? HC.green : x.acc >= 50 ? HC.amber : HC.rose, tot = ks.reduce((a, x) => a + x.n, 0);
+  BI.rk = ks.map(x => x.k);
+  wrap.innerHTML = `<div class="rk">${ks.map((x, i) => `<div class="it" data-bi="rank:${i}" title="${lv === 'diff' ? 'See these questions' : 'Drill into ' + esc(x.k)}"><div class="nm"><span class="dot" style="background:${col(x)}"></span>${esc(x.k)}</div><div class="val">${x.acc}%<span>${x.ok}/${x.n} · ${Math.round(100 * x.n / tot)}%</span></div><div class="tr"><i style="width:${Math.max(2, x.acc)}%;background:${col(x)}"></i></div></div>`).join('')}</div>
+   <div class="ch2" style="margin-top:12px"><span class="dot" style="background:${HC.green}"></span>70%+ <span class="dot" style="background:${HC.amber};margin-left:10px"></span>50–69% <span class="dot" style="background:${HC.rose};margin-left:10px"></span>under 50% · right side = right/asked · share of questions</div>`;
+  BI.rkLv = lv
 }
 // ---------- per-skill trend (all-time HELM first tries for one skill) ----------
 function biSkillTrend(R, skill, gran) {
@@ -233,7 +310,7 @@ function biTrendChart(skill) {
       scales: {y: {min: 0, max: 100, ticks: {color: C.tick, callback: v => v + '%'}, grid: {color: C.grid}}, y2: {position: 'right', stacked: true, beginAtZero: true, ticks: {color: C.tick, precision: 0}, grid: {drawOnChartArea: false}, title: {display: true, text: 'Qs', color: C.tick}}, x: {stacked: true, ticks: {color: C.tick}, grid: {display: false}}}}})
 }
 function biPivot(R, rg) {
-  const rows = biFilter(R, rg).filter(r => r.kind !== 'daily'), pr = biPrevRange(), prev = pr ? biFilter(R, pr, {dated: true}).filter(r => r.kind !== 'daily') : [], g = {};
+  const rows = biFilter(R, rg).filter(r => r.kind !== 'daily' && (!BI.pq || r.skill.toLowerCase().includes(BI.pq.toLowerCase()))), pr = biPrevRange(), prev = pr ? biFilter(R, pr, {dated: true}).filter(r => r.kind !== 'daily') : [], g = {};
   rows.forEach(r => { (g[r.skill] = g[r.skill] || []).push(r) });
   const list = Object.keys(g).map(k => { const a = biAgg(g[k]), h = biAgg(g[k].filter(r => r.src === 'HELM')), b = biAgg(g[k].filter(r => r.src === 'Blueprint')), r0 = g[k][0], pa = biAgg(prev.filter(r => r.skill === k));
     const dm = ['Easy', 'Medium', 'Hard'].map(d => { const x = g[k].filter(r => r.diff === d); return [d, x.length, x.filter(r => r.ok).length] });
@@ -245,7 +322,7 @@ function biPivot(R, rg) {
   if (!list.length) { el.innerHTML = '<div style="color:var(--mu);padding:16px 0">No skill-level records in this range. (Blueprint skill totals appear when the range covers Aug 31–Nov 20, e.g. All time.)</div>'; return }
   const accCol = a => a == null ? HC.steel : a >= 70 ? HC.green : a >= 50 ? HC.amber : HC.rose;
   el.innerHTML = `<table class="pv"><thead><tr>${H.map(([k, t]) => k === 'go' || k === 'dm' ? `<th>${t}</th>` : `<th data-bi="sort:${k}">${t}${S.k === k ? (S.d > 0 ? ' ▲' : ' ▼') : ''}</th>`).join('')}</tr></thead><tbody>${list.map(x => `<tr data-bi="row:${esc(x.skill)}" style="cursor:pointer" title="See every question in this skill">
-    <td class="c" data-bi="row:${esc(x.skill)}"><b>${esc(x.skill)}</b><div style="font-size:12px;color:var(--mu)">${esc(x.dom)}</div></td><td>${x.sec === 'Reading & Writing' ? 'R&W' : x.sec}</td><td>${x.share ? Math.round(x.share) + '%' : '—'}</td>
+    <td class="c" data-bi="row:${esc(x.skill)}"><span class="dot" style="background:${accCol(x.acc)}" title="${x.acc == null ? 'no data' : x.acc >= 70 ? 'Strong' : x.acc >= 50 ? 'Getting there' : 'Needs work'}"></span><b>${esc(x.skill)}</b><div style="font-size:12px;color:var(--mu);margin-left:15px">${esc(x.dom)}</div></td><td>${x.sec === 'Reading & Writing' ? 'R&W' : x.sec}</td><td>${x.share ? Math.round(x.share) + '%' : '—'}</td>
     <td class="c" data-bi="row:${esc(x.skill)}">${x.n}</td><td class="c" data-bi="row:${esc(x.skill)}|ok" style="color:var(--up);font-weight:700">${x.ok}</td><td class="c" data-bi="row:${esc(x.skill)}|wrong" style="color:var(--dn);font-weight:700">${x.wrong}</td>
     <td class="cb c" data-bi="row:${esc(x.skill)}"><i style="width:${x.acc ?? 0}%;background:${accCol(x.acc)}"></i><span style="color:${accCol(x.acc)}">${x.acc == null ? '—' : x.acc + '%'}</span></td>
     <td>${x.helm == null ? '—' : x.helm + '%'}</td><td title="Blueprint, Aug 31–Nov 20 (no dates)">${x.bp == null ? '—' : x.bp + '% <span style="color:var(--mu);font-size:12px">(' + x.bpn + ')</span>'}</td><td>${x.chg == null ? '—' : `<span style="color:${x.chg >= 0 ? 'var(--up)' : 'var(--dn)'};font-weight:700">${x.chg > 0 ? '▲' : x.chg < 0 ? '▼' : ''} ${Math.abs(x.chg)}</span>`}</td>
@@ -300,6 +377,11 @@ document.addEventListener('click', e => {
   if (a === 'row') { BI.dopen = null; const [sk, only] = v.split('|'); return biOpen({t: 'row', skill: sk, only}) }
   if (a === 'close') { BI.drawer = null; BI.dopen = null; const d = document.querySelector('#bi-drw .drw'); if (d) d.classList.remove('open'); setTimeout(() => { const h = document.getElementById('bi-drw'); if (h && !BI.drawer) h.innerHTML = '' }, 220); return }
   if (a === 'csv') return biCsv();
+  if (a === 'cmp') { BI.cmp = !BI.cmp; return drawStats() }
+  if (a === 'rank') { const k = (BI.rk || [])[+v]; if (k == null) return; if (BI.rkLv === 'diff') { BI.f.diff = k; return biOpen({t: 'filter'}) } BI.f[BI.rkLv] = k; return drawStats() }
+  if (a === 'export') { BI.drows = biFilter(biRecords(), biRange()); return biCsv() }
+  if (a === 'share') { const u = location.href; const done = () => { const d = document.createElement('div'); d.className = 'toast'; d.textContent = 'Link copied'; document.getElementById('bi').appendChild(d); setTimeout(() => d.remove(), 1600) };
+    if (navigator.clipboard) navigator.clipboard.writeText(u).then(done, done); else done(); return }
   if (a === 'tgran') { BI.tgran = v; return biOpen(BI.drawer, true) }
   if (a === 'dsort') { BI.dsort = {k: v, d: BI.dsort.k === v ? -BI.dsort.d : 1}; return biOpen(BI.drawer, true) }
   if (a === 'dq') { BI.dopen = BI.dopen === +v ? null : +v; BI.dfocus = false; return biOpen(BI.drawer, true) }
@@ -310,7 +392,10 @@ document.addEventListener('change', e => {
   if (id === 'bi-from') { BI.from = e.target.value; drawStats() } if (id === 'bi-to') { BI.to = e.target.value; drawStats() }
   if (id === 'bi-sec') { const v = e.target.value; ['sec', 'dom', 'skill', 'diff'].forEach(k => delete BI.f[k]); if (v) BI.f.sec = v; drawStats() }
 }, true);
-document.addEventListener('input', e => { if (e.target.id === 'bi-dq') { BI.dq = e.target.value; BI.dfocus = true; biOpen(BI.drawer, true) } });
+document.addEventListener('input', e => { if (e.target.id === 'bi-pq') { BI.pq = e.target.value; return biPivot(biRecords(), biRange()) } if (e.target.id === 'bi-dq') { BI.dq = e.target.value; BI.dfocus = true; biOpen(BI.drawer, true) } });
+function biA11y() { document.querySelectorAll('#bi [data-bi]:not(button):not(select):not(input)').forEach(el => { if (!el.hasAttribute('tabindex')) { el.tabIndex = 0; if (!el.getAttribute('role')) el.setAttribute('role', 'button') } }) }
+new MutationObserver(() => { if (document.getElementById('bi')) biA11y() }).observe(document.documentElement, {childList: true, subtree: true});
+document.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('#bi [data-bi]:not(button):not(select):not(input)')) { e.preventDefault(); e.target.click() } });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && BI.drawer && document.getElementById('bi')) { BI.drawer = null; const h = document.getElementById('bi-drw'); if (h) h.innerHTML = '' } });
 try { BI.dark = !!localStorage.getItem('bi_dark') } catch (x) {}
 
