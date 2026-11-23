@@ -117,6 +117,75 @@ const HC = {navy: '#4F46E5', navyL: '#A5B4FC', gold: '#0D9488', goldL: '#99F6E4'
   .bi .gtip{font-size:14px}
   .bi.dark .ch2,.bi.dark .kpi .lab,.bi.dark table.pv th{color:#D4D4D8!important}
   @media(max-width:1100px){.bi .t2{grid-template-columns:1fr!important}}
+  /* ===== RevOps-style layout (Allie, Nov 23) ===== */
+  body:has(#bi){background:#FAFAFA}
+  .bi .shell2{display:grid;grid-template-columns:232px minmax(0,1fr);min-height:100vh}
+  .bi .side2{position:sticky;top:0;height:100vh;overflow:auto;border-right:1px solid var(--bd);background:var(--card);padding:18px 12px;display:flex;flex-direction:column;gap:4px}
+  .bi .brand2 img{height:46px;display:block;margin:0 8px 16px}
+  .bi .side2 nav{display:flex;flex-direction:column;gap:2px}
+  .bi .side2 nav a{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:8px;color:#3F3F46;text-decoration:none;font-size:15px;font-weight:500}
+  .bi .side2 nav a:hover{background:var(--hv);color:var(--tx)}
+  .bi .side2 nav a.on{background:#EFF4FF;color:#1D4ED8;font-weight:600}
+  .bi .sv{font-size:13px;color:var(--mu);margin:18px 12px 6px}
+  .bi .aibox{margin-top:auto;border:1px solid var(--bd);border-radius:12px;padding:14px;font-size:14px}
+  .bi .me{display:flex;gap:10px;align-items:center;border-top:1px solid var(--bd);margin-top:12px;padding:14px 8px 4px}
+  .bi .av{width:36px;height:36px;border-radius:50%;background:#2563EB;color:#fff;display:grid;place-items:center;font-weight:700}
+  .bi .main2{padding:24px 32px 64px;display:flex;flex-direction:column;gap:18px;min-width:0}
+  .bi .hdr2{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
+  .bi .hdr2 h1{margin:0;font-size:30px;font-weight:800;letter-spacing:-.025em;color:var(--tx)}
+  .bi .sub2{font-size:15px;color:#52525B;margin-top:4px}
+  .bi .ctl2{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .bi .dd{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--bd);border-radius:10px;padding:0 10px;background:var(--card);height:40px;color:var(--tx)}
+  .bi .dd select{border:0;background:transparent;font:inherit;font-size:14px;font-weight:600;color:var(--tx);height:38px;cursor:pointer;outline:none}
+  .bi .dd .rt{font-size:13px;color:var(--mu);white-space:nowrap}
+  .bi .ctl2 input[type=date]{height:40px;border:1px solid var(--bd);border-radius:10px;padding:0 8px;font:inherit}
+  .bi .b2{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border-radius:10px;border:1px solid var(--bd);background:var(--card);font:inherit;font-size:14px;font-weight:600;color:var(--tx);cursor:pointer}
+  .bi .b2:hover{background:var(--hv)}.bi .b2.pri{background:#2563EB;border-color:#2563EB;color:#fff}.bi .b2.pri:hover{background:#1D4ED8}
+  .bi .segs2{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.bi .segs2 .sp{flex:1}
+  .bi .segs2 button{height:36px;padding:0 16px;border-radius:999px;border:1px solid var(--bd);background:var(--card);font:inherit;font-size:14px;font-weight:500;color:#3F3F46;cursor:pointer}
+  .bi .segs2 button:hover{border-color:#A1A1AA}.bi .segs2 button.on{background:#EFF4FF;border-color:#BFD3FE;color:#1D4ED8;font-weight:600}
+  .bi .kpis{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:16px!important}
+  .bi .kpi2{padding:20px 22px!important;cursor:pointer;display:flex;flex-direction:column}
+  .bi .kpi2:hover{border-color:#A1A1AA!important}
+  .bi .kl{font-size:15px;font-weight:500;color:#3F3F46}
+  .bi .kr{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;margin-top:10px}
+  .bi .kv{font-size:32px;font-weight:700;letter-spacing:-.03em;color:var(--tx);font-variant-numeric:tabular-nums;line-height:1.1}
+  .bi .kd{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13px;color:var(--mu);white-space:nowrap}
+  .bi .ks{width:44%;max-width:150px;height:48px}.bi .ks svg{width:100%;height:100%;display:block}
+  .bi .kf{display:flex;align-items:center;gap:14px;border-top:1px solid var(--bd);margin-top:16px;padding-top:14px;font-size:14px;color:#52525B}
+  .bi .kf i{width:1px;height:16px;background:var(--bd)}.bi .kf b{color:var(--tx);margin-left:6px;font-variant-numeric:tabular-nums}
+  .bi .dp{display:inline-flex;align-items:center;gap:3px;border-radius:999px;padding:3px 9px;font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+  .bi .dp.up{background:#DCFCE7;color:#047857}.bi .dp.dn{background:#FFE4E6;color:#BE123C}.bi .dp.eq{background:var(--hv);color:var(--mu)}
+  .bi .chd{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+  .bi .ct{font-size:19px;font-weight:700;letter-spacing:-.015em;color:var(--tx)}
+  .bi .cs{font-size:14px;color:#52525B;margin-top:3px}
+  .bi .lg2{display:flex;gap:16px;flex-wrap:wrap;font-size:14px;color:#3F3F46;align-items:center}
+  .bi .lg2 span{display:inline-flex;align-items:center;gap:7px}.bi .lg2 .d{width:10px;height:10px;border-radius:50%}.bi .lg2 .ds{width:18px;border-top:2px dashed #71717A}
+  .bi .rkh{display:grid;grid-template-columns:minmax(150px,1fr) minmax(60px,110px) 60px 50px;gap:12px;font-size:13px;color:var(--mu);padding:8px 0;border-bottom:1px solid var(--bd)}
+  .bi .rk2 .it{display:grid;grid-template-columns:minmax(150px,1fr) minmax(60px,110px) 60px 50px;gap:12px;align-items:center;padding:12px 6px;margin:0 -6px;border-bottom:1px solid var(--bd);border-radius:6px;cursor:pointer;font-size:15px}
+  .bi .rk2 .it:hover{background:var(--hv)}
+  .bi .rk2 .nm{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bi .rk2 .tr{height:10px;border-radius:999px;background:#EEF0F3;overflow:hidden}.bi .rk2 .tr i{display:block;height:100%;border-radius:999px}
+  .bi .rk2 .v1{font-weight:700;text-align:right;font-variant-numeric:tabular-nums}.bi .rk2 .v2{text-align:right;color:#52525B;font-variant-numeric:tabular-nums}
+  .bi table.pv2{width:100%;border-collapse:collapse;font-size:15px}
+  .bi table.pv2 th{text-align:left;font-size:13px;font-weight:600;color:#52525B;background:#FAFAFA;padding:11px 10px;border-bottom:1px solid var(--bd);white-space:nowrap;cursor:pointer;user-select:none}
+  .bi table.pv2 th .so{color:#A1A1AA;margin-left:4px;font-size:11px}
+  .bi table.pv2 td{padding:13px 10px;border-bottom:1px solid var(--bd);white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--tx)}
+  .bi table.pv2 tr:hover td{background:#FAFAFA;cursor:pointer}
+  .bi .sk{display:flex;align-items:center;gap:12px}.bi .sk .lg{width:32px;height:32px;border-radius:8px;display:grid;place-items:center;font-size:12px;font-weight:800;color:#fff;flex:none}
+  .bi .ub{display:flex;align-items:center;gap:10px}.bi .ub .tr{width:80px;height:8px;border-radius:999px;background:#EEF0F3;overflow:hidden}.bi .ub .tr i{display:block;height:100%;border-radius:999px}
+  .bi .st2{display:inline-flex;align-items:center;gap:8px;font-weight:500}.bi .st2 i{width:9px;height:9px;border-radius:50%}
+  .bi .pgr{display:flex;justify-content:space-between;align-items:center;padding-top:14px;font-size:14px;color:#52525B}
+  .bi .pgr .pg{display:flex;gap:6px}.bi .pgr button{min-width:34px;height:34px;border-radius:8px;border:1px solid transparent;background:transparent;font:inherit;cursor:pointer;color:#3F3F46}
+  .bi .pgr button.on{border-color:#2563EB;color:#2563EB;font-weight:700}.bi .pgr button:disabled{opacity:.35;cursor:default}
+  .bi .srch{height:40px;min-width:280px;font-size:14px!important;border-radius:10px!important}
+  .bi .main2 .bc{padding:22px 24px!important;border-radius:14px!important}
+  .bi .main2 .t2{grid-template-columns:minmax(0,1.65fr) minmax(0,1fr)!important;gap:16px}
+  .bi .gtip.lite{background:#fff;backdrop-filter:none;border:1px solid #E4E4E7;box-shadow:0 12px 32px rgba(9,9,11,.12);font-size:14px;min-width:220px;padding:12px 14px}
+  .bi .gtip.lite .rw i{border-radius:50%}
+  .bi.dark .side2 nav a{color:#D4D4D8}.bi.dark .side2 nav a.on{background:#1E293B;color:#93C5FD}.bi.dark .kl,.bi.dark .sub2,.bi.dark .cs,.bi.dark .lg2,.bi.dark .kf{color:#D4D4D8}
+  .bi.dark table.pv2 th{background:#18181B;color:#D4D4D8}.bi.dark table.pv2 tr:hover td{background:#18181B}.bi.dark .gtip.lite{background:#18181B;border-color:#3F3F46;color:#FAFAFA}
+  @media(max-width:1100px){.bi .shell2{grid-template-columns:1fr}.bi .side2{display:none}.bi .main2{padding:18px 14px 60px}.bi .kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
   @media(max-width:760px){.bi .cbar{margin:0 -14px;padding:12px 14px}}`;
   document.head.appendChild(s);
   if (!document.getElementById('bi-mono')) { const l = document.createElement('link'); l.id = 'bi-mono'; l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap'; document.head.appendChild(l) }
@@ -173,38 +242,56 @@ function drawStats() {
   const lv = biLevel(), lvName = BI_LEVELS.find(x => x[0] === lv)[1];
   const rangeTxt = BI.range === 'all' ? 'All time' : rg[0] === rg[1] ? new Date(rg[0] + 'T12:00').toLocaleDateString('en-US', {weekday: 'short', month: 'short', day: 'numeric'}) : `${new Date(rg[0] + 'T12:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'})} – ${new Date(rg[1] + 'T12:00').toLocaleDateString('en-US', {month: 'short', day: 'numeric'})}`;
   const pills = [...BI_LEVELS.filter(([k]) => BI.f[k]).map(([k, n]) => [k, `${n}: ${BI.f[k]}`]), ...(BI.f.date ? [['date', `${BI.f.dateG === 'month' ? 'Month' : BI.f.dateG === 'week' ? 'Week of' : 'Day'}: ${BI.f.dateL}`]] : [])];
-  const KINFO = {acc: 'Share of questions he got right on the first try with no help, like the real SAT. Click to see every question.', n: 'HELM questions (first time he saw them) plus Blueprint questions in this range.', time: 'Average seconds per HELM question vs. the SAT pace for that section. Lower is better.', proj: 'Estimated SAT score from his official tests + practice accuracy, compared with his best superscore.'};
-  const kpi = (id, lab, val, sub, b, sp, col) => `<div class="bc kpi" data-bi="kpi:${id}"><div class="lab" style="position:relative">${lab}<span class="info" title="${esc(KINFO[id] || '')}">i</span></div><div class="v">${val}</div><div style="position:relative;display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0 34px;font-size:12px;color:var(--mu)">${BI.cmp || id === 'proj' ? b : ''}<span>${sub}</span></div>${spark(sp, col)}</div>`;
-  const prevTxt = !BI.cmp ? '' : P ? 'vs. previous period' : 'all time';
-  app().innerHTML = topbar('stats') + `<div class="bi ${BI.dark ? 'dark' : ''}" id="bi"><div class="page" style="gap:16px">
-   <div class="cbar"><div><h1 class="hd">Stats</h1><div class="sub">HELM first tries (no help) + Blueprint · ${rangeTxt}</div></div>
-    <div class="ctl"><select id="bi-range" aria-label="Date range">${[['today', 'Today'], ['7', 'Last 7 days'], ['14', 'Last 14 days'], ['30', 'Last 30 days'], ['all', 'All time'], ['custom', 'Custom…']].map(([v, t]) => `<option value="${v}" ${BI.range === v ? 'selected' : ''}>${t}</option>`).join('')}</select>
-     ${BI.range === 'custom' ? `<input type="date" id="bi-from" value="${BI.from}"><span style="color:var(--mu)">to</span><input type="date" id="bi-to" value="${BI.to || dkey(new Date())}">` : ''}
-     <span class="tgl ${BI.cmp && BI.range !== 'all' ? 'on' : ''}" data-bi="cmp" role="switch" aria-checked="${BI.cmp}"><i></i>vs. previous period</span>
-     <select id="bi-sec" aria-label="Section"><option value="">Both sections</option>${['Math', 'Reading & Writing'].map(s => `<option ${BI.f.sec === s ? 'selected' : ''}>${s}</option>`).join('')}</select>
-     <div class="seg" aria-label="Data source"><button class="${BI.src.helm ? 'on' : ''}" data-bi="src:helm">HELM</button><button class="${BI.src.bp ? 'on' : ''}" data-bi="src:bp">Blueprint</button></div>
-     <button class="xbtn" data-bi="dark" title="Dark / light mode">${BI.dark ? '☀' : '☾'}</button>
-     <button class="xbtn" data-bi="share">Share</button><button class="xbtn pr" data-bi="export">Export CSV</button></div>
-    ${pills.length ? `<div class="pills" style="flex-basis:100%">${pills.map(([k, t], i) => `${i ? '<span style="color:var(--mu)">›</span>' : ''}<span class="pill2">${esc(t)}<button data-bi="unf:${k}" aria-label="Remove filter">✕</button></span>`).join('')}<button class="xbtn" data-bi="reset" style="padding:3px 8px;font-size:12px">Clear all</button></div>` : ''}</div>
-   <div class="stitle" style="margin-top:6px">Practice at a glance</div>
+  const ICO = {
+    home: '<path d="M3 10.5 12 3l9 7.5V21H3z"/><path d="M9 21v-6h6v6"/>', stats: '<path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 6-6"/>', plan: '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/>',
+    video: '<rect x="2" y="5" width="15" height="14" rx="2"/><path d="m17 10 5-3v10l-5-3"/>', report: '<path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h7M9 17h7"/>', gov: '<path d="M3 21h18M5 21V10M19 21V10M9 21V10M15 21V10M2 10l10-7 10 7z"/>',
+    star: '<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>', cal: '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/>', down: '<path d="M12 3v12m0 0-5-5m5 5 5-5M4 21h16"/>',
+    link: '<path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/>', chev: '<path d="m6 9 6 6 6-6"/>', bot: '<path d="M12 3v3M5 9h14v10H5z"/><circle cx="9" cy="14" r="1"/><circle cx="15" cy="14" r="1"/>'};
+  const ic = (k, s = 18) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICO[k]}</svg>`;
+  const KINFO = {acc: 'Share of questions he got right on the first try with no help, like the real SAT. Click to see every question.', n: 'HELM questions (first time he saw them) plus Blueprint questions in this range.', time: 'Average time per HELM question vs. the SAT pace for that section. Lower is better.', proj: 'Estimated SAT score from his official tests + practice accuracy, compared with his best superscore.'};
+  const pill = (now, prev, unit = '', inv = false) => { if (now == null || prev == null || !BI.cmp && unit !== '*') return ''; const d = now - prev; const good = inv ? d <= 0 : d >= 0;
+    return `<span class="dp ${d === 0 ? 'eq' : good ? 'up' : 'dn'}">${d > 0 ? '↑' : d < 0 ? '↓' : '±'} ${d > 0 ? '+' : d < 0 ? '−' : ''}${Math.abs(d)}${unit === '*' ? '' : unit}</span>` };
+  const kpi = (id, lab, val, delta, vs, sp, col, s1, s2) => `<div class="bc kpi2" data-bi="kpi:${id}"><div class="kl">${lab}<span class="info" title="${esc(KINFO[id] || '')}">i</span></div>
+    <div class="kr"><div><div class="kv">${val}</div><div class="kd">${delta}<span>${vs}</span></div></div><div class="ks">${spark(sp, col)}</div></div>
+    <div class="kf"><span>${s1[0]} <b>${s1[1]}</b></span><i></i><span>${s2[0]} <b>${s2[1]}</b></span></div></div>`;
+  const secA = s => biAgg(dated.filter(r => r.sec === s)), hA = biAgg(dated.filter(r => r.src === 'HELM')), bA = biAgg(dated.filter(r => r.src === 'Blueprint'));
+  const secT = s => { const x = dated.filter(r => r.sec === s && r.secs != null); return x.length ? Math.round(x.reduce((a, r) => a + r.secs, 0) / x.length) : null };
+  const SS = superscore(), segs = [['', 'All sections'], ['Math', 'Math'], ['Reading & Writing', 'Reading & Writing']];
+  const nav = [['#/', 'home', 'Home'], ['#/stats', 'stats', 'Overview', 1], ['../drill-zone/plan.html', 'plan', 'Daily plan'], ['#/videos', 'video', 'Videos'], ['../drill-zone/report.html', 'report', 'Score report'], ['apgov/', 'gov', 'AP Gov']];
+  const views = [['view:math', 'Math focus'], ['view:rw', 'Reading & Writing focus'], ['view:week', 'This week'], ['view:all', 'All time']];
+  const days2 = Math.max(0, Math.round((new Date(TEST + 'T08:00') - new Date()) / 864e5));
+  app().innerHTML = `<div class="bi ${BI.dark ? 'dark' : ''}" id="bi"><div class="shell2">
+   <aside class="side2"><a href="#/" class="brand2"><img src="helm-logo.png" alt="SAT HELM"></a>
+    <nav>${nav.map(([h, k, l, on]) => `<a href="${h}" class="${on ? 'on' : ''}">${ic(k)}<span>${l}</span></a>`).join('')}</nav>
+    <div class="sv">Saved views</div><nav>${views.map(([v, l]) => `<a href="javascript:void 0" data-bi="${v}">${ic('star', 16)}<span>${l}</span></a>`).join('')}</nav>
+    <div class="aibox"><div style="display:flex;gap:8px;align-items:center;font-weight:700">${ic('bot')}<span>SAT test day</span></div><div style="font-size:13px;color:var(--mu);margin:6px 0 10px">Sat, Dec 5 · <b style="color:var(--tx)">${days2} days left</b> · goal ${GOAL}</div><a class="xbtn" href="../drill-zone/plan.html" style="text-decoration:none;display:inline-block">Today's plan →</a></div>
+    <div class="me"><span class="av">P</span><div><div style="font-weight:700;font-size:14px">Patrick</div><div style="font-size:12px;color:var(--mu)">SAT · Dec 5</div></div></div></aside>
+   <main class="main2">
+   <div class="hdr2"><div><h1>SAT Progress Overview</h1><div class="sub2">First-try accuracy (no help), practice volume, pace, and projected score · HELM + Blueprint</div></div>
+    <div class="ctl2"><label class="dd">${ic('cal', 16)}<select id="bi-range" aria-label="Date range">${[['today', 'Today'], ['7', 'Last 7 days'], ['14', 'Last 14 days'], ['30', 'Last 30 days'], ['all', 'All time'], ['custom', 'Custom…']].map(([v, t]) => `<option value="${v}" ${BI.range === v ? 'selected' : ''}>${t}</option>`).join('')}</select><span class="rt">${rangeTxt}</span></label>
+     ${BI.range === 'custom' ? `<input type="date" id="bi-from" value="${BI.from}"><input type="date" id="bi-to" value="${BI.to || dkey(new Date())}">` : ''}
+     <label class="dd"><select id="bi-cmp" aria-label="Comparison"><option value="1" ${BI.cmp ? 'selected' : ''}>vs. Previous period</option><option value="" ${BI.cmp ? '' : 'selected'}>No comparison</option></select></label>
+     <button class="b2" data-bi="export">${ic('down', 16)}Export</button><button class="b2 pri" data-bi="share">${ic('link', 16)}Share</button></div></div>
+   <div class="segs2">${segs.map(([v, l]) => `<button class="${(BI.f.sec || '') === v ? 'on' : ''}" data-bi="seg:${v}">${l}</button>`).join('')}<span class="sp"></span>
+    <button class="${BI.src.helm ? 'on' : ''}" data-bi="src:helm">HELM</button><button class="${BI.src.bp ? 'on' : ''}" data-bi="src:bp">Blueprint</button><button data-bi="dark" title="Dark / light mode">${BI.dark ? '☀ Light' : '☾ Dark'}</button></div>
+   ${pills.length ? `<div class="pills">${pills.map(([k, t], i) => `${i ? '<span style="color:var(--mu)">›</span>' : ''}<span class="pill2">${esc(t)}<button data-bi="unf:${k}" aria-label="Remove filter">✕</button></span>`).join('')}<button class="xbtn" data-bi="reset" style="padding:3px 8px;font-size:12px">Clear all</button></div>` : ''}
    <div class="kpis">
-    ${kpi('acc', 'Right on first try', A.acc == null ? '—' : A.acc + '%', `${A.ok} of ${A.n} · ${prevTxt}`, badge(A.acc, P && P.acc, ' pts'), perDay.map(x => x.acc), HC.navy)}
-    ${kpi('n', 'Questions answered', A.n.toLocaleString(), prevTxt, badge(A.n, P && P.n), perDay.map(x => x.n), HC.blue)}
-    ${kpi('time', 'Avg time per question', mmss(A.secs), A.pace ? `SAT pace ${mmss(A.pace)} · HELM only` : 'HELM only', badge(A.secs, P && P.secs, 's', true), perDay.map(x => x.secs), HC.steel)}
-    ${(() => { const SS = superscore(); return kpi('proj', 'Projected SAT', pjNow.total.toLocaleString(), `vs. best superscore ${SS.total.toLocaleString()} · Math ${pjNow.Math} · R&W ${pjNow['R&W']}`, badge(pjNow.total, SS.total), pjSpark, HC.green) })()}
+    ${kpi('acc', 'Right on first try', A.acc == null ? '—' : A.acc + '%', pill(A.acc, P && P.acc, ' pts'), P && P.acc != null && BI.cmp ? `vs. ${P.acc}%` : `${A.ok} of ${A.n}`, perDay.map(x => x.acc), '#2563EB', ['Math', (x => x.acc == null ? '—' : x.acc + '%')(secA('Math'))], ['R&W', (x => x.acc == null ? '—' : x.acc + '%')(secA('Reading & Writing'))])}
+    ${kpi('n', 'Questions answered', A.n.toLocaleString(), pill(A.n, P && P.n), P && BI.cmp ? `vs. ${P.n.toLocaleString()}` : 'this range', perDay.map(x => x.n), '#7C3AED', ['HELM', hA.n.toLocaleString()], ['Blueprint', bA.n.toLocaleString()])}
+    ${kpi('time', 'Avg time per question', mmss(A.secs), pill(A.secs, P && P.secs, 's', true), A.pace ? `SAT pace ${mmss(A.pace)}` : 'HELM only', perDay.map(x => x.secs), '#0D9488', ['Math', mmss(secT('Math'))], ['R&W', mmss(secT('Reading & Writing'))])}
+    ${kpi('proj', 'Projected SAT', pjNow.total.toLocaleString(), pill(pjNow.total, SS.total, '*'), `vs. best ${SS.total.toLocaleString()}`, pjSpark, '#10B981', ['Math', pjNow.Math], ['R&W', pjNow['R&W']])}
    </div>
    <div class="t2">
-    <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><div><div class="ch"><b>Questions and accuracy over time</b></div><div class="ch2">% right on the first try vs. the 75% goal · gray bars = questions answered · click a point to filter that ${BI.gran}</div></div>
-     <div class="seg">${['day', 'week', 'month'].map(g => `<button class="${BI.gran === g ? 'on' : ''}" data-bi="gran:${g}">${({day: 'Daily', week: 'Weekly', month: 'Monthly'})[g]}</button>`).join('')}</div></div>
-     <div class="lg">${[['Overall % right', '#2563EB', 'solid', 4], ['Math % right', '#7C3AED', 'dashed', 3], ['Reading & Writing % right', '#0D9488', 'dotted', 3], ['Goal 75% (≈1300)', '#52525B', 'dashed', 2]].map(([n, c, s, w]) => `<span><i style="border-top:${w}px ${s} ${c}"></i>${n}</span>`).join('')}<span><b style="background:#CBD5E1"></b>Questions answered</span></div>
-     <div style="height:380px;margin-top:6px"><canvas id="bi-t"></canvas></div></section>
-    <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div><div class="ch"><b>Accuracy by ${lvName.toLowerCase()}</b></div><div class="ch2">${lv === 'diff' ? 'HELM only (Blueprint has no difficulty)' : 'Weakest first · click a row to drill in: Section › Domain › Skill › Difficulty'}</div></div>
-     ${lv !== 'sec' ? `<button class="xbtn" data-bi="back">← Back to ${BI_LEVELS[BI_LEVELS.findIndex(x => x[0] === lv) - 1][1]}</button>` : ''}</div><div id="bi-rk-wrap"></div></section>
+    <section class="bc"><div class="chd"><div><div class="ct">Accuracy vs. goal</div><div class="cs">% right on the first try by ${BI.gran}, against the 75% goal (≈1300) · click a point to filter</div></div>
+      <div class="lg2"><span><i class="d" style="background:#2563EB"></i>Overall</span><span><i class="d" style="background:#7C3AED"></i>Math</span><span><i class="d" style="background:#0D9488"></i>Reading & Writing</span><span><i class="ds"></i>Goal 75%</span></div></div>
+     <div style="display:flex;justify-content:flex-end;margin:-4px 0 4px"><div class="seg">${['day', 'week', 'month'].map(g => `<button class="${BI.gran === g ? 'on' : ''}" data-bi="gran:${g}">${({day: 'Daily', week: 'Weekly', month: 'Monthly'})[g]}</button>`).join('')}</div></div>
+     <div style="height:330px"><canvas id="bi-t"></canvas></div></section>
+    <section class="bc"><div class="chd"><div><div class="ct">Accuracy by ${lvName.toLowerCase()}</div><div class="cs">${lv === 'diff' ? 'HELM only (Blueprint has no difficulty)' : 'Ranked by accuracy · click a row to drill in'}</div></div>
+     ${lv !== 'sec' ? `<button class="xbtn" data-bi="back">← Back</button>` : ''}</div><div id="bi-rk-wrap"></div></section>
    </div>
-   <div class="stitle">Skills</div>
-   <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px"><div class="ch"><b>Every skill</b></div>
-     <div class="ch2">Click a header to sort · click a row to see its questions · <b>Points at stake</b> = SAT points still being lost in that skill (share of section × % wrong × 600)</div></div>
-    <div style="margin-top:12px"><input class="srch" id="bi-pq" placeholder="Search skills" value="${esc(BI.pq)}" autocomplete="off"></div><div style="overflow:auto;max-height:560px;margin-top:10px" id="bi-pv"></div></section>
+   <section class="bc"><div class="chd"><div><div class="ct">Every skill</div><div class="cs">Accuracy, status, and SAT points still at stake · click a row to see its questions</div></div>
+     <input class="srch" id="bi-pq" placeholder="Search skills…" value="${esc(BI.pq)}" autocomplete="off"></div>
+    <div style="overflow:auto;margin-top:6px" id="bi-pv"></div></section>
    <div class="stitle">Help and tutor</div>
    <div class="bi-help">${BI.src.helm ? helpSection(null, rg) : ''}</div>
    <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px"><div class="ch"><b>What he asked the tutor</b></div>
@@ -213,7 +300,7 @@ function drawStats() {
    <section class="bc" style="padding:16px 18px"><div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px"><div class="ch"><b>Day by day: Blueprint and HELM</b></div>
      <div style="font-size:13px;color:var(--mu)">First tries only · click a day to filter the whole page</div></div><div style="overflow:auto;margin-top:8px" id="bi-days"></div></section>
    <div class="stitle">Scores and projection</div>${scoresBlock()}
-  </div><div id="bi-drw"></div></div>`;
+  </div></main></div><div id="bi-drw"></div></div>`;
   biTrend(rows); biRank(rows, lv); biDaysTable(R); biPivot(R, rg); if (BI.drawer) biOpen(BI.drawer, true);
   scoresChart(); biTutor(rg)
 }
@@ -228,25 +315,25 @@ function biTrend(rows) {
   const aM = keys.map(k => biAgg(dated.filter(r => biBucket(r.date, g) === k && r.sec === 'Math')).acc), aE = keys.map(k => biAgg(dated.filter(r => biBucket(r.date, g) === k && r.sec === 'Reading & Writing')).acc);
   const grad = c => { const {ctx, chartArea: a} = c.chart; if (!a) return 'rgba(37,99,235,.12)'; const gr = ctx.createLinearGradient(0, a.top, 0, a.bottom); gr.addColorStop(0, 'rgba(37,99,235,.22)'); gr.addColorStop(1, 'rgba(37,99,235,0)'); return gr };
   chart('bi-t', {data: {labels: keys.map(lab), datasets: [
-    {type: 'line', label: 'Overall % right', data: aAll, borderColor: '#2563EB', backgroundColor: grad, fill: 'origin', borderWidth: 4, cubicInterpolationMode: 'monotone', pointRadius: aAll.length > 20 ? 0 : 5, pointBackgroundColor: '#2563EB', pointBorderColor: '#fff', pointBorderWidth: 2, yAxisID: 'y2', order: 1, spanGaps: true},
-    {type: 'line', label: 'Math', data: aM, borderColor: '#7C3AED', borderWidth: 3, borderDash: [9, 5], cubicInterpolationMode: 'monotone', pointRadius: aM.length > 20 ? 0 : 4, pointStyle: 'triangle', pointBackgroundColor: '#7C3AED', yAxisID: 'y2', order: 2, spanGaps: true},
-    {type: 'line', label: 'Reading & Writing', data: aE, borderColor: '#0D9488', borderWidth: 3, borderDash: [2, 4], borderCapStyle: 'round', cubicInterpolationMode: 'monotone', pointRadius: aE.length > 20 ? 0 : 4, pointStyle: 'rect', pointBackgroundColor: '#0D9488', yAxisID: 'y2', order: 2, spanGaps: true},
+    {type: 'line', label: 'Overall % right', data: aAll, borderColor: '#2563EB', backgroundColor: grad, fill: 'origin', borderWidth: 3.5, cubicInterpolationMode: 'monotone', pointRadius: 0, pointHoverRadius: 6, pointBackgroundColor: '#2563EB', pointBorderColor: '#fff', pointBorderWidth: 2, yAxisID: 'y2', order: 1, spanGaps: true},
+    {type: 'line', label: 'Math', data: aM, borderColor: '#7C3AED', borderWidth: 2.5, cubicInterpolationMode: 'monotone', pointRadius: 0, pointHoverRadius: 5, pointBackgroundColor: '#7C3AED', yAxisID: 'y2', order: 2, spanGaps: true},
+    {type: 'line', label: 'Reading & Writing', data: aE, borderColor: '#0D9488', borderWidth: 2.5, cubicInterpolationMode: 'monotone', pointRadius: 0, pointHoverRadius: 5, pointBackgroundColor: '#0D9488', yAxisID: 'y2', order: 2, spanGaps: true},
     {type: 'line', label: 'Goal 75% (≈1300)', data: keys.map(() => 75), borderColor: '#52525B', borderDash: [6, 6], borderWidth: 2, pointRadius: 0, yAxisID: 'y2', order: 3},
-    {type: 'bar', label: 'Questions', data: qn, backgroundColor: BI.dark ? '#3F3F46' : '#CBD5E1', borderRadius: 4, yAxisID: 'y', order: 4, maxBarThickness: 40}]},
+    ]},
     options: {maintainAspectRatio: false, interaction: {mode: 'index', intersect: false},
       plugins: {legend: {display: false}, tooltip: {enabled: false, external: biGlassTip(i => {
         const pv = i > 0 ? aAll[i - 1] : null, d = aAll[i] != null && pv != null ? aAll[i] - pv : null;
-        return {title: keys.map(lab)[i], rows: [['Overall % right', aAll[i] == null ? '—' : aAll[i] + '%', '#2563EB'], ['Math', aM[i] == null ? '—' : aM[i] + '%', '#7C3AED'], ['Reading & Writing', aE[i] == null ? '—' : aE[i] + '%', '#0D9488'], ['Questions', qn[i], '#CBD5E1']],
+        return {title: keys.map(lab)[i], rows: [['Overall % right', aAll[i] == null ? '—' : aAll[i] + '%', '#2563EB'], ['Math', aM[i] == null ? '—' : aM[i] + '%', '#7C3AED'], ['Reading & Writing', aE[i] == null ? '—' : aE[i] + '%', '#0D9488'], ['Questions answered', qn[i], '#A1A1AA'], ['Goal', '75%', '#71717A']],
           foot: d == null ? '' : `${d >= 0 ? '▲' : '▼'} ${Math.abs(d)} pts vs. previous ${g}`, good: d >= 0} })}},
-      scales: {x: {ticks: {color: BI.dark ? '#D4D4D8' : '#3F3F46', maxRotation: 0, autoSkip: true, font: {size: 14}}, grid: {display: false}}, y: {position: 'right', beginAtZero: true, ticks: {color: BI.dark ? '#D4D4D8' : '#3F3F46', precision: 0, font: {size: 13}}, grid: {display: false}, title: {display: true, text: 'Questions answered', color: BI.dark ? '#D4D4D8' : '#3F3F46', font: {size: 13, weight: '600'}}},
-        y2: {position: 'left', min: 0, max: 100, ticks: {color: BI.dark ? '#D4D4D8' : '#3F3F46', callback: v => v + '%', stepSize: 25, font: {size: 14}}, title: {display: true, text: '% right on first try', color: BI.dark ? '#D4D4D8' : '#3F3F46', font: {size: 13, weight: '600'}}, grid: {color: BI.dark ? 'rgba(63,63,70,.4)' : 'rgba(161,161,170,.4)'}, border: {display: false, dash: [3, 3]}}},
+      scales: {x: {ticks: {color: BI.dark ? '#D4D4D8' : '#3F3F46', maxRotation: 0, autoSkip: true, font: {size: 14}}, grid: {display: false}}, 
+        y2: {position: 'left', min: 0, max: 100, ticks: {color: BI.dark ? '#D4D4D8' : '#3F3F46', callback: v => v + '%', stepSize: 25, font: {size: 14}},  grid: {color: BI.dark ? 'rgba(63,63,70,.4)' : 'rgba(161,161,170,.4)'}, border: {display: false, dash: [3, 3]}}},
       onClick: (e, els) => { if (!els.length) return; const k = keys[els[0].index]; BI.f.date = k; BI.f.dateG = g; BI.f.dateL = lab(k); setTimeout(drawStats) }}})
 }
 // glassmorphism tooltip (HTML, follows the cursor inside the card)
 function biGlassTip(build) {
   return ({chart: c, tooltip: tp}) => {
     const host = c.canvas.parentNode; host.style.position = 'relative'; let el = host.querySelector('.gtip');
-    if (!el) { el = document.createElement('div'); el.className = 'gtip'; host.appendChild(el) }
+    if (!el) { el = document.createElement('div'); el.className = 'gtip lite'; host.appendChild(el) }
     if (tp.opacity === 0 || !tp.dataPoints || !tp.dataPoints.length) { el.style.opacity = 0; return }
     const d = build(tp.dataPoints[0].dataIndex);
     el.innerHTML = `<div class="tt">${esc(d.title)}</div>${d.rows.map(([n, v, c]) => `<div class="rw"><span><i style="background:${c}"></i>${esc(n)}</span><b>${v}</b></div>`).join('')}${d.foot ? `<div style="margin-top:6px;font-weight:600;color:${d.good ? '#047857' : '#BE123C'}">${d.foot}</div>` : ''}`;
@@ -265,9 +352,9 @@ function biRank(rows, lv) {
   const wrap = document.getElementById('bi-rk-wrap'); if (!wrap) return;
   if (!ks.length) { wrap.innerHTML = '<div style="color:var(--mu);padding:20px 0;font-size:13px">No questions in this range yet.</div>'; return }
   const col = x => x.acc >= 70 ? HC.green : x.acc >= 50 ? HC.amber : HC.rose, tot = ks.reduce((a, x) => a + x.n, 0);
-  BI.rk = ks.map(x => x.k);
-  wrap.innerHTML = `<div class="rk">${ks.map((x, i) => `<div class="it" data-bi="rank:${i}" title="${lv === 'diff' ? 'See these questions' : 'Drill into ' + esc(x.k)}"><div class="nm"><span class="dot" style="background:${col(x)}"></span>${esc(x.k)}</div><div class="val">${x.acc}%<span>${x.ok}/${x.n} · ${Math.round(100 * x.n / tot)}%</span></div><div class="tr"><i style="width:${Math.max(2, x.acc)}%;background:${col(x)}"></i></div></div>`).join('')}</div>
-   <div class="ch2" style="margin-top:12px"><span class="dot" style="background:${HC.green}"></span>70%+ <span class="dot" style="background:${HC.amber};margin-left:10px"></span>50–69% <span class="dot" style="background:${HC.rose};margin-left:10px"></span>under 50% · right side = right/asked · share of questions</div>`;
+  BI.rk = ks.map(x => x.k); const CAT = ['#2563EB', '#0D9488', '#F59E0B', '#8B5CF6', '#64748B', '#EC4899', '#14B8A6', '#6366F1'];
+  wrap.innerHTML = `<div class="rkh"><span>${esc(BI_LEVELS.find(x => x[0] === lv)[1])}</span><span></span><span style="text-align:right">Accuracy</span><span style="text-align:right">Share</span></div><div class="rk2">${ks.map((x, i) => `<div class="it" data-bi="rank:${i}" title="${lv === 'diff' ? 'See these questions' : 'Drill into ' + esc(x.k)}"><div class="nm"><span class="dot" style="background:${CAT[i % CAT.length]};width:9px;height:9px"></span>${esc(x.k)}</div><div class="tr"><i style="width:${Math.max(3, x.acc)}%;background:${CAT[i % CAT.length]}"></i></div><div class="v1">${x.acc}%</div><div class="v2">${Math.round(100 * x.n / tot)}%</div></div>`).join('')}</div>
+   <div class="cs" style="margin-top:12px">${ks.map(x => `${esc(x.k)}: ${x.ok} of ${x.n} right`).join(' · ')} · Share = part of all questions answered</div>`;
   BI.rkLv = lv
 }
 // ---------- per-skill trend (all-time HELM first tries for one skill) ----------
@@ -335,18 +422,20 @@ function biPivot(R, rg) {
     return {dm, skill: k, sec: r0.sec, dom: r0.dom, share: r0.share || 0, n: a.n, ok: a.ok, wrong: a.wrong, acc: a.acc, helm: h.acc, bp: b.acc, secs: a.secs, pace: a.pace, chg: pa.acc != null && a.acc != null ? a.acc - pa.acc : null, lost: a.acc == null ? 0 : Math.round(600 * (r0.share || 0) / 100 * (100 - a.acc) / 100), ...(t => ({trend: t.chg, tsp: spark(t.all, (t.chg ?? 0) >= 0 ? HC.green : HC.rose)}))(biSkillTrend(R, k)), ...(id => ({bp: BI.src.bp && id && BPS[id] && BPS[id].n ? Math.round(100 * BPS[id].ok / BPS[id].n) : null, bpn: id && BPS[id] ? BPS[id].n : 0}))(r0.skillId)} });
   const S = BI.sort; list.sort((a, b) => { const x = a[S.k], y = b[S.k]; if (x == null) return 1; if (y == null) return -1; return (typeof x === 'string' ? x.localeCompare(y) : x - y) * S.d });
   const maxLost = Math.max(1, ...list.map(x => x.lost));
-  const H = [['skill', 'Skill'], ['sec', 'Section'], ['share', '% of section'], ['n', 'Qs'], ['ok', 'Right'], ['wrong', 'Wrong'], ['acc', 'Accuracy'], ['helm', 'HELM'], ['bp', 'Blueprint (all)'], ['chg', 'vs. prev.'], ['trend', 'Trend (all time)'], ['dm', 'Difficulty (right / asked)'], ['secs', 'Avg time'], ['lost', 'Points at stake'], ['go', '']];
   const el = document.getElementById('bi-pv'); if (!el) return;
   if (!list.length) { el.innerHTML = '<div style="color:var(--mu);padding:16px 0">No skill-level records in this range. (Blueprint skill totals appear when the range covers Aug 31–Nov 20, e.g. All time.)</div>'; return }
-  const accCol = a => a == null ? HC.steel : a >= 70 ? HC.green : a >= 50 ? HC.amber : HC.rose;
-  el.innerHTML = `<table class="pv"><thead><tr>${H.map(([k, t]) => k === 'go' || k === 'dm' ? `<th>${t}</th>` : `<th data-bi="sort:${k}">${t}${S.k === k ? (S.d > 0 ? ' ▲' : ' ▼') : ''}</th>`).join('')}</tr></thead><tbody>${list.map(x => `<tr data-bi="row:${esc(x.skill)}" style="cursor:pointer" title="See every question in this skill">
-    <td class="c" data-bi="row:${esc(x.skill)}"><span class="dot" style="background:${accCol(x.acc)}" title="${x.acc == null ? 'no data' : x.acc >= 70 ? 'Strong' : x.acc >= 50 ? 'Getting there' : 'Needs work'}"></span><b>${esc(x.skill)}</b><div style="font-size:12px;color:var(--mu);margin-left:15px">${esc(x.dom)}</div></td><td>${x.sec === 'Reading & Writing' ? 'R&W' : x.sec}</td><td>${x.share ? Math.round(x.share) + '%' : '—'}</td>
-    <td class="c" data-bi="row:${esc(x.skill)}">${x.n}</td><td class="c" data-bi="row:${esc(x.skill)}|ok" style="color:var(--up);font-weight:700">${x.ok}</td><td class="c" data-bi="row:${esc(x.skill)}|wrong" style="color:var(--dn);font-weight:700">${x.wrong}</td>
-    <td class="cb c" data-bi="row:${esc(x.skill)}"><i style="width:${x.acc ?? 0}%;background:${accCol(x.acc)}"></i><span style="color:${accCol(x.acc)}">${x.acc == null ? '—' : x.acc + '%'}</span></td>
-    <td>${x.helm == null ? '—' : x.helm + '%'}</td><td title="Blueprint, Aug 31–Nov 20 (no dates)">${x.bp == null ? '—' : x.bp + '% <span style="color:var(--mu);font-size:12px">(' + x.bpn + ')</span>'}</td><td>${x.chg == null ? '—' : `<span style="color:${x.chg >= 0 ? 'var(--up)' : 'var(--dn)'};font-weight:700">${x.chg > 0 ? '▲' : x.chg < 0 ? '▼' : ''} ${Math.abs(x.chg)}</span>`}</td>
-    <td>${x.dm.filter(d => d[1]).length ? x.dm.filter(d => d[1]).map(([d, n, ok]) => `<span class="badge" style="margin-right:4px;background:${d === 'Easy' ? '#dcfce7' : d === 'Medium' ? '#FFEDD5' : '#fee2e2'};color:${d === 'Easy' ? '#166534' : d === 'Medium' ? '#92400e' : '#991b1b'}">${d[0]} ${ok}/${n}</span>`).join('') : '<span style="color:var(--mu);font-size:12px">Blueprint only</span>'}</td>
-    <td>${x.secs == null ? '—' : `<span style="color:${x.secs > x.pace ? 'var(--dn)' : 'var(--up)'}">${mmss(x.secs)}</span>`}</td>
-    <td class="cb"><i style="width:${100 * x.lost / maxLost}%;background:${HC.rose}"></i><span>${x.lost}</span></td><td><span class="xbtn" style="white-space:nowrap">Questions ›</span></td></tr>`).join('')}</tbody></table>`
+  const accCol = a => a == null ? '#A1A1AA' : a >= 70 ? '#10B981' : a >= 50 ? '#F59E0B' : '#F43F5E', stat = a => a == null ? 'No data' : a >= 70 ? 'Strong' : a >= 50 ? 'Getting there' : 'Needs work';
+  const PS = 10, pages = Math.max(1, Math.ceil(list.length / PS)); BI.pg = Math.min(BI.pg || 1, pages); const pg = BI.pg, view = list.slice((pg - 1) * PS, pg * PS);
+  const H = [['skill', 'Skill'], ['share', '% of section'], ['n', 'Right / asked'], ['acc', 'Accuracy'], ['helm', 'HELM'], ['bp', 'Blueprint'], ['st', 'Status'], ['lost', 'Points at stake'], ['go', '']];
+  el.innerHTML = `<table class="pv2"><thead><tr>${H.map(([k, tl]) => k === 'go' || k === 'st' ? `<th>${tl}</th>` : `<th data-bi="sort:${k}">${tl}<span class="so">${S.k === k ? (S.d > 0 ? '▲' : '▼') : '↑↓'}</span></th>`).join('')}</tr></thead><tbody>${view.map(x => `<tr data-bi="row:${esc(x.skill)}" title="See every question in this skill">
+    <td><div class="sk"><span class="lg" style="background:${x.sec === 'Math' ? '#4F46E5' : '#0D9488'}">${x.sec === 'Math' ? 'M' : 'RW'}</span><div><div style="font-weight:600">${esc(x.skill)}</div><div style="font-size:13px;color:var(--mu)">${esc(x.dom)}</div></div></div></td>
+    <td>${x.share ? Math.round(x.share) + '%' : '—'}</td><td>${x.ok} <span style="color:var(--mu)">/ ${x.n}</span></td>
+    <td><div class="ub"><span class="tr"><i style="width:${x.acc ?? 0}%;background:${accCol(x.acc)}"></i></span><b>${x.acc == null ? '—' : x.acc + '%'}</b></div></td>
+    <td>${x.helm == null ? '—' : x.helm + '%'}</td><td>${x.bp == null ? '—' : x.bp + '%'}</td>
+    <td><span class="st2"><i style="background:${accCol(x.acc)}"></i>${stat(x.acc)}</span></td>
+    <td><b style="color:${x.lost ? '#BE123C' : 'var(--mu)'}">${x.lost ? x.lost + ' pts' : '—'}</b></td>
+    <td style="text-align:right;color:#A1A1AA">›</td></tr>`).join('')}</tbody></table>
+   <div class="pgr"><span>Showing ${(pg - 1) * PS + 1}–${Math.min(pg * PS, list.length)} of ${list.length} skills</span><div class="pg"><button data-bi="pg:${pg - 1}" ${pg <= 1 ? 'disabled' : ''} aria-label="Previous page">‹</button>${Array.from({length: pages}, (_, k) => `<button class="${k + 1 === pg ? 'on' : ''}" data-bi="pg:${k + 1}">${k + 1}</button>`).join('')}<button data-bi="pg:${pg + 1}" ${pg >= pages ? 'disabled' : ''} aria-label="Next page">›</button></div></div>`
 }
 
 // ---------- inspector drawer ----------
@@ -396,6 +485,9 @@ document.addEventListener('click', e => {
   if (a === 'close') { BI.drawer = null; BI.dopen = null; const d = document.querySelector('#bi-drw .drw'); if (d) d.classList.remove('open'); setTimeout(() => { const h = document.getElementById('bi-drw'); if (h && !BI.drawer) h.innerHTML = '' }, 220); return }
   if (a === 'csv') return biCsv();
   if (a === 'cmp') { BI.cmp = !BI.cmp; return drawStats() }
+  if (a === 'pg') { BI.pg = +v; return biPivot(biRecords(), biRange()) }
+  if (a === 'seg') { ['sec', 'dom', 'skill', 'diff'].forEach(k => delete BI.f[k]); if (v) BI.f.sec = v; return drawStats() }
+  if (a === 'view') { ['sec', 'dom', 'skill', 'diff'].forEach(k => delete BI.f[k]); if (v === 'math') BI.f.sec = 'Math'; if (v === 'rw') BI.f.sec = 'Reading & Writing'; if (v === 'week') BI.range = '7'; if (v === 'all') BI.range = 'all'; return drawStats() }
   if (a === 'rank') { const k = (BI.rk || [])[+v]; if (k == null) return; if (BI.rkLv === 'diff') { BI.f.diff = k; return biOpen({t: 'filter'}) } BI.f[BI.rkLv] = k; return drawStats() }
   if (a === 'export') { BI.drows = biFilter(biRecords(), biRange()); return biCsv() }
   if (a === 'share') { const u = location.href; const done = () => { const d = document.createElement('div'); d.className = 'toast'; d.textContent = 'Link copied'; document.getElementById('bi').appendChild(d); setTimeout(() => d.remove(), 1600) };
@@ -408,9 +500,10 @@ document.addEventListener('change', e => {
   if (!document.getElementById('bi')) return; const id = e.target.id;
   if (id === 'bi-range') { BI.range = e.target.value; if (BI.range === 'custom' && !BI.from) { const d = new Date(); d.setDate(d.getDate() - 13); BI.from = dkey(d); BI.to = dkey(new Date()) } drawStats() }
   if (id === 'bi-from') { BI.from = e.target.value; drawStats() } if (id === 'bi-to') { BI.to = e.target.value; drawStats() }
+  if (id === 'bi-cmp') { BI.cmp = !!e.target.value; drawStats() }
   if (id === 'bi-sec') { const v = e.target.value; ['sec', 'dom', 'skill', 'diff'].forEach(k => delete BI.f[k]); if (v) BI.f.sec = v; drawStats() }
 }, true);
-document.addEventListener('input', e => { if (e.target.id === 'bi-pq') { BI.pq = e.target.value; return biPivot(biRecords(), biRange()) } if (e.target.id === 'bi-dq') { BI.dq = e.target.value; BI.dfocus = true; biOpen(BI.drawer, true) } });
+document.addEventListener('input', e => { if (e.target.id === 'bi-pq') { BI.pq = e.target.value; BI.pg = 1; return biPivot(biRecords(), biRange()) } if (e.target.id === 'bi-dq') { BI.dq = e.target.value; BI.dfocus = true; biOpen(BI.drawer, true) } });
 function biA11y() { document.querySelectorAll('#bi [data-bi]:not(button):not(select):not(input)').forEach(el => { if (!el.hasAttribute('tabindex')) { el.tabIndex = 0; if (!el.getAttribute('role')) el.setAttribute('role', 'button') } }) }
 new MutationObserver(() => { if (document.getElementById('bi')) biA11y() }).observe(document.documentElement, {childList: true, subtree: true});
 document.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('#bi [data-bi]:not(button):not(select):not(input)')) { e.preventDefault(); e.target.click() } });
