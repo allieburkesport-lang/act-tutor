@@ -71,6 +71,7 @@ body{margin:0}
 .top .grow{flex:1}
 .fresh{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);white-space:nowrap}
 .fresh::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok)}
+.nav.sub{padding-top:6px;padding-bottom:6px;padding-left:40px;font-size:14px}.nav.sub .subdot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.45;flex:none}.helm.collapsed .nav.sub{padding-left:12px}
 .canvas{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:20px;padding:20px;align-content:start}
 .s12{grid-column:span 12}.s8{grid-column:span 8}.s4{grid-column:span 4}.s6{grid-column:span 6}.s3{grid-column:span 3}.s9{grid-column:span 9}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
@@ -259,10 +260,13 @@ table.data td{padding:8px 16px;border-bottom:1px solid var(--line);vertical-alig
 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>
 <span class="lbl">Today</span>
 </a>
-<a class="nav" href="../sat.html" title="SAT Helm">
+<a class="nav" href="../#/" title="SAT Helm">
 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
 <span class="lbl">SAT Helm</span>
 </a>
+<a class="nav sub" href="../#/stats" title="SAT stats"><span class="subdot" aria-hidden="true"></span><span class="lbl">SAT stats</span></a>
+<a class="nav sub" href="../#/videos" title="How-to videos"><span class="subdot" aria-hidden="true"></span><span class="lbl">How-to videos</span></a>
+<a class="nav sub" href="../#report" title="Score report"><span class="subdot" aria-hidden="true"></span><span class="lbl">Score report</span></a>
 <a class="nav active" href="./" aria-current="page" title="AP Gov">
 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10l9-5 9 5"></path><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8"></path><path d="M3 20h18"></path></svg>
 <span class="lbl">AP Gov</span>
@@ -270,10 +274,6 @@ table.data td{padding:8px 16px;border-bottom:1px solid var(--line);vertical-alig
 <a class="nav" href="../#wk-h" title="This week">
 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>
 <span class="lbl">This week</span>
-</a>
-<a class="nav" href="../sat.html#/videos" title="Videos">
-<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M10 9.5v5l4.5-2.5z"></path></svg>
-<span class="lbl">Videos</span>
 </a>
 <p class="navgroup lbl hide-sm">Other classes</p>
 <span class="nav lbl hide-sm" aria-disabled="true">Law<span class="soon">Soon</span></span>
