@@ -301,6 +301,10 @@ th,.rep th,.sched th,table.pv th,table.pv2 th,table.pt th,table.bt th,#bi table.
 #bi table.pv2 tr.pvg th{background:#fff!important;border-bottom:0!important;padding-bottom:0!important;padding-top:10px!important;font-size:13px!important;color:#09090B!important;text-align:center}
 #bi table.pv2 tr.pvg th.g1{color:#1D4ED8!important;border-bottom:2px solid #1D4ED8!important}#bi table.pv2 tr.pvg th.g2{color:#7C3AED!important;border-bottom:2px solid #7C3AED!important}
 #bi table.pv2 td.g1c{background:#F8FAFF}#bi table.pv2 td.g2c{background:#FAF8FF}
+#bi table.pv2 tr.pvg th.g1,#bi table.pv2 tr.pvg th.g2{border-bottom:0!important;position:relative}
+#bi table.pv2 tr.pvg th.g1:after,#bi table.pv2 tr.pvg th.g2:after{content:'';position:absolute;left:8px;right:8px;bottom:0;height:2px;border-radius:2px}
+#bi table.pv2 tr.pvg th.g1:after{background:#1D4ED8}#bi table.pv2 tr.pvg th.g2:after{background:#7C3AED}
+#bi table.pv2 td.g2c:first-of-type,#bi table.pv2 td.g1c+td.g2c{border-left:2px solid #fff}
 </style>
 <script src="auth.js?v=3"></script>
 <script src="progress.js?v=1"></script>
