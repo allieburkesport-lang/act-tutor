@@ -257,14 +257,14 @@ function drawStats() {
   const secA = s => biAgg(dated.filter(r => r.sec === s)), hA = biAgg(dated.filter(r => r.src === 'HELM')), bA = biAgg(dated.filter(r => r.src === 'Blueprint'));
   const secT = s => { const x = dated.filter(r => r.sec === s && r.secs != null); return x.length ? Math.round(x.reduce((a, r) => a + r.secs, 0) / x.length) : null };
   const SS = superscore(), segs = [['', 'All sections'], ['Math', 'Math'], ['Reading & Writing', 'Reading & Writing']];
-  const nav = [['#/', 'home', 'Home'], ['#/stats', 'stats', 'Overview', 1], ['../drill-zone/plan.html', 'plan', 'Daily plan'], ['#/videos', 'video', 'Videos'], ['../drill-zone/report.html', 'report', 'Score report'], ['apgov/', 'gov', 'AP Gov']];
+  const nav = [['#/', 'home', 'Home'], ['#/stats', 'stats', 'Overview', 1], ['#/', 'plan', 'Daily plan'], ['#/videos', 'video', 'Videos'], ['../drill-zone/report.html', 'report', 'Score report'], ['apgov/', 'gov', 'AP Gov']];
   const views = [['view:math', 'Math focus'], ['view:rw', 'Reading & Writing focus'], ['view:week', 'This week'], ['view:all', 'All time']];
   const days2 = Math.max(0, Math.round((new Date(TEST + 'T08:00') - new Date()) / 864e5));
   app().innerHTML = `<div class="bi ${BI.dark ? 'dark' : ''}" id="bi"><div class="shell2">
    <aside class="side2"><a href="#/" class="brand2"><img src="helm-logo.png" alt="SAT HELM"></a>
     <nav>${nav.map(([h, k, l, on]) => `<a href="${h}" class="${on ? 'on' : ''}">${ic(k)}<span>${l}</span></a>`).join('')}</nav>
     <div class="sv">Saved views</div><nav>${views.map(([v, l]) => `<a href="javascript:void 0" data-bi="${v}">${ic('star', 16)}<span>${l}</span></a>`).join('')}</nav>
-    <div class="aibox"><div style="display:flex;gap:8px;align-items:center;font-weight:700">${ic('bot')}<span>SAT test day</span></div><div style="font-size:13px;color:var(--mu);margin:6px 0 10px">Sat, Dec 5 · <b style="color:var(--tx)">${days2} days left</b> · goal ${GOAL}</div><a class="xbtn" href="../drill-zone/plan.html" style="text-decoration:none;display:inline-block">Today's plan →</a></div>
+    <div class="aibox"><div style="display:flex;gap:8px;align-items:center;font-weight:700">${ic('bot')}<span>SAT test day</span></div><div style="font-size:13px;color:var(--mu);margin:6px 0 10px">Sat, Dec 5 · <b style="color:var(--tx)">${days2} days left</b> · goal ${GOAL}</div><a class="xbtn" href="#/" style="text-decoration:none;display:inline-block">Today's plan →</a></div>
     <div class="me"><span class="av">P</span><div><div style="font-weight:700;font-size:14px">Patrick</div><div style="font-size:12px;color:var(--mu)">SAT · Dec 5</div></div></div></aside>
    <main class="main2">
    <div class="hdr2"><div><h1>SAT Progress Overview</h1><div class="sub2">First-try accuracy (no help), practice volume, pace, and projected score · HELM + Blueprint</div></div>
