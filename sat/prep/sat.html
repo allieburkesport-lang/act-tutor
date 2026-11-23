@@ -275,6 +275,11 @@ section.card{transition:box-shadow .2s}
 .path .ptot{display:grid!important;grid-template-columns:1fr 1fr;gap:12px}.path .ptot>div{display:flex;flex-direction:column;gap:4px}.path .ptot em{font-style:normal;color:#047857;font-size:15px}
 .path .pbs,.path .pbs b,.path .pbs span{font-size:17px!important;font-weight:700!important;letter-spacing:0!important}.path .pbs{color:#3F3F46}
 .path .ptot>div>span:first-child{font-size:14px}.path .ptot b span{font-size:30px!important}
+.path .pprog{border-top:2px dashed #A1A1AA;background:#FAFAFA}
+.path .pph{padding:14px 18px 6px;font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#047857}.path .pph span{font-size:14px;font-weight:500;text-transform:none;letter-spacing:0;color:#52525B;margin-left:8px}
+.path .pprog .pt th{border-bottom:1px solid #D4D4D8!important;font-size:12px!important}
+.path .pq{font-size:15px;color:#09090B;white-space:nowrap}.path .pq div{font-size:13px;color:#52525B}.path .pq b{font-size:16px}
+.path .pprog .pd b{font-size:16px}
 </style>
 <script src="auth.js?v=3"></script>
 <script src="progress.js?v=1"></script>
@@ -870,6 +875,6 @@ function publishSat(){try{if(!PLAN||!window.HELM_PROGRESS)return;
   HELM_PROGRESS.put('sat_summary',{updated:Date.now(),days,daysDone:days.filter(d=>d.done).length,daysTotal:days.length,dueDone:fin,dueTotal:due.length})}catch(e){}}
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=44"></script><script src="bi.js?v=26"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
+<script src="stats.js?v=45"></script><script src="bi.js?v=26"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=1"></script>
 </body>
 </html>

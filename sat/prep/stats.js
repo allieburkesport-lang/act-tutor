@@ -506,13 +506,29 @@ function pathBlock(withDetails) {
       <div class="palt">${hasAll ? `Even better: all ${c.all} of ${c.c.r.nq} right → <b>+${a.pts}</b> · ${a.k} ${a.sec} · total <b>${a.tot}</b>` : `That's every question in this category → <b>+${g.pts}</b> · ${g.k} ${g.sec} · total <b>${g.tot}</b>`}</div></td>
      <td class="pp">+${g.pts}</td><td class="psc">${SS[g.k]} → ${g.sec}</td><td class="ps">${g.tot}</td>
      <td class="pb"><a class="btn sm ${c.done ? 'g' : ''}" href="#/drill/${c.c.r.s.id}">Practice</a></td></tr>` };
+  // "Also progressing well" (Allie, Nov 23): categories NOT in the ladder where HELM practice is above his best SAT, or 65%+ with 5+ questions
+  const {rows: allRows} = winsData(), FTp = firstTries(), inLadder = new Set(cats.map(c => c.c.r.s.id));
+  const prog = sec => allRows.filter(r => r.s.sec === sec && !inLadder.has(r.s.id)).map(r => {
+    const h = FTp.filter(x => x.q.skill === r.s.id), hn = h.length, hok = h.filter(x => x.ok).length, acc = hn ? hok / hn : null, B = satCatEst(r, 'best'), base = B ? B.n : null;
+    const pace = acc == null ? null : Math.min(r.nq, Math.round(acc * r.nq)), ppq = 600 / SAT_QN[sec], k = sec === 'Math' ? 'Math' : 'R&W', ok2 = sec === 'Math' ? 'R&W' : 'Math';
+    const gain = base != null && pace != null && pace > base ? pace - base : 0, s2 = Math.min(800, R10(SS[k] + gain * ppq));
+    return {r, hn, hok, acc, base, B, pace, gain, s2, pts: s2 - SS[k], tot: s2 + SS[ok2], k} })
+    .filter(x => x.hn >= 5 && x.base != null && (x.gain > 0 || x.acc >= .65)).sort((a, b) => b.pts - a.pts || b.acc - a.acc);
+  const progBox = sec => { const ps = prog(sec); if (!ps.length) return '';
+    return `<div class="pprog"><div class="pph">Also progressing well <span>not in the plan, but HELM shows he's getting better here. Keep these warm.</span></div>
+     <table class="pt"><thead><tr><th>Category</th><th>Best SAT</th><th>HELM now</th><th>Points</th><th>${sec === 'Math' ? 'Math' : 'R&amp;W'} score</th><th>Total score</th><th></th></tr></thead><tbody>
+     ${ps.map(x => `<tr><td class="pd"><b>${esc(x.r.s.name)}</b><div>${Math.round(x.r.s.share || 0)}% of the section · ${x.r.nq} question${x.r.nq > 1 ? 's' : ''}</div></td>
+       <td class="pq">${x.base} of ${x.r.nq}<div>${esc(x.B.d)}, est.</div></td>
+       <td class="pq"><b>${Math.round(100 * x.acc)}%</b> (${x.hok} of ${x.hn})<div>on pace for ${x.pace} of ${x.r.nq}</div></td>
+       ${x.gain ? `<td class="pp">+${x.pts}</td><td class="psc">${SS[x.k]} → ${x.s2}</td><td class="ps">${x.tot}</td>` : `<td class="pp" style="color:#52525B">±0</td><td colspan="2" class="pq">holding his best SAT level</td>`}
+       <td class="pb"><a class="btn sm g" href="#/drill/${x.r.s.id}">Practice</a></td></tr>`).join('')}</tbody></table></div>` };
   const box = sec => { const cs = cats.filter(c => c.c.r.s.sec === sec); if (!cs.length) return ''; const k = sec === 'Math' ? 'Math' : 'R&W';
     return `<div class="pbox"><div class="pbh"><div class="pbt">${sec === 'Math' ? 'Math' : 'Reading &amp; Writing'}</div><div class="pbs">best SAT <b>${SS[k]}</b> · every goal → <b class="b">${secEnd(sec, 'goal')}</b> · all right → <b class="g">${secEnd(sec, 'all')}</b></div></div>
-     <table class="pt"><thead><tr><th></th><th>On test day…</th><th>Points</th><th>${sec === 'Math' ? 'Math' : 'R&amp;W'} score</th><th>Total score</th><th></th></tr></thead><tbody>${cs.map(row).join('')}</tbody></table></div>` };
+     <table class="pt"><thead><tr><th></th><th>On test day…</th><th>Points</th><th>${sec === 'Math' ? 'Math' : 'R&amp;W'} score</th><th>Total score</th><th></th></tr></thead><tbody>${cs.map(row).join('')}</tbody></table>${progBox(sec)}</div>` };
   return `<section class="card blk path"><div class="blkh"><h2 class="hd">Your path to ${GOAL}</h2><span>Each row starts from your best SAT (${SS.total}) and shows your score if you improve just that one category.</span></div>
    <div class="ph"><div><span>Best SAT</span><b>${SS.total}</b></div><div><span>Goal</span><b>${GOAL}</b></div><div><span>Points needed</span><b class="g">+${need}</b></div></div>
    ${box('Math')}${box('English')}
    <div class="ptot"><div><span>Hit every goal above</span><b>${SS.total} → <span class="b">${goalTot}</span></b></div><div><span>Get every one of them right</span><b>${SS.total} → <span class="g">${allTot}</span></b>${allTot >= GOAL ? ' <em>✓ goal reached</em>' : ''}</div></div>
-   <div class="pnote">Each extra right answer is worth about 14 points in Math and 11 in Reading &amp; Writing; SAT section scores always end in 0, so scores are rounded to the nearest 10. Each row is on its own; the totals at the bottom are what all of them together add up to. ✓ = HELM shows he's already getting that many right (6+ practice questions).${withDetails ? '' : ' Details on the <a href="#/stats">Stats page</a>.'}</div>
+   <div class="pnote">Each extra right answer is worth about 14 points in Math and 11 in Reading &amp; Writing; SAT section scores always end in 0, so scores are rounded to the nearest 10. Each row is on its own; the totals at the bottom are what the numbered rows together add up to (“Also progressing well” is not included). “On pace for” = his HELM first-try accuracy (no help) applied to that category's questions on the SAT. ✓ = HELM shows he's already getting that many right (6+ practice questions).${withDetails ? '' : ' Details on the <a href="#/stats">Stats page</a>.'}</div>
    ${withDetails ? `<details class="pdet"><summary>How we figured this out</summary><div style="margin-top:12px">${focusPlanBlock(false)}</div></details>` : ''}</section>`;
 }
