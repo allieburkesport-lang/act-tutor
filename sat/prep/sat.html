@@ -324,6 +324,19 @@ th,.rep th,.sched th,table.pv th,table.pv2 th,table.pt th,table.bt th,#bi table.
 .sec .row:not(.hd2),.sec .row.hd2{grid-template-columns:minmax(150px,1.3fr) 105px minmax(230px,1.4fr) auto!important}
 .src2 .lab{min-width:80px!important}
 .sec .h > div{font-size:14px!important}
+
+/* Allie, Nov 23: every section looks like YOUR PATH TO 1300: dark outline, grey title bar, bold ALL-CAPS title */
+html body .blk,html body .card.blk,html body .sec,html body .bi .bc,html body #bi .bc,html body #bi .card.blk,html body #bi .card.fp{border:2px solid #18181B!important;border-left:2px solid #18181B!important;border-radius:14px!important;box-shadow:none!important}
+html body .blkh{background:#F4F4F5!important;border-bottom:1.5px solid #D4D4D8!important;align-items:center!important}
+html body .blkh h2.hd{font-size:18px!important}
+html body .blkh span{font-size:14px!important}
+.sec{overflow:hidden}.sec .h{background:#F4F4F5!important;border-bottom:1.5px solid #D4D4D8!important;align-items:center!important}
+html body #bi .bc{padding:0!important;overflow:hidden}html body #bi .bc>.chd{background:#F4F4F5;border-bottom:1.5px solid #D4D4D8;padding:14px 22px;margin:0}
+html body #bi .bc>:not(.chd){margin-left:22px;margin-right:22px}html body #bi .bc>:last-child{margin-bottom:18px}
+html body .bi .bc .ct{text-transform:uppercase!important;font-weight:800!important;letter-spacing:.05em!important;font-size:18px!important;color:#09090B!important}
+
+/* Allie, Nov 23: no blue bar on the left of today; the light-blue band is enough */
+html body .sched tr.now td:first-child{box-shadow:none!important}
 </style>
 <script src="embed.js?v=3"></script><script src="auth.js?v=3"></script>
 <script src="progress.js?v=1"></script>
@@ -518,9 +531,9 @@ function schedule(){if(!PLAN)return todayCard();const t=today(),tm=tomorrowOf(t)
      <td class="hide">${rq?`<b>${rq} review questions</b>${revList(d,'Math')}${revList(d,'English')}`:'—'}</td>
      <td class="hide" style="white-space:nowrap">${drill?`${buildDay(d,true).qs.length} Qs<div style="font-size:15px;color:var(--mute)">about ${mins(estSec(d))} at SAT pace</div>`:'—'}</td>
      <td style="white-space:nowrap">${drill?status:''}</td><td style="text-align:right;white-space:nowrap">${btn}</td></tr>${isNow&&d.mix&&d.mix.length&&typeof mixHTML==='function'?`<tr class="mxrow now"><td colspan="6" style="padding-top:0">${mixHTML(d)}</td></tr>`:''}`}).join('');
-  return `<section class="card" style="padding:18px 20px;overflow-x:auto"><div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;align-items:baseline"><h2 class="hd" style="margin:0;font-size:20px;font-weight:800;text-transform:uppercase;letter-spacing:.06em">${UI.allDays?'Schedule to test day':owed.length?'Finish these first':'Today and tomorrow'}</h2>
-   <div style="font-size:15px;color:var(--mute)">Rebuilt every night from his results · red = extra practice on his weakest areas${PLAN.updated?' · last update '+esc(PLAN.updated):''}. Click a day to start its drills.</div></div>
-   <table class="sched" style="margin-top:10px"><thead><tr><th>Day</th><th>What's in it</th><th class="hide">Review</th><th class="hide">Size + time</th><th>Result</th><th></th></tr></thead><tbody>${rows}</tbody></table>
+  return `<section class="card blk" style="overflow-x:auto"><div class="blkh"><h2 class="hd">${UI.allDays?'Schedule to test day':owed.length?'Finish these first':'Today and tomorrow'}</h2>
+   <span>Rebuilt every night from his results · red = extra practice on his weakest areas${PLAN.updated?' · last update '+esc(PLAN.updated):''}. Click a day to start its drills.</span></div>
+   <table class="sched"><thead><tr><th>Day</th><th>What's in it</th><th class="hide">Review</th><th class="hide">Size + time</th><th>Result</th><th></th></tr></thead><tbody>${rows}</tbody></table>
    <div style="text-align:center;margin-top:10px"><button class="btn g sm" data-alldays="1">${UI.allDays?'▴ Show only today and tomorrow':'▾ Show all '+all.length+' days to the SAT'}</button></div></section>`}
 // Tutor follow-up (tutorfocus.json, written each night from what Patrick asked the tutor): new look-alike questions on the next two days,
 // and an "another way to see it" explanation shown on the question he asked about.
