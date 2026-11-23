@@ -344,7 +344,7 @@ function winsBlock() {
         <div style="text-align:right;white-space:nowrap">${r.steps.length ? '' : '<span style="color:#047857;font-weight:700">✓ getting them all</span>'}</div></div>
        ${line(`Best SAT (${esc(r.satD || LS.label)}, est.)`, r.sat, r, '#A1A1AA')}${r.helm != null ? line('HELM now', r.helm, r, '#2563EB') : line('Practice now', r.right, r, '#2563EB')}
        ${(() => { const SSx = superscore(), b = r.sat != null ? r.sat : (r.right || 0), left = r.nq - b; if (left <= 0) return '<div class="mv"><span class="mvl">He got all of these on his best SAT. Keep them.</span></div>';
-         const st = Array.from({length: Math.min(3, left)}, (_, i) => i + 1); const chip = (k, lab) => `<span class="mvc"><b>${lab}</b> → <b class="t">${Math.round((SSx.total + k * ppq) / 10) * 10}</b> <span>+${Math.round(k * ppq)}</span></span>`;
+         const st = Array.from({length: Math.min(3, left)}, (_, i) => i + 1); const chip = (k, lab) => `<span class="mvc"><b>${lab}</b> → <b class="t">${Math.round(SSx.total + k * ppq)}</b> <span>+${Math.round(k * ppq)}</span></span>`;
          return `<div class="mv"><span class="mvl">Right answers beyond his SAT (${b} of ${r.nq}) lift his best SAT <b>${SSx.total}</b> to:</span>${st.map(k => chip(k, k + ' more')).join('')}${left > 3 ? chip(left, 'all ' + r.nq) : ''}</div>` })()}</a>`).join('')}
     </div>` };
   return `<section class="card blk"><div class="blkh"><h2 class="hd">Where the points are</h2><span>For each category: how many SAT questions it has, how he did on his best SAT, how he does in HELM now, and what his superscore becomes if he gets 1, 2 or 3 more of them right · biggest wins first</span></div>
@@ -431,7 +431,7 @@ function satCatEst(r, which) {  // which: 'best' | 'last'
 function focusPlanBlock(compact) {
   // Baseline = his best official SAT (superscore: best Math + best R&W). Every lift starts from what he got on his best SAT in that category (Allie, Nov 23).
   const F = PLAN && PLAN.focus ? PLAN.focus.skills : ['nlf', 'linf', 'nleq', 'lin2', 'bound', 'fss', 'trans', 'syn'];
-  const {now, rows} = winsData(), SS = superscore(), r10 = v => Math.round(v / 10) * 10;
+  const {now, rows} = winsData(), SS = superscore(), r10 = v => Math.round(v);
   const fr = F.map(id => rows.find(r => r.s.id === id)).filter(Boolean).map(r => { const B = satCatEst(r, 'best'), base = B ? B.n : (r.right || 0), ppq = 600 / SAT_QN[r.s.sec];
     const goal = Math.min(r.nq, Math.max(base + 1, r.nq <= 3 ? r.nq : Math.round(.8 * r.nq)));
     return {...r, B, base, ppq, goal, gGoal: Math.round((goal - base) * ppq), gAll: Math.round((r.nq - base) * ppq)} });
@@ -484,7 +484,7 @@ function pathSteps() {
     if (s.c.r.s.sec === 'Math') m = Math.min(800, m + s.pts); else e = Math.min(800, e + s.pts);
     // in HELM, is he already getting that many right? (6+ first tries in this skill)
     const h = FT.filter(x => x.q.skill === s.c.r.s.id), hn = h.length, hacc = hn ? h.filter(x => x.ok).length / hn : 0;
-    out.push({...s, gain: m + e - before, score: m + e, done: hn >= 6 && Math.round(hacc * s.c.r.nq) >= s.to, hn, hacc}) }
+    out.push({...s, gain: m + e - before, score: m + e, m, e, done: hn >= 6 && Math.round(hacc * s.c.r.nq) >= s.to, hn, hacc}) }
   return {SS, steps: out};
 }
 function pathBlock(withDetails) {
@@ -493,12 +493,12 @@ function pathBlock(withDetails) {
   const row = (s, i) => { const nm = esc(s.c.r.s.name), reach = s.score >= GOAL;
     return `<tr class="${s.done ? 'dn' : ''} ${reach ? 'hit' : ''}"><td class="pn">${s.done ? '✓' : i + 1}</td>
      <td class="pd"><b>Get ${s.n} more ${nm} right</b><div>${s.phase === 'master' ? `all ${s.to} of ${s.c.r.nq} (finishing this category)` : `${s.to} of ${s.c.r.nq} right · his best SAT: ${s.from} of ${s.c.r.nq}`}${s.phase === 'extra' ? ' · extra category to close the gap' : ''}${s.done ? ' · <span class="ok">already doing this in HELM</span>' : ''}</div></td>
-     <td class="pp">+${s.gain}</td><td class="ps">${s.score}${reach ? ' ✓' : ''}</td>
+     <td class="pp">+${s.gain}</td><td class="ps">${s.score}${reach ? ' ✓' : ''}<div class="psec">Math ${s.m} · R&amp;W ${s.e}</div></td>
      <td class="pb"><a class="btn sm ${s.done ? 'g' : ''}" href="#/drill/${s.c.r.s.id}">Practice</a></td></tr>` };
   return `<section class="card blk path"><div class="blkh"><h2 class="hd">Your path to ${GOAL}</h2><span>Start from your best SAT. Each row is one thing to do on test day. Work top to bottom.</span></div>
    <div class="ph"><div><span>Best SAT</span><b>${SS.total}</b></div><div><span>Goal</span><b>${GOAL}</b></div><div><span>Points needed</span><b class="g">+${need}</b></div></div>
-   <table class="pt"><thead><tr><th></th><th>On test day…</th><th>Points</th><th>Your score</th><th></th></tr></thead><tbody>${steps.map(row).join('')}</tbody></table>
+   <table class="pt"><thead><tr><th></th><th>On test day…</th><th>Points</th><th>Your score (Math + R&amp;W)</th><th></th></tr></thead><tbody>${steps.map(row).join('')}</tbody></table>
    ${last < GOAL ? `<div class="pnote">These steps reach about <b>${last}</b>. The rest comes from small categories not listed here.</div>` : ''}
-   <div class="pnote">Each extra right answer is worth about 14 points in Math and 11 in Reading &amp; Writing; the real SAT rounds scores to the nearest 10. ✓ = HELM shows he's already getting that many right (6+ practice questions).${withDetails ? '' : ' Details on the <a href="#/stats">Stats page</a>.'}</div>
+   <div class="pnote">Each extra right answer is worth about 14 points in Math and 11 in Reading &amp; Writing; exact points shown; the real SAT rounds scores to the nearest 10. ✓ = HELM shows he's already getting that many right (6+ practice questions).${withDetails ? '' : ' Details on the <a href="#/stats">Stats page</a>.'}</div>
    ${withDetails ? `<details class="pdet"><summary>How we figured this out</summary><div style="margin-top:12px">${focusPlanBlock(false)}</div></details>` : ''}</section>`;
 }
