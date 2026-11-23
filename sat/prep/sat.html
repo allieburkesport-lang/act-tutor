@@ -57,6 +57,7 @@ button{font:inherit;cursor:pointer}
 .passage{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:19px;line-height:1.6;border-left:3px solid #e5e7eb;padding-left:16px}
 .qtext{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:20px;line-height:1.55}
 .qtext .stem,.stem{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:19px;margin-top:10px}
+.rem{margin:12px 0 14px;padding:10px 14px;border-left:4px solid #C62828;background:#FDECEC;color:#B71C1C;font-size:17px;line-height:1.45}.rem div+div{margin-top:6px}
 .qtext table{border-collapse:collapse;margin:8px 0}.qtext td,.qtext th{border:1px solid #9ca3af;padding:4px 10px}
 .ch{display:flex;flex-direction:column;gap:12px}
 .ch button{text-align:left;display:flex;align-items:center;gap:14px;padding:12px 16px;min-height:58px;border:1.5px solid #9ca3af;border-radius:10px;background:#fff}
@@ -704,6 +705,53 @@ function moreQs(sk,have){const ids=new Set(have.map(q=>q.id));let nx=order(BANK.
 function startDrill(arg){if(!arg)return home();if(arg.startsWith('more:')&&!SK2[arg.slice(5)])return home();if(arg!=='bpr'&&!arg.startsWith('more:')&&!arg.startsWith('review:')&&!arg.startsWith('ids:')&&!SK2[arg])return home();const p=pickQs(arg);if(!p.qs.length){app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">All caught up</h1><p>He has already done every question here. Fresh ones are added each night, so check back tomorrow, or redo his misses from the Stats page.</p><button class="btn" data-go="#/">Home</button></div>`;return}
   UI.dtab=null;D={...p,arg,i:0,st:p.qs.map(()=>({tried:[],ok:false,shown:0,t0:0,coached:false})),t0:Date.now(),done:false};UI.panel=null;showQ();}
 function cur(){return D.qs[D.i]} function sec(q){return SK2[q.skill].sec}
+
+// "Remember" notes (Allie, Nov 23): red reminders under the question for the traps Patrick keeps falling for.
+// They name the trap, never the answer. Turn off with REMIND=false once he has the habits.
+const REMIND=true;
+const REM_RULES=[
+ [/sum of the solutions|sum of all solutions/i,'Sum of the solutions = −b/a, not the product. Move every term to one side first.'],
+ [/product of the solutions/i,'Product of the solutions = c/a. Move every term to one side first.'],
+ [/exactly one (point|solution)/i,'Exactly one point: set the two equations equal, move everything to one side, then set b² − 4ac = 0.'],
+ [/no solutions?\b/i,'No solution: same slope, different intercept (x and y coefficients in the same ratio, constants not).'],
+ [/infinitely many solutions|infinite solutions/i,'Infinitely many solutions: the same line, so EVERY coefficient and constant is in the same ratio.'],
+ [/perpendicular/i,'Perpendicular slope: flip it AND change the sign. Find the first line\'s slope first (y = mx + b).'],
+ [/\bparallel\b/i,'Parallel lines have the SAME slope.'],
+ [/(minimum|maximum|vertex)/i,'Vertex: x is halfway between the zeros, or x = −b/(2a). Check the sign before you pick.'],
+ [/square (miles|yards|feet|meters|inches|centimeters|kilometers)/i,'Square units convert TWICE: square the conversion factor (1 mi² = 1,760² yd²).'],
+ [/\(1 [a-z]+ = |\b1 (kilogram|mile|meter|foot|yard|hour|liter|kilometer|gallon) =|kilograms?/i,'Answer in the units the question asks for (grams vs. kilograms, yards vs. miles). Last step: convert, then check the size makes sense.'],
+ [/\d+(\.\d+)?\s*%\s*(greater|more|less|fewer|larger|smaller) than|percent (greater|more|less) than|p% (greater|more|less) than/i,'"p% greater than A" means A × (1 + p/100). Write the equation; don\'t just subtract.'],
+ [/(increase|decrease|reduce|discount|\boff\b)[\s\S]*\d\s*%[\s\S]*(increase|decrease|reduce|discount|\boff\b|additional)[\s\S]*\d\s*%|\d\s*%[\s\S]*(then|later|additional|another)[\s\S]*\d\s*%/i,'Back-to-back percents MULTIPLY: up 20% then down 20% = ×1.20 × 0.80 (not back to the start). Never add or subtract them.'],
+ [/(decreases?|declines?|loses?) (by )?\d+(\.\d+)?\s*%/i,'Decay: the base is 1 − r (a 10% decrease → 0.90). Growth is 1 + r.'],
+ [/\b(sin|cos|tan)\s*\(?[A-Z]/,'In a right triangle the two acute angles are complementary, so cos B = sin A and sin B = cos A.'],
+ [/tangent/i,'A tangent line is perpendicular to the radius: you have a right triangle, so use a² + b² = c².'],
+ [/equation of (a|the) circle|circle in the xy-plane/i,'Circle equation: complete the square for x AND y. The radius is the square root of the right side.'],
+ [/f\(x\s*[−-]\s*\d+\)|f\(x\s*\+\s*\d+\)/i,'f(x − 4) means replace x with x − 4. With a base of 2, that divides by 2⁴, not by 4.'],
+ [/for every increase of x by|increases by p%/i,'Find the factor for the WHOLE step (two steps of ×1.2 = ×1.44), then subtract 1 to get the percent.'],
+ [/y-intercept/i,'y-intercept: plug in x = 0.'],
+ [/(displays|shows)[^.?]*(constant|coefficient)/i,'Match the form: factored → x-intercepts; standard (ax² + bx + c) → y-intercept; vertex form → vertex / min / max.'],
+ [/best fit|line of best fit/i,'Slope = change in y for each 1 unit of x. y-intercept = the value when x = 0.'],
+ [/probability/i,'Probability = what you want ÷ the TOTAL. Add up the total carefully.'],
+ [/in terms of|correctly shows [a-z] in terms/i,'Undo in reverse order: add/subtract first, then divide. Plug back in to check.'],
+ [/cylinder|cone|sphere/i,'Volume formulas use the RADIUS. Given the diameter? Divide by 2 first.'],
+ [/circle/i,'~Area = πr², circumference = 2πr. Are you given r or d? Is it asking for r or d?'],
+ [/linear (function|model|relationship)|\bslope\b/i,'~Find the rate first: (change in y) ÷ (change in x). Watch the sign, then answer exactly what is asked.'],
+ [/f\(\s*[−-]\d/,'Put the negative in parentheses: (−4)² = +16.'],
+];
+const REM_SKILL={bound:'Boundaries: a dash pair opens AND closes with a dash. A colon or semicolon needs a complete sentence before it (a semicolon needs one after it too). Two complete sentences joined by just a comma is wrong.',
+ fss:'Find the real subject (skip the middle phrases). Neither/nor: match the noun closest to the verb. A "What…" clause is singular.',
+ wic:'Cover the choices. Use the clue to put your own word in the blank, then pick the closest match. Watch for contrast words (although, rather than, but).',
+ trans:'Does sentence 2 agree, add, contrast, or show a result? Contrast → However. Result → As a result / Therefore.',
+ syn:'Match the goal in the question exactly, and use only what the notes say. No cause-and-effect the notes don\'t state.',
+ coe:'Read the whole passage and the claim first. Then find the choice that proves THAT claim. Take at least 45 seconds.',
+ cid:'Read the whole passage before the choices. Pick what the text actually says, not what sounds smart.',
+ inf:'Pick the simplest conclusion the text supports. Don\'t add outside ideas.',
+ tsp:'Read the whole passage. Ask: what is this sentence DOING (contrast, example, claim)?',
+ cross:'Find what BOTH texts would agree on, not a claim only one of them makes.'};
+function remNote(q){if(!REMIND||!q)return '';const t=String(q.q||'').replace(/<[^>]+>/g,' ');const out=[];
+  if(SK2[q.skill]&&SK2[q.skill].sec==='English'){if(REM_SKILL[q.skill])out.push(REM_SKILL[q.skill])}
+  else for(let [re,n] of REM_RULES){const lo=n[0]==='~';if(lo){if(out.length)continue;n=n.slice(1)}if(re.test(t)&&!out.includes(n))out.push(n);if(out.length>=2)break}
+  return out.length?`<div class="rem" role="note">${out.map(n=>`<div><b>Remember:</b> ${esc(n)}</div>`).join('')}</div>`:''}
 function showQ(){const q=cur(),st=D.st[D.i];if(!st.t0)st.t0=Date.now();drawDrill();}
 function drawDrill(){if(D.done)return drawEnd();const q=cur(),st=D.st[D.i],s=SK2[q.skill],eng=s.sec==='English';
   let passage='',stem=q.q;if(eng&&q.q.includes('<div class="stem">')){const k=q.q.indexOf('<div class="stem">');passage=q.q.slice(0,k);stem=q.q.slice(k)}
@@ -725,7 +773,7 @@ function drawDrill(){if(D.done)return drawEnd();const q=cur(),st=D.st[D.i],s=SK2
     <div class="qhead"><div style="display:flex;align-items:center;gap:10px"><span class="qnum">${D.i+1}</span><button class="mark" data-mark="1">${st.mark?'☑':'☐'} Mark for review</button></div><span style="font-size:13px;color:var(--mute)">${DIFF[q.diff]}</span></div>
     ${chkTag}    <div class="help"><span style="font-size:14px;color:var(--mute);margin-right:4px">Need help?</span>${help}</div>
     ${passage?`<div class="passage">${passage}</div>`:''}
-    <div class="qtext">${stem}</div>${chs}${fb}
+    <div class="qtext">${stem}</div>${remNote(q)}${chs}${fb}
    </div></main>${UI.panel?`<aside class="pan" id="pan">${panelHTML()}</aside>`:''}</div>
    <footer><div style="font-weight:600">Patrick</div><button class="qn" data-navg="1">Question ${D.i+1} of ${D.qs.length} ▴</button>
    <div style="display:flex;gap:8px"><button class="nb" data-mv="-1" ${D.i===0?'disabled':''}>Back</button><button class="nb" data-mv="1" ${st.tried.length&&!st.ok?'disabled title="Try again first"':''}>${D.more?'Next':D.i===D.qs.length-1?'Finish':'Next'}</button>${D.more?`<button class="nb" data-stopmore="1" title="Stop for now. Everything is saved.">Stop for now</button>`:''}</div></footer>
