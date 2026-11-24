@@ -89,6 +89,22 @@ aside.pan .ph .t{font-size:21px;font-weight:700}aside.pan .ph .s{font-size:14px;
 .b-yel{background:#fefce8;border-color:#fde68a}.b-yel .lab{color:#854d0e}
 .b-red{background:#fff1e6;border-color:#fdba74}.b-red .lab{color:#9a3412}
 .b-pur{background:#faf5ff;border-color:#e9d5ff}.b-pur .lab{color:#6b21a8}
+.dw{display:flex;flex-direction:column;gap:10px;font-family:Helvetica,Arial,sans-serif;color:var(--ink)}
+.dw-p{font-size:17px;line-height:1.5}
+.dw-h{font-size:21px;font-weight:700;margin-top:10px}
+.dw-m{font-size:24px;text-align:center;margin:4px 0;letter-spacing:.01em}
+.dw-mi{font-weight:600;white-space:nowrap}
+.dw-ul{margin:0;padding-left:22px;font-size:17px;line-height:1.7}
+.dw-card{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:6px 18px}
+.dw-row{padding:14px 0;border-bottom:1px solid var(--line)}.dw-row:last-child{border-bottom:0}
+.dw-lab{font-size:14px;color:var(--mute)}
+.dw-big{font-size:30px;margin-top:6px}
+.dw-keys{font-size:13px;color:var(--mute);margin-top:4px}.dw-keys code{font-family:Menlo,Consolas,monospace;font-size:14px;color:var(--ink);background:#f1f5f9;border-radius:5px;padding:1px 6px}
+.dw-res{font-size:38px;color:#15803d;margin-top:4px}
+.dw-note{font-size:15px;margin-top:6px}
+.dw-ans{font-size:19px;font-weight:700}
+.dw-box{border:2px solid var(--ink);padding:2px 12px}
+.dw-t{border-collapse:collapse;width:100%;font-size:16px}.dw-t th{text-align:left;font-size:13px;padding:8px 6px;border-bottom:1.5px solid var(--line)}.dw-t td{padding:10px 6px;border-bottom:1px solid var(--line)}
 .step{display:flex;flex-wrap:wrap;gap:12px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
 .step .n{flex:0 0 28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px}
 .step .c{font-size:16px;line-height:1.55}
@@ -905,6 +921,52 @@ function lessonData(skill){const id=lessonFor(skill)[0];return id&&LES[id]}
 function formulaBox(skill){const id=lessonFor(skill).find(l=>LES[l]&&LES[l].math);if(!id)return '';const keys=Object.keys(typeof MH!=='undefined'?MH:{}).filter(k=>k.startsWith(id+'|'));
   const seen=new Set(),fs=[];keys.forEach(k=>{const f=MH[k].f;if(Array.isArray(f))f.forEach(x=>{if(!seen.has(x.eq)&&fs.length<4){seen.add(x.eq);fs.push(x)}})});
   if(!fs.length)return '';return `<div class="box b-pur"><div class="lab">Formulas for this skill</div><div class="c">${fs.map(x=>`<b>${esc(x.eq)}</b> <span style="color:var(--mute);font-size:14px">· ${esc(x.n)} (${esc(/Reference/.test(x.frm)?'Reference sheet':'learn it')})</span>`).join('<br>')}</div></div>`}
+/* ---------- Desmos help: "Desmos shortcut / Solve it by hand / What to remember" layout ---------- */
+function dwClean(e){return String(e).replace(/[−\-]\s*\(\s*[−\-]\s*([\d.]+)\s*\)/g,'+ $1').replace(/\+\s*\(\s*[−\-]\s*([\d.]+)\s*\)/g,'− $1')}
+function dwType(e){return String(e).replace(/√\s*\(/g,'sqrt(').replace(/√\s*([\d.]+)/g,'sqrt($1)').replace(/−/g,'-').replace(/×|·/g,'*').replace(/÷/g,'/').replace(/²/g,'^2').replace(/³/g,'^3').replace(/π/g,'pi').replace(/\s+/g,'')}
+function dwSplit(s){const k=s.indexOf(': ');return k>0&&k<60?[s.slice(0,k),s.slice(k+2)]:['',s]}
+function dwTilde(q){ // a step like "7 = a(−4 − (−1))² + (−2)": one unknown letter, all else numbers → Desmos tilde
+  for(let i=0;i<q.steps.length;i++){const e=dwSplit(q.steps[i])[1].trim();
+    if((e.match(/=/g)||[]).length!==1||/[A-Za-z]{2,}/.test(e)||!/\d/.test(e))continue;
+    const Ls=[...new Set(e.match(/[A-Za-z]/g)||[])];if(Ls.length!==1||/[xyXY]/.test(Ls[0]))continue;const V=Ls[0];
+    const [l,r]=e.split('=').map(z=>z.trim());if(l===V||r===V)continue;
+    const rx=new RegExp('^'+V+'\\s*=\\s*([−\\-]?[\\d.,/π√]+)$');
+    const last=q.steps.slice(i+1).map(z=>dwSplit(z)[1].trim()).reverse().find(z=>rx.test(z));if(!last)continue;
+    return {V,line:dwClean(l+' ~ '+r),val:last.match(rx)[1]};}
+  return null}
+function desmosWay(q,h){
+  const t=dwTilde(q),c0=(QF[q.id]||[]).find(c=>c.ref!=='rule'),ans=q.ch?`${L[q.ans]}) ${q.ch[q.ans]}`:(q.show||q.grid[0]);
+  const given=c0?c0.l.filter(r=>r[2]&&!/what we find/i.test(r[2])&&!(t&&r[0].trim()===t.V)):[];
+  const cap=s=>String(s).replace(/^the\s+/i,'').replace(/^./,c=>c.toUpperCase());
+  const dneg=q.steps.some(s=>/[−\-]\s*\(\s*[−\-]/.test(s));
+  let o='';
+  // 1. intro + what you're given
+  o+=`<div class="dw-p">${t?`For this one, you can use the <b>Desmos tilde (~)</b> to find <i>${esc(t.V)}</i> without doing any algebra.`:(h.d.length?'For this one, let <b>Desmos</b> do the work. Type the lines below.':'Desmos can\'t do this one for you. It\'s a rule question, so solve it by hand below.')}</div>`;
+  if(c0){o+=`<div class="dw-p">You're given ${esc((c0.n||'the formula').toLowerCase())}:</div><div class="dw-m" data-frac>${esc(c0.eq)}</div>`;
+    if(given.length)o+=`<ul class="dw-ul">${given.map(r=>`<li>${r[0].trim().length<=6?esc(cap(r[1]))+' ':''}<span class="dw-mi" data-frac>${esc(r[0].trim().length<=6?r[0]:cap(r[0]))} = ${esc(r[2])}</span></li>`).join('')}</ul>`;}
+  // 2. Method 1: Desmos
+  const dl=(h.d||[]).map(x=>x.replace(/^Type\s+/,'').trim()).filter(x=>x&&!/=\s*$/.test(x));
+  const lines=t?[{lab:'Line 1 — use the tilde (~)',m:t.line}]:dl.map((x,i)=>({lab:'Line '+(i+1),m:x}));
+  if(lines.length){
+    o+=`<div class="dw-h">Method 1: Desmos shortcut</div><div class="dw-p">${t?`Replace the letters with the numbers you're given, leaving <i>${esc(t.V)}</i> alone. `:''}Type this directly into Desmos (Calculator button, top right):</div>`;
+    o+=`<div class="dw-card">${lines.map(l=>`<div class="dw-row"><div class="dw-lab">${esc(l.lab)}</div><div class="dw-big" data-frac>${esc(l.m)}</div><div class="dw-keys keys" data-nofrac>Type: <code>${esc(dwType(l.m))}</code></div></div>`).join('')}
+      <div class="dw-row"><div class="dw-lab">${t?'Desmos calculates '+esc(t.V):'What you get'}</div><div class="dw-res" data-frac>${t?esc(t.V)+' = '+esc(t.val):esc(ans)}</div>${!t&&h.n?`<div class="dw-note">${esc(h.n)}</div>`:''}</div></div>`;
+    if(!t&&typeof desmosPic==='function')o+=desmosPic(h.d);
+    o+=`<div class="dw-ans" data-frac>Answer: ${esc(ans)}</div>`;}
+  // 3. Method 2: by hand
+  o+=`<div class="dw-h">Method ${lines.length?2:1}: Solve it by hand</div>`;
+  o+=q.steps.map((s,i)=>{const [hd,b]=dwSplit(s),last=i===q.steps.length-1,lab=hd?hd+':':(i===0?'Start:':(last?'So:':'Next:'));
+    const words=/[A-Za-z]{4,}/.test(b);
+    return `<div class="dw-p">${esc(lab)}</div><div class="${words?'dw-p':'dw-m'}" data-frac>${last&&!words?`<span class="dw-box">${esc(dwClean(b))}</span>`:esc(words?b:dwClean(b))}</div>`}).join('');
+  if(!lines.length)o+=`<div class="dw-ans" data-frac>Answer: ${esc(ans)}</div>`;
+  // 4. What to remember
+  o+=`<div class="dw-h">What to remember for the SAT</div>`;
+  if(c0&&c0.l.length)o+=`<table class="dw-t"><tr><th>LETTER</th><th>WHAT IT REPRESENTS</th></tr>${c0.l.map(r=>`<tr><td class="dw-mi">${esc(r[0])}</td><td>${esc(cap(r[1]))}</td></tr>`).join('')}</table>`;
+  const trick=t?(given.length?given.filter(r=>r[0].trim().length<=6).map(r=>`${esc(cap(r[1]))} gives you ${esc(r[0])}.`).join(' ')+' ':'')+`Plug everything in and use the tilde (~) to find <i>${esc(t.V)}</i>.`:esc(q.tool);
+  o+=`<div class="dw-p"><b>Memory trick:</b> ${trick}</div>`;
+  if(dneg)o+=`<div class="dw-p">Remember to watch the double negative: <span class="dw-mi">x − (−1)</span> becomes <span class="dw-mi">x + 1</span>.</div>`;
+  if(q.trap)o+=`<div class="dw-p"><b>Watch out:</b> ${esc(q.trap)}</div>`;
+  return `<div class="dw">${o}</div>`}
 function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
   const head=(t,sub)=>`<div class="ph"><div><div class="t hd">${t}</div><div class="s">${sub}</div></div><button class="x" aria-label="Close panel" data-pan="${k}">✕</button></div>`;
   if(k==='show'){const res=carried(q,q.steps);const n=Math.max(1,st.shown);
@@ -918,8 +980,7 @@ function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
     let b=head('Desmos / calculator','Exactly what to type for this question');
     b+=`<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ${tab==='d'?'':'g'} sm" data-dtab="d">Desmos</button><button class="btn ${tab==='c'?'':'g'} sm" data-dtab="c">TI-84 Evo calculator</button><button class="btn ${tab==='live'?'':'g'} sm" data-dtab="live">Open real Desmos</button></div>`;
     if(tab==='live')return b+`<iframe class="desmos" src="https://www.desmos.com/calculator" title="Desmos graphing calculator"></iframe>`;
-    if(tab==='d'){if(!h.d.length)return b+`<div class="box b-yel"><div class="lab">Desmos can't do this one for you</div><div class="c">This is a rule question, not a calculation. Here is how to solve it:</div></div>`+q.steps.map((x,i)=>`<div class="step"><span class="n">${i+1}</span><div class="c">${x}</div></div>`).join('')+`<div class="box b-green"><div class="lab">Rule</div><div class="c">${esc(q.tool)}</div></div>`;
-      return b+(typeof desmosPic==='function'?desmosPic(h.d):'')+`<div class="box b-blue"><div class="lab">Type these, one per line</div><div class="c">Desmos is the Calculator button at the top right of the test.${h.n?'<br><b>'+esc(h.n)+'</b>':''}</div></div>`+list(h.d)+`<div class="box b-green"><div class="lab">Tip</div><div class="c">${esc(q.tool)}</div></div>`;}
+    if(tab==='d')return b+desmosWay(q,h);
     if(!h.c.length)return b+`<div class="box b-yel"><div class="lab">No calculator math here</div><div class="c">${esc(q.tool)}</div></div>`;
     return b+(typeof tiPic==='function'?tiPic(h.c,h.c.length):'')+list(h.c);}
   if(k==='form'){const use=q.steps[0]||'';const c=qCards(q);
