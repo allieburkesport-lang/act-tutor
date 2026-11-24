@@ -8,6 +8,7 @@
 <link rel="icon" href="helm-logo.png">
 <script src="auth.js?v=3"></script>
 <script src="progress.js?v=1"></script>
+<script src="precalc/plan.js?v=1"></script>
 <style>
 body{margin:0}
 .helm{--bg:#F6F7F9;--panel:#FFFFFF;--panel2:#F1F3F6;--line:#E3E6EB;--text:#0B1220;--muted:#566070;--accent:#0B2545;--onaccent:#FFFFFF;--gold:#2563EB;--gov:#3B6FB6;--ok:#15803D;--okbg:#E6F5EC;--warn:#B45309;--warnbg:#FDF0E1;--bad:#B91C1C;--badbg:#FCE8E8;--focus:#2563EB;--scrim:rgba(11,18,32,.42);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--text);background:var(--bg);min-height:100vh;font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
@@ -279,6 +280,10 @@ button.stat:hover{border-color:var(--accent)}
 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10l9-5 9 5"></path><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8"></path><path d="M3 20h18"></path></svg>
 <span class="lbl">AP Gov</span>
 </a>
+<a class="nav" href="precalc/" title="Precalc">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18M4 20V4"></path><path d="M6 16c3-9 6-9 8-4s4 4 6-4"></path></svg>
+<span class="lbl">Precalc</span>
+</a>
 <a class="nav" href="#wk-h" title="This week">
 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>
 <span class="lbl">This week</span>
@@ -325,7 +330,7 @@ const CONFIG = {
   studentName: 'Patrick',
   satDate: '2026-12-05',
   satGoal: 1300,
-  links: { sat: '#/', gov: 'apgov/' }   // where "Open SAT Helm" / "Open AP Gov" go
+  links: { sat: '#/', gov: 'apgov/', pre: 'precalc/' }   // where "Open SAT Helm" / "Open AP Gov" / "Open Precalc" go
 };
 
 const SAT_DESC = 'Today’s assigned set is on your SAT Helm schedule. Open it and pick up where you left off.';
@@ -378,9 +383,11 @@ const SCHEDULE = [
   { id: 'u3', row: 'usna', mod: 'usna', date: '2026-11-25', title: 'BGO follow-up interview prep', desc: 'Prep for Saturday’s BGO follow-up interview with Mr. Vroman.' },
   { id: 'u4', row: 'usna', mod: 'usna', date: '2026-11-26', title: 'BGO follow-up interview prep', desc: 'Prep for Saturday’s BGO follow-up interview with Mr. Vroman.' },
   { id: 'u5', row: 'usna', mod: 'usna', date: '2026-11-27', title: 'BGO follow-up interview prep', desc: 'Prep for Saturday’s BGO follow-up interview with Mr. Vroman.' },
-  /* ---- Precalc (every day) ---- */
-  ...['2026-11-22', '2026-11-23', '2026-11-24', '2026-11-25', '2026-11-26', '2026-11-27', '2026-11-28'].map((d, i) => (
-    { id: 'pc' + i, row: 'pre', mod: 'pre', date: d, title: 'Precalc: 20 min', desc: '20 minutes of College Precalculus (ASU).' })),
+  /* ---- Precalc: comes from precalc/plan.js (one entry per study day + target dates for each grade) ---- */
+  ...(window.HELM_PRECALC ? Object.keys(HELM_PRECALC.DAYS).map((d) => { const P = HELM_PRECALC, day = P.DAYS[d];
+    return { id: 'pc-' + d, row: 'pre', mod: 'pre', date: d, pcDay: true, title: 'Precalc · ' + P.fmtMin(day.min), desc: 'Planned steps: ' + day.tasks.map((id) => P.byId[id].n).join(' → ') + '. Check steps off on the Precalc page.' }; }) : []),
+  ...(window.HELM_PRECALC ? HELM_PRECALC.GRADED.map((g) => ({ id: 'pcg-' + g.key, sty: 'pre', kind: 'event', row: 'schedule', mod: 'pre', date: HELM_PRECALC.DUE[g.task], time: 'Target', title: 'Precalc: ' + g.name,
+    desc: 'Planned date to finish the ' + g.name + ' (' + g.w + '% of the grade).' + (HELM_PRECALC.DUE[g.task] <= HELM_PRECALC.USNA_DEADLINE ? ' One of the grades to have in before Jan 31 for USNA.' : '') })) : []),
   /* ---- Daily + CFA (every day) ---- */
   ...['2026-11-22', '2026-11-23', '2026-11-24', '2026-11-25', '2026-11-26', '2026-11-27', '2026-11-28'].flatMap((d, i) => [
     { id: 'd' + i + 'a', row: 'daily', mod: 'life', sty: 'daily', routine: true, date: d, title: 'Check emails', desc: 'Check school and USNA emails.' },
@@ -393,7 +400,7 @@ const SCHEDULE = [
 const MOD = {
   sat: { name: 'SAT', full: 'SAT Helm', link: 'Open SAT Helm', href: CONFIG.links.sat },
   gov: { name: 'AP Gov', full: 'AP Government', link: 'Open AP Gov', href: CONFIG.links.gov },
-  pre: { name: 'Precalc', full: 'College Precalculus (ASU)', link: '', href: '' },
+  pre: { name: 'Precalc', full: 'College Precalculus (ASU)', link: 'Open Precalc', href: CONFIG.links.pre },
   usna: { name: 'USNA', full: 'USNA / BGO', link: '', href: '' },
   life: { name: 'Calendar', full: 'Calendar', link: '', href: '' }
 };
@@ -433,7 +440,7 @@ const state = {
 
 /* ---------- real progress from the other HELM pages (no manual checking) ----------
    AP Gov page -> "apgov_summary", SAT HELM -> "sat_summary", Blueprint -> ../drill-zone/blueprint.json */
-const SUM = { time: null, answering: {}, apgov: (window.HELM_PROGRESS && HELM_PROGRESS.get('apgov_summary', null)) || null, sat: (window.HELM_PROGRESS && HELM_PROGRESS.get('sat_summary', null)) || null, bp: null };
+const SUM = { time: null, answering: {}, precalc: (window.HELM_PROGRESS && HELM_PROGRESS.get('precalc_summary', null)) || null, apgov: (window.HELM_PROGRESS && HELM_PROGRESS.get('apgov_summary', null)) || null, sat: (window.HELM_PROGRESS && HELM_PROGRESS.get('sat_summary', null)) || null, bp: null };
 const prevISO = (iso) => isoOf(new Date(parse(iso).getTime() - DAYMS));
 function govItems() {
   if (!SUM.apgov || !SUM.apgov.days) return null;
@@ -442,6 +449,7 @@ function govItems() {
 }
 function trackOf(it) {
   if (it.tracked) return { done: it.trackedDone, where: 'AP Gov' };
+  if (it.pcDay) return { done: !!(SUM.precalc && SUM.precalc.days && SUM.precalc.days[it.date]), where: 'Precalc' };
   if (it.row === 'sat' && /^SAT Helm/.test(it.title)) {
     const day = it.catchup ? prevISO(it.date) : it.date, s = SUM.sat && SUM.sat.days && SUM.sat.days.find((x) => x.date === day);
     return { done: !!(s && s.done), pct: s ? s.pct : 0, answered: s ? s.answered : 0, total: s ? s.total : 0, where: 'SAT Helm' };
@@ -510,6 +518,7 @@ function renderCanvas() {
     const d = cnt(list);
     return `<section class="s6 card sx m2" aria-labelledby="${k}-h">
       <div class="sxh"><h2 id="${k}-h">${esc(title)}</h2><span class="tnum">${d}/${list.length} done</span></div><div class="sxb" style="flex:1">
+      ${k === 'pre' && window.HELM_PRECALC ? (() => { const P = HELM_PRECALC, nx = SUM.precalc && SUM.precalc.next; return `<div class="timegrid"><div><span>Logged today</span><b class="tnum">${(SUM.precalc && SUM.precalc.min && SUM.precalc.min[TODAY]) || 0} of ${P.minutesFor(TODAY)} min</b></div><div><span>To the Midterm</span><b class="tnum">${(SUM.precalc && SUM.precalc.midPct) || 0}%</b></div></div><p class="muted" style="margin:0;font-size:14px">Next step: ${esc(nx || P.TASKS[0].n)}</p>`; })() : ''}
       ${k === 'sat' ? `<div class="timegrid"><div><span>In SAT Helm today</span><b class="tnum">${hmin((SUM.time && SUM.time.cal && SUM.time.cal[TODAY]) || 0)}</b></div><div><span>Answering questions today</span><b class="tnum">${hmin(SUM.answering[TODAY] || 0)}</b></div></div>` : ''}
       <div class="meter"><i style="width:${pct(d, list.length)}%"></i></div>
       <ul class="checklist">${list.length ? list.map((t) => `<li class="item${t.done ? ' is-done' : ''}">${checkBtn(t)}<button class="linkbtn ttl" type="button" data-action="open" data-id="${t.id}" style="flex:1">${esc(t.title)}</button>${pill(t)}</li>`).join('') : '<li class="muted" style="padding:8px 2px">Nothing assigned today.</li>'}</ul>
@@ -581,6 +590,7 @@ function renderCanvas() {
   </section>
   ${modTile('sat', 'SAT Helm', 'SAT', MOD.sat.href)}
   ${modTile('gov', 'AP Government', 'AP Gov · Mr. Thomas', MOD.gov.href)}
+  ${modTile('pre', 'College Precalculus', 'Precalc · ASU MAT 170', MOD.pre.href)}
   <section class="s12 card sx" aria-labelledby="wk-h">
     <div class="sxh"><h2 id="wk-h">This week ·  ${MON[parse(week[0]).getMonth()]} ${parse(week[0]).getDate()} \u2013 ${MON[parse(week[6]).getMonth()]} ${parse(week[6]).getDate()}</h2><span style="font-size:14px;font-weight:500">Tap anything for details</span></div>
     <div class="pl-wrap" style="padding:16px 22px"><div class="planner" role="table" aria-label="Weekly planner by class">
@@ -731,10 +741,10 @@ async function liveSat() {
     sat.updated = Math.max(sat.updated || 0, last); SUM.sat = sat; SUM.answering = ans;
   } catch (e) {}
 }
-async function refreshSums() { try { const [a, s, tm] = await Promise.all([HELM_PROGRESS.pull('apgov_summary'), HELM_PROGRESS.pull('sat_summary'), HELM_PROGRESS.pull('sat_time')]); if (a) SUM.apgov = a; if (s) SUM.sat = s; if (tm) SUM.time = tm; await liveSat(); renderCanvas(); renderNotif(); } catch (e) {} }
+async function refreshSums() { try { const [a, s, tm, pc] = await Promise.all([HELM_PROGRESS.pull('apgov_summary'), HELM_PROGRESS.pull('sat_summary'), HELM_PROGRESS.pull('sat_time'), HELM_PROGRESS.pull('precalc_summary')]); if (pc) SUM.precalc = pc; if (a) SUM.apgov = a; if (s) SUM.sat = s; if (tm) SUM.time = tm; await liveSat(); renderCanvas(); renderNotif(); } catch (e) {} }
 setInterval(() => { if (!document.hidden && !state.drawer && !state.searchOpen) refreshSums(); }, 30000);
 document.addEventListener('visibilitychange', () => { if (!document.hidden) refreshSums(); });
-addEventListener('pageshow', () => { SUM.apgov = HELM_PROGRESS.get('apgov_summary', SUM.apgov); SUM.sat = HELM_PROGRESS.get('sat_summary', SUM.sat); render(); });
+addEventListener('pageshow', () => { SUM.precalc = HELM_PROGRESS.get('precalc_summary', SUM.precalc); SUM.apgov = HELM_PROGRESS.get('apgov_summary', SUM.apgov); SUM.sat = HELM_PROGRESS.get('sat_summary', SUM.sat); render(); });
 
 </script>
 </body>

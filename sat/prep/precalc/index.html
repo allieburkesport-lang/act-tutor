@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script src="../auth.js?v=3"></script>
+<script src="../progress.js?v=1"></script>
+<script src="plan.js?v=1"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HELM · Precalc</title>
+<link rel="icon" href="../helm-logo.png">
+<style>
+body{margin:0}
+.helm{--bg:#F6F7F9;--panel:#FFFFFF;--panel2:#F1F3F6;--line:#E3E6EB;--text:#0B1220;--muted:#566070;--accent:#0B2545;--onaccent:#FFFFFF;--gold:#2563EB;--gov:#3B6FB6;--ok:#15803D;--okbg:#E6F5EC;--warn:#B45309;--warnbg:#FDF0E1;--bad:#B91C1C;--badbg:#FCE8E8;--focus:#2563EB;--scrim:rgba(11,18,32,.42);font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--text);background:var(--bg);min-height:100vh;font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+.helm.dark{--bg:#060B14;--panel:#0B1422;--panel2:#111C2E;--line:#1C2940;--text:#E8EDF5;--muted:#9BA7B9;--accent:#60A5FA;--onaccent:#0B2545;--gov:#8DB3E8;--ok:#4ADE80;--okbg:#0E2A1B;--warn:#FBBF24;--warnbg:#2B2110;--bad:#F87171;--badbg:#2E1416;--focus:#93C5FD;--scrim:rgba(0,0,0,.6)}
+.helm *{box-sizing:border-box}
+.helm button{font:inherit;color:inherit;cursor:pointer}
+.helm a{color:inherit}
+.helm :focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.tnum{font-variant-numeric:tabular-nums}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px}
+.inner{border:1px solid var(--line);border-radius:8px}
+.muted{color:var(--muted)}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0}
+.pill{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.pill-ok{color:var(--ok);background:var(--okbg)}.pill-warn{color:var(--warn);background:var(--warnbg)}.pill-bad{color:var(--bad);background:var(--badbg)}.pill-neutral{color:var(--muted);background:var(--panel2)}.pill-today{color:var(--text);background:var(--panel2)}
+.mod{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;letter-spacing:.02em;color:var(--muted)}
+.mod::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--muted)}
+.mod-sat::before{background:var(--gold)}.mod-pre::before{background:#1F8A8A}.mod-gov::before{background:var(--gov)}
+.check{width:44px;height:44px;flex:0 0 44px;display:grid;place-items:center;background:none;border:0;padding:0;margin:-11px}
+.check .box{width:22px;height:22px;border-radius:6px;border:1.5px solid var(--muted);display:grid;place-items:center;color:transparent;transition:all .15s}
+.check.on .box{background:var(--ok);border-color:var(--ok);color:#fff}
+.helm.dark .check.on .box{color:#06210F}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 14px;border-radius:8px;border:1px solid var(--line);background:var(--panel);font-weight:600;text-decoration:none;white-space:nowrap}
+.btn:hover{background:var(--panel2)}
+.btn-primary{background:var(--accent);color:var(--onaccent) !important;border-color:var(--accent)}
+.btn-primary:hover{background:var(--accent);filter:brightness(1.12)}
+.iconbtn{position:relative;width:40px;height:40px;display:inline-grid;place-items:center;border-radius:8px;border:1px solid transparent;background:transparent;color:var(--muted);flex:0 0 auto}
+.iconbtn:hover{background:var(--panel2);color:var(--text)}
+.badge-dot{position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:50%;background:var(--warn);border:2px solid var(--panel)}
+.segwrap{display:inline-flex;padding:3px;gap:2px;border:1px solid var(--line);border-radius:8px;background:var(--panel2)}
+.seg{height:30px;padding:0 12px;border-radius:6px;border:0;background:transparent;color:var(--muted);font-weight:600;font-size:13px}
+.seg.on{background:var(--panel);color:var(--text);box-shadow:0 0 0 1px var(--line)}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line)}
+.tab{height:40px;padding:0 12px;border:0;background:none;color:var(--muted);font-weight:600;border-bottom:2px solid transparent;margin-bottom:-1px;display:inline-flex;align-items:center;gap:8px}
+.tab .n{font-size:11px;padding:1px 7px;border-radius:999px;background:var(--panel2)}
+.tab.on{color:var(--text);border-bottom-color:var(--accent)}
+.shell{display:flex;min-height:100vh}
+.side{position:sticky;top:0;height:100vh;width:240px;flex:0 0 240px;background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;gap:2px;padding:12px;transition:width .18s,flex-basis .18s;z-index:20;overflow:hidden}
+.collapsed .side{width:64px;flex-basis:64px;padding:12px 8px}
+.collapsed .side .lbl{display:none}
+.brand{display:flex;align-items:center;gap:10px;height:44px;padding:0 6px;margin-bottom:6px}
+.brand .word{font-weight:700;letter-spacing:.14em;font-size:16px}
+.collapsed .brand{justify-content:center;padding:0}
+.nav{display:flex;align-items:center;gap:12px;min-height:40px;padding:0 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-weight:600;border:0;background:none;width:100%;text-align:left;white-space:nowrap}
+.nav svg{flex:0 0 auto}
+.nav:hover{background:var(--panel2);color:var(--text)}
+.nav.active{background:var(--panel2);color:var(--text)}
+.collapsed .nav{justify-content:center;padding:0}
+.nav .kbd{margin-left:auto;font-size:11px;border:1px solid var(--line);border-radius:4px;padding:0 5px;color:var(--muted)}
+.navgroup{margin:14px 0 4px 12px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.soon{margin-left:auto;font-size:11px;color:var(--muted)}
+.side .spacer{flex:1}
+.ws{display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;border:1px solid var(--line);background:none;width:100%;text-align:left}
+.collapsed .ws{justify-content:center;border-color:transparent}
+.avatar{width:28px;height:28px;flex:0 0 28px;border-radius:8px;background:var(--accent);color:var(--onaccent);display:grid;place-items:center;font-weight:700;font-size:13px}
+.main{flex:1 1 0;min-width:0;display:flex;flex-direction:column}
+.top{position:sticky;top:0;z-index:10;height:56px;display:flex;align-items:center;gap:12px;padding:0 20px;background:var(--panel);border-bottom:1px solid var(--line)}
+.crumbs{display:flex;align-items:center;gap:8px;font-weight:600;min-width:0}
+.crumbs .sep{color:var(--muted)}
+.crumbs .root{color:var(--muted);font-weight:500}
+.top .grow{flex:1}
+.fresh{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);white-space:nowrap}
+.fresh::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok)}
+.nav.sub{padding-top:6px;padding-bottom:6px;padding-left:40px;font-size:14px}.nav.sub .subdot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.45;flex:none}.helm.collapsed .nav.sub{padding-left:12px}
+.canvas{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:20px;padding:20px;align-content:start}
+.s12{grid-column:span 12}.s8{grid-column:span 8}.s4{grid-column:span 4}.s6{grid-column:span 6}.s3{grid-column:span 3}.s9{grid-column:span 9}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.kpi{padding:16px;display:flex;flex-direction:column;gap:10px;min-height:132px}
+.kpi .top-row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.kpi .label{font-size:13px;font-weight:600;color:var(--muted)}
+.kpi .metric{font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+.kpi .metric small{font-size:15px;font-weight:600;color:var(--muted);letter-spacing:0}
+.delta{font-size:12px;font-weight:600;padding:2px 8px;border-radius:6px;background:var(--panel2);color:var(--muted);white-space:nowrap}
+.delta.warn{background:var(--warnbg);color:var(--warn)}.delta.ok{background:var(--okbg);color:var(--ok)}
+.meter{height:6px;border-radius:999px;background:var(--panel2);overflow:hidden}
+.meter > i{display:block;height:100%;background:var(--accent);border-radius:999px;transition:width .3s}
+.bars{display:flex;align-items:flex-end;gap:6px;height:38px}
+.bars .bar{flex:1;background:var(--panel2);border-radius:3px;position:relative;overflow:hidden;display:flex;align-items:flex-end}
+.bars .bar > i{display:block;width:100%;background:var(--ok);transition:height .3s}
+.bars .bar.today{outline:1.5px solid var(--accent);outline-offset:1px}
+.ticks{display:flex;gap:3px;align-items:flex-end;height:38px}
+.tick{flex:1;height:14px;border-radius:2px;background:var(--panel2)}
+.tick.now{background:var(--accent);height:22px}
+.tick.ptest{background:var(--muted);height:22px}
+.tick.test{background:var(--gold);height:38px}
+.panel-h{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px 0}
+.panel-h h2{margin:0;font-size:15px;font-weight:700}
+.tablewrap{overflow:auto;max-height:440px;border-top:1px solid var(--line)}
+table.data{width:100%;border-collapse:separate;border-spacing:0;min-width:720px}
+table.data th{position:sticky;top:0;background:var(--panel);text-align:left;font-size:12px;font-weight:600;color:var(--muted);border-bottom:1px solid var(--line);padding:0;z-index:1}
+table.data th button{all:unset;cursor:pointer;display:flex;gap:6px;align-items:center;padding:10px 16px;width:100%;box-sizing:border-box}
+table.data th button:focus-visible{outline:2px solid var(--focus);outline-offset:-2px}
+table.data td{padding:8px 16px;border-bottom:1px solid var(--line);vertical-align:middle}
+.trow{cursor:pointer}
+.trow:hover td{background:var(--panel2)}
+.trow.is-done .ttl{color:var(--muted);text-decoration:line-through}
+.linkbtn{all:unset;cursor:pointer;font-weight:600}
+.linkbtn:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
+.skel{background:linear-gradient(90deg,var(--panel2) 0%,var(--line) 50%,var(--panel2) 100%);background-size:200% 100%;animation:sh 1.2s linear infinite;border-radius:8px}
+@keyframes sh{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.scrim{position:fixed;inset:0;background:var(--scrim);z-index:40;border:0;padding:0;width:100%;cursor:default}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:420px;max-width:100%;background:var(--panel);border-left:1px solid var(--line);z-index:41;display:flex;flex-direction:column;animation:slin .2s ease-out}
+@keyframes slin{from{transform:translateX(24px);opacity:0}to{transform:none;opacity:1}}
+.drawer header{display:flex;align-items:center;justify-content:space-between;gap:12px;height:56px;padding:0 12px 0 20px;border-bottom:1px solid var(--line)}
+.drawer .body{padding:20px;display:flex;flex-direction:column;gap:18px;overflow:auto;flex:1}
+.drawer h3{margin:0;font-size:20px;line-height:1.3}
+.drawer footer{padding:16px 20px;border-top:1px solid var(--line);display:flex;gap:10px;flex-wrap:wrap}
+.kv{display:grid;grid-template-columns:96px 1fr;gap:10px 12px;font-size:13px}
+.kv dt{color:var(--muted)}.kv dd{margin:0;font-weight:600}
+.mini{display:flex;align-items:center;gap:10px;padding:10px 12px}
+.palette{position:fixed;top:12vh;left:50%;transform:translateX(-50%);width:min(560px,92vw);z-index:41;overflow:hidden;animation:slin .15s ease-out}
+.palette .inp{display:flex;align-items:center;gap:10px;padding:0 16px;height:52px;border-bottom:1px solid var(--line)}
+.palette input{flex:1;border:0;background:transparent;font:inherit;font-size:15px;color:var(--text);outline:none;height:100%}
+.palette .res{max-height:360px;overflow:auto;padding:6px}
+.res-item{display:flex;align-items:center;gap:12px;width:100%;min-height:44px;padding:0 12px;border:0;border-radius:8px;background:none;text-align:left}
+.res-item:hover,.res-item:focus-visible{background:var(--panel2)}
+.popover{position:absolute;top:48px;right:0;width:300px;z-index:30;padding:6px}
+@media (max-width:1279px){
+.side{width:64px;flex-basis:64px;padding:12px 8px}.side .lbl{display:none}.side .nav,.side .brand,.side .ws{justify-content:center;padding-left:0;padding-right:0}.side .ws{border-color:transparent}
+.canvas{grid-template-columns:repeat(6,minmax(0,1fr))}
+.s12,.s8,.s4,.s9{grid-column:span 6}.s6,.s3{grid-column:span 3}
+.hide-md{display:none !important}}
+@media (max-width:767px){
+.shell{flex-direction:column}
+.side{position:fixed;top:auto;bottom:0;left:0;right:0;height:64px;width:auto;flex-direction:row;align-items:center;justify-content:space-around;border-right:0;border-top:1px solid var(--line);padding:8px;overflow:visible}
+.side .nav{width:auto;min-width:48px;min-height:48px}
+.hide-sm{display:none !important}
+.canvas{grid-template-columns:minmax(0,1fr);padding:16px 16px 92px;gap:16px}
+.s12,.s8,.s4,.s6,.s3,.s9{grid-column:1/-1}
+.m1{order:-3}.m2{order:-2}.m3{order:-1}
+.drawer{width:100%}
+.top{padding:0 12px}
+.kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.kpi{min-height:0}}
+
+/* ---------- AP Gov page in the HELM style ---------- */
+.helm{--navy:var(--accent);--mute:var(--muted);--ink:var(--text);--green:var(--ok);--greenBg:var(--okbg)}
+.page{padding:20px;display:flex;flex-direction:column;gap:20px}
+.helm .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:var(--onaccent);font-weight:600;text-decoration:none;white-space:nowrap}
+.helm .btn:hover{filter:brightness(1.12)}
+.helm .btn.o{background:var(--panel);color:var(--accent);border-color:var(--accent)}
+.helm .btn.g{background:var(--panel);color:var(--text);border-color:var(--line)}
+.helm .btn.g:hover,.helm .btn.o:hover{background:var(--panel2);filter:none}
+.helm .btn.sm{min-height:36px;padding:0 12px;font-size:13.5px}
+.helm .btn:disabled{opacity:.45;cursor:not-allowed}
+.today{background:#0B2545;color:#F3F5F9;border:1px solid #0B2545;border-radius:12px;padding:24px 28px}
+.helm.dark .today{background:#0F2340;border-color:#1C2940}
+.today .k{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#60A5FA}
+.today .t{font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.15;margin-top:6px}
+.today .s{font-size:15px;opacity:.85;margin-top:6px}
+.key{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;margin-top:14px;opacity:.9}
+.key span{display:inline-flex;align-items:center;gap:6px}.key i{display:inline-block;width:18px;height:10px;border-radius:3px}
+#days{display:flex;flex-direction:column;gap:20px}
+.daytabs{display:flex;gap:8px;flex-wrap:wrap}
+.dtab{display:flex;flex-direction:column;align-items:center;gap:1px;min-width:76px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--muted);font-size:12px;font-weight:600}
+.dtab b{font-size:18px;color:var(--text);line-height:1.2}
+.dtab i{font-style:normal;font-size:10.5px;font-weight:700}
+.dtab:hover{border-color:var(--accent)}
+.dtab.on{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent);background:var(--panel2);color:var(--text)}
+.dtab.done i{color:var(--ok)}.dtab.today i{color:var(--accent)}.dtab.late i{color:var(--bad)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px}
+.day .h{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.day .h h2{margin:0;font-size:18px;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.day .h .sub{color:var(--muted);font-size:13px;margin-top:4px}
+.tag{display:inline-flex;align-items:center;gap:6px;height:22px;padding:0 9px;border-radius:999px;font-size:12px;font-weight:600;letter-spacing:0;text-transform:none}
+.tag::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.tag.today{background:var(--panel2);color:var(--text)}.tag.tom{background:var(--panel2);color:var(--muted)}.tag.late{background:var(--badbg);color:var(--bad)}.tag.done{background:var(--okbg);color:var(--ok)}
+.step{display:grid;grid-template-columns:36px 1fr auto;gap:14px;padding:14px 20px;border-top:1px solid var(--line);align-items:center}
+.step:first-of-type{border-top:0}
+.chk{width:24px;height:24px;border-radius:6px;border:1.5px solid var(--muted);background:var(--panel);display:grid;place-items:center;font-weight:800;font-size:13px;color:#fff;justify-self:center}
+.chk:disabled{cursor:default;border-style:dashed}
+.step.done .chk{background:var(--ok);border-color:var(--ok);border-style:solid}
+.helm.dark .step.done .chk{color:#06210F}
+.step.done .n{color:var(--muted);text-decoration:line-through}
+.step .n{font-weight:600;font-size:15px}
+.step .d{color:var(--muted);font-size:13.5px;margin-top:3px;line-height:1.45}
+.step .acts{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chips a{font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;border:1px solid var(--line);color:var(--text);text-decoration:none;background:var(--panel)}
+.chips a:hover{border-color:var(--accent)}
+.chips a.done{background:var(--okbg);border-color:transparent;color:var(--ok)}
+.more{align-self:flex-start}
+.tprog{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px 28px;margin-top:16px;max-width:880px}
+.pbox .plab{display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:6px}.pbox .plab b{font-size:15px}
+.pbar{height:8px;border-radius:999px;background:rgba(127,127,127,.25);overflow:hidden}.pbar i{display:block;height:100%;border-radius:999px;background:#60A5FA;transition:width .3s}
+.card .pbar{background:var(--panel2)}.card .pbar i{background:var(--ok)}
+.dpct{min-width:160px;display:flex;flex-direction:column;gap:6px;align-items:flex-end}.dpct b{font-size:22px;font-weight:700}.dpct .pbar{width:160px}
+.dtab .mini-bar{display:block;width:100%;height:4px;border-radius:999px;background:var(--panel2);overflow:hidden;margin:3px 0 2px}.dtab .mini-bar u{display:block;height:100%;background:var(--ok);text-decoration:none}
+.dtab{min-width:96px}.dtab b{font-size:17px}
+.undo{margin-left:10px;border:0;background:none;padding:2px 4px;font:inherit;font-size:12px;font-weight:600;color:var(--muted);text-decoration:underline;cursor:pointer}.undo:hover{color:var(--text)}
+.need{margin-top:6px;font-size:13px;font-weight:600;color:#1D76D2}
+.helm.dark .need{color:#93C5FD}
+.step.done .need{color:var(--ok)}
+.need .undo{color:inherit;opacity:.85}
+.chk{pointer-events:none}
+.chk.tog{pointer-events:auto;cursor:pointer;border-style:solid}.chk.tog:hover{border-color:var(--accent)}
+.drop{display:flex;align-items:center;justify-content:center;min-height:64px;border:1.5px dashed var(--line);border-radius:8px;cursor:pointer;font-weight:600;background:var(--panel2)}
+.drop:hover{border-color:var(--accent)}.drop input{position:absolute;width:1px;height:1px;opacity:0}
+.res{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;padding:16px 20px}
+.res .r{border:1px solid var(--line);border-radius:8px;padding:14px 16px;background:var(--panel)}
+.res .r b{display:block;font-size:15px}.res .r span{color:var(--muted);font-size:13px}
+.res .r .acts{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+/* quiz */
+.qz{position:fixed;inset:0;background:var(--bg);z-index:60;display:none;flex-direction:column}
+.qz.on{display:flex}
+.qz .bar1{height:56px;background:var(--panel);border-bottom:1px solid var(--line);padding:0 20px;display:flex;gap:12px;align-items:center;justify-content:space-between}
+.qz .prog{flex:1;max-width:420px;height:6px;background:var(--panel2);border-radius:999px;overflow:hidden}.qz .prog i{display:block;height:6px;background:var(--accent);border-radius:999px}
+.qz main{flex:1;overflow:auto;padding:28px 20px}
+.qcol{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:16px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px}
+.qhead{display:flex;align-items:center;gap:10px;background:var(--panel2);border-radius:8px}
+.qnum{background:var(--accent);color:var(--onaccent);font-weight:700;padding:8px 14px;border-radius:8px 0 0 8px}
+.book{font-size:12px;font-weight:600;color:var(--gov);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:2px 9px}
+.qtext{font-size:19px;line-height:1.55;font-weight:500}
+.ch{display:flex;flex-direction:column;gap:10px}
+.ch button{text-align:left;display:flex;align-items:center;gap:14px;padding:12px 16px;min-height:56px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text)}
+.ch button:hover{border-color:var(--accent)}
+.ch button .L{flex:0 0 30px;height:30px;border-radius:50%;border:1.5px solid var(--text);display:grid;place-items:center;font-weight:700;font-size:13px}
+.ch button .t{font-size:17px}
+.ch button:disabled{color:var(--text)}
+.ch button.right{border:2px solid var(--ok);background:var(--okbg)}.ch button.right .L{background:var(--ok);color:#fff;border-color:var(--ok)}
+.ch button.wrong{border:2px solid var(--bad);background:var(--badbg);opacity:.75}.ch button.wrong .t{text-decoration:line-through}.ch button.wrong .L{background:var(--bad);color:#fff;border-color:var(--bad)}
+.fb{border-radius:8px;padding:12px 14px;font-size:15px;line-height:1.5}
+.fb.ok{background:var(--okbg);color:var(--ok)}.fb.no{background:var(--warnbg);color:var(--warn)}.fb.m{background:var(--panel2);color:var(--text)}
+.helm textarea{width:100%;min-height:110px;font:16px/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;border:1px solid var(--line);border-radius:8px;padding:12px;background:var(--panel);color:var(--text)}
+.qz .foot{height:64px;background:var(--panel);border-top:1px solid var(--line);padding:0 20px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.score{font-size:56px;font-weight:800;letter-spacing:-.03em;color:var(--accent)}
+/* check-my-notes dialog */
+.dlg{position:fixed;inset:0;background:var(--scrim);z-index:70;display:none;place-items:center;padding:16px}
+.dlg.on{display:grid}
+.dlg .box{background:var(--panel);border:1px solid var(--line);border-radius:12px;max-width:560px;width:100%;padding:24px}
+.dlg h3{margin:0 0 6px;font-size:20px;font-weight:700}
+.dlg ol{padding-left:20px;line-height:1.7;margin:10px 0 16px}
+.dlg .acts{display:flex;gap:10px;flex-wrap:wrap}
+@media (max-width:767px){.page{padding:16px 16px 92px}.step{grid-template-columns:32px 1fr}.step .acts{grid-column:1/-1;justify-content:flex-start}.today .t{font-size:24px}}
+/* ---------- Precalc page ---------- */
+.helm{--pre:#1F8A8A}.helm.dark{--pre:#4CC2C2}
+.today .k{color:#7DD3D3}
+.day .h h2{letter-spacing:.02em}
+.pc-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+.pc-kpis .card{padding:16px 18px;display:flex;flex-direction:column;gap:6px;text-decoration:none}
+.pc-kpis .lab{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.pc-kpis .big{font-size:30px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.pc-kpis .big small{font-size:15px;font-weight:600;color:var(--muted);margin-left:4px}
+.pc-kpis .sm{font-size:13px;color:var(--muted)}
+.pc-kpis .sm.warn{color:var(--warn)}.pc-kpis .sm.ok{color:var(--ok)}
+.card .pbar i{background:var(--pre)}
+.logger{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.logger .lt{font-size:13px;font-weight:600;color:var(--muted);margin-right:4px}
+.logger .lt b{color:var(--text);font-size:16px}
+.tw{overflow-x:auto}
+.pc-t{width:100%;border-collapse:collapse;font-size:14px}
+.pc-t th{text-align:left;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:10px 20px;border-bottom:1px solid var(--line);white-space:nowrap}
+.pc-t td{padding:12px 20px;border-top:1px solid var(--line);vertical-align:middle}
+.pc-t tr:first-child td{border-top:0}
+.pc-t tr.is-today td{background:var(--panel2)}
+.pc-t tr.is-off td{color:var(--muted)}
+.pc-t .nm{font-weight:600}
+.pc-t .num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.pc-t input{width:84px;min-height:36px;padding:0 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text);font:inherit;font-variant-numeric:tabular-nums}
+.pc-t input:focus{outline:2px solid var(--focus);outline-offset:1px}
+.pc-t tr.usna td:first-child{box-shadow:inset 3px 0 0 var(--pre)}
+.wk-list{margin:0;padding-left:18px}.wk-list li{margin:2px 0}
+.unit{border-top:1px solid var(--line)}
+.unit:first-child{border-top:0}
+.unit summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;font-weight:700}
+.unit summary::-webkit-details-marker{display:none}
+.unit summary .u-r{display:flex;align-items:center;gap:12px;font-weight:600;font-size:13px;color:var(--muted)}
+.unit summary .u-r .pbar{width:120px}
+.unit summary::before{content:"▸";color:var(--muted);margin-right:-4px}
+.unit[open] summary::before{content:"▾"}
+.unit summary .u-l{flex:1;display:flex;align-items:center;gap:10px}
+.step .when{font-size:12.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+.step.graded .n{color:var(--pre)}
+.step.done.graded .n{color:var(--muted)}
+.rules{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;padding:16px 20px}
+.rules .r{border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.rules .r b{display:block;font-size:15px;margin-bottom:4px}.rules .r span{color:var(--muted);font-size:13.5px;line-height:1.5}
+.scale{padding:0 20px 18px;font-size:13.5px;color:var(--muted)}.scale b{color:var(--text);letter-spacing:.06em;margin-right:6px}
+.res .r a.btn{text-decoration:none}
+@media (max-width:767px){.pc-t th,.pc-t td{padding:10px 12px}.step .when{grid-column:2}}
+</style>
+</head>
+<body>
+<div id="app" class="helm light">
+<div class="shell">
+<nav class="side" aria-label="Primary">
+<div class="brand hide-sm">
+<svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true" style="color: var(--accent); flex: 0 0 auto"><g stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="16" y1="3" x2="16" y2="29"></line><line x1="3" y1="16" x2="29" y2="16"></line><line x1="6.8" y1="6.8" x2="25.2" y2="25.2"></line><line x1="25.2" y1="6.8" x2="6.8" y2="25.2"></line></g><circle cx="16" cy="16" r="8.5" fill="var(--panel)" stroke="currentColor" stroke-width="2.6"></circle><circle cx="16" cy="16" r="3.4" fill="#60A5FA"></circle></svg>
+<span class="word lbl">HELM</span>
+</div>
+<a class="nav hide-sm" href="../" title="Search on HELM home">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="20" y1="20" x2="16.5" y2="16.5"></line></svg>
+<span class="lbl">Search</span><span class="kbd lbl">⌘K</span>
+</a>
+<a class="nav" href="../" title="Today">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>
+<span class="lbl">Today</span>
+</a>
+<a class="nav" href="../#/" title="SAT Helm">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+<span class="lbl">SAT Helm</span>
+</a>
+<a class="nav sub" href="../#/stats" title="SAT stats"><span class="subdot" aria-hidden="true"></span><span class="lbl">SAT stats</span></a>
+<a class="nav sub" href="../#/videos" title="How-to videos"><span class="subdot" aria-hidden="true"></span><span class="lbl">How-to videos</span></a>
+<a class="nav sub" href="../#report" title="Score report"><span class="subdot" aria-hidden="true"></span><span class="lbl">Score report</span></a>
+<a class="nav" href="../apgov/" title="AP Gov">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10l9-5 9 5"></path><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8"></path><path d="M3 20h18"></path></svg>
+<span class="lbl">AP Gov</span>
+</a>
+<a class="nav active" href="./" aria-current="page" title="Precalc">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18M4 20V4"></path><path d="M6 16c3-9 6-9 8-4s4 4 6-4"></path></svg>
+<span class="lbl">Precalc</span>
+</a>
+<a class="nav" href="../#wk-h" title="This week">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>
+<span class="lbl">This week</span>
+</a>
+<p class="navgroup lbl hide-sm">Other classes</p>
+<span class="nav lbl hide-sm" aria-disabled="true">Law<span class="soon">Soon</span></span>
+<span class="nav lbl hide-sm" aria-disabled="true">Stats<span class="soon">Soon</span></span>
+<span class="nav lbl hide-sm" aria-disabled="true">AP Business<span class="soon">Soon</span></span>
+<div class="spacer hide-sm"></div>
+<button class="nav hide-sm" id="side-btn" type="button" data-action="side" aria-label="Collapse sidebar">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M9 4v16"></path></svg>
+<span class="lbl">Collapse</span>
+</button>
+<button class="ws hide-sm" type="button" aria-label="Switch workspace: Patrick's Helm">
+<span class="avatar">P</span>
+<span class="lbl" style="display: flex; flex-direction: column; line-height: 1.2; min-width: 0"><span style="font-weight: 600">Patrick's Helm</span><span class="muted" style="font-size: 12px">Fall 2026</span></span>
+</button>
+</nav>
+
+<div class="main">
+<header class="top">
+<div class="crumbs"><a class="root hide-sm" href="../" style="text-decoration:none">Helm</a><span class="sep hide-sm">/</span><span>Precalc</span></div>
+<div class="grow"></div>
+<span class="fresh hide-md">College Precalculus (ASU MAT 170) · <span id="hdate"></span></span>
+<button class="iconbtn" id="theme-btn" type="button" data-action="theme" aria-label="Switch theme"></button>
+</header>
+<div class="page">
+  <div class="today">
+    <div class="k" id="tk">Today in Precalc</div>
+    <div class="t" id="tt"></div>
+    <div class="s" id="ts"></div>
+    <div class="tprog" id="tprog"></div>
+  </div>
+
+  <section class="pc-kpis" id="kpis" aria-label="Precalc progress"></section>
+
+  <section class="card day" aria-labelledby="todayh">
+    <div class="h"><div><h2 id="todayh">TODAY’S WORK</h2><div class="sub" id="todaysub"></div></div>
+      <div class="logger" id="logger"></div></div>
+    <div id="todaysteps"></div>
+  </section>
+
+  <section class="card day" aria-labelledby="goalh">
+    <div class="h"><div><h2 id="goalh">GRADES · ROAD TO JAN 31 (USNA)</h2><div class="sub">Enter each score when ASU posts it. Unit A, Unit B and the Midterm are the grades to have in before Jan 31.</div></div><span class="tag" id="goaltag"></span></div>
+    <div class="tw"><table class="pc-t" id="grades"></table></div>
+  </section>
+
+  <section class="card day" aria-labelledby="weekh">
+    <div class="h"><div><h2 id="weekh">NEXT 7 DAYS</h2><div class="sub">The plan moves by itself. Fall behind a day and the next steps simply show up again.</div></div></div>
+    <div class="tw"><table class="pc-t" id="week"></table></div>
+  </section>
+
+  <section class="card day" aria-labelledby="allh">
+    <div class="h"><div><h2 id="allh">ALL STEPS</h2><div class="sub">Every step in the course, with the date it is planned to be done. Tap a box when a step is finished.</div></div></div>
+    <div id="units"></div>
+  </section>
+
+  <section class="card day" aria-labelledby="ruleh">
+    <div class="h"><div><h2 id="ruleh">HOW THIS CLASS WORKS</h2><div class="sub">The rules that decide the grade</div></div></div>
+    <div class="rules">
+      <div class="r"><b>Unlock order</b><span>Syllabus Quiz at 100% → ALEKS Initial Knowledge Check → learn 70% of a unit’s topics to unlock that Unit Quiz → Honorlock Practice Quiz unlocks both exams.</span></div>
+      <div class="r"><b>Placement test: no guessing</b><span>The Initial Knowledge Check removes every topic it thinks you know. A lucky guess means that topic shows up on a proctored exam you never studied. Do it alone and say “I don’t know” when you don’t.</span></div>
+      <div class="r"><b>Unit quizzes: free points</b><span>Unlimited attempts, and a retake only re-asks the ones you missed. Keep going until each one is at 100%. Together they are 40% of the grade.</span></div>
+      <div class="r"><b>Exams: only 2 tries</b><span>Midterm (20%) and Final (40%) are proctored on Honorlock with 2 attempts each, and the higher score counts. Do the practice quizzes first; they have the same number of questions.</span></div>
+      <div class="r"><b>Calculator</b><span>Desmos is allowed on exams. Anything with CAS is not. Learn Desmos now so it is fast on test day.</span></div>
+      <div class="r"><b>No AI on problems</b><span>The syllabus says not to use AI on coursework. Use the Math Support Team for help on ALEKS problems.</span></div>
+    </div>
+    <div class="scale"><b>GRADE SCALE</b> A 89.5–100 · B 79.5–89.5 · C 69.5–79.5 · F below 69.5</div>
+  </section>
+
+  <section class="card day" aria-labelledby="linkh">
+    <div class="h"><div><h2 id="linkh">LINKS</h2><div class="sub">Everything for the class in one place</div></div></div>
+    <div class="res" id="links"></div>
+  </section>
+</div>
+</div>
+</div>
+<script>
+/* ================================================================
+   HELM — Precalc (ASU MAT 170)
+   The plan (tasks, hours, pace, days off) lives in plan.js.
+   Progress is saved with HELM_PROGRESS under "precalc", and a short
+   summary goes to "precalc_summary" for the HELM homepage.
+   ================================================================ */
+const P = window.HELM_PRECALC;
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const urlDate = new URLSearchParams(location.search).get('date');
+const TODAY = urlDate && /^\d{4}-\d{2}-\d{2}$/.test(urlDate) ? urlDate : P.isoOf(new Date());
+const WD = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const nice = (iso) => { const d = P.parse(iso); return WD[d.getDay()] + ', ' + MON[d.getMonth()] + ' ' + d.getDate(); };
+const short = (iso) => { const d = P.parse(iso); return MON[d.getMonth()] + ' ' + d.getDate(); };
+const daysBetween = (a, b) => Math.round((P.parse(b) - P.parse(a)) / 86400000);
+const fmtH = (h) => P.fmtMin(Math.round(h * 60));
+
+let PG = Object.assign({ done: {}, min: {}, scores: {} }, HELM_PROGRESS.get('precalc', {}));
+function save() { HELM_PROGRESS.put('precalc', PG); publish(); }
+
+const isDone = (id) => !!PG.done[id];
+const hoursDone = () => P.TASKS.reduce((a, t) => a + (isDone(t.id) ? t.h : 0), 0);
+const midTasks = P.TASKS.slice(0, P.TASKS.findIndex((t) => t.id === 'my') + 1);
+const midHours = midTasks.reduce((a, t) => a + t.h, 0);
+const midDone = () => midTasks.reduce((a, t) => a + (isDone(t.id) ? t.h : 0), 0);
+const nextTask = () => P.TASKS.find((t) => !isDone(t.id));
+const gradesIn = () => P.GRADED.filter((g) => PG.scores[g.key] != null && PG.scores[g.key] !== '').length;
+
+/* Today's list = what the plan puts on today, plus anything planned earlier that isn't done yet. */
+function todayList() {
+  const planned = P.dayFor(TODAY).tasks;
+  const late = P.TASKS.filter((t) => !isDone(t.id) && P.DUE[t.id] && P.DUE[t.id] < TODAY).map((t) => t.id);
+  const ids = [...new Set([...late, ...planned])];
+  if (!ids.length && P.minutesFor(TODAY) === 0) return [];
+  if (!ids.length) { const n = nextTask(); return n ? [n.id] : []; }
+  return ids;
+}
+
+function publish() {
+  const days = {};
+  Object.keys(P.DAYS).forEach((d) => { const ts = P.DAYS[d].tasks; days[d] = ts.every((id) => isDone(id)); });
+  HELM_PROGRESS.put('precalc_summary', {
+    updated: Date.now(), done: Object.keys(PG.done).filter((k) => PG.done[k]), hoursDone: hoursDone(), totalHours: P.TOTAL_HOURS,
+    midPct: Math.round(100 * midDone() / midHours), pct: Math.round(100 * hoursDone() / P.TOTAL_HOURS),
+    next: nextTask() ? nextTask().n : 'Course finished', scores: PG.scores, min: PG.min, days
+  });
+}
+
+function stepRow(t, opts) {
+  const d = isDone(t.id), late = !d && P.DUE[t.id] && P.DUE[t.id] < TODAY;
+  const when = d ? 'Done' : P.DUE[t.id] ? (late ? 'Was due ' + short(P.DUE[t.id]) : 'Plan: ' + short(P.DUE[t.id])) : '';
+  return `<div class="step${d ? ' done' : ''}${t.g ? ' graded' : ''}">
+    <button class="chk tog" type="button" data-tog="${t.id}" aria-pressed="${d}" aria-label="${d ? 'Mark not done' : 'Mark done'}: ${esc(t.n)}">${d ? '✓' : ''}</button>
+    <div><div class="n">${esc(t.n)}</div><div class="d">${esc(fmtH(t.h))}${t.d ? ' · ' + esc(t.d) : ''}</div></div>
+    <span class="when"${late ? ' style="color:var(--bad)"' : ''}>${esc(when)}</span></div>`;
+}
+
+function render() {
+  $('hdate').textContent = nice(TODAY);
+  const plan = P.minutesFor(TODAY), logged = PG.min[TODAY] || 0, list = todayList(), nx = nextTask();
+  const off = P.OFF.includes(TODAY);
+
+  /* hero */
+  $('tk').textContent = 'Today in Precalc · ' + nice(TODAY);
+  if (TODAY < P.START) { $('tt').textContent = 'Precalc starts ' + nice(P.START); $('ts').textContent = 'First step: the Welcome module, then the Syllabus Quiz to 100%.'; }
+  else if (off) { $('tt').textContent = 'Day off · ' + (P.OFF_WHY[TODAY] || 'No precalc today'); $('ts').textContent = nx ? 'Next up when you’re back: ' + nx.n : ''; }
+  else if (!nx) { $('tt').textContent = 'Course finished'; $('ts').textContent = 'Every step is checked off. Make sure the Proctoring Review is certified, then apply for credit.'; }
+  else { $('tt').textContent = P.fmtMin(plan) + ' · ' + P.byId[list[0]].n; $('ts').textContent = list.length > 1 ? 'Then: ' + list.slice(1).map((id) => P.byId[id].n).join(' → ') : 'One step today. If you finish early, keep going to the next one.'; }
+  const mp = Math.round(100 * midDone() / midHours), ap = Math.round(100 * hoursDone() / P.TOTAL_HOURS);
+  $('tprog').innerHTML = `<div class="pbox"><div class="plab"><span>To the Midterm</span><b class="tnum">${mp}%</b></div><div class="pbar"><i style="width:${mp}%"></i></div></div>
+    <div class="pbox"><div class="plab"><span>Whole course</span><b class="tnum">${ap}%</b></div><div class="pbar"><i style="width:${ap}%"></i></div></div>`;
+
+  /* KPIs */
+  const toUSNA = daysBetween(TODAY, P.USNA_DEADLINE);
+  const nextG = P.GRADED.find((g) => PG.scores[g.key] == null || PG.scores[g.key] === '');
+  const usnaG = P.GRADED.filter((g) => ['qa', 'qb', 'mid'].includes(g.key));
+  const behind = P.TASKS.filter((t) => !isDone(t.id) && P.DUE[t.id] && P.DUE[t.id] < TODAY).length;
+  $('kpis').innerHTML = `
+    <div class="card"><span class="lab">Time today</span><span class="big tnum">${logged}<small>of ${plan} min</small></span><div class="pbar"><i style="width:${plan ? Math.min(100, Math.round(100 * logged / plan)) : 0}%"></i></div></div>
+    <div class="card"><span class="lab">Hours done</span><span class="big tnum">${fmtH(hoursDone())}</span><span class="sm">of ${fmtH(midHours)} to the Midterm</span></div>
+    <div class="card"><span class="lab">Next grade</span><span class="big">${nextG ? esc(nextG.name) : 'All in'}</span><span class="sm">${nextG ? 'Plan: ' + nice(P.DUE[nextG.task]) : 'Every grade is posted'}</span></div>
+    <div class="card"><span class="lab">USNA · Jan 31</span><span class="big tnum">${usnaG.filter((g) => PG.scores[g.key] != null && PG.scores[g.key] !== '').length}<small>of 3 grades in</small></span><span class="sm${toUSNA < 0 ? '' : toUSNA < 14 ? ' warn' : ''}">${toUSNA >= 0 ? toUSNA + ' days left' : 'Past Jan 31'}</span></div>
+    <div class="card"><span class="lab">On schedule?</span><span class="big">${behind ? behind + (behind === 1 ? ' step' : ' steps') : 'Yes'}</span><span class="sm ${behind ? 'warn' : 'ok'}">${behind ? 'behind the plan' : 'right on the plan'}</span></div>`;
+
+  /* today */
+  $('todaysub').textContent = off ? 'Day off on the plan. You can still do steps if you want.' : plan ? 'Planned time: ' + P.fmtMin(plan) + '. Check a step off when it’s finished.' : '';
+  $('logger').innerHTML = `<span class="lt">Logged today <b class="tnum">${logged} min</b></span>
+    <button class="btn g sm" type="button" data-log="-15" ${logged ? '' : 'disabled'}>−15</button>
+    <button class="btn g sm" type="button" data-log="15">+15 min</button><button class="btn sm" type="button" data-log="30">+30 min</button>`;
+  $('todaysteps').innerHTML = list.length ? list.map((id) => stepRow(P.byId[id])).join('') : `<div class="step"><span></span><div><div class="n">Nothing planned today</div><div class="d">${nx ? 'Next step: ' + esc(nx.n) : ''}</div></div><span></span></div>`;
+
+  /* grades */
+  const gtag = $('goaltag'), nIn = usnaG.filter((g) => PG.scores[g.key] != null && PG.scores[g.key] !== '').length;
+  gtag.className = 'tag ' + (nIn >= 2 ? 'done' : 'today'); gtag.textContent = nIn + ' of 3 in for USNA';
+  $('grades').innerHTML = `<thead><tr><th>GRADED ITEM</th><th>WEIGHT</th><th>PLANNED DATE</th><th>TRIES</th><th>SCORE (%)</th><th>STATUS</th></tr></thead><tbody>` +
+    P.GRADED.map((g) => { const s = PG.scores[g.key], has = s != null && s !== '', due = P.DUE[g.task], usna = due <= P.USNA_DEADLINE;
+      const st = has ? '<span class="tag done">Posted</span>' : due < TODAY ? '<span class="tag late">Behind plan</span>' : usna ? '<span class="tag today">Before Jan 31</span>' : '<span class="tag tom">After Jan 31</span>';
+      return `<tr class="${usna ? 'usna' : ''}"><td class="nm">${esc(g.name)}</td><td class="num">${g.w}%</td><td class="num">${nice(due)}</td><td>${g.key === 'mid' || g.key === 'fin' ? '2 (higher counts)' : 'Unlimited'}</td>
+        <td><input type="number" min="0" max="100" step="0.1" inputmode="decimal" data-score="${g.key}" value="${has ? esc(s) : ''}" aria-label="${esc(g.name)} score"></td><td>${st}</td></tr>`; }).join('') + '</tbody>';
+
+  /* next 7 days */
+  let rows = '', d = TODAY;
+  for (let i = 0; i < 7; i++) { const m = P.minutesFor(d), ts = P.dayFor(d).tasks, isOff = P.OFF.includes(d);
+    rows += `<tr class="${d === TODAY ? 'is-today' : ''}${isOff ? ' is-off' : ''}"><td class="nm num">${nice(d)}${d === TODAY ? ' · Today' : ''}</td><td class="num">${m ? P.fmtMin(m) : '—'}</td>
+      <td>${isOff ? esc(P.OFF_WHY[d] || 'Day off') : ts.length ? `<ul class="wk-list">${ts.map((id) => `<li${isDone(id) ? ' style="text-decoration:line-through;color:var(--muted)"' : ''}>${esc(P.byId[id].n)}</li>`).join('')}</ul>` : '—'}</td></tr>`;
+    d = P.next(d); }
+  $('week').innerHTML = `<thead><tr><th>DAY</th><th>TIME</th><th>WORK</th></tr></thead><tbody>${rows}</tbody>`;
+
+  /* all steps by unit */
+  const openState = {}; document.querySelectorAll('#units details').forEach((x) => { openState[x.dataset.u] = x.open; });
+  $('units').innerHTML = P.UNITS.map((u) => { const ts = P.TASKS.filter((t) => t.u === u.id), h = ts.reduce((a, t) => a + t.h, 0), hd = ts.reduce((a, t) => a + (isDone(t.id) ? t.h : 0), 0), pc = Math.round(100 * hd / h);
+    const last = P.DUE[ts[ts.length - 1].id], cur = nx && nx.u === u.id, open = u.id in openState ? openState[u.id] : cur;
+    return `<details class="unit" data-u="${u.id}"${open ? ' open' : ''}><summary><span class="u-l">${esc(u.full)}${cur ? ' <span class="tag today">Now</span>' : pc === 100 ? ' <span class="tag done">Done</span>' : ''}</span>
+      <span class="u-r"><span class="tnum">${fmtH(h)} · plan done ${short(last)}</span><span class="pbar"><i style="width:${pc}%"></i></span></span></summary>${ts.map((t) => stepRow(t)).join('')}</details>`; }).join('');
+
+  /* links */
+  const L = P.LINKS;
+  $('links').innerHTML = [
+    ['Canvas course', 'Modules, quizzes, announcements', L.modules, 'Open modules'],
+    ['Grades', 'Where ASU posts every score', L.grades, 'Open grades'],
+    ['ALEKS', 'Learning topics and the unit quizzes', L.aleks, 'Open ALEKS'],
+    ['Syllabus', 'Official syllabus for section OD26_28', L.syllabus, 'Open syllabus'],
+    ['Desmos', 'Allowed calculator on exams', L.desmos, 'Open Desmos'],
+    ['Math Support Team', 'Office hours and 1-on-1 help', L.support, 'Get help']
+  ].map(([b, s, h, t]) => `<div class="r"><b>${b}</b><span>${s}</span><div class="acts"><a class="btn sm" href="${h}" target="_blank" rel="noopener">${t} ↗</a></div></div>`).join('') +
+    `<div class="r"><b>Tech support</b><span>ulcourses@asu.edu · (844) 448-7707 · 7am–6pm Arizona time</span><div class="acts"><a class="btn g sm" href="mailto:ulcourses@asu.edu">Email ↗</a></div></div>`;
+}
+
+document.addEventListener('click', (e) => {
+  const tg = e.target.closest('[data-tog]');
+  if (tg) { const id = tg.dataset.tog; if (PG.done[id]) delete PG.done[id]; else PG.done[id] = Date.now(); save(); render(); return; }
+  const lg = e.target.closest('[data-log]');
+  if (lg) { PG.min[TODAY] = Math.max(0, (PG.min[TODAY] || 0) + Number(lg.dataset.log)); save(); render(); }
+});
+document.addEventListener('change', (e) => {
+  const sc = e.target.closest('[data-score]'); if (!sc) return;
+  const v = sc.value.trim(); if (v === '') delete PG.scores[sc.dataset.score]; else PG.scores[sc.dataset.score] = Math.max(0, Math.min(100, Number(v)));
+  save(); render();
+});
+render();
+HELM_PROGRESS.pull('precalc').then((v) => { if (v) { PG = Object.assign({ done: {}, min: {}, scores: {} }, v); render(); publish(); } });
+</script>
+
+<script>
+/* HELM shell: theme + sidebar, shared with the HELM homepage */
+(function(){
+  const get=(k,d)=>{try{const v=localStorage.getItem('helm.'+k);return v==null?d:JSON.parse(v)}catch(e){return d}};
+  const set=(k,v)=>{try{localStorage.setItem('helm.'+k,JSON.stringify(v))}catch(e){}};
+  const SUN='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+  const MOON='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+  const app=document.getElementById('app');
+  function paint(){const dark=get('theme','light')==='dark',col=get('collapsed',false);
+    app.className='helm '+(dark?'dark':'light')+(col?' collapsed':'');
+    const t=document.getElementById('theme-btn');t.innerHTML=dark?SUN:MOON;t.setAttribute('aria-label',dark?'Switch to light theme':'Switch to dark theme');
+    const s=document.getElementById('side-btn');if(s)s.setAttribute('aria-label',col?'Expand sidebar':'Collapse sidebar')}
+  document.addEventListener('click',e=>{const el=e.target.closest('[data-action]');if(!el)return;
+    if(el.dataset.action==='theme'){set('theme',get('theme','light')==='dark'?'light':'dark');paint()}
+    if(el.dataset.action==='side'){set('collapsed',!get('collapsed',false));paint()}});
+  paint();
+})();
+</script>
+</div>
+</body>
+</html>
