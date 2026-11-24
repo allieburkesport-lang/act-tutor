@@ -13,16 +13,19 @@
   ],
   "start": "2026-11-24"
  },
- "updated": "Mon Nov 23, 1:28 PM ET",
+ "updated": "Tue Nov 24, 12:08 AM ET",
  "online": true,
- "today": "2026-11-23",
+ "today": "2026-11-24",
  "test": "2026-12-05",
  "total_concepts": 29,
  "math": 19,
  "english": 10,
  "changes": [
-  "Transitions moved to 2026-11-23 (not practised on its day)",
-  "Nonlinear equations and systems moved to 2026-11-24 (not practised on its day)"
+  "Transitions moved to 2026-11-24 (not practised on its day)",
+  "Nonlinear equations and systems moved to 2026-11-25 (not practised on its day)",
+  "Linear functions moved to 2026-12-01 (not practised on its day)",
+  "Linear equations in two variables moved to 2026-12-01 (not practised on its day)",
+  "Words in context moved to 2026-12-01 (not practised on its day)"
  ],
  "skills": [
   {
@@ -914,10 +917,6 @@
       4,
       2
      ],
-     "Linear functions": [
-      2,
-      0
-     ],
      "Probability and conditional probability": [
       4,
       4
@@ -945,6 +944,10 @@
      "Transitions": [
       3,
       1
+     ],
+     "Linear functions": [
+      2,
+      0
      ],
      "Inferences": [
       3,
@@ -1014,16 +1017,15 @@
    "kind": "learn",
    "learn": [],
    "note": "Focus set: biggest point-losers first, each category in a row",
-   "carried": [
-    "trans"
-   ],
+   "reset_at": 1795458543595,
+   "status": "not done",
    "focus": [
     "nlf",
     "nleq",
     "lat",
     "bound"
    ],
-   "math_share": 62,
+   "math_share": 65,
    "review": [],
    "label": "Mon Nov 23",
    "concepts": [
@@ -1096,22 +1098,6 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/nleq"
     },
     {
-     "skill": "lat",
-     "name": "Lines, angles and triangles",
-     "sec": "Math",
-     "share": 5.0,
-     "acc": 25,
-     "tried": 7,
-     "lessons": [
-      {
-       "id": "e2",
-       "title": "Angles",
-       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/lat"
-      }
-     ],
-     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lat"
-    },
-    {
      "skill": "lin2",
      "name": "Linear equations in two variables",
      "sec": "Math",
@@ -1126,6 +1112,22 @@
       }
      ],
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lin2"
+    },
+    {
+     "skill": "lat",
+     "name": "Lines, angles and triangles",
+     "sec": "Math",
+     "share": 5.0,
+     "acc": 25,
+     "tried": 7,
+     "lessons": [
+      {
+       "id": "e2",
+       "title": "Angles",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/lat"
+      }
+     ],
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lat"
     },
     {
      "skill": "lin1",
@@ -1147,22 +1149,6 @@
       }
      ],
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lin1"
-    },
-    {
-     "skill": "wic",
-     "name": "Words in context",
-     "sec": "English",
-     "share": 15.7,
-     "acc": 50,
-     "tried": 60,
-     "lessons": [
-      {
-       "id": "r1",
-       "title": "Words in context",
-       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/wic"
-      }
-     ],
-     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/wic"
     },
     {
      "skill": "bound",
@@ -1189,6 +1175,22 @@
       }
      ],
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/bound"
+    },
+    {
+     "skill": "wic",
+     "name": "Words in context",
+     "sec": "English",
+     "share": 15.7,
+     "acc": 50,
+     "tried": 60,
+     "lessons": [
+      {
+       "id": "r1",
+       "title": "Words in context",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/wic"
+      }
+     ],
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/wic"
     },
     {
      "skill": "syn",
@@ -1466,8 +1468,26 @@
      "rotation"
     ]
    ],
-   "result": null,
-   "reset_at": 1795458543595
+   "result": {
+    "questions": 0,
+    "first_try": 0,
+    "pct": null,
+    "lessons": 0,
+    "by_skill": {
+     "Linear functions": [
+      0,
+      0
+     ],
+     "Linear equations in two variables": [
+      0,
+      0
+     ],
+     "Words in context": [
+      0,
+      0
+     ]
+    }
+   }
   },
   {
    "date": "2026-11-24",
@@ -1475,14 +1495,15 @@
    "learn": [],
    "note": "Focus set: biggest point-losers first, each category in a row",
    "carried": [
-    "nleq"
+    "trans"
    ],
    "focus": [
     "linf",
+    "nleq",
     "lin2",
     "wic"
    ],
-   "math_share": 53,
+   "math_share": 40,
    "review": [],
    "label": "Tue Nov 24",
    "concepts": [
@@ -1740,6 +1761,7 @@
    "review_names": [],
    "focus_names": [
     "Linear functions",
+    "Nonlinear equations and systems",
     "Linear equations in two variables",
     "Words in context"
    ],
@@ -1931,13 +1953,15 @@
    "kind": "learn",
    "learn": [],
    "note": "Focus set: biggest point-losers first, each category in a row",
+   "carried": [
+    "nleq"
+   ],
    "focus": [
     "nlf",
-    "nleq",
     "lin2",
     "wic"
    ],
-   "math_share": 47,
+   "math_share": 53,
    "review": [],
    "label": "Wed Nov 25",
    "concepts": [
@@ -2195,7 +2219,6 @@
    "review_names": [],
    "focus_names": [
     "Nonlinear functions",
-    "Nonlinear equations and systems",
     "Linear equations in two variables",
     "Words in context"
    ],
@@ -3754,8 +3777,13 @@
    "kind": "weak",
    "learn": [],
    "note": "Focus set: biggest point-losers first, each category in a row",
-   "focus": [
+   "carried": [
+    "linf",
     "lin2",
+    "wic"
+   ],
+   "focus": [
+    "nleq",
     "bound"
    ],
    "math_share": 64,
@@ -4015,7 +4043,7 @@
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-12-01",
    "review_names": [],
    "focus_names": [
-    "Linear equations in two variables",
+    "Nonlinear equations and systems",
     "Boundaries (punctuation)"
    ],
    "n_questions": 50,
