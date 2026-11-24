@@ -1,16 +1,16 @@
 /* ---------- HELM Precalc plan (shared by the Precalc page and the HELM homepage) ----------
    ASU MAT 170 College Precalculus, section OD26_28. On-demand course, no due dates.
    Pace chosen Nov 24, 2026:
-     1 hr a day through Dec 5 (SAT day), 1 hr 30 min a day from Dec 6,
+     1 hr a day through Dec 5 (SAT day; Nov 25 and Nov 27 added Nov 24), 1 hr 30 min a day from Dec 6,
      2 hr a day over Christmas break (Dec 19 - Jan 5), 7 days a week.
-     Off: Nov 25-27, Dec 24-26, Dec 31 - Jan 1, and Jan 8-12 (away).
+     Off: Nov 26 (Thanksgiving), Dec 24-26, Dec 31 - Jan 1, and Jan 8-12 (away).
    Goal: grades on the books for USNA before Jan 31 (Unit A, Unit B, Midterm).
    Edit PACE / OFF below if the plan changes; every date on the site re-flows by itself. */
 (function () {
   const START = '2026-11-24';
-  const OFF = ['2026-11-25', '2026-11-26', '2026-11-27', '2026-12-24', '2026-12-25', '2026-12-26', '2026-12-31', '2027-01-01',
+  const OFF = ['2026-11-26', '2026-12-24', '2026-12-25', '2026-12-26', '2026-12-31', '2027-01-01',
     '2027-01-08', '2027-01-09', '2027-01-10', '2027-01-11', '2027-01-12'];
-  const OFF_WHY = { '2026-11-25': 'Thanksgiving break', '2026-11-26': 'Thanksgiving', '2026-11-27': 'Thanksgiving break', '2026-12-24': 'Christmas Eve', '2026-12-25': 'Christmas', '2026-12-26': 'Christmas break',
+  const OFF_WHY = { '2026-11-26': 'Thanksgiving', '2026-12-24': 'Christmas Eve', '2026-12-25': 'Christmas', '2026-12-26': 'Christmas break',
     '2026-12-31': 'New Year’s Eve', '2027-01-01': 'New Year’s Day', '2027-01-08': 'Away', '2027-01-09': 'Away', '2027-01-10': 'Away', '2027-01-11': 'Away', '2027-01-12': 'Away' };
   function minutesFor(iso) {
     if (iso < START || OFF.includes(iso)) return 0;
