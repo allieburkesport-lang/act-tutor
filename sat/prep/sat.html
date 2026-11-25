@@ -1032,7 +1032,7 @@ function dwScreen(q,t,given){
     (fx?`<div class="dw-p" style="font-size:15px;color:var(--mute)">Line 1 finds ${esc(t.V)}. Lines 2 and up are optional: they draw the graph so you can see it pass through ${pts.length>1?'both points':'the point'}.</div>`:'')}
 /* ---------- Clean question HTML for the Desmos help (College Board questions carry <sup>, <i>, tables) ---------- */
 function dwTxt(h){return String(h??'').replace(/<sup>\s*2\s*<\/sup>/gi,'²').replace(/<sup>\s*3\s*<\/sup>/gi,'³').replace(/<sup>(.*?)<\/sup>/gi,(m,x)=>{const y=x.replace(/<[^>]+>/g,'').trim();return '^'+(/^[\w.]+$/.test(y)||/^\([^()]*\)$/.test(y)?y:'('+y+')')})
-  .replace(/<sub>(.*?)<\/sub>/gi,(m,x)=>x.replace(/\d/g,d=>'₀₁₂₃₄₅₆₇₈₉'[d])).replace(/<br\s*\/?>/gi,' ').replace(/<\/(p|div|li|td|th|tr|h\d|table)>/gi,' . ').replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ').replace(/&minus;/g,'−').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/(\d)([A-Z][a-z])/g,'$1 . $2').replace(/\s+/g,' ').replace(/(\s\.)+/g,' .').replace(/^\s*\.\s*|\s*\.\s*$/g,'').trim()}
+  .replace(/<sub>(.*?)<\/sub>/gi,(m,x)=>x.replace(/\d/g,d=>'₀₁₂₃₄₅₆₇₈₉'[d])).replace(/<br\s*\/?>/gi,' . ').replace(/<\/(p|div|li|td|th|tr|h\d|table)>/gi,' . ').replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ').replace(/&minus;/g,'−').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/(\d)([A-Z][a-z])/g,'$1 . $2').replace(/\s+/g,' ').replace(/(\s\.)+/g,' .').replace(/^\s*\.\s*|\s*\.\s*$/g,'').trim()}
 /* ---------- Table / points → Desmos regression (the classic SAT trick: table + y₁ ~ model) ---------- */
 function dwNum(t){const v=+String(t).replace(/−/g,'-').replace(/,/g,'').trim();if(isFinite(v)&&String(t).trim()!=='')return v;const m=String(t).replace(/−/g,'-').match(/^(-?\d+)\s*\/\s*(\d+)$/);return m?+m[1]/+m[2]:NaN}
 function dwTable(q){const pts=[];const H=String(q.q||'');
@@ -1123,7 +1123,8 @@ function dwGraphLines(q,t,given){const val=+String(t.val).replace(/−/g,'-');le
 const DESMOS_KEY='b421d86fb1ac4ece8976ec06f2d31884';let _dsLoad=null;
 function dsLoad(){if(window.Desmos)return Promise.resolve();if(_dsLoad)return _dsLoad;_dsLoad=new Promise((ok,no)=>{const sc=document.createElement('script');sc.src='https://www.desmos.com/api/v1.12/calculator.js?apiKey='+DESMOS_KEY;sc.onload=ok;sc.onerror=no;document.head.appendChild(sc)});return _dsLoad}
 const DW_FN='mean|median|stdev|stdevp|total|round|min|max|sin|cos|tan|log|ln|sqrt|cbrt|abs|exp';
-function dwLatex(t){let s=dwClean(dwTxt(String(t)));if(!/\[/.test(s))s=s.replace(/(\d),(?=\d{3}(?!\d))/g,'$1');s=s.replace(/([²³⁴⁵⁶])√\s*\(([^()]*)\)/g,(m,n,x)=>'§RT'+('²³⁴⁵⁶'.indexOf(n)+2)+'§('+x+')').replace(/^(?:then\s+)?type\s+/i,'').replace(/−/g,'-').replace(/×|·/g,'\\cdot ').replace(/÷/g,'/').replace(/π/g,'\\pi ').replace(/~/g,'\\sim ').replace(/≤/g,'§LE§').replace(/≥/g,'§GE§').replace(/°/g,'');
+function dwExp(s){let o='',i=0;while(i<s.length){if(s[i]==='^'&&s[i+1]==='('){let d=0,j=i+1;for(;j<s.length;j++){if(s[j]==='(')d++;else if(s[j]===')'){d--;if(!d)break}}if(j<s.length){o+='^{'+dwExp(s.slice(i+2,j))+'}';i=j+1;continue}}o+=s[i];i++}return o}
+function dwLatex(t){let s=dwExp(dwClean(dwTxt(String(t))));if(!/\[/.test(s))s=s.replace(/(\d),(?=\d{3}(?!\d))/g,'$1');s=s.replace(/([²³⁴⁵⁶])√\s*\(([^()]*)\)/g,(m,n,x)=>'§RT'+('²³⁴⁵⁶'.indexOf(n)+2)+'§('+x+')').replace(/^(?:then\s+)?type\s+/i,'').replace(/−/g,'-').replace(/×|·/g,'\\cdot ').replace(/÷/g,'/').replace(/π/g,'\\pi ').replace(/~/g,'\\sim ').replace(/≤/g,'§LE§').replace(/≥/g,'§GE§').replace(/°/g,'');
   s=s.replace(/\b(mean|median|stdev|stdevp|total|round)\s*\(/g,'\\operatorname{$1}(').replace(/\b(sin|cos|tan|log|ln)\s*\(/g,'\\$1(').replace(/\bsqrt\s*\(/g,'√(');
   s=s.replace(/([A-Za-z])_([A-Za-z0-9])/g,'$1_{$2}').replace(/([A-Za-z])([₀-₉])/g,(m,a,b)=>a+'_{'+'₀₁₂₃₄₅₆₇₈₉'.indexOf(b)+'}').replace(/²/g,'^{2}').replace(/³/g,'^{3}').replace(/\^\(([^()]*)\)/g,'^{$1}').replace(/\^([A-Za-z0-9_{}.]+)/g,(m,x)=>x.startsWith('{')?m:'^{'+x+'}');
   s=s.replace(/√\s*\(([^()]*)\)/g,'\\sqrt{$1}').replace(/√\s*(\d+)/g,'\\sqrt{$1}').replace(/√\s*([A-Za-z])/g,'\\sqrt{$1}').replace(/\|([^|]+)\|/g,'\\left|$1\\right|').replace(/\(/g,'\\left(').replace(/\)/g,'\\right)').replace(/\[/g,'\\left[').replace(/\]/g,'\\right]');
@@ -1158,12 +1159,13 @@ function dsBounds(pts){if(!pts.length)return null;const xs=pts.map(p=>p[0]),ys=p
 function dwChoices(q){if(!q.ch||q.ch.length<2)return null;
   const T=dwTxt(q.q);const sm=T.match(/graph of y\s*=\s*[a-z]\(x\)\s*([+−-])\s*(\d+(?:\.\d+)?)/i);const shift=sm?(sm[1]==='+'?' + ':' − ')+sm[2]:'';
   const fnRx=new RegExp('\\b('+DW_FN+')\\b','g');
-  const rhs=q.ch.map(c=>{const t=dwTxt(c).trim();if(/[A-Za-z]{3,}/.test(t.replace(fnRx,'')))return null;if((t.match(/=/g)||[]).length>1)return null;
+  const one=t=>{t=t.trim();if(/[A-Za-z]{3,}/.test(t.replace(fnRx,'')))return null;if((t.match(/=/g)||[]).length>1)return null;
     const m=t.match(/^\s*(?:[a-zA-Z]\s*\(\s*x\s*\)|y)\s*=\s*(.+)$/);
-    const body=m?m[1]:t,vars=new Set((body.replace(fnRx,'').match(/[A-Za-z]/g)||[]));if([...vars].some(v=>v!=='x'&&v!=='y'))return null;if(!vars.has('x')&&!vars.has('y'))return null;
+    const body=m?m[1]:t,vars=new Set((body.replace(fnRx,'').match(/[A-Za-z]/g)||[]));if([...vars].some(v=>v!=='x'&&v!=='y'))return null;if(!vars.has('x')&&!vars.has('y')&&!m)return null;
     if(m)return 'y = '+(shift?'('+body+')'+shift:body);                 // f(x) = … / y = …  → graph it
     if(/[=<>≤≥]/.test(t))return t;                                        // x + 3y = 240, −4 < x < −3 → plot as written
-    return vars.has('y')?null:'y = '+(shift?'('+t+')'+shift:t)});        // an expression in x
+    return vars.has('y')?null:'y = '+(shift?'('+t+')'+shift:t)};        // an expression in x
+  const rhs=q.ch.map(c=>{const parts=dwTxt(c).split(/\s\.\s/).map(x=>x.trim()).filter(Boolean);const r=parts.map(one);return r.some(x=>!x)?null:r.join(' ; ')});
   if(rhs.some(r=>!r))return null;
   const pts=[];(q.steps||[]).concat([T]).forEach(st=>{for(const m of dwTxt(st).matchAll(/\(\s*(−?-?\d+(?:\.\d+)?)\s*,\s*(−?-?\d+(?:\.\d+)?)\s*\)/g)){const x=dwNum(m[1]),y=dwNum(m[2]);if(isFinite(x)&&isFinite(y)&&!pts.some(p=>p[0]===x&&p[1]===y))pts.push([x,y])}});
   return {rhs,shift,pts:pts.slice(0,6)}}
@@ -1183,7 +1185,7 @@ function desmosWay(q0,h){
   const tb=!t?dwTable(q0):null;
   const cm=!t&&!tb&&!(h.d||[]).length?dwChoices(q):null;
   if(cm){const C=['#c74440','#2d70b3','#388c46','#6042a6'];const ex=[];
-    cm.rhs.forEach((r,j)=>{ex.push({type:'text',text:'Choice '+L[j]});ex.push({latex:dwLatex(r),color:C[j%4],note:r})});
+    cm.rhs.forEach((r,j)=>{ex.push({type:'text',text:'Choice '+L[j]});r.split(' ; ').forEach(z=>ex.push({latex:dwLatex(z),color:C[j%4],note:z}))});
     if(cm.pts.length)ex.push({type:'text',text:'Points from the graph'});cm.pts.forEach(p=>ex.push({latex:dwLatex('('+dwNumS(p[0])+', '+dwNumS(p[1])+')'),color:'#000000'}));
     o=dwLive({ex,b:dsBounds(cm.pts)})+`<div class="dw-h">Method 1: Desmos — check the choices</div><div class="dw-p">Type each answer choice${cm.shift?` with the <b>${esc(cm.shift.trim())}</b> from the question added on (the graph shows y = f(x)${esc(cm.shift)})`:''} as its own line${cm.pts.length?', then type the points you read off the graph':''}. The right choice is the only curve that goes through ${cm.pts.length>1?'every black point':'the graph'}.</div>`+
       `<div class="dw-p">In this one: ${cm.rhs.map((r,j)=>`<b>${L[j]}</b> ${esc(r)}`).join(' · ')}</div><div class="dw-ans">Answer: ${esc(ans)}</div>`;}
@@ -1213,8 +1215,8 @@ function desmosWay(q0,h){
   if(!lines.length&&!tb&&!cm&&!t){ // every math question still gets the real Desmos: the question's equations + any points, ready to check work
     const T=dwTxt(q0.q),ex=[],pts=[];const C=['#c74440','#2d70b3','#388c46','#6042a6'];
     // every equation or inequality in the question (cut out of the sentence), e.g. "If 4x = 3, …" → 4x = 3
-    const SPLIT=new RegExp('[.?;,:]\\s|\\s(?:'+['is','in','at','of','to','on','if','or','an','as','be','by','it','so','and','the','what','which','where','when','for','that','then','with','are','has','have','than','from'].join('|')+')\\b|(?:^|\\s)[A-Z][a-z]+|\\s(?!(?:'+DW_FN+')\\b)[a-z]{3,}\\b','g');
-    T.split(SPLIT).map(x=>(x||'').trim().replace(/[\s.]+$/,'')).filter(x=>x&&/[=<>≤≥]/.test(x)&&/[A-Za-z]/.test(x)&&x.length<70&&!/[A-Za-z]{4,}/.test(x.replace(new RegExp('\\b('+DW_FN+')\\b','g'),''))).filter(e=>{const v=new Set((e.replace(new RegExp('\\b('+DW_FN+')\\b','g'),'').replace(/^[a-z]\(x\)/,'').match(/[A-Za-z]/g)||[]).filter(c=>c!=='x'&&c!=='y'));return v.size<=1&&!/[^\x00-\x7F−²³√≤≥×÷·π|]/.test(e)}).forEach(e=>{if(ex.length<5)dwLine(e).filter(z=>z.latex).forEach(z=>{if(!ex.some(w=>w.latex===z.latex))ex.push({latex:z.latex,color:C[ex.length%4],note:z.disp})})});
+    const SPLIT=new RegExp('\\?|[.;,:]\\s|\\s(?:'+['is','in','at','of','to','on','if','or','an','as','be','by','it','so','and','the','what','which','where','when','for','that','then','with','are','has','have','than','from'].join('|')+')\\b|(?:^|\\s)[A-Z][a-z]+|\\s(?!(?:'+DW_FN+')\\b)[a-z]{3,}\\b','g');
+    T.split(SPLIT).map(x=>(x||'').trim().replace(/[\s.]+$/,'').replace(/^([A-Za-z])\(\s*([a-wz])\s*\)\s*=(.*)$/,(m,f,v,r)=>/[A-Za-z]/.test(r.replace(new RegExp('(^|[^A-Za-z])'+v+'(?![A-Za-z])','g'),'$1'))&&!new RegExp('(^|[^A-Za-z])'+v+'(?![A-Za-z])').test(r)?m:f+'(x) ='+r.replace(new RegExp('(^|[^A-Za-z])'+v+'(?![A-Za-z])','g'),'$1x'))).filter(x=>x&&/[=<>≤≥]/.test(x)&&/[A-Za-z]/.test(x)&&x.length<70&&!/[A-Za-z]{4,}/.test(x.replace(new RegExp('\\b('+DW_FN+')\\b','g'),''))).filter(e=>{const body=e.replace(new RegExp('\\b('+DW_FN+')\\b','g'),'').replace(/^[A-Za-z]\(x\)/,'');if(/(^|[^A-Za-z])[A-Za-wz]\(\s*[x\d]/.test(body))return false;const v=new Set((body.match(/[A-Za-z]/g)||[]).filter(c=>c!=='x'&&c!=='y'));const hasXY=/[xy]/.test(body);return (hasXY?v.size===0:v.size<=1)&&!/[^\x00-\x7F−²³√≤≥×÷·π|]/.test(e)}).forEach(e=>{if(ex.length<5)dwLine(e).filter(z=>z.latex).forEach(z=>{if(!ex.some(w=>w.latex===z.latex))ex.push({latex:z.latex,color:C[ex.length%4],note:z.disp})})});
     // a data list + "mean / median / range / standard deviation" → L = [ … ] and the function
     {const st=T.match(/(mean|median|range|standard deviation)/i),lm=T.match(/(?:−?-?\d+(?:\.\d+)?\s*,\s*){3,}−?-?\d+(?:\.\d+)?/);
      if(st&&lm){const nums=lm[0].split(',').map(x=>x.trim().replace(/−/g,'-'));ex.push({latex:'L=\\left['+nums.join(',')+'\\right]',note:'L = ['+nums.join(', ')+']'});
