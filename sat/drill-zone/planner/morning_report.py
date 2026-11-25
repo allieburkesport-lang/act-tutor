@@ -134,15 +134,32 @@ QI = {}
 for _a in A:
     _q, _, _t = (_a.get('question') or '').partition(' ')
     QI.setdefault(_q, (_a.get('concept_id'), _t))
-def short_q(qid):  # name the question by its skill + kind instead of its raw id (Allie, Nov 25)
-    sk, txt = QI.get(qid, (None, ''))
+def short_q(qid):  # the question's SAT skill, exactly as recorded with his answer (no guessing from the text)
+    sk = QI.get(qid, (None, ''))[0]
     if not sk: k, _, num = qid.rpartition('-'); return f"{sn(nm(k))} #{int(num) if num.isdigit() else num}"
-    kd = kind(txt); return sn(nm(sk)) + (f" · {kd}" if kd != 'other' else '')
+    return sn(nm(sk))
+def bycount(ks): c = collections.Counter(short_q(k) for k in ks); return ', '.join(f"{html.escape(lab)} ({n})" for lab, n in c.most_common())
 def snip(qid, n=70):
     t = re.sub(r'\s+', ' ', QI.get(qid, (None, ''))[1]).strip()
     return (t[:n].rsplit(' ', 1)[0] + '…') if len(t) > n else t
 def ql(qid): return (f"<a href='{SITE}#/look/{qid}' style='color:#101C34;text-decoration:none;font-weight:700'>{html.escape(short_q(qid))}</a>"
                      + (f"<div style='font-size:12px;line-height:16px;color:#5B6C80;margin-top:2px'>{html.escape(snip(qid))}</div>" if snip(qid) else ''))
+def grouped(entries):  # entries: [(qid, first_right, fixed_later, extra_set)] -> one row per skill · type (Allie, Nov 25: group, don't list every question)
+    G = collections.OrderedDict()
+    for k, first, ok, extra in entries:
+        g = G.setdefault(short_q(k), {'n': 0, 'r': 0, 'fx': 0, 'nf': 0, 'x': set()})
+        g['n'] += 1; g['r'] += bool(first); g['x'] |= extra or set()
+        if not first: g['fx' if ok else 'nf'] += 1
+    order = sorted(G.items(), key=lambda kv: (-kv[1]['nf'], -(kv[1]['n'] - kv[1]['r']), -kv[1]['n']))
+    out = ''
+    for i, (lab, g) in enumerate(order):
+        w = g['n'] - g['r']
+        sub = f"{g['n']} question{'s' if g['n'] != 1 else ''}" + (f" · {w} wrong: {g['fx']} fixed, {g['nf']} not fixed" if w else '') + (' · help: ' + ', '.join(HN.get(x, x) for x in sorted(g['x'])) if g['x'] else '')
+        left = f"<b>{html.escape(lab)}</b><div style='font-size:12px;color:#5B6C80;margin-top:2px'>{sub}</div>"
+        right = ((f"<span style='color:#00833E'>✓ {g['r']} right</span>" if g['r'] else '') + ('<br>' if g['r'] and w else '')
+                 + (f"<span style='color:#C21D1D'>✕ {w} wrong</span>" if w else ''))
+        out += item(left, right, '#101C34', i == 0)
+    return out or item('None', '', MUT, True)
 def item(left, right, rc, first): return (f"<tr><td style='padding:9px 0;{'' if first else 'border-top:1px solid #DFE4EB;'}font-size:14px;line-height:18px;color:#101C34'>{left}</td>"
                                          f"<td align='right' valign='top' style='padding:9px 0 9px 6px;{'' if first else 'border-top:1px solid #DFE4EB;'}font-size:13px;font-weight:800;color:{rc};white-space:nowrap'>{right}</td></tr>")
 def metric(num, lab, c=DK, note='', ic='doc'):
@@ -186,11 +203,10 @@ if n:
         f"<tr>{metric(len(helped),'Used Help On', OR, ic='spark')}{metric(len(calc),'Used Calculator', ic='calc')}{metric(f'{secs}s','Time per Question', DK, ic='watch')}</tr></table></div>"
         f"<div style='font-size:13px;color:{MUT};margin-top:7px'>{mins} minutes on HELM &nbsp;·&nbsp; {len(asks)} tutor question{'s' if len(asks)!=1 else ''} asked</div>")
     HN2 = {k: v for k, v in HN.items()}
-    hrows = ''.join(item(ql(k) + "<div style='font-size:11px;color:#5B6C80;margin-top:2px'>" + ', '.join(HN2.get(x, x) for x in sorted(Q[k]['help'] - TOOLS)) + "</div>",
-                         '✓ Right' if Q[k]['first'] else '✕ Wrong', '#00833E' if Q[k]['first'] else '#C21D1D', i == 0) for i, k in enumerate(helped)) or item('None', '', MUT, True)
-    wrows = ''.join(item(ql(k), 'Fixed' if Q[k]['ok'] else 'Not fixed', '#00833E' if Q[k]['ok'] else '#C21D1D', i == 0) for i, k in enumerate(wrong)) or item('None', '', MUT, True)
+    hrows = grouped([(k, Q[k]['first'], Q[k]['ok'], Q[k]['help'] - TOOLS) for k in helped])
+    arows = grouped([(k, e['first'], e['ok'], None) for k, e in Q.items()])
     panels = (f"<div style='margin-top:18px'>{panel(f'Questions He Got Help On ({len(helped)})', 'okbub', '#E7F5ED', '#239D6C', TB + '>' + hrows + '</table>')}</div>"
-              f"<div style='margin-top:12px'>{panel(f'Questions He Got Wrong ({len(wrong)})', 'nobub', '#FAE8E9', '#D83D37', TB + '>' + wrows + '</table>')}</div>")
+              f"<div style='margin-top:12px'>{panel(f'Right &amp; Wrong by Skill ({len(Q)} questions · {len(wrong)} wrong)', 'nobub', '#FAE8E9', '#D83D37', TB + '>' + arows + '</table>')}</div>")
     # Tutor results (Allie, Nov 23): did he get the question right after asking, and how did he do on NEW questions of that skill afterwards (SAT rules: first try, no help)
     def tutor_after(m):
         qid = m.get('question_id'); qa = next((a for a in A if (a.get('question') or '').split(' ')[0] == qid), None)
@@ -269,13 +285,12 @@ if n:
         f1 = sum(1 for e in fu.values() if e['first']); fh = [k for k, e in fu.items() if e['help']]
         p1 = sum(1 for e in pl.values() if e['first']); fp, pp = round(100 * f1 / len(fu)), round(100 * p1 / len(pl)) if pl else 0
         cnt = collections.Counter(e['sk'] for e in fu.values())
-        frows = ''.join(item(ql(k) + f"<div style='font-size:11px;color:#5B6C80;margin-top:2px'>Prove it {e['k']}" + (' · help: ' + ', '.join(HN.get(x, x) for x in sorted(e['help'])) if e['help'] else ' · no help') + "</div>",
-                             '✓ Right' if e['first'] else ('Fixed' if e['ok'] else '✕ Wrong'), '#00833E' if e['first'] else (OR if e['ok'] else '#C21D1D'), i == 0) for i, (k, e) in enumerate(fu.items()))
+        frows = grouped([(k, e['first'], e['ok'], e['help']) for k, e in fu.items()])
         follow = (f"<div style='margin-top:12px'>{panel(f'Follow-Up Questions Added ({len(fu)})', 'spark', '#FFF4E5', OR, TB + '>' + frows + '</table>')}</div>"
                   f"<div style='font-size:13px;color:#101C34;margin-top:7px;line-height:19px'>Added on top of the plan after a miss or help: "
                   + ', '.join(f"{amp(sn(nm(k)))} {v}" for k, v in cnt.items())
                   + f".<br>Right on first try: <b>{f1} of {len(fu)} ({fp}%)</b> on follow-ups vs. <b>{p1} of {len(pl)} ({pp}%)</b> on planned questions."
-                  + f"<br>Help used on follow-ups: <b>{len(fh) if fh else 'none'}</b>{' (' + ', '.join(html.escape(short_q(k)) for k in fh) + ')' if fh else ' — he did them on his own'}.</div>")
+                  + f"<br>Help used on follow-ups: <b>{len(fh) if fh else 'none'}</b>{' (' + bycount(fh) + ')' if fh else ' — he did them on his own'}.</div>")
         takes.insert(1 if trend else 0, tk('Follow-ups', f"{len(fu)} added, {f1} right on first try ({fp}%), help on {len(fh) if fh else 'none'}"))
     # ---- Category breakdown (Allie, Nov 25): planned vs. first pass vs. follow-ups, change, test weight, SAT + Blueprint vs. today, insights ----
     SAT_OFF = [('Sep 12', {'alg': '550–600', 'adv': '550–600', 'psda': '470–540', 'geo': '420–460', 'ii': '490–540', 'cs': '490–540', 'eoi': '490–540', 'sec': '490–540'}),
@@ -374,9 +389,9 @@ if n:
     takes += [tk('Weakest skill', f"{amp(sn(nm(order[0][0])))} ({round(100*order[0][1][1]/order[0][1][0])}%)"),
              tk('Slowest skill', f"{amp(sn(nm(slow[0])))} (~{round(slow[1][2]/slow[1][0])}s/question)"),
              tk('Speed', f"{secs}s/question (SAT pace: 70–95s)")]
-    if stuck: takes.append(tk('Review next', f"{len(stuck)} unresolved missed question{'s' if len(stuck)!=1 else ''}: " + ', '.join(f"<a href='{SITE}#/look/{k}' style='color:#24639E'>{html.escape(short_q(k))}</a>" for k in stuck)))
+    if stuck: takes.append(tk('Review next', f"{len(stuck)} missed question{'s' if len(stuck)!=1 else ''} not fixed yet: " + bycount(stuck)))
     if pd and not finished: takes.append(tk('Plan', f"{planned - done} of {planned} planned questions still left"))
-    if calc: takes.append(tk('Calculator', 'Desmos on ' + ', '.join(html.escape(short_q(k)) for k in calc)))
+    if calc: takes.append(tk('Calculator', 'Desmos on ' + bycount(calc)))
     day_html = coach + plan + summary + trend + catsec + panels + follow + tutor + skills
 else:
     takes = [tk('No work', f"No HELM questions on {pretty(day)}")]
