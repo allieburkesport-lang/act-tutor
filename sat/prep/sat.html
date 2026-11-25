@@ -101,6 +101,9 @@ aside.pan .ph .t{font-size:21px;font-weight:700}aside.pan .ph .s{font-size:14px;
 .dsx-dot.sm{display:inline-block;width:12px;height:12px;margin-right:6px;vertical-align:-1px}
 .dsx-par b+b{margin-left:4px}
 .dsx-live{width:100%;height:540px;border:1.5px solid #cfcfcf;border-radius:12px;overflow:hidden;background:#fff}
+.dw-how{background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:12px;padding:12px 14px;font-size:16px;line-height:1.55}
+.dw-how-h{font-weight:700;color:#166534;margin-bottom:4px}
+.dw-more{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:#fff}.dw-more summary{cursor:pointer;font-weight:700;font-size:15px;color:var(--mute)}.dw-more[open] summary{margin-bottom:8px}
 .dw-lab2{font-size:14px;font-weight:700;color:var(--mute);margin-top:4px}
 .dsx{border:1.5px solid #cfcfcf;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.08)}
 .dsx-list{border-bottom:1.5px solid #ddd;font-family:Helvetica,Arial,sans-serif}
@@ -1138,7 +1141,8 @@ function dwLine(raw){let t=dwTxt(raw).replace(/^(?:then\s+)?type\s+/i,'').trim()
   const vars=[...new Set((t.replace(new RegExp('\\b('+DW_FN+')\\b','g'),'').replace(/[A-Za-z]_[A-Za-z0-9]/g,'').match(/[A-Za-z]/g)||[]))];
   if(vars.length===1&&!/[xy]/.test(vars[0])&&/[=<>≤≥]/.test(t)&&!/[~\[]/.test(t))t=t.replace(new RegExp('(^|[^A-Za-z_])'+vars[0]+'(?![A-Za-z])','g'),'$1x');
   return [Object.assign({disp:t,latex:dwLatex(t)},label?{label}:{})]}
-function dwLive(spec){return `<div class="dw-lab2">The real Desmos, already filled in · click, drag and zoom like on the test</div><div class="dsx-live" data-spec='${esc(JSON.stringify(spec)).replace(/'/g,'&#39;')}'></div>`}
+let DW_LIVE='';function dwLive(spec){DW_LIVE=dwLive0(spec);return ''}
+function dwLive0(spec){return `<div class="dw-lab2">The real Desmos, already filled in · click, drag and zoom like on the test</div><div class="dsx-live" data-spec='${esc(JSON.stringify(spec)).replace(/'/g,'&#39;')}'></div>`}
 function dsMount(){document.querySelectorAll('.dsx-live:not([data-on])').forEach(el=>{el.dataset.on='1';const spec=JSON.parse(el.dataset.spec);
   dsLoad().then(()=>{const c=Desmos.GraphingCalculator(el,{keypad:false,settingsMenu:false,zoomButtons:true,expressionsCollapsed:false,border:false,lockViewport:false});
     (spec.ex||[]).forEach((e,i)=>{const {note,...x}=e;c.setExpression(Object.assign({id:'e'+i},x))});if(spec.b)c.setMathBounds(spec.b);
@@ -1156,6 +1160,7 @@ function dwChoices(q){if(!q.ch||q.ch.length<2)return null;
   const pts=[];(q.steps||[]).concat([T]).forEach(st=>{for(const m of dwTxt(st).matchAll(/\(\s*(−?-?\d+(?:\.\d+)?)\s*,\s*(−?-?\d+(?:\.\d+)?)\s*\)/g)){const x=dwNum(m[1]),y=dwNum(m[2]);if(isFinite(x)&&isFinite(y)&&!pts.some(p=>p[0]===x&&p[1]===y))pts.push([x,y])}});
   return {rhs,shift,pts:pts.slice(0,6)}}
 function desmosWay(q0,h){
+  DW_LIVE='';
   const q=Object.assign({},q0,{steps:(q0.steps||[]).map(dwTxt),tool:dwTxt(q0.tool),trap:dwTxt(q0.trap),ch:q0.ch?q0.ch.map(dwTxt):q0.ch});
   const t=dwTilde(q),c0=(QF[q.id]||[]).find(c=>c.ref!=='rule'),ans=q.ch?`${L[q.ans]}) ${q.ch[q.ans]}`:(q.show||q.grid[0]);
   const given=c0?c0.l.filter(r=>r[2]&&!/what we find/i.test(r[2])&&!(t&&r[0].trim()===t.V)):[];
@@ -1221,7 +1226,16 @@ function desmosWay(q0,h){
   o+=`<div class="dw-p"><b>Memory trick:</b> ${tb?`Given a table or points? Put them in a Desmos table, then type <b>${esc(DW_REG[tb.model])}</b>. Desmos gives you the letters.`:trick}</div>`;
   if(dneg)o+=`<div class="dw-p">Remember to watch the double negative: <span class="dw-mi">x − (−1)</span> becomes <span class="dw-mi">x + 1</span>.</div>`;
   if(q.trap)o+=`<div class="dw-p"><b>Watch out:</b> ${esc(q.trap)}</div>`;
-  return `<div class="dw">${o}</div>`}
+  // Simple layout (Allie, Nov 25 — like Blueprint): one short "how to", the real Desmos, the answer. Everything else folds away.
+  const two=x=>{const z=dwTxt(x||'').replace(/^Desmos[^:]*:\s*/i,'');const ss=z.match(/[^.!?]+[.!?]?/g)||[];return ss.slice(0,2).join(' ').trim()};
+  let how='';
+  if(t)how=`Plug in the numbers you're given and leave <i>${esc(t.V)}</i> as the letter. Type it into Desmos with <b>~</b> instead of <b>=</b>, and Desmos shows <b>${esc(t.V)} = ${esc(t.val)}</b>.`;
+  else if(tb)how=`Put the table into Desmos, then type <b>${esc(DW_REG[tb.model])}</b>. Desmos shows ${tb.fit.vals.map(([k,v])=>`<b>${k} = ${dwNumS(v)}</b>`).join(', ')}, so <b>${esc(dwFormula(tb))}</b>.`;
+  else if(cm)how=`Graph each answer choice${cm.shift?` with the <b>${esc(cm.shift.trim())}</b> added (the graph shows y = f(x)${esc(cm.shift)})`:''}. The answer is the only one that goes through ${cm.pts.length>1?'all the points':'the point'}.`;
+  else how=esc(two(q.tool)||two(q.steps[0]))||'Use Desmos to check each step.';
+  const rest=o;
+  return `<div class="dw"><div class="dw-how"><div class="dw-how-h">✓ How to do it</div>${how}</div>${DW_LIVE}<div class="dw-ans" data-frac>Answer: ${esc(ans)}</div>`+
+    `<details class="dw-more"><summary>Show the steps by hand</summary><div class="dw">${rest}</div></details></div>`}
 function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
   const head=(t,sub)=>`<div class="ph"><div><div class="t hd">${t}</div><div class="s">${sub}</div></div><button class="x" aria-label="Close panel" data-pan="${k}">✕</button></div>`;
   if(k==='show'){const res=carried(q,q.steps);const n=Math.max(1,st.shown);
