@@ -529,6 +529,7 @@ async function desmosCheckPage(){D=null;const QS=BANK.qs.filter(q=>/^(cbm|cb|bpr
     (spec.ex||[]).forEach((e,k)=>{const {note,...x}=e;c.setExpression(Object.assign({id:'e'+k},x))});await new Promise(r=>setTimeout(r,80));
     const an=c.expressionAnalysis||{};const bad=Object.entries(an).filter(([k,v])=>v.isError).map(([k,v])=>(v.errorMessage||'')+' | '+((spec.ex[+k.slice(1)]||{}).latex||''));
     const kind=/Desmos table \+ tilde/.test(html)?'table':/check the choices/.test(html)?'choices':/tilde \(~\)<\/b> to find/.test(html)?'tilde':/Desmos shortcut/.test(html)?'lines':'check-work';
+    if(/dw-weak/.test(html))bad.push('weak: no Desmos method yet');
     if(bad.length||!(spec.ex||[]).length)fails.push({id:q.id,kind,skill:q.skill,q:plain(q.q).slice(0,1500),html:String(q.q).slice(0,900),fig:/cbfig|<img|<svg/.test(q.q),ch:(q.ch||[]).slice(0,4).map(plain),ans:q.ch?q.ans:null,grid:q.grid||null,show:q.show||null,bad,n:(spec.ex||[]).length})}
   const res={when:new Date().toISOString(),total:QS.length,problems:fails.length,fails};let saved='';
   try{const sb=window.HELM_SB;await window.HELM_AUTH;const {error}=await sb.from('helm_progress').upsert({key:'desmos_check',value:res,updated_at:new Date().toISOString()},{onConflict:'user_id,key'});saved=error?('NOT saved: '+error.message):'Saved ✓'}catch(e){saved='NOT saved: '+e.message}
@@ -1219,6 +1220,7 @@ function desmosWay(q0,h){
     const words=/[A-Za-z]{4,}/.test(b);
     return `<div class="dw-p">${esc(lab)}</div><div class="${words?'dw-p':'dw-m'}" data-frac>${last&&!words?`<span class="dw-box">${esc(dwClean(b))}</span>`:esc(words?b:dwClean(b))}</div>`}).join('');
   if(!lines.length&&!tb&&!cm)o+=`<div class="dw-ans" data-frac>Answer: ${esc(ans)}</div>`;
+  let fbGood=false;
   if(!lines.length&&!tb&&!cm&&!t){ // every math question still gets the real Desmos: the question's equations + any points, ready to check work
     const T=dwTxt(q0.q),ex=[],pts=[];const C=['#c74440','#2d70b3','#388c46','#6042a6'];
     // every equation or inequality in the question (cut out of the sentence), e.g. "If 4x = 3, …" → 4x = 3
@@ -1240,6 +1242,7 @@ function desmosWay(q0,h){
       for(const m of T.matchAll(new RegExp('\\b'+f+'\\(\\s*([a-wz]|−?-?\\d+(?:\\.\\d+)?)\\s*\\)\\s*=\\s*(−?-?\\d+(?:\\.\\d+)?)(?![\\w.(])','g'))){const inn=m[1],val=m[2];
         if(/^[a-wz]$/.test(inn)){reg.push(val+' ~ '+f+'('+inn+')')}                       // f(a) = 27  →  27 ~ f(a)
         else if(ask&&new RegExp('(^|[^A-Za-z])'+ask+'(?![A-Za-z])').test(rhs.replace(/x/g,' ')))reg.push(val+' ~ '+rhs.replace(/x/g,'('+inn+')'))}});  // f(2) = 10 with a in f → 10 ~ a(2)²…
+    fbGood=calls.size>0||reg.length>0;
     if(reg.length){reg.slice(0,2).forEach(r=>{const z=dwLine(r)[0];if(z&&z.latex)ex.push({latex:z.latex,note:r+'  → Desmos shows the value'})})}
     o=dwLive({ex,b:dsBounds(pts)})+`<div class="dw-p" style="font-size:15px;color:var(--mute)">${ex.length?'Desmos is filled in with the equations and points from this question. Use it to check each step below.':'Desmos is open and ready. Use it to check each step below.'}</div>`+o;}
   // 4. What to remember
@@ -1256,8 +1259,11 @@ function desmosWay(q0,h){
   else if(tb)how=`Put the table into Desmos, then type <b>${esc(DW_REG[tb.model])}</b>. Desmos shows ${tb.fit.vals.map(([k,v])=>`<b>${k} = ${dwNumS(v)}</b>`).join(', ')}, so <b>${esc(dwFormula(tb))}</b>.`;
   else if(cm)how=`Graph each answer choice${cm.shift?` with the <b>${esc(cm.shift.trim())}</b> added (the graph shows y = f(x)${esc(cm.shift)})`:''}. The answer is the only one that goes through ${cm.pts.length>1?'all the points':'the point'}.`;
   else how=esc(two(q.tool)||two(q.steps[0]))||'Use Desmos to check each step.';
+  // no real Desmos method for this one yet (only the question's numbers are filled in): show the steps right away, open
+  const weak=!t&&!tb&&!cm&&!lines.length&&!fbGood;
+  if(weak)how=`Here is how to get the answer. Follow the steps below, and use Desmos to check each one.`;
   const rest=o;
-  return `<div class="dw"><div class="dw-how"><div class="dw-how-h">✓ How to do it</div>${how}</div>${DW_LIVE}<div class="dw-ans" data-frac>Answer: ${esc(ans)}</div>`+
+  return `<div class="dw${weak?' dw-weak':''}"><div class="dw-how"><div class="dw-how-h">✓ How to do it</div>${how}</div>${weak?`<div class="dw">${(q.steps||[]).map((s,i)=>{const [hd,b]=dwSplit(s),last=i===q.steps.length-1;const words=/[A-Za-z]{4,}/.test(b);return `<div class="dw-p"><b>Step ${i+1}${hd?' — '+esc(hd):''}</b></div><div class="${words?'dw-p':'dw-m'}" data-frac>${last&&!words?`<span class="dw-box">${esc(dwClean(b))}</span>`:esc(words?b:dwClean(b))}</div>`}).join('')}</div>`:''}${DW_LIVE}<div class="dw-ans" data-frac>Answer: ${esc(ans)}</div>`+
     `<details class="dw-more"><summary>Show the steps by hand</summary><div class="dw">${rest}</div></details></div>`}
 function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
   const head=(t,sub)=>`<div class="ph"><div><div class="t hd">${t}</div><div class="s">${sub}</div></div><button class="x" aria-label="Close panel" data-pan="${k}">✕</button></div>`;
