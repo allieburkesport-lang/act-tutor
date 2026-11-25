@@ -256,6 +256,80 @@ if n:
                   + f".<br>Right on first try: <b>{f1} of {len(fu)} ({fp}%)</b> on follow-ups vs. <b>{p1} of {len(pl)} ({pp}%)</b> on planned questions."
                   + f"<br>Help used on follow-ups: <b>{len(fh) if fh else 'none'}</b>{' (' + ', '.join(html.escape(short_q(k)) for k in fh) + ')' if fh else ' — he did them on his own'}.</div>")
         takes.insert(1 if trend else 0, tk('Follow-ups', f"{len(fu)} added, {f1} right on first try ({fp}%), help on {len(fh) if fh else 'none'}"))
+    # ---- Category breakdown (Allie, Nov 25): planned vs. first pass vs. follow-ups, change, test weight, SAT + Blueprint vs. today, insights ----
+    SAT_OFF = [('Sep 12', {'alg': '550–600', 'adv': '550–600', 'psda': '470–540', 'geo': '420–460', 'ii': '490–540', 'cs': '490–540', 'eoi': '490–540', 'sec': '490–540'}),
+               ('Oct 3', {'alg': '470–540', 'adv': '550–600', 'psda': '550–600', 'geo': '470–540', 'ii': '420–480', 'cs': '490–540', 'eoi': '200–360', 'sec': '420–480'}),
+               ('Nov 7', {'alg': '550–600', 'adv': '470–540', 'psda': '420–460', 'geo': '610–670', 'ii': '420–480', 'cs': '420–480', 'eoi': '550–600', 'sec': '490–540'})]
+    DOMK = {'Algebra': 'alg', 'Advanced Math': 'adv', 'Problem-Solving and Data Analysis': 'psda', 'Geometry and Trigonometry': 'geo', 'Information and Ideas': 'ii',
+            'Craft and Structure': 'cs', 'Expression of Ideas': 'eoi', 'Standard English Conventions': 'sec'}
+    def dpct(band): a, _, z = band.partition('–'); return round(((int(a) + int(z or a)) / 2 - 200) / 6)
+    KINDS = [('seq', r'sequence|\bterm\b', 'sequences (the n − 1 pattern)'), ('abs', r'\||absolute', 'absolute value'),
+             ('vertex', r'vertex|minimum|maximum', 'vertex form / min–max'), ('zeros', r'x-intercept|zeros?\b|roots?\b|\(x\s*[−-]\s*\d+\)\s*\(x', 'zeros & factored form'),
+             ('exp', r'exponential|grow|decay|doubl|percent|%|\(\s*[01]?\.\d+\s*\)|\d\.\d\d\)', 'exponential growth & decay'),
+             ('fee', r'charge|fee|cost|\$|per\b|ticket', 'word problems: fixed fee + rate'), ('consts', r'constants?\b', 'unknown constants (a, b, c)'),
+             ('slope', r'slope|rate of change', 'slope / rate of change'), ('table', r'table', 'reading a table'), ('area', r'area|rectangular|length|width', 'area & dimensions'),
+             ('prod', r'product|consecutive|integers', 'number word problems'), ('quad', r'²|squared|quadratic|parabola', 'quadratics'), ('graph', r'graph|xy-plane', 'reading a graph')]
+    def kind(qtext):
+        for k, rx, lab in KINDS:
+            if re.search(rx, qtext or '', re.I): return lab
+        return 'other'
+    pskills = {x['skill']: x for x in P.get('skills', [])}
+    mix = dict((k, n) for k, n, *_ in (pd or {}).get('mix', []))
+    qrows = collections.OrderedDict()
+    for a in sorted(R, key=lambda a: a['created_at']):
+        qid = a['question'].split(' ')[0]; part = a.get('part') or ''
+        e = qrows.setdefault(qid, {'sk': a.get('concept_id'), 'fu': bool(re.search(r'prove it \d', part)), 'first': a['correct'], 'ok': False, 'sec': a.get('seconds') or 0,
+                                   'kind': kind((a.get('question') or '').split(' ', 1)[-1])})
+        e['ok'] = e['ok'] or a['correct']
+    cats = [k for k in list(mix) + [e['sk'] for e in qrows.values()] if any(e['sk'] == k for e in qrows.values())]
+    cats = list(dict.fromkeys(cats))
+    def pct(a, b): return round(100 * a / b) if b else None
+    def ln(lab, val): return f"<tr><td style='padding:6px 0;border-top:1px solid #DCE3EB;font-size:13px;color:#34435A'>{lab}</td><td align='right' style='padding:6px 0;border-top:1px solid #DCE3EB;font-size:14px;color:#101C34'>{val}</td></tr>"
+    def chg(d): return '—' if d is None else (f"<b style='color:{GRN}'>▲ +{d} pts</b>" if d > 0 else f"<b style='color:#C21D1D'>▼ {d} pts</b>" if d < 0 else '<b>no change</b>')
+    cards = ''
+    for k in cats:
+        ps = pskills.get(k, {}); sec_ = SK.get(k, {}).get('sec'); N = 44 if sec_ == 'Math' else 54; share = ps.get('share') or 0; nq = round(share / 100 * N)
+        fp = [e for e in qrows.values() if e['sk'] == k and not e['fu']]; fu_ = [e for e in qrows.values() if e['sk'] == k and e['fu']]
+        fpr, fur = sum(e['first'] for e in fp), sum(e['first'] for e in fu_); pf, pu = pct(fpr, len(fp)), pct(fur, len(fu_))
+        dom = SK.get(k, {}).get('dom') or ''; dk = DOMK.get(dom)
+        sat = ' · '.join(f"{lab} {dpct(d[dk])}%" for lab, d in SAT_OFF if dk and d.get(dk)) or '—'
+        bp = BP['skills'].get(k); bpp = pct(bp['ok'], bp['n']) if bp else None
+        before = [a for a in SC if a.get('concept_id') == k and et(a['created_at']).strftime('%Y-%m-%d') < day]; hb = pct(sum(a['correct'] for a in before), len(before))
+        allq = fp + fu_; today = pct(sum(e['first'] for e in allq), len(allq))
+        # insights by kind of question
+        kk = collections.OrderedDict()
+        for e in fp: kk.setdefault(e['kind'], [[0, 0], [0, 0]])[0][0] += 1; kk[e['kind']][0][1] += e['first']
+        for e in fu_: kk.setdefault(e['kind'], [[0, 0], [0, 0]])[1][0] += 1; kk[e['kind']][1][1] += e['first']
+        ins = []
+        hard = [(lab, v) for lab, v in kk.items() if lab != 'other' and v[0][0] and v[0][1] / v[0][0] < .5]
+        if hard: ins.append('Struggled at first with ' + '; '.join(f"{lab} ({v[0][1]} of {v[0][0]} right)" for lab, v in hard[:3]) + '.')
+        better = [(lab, v) for lab, v in kk.items() if lab != 'other' and v[1][0] and v[1][1] / v[1][0] >= .6 and (not v[0][0] or v[1][1] / v[1][0] > v[0][1] / v[0][0])]
+        if better: ins.append('Improved on ' + '; '.join(f"{lab} ({v[0][1]}/{v[0][0]} → {v[1][1]}/{v[1][0]})" if v[0][0] else f"{lab} ({v[1][1]}/{v[1][0]} on follow-ups)" for lab, v in better[:3]) + '.')
+        still = [(lab, v) for lab, v in kk.items() if lab != 'other' and v[1][0] and v[1][1] / v[1][0] < .6]
+        if still: ins.append('Still shaky: ' + '; '.join(f"{lab} ({v[1][1]} of {v[1][0]} on follow-ups)" for lab, v in still[:3]) + '.')
+        if fp and fu_:
+            t1, t2 = round(sum(e['sec'] for e in fp) / len(fp)), round(sum(e['sec'] for e in fu_) / len(fu_))
+            if abs(t1 - t2) >= 10: ins.append(f"{'Faster' if t2 < t1 else 'Slower'} on follow-ups: {t1}s → {t2}s per question.")
+        if hb is not None and today is not None and today - hb >= 10: ins.append(f"Today ({today}%) is well above his HELM average before today ({hb}%) in this category.")
+        cards += (f"<div style='margin-top:12px;border:1px solid #D9E1EE;border-radius:14px;padding:11px 12px;background:#FFFFFF'>"
+                  f"<div style='font-size:16px;font-weight:800;color:#101C34'>{amp(nm(k))}</div>"
+                  f"<div style='font-size:12px;color:{MUT};margin:2px 0 6px'>{html.escape(dom)} · about <b>{share:g}%</b> of the {'Math' if N == 44 else 'Reading &amp; Writing'} section ≈ <b>{nq} of {N}</b> questions on the test</div>"
+                  f"{TB}>"
+                  + ln('Planned today', f"<b>{mix.get(k, 0)}</b>")
+                  + ln('First pass (did / right first try)', f"<b>{len(fp)}</b> · {fpr} right" + (f" (<b>{pf}%</b>)" if pf is not None else ''))
+                  + ln('Follow-ups added (right first try)', f"<b>{len(fu_)}</b> · {fur} right" + (f" (<b>{pu}%</b>)" if pu is not None else ''))
+                  + ln('Change: follow-ups vs. first pass', chg(pu - pf) if pf is not None and pu is not None else '—')
+                  + ln('Today overall (first try)', f"<b>{today}%</b>" if today is not None else '—')
+                  + ln('HELM before today', f"{hb}% ({len(before)} q)" if hb is not None else '—')
+                  + ln('Blueprint', f"{bpp}% ({bp['n']} q)" if bp else '—')
+                  + ln(f"Official SAT ({html.escape(dom)} score band)", sat)
+                  + "</table>"
+                  + (f"<div style='margin-top:8px;background:#F7F9FC;border-radius:10px;padding:8px 10px;font-size:13px;line-height:19px;color:#101C34'><b>Insights</b><br>" + '<br>'.join('• ' + html.escape(x) for x in ins) + "</div>" if ins else '')
+                  + "</div>")
+    untouched = [k for k in mix if k not in cats]
+    catsec = (h2('By Category · Planned vs. Follow-Ups') + cards
+              + (f"<div style='font-size:13px;color:#101C34;margin-top:10px'><b>Planned but not reached:</b> " + ', '.join(f"{amp(sn(nm(k)))} ({mix[k]})" for k in untouched) + "</div>" if untouched else '')
+              + f"<div style='font-size:11px;color:{MUT};margin-top:6px'>Test share = this category's share of its SAT section (44 Math / 54 Reading &amp; Writing questions). Official SAT % is estimated from the College Board score band for the whole domain, not just this category.</div>") if cats else ''
     slow = max(by.items(), key=lambda x: x[1][2] / x[1][0])
     takes += [tk('Weakest skill', f"{amp(sn(nm(order[0][0])))} ({round(100*order[0][1][1]/order[0][1][0])}%)"),
              tk('Slowest skill', f"{amp(sn(nm(slow[0])))} (~{round(slow[1][2]/slow[1][0])}s/question)"),
@@ -263,7 +337,7 @@ if n:
     if stuck: takes.append(tk('Review next', f"{len(stuck)} unresolved missed question{'s' if len(stuck)!=1 else ''}: " + ', '.join(f"<a href='{SITE}#/look/{k}' style='color:#24639E'>{html.escape(short_q(k))}</a>" for k in stuck)))
     if pd and not finished: takes.append(tk('Plan', f"{planned - done} of {planned} planned questions still left"))
     if calc: takes.append(tk('Calculator', 'Desmos on ' + ', '.join(html.escape(short_q(k)) for k in calc)))
-    day_html = plan + summary + trend + panels + follow + tutor + skills
+    day_html = plan + summary + trend + catsec + panels + follow + tutor + skills
 else:
     takes = [tk('No work', f"No HELM questions on {pretty(day)}")]
     day_html = plan
