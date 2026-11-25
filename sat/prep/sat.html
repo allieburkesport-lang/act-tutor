@@ -1011,7 +1011,7 @@ function dwScreen(q,t,given){
     (fx?`<div class="dw-p" style="font-size:15px;color:var(--mute)">Line 1 finds ${esc(t.V)}. Lines 2 and up are optional: they draw the graph so you can see it pass through ${pts.length>1?'both points':'the point'}.</div>`:'')}
 /* ---------- Clean question HTML for the Desmos help (College Board questions carry <sup>, <i>, tables) ---------- */
 function dwTxt(h){return String(h??'').replace(/<sup>\s*2\s*<\/sup>/gi,'²').replace(/<sup>\s*3\s*<\/sup>/gi,'³').replace(/<sup>(.*?)<\/sup>/gi,(m,x)=>'^'+(/^[\w.]+$/.test(x.replace(/<[^>]+>/g,''))?x.replace(/<[^>]+>/g,''):'('+x.replace(/<[^>]+>/g,'')+')'))
-  .replace(/<sub>(.*?)<\/sub>/gi,(m,x)=>x.replace(/\d/g,d=>'₀₁₂₃₄₅₆₇₈₉'[d])).replace(/<br\s*\/?>/gi,' ').replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ').replace(/&minus;/g,'−').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim()}
+  .replace(/<sub>(.*?)<\/sub>/gi,(m,x)=>x.replace(/\d/g,d=>'₀₁₂₃₄₅₆₇₈₉'[d])).replace(/<br\s*\/?>/gi,' ').replace(/<\/(p|div|li|td|th|tr|h\d|table)>/gi,' . ').replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ').replace(/&minus;/g,'−').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/(\d)([A-Z][a-z])/g,'$1 . $2').replace(/\s+/g,' ').replace(/(\s\.)+/g,' .').replace(/^\s*\.\s*|\s*\.\s*$/g,'').trim()}
 /* ---------- Table / points → Desmos regression (the classic SAT trick: table + y₁ ~ model) ---------- */
 function dwNum(t){const v=+String(t).replace(/−/g,'-').replace(/,/g,'').trim();if(isFinite(v)&&String(t).trim()!=='')return v;const m=String(t).replace(/−/g,'-').match(/^(-?\d+)\s*\/\s*(\d+)$/);return m?+m[1]/+m[2]:NaN}
 function dwTable(q){const pts=[];const H=String(q.q||'');
@@ -1126,7 +1126,8 @@ function dwLive(spec){return `<div class="dw-lab2">The real Desmos, already fill
 function dsMount(){document.querySelectorAll('.dsx-live:not([data-on])').forEach(el=>{el.dataset.on='1';const spec=JSON.parse(el.dataset.spec);
   dsLoad().then(()=>{const c=Desmos.GraphingCalculator(el,{keypad:false,settingsMenu:false,zoomButtons:true,expressionsCollapsed:false,border:false,lockViewport:false});
     (spec.ex||[]).forEach((e,i)=>{const {note,...x}=e;c.setExpression(Object.assign({id:'e'+i},x))});if(spec.b)c.setMathBounds(spec.b);
-    setTimeout(()=>{const an=c.expressionAnalysis||{};(spec.ex||[]).forEach((e,i)=>{const r=an['e'+i];if(r&&r.isError)c.setExpression({id:'e'+i,type:'text',text:e.note||''})})},700);
+    const fix=()=>{const an=c.expressionAnalysis||{};(spec.ex||[]).forEach((e,i)=>{const r=an['e'+i];if(r&&(r.isError||/slider|variable/i.test(r.errorMessage||''))){c.removeExpression({id:'e'+i});if(e.note)c.setExpression({id:'n'+i,type:'text',text:e.note})}})};
+    [400,1000,2500].forEach(ms=>setTimeout(fix,ms));
     const fb=el.parentElement&&el.parentElement.querySelector('.dsx-fallback');if(fb)fb.style.display='none'})
   .catch(()=>{el.style.display='none';const fb=el.parentElement&&el.parentElement.querySelector('.dsx-fallback');if(fb)fb.style.display=''})})}
 new MutationObserver(()=>{if(document.querySelector('.dsx-live:not([data-on])'))dsMount()}).observe(document.documentElement,{childList:true,subtree:true});
@@ -1182,9 +1183,20 @@ function desmosWay(q0,h){
   if(!lines.length&&!tb&&!cm)o+=`<div class="dw-ans" data-frac>Answer: ${esc(ans)}</div>`;
   if(!lines.length&&!tb&&!cm&&!t){ // every math question still gets the real Desmos: the question's equations + any points, ready to check work
     const T=dwTxt(q0.q),ex=[],pts=[];const C=['#c74440','#2d70b3','#388c46','#6042a6'];
-    for(const m of T.matchAll(/(?:^|[^A-Za-z])((?:y|[a-z]\(x\))\s*=\s*[^.,;?]*x[^.,;?]*)/g)){const e=m[1].replace(/^[a-z]\(x\)/,'y').trim();if(e.length<60&&ex.length<4)dwLine(e).filter(z=>z.latex).forEach(z=>ex.push({latex:z.latex,color:C[ex.length%4],note:z.disp}))}
+    for(const m of T.matchAll(/(?:^|[^A-Za-z])((?:y|[a-z]\(x\))\s*=\s*[^.,;?]*x[^.,;?]*)/g)){const e=m[1].replace(new RegExp('\\s+(?!(?:'+DW_FN+')\\b)[A-Za-z]{3,}[\\s\\S]*$'),'').replace(/[\s.]+$/,'').trim();if(e.length<60&&ex.length<4)dwLine(e).filter(z=>z.latex).forEach(z=>ex.push({latex:z.latex,color:C[ex.length%4],note:z.disp}))}
     (q.steps||[]).concat([T]).forEach(st=>{for(const m of dwTxt(st).matchAll(/\(\s*(−?-?\d+(?:\.\d+)?)\s*,\s*(−?-?\d+(?:\.\d+)?)\s*\)/g)){const x=dwNum(m[1]),y=dwNum(m[2]);if(isFinite(x)&&isFinite(y)&&!pts.some(p=>p[0]===x&&p[1]===y)&&pts.length<6)pts.push([x,y])}});
     pts.forEach(p=>ex.push({latex:dwLatex('('+dwNumS(p[0])+', '+dwNumS(p[1])+')'),color:'#000000'}));
+    // the question asks for f(1), g(−2)…: type those too, so Desmos shows the value
+    const fns=[...new Set(ex.map(e=>(e.note||'').match(/^([a-z])\(x\)\s*=/)).filter(Boolean).map(m=>m[1]))];const calls=new Set();
+    fns.forEach(f=>{for(const m of T.matchAll(new RegExp('\\b'+f+'\\(\\s*(−?-?\\d+(?:\\.\\d+)?)\\s*\\)','g')))if(calls.size<3)calls.add(f+'('+m[1]+')')});
+    calls.forEach(cl=>ex.push({latex:dwLatex(cl),note:cl}));
+    // "what is the value of a?": Desmos finds it with the tilde (~)
+    const ask=(T.match(/value of\s+([a-wz])\b/i)||[])[1];const reg=[];
+    fns.forEach(f=>{const def=(ex.find(e=>(e.note||'').startsWith(f+'(x)'))||{}).note||'',rhs=def.split('=').slice(1).join('=').trim();
+      for(const m of T.matchAll(new RegExp('\\b'+f+'\\(\\s*([a-wz]|−?-?\\d+(?:\\.\\d+)?)\\s*\\)\\s*=\\s*(−?-?\\d+(?:\\.\\d+)?)','g'))){const inn=m[1],val=m[2];
+        if(/^[a-wz]$/.test(inn)){reg.push(val+' ~ '+f+'('+inn+')')}                       // f(a) = 27  →  27 ~ f(a)
+        else if(ask&&new RegExp('(^|[^A-Za-z])'+ask+'(?![A-Za-z])').test(rhs.replace(/x/g,' ')))reg.push(val+' ~ '+rhs.replace(/x/g,'('+inn+')'))}});  // f(2) = 10 with a in f → 10 ~ a(2)²…
+    if(reg.length){reg.slice(0,2).forEach(r=>{const z=dwLine(r)[0];if(z&&z.latex)ex.push({latex:z.latex,note:r+'  → Desmos shows the value'})})}
     o=dwLive({ex,b:dsBounds(pts)})+`<div class="dw-p" style="font-size:15px;color:var(--mute)">${ex.length?'Desmos is filled in with the equations and points from this question. Use it to check each step below.':'Desmos is open and ready. Use it to check each step below.'}</div>`+o;}
   // 4. What to remember
   o+=`<div class="dw-h">What to remember for the SAT</div>`;
