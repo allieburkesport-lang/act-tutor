@@ -156,7 +156,7 @@ if pd:
             f"<div style='margin:6px 0'>{bar(pc, 10)}</div><div style='font-size:13px;color:#34435A'><b>{done} / {planned}</b> completed · <b>{right}</b> correct</div></td></tr></table></div>")
 else: plan = ''
 
-takes = []
+takes = []; WINS = []; coach = ''
 if n:
     acc = round(100 * ok / n); secs = round(sum(a.get('seconds') or 0 for a in F) / n)
     t0 = min(et(a['created_at']) for a in R); t1 = max(et(a['created_at']) for a in R); mins = round((t1 - t0).seconds / 60)
@@ -311,6 +311,12 @@ if n:
             t1, t2 = round(sum(e['sec'] for e in fp) / len(fp)), round(sum(e['sec'] for e in fu_) / len(fu_))
             if abs(t1 - t2) >= 10: ins.append(f"{'Faster' if t2 < t1 else 'Slower'} on follow-ups: {t1}s → {t2}s per question.")
         if hb is not None and today is not None and today - hb >= 10: ins.append(f"Today ({today}%) is well above his HELM average before today ({hb}%) in this category.")
+        # What this category is worth (Allie, Nov 25): baseline = his best official SAT level in this domain (superscore rule); goal level for 1300 ≈ 75% right
+        ppq = 600 / N; bestp = max((dpct(d[dk]) for _, d in SAT_OFF if dk and d.get(dk)), default=None)
+        base_r = round((bestp if bestp is not None else (bpp or 50)) / 100 * nq); goal_r = min(nq, -(-75 * nq // 100)); gain_q = max(0, goal_r - base_r); gain = round(gain_q * ppq)
+        worth = (f"Keep going: getting to the 1300 level here (<b>{goal_r} of {nq}</b> right, up from about {base_r} at his best SAT) adds about <b style='color:{GRN}'>+{gain} points</b> to his {'Math' if N == 44 else 'R&amp;W'} score."
+                 if gain else f"He is already at the 1300 level here ({base_r} of {nq}). Keep it there.")
+        WINS.append({'k': k, 'today': today, 'bp': bpp, 'hb': hb, 'gain': gain, 'goal_r': goal_r, 'nq': nq, 'sec': 'Math' if N == 44 else 'Reading & Writing', 'pf': pf, 'pu': pu})
         cards += (f"<div style='margin-top:12px;border:1px solid #D9E1EE;border-radius:14px;padding:11px 12px;background:#FFFFFF'>"
                   f"<div style='font-size:16px;font-weight:800;color:#101C34'>{amp(nm(k))}</div>"
                   f"<div style='font-size:12px;color:{MUT};margin:2px 0 6px'>{html.escape(dom)} · about <b>{share:g}%</b> of the {'Math' if N == 44 else 'Reading &amp; Writing'} section ≈ <b>{nq} of {N}</b> questions on the test</div>"
@@ -324,12 +330,35 @@ if n:
                   + ln('Blueprint', f"{bpp}% ({bp['n']} q)" if bp else '—')
                   + ln(f"Official SAT ({html.escape(dom)} score band)", sat)
                   + "</table>"
+                  + f"<div style='margin-top:8px;background:#E7F5ED;border-radius:10px;padding:8px 10px;font-size:13px;line-height:19px;color:#101C34'>🎯 {worth}</div>"
                   + (f"<div style='margin-top:8px;background:#F7F9FC;border-radius:10px;padding:8px 10px;font-size:13px;line-height:19px;color:#101C34'><b>Insights</b><br>" + '<br>'.join('• ' + html.escape(x) for x in ins) + "</div>" if ins else '')
                   + "</div>")
     untouched = [k for k in mix if k not in cats]
     catsec = (h2('By Category · Planned vs. Follow-Ups') + cards
               + (f"<div style='font-size:13px;color:#101C34;margin-top:10px'><b>Planned but not reached:</b> " + ', '.join(f"{amp(sn(nm(k)))} ({mix[k]})" for k in untouched) + "</div>" if untouched else '')
               + f"<div style='font-size:11px;color:{MUT};margin-top:6px'>Test share = this category's share of its SAT section (44 Math / 54 Reading &amp; Writing questions). Official SAT % is estimated from the College Board score band for the whole domain, not just this category.</div>") if cats else ''
+    # ---- Words of encouragement for Patrick (Allie, Nov 25): honest, based on the real numbers ----
+    up = [w for w in WINS if w['today'] is not None and ((w['bp'] is not None and w['today'] > w['bp']) or (w['pf'] is not None and w['pu'] is not None and w['pu'] > w['pf']))]
+    lines = []
+    tps = [round(100 * v[1] / v[0]) for _, v in tdays]
+    tr_up = len(tps) >= 2 and tps[-1] > tps[-2]
+    if tr_up or up:
+        lines.append("With all of your hard work, this is really paying off. <b>Good job!</b>")
+    else:
+        lines.append("Tough questions today, and you kept working through them. That is exactly how scores go up. <b>Keep going!</b>")
+    if tr_up: lines.append(f"You got <b>{tps[-1]}%</b> right on the first try, up <b>{tps[-1]-tps[-2]} points</b> from your last practice day.")
+    for w in up[:2]:
+        frm = f"{w['bp']}% on Blueprint" if w['bp'] is not None and w['today'] > w['bp'] else f"{w['pf']}% on your first pass"
+        to = f"{w['today']}% today" if w['bp'] is not None and w['today'] > w['bp'] else f"{w['pu']}% on the follow-ups"
+        lines.append(f"<b>{amp(nm(w['k']))}</b>: from {frm} to <b>{to}</b>.")
+    tot = sum(w['gain'] for w in WINS)
+    gw = [w for w in WINS if w['gain']]
+    if gw:
+        lines.append("Keep going and your score will lift: " + '; '.join(f"getting {amp(nm(w['k']))} to the 1300 level ({w['goal_r']} of {w['nq']} on the test) is worth about <b>+{w['gain']} points</b>" for w in gw[:3])
+                     + (f" — about <b>+{tot} points</b> together toward your 1300 goal." if len(gw) > 1 else " toward your 1300 goal."))
+    coach = (f"<div style='margin:12px 0 0;border-radius:14px;padding:13px 14px;background:#E7F5ED;border-left:6px solid #0C8E40'>"
+             f"<div style='font-size:17px;font-weight:800;color:#087638;margin-bottom:4px'>💪 Patrick, great work</div>"
+             f"<div style='font-size:15px;line-height:22px;color:#101C34'>{'<br>'.join(lines)}</div></div>")
     slow = max(by.items(), key=lambda x: x[1][2] / x[1][0])
     takes += [tk('Weakest skill', f"{amp(sn(nm(order[0][0])))} ({round(100*order[0][1][1]/order[0][1][0])}%)"),
              tk('Slowest skill', f"{amp(sn(nm(slow[0])))} (~{round(slow[1][2]/slow[1][0])}s/question)"),
@@ -337,7 +366,7 @@ if n:
     if stuck: takes.append(tk('Review next', f"{len(stuck)} unresolved missed question{'s' if len(stuck)!=1 else ''}: " + ', '.join(f"<a href='{SITE}#/look/{k}' style='color:#24639E'>{html.escape(short_q(k))}</a>" for k in stuck)))
     if pd and not finished: takes.append(tk('Plan', f"{planned - done} of {planned} planned questions still left"))
     if calc: takes.append(tk('Calculator', 'Desmos on ' + ', '.join(html.escape(short_q(k)) for k in calc)))
-    day_html = plan + summary + trend + catsec + panels + follow + tutor + skills
+    day_html = coach + plan + summary + trend + catsec + panels + follow + tutor + skills
 else:
     takes = [tk('No work', f"No HELM questions on {pretty(day)}")]
     day_html = plan
