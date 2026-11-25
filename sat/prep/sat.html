@@ -826,10 +826,10 @@ function drawDrill(){if(D.done)return drawEnd();const q=cur(),st=D.st[D.i],s=SK2
   else chs=`<div class="grid-in"><label for="gin" style="font-weight:600">Your answer</label><input id="gin" ${fin?'disabled':''} value="${fin?esc(q.show||q.grid[0]):''}" autocomplete="off"><button class="btn" data-grid="1" ${fin?'disabled':''}>Check</button></div>`;
   let fb='';if(fin)fb=`<div class="fb ok"><b>${st.tried.length===1&&!st.coached?'Right on the first try ✓':'Got it ✓'}</b> ${esc(q.trap?'Trap to watch: '+q.trap:'')}</div>`;
   else if(st.tried.length)fb=`<div class="fb no"><b>Not quite. Try again.</b> Pick another answer before you move on. Stuck? Press <b>Show me how</b>.</div>`;
-  const CHKM={start:'Nice. Now prove it: the next questions are the same kind, with no help. Get 2 right in a row to lock it in.',again:'Same kind again, no help this time. You can do this.',
-   'one more':'1 down. Get one more right with no help to lock it in.',locked:'Locked in ✓ Two right in a row with no help. On to the next one.',shaky:'Still shaky. That is okay: this one goes on your review list. Moving on.',none:''};
+  const CHKM={start:'Nice. Now prove it: the next 1 or 2 questions are the same kind, with no help. Get 2 right in a row to lock it in.',again:'Same kind again, no help this time. You can do this.',
+   'one more':'1 down. Get one more right with no help to lock it in.',locked:'Locked in ✓ Two right in a row with no help. On to the next one.',fixed:'Good, you got this kind right with no help. Moving on.',shaky:'Still shaky. That is okay: this one goes on your review list. Moving on.',none:''};
   if(fin&&st.chkMsg&&CHKM[st.chkMsg])fb+=`<div class="fb ${st.chkMsg==='shaky'?'no':'ok'}" style="margin-top:8px">${st.chkMsg==='locked'?'<b>'+CHKM.locked+'</b>':esc(CHKM[st.chkMsg])}</div>`;
-  const chkTag=st.chk?`<div class="box b-yel" style="margin:0 0 10px;padding:8px 12px"><b>Prove it · ${st.chk.k} of up to 3</b> &nbsp;Same kind of question as the one you just fixed. Try it with no help first.</div>`:'';
+  const chkTag=st.chk?`<div class="box b-yel" style="margin:0 0 10px;padding:8px 12px"><b>Prove it · ${st.chk.k} of up to 2</b> &nbsp;Same kind of question as the one you just fixed. Try it with no help first.</div>`:'';
   const help=(eng?[['show','Show me how'],['learn','Learn it'],['video','Video']]:[['show','Show me how'],['desm','Desmos / calculator'],['form','Formula'],['learn','Learn it'],['video','Video']]).map(([k,t])=>`<button class="b ${UI.panel===k?'on':''}" data-pan="${k}">${t}</button>`).join('');
   const left=Math.max(0,D.qs.length*PACE[s.sec]-Math.round((Date.now()-D.t0)/1000));
   app().innerHTML=`<div class="dr"><div class="bar1"><div><div style="font-weight:700;font-size:17px">${esc(s.sec==='English'?'Reading and Writing':'Math')} · ${esc(D.secs?D.secs[D.i]:D.title)}${D.more?(()=>{const f=D.st.filter(t=>t.tried.length),r=f.filter(t=>t.ok&&t.tried.length===1&&!t.coached).length;return ` · this run ${r}/${f.length} right first try · goal 80%`})():''}</div><a href="#/" style="font-size:14px">← Home</a></div>
@@ -859,14 +859,26 @@ setInterval(()=>{const t=$('#tmr');if(t&&D&&!D.done&&!D.paused){const s=SK2[cur(
    NEW questions of the same kind, with no help, so we see if he really got the concept. Two clean in a row = locked in. Max 3, then move on. */
 function needsCheck(st){return st.tried.length>1||st.coached||realHelp([...(st.hb||[]),...(st.ha||[])]).length>0}
 function cleanTry(st){return st.ok&&st.tried.length===1&&!needsCheck(st)}
-function checkPick(q){const S=seenIds(),inRun=new Set(D.qs.map(x=>x.id));const c=BANK.qs.filter(x=>x.skill===q.skill&&!S.has(x.id)&&!inRun.has(x.id));
-  const same=x=>QT[x.id]!=null&&QT[x.id]===QT[q.id];return c.find(x=>same(x)&&x.diff===q.diff)||c.find(same)||c.find(x=>x.diff===q.diff)||c[0]||null}
+// Prove-it picks the SAME KIND of question (Allie, Nov 25): same template when known, otherwise the closest match by
+// question features (exponential, vertex, zeros, word-problem rate + fee, table, sequence...) and shared words. Never just "same category".
+const KTAGS={exp:/exponential|grow|decay|doubl|half-life|percent|%|\(\s*[01]?\.\d+\s*\)\s*\^|\d\.\d+\)\s*[a-z]\b|\^\s*\(?[a-z]/i,vertex:/vertex|minimum|maximum|\(x\s*[−-]\s*\d+\)\s*²\s*[+−-]/i,
+  zeros:/x-intercept|zeros?\b|roots?\b|solutions?\b|\(x\s*[−+-]\s*\d+\)\s*\(x/i,quad:/²|squared|quadratic|parabola/i,abs:/\||absolute/i,seq:/sequence|\bterm\b/i,
+  table:/table/i,graph:/graph|xy-plane|shown|figure/i,fee:/charge|fee|cost|\$|per\b|each additional/i,slope:/slope|rate of change/i,
+  intcpt:/y-intercept|initial|start|when .{0,20}\b0\b/i,root:/√|radical/i,ratfx:/rational|denominator/i,sys:/system|intersect/i,consts:/where [a-z] and [a-z] are constants|constants?\b/i,
+  prod:/product|consecutive|integers/i,area:/area|rectangular|length|width/i};
+const kCache={};function kFeat(x){if(kCache[x.id])return kCache[x.id];const t=plain(x.q||'').replace(/<[^>]+>/g,' ');const tags=new Set(Object.keys(KTAGS).filter(k=>KTAGS[k].test(t)));
+  const words=new Set((t.toLowerCase().match(/[a-z]{4,}/g)||[]).filter(w=>!/^(what|which|that|with|this|from|given|value|following|function|defined|equation|where|have|there|their|each|than|when|then|they)$/.test(w)));return kCache[x.id]={tags,words}}
+function kSim(a,b){const A=kFeat(a),B=kFeat(b);let t=0,u=new Set([...A.tags,...B.tags]).size||1;A.tags.forEach(k=>{if(B.tags.has(k))t++});let w=0;A.words.forEach(k=>{if(B.words.has(k))w++});
+  const wu=(A.words.size+B.words.size-w)||1;return 3*t/u+w/wu-0.5*[...A.tags].filter(k=>!B.tags.has(k)).length/u}
+function checkPick(q){const S=seenIds(),inRun=new Set(D.qs.map(x=>x.id));const c=BANK.qs.filter(x=>x.skill===q.skill&&!S.has(x.id)&&!inRun.has(x.id));if(!c.length)return null;
+  const same=x=>QT[x.id]!=null&&QT[x.id]===QT[q.id];const st=c.filter(same);if(st.length)return st.find(x=>x.diff===q.diff)||st[0];
+  let best=null,bs=-1e9;c.forEach(x=>{const v=kSim(q,x)+(x.diff===q.diff?0.15:0);if(v>bs){bs=v;best=x}});return best}
 function checkInsert(q,chk){const nx=checkPick(q);if(!nx)return false;const at=D.i+1;D.qs.splice(at,0,nx);D.st.splice(at,0,{tried:[],ok:false,shown:0,t0:0,coached:false,chk});
   if(D.secs)D.secs.splice(at,0,'Prove it · '+SK2[q.skill].name);dayStore();return true}
 function afterRight(q,st){if(D.view)return;
   if(st.chk){const c=st.chk,streak=cleanTry(st)?c.streak+1:0;
     if(streak>=2){st.chkMsg='locked';return}
-    if(c.k>=3){st.chkMsg='shaky';return}
+    if(c.k>=2){st.chkMsg=cleanTry(st)?'fixed':'shaky';return} // max 2 follow-ups per miss (Allie, Nov 25)
     st.chkMsg=checkInsert(q,{root:c.root,k:c.k+1,streak})?(streak?'one more':'again'):'none';return}
   if(needsCheck(st))st.chkMsg=checkInsert(q,{root:q.id,k:1,streak:0})?'start':'none'}
 function answer(ok,picked){const q=cur(),st=D.st[D.i];const first=st.tried.length===1&&!st.coached;
