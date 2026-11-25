@@ -1006,7 +1006,7 @@ function dwScreen(q,t,given){
     g+=`<path d="${d}" fill="none" stroke="#c74440" stroke-width="3"/>`;
     pts.forEach((p,i)=>{const c=i?'#2d70b3':'#388c46',px=X(p.x),py=Y(p.y),lx=px>W-110?px-10:px+10;g+=`<circle cx="${px}" cy="${py}" r="6" fill="${c}"/><text x="${lx}" y="${py-10}" font-size="14" font-weight="700" fill="${c}" text-anchor="${px>W-110?'end':'start'}" stroke="#fff" stroke-width="4" paint-order="stroke">${esc(p.lab)}</text>`});
     svg=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;background:#fff">${g}</svg>`;}
-  return `<div class="dw-lab2">What it looks like in Desmos</div><div class="dsx"><div class="dsx-list" data-nofrac>${rows.join('')}</div>${svg?`<div class="dsx-g" data-nofrac>${svg}</div>`:''}</div>`+
+  return `<div class="dw-lab2">Exactly what your Desmos screen should look like</div><div class="dsx"><div class="dsx-list" data-nofrac>${rows.join('')}</div>${svg?`<div class="dsx-g" data-nofrac>${svg}</div>`:''}</div>`+
     (fx?`<div class="dw-p" style="font-size:15px;color:var(--mute)">Line 1 finds ${esc(t.V)}. Lines 2 and up are optional: they draw the graph so you can see it pass through ${pts.length>1?'both points':'the point'}.</div>`:'')}
 /* ---------- Clean question HTML for the Desmos help (College Board questions carry <sup>, <i>, tables) ---------- */
 function dwTxt(h){return String(h??'').replace(/<sup>\s*2\s*<\/sup>/gi,'²').replace(/<sup>\s*3\s*<\/sup>/gi,'³').replace(/<sup>(.*?)<\/sup>/gi,(m,x)=>'^'+(/^[\w.]+$/.test(x.replace(/<[^>]+>/g,''))?x.replace(/<[^>]+>/g,''):'('+x.replace(/<[^>]+>/g,'')+')'))
@@ -1109,8 +1109,8 @@ function desmosWay(q0,h){
     if(given.length)o+=`<ul class="dw-ul">${given.map(r=>`<li>${r[0].trim().length<=6?esc(cap(r[1]))+' ':''}<span class="dw-mi" data-frac>${esc(r[0].trim().length<=6?r[0]:cap(r[0]))} = ${esc(r[2])}</span></li>`).join('')}</ul>`;}
   // 2. Method 1: Desmos
   const tb=!t?dwTable(q0):null;
-  if(tb){o=`<div class="dw-p">For this one, put the points in a <b>Desmos table</b> and let Desmos find the equation with the <b>tilde (~)</b>. No algebra.</div>`+
-    `<div class="dw-h">Method 1: Desmos table + tilde</div>`+dwTableHow(tb,ans)+dwTableScreen(tb)+`<div class="dw-ans">Answer: ${esc(ans)}</div>`+
+  if(tb){o=dwTableScreen(tb)+`<div class="dw-p">For this one, put the points in a <b>Desmos table</b> and let Desmos find the equation with the <b>tilde (~)</b>. No algebra.</div>`+
+    `<div class="dw-h">Method 1: Desmos table + tilde</div><div class="dw-p">Line 1: a table with the x-values in x₁ and the f(x) values in y₁. Line 2: <b>${esc(DW_REG[tb.model])}</b>. Desmos shows ${tb.fit.vals.map(([k,v])=>`<b>${k} = ${dwNumS(v)}</b>`).join(', ')}, so <b>${esc(dwFormula(tb))}</b>.</div>`+`<div class="dw-ans">Answer: ${esc(ans)}</div>`+
     `<div class="dw-p" style="font-size:15px;color:var(--mute)">Other way to check: type each answer choice into Desmos. The right one goes through every red dot.</div>`;}
   const dl=tb?[]:(h.d||[]).map(x=>x.replace(/^Type\s+/,'').trim()).filter(x=>x&&!/=\s*$/.test(x));
   const lines=t?[{lab:'Line 1 — use the tilde (~)',m:t.line}]:dl.map((x,i)=>({lab:'Line '+(i+1),m:x}));
@@ -1118,12 +1118,7 @@ function desmosWay(q0,h){
     o+=`<div class="dw-h">Method 1: Desmos shortcut</div><div class="dw-p">${t?`Replace the letters with the numbers you're given, leaving <i>${esc(t.V)}</i> alone. `:''}Type this directly into Desmos (Calculator button, top right):</div>`;
     o+=`<div class="dw-card">${lines.map(l=>`<div class="dw-row"><div class="dw-lab">${esc(l.lab)}</div><div class="dw-big" data-frac>${esc(l.m)}</div><div class="dw-keys keys" data-nofrac>Type: <code>${esc(dwType(l.m))}</code></div></div>`).join('')}
       <div class="dw-row"><div class="dw-lab">${t?'Desmos calculates '+esc(t.V):'What you get'}</div><div class="dw-res" data-frac>${t?esc(t.V)+' = '+esc(t.val):esc(ans)}</div>${!t&&h.n?`<div class="dw-note">${esc(h.n)}</div>`:''}</div></div>`;
-    if(t){const gl=dwGraphLines(q,t,given);
-      o+=dwHow([{n:1,txt:t.line}],`<b>Read the answer.</b> Right under line 1, Desmos shows <b>PARAMETERS</b> and <b>${esc(t.V)} = ${esc(t.val)}</b>. That is the answer.`,
-        gl.map((x,j)=>({n:j+2,txt:x,lead:j?'':'<i>Optional, to see the graph:</i> '})));
-      o+=dwScreen(q,t,given);}
-    else{o+=dwHow(lines.map((l,j)=>({n:j+1,txt:l.m})),h.n?`<b>Read the answer.</b> ${esc(h.n)}`:`<b>Read the answer.</b> Desmos shows the value on the right side of the line.`);
-      if(typeof desmosPic==='function')o+=desmosPic(h.d);}
+    o=(t?dwScreen(q,t,given):(typeof desmosPic==='function'?desmosPic(h.d):''))+o;
     o+=`<div class="dw-ans" data-frac>Answer: ${esc(ans)}</div>`;}
   // 3. Method 2: by hand
   o+=`<div class="dw-h">Method ${lines.length||tb?2:1}: Solve it by hand</div>`;
