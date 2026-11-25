@@ -466,9 +466,9 @@ function save(row){if(D&&D.view)return;if(row.plan)lastPlan=row.plan;LOG.push(ro
 // The answers table only accepts a label ("part") up to 60 characters. Long labels (help + prove-it together) were being
 // rejected without any error, so those answers never reached Supabase (found Nov 25). Keep the label short, and re-send
 // any answer that is on this device but missing online.
-function ansPart(row,q,s){const help=[...new Set(row.help||[])];const mk=h=>`${s.sec==='Math'?'Math':'RW'} · ${DIFF[q.diff]}${row.coached?' · coached':''}${row.plan?' · plan '+row.plan:''}${h.length?' · help '+h.join('+'):''}${row.chk?' · prove it '+row.chk:''}`;
+function ansPart(row,q,s){const help=[...new Set(row.help||[])];const mk=(h,c)=>`${c?q.diff:(s.sec==='Math'?'Math':'RW')+' · '+DIFF[q.diff]}${row.coached?' · coached':''}${row.plan?' · plan '+row.plan:''}${h.length?' · help '+h.join('+'):''}${row.chk?' · prove it '+row.chk:''}`;
   let h=help.filter(x=>!SAT_TOOLS.includes(x)).concat(help.filter(x=>SAT_TOOLS.includes(x)));let t=mk(h);while(t.length>60&&h.length>1){h=h.slice(0,-1);t=mk(h)}
-  if(t.length>60)t=mk(h.map(x=>x.slice(0,4)));return t.slice(0,60)}
+  if(t.length>60)t=mk(h,1);if(t.length>60)t=mk(h.map(x=>x.slice(0,4)),1);return t.slice(0,60)}
 function postAns(row,at){const q=QBY[row.id];if(!q)return Promise.resolve(false);const s=SK2[q.skill];const body={student:WHO,kind:'bank',concept_id:q.skill,concept_no:BANK.skills.indexOf(s)+1,concept_title:s.name,
    part:ansPart(row,q,s),question_no:+row.id.split('-').pop()||null,question:(row.id+' '+plain(q.q)).slice(0,600),picked:String(row.picked??'').slice(0,300),correct:row.ok,first_try:row.first,attempt:row.attempt,seconds:row.sec};
   if(at)body.created_at=new Date(at).toISOString();
