@@ -459,10 +459,23 @@ async function pullOnline(){try{const r=await fetch(SB+'?select=question,part,co
   const near=(id,t,a,pk)=>{const x=LOG.find(x=>x.id===id&&(x.attempt||1)===(a||1)&&Math.abs(x.ts-t)<120000);if(x&&!x.picked&&pk)x.picked=pk;return !!x};let add=0;// near = same question AND same attempt, so quick retries are kept
 
   rows.forEach(w=>{const id=(w.question||'').split(' ')[0];if(!QBY[id])return;const t=Date.parse(w.created_at);if(near(id,t,w.attempt,w.picked))return;add++;const pm=/plan (\d{4}-\d\d-\d\d)/.exec(w.part||''),hm=/help ([a-z+]+)/.exec(w.part||'');LOG.push({id,ts:t,day:new Date(t).toLocaleDateString('en-CA'),ok:w.correct,first:w.first_try,attempt:w.attempt,sec:w.seconds==null?null:+w.seconds,picked:w.picked||'',plan:pm?pm[1]:undefined,help:hm?hm[1].split('+'):(/coached/.test(w.part||'')?['show']:[]),helpFirst:(w.attempt||1)===1?(hm?hm[1].split('+'):(/coached/.test(w.part||'')?['show']:[])):undefined});});
+  resyncAns(rows);
   if(add){LOG.sort((a,b)=>a.ts-b.ts);store.set('satbank_log',LOG.slice(-5000));if(!D)route();}}catch(e){}}
 function save(row){if(D&&D.view)return;if(row.plan)lastPlan=row.plan;LOG.push(row);store.set('satbank_log',LOG.slice(-5000));clearTimeout(window._pubT);window._pubT=setTimeout(publishSat,1500);const q=QBY[row.id],s=SK2[q.skill];
-  fetch(SB,{method:'POST',headers:Object.assign({'Content-Type':'application/json',Prefer:'return=minimal'},H),body:JSON.stringify({student:WHO,kind:'bank',concept_id:q.skill,concept_no:BANK.skills.indexOf(s)+1,concept_title:s.name,
-   part:`${s.sec} · ${DIFF[q.diff]}${row.coached?' · coached':''} · new site${row.plan?' · plan '+row.plan:''}${row.help&&row.help.length?' · help '+row.help.join('+'):''}${row.chk?' · prove it '+row.chk:''}`,question_no:+row.id.split('-').pop(),question:(row.id+' '+plain(q.q)).slice(0,600),picked:String(row.picked).slice(0,300),correct:row.ok,first_try:row.first,attempt:row.attempt,seconds:row.sec})}).catch(()=>{});}
+  postAns(row);}
+// The answers table only accepts a label ("part") up to 60 characters. Long labels (help + prove-it together) were being
+// rejected without any error, so those answers never reached Supabase (found Nov 25). Keep the label short, and re-send
+// any answer that is on this device but missing online.
+function ansPart(row,q,s){const help=[...new Set(row.help||[])];const mk=h=>`${s.sec==='Math'?'Math':'RW'} · ${DIFF[q.diff]}${row.coached?' · coached':''}${row.plan?' · plan '+row.plan:''}${h.length?' · help '+h.join('+'):''}${row.chk?' · prove it '+row.chk:''}`;
+  let h=help.filter(x=>!SAT_TOOLS.includes(x)).concat(help.filter(x=>SAT_TOOLS.includes(x)));let t=mk(h);while(t.length>60&&h.length>1){h=h.slice(0,-1);t=mk(h)}
+  if(t.length>60)t=mk(h.map(x=>x.slice(0,4)));return t.slice(0,60)}
+function postAns(row,at){const q=QBY[row.id];if(!q)return Promise.resolve(false);const s=SK2[q.skill];const body={student:WHO,kind:'bank',concept_id:q.skill,concept_no:BANK.skills.indexOf(s)+1,concept_title:s.name,
+   part:ansPart(row,q,s),question_no:+row.id.split('-').pop()||null,question:(row.id+' '+plain(q.q)).slice(0,600),picked:String(row.picked??'').slice(0,300),correct:row.ok,first_try:row.first,attempt:row.attempt,seconds:row.sec};
+  if(at)body.created_at=new Date(at).toISOString();
+  return fetch(SB,{method:'POST',headers:Object.assign({'Content-Type':'application/json',Prefer:'return=minimal'},H),body:JSON.stringify(body)}).then(r=>r.ok).catch(()=>false)}
+async function resyncAns(rows){const on=rows.map(w=>({id:(w.question||'').split(' ')[0],a:w.attempt||1,t:Date.parse(w.created_at)}));
+  const miss=LOG.filter(x=>x.ts>=Date.parse('2026-11-22T05:00:00Z')&&QBY[x.id]&&!on.some(o=>o.id===x.id&&o.a===(x.attempt||1)&&Math.abs(o.t-x.ts)<120000));
+  for(const x of miss.slice(0,300))await postAns(x,x.ts)}
 function stats(skill){// same blend as the nightly plan: earlier practice (Blueprint) + Drill Zone first tries counted double
   const firsts=LOG.filter(x=>isScored(x)&&QBY[x.id]&&QBY[x.id].skill===skill);const dn=firsts.length,dok=firsts.filter(x=>x.ok).length;const b=BPS[skill]||{n:0,ok:0};
   const n=b.n+2*dn,ok=b.ok+2*dok;return {n:b.n+dn,dn,dok,acc:n?Math.round(100*ok/n):null}}
