@@ -1098,8 +1098,8 @@ function dwGraphLines(q,t,given){const val=+String(t.val).replace(/−/g,'-');le
     try{const f=new Function(t.V,'x','return '+dwJS(dwClean(m[1])));if(isFinite(f(val,0)))fLine='y = '+dwClean(m[1])}catch(e){}break}}
   if(!fLine)return [];return [fLine,...dwPts(given).map(p=>p.lab)]}
 /* ---------- REAL Desmos inside the help panel (Allie, Nov 25: Patrick wants the actual Desmos, pre-filled) ----------
-   Uses the Desmos API. DESMOS_KEY is Desmos's public demo key; swap in HELM's own free key from https://www.desmos.com/my-api */
-const DESMOS_KEY='dcb31709b452b1cf9dc26972add0fda6';let _dsLoad=null;
+   Uses the Desmos API. DESMOS_KEY is HELM's own Desmos API key (Allie, Nov 25) */
+const DESMOS_KEY='b421d86fb1ac4ece8976ec06f2d31884';let _dsLoad=null;
 function dsLoad(){if(window.Desmos)return Promise.resolve();if(_dsLoad)return _dsLoad;_dsLoad=new Promise((ok,no)=>{const sc=document.createElement('script');sc.src='https://www.desmos.com/api/v1.11/calculator.js?apiKey='+DESMOS_KEY;sc.onload=ok;sc.onerror=no;document.head.appendChild(sc)});return _dsLoad}
 function dwLatex(t){let s=dwClean(String(t)).replace(/^Type\s+/,'').replace(/−/g,'-').replace(/×|·/g,'\\cdot ').replace(/÷/g,'/').replace(/π/g,'\\pi ').replace(/~/g,'\\sim ');
   s=s.replace(/([A-Za-z])([₀-₉])/g,(m,a,b)=>a+'_{'+'₀₁₂₃₄₅₆₇₈₉'.indexOf(b)+'}').replace(/²/g,'^{2}').replace(/³/g,'^{3}').replace(/\^\(([^()]*)\)/g,'^{$1}').replace(/\^([A-Za-z0-9_{}]+)/g,(m,x)=>x.startsWith('{')?m:'^{'+x+'}');
