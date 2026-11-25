@@ -120,8 +120,29 @@ IC = "https://allieburkesport-lang.github.io/act-tutor/sat/drill-zone/planner/ic
 EMO = {"plan":"🗓️","chart":"📊","doc":"📝","target":"🎯","xcirc":"❌","spark":"✨","calc":"🧮","watch":"⏱️","okbub":"✅","nobub":"❌","qbub":"💬","tgt":"🎯","check":"✔️","compass":"🧭"}
 img = lambda k, sz, extra="": f"<span style='font-size:{max(14,int(sz*0.85))}px;line-height:{sz}px;{extra}'>{EMO[k]}</span>"
 TB = "<table role='presentation' width='100%' cellpadding='0' cellspacing='0' border='0'"
-def short_q(qid): k, _, num = qid.rpartition('-'); return f"{sn(nm(k))} #{int(num) if num.isdigit() else num}"
-def ql(qid): return f"<a href='{SITE}#/look/{qid}' style='color:#101C34;text-decoration:none'>{html.escape(short_q(qid))}</a>"
+KINDS = [('seq', r'sequence|\bterm\b', 'sequences (the n − 1 pattern)'), ('abs', r'\||absolute', 'absolute value'),
+         ('vertex', r'vertex|minimum|maximum', 'vertex form / min–max'), ('zeros', r'x-intercept|zeros?\b|roots?\b|\(x\s*[−-]\s*\d+\)\s*\(x', 'zeros & factored form'),
+         ('exp', r'exponential|grow|decay|doubl|percent|%|\(\s*[01]?\.\d+\s*\)|\d\.\d\d\)', 'exponential growth & decay'),
+         ('fee', r'charge|fee|cost|\$|per\b|ticket', 'word problems: fixed fee + rate'), ('consts', r'constants?\b', 'unknown constants (a, b, c)'),
+         ('slope', r'slope|rate of change', 'slope / rate of change'), ('table', r'table', 'reading a table'), ('area', r'area|rectangular|length|width', 'area & dimensions'),
+         ('prod', r'product|consecutive|integers', 'number word problems'), ('quad', r'²|squared|quadratic|parabola', 'quadratics'), ('graph', r'graph|xy-plane', 'reading a graph')]
+def kind(qtext):
+    for k, rx, lab in KINDS:
+        if re.search(rx, qtext or '', re.I): return lab
+    return 'other'
+QI = {}
+for _a in A:
+    _q, _, _t = (_a.get('question') or '').partition(' ')
+    QI.setdefault(_q, (_a.get('concept_id'), _t))
+def short_q(qid):  # name the question by its skill + kind instead of its raw id (Allie, Nov 25)
+    sk, txt = QI.get(qid, (None, ''))
+    if not sk: k, _, num = qid.rpartition('-'); return f"{sn(nm(k))} #{int(num) if num.isdigit() else num}"
+    kd = kind(txt); return sn(nm(sk)) + (f" · {kd}" if kd != 'other' else '')
+def snip(qid, n=70):
+    t = re.sub(r'\s+', ' ', QI.get(qid, (None, ''))[1]).strip()
+    return (t[:n].rsplit(' ', 1)[0] + '…') if len(t) > n else t
+def ql(qid): return (f"<a href='{SITE}#/look/{qid}' style='color:#101C34;text-decoration:none;font-weight:700'>{html.escape(short_q(qid))}</a>"
+                     + (f"<div style='font-size:12px;line-height:16px;color:#5B6C80;margin-top:2px'>{html.escape(snip(qid))}</div>" if snip(qid) else ''))
 def item(left, right, rc, first): return (f"<tr><td style='padding:9px 0;{'' if first else 'border-top:1px solid #DFE4EB;'}font-size:14px;line-height:18px;color:#101C34'>{left}</td>"
                                          f"<td align='right' valign='top' style='padding:9px 0 9px 6px;{'' if first else 'border-top:1px solid #DFE4EB;'}font-size:13px;font-weight:800;color:{rc};white-space:nowrap'>{right}</td></tr>")
 def metric(num, lab, c=DK, note='', ic='doc'):
@@ -263,16 +284,6 @@ if n:
     DOMK = {'Algebra': 'alg', 'Advanced Math': 'adv', 'Problem-Solving and Data Analysis': 'psda', 'Geometry and Trigonometry': 'geo', 'Information and Ideas': 'ii',
             'Craft and Structure': 'cs', 'Expression of Ideas': 'eoi', 'Standard English Conventions': 'sec'}
     def dpct(band): a, _, z = band.partition('–'); return round(((int(a) + int(z or a)) / 2 - 200) / 6)
-    KINDS = [('seq', r'sequence|\bterm\b', 'sequences (the n − 1 pattern)'), ('abs', r'\||absolute', 'absolute value'),
-             ('vertex', r'vertex|minimum|maximum', 'vertex form / min–max'), ('zeros', r'x-intercept|zeros?\b|roots?\b|\(x\s*[−-]\s*\d+\)\s*\(x', 'zeros & factored form'),
-             ('exp', r'exponential|grow|decay|doubl|percent|%|\(\s*[01]?\.\d+\s*\)|\d\.\d\d\)', 'exponential growth & decay'),
-             ('fee', r'charge|fee|cost|\$|per\b|ticket', 'word problems: fixed fee + rate'), ('consts', r'constants?\b', 'unknown constants (a, b, c)'),
-             ('slope', r'slope|rate of change', 'slope / rate of change'), ('table', r'table', 'reading a table'), ('area', r'area|rectangular|length|width', 'area & dimensions'),
-             ('prod', r'product|consecutive|integers', 'number word problems'), ('quad', r'²|squared|quadratic|parabola', 'quadratics'), ('graph', r'graph|xy-plane', 'reading a graph')]
-    def kind(qtext):
-        for k, rx, lab in KINDS:
-            if re.search(rx, qtext or '', re.I): return lab
-        return 'other'
     pskills = {x['skill']: x for x in P.get('skills', [])}
     mix = dict((k, n) for k, n, *_ in (pd or {}).get('mix', []))
     qrows = collections.OrderedDict()
