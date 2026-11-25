@@ -1112,6 +1112,13 @@ function dsMount(){document.querySelectorAll('.dsx-live:not([data-on])').forEach
   .catch(()=>{el.style.display='none';const fb=el.parentElement&&el.parentElement.querySelector('.dsx-fallback');if(fb)fb.style.display=''})})}
 new MutationObserver(()=>{if(document.querySelector('.dsx-live:not([data-on])'))dsMount()}).observe(document.documentElement,{childList:true,subtree:true});
 function dsBounds(pts){if(!pts.length)return null;const xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]);return {left:Math.min(...xs,0)-3,right:Math.max(...xs,0)+3,bottom:Math.min(...ys,0)-3,top:Math.max(...ys,0)+3}}
+/* ---------- Check-the-choices in Desmos (Allie, Nov 25): graph every answer choice + the points from the question ---------- */
+function dwChoices(q){if(!q.ch||q.ch.length<2)return null;
+  const rhs=q.ch.map(c=>{const t=dwTxt(c);const m=t.match(/^\s*(?:[a-zA-Z]\s*\(\s*x\s*\)|y)\s*=\s*(.+)$/);const e=m?m[1]:t;return /x/.test(e)&&!/[A-Za-z]{3,}/.test(e.replace(/sqrt|pi/g,''))?e:null});
+  if(rhs.some(r=>!r))return null;
+  const T=dwTxt(q.q);const sm=T.match(/graph of y\s*=\s*[a-z]\(x\)\s*([+−-])\s*(\d+(?:\.\d+)?)/i);const shift=sm?(sm[1]==='+'?' + ':' − ')+sm[2]:'';
+  const pts=[];(q.steps||[]).concat([T]).forEach(st=>{for(const m of dwTxt(st).matchAll(/\(\s*(−?-?\d+(?:\.\d+)?)\s*,\s*(−?-?\d+(?:\.\d+)?)\s*\)/g)){const x=dwNum(m[1]),y=dwNum(m[2]);if(isFinite(x)&&isFinite(y)&&!pts.some(p=>p[0]===x&&p[1]===y))pts.push([x,y])}});
+  return {rhs,shift,pts:pts.slice(0,6)}}
 function desmosWay(q0,h){
   const q=Object.assign({},q0,{steps:(q0.steps||[]).map(dwTxt),tool:dwTxt(q0.tool),trap:dwTxt(q0.trap),ch:q0.ch?q0.ch.map(dwTxt):q0.ch});
   const t=dwTilde(q),c0=(QF[q.id]||[]).find(c=>c.ref!=='rule'),ans=q.ch?`${L[q.ans]}) ${q.ch[q.ans]}`:(q.show||q.grid[0]);
@@ -1120,16 +1127,22 @@ function desmosWay(q0,h){
   const dneg=q.steps.some(s=>/[−\-]\s*\(\s*[−\-]/.test(s));
   let o='';
   // 1. intro + what you're given
-  o+=`<div class="dw-p">${t?`For this one, you can use the <b>Desmos tilde (~)</b> to find <i>${esc(t.V)}</i> without doing any algebra.`:(h.d.length?'For this one, let <b>Desmos</b> do the work. Type the lines below.':'Desmos can\'t do this one for you. It\'s a rule question, so solve it by hand below.')}</div>`;
+  o+=`<div class="dw-p">${t?`For this one, you can use the <b>Desmos tilde (~)</b> to find <i>${esc(t.V)}</i> without doing any algebra.`:(h.d.length?'For this one, let <b>Desmos</b> do the work. Type the lines below.':'This one is solved by hand, step by step below. Desmos above is ready to check your work.')}</div>`;
   if(c0){o+=`<div class="dw-p">You're given ${esc((c0.n||'the formula').toLowerCase())}:</div><div class="dw-m" data-frac>${esc(c0.eq)}</div>`;
     if(given.length)o+=`<ul class="dw-ul">${given.map(r=>`<li>${r[0].trim().length<=6?esc(cap(r[1]))+' ':''}<span class="dw-mi" data-frac>${esc(r[0].trim().length<=6?r[0]:cap(r[0]))} = ${esc(r[2])}</span></li>`).join('')}</ul>`;}
   // 2. Method 1: Desmos
   const tb=!t?dwTable(q0):null;
+  const cm=!t&&!tb&&!(h.d||[]).length?dwChoices(q):null;
+  if(cm){const C=['#c74440','#2d70b3','#388c46','#6042a6'];const ex=[];
+    cm.rhs.forEach((r,j)=>{ex.push({type:'text',text:'Choice '+L[j]});ex.push({latex:dwLatex('y = '+(cm.shift?'('+r+')'+cm.shift:r)),color:C[j%4]})});
+    if(cm.pts.length)ex.push({type:'text',text:'Points from the graph'});cm.pts.forEach(p=>ex.push({latex:dwLatex('('+dwNumS(p[0])+', '+dwNumS(p[1])+')'),color:'#000000'}));
+    o=dwLive({ex,b:dsBounds(cm.pts)})+`<div class="dw-h">Method 1: Desmos — check the choices</div><div class="dw-p">Type each answer choice${cm.shift?` with the <b>${esc(cm.shift.trim())}</b> from the question added on (the graph shows y = f(x)${esc(cm.shift)})`:''} as its own line${cm.pts.length?', then type the points you read off the graph':''}. The right choice is the only curve that goes through ${cm.pts.length>1?'every black point':'the graph'}.</div>`+
+      `<div class="dw-p">In this one: ${cm.rhs.map((r,j)=>`<b>${L[j]}</b> y = ${esc(cm.shift?'('+r+')'+cm.shift:r)}`).join(' · ')}</div><div class="dw-ans">Answer: ${esc(ans)}</div>`;}
   if(tb){const regL={lin:'y_{1}\\sim mx_{1}+b',quad:'y_{1}\\sim ax_{1}^{2}+bx_{1}+c',exp:'y_{1}\\sim a\\cdot b^{x_{1}}'}[tb.model];
     o=dwLive({ex:[{type:'table',columns:[{latex:'x_{1}',values:tb.pts.map(p=>String(p[0]))},{latex:'y_{1}',values:tb.pts.map(p=>String(p[1])),color:'#c74440',pointStyle:'POINT'}]},{latex:regL,color:'#2d70b3'}],b:dsBounds(tb.pts)})+`<div class="dsx-fallback" style="display:none">${dwTableScreen(tb)}</div>`+`<div class="dw-p">For this one, put the points in a <b>Desmos table</b> and let Desmos find the equation with the <b>tilde (~)</b>. No algebra.</div>`+
     `<div class="dw-h">Method 1: Desmos table + tilde</div><div class="dw-p">Line 1: a table with the x-values in x₁ and the f(x) values in y₁. Line 2: <b>${esc(DW_REG[tb.model])}</b>. Desmos shows ${tb.fit.vals.map(([k,v])=>`<b>${k} = ${dwNumS(v)}</b>`).join(', ')}, so <b>${esc(dwFormula(tb))}</b>.</div>`+`<div class="dw-ans">Answer: ${esc(ans)}</div>`+
     `<div class="dw-p" style="font-size:15px;color:var(--mute)">Other way to check: type each answer choice into Desmos. The right one goes through every red dot.</div>`;}
-  const dl=tb?[]:(h.d||[]).map(x=>x.replace(/^Type\s+/,'').trim()).filter(x=>x&&!/=\s*$/.test(x));
+  const dl=tb||cm?[]:(h.d||[]).map(x=>x.replace(/^Type\s+/,'').trim()).filter(x=>x&&!/=\s*$/.test(x));
   const lines=t?[{lab:'Line 1 — use the tilde (~)',m:t.line}]:dl.map((x,i)=>({lab:'Line '+(i+1),m:x}));
   if(lines.length&&!tb){
     o+=`<div class="dw-h">Method 1: Desmos shortcut</div><div class="dw-p">${t?`Replace the letters with the numbers you're given, leaving <i>${esc(t.V)}</i> alone. `:''}Type this directly into Desmos (Calculator button, top right):</div>`;
@@ -1142,11 +1155,17 @@ function desmosWay(q0,h){
       o=dwLive({ex,b:dsBounds(pts)})+`<div class="dsx-fallback" style="display:none">${pic}</div>`+o;}
     o+=`<div class="dw-ans" data-frac>Answer: ${esc(ans)}</div>`;}
   // 3. Method 2: by hand
-  o+=`<div class="dw-h">Method ${lines.length||tb?2:1}: Solve it by hand</div>`;
+  o+=`<div class="dw-h">Method ${lines.length||tb||cm?2:1}: Solve it by hand</div>`;
   o+=q.steps.map((s,i)=>{const [hd,b]=dwSplit(s),last=i===q.steps.length-1,lab=hd?hd+':':(i===0?'Start:':(last?'So:':'Next:'));
     const words=/[A-Za-z]{4,}/.test(b);
     return `<div class="dw-p">${esc(lab)}</div><div class="${words?'dw-p':'dw-m'}" data-frac>${last&&!words?`<span class="dw-box">${esc(dwClean(b))}</span>`:esc(words?b:dwClean(b))}</div>`}).join('');
-  if(!lines.length&&!tb)o+=`<div class="dw-ans" data-frac>Answer: ${esc(ans)}</div>`;
+  if(!lines.length&&!tb&&!cm)o+=`<div class="dw-ans" data-frac>Answer: ${esc(ans)}</div>`;
+  if(!lines.length&&!tb&&!cm&&!t){ // every math question still gets the real Desmos: the question's equations + any points, ready to check work
+    const T=dwTxt(q0.q),ex=[],pts=[];const C=['#c74440','#2d70b3','#388c46','#6042a6'];
+    for(const m of T.matchAll(/(?:^|[^A-Za-z])((?:y|[a-z]\(x\))\s*=\s*[^.,;?]*x[^.,;?]*)/g)){const e=m[1].replace(/^[a-z]\(x\)/,'y').trim();if(e.length<60&&ex.length<4)ex.push({latex:dwLatex(e),color:C[ex.length%4]})}
+    (q.steps||[]).concat([T]).forEach(st=>{for(const m of dwTxt(st).matchAll(/\(\s*(−?-?\d+(?:\.\d+)?)\s*,\s*(−?-?\d+(?:\.\d+)?)\s*\)/g)){const x=dwNum(m[1]),y=dwNum(m[2]);if(isFinite(x)&&isFinite(y)&&!pts.some(p=>p[0]===x&&p[1]===y)&&pts.length<6)pts.push([x,y])}});
+    pts.forEach(p=>ex.push({latex:dwLatex('('+dwNumS(p[0])+', '+dwNumS(p[1])+')'),color:'#000000'}));
+    o=dwLive({ex,b:dsBounds(pts)})+`<div class="dw-p" style="font-size:15px;color:var(--mute)">${ex.length?'Desmos is filled in with the equations and points from this question. Use it to check each step below.':'Desmos is open and ready. Use it to check each step below.'}</div>`+o;}
   // 4. What to remember
   o+=`<div class="dw-h">What to remember for the SAT</div>`;
   if(c0&&c0.l.length)o+=`<table class="dw-t"><tr><th>LETTER</th><th>WHAT IT REPRESENTS</th></tr>${c0.l.map(r=>`<tr><td class="dw-mi">${esc(r[0])}</td><td>${esc(cap(r[1]))}</td></tr>`).join('')}</table>`;
