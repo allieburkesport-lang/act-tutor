@@ -513,8 +513,24 @@ function srcLine(lab,x){const tr=x.p==null||x.prev==null?'':x.p>x.prev?`<span cl
 function level(a,n){if(!n)return ['Not tried','#374151','#eef0f3'];if(a<50)return ['Needs work','#9a3412','#fff1e6'];if(a<70)return ['Getting there','#1e40af','#e8efff'];return ['Strong','#14532d','#e7f6ec']}
 
 /* ---------- router ---------- */
+/* ---------- Desmos check of the locked College Board questions (Allie, Nov 25) ----------
+   Open #/desmoscheck on Patrick's computer (where the official questions are unlocked). It runs every locked math question
+   through the real Desmos and saves only the results (question id, the Desmos line that failed) to his private HELM account. */
+async function desmosCheckPage(){D=null;const QS=BANK.qs.filter(q=>/^(cbm|cb|bpr)-/.test(q.id)&&SK2[q.skill]&&SK2[q.skill].sec==='Math');
+  app().innerHTML=topbar('')+`<div class="page"><h1 class="hd" style="font-size:26px;margin:0">Desmos check</h1><div id="dck" style="font-size:18px;margin:12px 0">${QS.length?'Checking '+QS.length+' official questions in Desmos… keep this tab open (about 2 minutes).':'The official questions are not unlocked on this device. Open HELM in the browser Patrick uses for practice.'}</div><div id="dckc" style="width:900px;height:500px;position:absolute;left:-9999px"></div></div>`;
+  if(!QS.length)return;await dsLoad();const c=Desmos.GraphingCalculator(document.getElementById('dckc'),{keypad:false});const fails=[];let i=0;
+  for(const q of QS){i++;if(i%25===0)document.getElementById('dck').textContent=`Checking ${i} of ${QS.length}…`;
+    let html='';try{html=desmosWay(q,QH[q.id]||{d:[],c:[]})}catch(e){fails.push({id:q.id,q:plain(q.q).slice(0,300),bad:['render: '+e.message]});continue}
+    const m=html.match(/data-spec='([^']*)'/);if(!m){fails.push({id:q.id,q:plain(q.q).slice(0,300),bad:['no Desmos']});continue}
+    const tx=document.createElement('textarea');tx.innerHTML=m[1];const spec=JSON.parse(tx.value);c.setBlank();
+    (spec.ex||[]).forEach((e,k)=>{const {note,...x}=e;c.setExpression(Object.assign({id:'e'+k},x))});await new Promise(r=>setTimeout(r,80));
+    const an=c.expressionAnalysis||{};const bad=Object.entries(an).filter(([k,v])=>v.isError).map(([k,v])=>(v.errorMessage||'')+' | '+((spec.ex[+k.slice(1)]||{}).latex||''));
+    const kind=/Desmos table \+ tilde/.test(html)?'table':/check the choices/.test(html)?'choices':/tilde \(~\)<\/b> to find/.test(html)?'tilde':/Desmos shortcut/.test(html)?'lines':'check-work';
+    if(bad.length||!(spec.ex||[]).length)fails.push({id:q.id,kind,q:plain(q.q).slice(0,300),ch:(q.ch||[]).map(plain).slice(0,4),bad,n:(spec.ex||[]).length})}
+  const res={when:new Date().toISOString(),total:QS.length,problems:fails.length,fails};if(window.HELM_PROGRESS)HELM_PROGRESS.put('desmos_check',res);
+  document.getElementById('dck').innerHTML=`<b>Done.</b> Checked ${QS.length} official questions. The results were sent to Claude. You can close this tab.`}
 function route(){const h=decodeURIComponent(location.hash.slice(1)||'/');const [_,v,a]=h.split('/');UI.nav=false;
-  if(v==='drill')return startDrill(a);if(v==='look'){startDrill('ids:'+a);if(D){D.view=true;D.title='Look at this question (practice only, not saved)';UI.panel='show';drawDrill()}return}if(v==='day')return startDay(a);if(v==='report')return dayReport(a);if(v==='learn')return learnPage(a);if(v==='video')return videoPage(a);if(v==='stats')return statsPage(a);if(v==='skill'&&typeof skillPage==='function'){D=null;return skillPage(a)}if(v==='videos')return videosPage();D=null;home();}
+  if(v==='drill')return startDrill(a);if(v==='look'){startDrill('ids:'+a);if(D){D.view=true;D.title='Look at this question (practice only, not saved)';UI.panel='show';drawDrill()}return}if(v==='day')return startDay(a);if(v==='report')return dayReport(a);if(v==='learn')return learnPage(a);if(v==='video')return videoPage(a);if(v==='stats')return statsPage(a);if(v==='skill'&&typeof skillPage==='function'){D=null;return skillPage(a)}if(v==='videos')return videosPage();if(v==='desmoscheck')return desmosCheckPage();D=null;home();}
 window.addEventListener('hashchange',route);
 setInterval(()=>{if(!D&&/^#\/(stats|report|$)/.test(location.hash||'#/')&&!document.querySelector('.drw.open'))pullOnline()},60000);
 
