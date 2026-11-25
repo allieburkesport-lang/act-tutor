@@ -495,7 +495,7 @@ function freshLabel() { const t = Math.max((SUM.sat && SUM.sat.updated) || 0, (S
 function renderCanvas() {
   const fr = document.getElementById('fresh'); if (fr) fr.textContent = freshLabel();
   const T = tasks(), A = all();
-  const today = T.filter((t) => t.rel === 0 || (t.rel < 0 && !t.done && t.rel >= -1)).sort((a, b) => (b.catchup || b.rel < 0 ? 1 : 0) - (a.catchup || a.rel < 0 ? 1 : 0) || (a.mod === 'sat' ? 0 : a.mod === 'gov' ? 1 : 2) - (b.mod === 'sat' ? 0 : b.mod === 'gov' ? 1 : 2));
+  const today = T.filter((t) => t.rel === 0 || (t.rel < 0 && !t.done && t.rel >= -1 && t.mod !== 'sat'))   /* SAT: unfinished questions roll into today's set overnight, so past SAT days never stay open (Allie, Nov 25) */.sort((a, b) => (b.catchup || b.rel < 0 ? 1 : 0) - (a.catchup || a.rel < 0 ? 1 : 0) || (a.mod === 'sat' ? 0 : a.mod === 'gov' ? 1 : 2) - (b.mod === 'sat' ? 0 : b.mod === 'gov' ? 1 : 2));
   const week = weekDates();
   const weekT = T.filter((t) => week.includes(t.date));
   const satWeek = weekT.filter((t) => t.mod === 'sat');
@@ -661,7 +661,7 @@ function renderOverlays() {
 }
 
 function renderNotif() {
-  const items = all().filter((e) => (e.urgent && e.rel >= 0 && e.rel <= 7) || (e.isTask && !e.done && (e.rel < 0 || (e.catchup && e.rel === 0))));
+  const items = all().filter((e) => (e.urgent && e.rel >= 0 && e.rel <= 7) || (e.isTask && !e.done && e.mod !== 'sat' && (e.rel < 0 || (e.catchup && e.rel === 0))));
   $('#notif-dot').style.display = items.length ? '' : 'none';
   $('#notif-pop').hidden = !state.notifOpen;
   $('#notif-pop').innerHTML = items.length ? items.map((e) => `<button class="res-item" type="button" data-action="open" data-id="${e.id}"><span class="pill ${e.sc}">${e.isEvent ? inDays(e.rel) : 'Catch-up'}</span><span style="font-weight:600">${esc(e.title)}</span></button>`).join('') : '<p class="muted" style="padding:12px;margin:0">You’re all caught up.</p>';

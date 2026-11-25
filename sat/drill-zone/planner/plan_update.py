@@ -123,6 +123,17 @@ def main():
         ts = datetime.datetime.fromisoformat(r['created_at'].replace('Z', '+00:00')).timestamp() * 1000
         if ts < KEEP.get(d, {}).get('reset_at', 0): continue
         byday[d][sk][0] += 1; byday[d][sk][1] += 1 if r.get('correct') else 0
+    # every question he answered per day and skill (help or not; first attempt only) -> what he left unanswered that day
+    answered = collections.defaultdict(lambda: collections.defaultdict(int)); seen_any = set()
+    for r in rows:
+        if r.get('kind') not in ('bank', 'official') or (r.get('attempt') or 1) != 1: continue
+        d = datetime.datetime.fromisoformat(r['created_at'].replace('Z', '+00:00')).astimezone(TZ).date().isoformat()
+        qid = (r.get('question') or '').split(' ')[0]
+        if qid and (d, qid) in seen_any: continue
+        seen_any.add((d, qid))
+        ts = datetime.datetime.fromisoformat(r['created_at'].replace('Z', '+00:00')).timestamp() * 1000
+        if ts < KEEP.get(d, {}).get('reset_at', 0): continue
+        answered[d][r.get('concept_id')] += 1
     lessons_done = collections.defaultdict(int)
     for r in rows:
         if r.get('kind') in ('drill', 'lesson'):
@@ -216,6 +227,7 @@ def main():
         for s in day['learn']:
             if s not in seen: seen.append(s)
     # --- what to click
+    prev_mix = None   # (date, mix) of the latest past study day; its unanswered questions roll into today
     for day in days:
         dd = datetime.date.fromisoformat(day['date']); d0 = day['date']
         day['label'] = dd.strftime('%a %b ') + str(dd.day)
@@ -229,7 +241,33 @@ def main():
         day['n_questions'] = 10 * len(day['learn']) + sum(n for _, n in day['review'])
         if dd >= GAP_FROM and day['kind'] in ('learn', 'weak', 'light'):
             if dd < today and KEEPMIX.get(d0): day['mix'] = KEEPMIX[d0]
-            else: day['mix'] = gap_mix(acc_frac, dd, light=day['kind'] == 'light')
+            else:
+                day['mix'] = gap_mix(acc_frac, dd, light=day['kind'] == 'light')
+                # Roll-over (Allie, Nov 25): past days never stay open. Whatever he left unanswered on the last study day
+                # moves into the NEXT study day (today's set), and the rest of that set is rebuilt from his latest results.
+                if dd == today and prev_mix:
+                    pdate, pmix = prev_mix
+                    left = {s2: max(0, n2 - answered[pdate].get(s2, 0)) for s2, n2, _ in pmix}
+                    left = {s2: n2 for s2, n2 in left.items() if n2 > 0}
+                    if left:
+                        base_total = sum(n2 for _, n2, _ in day['mix'])
+                        total = max(base_total, min(sum(left.values()), 50))
+                        room = total - sum(left.values())
+                        fresh = {}
+                        for s2, n2, _ in day['mix']:   # fresh questions fill what is left, biggest point-losers first
+                            take = min(n2, max(0, room)); room -= take
+                            if take: fresh[s2] = take
+                        order_ = [s2 for s2, _, _ in day['mix']] + [s2 for s2, _, _ in pmix if s2 not in {x[0] for x in day['mix']}]
+                        typ = {s2: t2 for s2, _, t2 in pmix}; typ.update({s2: t2 for s2, _, t2 in day['mix']})
+                        merged = []
+                        for sec_math in (True, False):   # keep Math block first, then Reading & Writing
+                            for s2 in order_:
+                                if (s2 in MATH) != sec_math: continue
+                                n2 = left.get(s2, 0) + fresh.get(s2, 0)
+                                if n2: merged.append([s2, n2, typ.get(s2, 'core')])
+                        day['mix'] = merged
+                        day['carried_q'] = dict(left); day['carried_from'] = pdate
+                        changes.append(f"{sum(left.values())} unfinished questions from {pdate} moved to {d0}")
             day['learn'], day['review'] = [], []
             day['concepts'] = [dict(skill=s2, name=names[s2], sec='Math' if s2 in MATH else 'English', share=SHARE[s2], acc=acc(s2)[0], tried=acc(s2)[1],
                                     lessons=[dict(id=l, title=LTITLE[l], url=NEW + '#/learn/' + s2) for l in LESSONS[s2]], drill=NEW + '#/drill/' + s2)
@@ -237,6 +275,9 @@ def main():
             day['mix_names'] = [[names[s2], n2, 'Math' if s2 in MATH else 'English', t2] for s2, n2, t2 in day['mix']]
             day['n_questions'] = sum(n2 for _, n2, _ in day['mix']); day['review_url'] = ''; day['review_names'] = []
             day['note'] = 'Focus set: biggest point-losers first, each category in a row'
+            if day.get('carried_q'):
+                day['note'] += f" · includes {sum(day['carried_q'].values())} unfinished from {datetime.date.fromisoformat(day['carried_from']).strftime('%a')}"
+            if dd < today: prev_mix = (d0, day['mix'])
         res = byday.get(d0, {})
         q = sum(v[0] for v in res.values()); ok = sum(v[1] for v in res.values())
         day['result'] = dict(questions=q, first_try=ok, pct=round(100 * ok / q) if q else None, lessons=lessons_done.get(d0, 0),

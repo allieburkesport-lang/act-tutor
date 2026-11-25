@@ -588,7 +588,8 @@ const OWED_FROM='2026-11-23';
 function schedule(){if(!PLAN)return todayCard();const t=today(),tm=tomorrowOf(t);
   const all=PLAN.days.filter(d=>d.date>=t&&d.date<=TEST);
   const st=helmStart(),sd=isFinite(st)&&st?new Date(st).toLocaleDateString('en-CA'):t;// only days since the site restart count
-  const owed=PLAN.days.filter(d=>d.date<t&&d.date>=sd&&d.date>=OWED_FROM&&hasDrill(d)&&!dayHold(d.date)&&!dayDone(d));
+  // Allie, Nov 25: past days never stay open. The nightly plan update moves whatever he left unanswered into the next day's set.
+  const owed=[];
   const days=UI.allDays?owed.concat(all):owed.concat(all.filter(d=>d.date<=tm));
   const rows=days.map(d=>{const run=store.get(runKey(d.date),null),f=dayFirst(d.date),ok=f.filter(x=>x.ok).length,spent=f.reduce((a,x)=>a+(x.sec||0),0);
     const drill=hasDrill(d);const isNow=d.date===t,isOwed=d.date<t,isTm=d.date===tm;
