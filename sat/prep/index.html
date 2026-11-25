@@ -580,12 +580,32 @@ function renderCanvas() {
   const govPct = TODAY >= CONFIG.govDoneThrough ? 100 : (SUM.apgov ? SUM.apgov.pct : 0);   // Ch. 4 part 2 finished Nov 24
   const satOn = TODAY <= CONFIG.satDate, satPrep = TODAY < CONFIG.satDate, satTestDay = TODAY === CONFIG.satDate;   // SAT card first through test day, then gone (Allie, Nov 24)
   const satBlock = satOn ? `<section class="s6 card sx satday m1" aria-labelledby="satday-h">${satTestDay ? `<div class="sxh"><h2>SAT · TEST DAY</h2></div><div class="sxb"><h3 id="satday-h" style="margin:0;font-size:24px">Today is the SAT</h3><p class="muted" style="margin:0;font-size:15px">Nothing else to do for SAT prep. Get there early, bring your ID, a charged device and your calculator. Goal: ${CONFIG.satGoal}.</p></div>` : satCard}</section>` : '';
+  // Class cards (Allie, Nov 25): SAT on the left, the other classes stacked on the right.
+  // Classes with work still to do today go on top; a class with nothing today drops to the bottom as a short card.
+  const clsList = (k) => today.filter((t) => t.mod === k);
+  const clsBody = (k) => {
+    const L = clsList(k);
+    if (k === 'gov') return hero;
+    const P = window.HELM_PRECALC, nx = SUM.precalc && SUM.precalc.next;
+    if (!L.length) return `<h3 style="margin:0;font-size:20px;line-height:1.2">No Precalc work today.</h3>`;
+    return `<h3 style="margin:0;font-size:24px;line-height:1.2">${L.every((t) => t.done) ? 'Precalc is done for today.' : 'Today’s Precalc work'}</h3>
+      ${P ? `<div class="timegrid"><div><span>Logged today</span><b class="tnum">${(SUM.precalc && SUM.precalc.min && SUM.precalc.min[TODAY]) || 0} of ${P.minutesFor(TODAY)} min</b></div><div><span>To the Midterm</span><b class="tnum">${(SUM.precalc && SUM.precalc.midPct) || 0}%</b></div></div><p class="muted" style="margin:0;font-size:14px">Next step: ${esc(nx || P.TASKS[0].n)}</p>` : ''}
+      <ul class="checklist">${L.map((t) => `<li class="item${t.done ? ' is-done' : ''}">${checkBtn(t)}<button class="linkbtn ttl" type="button" data-action="open" data-id="${t.id}" style="flex:1">${esc(t.title)}</button>${pill(t)}</li>`).join('')}</ul>
+      <a class="btn btn-primary" href="${esc(MOD.pre.href)}" style="align-self:flex-start">${esc(MOD.pre.link)}${ICON.arrow}</a>`;
+  };
+  const clsHead = { gov: 'AP GOV' + (quiz && quiz.rel <= 1 ? ' · QUIZ ' + (quiz.rel === 0 ? 'TODAY' : 'TOMORROW') : ''), pre: 'PRECALC' };
+  const clsRank = (k) => { const L = clsList(k); return L.some((t) => !t.done) ? 0 : L.length ? 1 : 2; };   // to do today → done today → nothing today
+  const clsOrder = ['gov', 'pre'].sort((a, b) => clsRank(a) - clsRank(b));
+  const clsCard = (k, i, span) => { const L = clsList(k), empty = !L.length;
+    const body = empty ? `<h3 ${k === 'gov' ? 'id="next-h" ' : ''}style="margin:0;font-size:18px;line-height:1.2">No ${k === 'gov' ? 'AP Gov' : 'Precalc'} work today.</h3><a class="linkbtn" href="${esc(MOD[k].href)}" style="font-size:14px;font-weight:600">${esc(MOD[k].link)} →</a>` : clsBody(k);
+    return `<section class="${span || ''} card sx m1"${k === 'gov' ? ' aria-labelledby="next-h"' : ''} style="${!empty && i === 0 ? 'flex:1' : ''}">
+      <div class="sxh"><h2>${clsHead[k]}</h2><span class="tnum">${empty ? 'Nothing today' : cnt(L) + '/' + L.length + ' done'}</span></div>
+      <div class="sxb"${empty ? ' style="flex-direction:row;justify-content:space-between;align-items:center;padding:14px 22px"' : ''}>${body}</div></section>`; };
+  const classCol = satOn
+    ? `<div class="s6 m1" style="display:flex;flex-direction:column;gap:20px;min-width:0">${clsOrder.map((k, i) => clsCard(k, i)).join('')}</div>`
+    : clsOrder.map((k, i) => clsCard(k, i, 's6')).join('');
   $('#canvas').innerHTML = `${satBlock}
-  <section class="${satOn ? 's6' : 's12'} card sx m1" aria-labelledby="next-h">
-    <div class="sxh"><h2>AP GOV${quiz && quiz.rel <= 1 ? ' · QUIZ ' + (quiz.rel === 0 ? 'TODAY' : 'TOMORROW') : ''}</h2><span class="tnum">${cnt(today.filter((t) => t.mod === 'gov'))}/${today.filter((t) => t.mod === 'gov').length} done</span></div>
-    <div class="sxb">${hero}</div>
-
-  </section>
+  ${classCol}
   <section class="s12 kpis m3" aria-label="Progress" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
     <div class="card stat prog"><span class="label">Today</span><span class="metric tnum">${tp}<small>%</small></span><span class="delta">${td}/${tt} tasks</span><div class="pbar"><i style="width:${tp}%"></i></div></div>
     <div class="card stat prog"><span class="label">This week</span><span class="metric tnum">${pct(cnt(weekT), weekT.length)}<small>%</small></span><span class="delta">${cnt(weekT)}/${weekT.length} tasks</span><div class="pbar"><i style="width:${pct(cnt(weekT), weekT.length)}%"></i></div></div>
