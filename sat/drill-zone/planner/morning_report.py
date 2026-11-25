@@ -156,6 +156,7 @@ if pd:
             f"<div style='margin:6px 0'>{bar(pc, 10)}</div><div style='font-size:13px;color:#34435A'><b>{done} / {planned}</b> completed · <b>{right}</b> correct</div></td></tr></table></div>")
 else: plan = ''
 
+takes = []
 if n:
     acc = round(100 * ok / n); secs = round(sum(a.get('seconds') or 0 for a in F) / n)
     t0 = min(et(a['created_at']) for a in R); t1 = max(et(a['created_at']) for a in R); mins = round((t1 - t0).seconds / 60)
@@ -200,14 +201,69 @@ if n:
     perfect = [k for k, v in order if v[1] == v[0] and (k, v) not in weak5]
     skills = (h2('By Skill (Weakest First)') + TB + '>' + ''.join(srow(k, v, i == 0) for i, (k, v) in enumerate(weak5)) + '</table>'
               + (f"<div style='font-size:13px;color:#101C34;margin-top:8px'><b style='color:{GRN}'>100%:</b> " + ', '.join(amp(sn(nm(k))) for k in perfect) + "</div>" if perfect else ''))
+    # ---- Trend (Allie, Nov 25): right-first-try % per day (SAT rules) so she can see if he is getting more right ----
+    byd = collections.OrderedDict()
+    for a in sorted(SC, key=lambda a: a['created_at']):
+        dd = et(a['created_at']).strftime('%Y-%m-%d')
+        if dd > day: continue
+        v = byd.setdefault(dd, [0, 0]); v[0] += 1; v[1] += a['correct']
+    tdays = [(d, v) for d, v in byd.items() if v[0] >= 5][-6:]
+    def trow_d(i, d, v):
+        p = round(100 * v[1] / v[0]); bt = '' if i == 0 else 'border-top:1px solid #DCE3EB;'
+        c = '#0C8E40' if p >= 80 else OR if p >= 60 else '#C21D1D'
+        return (f"<tr><td width='70' style='padding:8px 0;{bt}font-size:13px;font-weight:{800 if d == day else 600};color:#101C34'>{datetime.date.fromisoformat(d).strftime('%a %-m/%-d')}</td>"
+                f"<td style='padding:8px 6px;{bt}'>{bar(p, 8, c)}</td><td width='44' align='right' style='padding:8px 0;{bt}font-size:12px;color:#101C34'>{v[1]}/{v[0]}</td>"
+                f"<td width='44' align='right' style='padding:8px 0;{bt}font-size:16px;font-weight:800;color:{c}'>{p}%</td></tr>")
+    trend = ''
+    if len(tdays) >= 2:
+        ps = [round(100 * v[1] / v[0]) for _, v in tdays]; dlt = ps[-1] - ps[-2]
+        arrow = (f"<span style='color:{GRN}'>▲ up {dlt} points</span>" if dlt > 0 else f"<span style='color:#C21D1D'>▼ down {-dlt} points</span>" if dlt < 0 else "<span>no change</span>")
+        sk_tr = []
+        for k in sorted({a['concept_id'] for a in F}):
+            bef = [a for a in SC if a.get('concept_id') == k and et(a['created_at']).strftime('%Y-%m-%d') < day]
+            now = [a for a in F if a.get('concept_id') == k]
+            if len(bef) >= 3 and now:
+                pb, pn = round(100 * sum(a['correct'] for a in bef) / len(bef)), round(100 * sum(a['correct'] for a in now) / len(now))
+                sk_tr.append(f"{amp(sn(nm(k)))}: {pb}% before → <b style='color:{GRN if pn > pb else '#C21D1D' if pn < pb else '#101C34'}'>{pn}%</b>")
+        trend = (h2('Trend · Right on First Try') + f"<div style='font-size:14px;color:#101C34;margin:-4px 0 6px'>{pretty(day)} vs. his last practice day: <b>{arrow}</b></div>"
+                 + TB + '>' + ''.join(trow_d(i, d, v) for i, (d, v) in enumerate(tdays)) + '</table>'
+                 + (f"<div style='font-size:13px;color:#101C34;margin-top:8px;line-height:20px'>{'<br>'.join(sk_tr)}</div>" if sk_tr else '')
+                 + f"<div style='font-size:11px;color:{MUT};margin-top:6px'>SAT rules: first answer only, no help. Days with fewer than 5 questions are left out.</div>")
+        takes.insert(0, tk('Trend', f"{ps[-1]}% right on first try, {'up' if dlt > 0 else 'down' if dlt < 0 else 'same as'} {abs(dlt) if dlt else ''}{' points from' if dlt else ''} {ps[-2]}% last practice day"))
+    # ---- Follow-ups ("Prove it") (Allie, Nov 25): how many were added, did he get them, did he use help on them ----
+    fu = collections.OrderedDict(); pl = collections.OrderedDict()
+    for a in sorted(R, key=lambda a: a['created_at']):
+        qid = a['question'].split(' ')[0]; part = a.get('part') or ''
+        m = re.search(r'prove it (\d)', part); tgt = fu if m else pl
+        e = tgt.setdefault(qid, {'first': None, 'ok': False, 'help': set(), 'k': int(m.group(1)) if m else 0, 'sk': a.get('concept_id')})
+        if e['first'] is None: e['first'] = a['correct']
+        e['ok'] = e['ok'] or a['correct']
+        hm = re.search(r'help ([\w+]+)', part)
+        if hm: e['help'] |= set(hm.group(1).split('+')) - TOOLS
+        if 'coached' in part: e['help'].add('show')
+    for m in asks:
+        if m.get('question_id') in fu: fu[m['question_id']]['help'].add('tutor')
+    follow = ''
+    if fu:
+        f1 = sum(1 for e in fu.values() if e['first']); fh = [k for k, e in fu.items() if e['help']]
+        p1 = sum(1 for e in pl.values() if e['first']); fp, pp = round(100 * f1 / len(fu)), round(100 * p1 / len(pl)) if pl else 0
+        cnt = collections.Counter(e['sk'] for e in fu.values())
+        frows = ''.join(item(ql(k) + f"<div style='font-size:11px;color:#5B6C80;margin-top:2px'>Prove it {e['k']}" + (' · help: ' + ', '.join(HN.get(x, x) for x in sorted(e['help'])) if e['help'] else ' · no help') + "</div>",
+                             '✓ Right' if e['first'] else ('Fixed' if e['ok'] else '✕ Wrong'), '#00833E' if e['first'] else (OR if e['ok'] else '#C21D1D'), i == 0) for i, (k, e) in enumerate(fu.items()))
+        follow = (f"<div style='margin-top:12px'>{panel(f'Follow-Up Questions Added ({len(fu)})', 'spark', '#FFF4E5', OR, TB + '>' + frows + '</table>')}</div>"
+                  f"<div style='font-size:13px;color:#101C34;margin-top:7px;line-height:19px'>Added on top of the plan after a miss or help: "
+                  + ', '.join(f"{amp(sn(nm(k)))} {v}" for k, v in cnt.items())
+                  + f".<br>Right on first try: <b>{f1} of {len(fu)} ({fp}%)</b> on follow-ups vs. <b>{p1} of {len(pl)} ({pp}%)</b> on planned questions."
+                  + f"<br>Help used on follow-ups: <b>{len(fh) if fh else 'none'}</b>{' (' + ', '.join(html.escape(short_q(k)) for k in fh) + ')' if fh else ' — he did them on his own'}.</div>")
+        takes.insert(1 if trend else 0, tk('Follow-ups', f"{len(fu)} added, {f1} right on first try ({fp}%), help on {len(fh) if fh else 'none'}"))
     slow = max(by.items(), key=lambda x: x[1][2] / x[1][0])
-    takes = [tk('Weakest skill', f"{amp(sn(nm(order[0][0])))} ({round(100*order[0][1][1]/order[0][1][0])}%)"),
+    takes += [tk('Weakest skill', f"{amp(sn(nm(order[0][0])))} ({round(100*order[0][1][1]/order[0][1][0])}%)"),
              tk('Slowest skill', f"{amp(sn(nm(slow[0])))} (~{round(slow[1][2]/slow[1][0])}s/question)"),
              tk('Speed', f"{secs}s/question (SAT pace: 70–95s)")]
     if stuck: takes.append(tk('Review next', f"{len(stuck)} unresolved missed question{'s' if len(stuck)!=1 else ''}: " + ', '.join(f"<a href='{SITE}#/look/{k}' style='color:#24639E'>{html.escape(short_q(k))}</a>" for k in stuck)))
     if pd and not finished: takes.append(tk('Plan', f"{planned - done} of {planned} planned questions still left"))
     if calc: takes.append(tk('Calculator', 'Desmos on ' + ', '.join(html.escape(short_q(k)) for k in calc)))
-    day_html = plan + summary + panels + tutor + skills
+    day_html = plan + summary + trend + panels + follow + tutor + skills
 else:
     takes = [tk('No work', f"No HELM questions on {pretty(day)}")]
     day_html = plan
