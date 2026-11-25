@@ -89,6 +89,17 @@ aside.pan .ph .t{font-size:21px;font-weight:700}aside.pan .ph .s{font-size:14px;
 .b-yel{background:#fefce8;border-color:#fde68a}.b-yel .lab{color:#854d0e}
 .b-red{background:#fff1e6;border-color:#fdba74}.b-red .lab{color:#9a3412}
 .b-pur{background:#faf5ff;border-color:#e9d5ff}.b-pur .lab{color:#6b21a8}
+.dk-box{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:6px 14px}
+.dk-step{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);font-size:16px;line-height:1.5}.dk-step:last-of-type{border-bottom:0}
+.dk-n{flex:none;width:26px;height:26px;border-radius:50%;background:#13315C;color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.dk-row{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}
+.dk{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:34px;padding:0 9px;border:1.5px solid #94a3b8;border-bottom-width:4px;border-radius:8px;background:#f8fafc;font:700 18px Helvetica,Arial,sans-serif;color:#0f172a}
+.dk.sp{background:#fef3c7;border-color:#d97706;color:#7c2d12}
+.dk-see{font-size:14px;color:var(--mute)}
+.dk-keys{margin:4px 0 10px;background:#fffbeb;border-radius:10px;padding:10px 12px;font-size:14px;line-height:1.6}
+.dsx-tb{border-collapse:collapse;font-size:18px;margin:2px 0}.dsx-tb th,.dsx-tb td{border:1px solid #cfcfcf;padding:5px 18px;text-align:center;min-width:60px}.dsx-tb th{background:#f3f3f3;font-weight:400;text-transform:none!important}
+.dsx-dot.sm{display:inline-block;width:12px;height:12px;margin-right:6px;vertical-align:-1px}
+.dsx-par b+b{margin-left:4px}
 .dw-lab2{font-size:14px;font-weight:700;color:var(--mute);margin-top:4px}
 .dsx{border:1.5px solid #cfcfcf;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.08)}
 .dsx-list{border-bottom:1.5px solid #ddd;font-family:Helvetica,Arial,sans-serif}
@@ -997,7 +1008,96 @@ function dwScreen(q,t,given){
     svg=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;background:#fff">${g}</svg>`;}
   return `<div class="dw-lab2">What it looks like in Desmos</div><div class="dsx"><div class="dsx-list" data-nofrac>${rows.join('')}</div>${svg?`<div class="dsx-g" data-nofrac>${svg}</div>`:''}</div>`+
     (fx?`<div class="dw-p" style="font-size:15px;color:var(--mute)">Line 1 finds ${esc(t.V)}. Lines 2 and up are optional: they draw the graph so you can see it pass through ${pts.length>1?'both points':'the point'}.</div>`:'')}
-function desmosWay(q,h){
+/* ---------- Clean question HTML for the Desmos help (College Board questions carry <sup>, <i>, tables) ---------- */
+function dwTxt(h){return String(h??'').replace(/<sup>\s*2\s*<\/sup>/gi,'²').replace(/<sup>\s*3\s*<\/sup>/gi,'³').replace(/<sup>(.*?)<\/sup>/gi,(m,x)=>'^'+(/^[\w.]+$/.test(x.replace(/<[^>]+>/g,''))?x.replace(/<[^>]+>/g,''):'('+x.replace(/<[^>]+>/g,'')+')'))
+  .replace(/<sub>(.*?)<\/sub>/gi,(m,x)=>x.replace(/\d/g,d=>'₀₁₂₃₄₅₆₇₈₉'[d])).replace(/<br\s*\/?>/gi,' ').replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ').replace(/&minus;/g,'−').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim()}
+/* ---------- Table / points → Desmos regression (the classic SAT trick: table + y₁ ~ model) ---------- */
+function dwNum(t){const v=+String(t).replace(/−/g,'-').replace(/,/g,'').trim();if(isFinite(v)&&String(t).trim()!=='')return v;const m=String(t).replace(/−/g,'-').match(/^(-?\d+)\s*\/\s*(\d+)$/);return m?+m[1]/+m[2]:NaN}
+function dwTable(q){const pts=[];const H=String(q.q||'');
+  const tm=H.match(/<table[\s\S]*?<\/table>/i);
+  if(tm){const rows=[...tm[0].matchAll(/<tr[\s\S]*?<\/tr>/gi)].map(r=>[...r[0].matchAll(/<t[hd][^>]*>([\s\S]*?)<\/t[hd]>/gi)].map(c=>dwTxt(c[1])));
+    if(rows.length>=3&&rows.every(r=>r.length===2)){rows.slice(1).forEach(r=>{const x=dwNum(r[0]),y=dwNum(r[1]);if(isFinite(x)&&isFinite(y))pts.push([x,y])})}
+    else if(rows.length===2&&rows[0].length>=3){for(let j=1;j<rows[0].length;j++){const x=dwNum(rows[0][j]),y=dwNum(rows[1][j]);if(isFinite(x)&&isFinite(y))pts.push([x,y])}}}
+  if(!pts.length){const T=dwTxt(H);for(const m of T.matchAll(/\b[a-z]\(\s*(−?-?\d+(?:\.\d+)?)\s*\)\s*=\s*(−?-?\d+(?:\.\d+)?)/g)){const x=dwNum(m[1]),y=dwNum(m[2]);if(!pts.some(p=>p[0]===x))pts.push([x,y])}}
+  if(pts.length<2)return null;
+  const all=(H+' '+(q.ch||[]).join(' ')).toLowerCase(),T=dwTxt(all);
+  let model=/quadratic|parabola/.test(T)||/x²|x\^2/.test(T)?'quad':(/exponential|grow|decay|percent/.test(T)||/\^x|\^\(x/.test(T)?'exp':(/linear|line/.test(T)?'lin':null));
+  if(!model)return null;if(model==='quad'&&pts.length<3)return null;if(model==='exp'&&pts.some(p=>p[1]<=0))return null;
+  const fit=dwFit(pts,model);if(!fit)return null;return {pts,model,fit}}
+function dwSolve(A,b){const n=b.length,M=A.map((r,i)=>[...r,b[i]]);for(let c=0;c<n;c++){let p=c;for(let r=c+1;r<n;r++)if(Math.abs(M[r][c])>Math.abs(M[p][c]))p=r;[M[c],M[p]]=[M[p],M[c]];if(Math.abs(M[c][c])<1e-12)return null;
+  for(let r=0;r<n;r++)if(r!==c){const f=M[r][c]/M[c][c];for(let k=c;k<=n;k++)M[r][k]-=f*M[c][k]}}return M.map((r,i)=>r[n]/r[i])}
+function dwFit(pts,model){const ls=(rows,ys)=>{const k=rows[0].length,A=[...Array(k)].map((_,i)=>[...Array(k)].map((_,j)=>rows.reduce((s,r)=>s+r[i]*r[j],0))),b=[...Array(k)].map((_,i)=>rows.reduce((s,r,n)=>s+r[i]*ys[n],0));return dwSolve(A,b)};
+  const r4=v=>Math.round(v*10000)/10000;
+  if(model==='lin'){const c=ls(pts.map(p=>[p[0],1]),pts.map(p=>p[1]));if(!c)return null;return {vals:[['m',r4(c[0])],['b',r4(c[1])]],f:x=>c[0]*x+c[1]}}
+  if(model==='quad'){const c=ls(pts.map(p=>[p[0]*p[0],p[0],1]),pts.map(p=>p[1]));if(!c)return null;return {vals:[['a',r4(c[0])],['b',r4(c[1])],['c',r4(c[2])]],f:x=>c[0]*x*x+c[1]*x+c[2]}}
+  const c=ls(pts.map(p=>[p[0],1]),pts.map(p=>Math.log(p[1])));if(!c)return null;const a=Math.exp(c[1]),b=Math.exp(c[0]);return {vals:[['a',r4(a)],['b',r4(b)]],f:x=>a*Math.pow(b,x)}}
+const DW_REG={lin:'y₁ ~ mx₁ + b',quad:'y₁ ~ ax₁² + bx₁ + c',exp:'y₁ ~ a·b^x₁'};
+function dwNumS(v){return (v<0?'−':'')+Math.abs(v)}
+function dwFormula(tb){const v=Object.fromEntries(tb.fit.vals),t=(c,x,first)=>{if(Math.abs(c)<1e-9)return '';const s=c<0?'−':(first?'':'+');const a=Math.abs(c);return (first?s:' '+s+' ')+(x&&a===1?'':a)+x};
+  if(tb.model==='lin')return 'f(x) = '+(t(v.m,'x',1)+t(v.b,'',!v.m)||'0');
+  if(tb.model==='quad')return 'f(x) = '+(t(v.a,'x²',1)+t(v.b,'x',!v.a)+t(v.c,'',!v.a&&!v.b)||'0');
+  return `f(x) = ${v.a}(${v.b})^x`}
+function dwGraphSVG(fx,pts,pcols){const xs=pts.map(p=>p.x),ys=pts.map(p=>p.y);let x0=Math.min(...xs,0)-3,x1=Math.max(...xs,0)+3;
+  let y0=Math.min(...ys,0)-2,y1=Math.max(...ys,0)+2;if(y1-y0<6){y1+=3;y0-=3}
+  const W=440,H=300,X=x=>(x-x0)/(x1-x0)*W,Y=y=>H-(y-y0)/(y1-y0)*H;let g='';
+  const st=r=>{const p=Math.pow(10,Math.floor(Math.log10(r/8)));return [1,2,5,10].map(k=>k*p).find(k=>k>=r/8)};const sx=st(x1-x0),sy=st(y1-y0);
+  for(let x=Math.ceil(x0/sx)*sx;x<=x1;x+=sx)g+=`<line x1="${X(x)}" x2="${X(x)}" y1="0" y2="${H}" stroke="#e6e6e6"/>${Math.abs(x)>1e-9?`<text x="${X(x)}" y="${Math.min(H-4,Math.max(12,Y(0)+14))}" font-size="11" text-anchor="middle" fill="#555">${+x.toFixed(4)}</text>`:''}`;
+  for(let y=Math.ceil(y0/sy)*sy;y<=y1;y+=sy)g+=`<line y1="${Y(y)}" y2="${Y(y)}" x1="0" x2="${W}" stroke="#e6e6e6"/>${Math.abs(y)>1e-9?`<text x="${Math.min(W-6,Math.max(14,X(0)-5))}" y="${Y(y)+4}" font-size="11" text-anchor="end" fill="#555">${+y.toFixed(4)}</text>`:''}`;
+  g+=`<line x1="${X(0)}" x2="${X(0)}" y1="0" y2="${H}" stroke="#222" stroke-width="1.3"/><line y1="${Y(0)}" y2="${Y(0)}" x1="0" x2="${W}" stroke="#222" stroke-width="1.3"/>`;
+  if(fx){let d='';for(let k=0;k<=300;k++){const x=x0+(x1-x0)*k/300,v=fx(x);if(!isFinite(v))continue;d+=(d?'L':'M')+X(x).toFixed(1)+','+Math.max(-60,Math.min(H+60,Y(v))).toFixed(1)}g+=`<path d="${d}" fill="none" stroke="#2d70b3" stroke-width="3"/>`}
+  pts.forEach((p,i)=>{const c=(pcols&&pcols[i])||'#c74440',px=X(p.x),py=Y(p.y),lx=px>W-110?px-10:px+10;g+=`<circle cx="${px}" cy="${py}" r="6" fill="${c}"/><text x="${lx}" y="${py-10}" font-size="13" font-weight="700" fill="${c}" text-anchor="${px>W-110?'end':'start'}" stroke="#fff" stroke-width="4" paint-order="stroke">${esc(p.lab)}</text>`});
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block;background:#fff">${g}</svg>`}
+function dwTableScreen(tb){ // replica of the Desmos screen: table (line 1), regression (line 2) with its PARAMETERS, and the graph
+  const rows=tb.pts.map(p=>`<tr><td>${dwNumS(p[0])}</td><td>${dwNumS(p[1])}</td></tr>`).join('');
+  const list=`<div class="dsx-r"><span class="dsx-n">1</span><div class="dsx-c"><table class="dsx-tb"><tr><th><span class="dsx-dot sm" style="background:#c74440"></span>x₁</th><th>y₁</th></tr>${rows}</table></div></div>`+
+   `<div class="dsx-r"><span class="dsx-n">2</span><div class="dsx-c"><div class="dsx-e">${esc(DW_REG[tb.model])}</div><div class="dsx-par"><span>PARAMETERS</span>${tb.fit.vals.map(([k,v])=>`<b>${k} = ${dwNumS(v)}</b>`).join('')}</div></div></div>`;
+  return `<div class="dw-lab2">Exactly what your Desmos screen should look like</div><div class="dsx"><div class="dsx-list" data-nofrac>${list}</div><div class="dsx-g" data-nofrac>${dwGraphSVG(tb.fit.f,tb.pts.map(p=>({x:p[0],y:p[1],lab:'('+dwNumS(p[0])+', '+dwNumS(p[1])+')'})))}</div></div>`}
+function dwTableHow(tb,ans){const reg=DW_REG[tb.model],k=dwKeys(reg),hint=new Set(k.hints);hint.add('<b>_</b> = hold <b>Shift</b> and press the <b>minus</b> key. It makes the small ₁ (subscript). Press <b>→</b> after the 1.');
+  const xs=tb.pts.map(p=>dwNumS(p[0])),ys=tb.pts.map(p=>dwNumS(p[1]));const kc=v=>`<span class="dk">${esc(v)}</span>`,en='<span class="dk sp">Enter</span>';
+  const st=[`<b>Open Desmos.</b> Click the <b>Calculator</b> button at the top right of the test screen.`,
+   `<b>Make a table.</b> Click the <span class="dk sp">+</span> at the top-left of the list, then click <b>table</b>. A table with two columns, <b>x₁</b> and <b>y₁</b>, appears on line 1.`,
+   `<b>Fill in the x₁ column</b> (the x-values from the question). Click the first box under x₁ and type:<div class="dk-row">${xs.map((v,i)=>kc(v)+(i<xs.length-1?en:'')).join('')}</div><div class="dk-see">Enter moves you down to the next box.</div>`,
+   `<b>Fill in the y₁ column</b> (the f(x) values). Click the first box under y₁ and type:<div class="dk-row">${ys.map((v,i)=>kc(v)+(i<ys.length-1?en:'')).join('')}</div><div class="dk-see">The ${tb.pts.length} points now show on the graph as red dots.</div>`,
+   `<b>Click line 2</b> (the empty line under the table) and press these keys, in this order:<div class="dk-row" data-nofrac>${k.caps.join('')}</div><div class="dk-see">Line 2 should read: <b>${esc(reg)}</b></div>`,
+   `<b>Read the answer.</b> Under line 2, Desmos shows <b>PARAMETERS</b>: ${tb.fit.vals.map(([a,v])=>`<b>${a} = ${dwNumS(v)}</b>`).join(', ')}. Put them back in: <b>${esc(dwFormula(tb))}</b>${ans?` → <b>${esc(ans)}</b>`:''}.`];
+  return `<div class="dw-lab2">How to type it into Desmos, key by key</div><div class="dk-box">${st.map((x,j)=>`<div class="dk-step"><span class="dk-n">${j+1}</span><div>${x}</div></div>`).join('')}<div class="dk-keys"><b>Special keys</b><br>${[...hint].join('<br>')}</div></div>`}
+/* ---------- Desmos key-by-key typing steps (Allie, Nov 25: Patrick needs to see exactly what to press) ---------- */
+function dwKeys(str){const s=dwClean(str).replace(/\s+/g,''),out=[],hints=new Set();let i=0;
+  const cap=(k,sp)=>out.push(`<span class="dk${sp?' sp':''}">${esc(k)}</span>`);
+  const HINT={'~':'<b>~</b> = hold <b>Shift</b> and press the key to the left of <b>1</b> (top-left of the keyboard).','^':'<b>^</b> = hold <b>Shift</b> and press <b>6</b>. It starts the exponent (the small raised number).',
+   '→':'<b>→</b> = the right-arrow key. It moves you back down out of the exponent or fraction before you keep typing.','/':'<b>/</b> makes a fraction: type the top, press <b>/</b>, then type the bottom.','pi':'Type the letters <b>p i</b> and Desmos turns them into π.','sqrt':'Type <b>sqrt</b> and Desmos makes a √ symbol.'};
+  const use=k=>{if(HINT[k])hints.add(HINT[k])};
+  const group=()=>{ // one exponent / denominator group: (...) or a number/letter run
+    if(s[i]==='('){let d=0,j=i;for(;j<s.length;j++){if(s[j]==='(')d++;else if(s[j]===')'){d--;if(!d)break}}const inner=s.slice(i,j+1);i=j+1;return inner}
+    const m=s.slice(i).match(/^[−\-]?[\d.]+|^[A-Za-z][₀-₉]?/);if(m){i+=m[0].length;return m[0]}const c=s[i];i++;return c||''};
+  const emit=t=>{const r=dwKeys(t);out.push(...r.caps);r.hints.forEach(h=>hints.add(h))};
+  while(i<s.length){const c=s[i];
+    if(/[\d.]/.test(c)){const m=s.slice(i).match(/^[\d.]+/)[0];cap(m);i+=m.length;continue}
+    if(c==='²'||c==='³'){cap('^',1);use('^');cap(c==='²'?'2':'3');cap('→',1);use('→');i++;continue}
+    if(c==='^'){i++;cap('^',1);use('^');emit(group());cap('→',1);use('→');continue}
+    if(c==='/'||c==='÷'){i++;cap('/',1);use('/');emit(group());cap('→',1);use('→');continue}
+    if(c==='~'){cap('~',1);use('~');i++;continue}
+    if(/[₀-₉]/.test(c)){cap('_',1);cap(String('₀₁₂₃₄₅₆₇₈₉'.indexOf(c)));cap('→',1);use('→');i++;continue}
+    if(c==='π'){cap('p');cap('i');use('pi');i++;continue}
+    if(c==='√'){cap('sqrt',1);use('sqrt');i++;continue}
+    if(c==='−'||c==='-'){cap('−');i++;continue}
+    if(c==='×'||c==='·'||c==='*'){cap('*');i++;continue}
+    cap(c);i++}
+  return {caps:out,hints:[...hints]}}
+function dwHow(lines,resultNote,extra){ // lines: [{n, txt}]
+  const allH=new Set();let st=[`<b>Open Desmos.</b> Click the <b>Calculator</b> button at the top right of the test screen. A blank line 1 is ready to type in.`];
+  lines.forEach(l=>{const k=dwKeys(l.txt);k.hints.forEach(h=>allH.add(h));
+    st.push(`<b>Click line ${l.n}</b> and press these keys, in this order:<div class="dk-row" data-nofrac>${k.caps.join('')}</div><div class="dk-see">Line ${l.n} should now read: <b>${esc(l.txt)}</b></div>`)});
+  if(resultNote)st.push(resultNote);
+  (extra||[]).forEach(e=>{const k=dwKeys(e.txt);k.hints.forEach(h=>allH.add(h));st.push(`${e.lead||''}<b>Click line ${e.n}</b> and type:<div class="dk-row" data-nofrac>${k.caps.join('')}</div><div class="dk-see">Line ${e.n} reads: <b>${esc(e.txt)}</b></div>`)});
+  return `<div class="dw-lab2">How to type it into Desmos, key by key</div><div class="dk-box">${st.map((x,j)=>`<div class="dk-step"><span class="dk-n">${j+1}</span><div>${x}</div></div>`).join('')}`+
+    (allH.size?`<div class="dk-keys"><b>Special keys</b><br>${[...allH].join('<br>')}</div>`:'')+`</div>`}
+function dwGraphLines(q,t,given){const val=+String(t.val).replace(/−/g,'-');let fLine='';
+  for(const s of q.steps){const b=dwSplit(s)[1];const m=b.match(/^\s*(?:f\(x\)|y)\s*=\s*(.+)$/);if(m&&new RegExp('(^|[^A-Za-z])'+t.V+'(?![A-Za-z])').test(m[1])&&/x/.test(m[1])){
+    try{const f=new Function(t.V,'x','return '+dwJS(dwClean(m[1])));if(isFinite(f(val,0)))fLine='y = '+dwClean(m[1])}catch(e){}break}}
+  if(!fLine)return [];return [fLine,...dwPts(given).map(p=>p.lab)]}
+function desmosWay(q0,h){
+  const q=Object.assign({},q0,{steps:(q0.steps||[]).map(dwTxt),tool:dwTxt(q0.tool),trap:dwTxt(q0.trap),ch:q0.ch?q0.ch.map(dwTxt):q0.ch});
   const t=dwTilde(q),c0=(QF[q.id]||[]).find(c=>c.ref!=='rule'),ans=q.ch?`${L[q.ans]}) ${q.ch[q.ans]}`:(q.show||q.grid[0]);
   const given=c0?c0.l.filter(r=>r[2]&&!/what we find/i.test(r[2])&&!(t&&r[0].trim()===t.V)):[];
   const cap=s=>String(s).replace(/^the\s+/i,'').replace(/^./,c=>c.toUpperCase());
@@ -1008,25 +1108,34 @@ function desmosWay(q,h){
   if(c0){o+=`<div class="dw-p">You're given ${esc((c0.n||'the formula').toLowerCase())}:</div><div class="dw-m" data-frac>${esc(c0.eq)}</div>`;
     if(given.length)o+=`<ul class="dw-ul">${given.map(r=>`<li>${r[0].trim().length<=6?esc(cap(r[1]))+' ':''}<span class="dw-mi" data-frac>${esc(r[0].trim().length<=6?r[0]:cap(r[0]))} = ${esc(r[2])}</span></li>`).join('')}</ul>`;}
   // 2. Method 1: Desmos
-  const dl=(h.d||[]).map(x=>x.replace(/^Type\s+/,'').trim()).filter(x=>x&&!/=\s*$/.test(x));
+  const tb=!t?dwTable(q0):null;
+  if(tb){o=`<div class="dw-p">For this one, put the points in a <b>Desmos table</b> and let Desmos find the equation with the <b>tilde (~)</b>. No algebra.</div>`+
+    `<div class="dw-h">Method 1: Desmos table + tilde</div>`+dwTableHow(tb,ans)+dwTableScreen(tb)+`<div class="dw-ans">Answer: ${esc(ans)}</div>`+
+    `<div class="dw-p" style="font-size:15px;color:var(--mute)">Other way to check: type each answer choice into Desmos. The right one goes through every red dot.</div>`;}
+  const dl=tb?[]:(h.d||[]).map(x=>x.replace(/^Type\s+/,'').trim()).filter(x=>x&&!/=\s*$/.test(x));
   const lines=t?[{lab:'Line 1 — use the tilde (~)',m:t.line}]:dl.map((x,i)=>({lab:'Line '+(i+1),m:x}));
-  if(lines.length){
+  if(lines.length&&!tb){
     o+=`<div class="dw-h">Method 1: Desmos shortcut</div><div class="dw-p">${t?`Replace the letters with the numbers you're given, leaving <i>${esc(t.V)}</i> alone. `:''}Type this directly into Desmos (Calculator button, top right):</div>`;
     o+=`<div class="dw-card">${lines.map(l=>`<div class="dw-row"><div class="dw-lab">${esc(l.lab)}</div><div class="dw-big" data-frac>${esc(l.m)}</div><div class="dw-keys keys" data-nofrac>Type: <code>${esc(dwType(l.m))}</code></div></div>`).join('')}
       <div class="dw-row"><div class="dw-lab">${t?'Desmos calculates '+esc(t.V):'What you get'}</div><div class="dw-res" data-frac>${t?esc(t.V)+' = '+esc(t.val):esc(ans)}</div>${!t&&h.n?`<div class="dw-note">${esc(h.n)}</div>`:''}</div></div>`;
-    if(t)o+=dwScreen(q,t,given);else if(typeof desmosPic==='function')o+=desmosPic(h.d);
+    if(t){const gl=dwGraphLines(q,t,given);
+      o+=dwHow([{n:1,txt:t.line}],`<b>Read the answer.</b> Right under line 1, Desmos shows <b>PARAMETERS</b> and <b>${esc(t.V)} = ${esc(t.val)}</b>. That is the answer.`,
+        gl.map((x,j)=>({n:j+2,txt:x,lead:j?'':'<i>Optional, to see the graph:</i> '})));
+      o+=dwScreen(q,t,given);}
+    else{o+=dwHow(lines.map((l,j)=>({n:j+1,txt:l.m})),h.n?`<b>Read the answer.</b> ${esc(h.n)}`:`<b>Read the answer.</b> Desmos shows the value on the right side of the line.`);
+      if(typeof desmosPic==='function')o+=desmosPic(h.d);}
     o+=`<div class="dw-ans" data-frac>Answer: ${esc(ans)}</div>`;}
   // 3. Method 2: by hand
-  o+=`<div class="dw-h">Method ${lines.length?2:1}: Solve it by hand</div>`;
+  o+=`<div class="dw-h">Method ${lines.length||tb?2:1}: Solve it by hand</div>`;
   o+=q.steps.map((s,i)=>{const [hd,b]=dwSplit(s),last=i===q.steps.length-1,lab=hd?hd+':':(i===0?'Start:':(last?'So:':'Next:'));
     const words=/[A-Za-z]{4,}/.test(b);
     return `<div class="dw-p">${esc(lab)}</div><div class="${words?'dw-p':'dw-m'}" data-frac>${last&&!words?`<span class="dw-box">${esc(dwClean(b))}</span>`:esc(words?b:dwClean(b))}</div>`}).join('');
-  if(!lines.length)o+=`<div class="dw-ans" data-frac>Answer: ${esc(ans)}</div>`;
+  if(!lines.length&&!tb)o+=`<div class="dw-ans" data-frac>Answer: ${esc(ans)}</div>`;
   // 4. What to remember
   o+=`<div class="dw-h">What to remember for the SAT</div>`;
   if(c0&&c0.l.length)o+=`<table class="dw-t"><tr><th>LETTER</th><th>WHAT IT REPRESENTS</th></tr>${c0.l.map(r=>`<tr><td class="dw-mi">${esc(r[0])}</td><td>${esc(cap(r[1]))}</td></tr>`).join('')}</table>`;
   const trick=t?(given.length?given.filter(r=>r[0].trim().length<=6).map(r=>`${esc(cap(r[1]))} gives you ${esc(r[0])}.`).join(' ')+' ':'')+`Plug everything in and use the tilde (~) to find <i>${esc(t.V)}</i>.`:esc(q.tool);
-  o+=`<div class="dw-p"><b>Memory trick:</b> ${trick}</div>`;
+  o+=`<div class="dw-p"><b>Memory trick:</b> ${tb?`Given a table or points? Put them in a Desmos table, then type <b>${esc(DW_REG[tb.model])}</b>. Desmos gives you the letters.`:trick}</div>`;
   if(dneg)o+=`<div class="dw-p">Remember to watch the double negative: <span class="dw-mi">x − (−1)</span> becomes <span class="dw-mi">x + 1</span>.</div>`;
   if(q.trap)o+=`<div class="dw-p"><b>Watch out:</b> ${esc(q.trap)}</div>`;
   return `<div class="dw">${o}</div>`}
