@@ -529,7 +529,7 @@ async function desmosCheckPage(){D=null;const QS=BANK.qs.filter(q=>/^(cbm|cb|bpr
     (spec.ex||[]).forEach((e,k)=>{const {note,...x}=e;c.setExpression(Object.assign({id:'e'+k},x))});await new Promise(r=>setTimeout(r,80));
     const an=c.expressionAnalysis||{};const bad=Object.entries(an).filter(([k,v])=>v.isError).map(([k,v])=>(v.errorMessage||'')+' | '+((spec.ex[+k.slice(1)]||{}).latex||''));
     const kind=/Desmos table \+ tilde/.test(html)?'table':/check the choices/.test(html)?'choices':/tilde \(~\)<\/b> to find/.test(html)?'tilde':/Desmos shortcut/.test(html)?'lines':'check-work';
-    if(bad.length||!(spec.ex||[]).length)fails.push({id:q.id,kind,q:plain(q.q).slice(0,300),html:String(q.q).slice(0,900),ch:(q.ch||[]).slice(0,4),bad,n:(spec.ex||[]).length})}
+    if(bad.length||!(spec.ex||[]).length)fails.push({id:q.id,kind,skill:q.skill,q:plain(q.q).slice(0,1500),html:String(q.q).slice(0,900),fig:/cbfig|<img|<svg/.test(q.q),ch:(q.ch||[]).slice(0,4).map(plain),ans:q.ch?q.ans:null,grid:q.grid||null,show:q.show||null,bad,n:(spec.ex||[]).length})}
   const res={when:new Date().toISOString(),total:QS.length,problems:fails.length,fails};let saved='';
   try{const sb=window.HELM_SB;await window.HELM_AUTH;const {error}=await sb.from('helm_progress').upsert({key:'desmos_check',value:res,updated_at:new Date().toISOString()},{onConflict:'user_id,key'});saved=error?('NOT saved: '+error.message):'Saved ✓'}catch(e){saved='NOT saved: '+e.message}
   document.getElementById('dck').innerHTML=`<b>Done.</b> Checked ${QS.length} official questions · ${fails.length} need fixing · <b>${esc(saved)}</b>${/NOT/.test(saved)?'<br>Please send Claude a photo of this screen.':'<br>You can close this tab.'}`}
@@ -1170,8 +1170,14 @@ function dwChoices(q){if(!q.ch||q.ch.length<2)return null;
   if(rhs.some(r=>!r))return null;
   const pts=[];(q.steps||[]).concat([T]).forEach(st=>{for(const m of dwTxt(st).matchAll(/\(\s*(−?-?\d+(?:\.\d+)?)\s*,\s*(−?-?\d+(?:\.\d+)?)\s*\)/g)){const x=dwNum(m[1]),y=dwNum(m[2]);if(isFinite(x)&&isFinite(y)&&!pts.some(p=>p[0]===x&&p[1]===y))pts.push([x,y])}});
   return {rhs,shift,pts:pts.slice(0,6)}}
+let DSET={};(window.HELM_AUTH||Promise.reject()).then(()=>window.HELM_PROGRESS&&HELM_PROGRESS.pull('desmos_setups')).then(v=>{if(v&&typeof v==='object')DSET=v}).catch(()=>{});
 function desmosWay(q0,h){
   DW_LIVE='';
+  {const S=DSET[q0.id];if(S&&S.ex&&S.ex.length){const C=['#c74440','#2d70b3','#388c46','#6042a6'];const q=Object.assign({},q0,{steps:(q0.steps||[]).map(dwTxt),ch:q0.ch?q0.ch.map(dwTxt):q0.ch});const ans=q.ch?`${L[q.ans]}) ${q.ch[q.ans]}`:(q.show||q.grid[0]);
+    const ex=S.ex.map((e,i)=>typeof e==='string'?{latex:e,color:C[i%4]}:e);
+    const rest=q.steps.map((st,i)=>`<div class="dw-p">${esc(st)}</div>`).join('');
+    return `<div class="dw"><div class="dw-how"><div class="dw-how-h">✓ How to do it</div>${esc(S.how||'')}</div>${dwLive0({ex,b:S.b||null})}<div class="dw-ans" data-frac>Answer: ${esc(ans)}</div>`+
+      `<details class="dw-more"><summary>Show the steps by hand</summary><div class="dw">${rest}</div></details></div>`}}
   const q=Object.assign({},q0,{steps:(q0.steps||[]).map(dwTxt),tool:dwTxt(q0.tool),trap:dwTxt(q0.trap),ch:q0.ch?q0.ch.map(dwTxt):q0.ch});
   const t=dwTilde(q),c0=(QF[q.id]||[]).find(c=>c.ref!=='rule'),ans=q.ch?`${L[q.ans]}) ${q.ch[q.ans]}`:(q.show||q.grid[0]);
   const given=c0?c0.l.filter(r=>r[2]&&!/what we find/i.test(r[2])&&!(t&&r[0].trim()===t.V)):[];
