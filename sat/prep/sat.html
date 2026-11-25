@@ -530,8 +530,9 @@ async function desmosCheckPage(){D=null;const QS=BANK.qs.filter(q=>/^(cbm|cb|bpr
     const an=c.expressionAnalysis||{};const bad=Object.entries(an).filter(([k,v])=>v.isError).map(([k,v])=>(v.errorMessage||'')+' | '+((spec.ex[+k.slice(1)]||{}).latex||''));
     const kind=/Desmos table \+ tilde/.test(html)?'table':/check the choices/.test(html)?'choices':/tilde \(~\)<\/b> to find/.test(html)?'tilde':/Desmos shortcut/.test(html)?'lines':'check-work';
     if(bad.length||!(spec.ex||[]).length)fails.push({id:q.id,kind,q:plain(q.q).slice(0,300),ch:(q.ch||[]).map(plain).slice(0,4),bad,n:(spec.ex||[]).length})}
-  const res={when:new Date().toISOString(),total:QS.length,problems:fails.length,fails};if(window.HELM_PROGRESS)HELM_PROGRESS.put('desmos_check',res);
-  document.getElementById('dck').innerHTML=`<b>Done.</b> Checked ${QS.length} official questions. The results were sent to Claude. You can close this tab.`}
+  const res={when:new Date().toISOString(),total:QS.length,problems:fails.length,fails};let saved='';
+  try{const sb=window.HELM_SB;await window.HELM_AUTH;const {error}=await sb.from('helm_progress').upsert({key:'desmos_check',value:res,updated_at:new Date().toISOString()},{onConflict:'user_id,key'});saved=error?('NOT saved: '+error.message):'Saved ✓'}catch(e){saved='NOT saved: '+e.message}
+  document.getElementById('dck').innerHTML=`<b>Done.</b> Checked ${QS.length} official questions · ${fails.length} need fixing · <b>${esc(saved)}</b>${/NOT/.test(saved)?'<br>Please send Claude a photo of this screen.':'<br>You can close this tab.'}`}
 function route(){const h=decodeURIComponent(location.hash.slice(1)||'/');const [_,v,a]=h.split('/');UI.nav=false;
   if(v==='drill')return startDrill(a);if(v==='look'){startDrill('ids:'+a);if(D){D.view=true;D.title='Look at this question (practice only, not saved)';UI.panel='show';drawDrill()}return}if(v==='day')return startDay(a);if(v==='report')return dayReport(a);if(v==='learn')return learnPage(a);if(v==='video')return videoPage(a);if(v==='stats')return statsPage(a);if(v==='skill'&&typeof skillPage==='function'){D=null;return skillPage(a)}if(v==='videos')return videosPage();if(v==='desmoscheck')return desmosCheckPage();D=null;home();}
 window.addEventListener('hashchange',route);
