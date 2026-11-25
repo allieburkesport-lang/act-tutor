@@ -529,7 +529,7 @@ async function desmosCheckPage(){D=null;const QS=BANK.qs.filter(q=>/^(cbm|cb|bpr
     (spec.ex||[]).forEach((e,k)=>{const {note,...x}=e;c.setExpression(Object.assign({id:'e'+k},x))});await new Promise(r=>setTimeout(r,80));
     const an=c.expressionAnalysis||{};const bad=Object.entries(an).filter(([k,v])=>v.isError).map(([k,v])=>(v.errorMessage||'')+' | '+((spec.ex[+k.slice(1)]||{}).latex||''));
     const kind=/Desmos table \+ tilde/.test(html)?'table':/check the choices/.test(html)?'choices':/tilde \(~\)<\/b> to find/.test(html)?'tilde':/Desmos shortcut/.test(html)?'lines':'check-work';
-    if(bad.length||!(spec.ex||[]).length)fails.push({id:q.id,kind,q:plain(q.q).slice(0,300),ch:(q.ch||[]).map(plain).slice(0,4),bad,n:(spec.ex||[]).length})}
+    if(bad.length||!(spec.ex||[]).length)fails.push({id:q.id,kind,q:plain(q.q).slice(0,300),html:String(q.q).slice(0,900),ch:(q.ch||[]).slice(0,4),bad,n:(spec.ex||[]).length})}
   const res={when:new Date().toISOString(),total:QS.length,problems:fails.length,fails};let saved='';
   try{const sb=window.HELM_SB;await window.HELM_AUTH;const {error}=await sb.from('helm_progress').upsert({key:'desmos_check',value:res,updated_at:new Date().toISOString()},{onConflict:'user_id,key'});saved=error?('NOT saved: '+error.message):'Saved ✓'}catch(e){saved='NOT saved: '+e.message}
   document.getElementById('dck').innerHTML=`<b>Done.</b> Checked ${QS.length} official questions · ${fails.length} need fixing · <b>${esc(saved)}</b>${/NOT/.test(saved)?'<br>Please send Claude a photo of this screen.':'<br>You can close this tab.'}`}
@@ -1030,7 +1030,7 @@ function dwScreen(q,t,given){
   return `<div class="dw-lab2">Exactly what your Desmos screen should look like</div><div class="dsx"><div class="dsx-list" data-nofrac>${rows.join('')}</div>${svg?`<div class="dsx-g" data-nofrac>${svg}</div>`:''}</div>`+
     (fx?`<div class="dw-p" style="font-size:15px;color:var(--mute)">Line 1 finds ${esc(t.V)}. Lines 2 and up are optional: they draw the graph so you can see it pass through ${pts.length>1?'both points':'the point'}.</div>`:'')}
 /* ---------- Clean question HTML for the Desmos help (College Board questions carry <sup>, <i>, tables) ---------- */
-function dwTxt(h){return String(h??'').replace(/<sup>\s*2\s*<\/sup>/gi,'²').replace(/<sup>\s*3\s*<\/sup>/gi,'³').replace(/<sup>(.*?)<\/sup>/gi,(m,x)=>'^'+(/^[\w.]+$/.test(x.replace(/<[^>]+>/g,''))?x.replace(/<[^>]+>/g,''):'('+x.replace(/<[^>]+>/g,'')+')'))
+function dwTxt(h){return String(h??'').replace(/<sup>\s*2\s*<\/sup>/gi,'²').replace(/<sup>\s*3\s*<\/sup>/gi,'³').replace(/<sup>(.*?)<\/sup>/gi,(m,x)=>{const y=x.replace(/<[^>]+>/g,'').trim();return '^'+(/^[\w.]+$/.test(y)||/^\([^()]*\)$/.test(y)?y:'('+y+')')})
   .replace(/<sub>(.*?)<\/sub>/gi,(m,x)=>x.replace(/\d/g,d=>'₀₁₂₃₄₅₆₇₈₉'[d])).replace(/<br\s*\/?>/gi,' ').replace(/<\/(p|div|li|td|th|tr|h\d|table)>/gi,' . ').replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ').replace(/&minus;/g,'−').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace(/(\d)([A-Z][a-z])/g,'$1 . $2').replace(/\s+/g,' ').replace(/(\s\.)+/g,' .').replace(/^\s*\.\s*|\s*\.\s*$/g,'').trim()}
 /* ---------- Table / points → Desmos regression (the classic SAT trick: table + y₁ ~ model) ---------- */
 function dwNum(t){const v=+String(t).replace(/−/g,'-').replace(/,/g,'').trim();if(isFinite(v)&&String(t).trim()!=='')return v;const m=String(t).replace(/−/g,'-').match(/^(-?\d+)\s*\/\s*(\d+)$/);return m?+m[1]/+m[2]:NaN}
@@ -1122,10 +1122,10 @@ function dwGraphLines(q,t,given){const val=+String(t.val).replace(/−/g,'-');le
 const DESMOS_KEY='b421d86fb1ac4ece8976ec06f2d31884';let _dsLoad=null;
 function dsLoad(){if(window.Desmos)return Promise.resolve();if(_dsLoad)return _dsLoad;_dsLoad=new Promise((ok,no)=>{const sc=document.createElement('script');sc.src='https://www.desmos.com/api/v1.12/calculator.js?apiKey='+DESMOS_KEY;sc.onload=ok;sc.onerror=no;document.head.appendChild(sc)});return _dsLoad}
 const DW_FN='mean|median|stdev|stdevp|total|round|min|max|sin|cos|tan|log|ln|sqrt|cbrt|abs|exp';
-function dwLatex(t){let s=dwClean(dwTxt(String(t))).replace(/([²³⁴⁵⁶])√\s*\(([^()]*)\)/g,(m,n,x)=>'§RT'+('²³⁴⁵⁶'.indexOf(n)+2)+'§('+x+')').replace(/^(?:then\s+)?type\s+/i,'').replace(/−/g,'-').replace(/×|·/g,'\\cdot ').replace(/÷/g,'/').replace(/π/g,'\\pi ').replace(/~/g,'\\sim ').replace(/≤/g,'§LE§').replace(/≥/g,'§GE§').replace(/°/g,'');
+function dwLatex(t){let s=dwClean(dwTxt(String(t)));if(!/\[/.test(s))s=s.replace(/(\d),(?=\d{3}(?!\d))/g,'$1');s=s.replace(/([²³⁴⁵⁶])√\s*\(([^()]*)\)/g,(m,n,x)=>'§RT'+('²³⁴⁵⁶'.indexOf(n)+2)+'§('+x+')').replace(/^(?:then\s+)?type\s+/i,'').replace(/−/g,'-').replace(/×|·/g,'\\cdot ').replace(/÷/g,'/').replace(/π/g,'\\pi ').replace(/~/g,'\\sim ').replace(/≤/g,'§LE§').replace(/≥/g,'§GE§').replace(/°/g,'');
   s=s.replace(/\b(mean|median|stdev|stdevp|total|round)\s*\(/g,'\\operatorname{$1}(').replace(/\b(sin|cos|tan|log|ln)\s*\(/g,'\\$1(').replace(/\bsqrt\s*\(/g,'√(');
   s=s.replace(/([A-Za-z])_([A-Za-z0-9])/g,'$1_{$2}').replace(/([A-Za-z])([₀-₉])/g,(m,a,b)=>a+'_{'+'₀₁₂₃₄₅₆₇₈₉'.indexOf(b)+'}').replace(/²/g,'^{2}').replace(/³/g,'^{3}').replace(/\^\(([^()]*)\)/g,'^{$1}').replace(/\^([A-Za-z0-9_{}.]+)/g,(m,x)=>x.startsWith('{')?m:'^{'+x+'}');
-  s=s.replace(/√\s*\(([^()]*)\)/g,'\\sqrt{$1}').replace(/√\s*(\d+)/g,'\\sqrt{$1}').replace(/\(/g,'\\left(').replace(/\)/g,'\\right)').replace(/\[/g,'\\left[').replace(/\]/g,'\\right]');
+  s=s.replace(/√\s*\(([^()]*)\)/g,'\\sqrt{$1}').replace(/√\s*(\d+)/g,'\\sqrt{$1}').replace(/√\s*([A-Za-z])/g,'\\sqrt{$1}').replace(/\|([^|]+)\|/g,'\\left|$1\\right|').replace(/\(/g,'\\left(').replace(/\)/g,'\\right)').replace(/\[/g,'\\left[').replace(/\]/g,'\\right]');
   s=s.replace(/§RT(\d)§\\left\(([^]*?)\\right\)/g,'\\sqrt[$1]{$2}');return s.replace(/\s+/g,'').replace(/\\(sim|cdot|pi)(?=[A-Za-z0-9])/g,'\\$1 ').replace(/§LE§/g,'\\le ').replace(/§GE§/g,'\\ge ')}
 /* Turn one human Desmos instruction ("Type x + y = 55", "Click the crossing", "y = x > 7 (choice A)") into Desmos-ready items */
 function dwLine(raw){let t=dwTxt(raw).replace(/^(?:then\s+)?type\s+/i,'').trim();if(!t)return [];
@@ -1155,9 +1155,15 @@ new MutationObserver(()=>{if(document.querySelector('.dsx-live:not([data-on])'))
 function dsBounds(pts){if(!pts.length)return null;const xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]);return {left:Math.min(...xs,0)-3,right:Math.max(...xs,0)+3,bottom:Math.min(...ys,0)-3,top:Math.max(...ys,0)+3}}
 /* ---------- Check-the-choices in Desmos (Allie, Nov 25): graph every answer choice + the points from the question ---------- */
 function dwChoices(q){if(!q.ch||q.ch.length<2)return null;
-  const rhs=q.ch.map(c=>{const t=dwTxt(c);const m=t.match(/^\s*(?:[a-zA-Z]\s*\(\s*x\s*\)|y)\s*=\s*(.+)$/);const e=m?m[1]:t;return /x/.test(e)&&!/[A-Za-z]{3,}/.test(e.replace(/sqrt|pi/g,''))?e:null});
-  if(rhs.some(r=>!r))return null;
   const T=dwTxt(q.q);const sm=T.match(/graph of y\s*=\s*[a-z]\(x\)\s*([+−-])\s*(\d+(?:\.\d+)?)/i);const shift=sm?(sm[1]==='+'?' + ':' − ')+sm[2]:'';
+  const fnRx=new RegExp('\\b('+DW_FN+')\\b','g');
+  const rhs=q.ch.map(c=>{const t=dwTxt(c).trim();if(/[A-Za-z]{3,}/.test(t.replace(fnRx,'')))return null;if((t.match(/=/g)||[]).length>1)return null;
+    const m=t.match(/^\s*(?:[a-zA-Z]\s*\(\s*x\s*\)|y)\s*=\s*(.+)$/);
+    const body=m?m[1]:t,vars=new Set((body.replace(fnRx,'').match(/[A-Za-z]/g)||[]));if([...vars].some(v=>v!=='x'&&v!=='y'))return null;if(!vars.has('x')&&!vars.has('y'))return null;
+    if(m)return 'y = '+(shift?'('+body+')'+shift:body);                 // f(x) = … / y = …  → graph it
+    if(/[=<>≤≥]/.test(t))return t;                                        // x + 3y = 240, −4 < x < −3 → plot as written
+    return vars.has('y')?null:'y = '+(shift?'('+t+')'+shift:t)});        // an expression in x
+  if(rhs.some(r=>!r))return null;
   const pts=[];(q.steps||[]).concat([T]).forEach(st=>{for(const m of dwTxt(st).matchAll(/\(\s*(−?-?\d+(?:\.\d+)?)\s*,\s*(−?-?\d+(?:\.\d+)?)\s*\)/g)){const x=dwNum(m[1]),y=dwNum(m[2]);if(isFinite(x)&&isFinite(y)&&!pts.some(p=>p[0]===x&&p[1]===y))pts.push([x,y])}});
   return {rhs,shift,pts:pts.slice(0,6)}}
 function desmosWay(q0,h){
@@ -1176,10 +1182,10 @@ function desmosWay(q0,h){
   const tb=!t?dwTable(q0):null;
   const cm=!t&&!tb&&!(h.d||[]).length?dwChoices(q):null;
   if(cm){const C=['#c74440','#2d70b3','#388c46','#6042a6'];const ex=[];
-    cm.rhs.forEach((r,j)=>{ex.push({type:'text',text:'Choice '+L[j]});ex.push({latex:dwLatex('y = '+(cm.shift?'('+r+')'+cm.shift:r)),color:C[j%4]})});
+    cm.rhs.forEach((r,j)=>{ex.push({type:'text',text:'Choice '+L[j]});ex.push({latex:dwLatex(r),color:C[j%4],note:r})});
     if(cm.pts.length)ex.push({type:'text',text:'Points from the graph'});cm.pts.forEach(p=>ex.push({latex:dwLatex('('+dwNumS(p[0])+', '+dwNumS(p[1])+')'),color:'#000000'}));
     o=dwLive({ex,b:dsBounds(cm.pts)})+`<div class="dw-h">Method 1: Desmos — check the choices</div><div class="dw-p">Type each answer choice${cm.shift?` with the <b>${esc(cm.shift.trim())}</b> from the question added on (the graph shows y = f(x)${esc(cm.shift)})`:''} as its own line${cm.pts.length?', then type the points you read off the graph':''}. The right choice is the only curve that goes through ${cm.pts.length>1?'every black point':'the graph'}.</div>`+
-      `<div class="dw-p">In this one: ${cm.rhs.map((r,j)=>`<b>${L[j]}</b> y = ${esc(cm.shift?'('+r+')'+cm.shift:r)}`).join(' · ')}</div><div class="dw-ans">Answer: ${esc(ans)}</div>`;}
+      `<div class="dw-p">In this one: ${cm.rhs.map((r,j)=>`<b>${L[j]}</b> ${esc(r)}`).join(' · ')}</div><div class="dw-ans">Answer: ${esc(ans)}</div>`;}
   if(tb){const regL={lin:'y_{1}\\sim mx_{1}+b',quad:'y_{1}\\sim ax_{1}^{2}+bx_{1}+c',exp:'y_{1}\\sim a\\cdot b^{x_{1}}'}[tb.model];
     o=dwLive({ex:[{type:'table',columns:[{latex:'x_{1}',values:tb.pts.map(p=>String(p[0]))},{latex:'y_{1}',values:tb.pts.map(p=>String(p[1])),color:'#c74440',pointStyle:'POINT'}]},{latex:regL,color:'#2d70b3'}],b:dsBounds(tb.pts)})+`<div class="dsx-fallback" style="display:none">${dwTableScreen(tb)}</div>`+`<div class="dw-p">For this one, put the points in a <b>Desmos table</b> and let Desmos find the equation with the <b>tilde (~)</b>. No algebra.</div>`+
     `<div class="dw-h">Method 1: Desmos table + tilde</div><div class="dw-p">Line 1: a table with the x-values in x₁ and the f(x) values in y₁. Line 2: <b>${esc(DW_REG[tb.model])}</b>. Desmos shows ${tb.fit.vals.map(([k,v])=>`<b>${k} = ${dwNumS(v)}</b>`).join(', ')}, so <b>${esc(dwFormula(tb))}</b>.</div>`+`<div class="dw-ans">Answer: ${esc(ans)}</div>`+
@@ -1205,7 +1211,13 @@ function desmosWay(q0,h){
   if(!lines.length&&!tb&&!cm)o+=`<div class="dw-ans" data-frac>Answer: ${esc(ans)}</div>`;
   if(!lines.length&&!tb&&!cm&&!t){ // every math question still gets the real Desmos: the question's equations + any points, ready to check work
     const T=dwTxt(q0.q),ex=[],pts=[];const C=['#c74440','#2d70b3','#388c46','#6042a6'];
-    for(const m of T.matchAll(/(?:^|[^A-Za-z])((?:y|[a-z]\(x\))\s*=\s*[^.,;?]*x[^.,;?]*)/g)){const e=m[1].replace(new RegExp('\\s+(?!(?:'+DW_FN+')\\b)[A-Za-z]{3,}[\\s\\S]*$'),'').replace(/[\s.]+$/,'').trim();if(e.length<60&&ex.length<4)dwLine(e).filter(z=>z.latex).forEach(z=>ex.push({latex:z.latex,color:C[ex.length%4],note:z.disp}))}
+    // every equation or inequality in the question (cut out of the sentence), e.g. "If 4x = 3, …" → 4x = 3
+    const SPLIT=new RegExp('[.?;,:]\\s|\\s(?:'+['is','in','at','of','to','on','if','or','an','as','be','by','it','so','and','the','what','which','where','when','for','that','then','with','are','has','have','than','from'].join('|')+')\\b|(?:^|\\s)[A-Z][a-z]+|\\s(?!(?:'+DW_FN+')\\b)[a-z]{3,}\\b','g');
+    T.split(SPLIT).map(x=>(x||'').trim().replace(/[\s.]+$/,'')).filter(x=>x&&/[=<>≤≥]/.test(x)&&/[A-Za-z]/.test(x)&&x.length<70&&!/[A-Za-z]{4,}/.test(x.replace(new RegExp('\\b('+DW_FN+')\\b','g'),''))).filter(e=>{const v=new Set((e.replace(new RegExp('\\b('+DW_FN+')\\b','g'),'').replace(/^[a-z]\(x\)/,'').match(/[A-Za-z]/g)||[]).filter(c=>c!=='x'&&c!=='y'));return v.size<=1&&!/[^\x00-\x7F−²³√≤≥×÷·π|]/.test(e)}).forEach(e=>{if(ex.length<5)dwLine(e).filter(z=>z.latex).forEach(z=>{if(!ex.some(w=>w.latex===z.latex))ex.push({latex:z.latex,color:C[ex.length%4],note:z.disp})})});
+    // a data list + "mean / median / range / standard deviation" → L = [ … ] and the function
+    {const st=T.match(/(mean|median|range|standard deviation)/i),lm=T.match(/(?:−?-?\d+(?:\.\d+)?\s*,\s*){3,}−?-?\d+(?:\.\d+)?/);
+     if(st&&lm){const nums=lm[0].split(',').map(x=>x.trim().replace(/−/g,'-'));ex.push({latex:'L=\\left['+nums.join(',')+'\\right]',note:'L = ['+nums.join(', ')+']'});
+       const f=st[1].toLowerCase();ex.push(f==='range'?{latex:'\\max\\left(L\\right)-\\min\\left(L\\right)',note:'max(L) − min(L)'}:{latex:'\\operatorname{'+(f==='mean'?'mean':f==='median'?'median':'stdev')+'}\\left(L\\right)',note:f+'(L)'})}}
     (q.steps||[]).concat([T]).forEach(st=>{for(const m of dwTxt(st).matchAll(/\(\s*(−?-?\d+(?:\.\d+)?)\s*,\s*(−?-?\d+(?:\.\d+)?)\s*\)/g)){const x=dwNum(m[1]),y=dwNum(m[2]);if(isFinite(x)&&isFinite(y)&&!pts.some(p=>p[0]===x&&p[1]===y)&&pts.length<6)pts.push([x,y])}});
     pts.forEach(p=>ex.push({latex:dwLatex('('+dwNumS(p[0])+', '+dwNumS(p[1])+')'),color:'#000000'}));
     // the question asks for f(1), g(−2)…: type those too, so Desmos shows the value
