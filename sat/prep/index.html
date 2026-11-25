@@ -612,9 +612,7 @@ function renderCanvas() {
     <a class="card stat prog" href="${esc(MOD.gov.href)}"><span class="label">AP Gov · Ch. 4 part 2</span><span class="metric tnum">${govPct}<small>%</small></span><span class="delta${quiz ? ' warn' : ''}">${quiz ? 'Quiz in ' + quiz.rel + (quiz.rel === 1 ? ' day' : ' days') : (SUM.apgov ? SUM.apgov.done + '/' + SUM.apgov.total + ' steps' : 'Open AP Gov')}</span><div class="pbar"><i style="width:${govPct}%"></i></div></a>
     ${satPrep ? '' : '<!--'}<a class="card stat prog" href="${esc(MOD.sat.href)}"><span class="label">SAT Helm · questions so far</span><span class="metric tnum">${satQ.pct}<small>%</small></span><span class="delta">${SUM.sat ? satQ.n + '/' + satQ.t + ' answered' : 'Open SAT Helm'}</span><div class="pbar"><i style="width:${satQ.pct}%"></i></div></a>${satPrep ? '' : '-->'}
   </section>
-  ${satPrep ? modTile('sat', 'SAT Helm', 'SAT', MOD.sat.href) : ''}
-  ${modTile('gov', 'AP Government', 'AP Gov · Mr. Thomas', MOD.gov.href)}
-  ${modTile('pre', 'College Precalculus', 'Precalc · ASU MAT 170', MOD.pre.href)}
+  <!-- class tiles removed: SAT, AP Gov and Precalc already show in the cards at the top (Allie, Nov 25) -->
   <section class="s12 card sx" aria-labelledby="wk-h">
     <div class="sxh"><h2 id="wk-h">This week ·  ${MON[parse(week[0]).getMonth()]} ${parse(week[0]).getDate()} \u2013 ${MON[parse(week[6]).getMonth()]} ${parse(week[6]).getDate()}</h2><span style="font-size:14px;font-weight:500">Tap anything for details</span></div>
     <div class="pl-wrap" style="padding:16px 22px"><div class="planner" role="table" aria-label="Weekly planner by class">
