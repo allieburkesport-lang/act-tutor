@@ -100,6 +100,7 @@ aside.pan .ph .t{font-size:21px;font-weight:700}aside.pan .ph .s{font-size:14px;
 .dsx-tb{border-collapse:collapse;font-size:18px;margin:2px 0}.dsx-tb th,.dsx-tb td{border:1px solid #cfcfcf;padding:5px 18px;text-align:center;min-width:60px}.dsx-tb th{background:#f3f3f3;font-weight:400;text-transform:none!important}
 .dsx-dot.sm{display:inline-block;width:12px;height:12px;margin-right:6px;vertical-align:-1px}
 .dsx-par b+b{margin-left:4px}
+.dsx-live{width:100%;height:540px;border:1.5px solid #cfcfcf;border-radius:12px;overflow:hidden;background:#fff}
 .dw-lab2{font-size:14px;font-weight:700;color:var(--mute);margin-top:4px}
 .dsx{border:1.5px solid #cfcfcf;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.08)}
 .dsx-list{border-bottom:1.5px solid #ddd;font-family:Helvetica,Arial,sans-serif}
@@ -1096,6 +1097,21 @@ function dwGraphLines(q,t,given){const val=+String(t.val).replace(/−/g,'-');le
   for(const s of q.steps){const b=dwSplit(s)[1];const m=b.match(/^\s*(?:f\(x\)|y)\s*=\s*(.+)$/);if(m&&new RegExp('(^|[^A-Za-z])'+t.V+'(?![A-Za-z])').test(m[1])&&/x/.test(m[1])){
     try{const f=new Function(t.V,'x','return '+dwJS(dwClean(m[1])));if(isFinite(f(val,0)))fLine='y = '+dwClean(m[1])}catch(e){}break}}
   if(!fLine)return [];return [fLine,...dwPts(given).map(p=>p.lab)]}
+/* ---------- REAL Desmos inside the help panel (Allie, Nov 25: Patrick wants the actual Desmos, pre-filled) ----------
+   Uses the Desmos API. DESMOS_KEY is Desmos's public demo key; swap in HELM's own free key from https://www.desmos.com/my-api */
+const DESMOS_KEY='dcb31709b452b1cf9dc26972add0fda6';let _dsLoad=null;
+function dsLoad(){if(window.Desmos)return Promise.resolve();if(_dsLoad)return _dsLoad;_dsLoad=new Promise((ok,no)=>{const sc=document.createElement('script');sc.src='https://www.desmos.com/api/v1.11/calculator.js?apiKey='+DESMOS_KEY;sc.onload=ok;sc.onerror=no;document.head.appendChild(sc)});return _dsLoad}
+function dwLatex(t){let s=dwClean(String(t)).replace(/^Type\s+/,'').replace(/−/g,'-').replace(/×|·/g,'\\cdot ').replace(/÷/g,'/').replace(/π/g,'\\pi ').replace(/~/g,'\\sim ');
+  s=s.replace(/([A-Za-z])([₀-₉])/g,(m,a,b)=>a+'_{'+'₀₁₂₃₄₅₆₇₈₉'.indexOf(b)+'}').replace(/²/g,'^{2}').replace(/³/g,'^{3}').replace(/\^\(([^()]*)\)/g,'^{$1}').replace(/\^([A-Za-z0-9_{}]+)/g,(m,x)=>x.startsWith('{')?m:'^{'+x+'}');
+  s=s.replace(/√\s*\(([^()]*)\)/g,'\\sqrt{$1}').replace(/√\s*(\d+)/g,'\\sqrt{$1}').replace(/\(/g,'\\left(').replace(/\)/g,'\\right)');return s.replace(/\s+/g,'').replace(/\\(sim|cdot|pi)(?=[A-Za-z0-9])/g,'\\$1 ')}
+function dwLive(spec){return `<div class="dw-lab2">The real Desmos, already filled in · click, drag and zoom like on the test</div><div class="dsx-live" data-spec='${esc(JSON.stringify(spec)).replace(/'/g,'&#39;')}'></div>`}
+function dsMount(){document.querySelectorAll('.dsx-live:not([data-on])').forEach(el=>{el.dataset.on='1';const spec=JSON.parse(el.dataset.spec);
+  dsLoad().then(()=>{const c=Desmos.GraphingCalculator(el,{keypad:false,settingsMenu:false,zoomButtons:true,expressionsCollapsed:false,border:false,lockViewport:false});
+    (spec.ex||[]).forEach((e,i)=>c.setExpression(Object.assign({id:'e'+i},e)));if(spec.b)c.setMathBounds(spec.b);
+    const fb=el.parentElement&&el.parentElement.querySelector('.dsx-fallback');if(fb)fb.style.display='none'})
+  .catch(()=>{el.style.display='none';const fb=el.parentElement&&el.parentElement.querySelector('.dsx-fallback');if(fb)fb.style.display=''})})}
+new MutationObserver(()=>{if(document.querySelector('.dsx-live:not([data-on])'))dsMount()}).observe(document.documentElement,{childList:true,subtree:true});
+function dsBounds(pts){if(!pts.length)return null;const xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]);return {left:Math.min(...xs,0)-3,right:Math.max(...xs,0)+3,bottom:Math.min(...ys,0)-3,top:Math.max(...ys,0)+3}}
 function desmosWay(q0,h){
   const q=Object.assign({},q0,{steps:(q0.steps||[]).map(dwTxt),tool:dwTxt(q0.tool),trap:dwTxt(q0.trap),ch:q0.ch?q0.ch.map(dwTxt):q0.ch});
   const t=dwTilde(q),c0=(QF[q.id]||[]).find(c=>c.ref!=='rule'),ans=q.ch?`${L[q.ans]}) ${q.ch[q.ans]}`:(q.show||q.grid[0]);
@@ -1109,7 +1125,8 @@ function desmosWay(q0,h){
     if(given.length)o+=`<ul class="dw-ul">${given.map(r=>`<li>${r[0].trim().length<=6?esc(cap(r[1]))+' ':''}<span class="dw-mi" data-frac>${esc(r[0].trim().length<=6?r[0]:cap(r[0]))} = ${esc(r[2])}</span></li>`).join('')}</ul>`;}
   // 2. Method 1: Desmos
   const tb=!t?dwTable(q0):null;
-  if(tb){o=dwTableScreen(tb)+`<div class="dw-p">For this one, put the points in a <b>Desmos table</b> and let Desmos find the equation with the <b>tilde (~)</b>. No algebra.</div>`+
+  if(tb){const regL={lin:'y_{1}\\sim mx_{1}+b',quad:'y_{1}\\sim ax_{1}^{2}+bx_{1}+c',exp:'y_{1}\\sim a\\cdot b^{x_{1}}'}[tb.model];
+    o=dwLive({ex:[{type:'table',columns:[{latex:'x_{1}',values:tb.pts.map(p=>String(p[0]))},{latex:'y_{1}',values:tb.pts.map(p=>String(p[1])),color:'#c74440',pointStyle:'POINT'}]},{latex:regL,color:'#2d70b3'}],b:dsBounds(tb.pts)})+`<div class="dsx-fallback" style="display:none">${dwTableScreen(tb)}</div>`+`<div class="dw-p">For this one, put the points in a <b>Desmos table</b> and let Desmos find the equation with the <b>tilde (~)</b>. No algebra.</div>`+
     `<div class="dw-h">Method 1: Desmos table + tilde</div><div class="dw-p">Line 1: a table with the x-values in x₁ and the f(x) values in y₁. Line 2: <b>${esc(DW_REG[tb.model])}</b>. Desmos shows ${tb.fit.vals.map(([k,v])=>`<b>${k} = ${dwNumS(v)}</b>`).join(', ')}, so <b>${esc(dwFormula(tb))}</b>.</div>`+`<div class="dw-ans">Answer: ${esc(ans)}</div>`+
     `<div class="dw-p" style="font-size:15px;color:var(--mute)">Other way to check: type each answer choice into Desmos. The right one goes through every red dot.</div>`;}
   const dl=tb?[]:(h.d||[]).map(x=>x.replace(/^Type\s+/,'').trim()).filter(x=>x&&!/=\s*$/.test(x));
@@ -1118,7 +1135,11 @@ function desmosWay(q0,h){
     o+=`<div class="dw-h">Method 1: Desmos shortcut</div><div class="dw-p">${t?`Replace the letters with the numbers you're given, leaving <i>${esc(t.V)}</i> alone. `:''}Type this directly into Desmos (Calculator button, top right):</div>`;
     o+=`<div class="dw-card">${lines.map(l=>`<div class="dw-row"><div class="dw-lab">${esc(l.lab)}</div><div class="dw-big" data-frac>${esc(l.m)}</div><div class="dw-keys keys" data-nofrac>Type: <code>${esc(dwType(l.m))}</code></div></div>`).join('')}
       <div class="dw-row"><div class="dw-lab">${t?'Desmos calculates '+esc(t.V):'What you get'}</div><div class="dw-res" data-frac>${t?esc(t.V)+' = '+esc(t.val):esc(ans)}</div>${!t&&h.n?`<div class="dw-note">${esc(h.n)}</div>`:''}</div></div>`;
-    o=(t?dwScreen(q,t,given):(typeof desmosPic==='function'?desmosPic(h.d):''))+o;
+    {let ex=[],pts=[];if(t){ex.push({latex:dwLatex(t.line)});const gl=dwGraphLines(q,t,given);gl.forEach((x,j)=>ex.push({latex:dwLatex(x),color:j===0?'#c74440':(j===1?'#388c46':'#2d70b3')}));
+        pts=dwPts(given).map(p=>[p.x,p.y]);}
+      else ex=lines.map((l,j)=>({latex:dwLatex(l.m),color:['#c74440','#2d70b3','#388c46','#6042a6'][j%4]}));
+      const pic=t?dwScreen(q,t,given):(typeof desmosPic==='function'?desmosPic(h.d):'');
+      o=dwLive({ex,b:dsBounds(pts)})+`<div class="dsx-fallback" style="display:none">${pic}</div>`+o;}
     o+=`<div class="dw-ans" data-frac>Answer: ${esc(ans)}</div>`;}
   // 3. Method 2: by hand
   o+=`<div class="dw-h">Method ${lines.length||tb?2:1}: Solve it by hand</div>`;
