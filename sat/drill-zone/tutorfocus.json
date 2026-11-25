@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-23",
+ "updated": "2026-11-25",
  "items": [
   {
    "question_id": "nleq-24",
@@ -1586,6 +1586,290 @@
        "cubic inches"
       ],
       "ok": 2
+     },
+     "src": "helm"
+    }
+   ]
+  },
+  {
+   "question_id": "cbm-2992ac30",
+   "skill": "nlf",
+   "asked": [
+    "When it says multiply both sides by 4/6, are we just flipping 6/4 and simplifying it?"
+   ],
+   "days": [
+    "2026-11-26",
+    "2026-11-27"
+   ],
+   "another_way": [
+    "Yes. 4/6 is 6/4 flipped upside down, and it simplifies to 2/3.",
+    "Think of 6/4 as a lock stuck on the variable. Its flip, 4/6, is the key: 6/4 × 4/6 = 24/24 = 1, so the variable is left alone.",
+    "Multiplying by 4/6 is the exact same move as dividing by 6/4. Use whichever is easier on the calculator.",
+    "Shortcut: simplify first. 6/4 = 3/2, so its flip is 2/3. Times 2, then divide by 3.",
+    "Do it to BOTH sides, or the equation stops balancing."
+   ],
+   "same_type": [],
+   "qs": [
+    {
+     "id": "tf-20261125-1",
+     "skill": "nlf",
+     "diff": "M",
+     "q": "The function f is defined by f(x) = (6/4)x². If f(k) = 54 and k &gt; 0, what is the value of k?",
+     "tool": "Calculator: 54 × 4 ÷ 6, then square root.",
+     "ch": [
+      "81",
+      "9",
+      "6",
+      "36"
+     ],
+     "ans": 2,
+     "steps": [
+      "Set it up: (6/4)k² = 54",
+      "Multiply both sides by the flip, 4/6: k² = 54 × 4/6",
+      "54 × 4 = 216, 216 ÷ 6 = 36, so k² = 36",
+      "k &gt; 0, so k = 6",
+      "Answer: C) 6"
+     ],
+     "trap": "81 comes from multiplying by 6/4 instead of its flip. 36 is k², not k.",
+     "find": {
+      "opts": [
+       "k",
+       "f(k)",
+       "k²"
+      ],
+      "ok": 0
+     },
+     "src": "helm"
+    },
+    {
+     "id": "tf-20261125-2",
+     "skill": "nlf",
+     "diff": "M",
+     "q": "The function g is defined by g(x) = (5/2)(3)<sup>x</sup>. If g(a) = 202.5, what is the value of a?",
+     "tool": "Calculator: 202.5 × 2 ÷ 5, then ask: 3 to what power?",
+     "ch": [
+      "4",
+      "81",
+      "5",
+      "3"
+     ],
+     "ans": 0,
+     "steps": [
+      "Set it up: (5/2)(3)<sup>a</sup> = 202.5",
+      "Multiply both sides by the flip, 2/5: 3<sup>a</sup> = 202.5 × 2/5",
+      "202.5 × 2 = 405, 405 ÷ 5 = 81",
+      "3<sup>4</sup> = 81, so a = 4",
+      "Answer: A) 4"
+     ],
+     "trap": "81 is 3<sup>a</sup>, not a. Finish the last step.",
+     "find": {
+      "opts": [
+       "g(a)",
+       "a",
+       "3<sup>a</sup>"
+      ],
+      "ok": 1
+     },
+     "src": "helm"
+    },
+    {
+     "id": "tf-20261125-3",
+     "skill": "nlf",
+     "diff": "H",
+     "q": "The function h is defined by h(x) = (3/4)(x − 2)². If h(t) = 27 and t &gt; 2, what is the value of t?",
+     "tool": "Calculator: 27 × 4 ÷ 3, square root, then add 2.",
+     "grid": [
+      "8"
+     ],
+     "show": "8",
+     "steps": [
+      "Set it up: (3/4)(t − 2)² = 27",
+      "Multiply both sides by the flip, 4/3: (t − 2)² = 27 × 4/3 = 36",
+      "Square root: t − 2 = 6 (positive, because t &gt; 2)",
+      "Add 2: t = 8",
+      "Answer: 8"
+     ],
+     "trap": "Stopping at 6 forgets the − 2 inside. Multiplying by 3/4 instead of 4/3 gives 20.25.",
+     "find": {
+      "opts": [
+       "t",
+       "t − 2",
+       "h(t)"
+      ],
+      "ok": 0
+     },
+     "src": "helm"
+    },
+    {
+     "id": "tf-20261125-4",
+     "skill": "nlf",
+     "diff": "H",
+     "q": "The function f is defined by f(x) = (4/6)b<sup>x</sup>, where b is a positive constant. If f(2) = 24, what is the value of f(3)?",
+     "tool": "Calculator: 24 × 6 ÷ 4 = 36, so b = 6; then (4/6) × 6^3.",
+     "ch": [
+      "36",
+      "96",
+      "216",
+      "144"
+     ],
+     "ans": 3,
+     "steps": [
+      "Use f(2) = 24: (4/6)b² = 24",
+      "Multiply both sides by the flip, 6/4: b² = 24 × 6/4 = 36",
+      "b is positive, so b = 6",
+      "f(3) = (4/6)(6³) = (4/6)(216) = 144",
+      "Answer: D) 144"
+     ],
+     "trap": "216 is just 6³; you still have to multiply by 4/6. 36 is b².",
+     "find": {
+      "opts": [
+       "b",
+       "f(3)",
+       "f(2)"
+      ],
+      "ok": 1
+     },
+     "src": "helm"
+    }
+   ]
+  },
+  {
+   "question_id": "cbm-02060533",
+   "skill": "nlf",
+   "asked": [
+    "can I just do a desmos table and plug in each answer and see if it works?"
+   ],
+   "days": [
+    "2026-11-26",
+    "2026-11-27"
+   ],
+   "another_way": [
+    "Yes. That is called testing the answers, and on the SAT it is a real shortcut.",
+    "Think of trying keys in a lock: the question gives you the lock (a value or some points), and each choice is a key. Only one opens it.",
+    "In Desmos, type the function as f(x) = ..., then make a table with the four choices in the x column. The row that gives the needed y wins.",
+    "If the choices are whole equations, flip it: put the GIVEN points in a table, type all four equations, and see which graph goes through every point.",
+    "Check all four. Pick one only if it matches exactly, not just close."
+   ],
+   "same_type": [],
+   "qs": [
+    {
+     "id": "tf-20261125-5",
+     "skill": "nlf",
+     "diff": "M",
+     "q": "The function f is defined by f(x) = x² − 5x − 14. For which of the following values of x is f(x) = 10?",
+     "tool": "Desmos: type f(x) = x^2 − 5x − 14, then a table with x = 3, 8, 6, 10.",
+     "ch": [
+      "3",
+      "8",
+      "6",
+      "10"
+     ],
+     "ans": 1,
+     "steps": [
+      "Test each choice in f(x)",
+      "f(3) = 9 − 15 − 14 = −20 (no)",
+      "f(8) = 64 − 40 − 14 = 10 (yes)",
+      "Check the rest: f(6) = −8, f(10) = 36 (no)",
+      "Answer: B) 8"
+     ],
+     "trap": "Look for f(x) = 10, not f(x) = 0. Test the choice, do not stop at a guess.",
+     "find": {
+      "opts": [
+       "x",
+       "f(x)",
+       "the vertex"
+      ],
+      "ok": 0
+     },
+     "src": "helm"
+    },
+    {
+     "id": "tf-20261125-6",
+     "skill": "nlf",
+     "diff": "M",
+     "q": "<table><tr><th>x</th><th>f(x)</th></tr><tr><td>1</td><td>6</td></tr><tr><td>2</td><td>18</td></tr><tr><td>3</td><td>54</td></tr></table>The table shows three values of x and their values of f(x). Which equation could define f?",
+     "tool": "Desmos: put the table points in x1, y1 and type each choice. See which passes through all 3 points.",
+     "ch": [
+      "f(x) = 6x",
+      "f(x) = 6<sup>x</sup>",
+      "f(x) = 3(2)<sup>x</sup>",
+      "f(x) = 2(3)<sup>x</sup>"
+     ],
+     "ans": 3,
+     "steps": [
+      "Test x = 1 in each: 6(1) = 6, 6¹ = 6, 3(2)¹ = 6, 2(3)¹ = 6. All work, keep going",
+      "Test x = 2: 6(2) = 12, 6² = 36, 3(2)² = 12, 2(3)² = 18",
+      "Only 2(3)<sup>x</sup> gives 18",
+      "Check x = 3: 2(27) = 54. Yes",
+      "Answer: D) f(x) = 2(3)<sup>x</sup>"
+     ],
+     "trap": "Every choice works for x = 1. Test more than one point.",
+     "find": {
+      "opts": [
+       "one f(x) value",
+       "the equation for f",
+       "the x-intercept"
+      ],
+      "ok": 1
+     },
+     "src": "helm"
+    },
+    {
+     "id": "tf-20261125-7",
+     "skill": "nlf",
+     "diff": "H",
+     "q": "The function h is defined by h(x) = 2<sup>x</sup> + x. If h(c) = 37, what is the value of c?",
+     "tool": "Desmos: type h(x) = 2^x + x, then a table with x = 1 to 6 (or graph y = 37 and click the crossing).",
+     "grid": [
+      "5"
+     ],
+     "show": "5",
+     "steps": [
+      "No choices, so make your own table of x values",
+      "h(3) = 8 + 3 = 11, h(4) = 16 + 4 = 20",
+      "h(5) = 32 + 5 = 37",
+      "So c = 5",
+      "Answer: 5"
+     ],
+     "trap": "2<sup>x</sup> is not 2x. 2<sup>5</sup> = 32, not 10.",
+     "find": {
+      "opts": [
+       "h(c)",
+       "c",
+       "2<sup>c</sup>"
+      ],
+      "ok": 1
+     },
+     "src": "helm"
+    },
+    {
+     "id": "tf-20261125-8",
+     "skill": "nlf",
+     "diff": "H",
+     "q": "The function p is defined by p(x) = x³ − 4x. For which of the following values of x is p(x) = 15?",
+     "tool": "Desmos: type p(x) = x^3 − 4x, then a table with x = −3, 1, 3, 5.",
+     "ch": [
+      "−3",
+      "1",
+      "3",
+      "5"
+     ],
+     "ans": 2,
+     "steps": [
+      "Test each choice in p(x)",
+      "p(−3) = −27 + 12 = −15 (no, wrong sign)",
+      "p(1) = 1 − 4 = −3 (no)",
+      "p(3) = 27 − 12 = 15 (yes). Check p(5) = 125 − 20 = 105 (no)",
+      "Answer: C) 3"
+     ],
+     "trap": "−3 gives −15, not 15. Cubing a negative stays negative.",
+     "find": {
+      "opts": [
+       "x",
+       "p(x)",
+       "x³"
+      ],
+      "ok": 0
      },
      "src": "helm"
     }
