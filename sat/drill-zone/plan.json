@@ -13,21 +13,24 @@
   ],
   "start": "2026-11-24"
  },
- "updated": "Wed Nov 25, 12:08 AM ET",
+ "updated": "Thu Nov 26, 12:07 AM ET",
  "online": true,
- "today": "2026-11-25",
+ "today": "2026-11-26",
  "test": "2026-12-05",
  "total_concepts": 29,
  "math": 19,
  "english": 10,
  "changes": [
   "Transitions moved to 2026-12-01 (not practised on its day)",
-  "Nonlinear equations and systems moved to 2026-11-25 (not practised on its day)",
+  "Nonlinear equations and systems moved to 2026-12-01 (not practised on its day)",
   "Linear functions moved to 2026-12-01 (not practised on its day)",
   "Linear equations in two variables moved to 2026-12-01 (not practised on its day)",
-  "Words in context moved to 2026-12-01 (not practised on its day)",
+  "Words in context moved to 2026-12-02 (not practised on its day)",
   "Boundaries (punctuation) moved to 2026-12-02 (not practised on its day)",
-  "Rhetorical synthesis (notes) moved to 2026-12-02 (not practised on its day)"
+  "Rhetorical synthesis (notes) moved to 2026-12-02 (not practised on its day)",
+  "Linear functions moved to 2026-12-02 (not practised on its day)",
+  "Form, structure and sense moved to 2026-12-03 (not practised on its day)",
+  "Transitions moved to 2026-12-03 (not practised on its day)"
  ],
  "skills": [
   {
@@ -155,24 +158,24 @@
    "name": "Equivalent expressions",
    "sec": "Math",
    "share": 5.5,
-   "acc": 63,
-   "tried": 33
+   "acc": 64,
+   "tried": 37
   },
   {
    "skill": "nleq",
    "name": "Nonlinear equations and systems",
    "sec": "Math",
    "share": 10.0,
-   "acc": 45,
-   "tried": 49
+   "acc": 46,
+   "tried": 50
   },
   {
    "skill": "nlf",
    "name": "Nonlinear functions",
    "sec": "Math",
    "share": 16.8,
-   "acc": 48,
-   "tried": 100
+   "acc": 50,
+   "tried": 127
   },
   {
    "skill": "ratio",
@@ -203,8 +206,8 @@
    "name": "Two-variable data: models and scatterplots",
    "sec": "Math",
    "share": 3.6,
-   "acc": 36,
-   "tried": 10
+   "acc": 46,
+   "tried": 12
   },
   {
    "skill": "prob",
@@ -243,8 +246,8 @@
    "name": "Lines, angles and triangles",
    "sec": "Math",
    "share": 5.0,
-   "acc": 25,
-   "tried": 7
+   "acc": 39,
+   "tried": 17
   },
   {
    "skill": "trig",
@@ -276,8 +279,8 @@
    "status": "done",
    "focus": [
     "linf",
-    "lat",
     "lin2",
+    "lat",
     "wic"
    ],
    "math_share": 67,
@@ -287,11 +290,11 @@
      3
     ],
     [
-     "lat",
+     "lin2",
      3
     ],
     [
-     "lin2",
+     "lat",
      3
     ],
     [
@@ -306,8 +309,8 @@
      "name": "Nonlinear functions",
      "sec": "Math",
      "share": 16.8,
-     "acc": 48,
-     "tried": 100,
+     "acc": 50,
+     "tried": 127,
      "lessons": [
       {
        "id": "t2",
@@ -332,8 +335,8 @@
      "name": "Nonlinear equations and systems",
      "sec": "Math",
      "share": 10.0,
-     "acc": 45,
-     "tried": 49,
+     "acc": 46,
+     "tried": 50,
      "lessons": [
       {
        "id": "a1",
@@ -385,7 +388,7 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/fss"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:linf.3,lat.3,lin2.3,wic.3",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:linf.3,lin2.3,lat.3,wic.3",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-11-19",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-11-19",
    "review_names": [
@@ -394,11 +397,11 @@
      3
     ],
     [
-     "Lines, angles and triangles",
+     "Linear equations in two variables",
      3
     ],
     [
-     "Linear equations in two variables",
+     "Lines, angles and triangles",
      3
     ],
     [
@@ -408,8 +411,8 @@
    ],
    "focus_names": [
     "Linear functions",
-    "Lines, angles and triangles",
     "Linear equations in two variables",
+    "Lines, angles and triangles",
     "Words in context"
    ],
    "n_questions": 42,
@@ -578,7 +581,7 @@
    "focus": [
     "nlf",
     "linf",
-    "lat",
+    "lin2",
     "wic"
    ],
    "math_share": 65,
@@ -592,12 +595,12 @@
      2
     ],
     [
-     "nlf",
-     3
-    ],
-    [
      "trans",
      2
+    ],
+    [
+     "nlf",
+     3
     ],
     [
      "trig",
@@ -608,7 +611,7 @@
      3
     ],
     [
-     "lat",
+     "lin2",
      3
     ],
     [
@@ -623,8 +626,8 @@
      "name": "Nonlinear equations and systems",
      "sec": "Math",
      "share": 10.0,
-     "acc": 45,
-     "tried": 49,
+     "acc": 46,
+     "tried": 50,
      "lessons": [
       {
        "id": "a1",
@@ -672,7 +675,7 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/cid"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:fss.2,circ.2,nlf.3,trans.2,trig.2,linf.3,lat.3,wic.3",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:fss.2,circ.2,trans.2,nlf.3,trig.2,linf.3,lin2.3,wic.3",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-11-21",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-11-21",
    "review_names": [
@@ -685,12 +688,12 @@
      2
     ],
     [
-     "Nonlinear functions",
-     3
-    ],
-    [
      "Transitions",
      2
+    ],
+    [
+     "Nonlinear functions",
+     3
     ],
     [
      "Right triangles and trigonometry",
@@ -701,7 +704,7 @@
      3
     ],
     [
-     "Lines, angles and triangles",
+     "Linear equations in two variables",
      3
     ],
     [
@@ -712,7 +715,7 @@
    "focus_names": [
     "Nonlinear functions",
     "Linear functions",
-    "Lines, angles and triangles",
+    "Linear equations in two variables",
     "Words in context"
    ],
    "n_questions": 50,
@@ -768,12 +771,12 @@
      3
     ],
     [
-     "nlf",
-     3
-    ],
-    [
      "trans",
      2
+    ],
+    [
+     "nlf",
+     3
     ],
     [
      "trig",
@@ -857,7 +860,7 @@
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/bound"
     }
    ],
-   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:fss.2,circ.2,nleq.3,nlf.3,trans.2,trig.2,cid.2,prob.2,linf.3,wic.3",
+   "review_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/review:fss.2,circ.2,nleq.3,trans.2,nlf.3,trig.2,cid.2,prob.2,linf.3,wic.3",
    "day_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/day/2026-11-22",
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-11-22",
    "review_names": [
@@ -874,12 +877,12 @@
      3
     ],
     [
-     "Nonlinear functions",
-     3
-    ],
-    [
      "Transitions",
      2
+    ],
+    [
+     "Nonlinear functions",
+     3
     ],
     [
      "Right triangles and trigonometry",
@@ -1036,8 +1039,8 @@
      "name": "Nonlinear functions",
      "sec": "Math",
      "share": 16.8,
-     "acc": 48,
-     "tried": 100,
+     "acc": 50,
+     "tried": 127,
      "lessons": [
       {
        "id": "t2",
@@ -1083,8 +1086,8 @@
      "name": "Nonlinear equations and systems",
      "sec": "Math",
      "share": 10.0,
-     "acc": 45,
-     "tried": 49,
+     "acc": 46,
+     "tried": 50,
      "lessons": [
       {
        "id": "a1",
@@ -1120,8 +1123,8 @@
      "name": "Lines, angles and triangles",
      "sec": "Math",
      "share": 5.0,
-     "acc": 25,
-     "tried": 7,
+     "acc": 39,
+     "tried": 17,
      "lessons": [
       {
        "id": "e2",
@@ -1512,8 +1515,8 @@
      "name": "Nonlinear functions",
      "sec": "Math",
      "share": 16.8,
-     "acc": 48,
-     "tried": 100,
+     "acc": 50,
+     "tried": 127,
      "lessons": [
       {
        "id": "t2",
@@ -1559,8 +1562,8 @@
      "name": "Nonlinear equations and systems",
      "sec": "Math",
      "share": 10.0,
-     "acc": 45,
-     "tried": 49,
+     "acc": 46,
+     "tried": 50,
      "lessons": [
       {
        "id": "a1",
@@ -1580,8 +1583,8 @@
      "name": "Lines, angles and triangles",
      "sec": "Math",
      "share": 5.0,
-     "acc": 25,
-     "tried": 7,
+     "acc": 39,
+     "tried": 17,
      "lessons": [
       {
        "id": "e2",
@@ -1976,15 +1979,14 @@
    "kind": "learn",
    "learn": [],
    "note": "Focus set: biggest point-losers first, each category in a row",
-   "carried": [
-    "nleq"
-   ],
+   "status": "not done",
    "focus": [
     "nlf",
+    "nleq",
     "lin2",
     "wic"
    ],
-   "math_share": 53,
+   "math_share": 47,
    "review": [],
    "label": "Wed Nov 25",
    "concepts": [
@@ -1993,8 +1995,8 @@
      "name": "Nonlinear functions",
      "sec": "Math",
      "share": 16.8,
-     "acc": 48,
-     "tried": 100,
+     "acc": 50,
+     "tried": 127,
      "lessons": [
       {
        "id": "t2",
@@ -2040,8 +2042,8 @@
      "name": "Nonlinear equations and systems",
      "sec": "Math",
      "share": 10.0,
-     "acc": 45,
-     "tried": 49,
+     "acc": 46,
+     "tried": 50,
      "lessons": [
       {
        "id": "a1",
@@ -2061,8 +2063,8 @@
      "name": "Lines, angles and triangles",
      "sec": "Math",
      "share": 5.0,
-     "acc": 25,
-     "tried": 7,
+     "acc": 39,
+     "tried": 17,
      "lessons": [
       {
        "id": "e2",
@@ -2242,6 +2244,7 @@
    "review_names": [],
    "focus_names": [
     "Nonlinear functions",
+    "Nonlinear equations and systems",
     "Linear equations in two variables",
     "Words in context"
    ],
@@ -2426,7 +2429,30 @@
      "rotation"
     ]
    ],
-   "result": null
+   "result": {
+    "questions": 19,
+    "first_try": 10,
+    "pct": 53,
+    "lessons": 0,
+    "by_skill": {
+     "Nonlinear functions": [
+      19,
+      10
+     ],
+     "Linear functions": [
+      0,
+      0
+     ],
+     "Form, structure and sense": [
+      0,
+      0
+     ],
+     "Transitions": [
+      0,
+      0
+     ]
+    }
+   }
   },
   {
    "date": "2026-11-26",
@@ -2466,8 +2492,8 @@
      "name": "Nonlinear functions",
      "sec": "Math",
      "share": 16.8,
-     "acc": 48,
-     "tried": 100,
+     "acc": 50,
+     "tried": 127,
      "lessons": [
       {
        "id": "t2",
@@ -2513,8 +2539,8 @@
      "name": "Nonlinear equations and systems",
      "sec": "Math",
      "share": 10.0,
-     "acc": 45,
-     "tried": 49,
+     "acc": 46,
+     "tried": 50,
      "lessons": [
       {
        "id": "a1",
@@ -2528,22 +2554,6 @@
       }
      ],
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/nleq"
-    },
-    {
-     "skill": "lat",
-     "name": "Lines, angles and triangles",
-     "sec": "Math",
-     "share": 5.0,
-     "acc": 25,
-     "tried": 7,
-     "lessons": [
-      {
-       "id": "e2",
-       "title": "Angles",
-       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/lat"
-      }
-     ],
-     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lat"
     },
     {
      "skill": "lin2",
@@ -2560,6 +2570,22 @@
       }
      ],
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lin2"
+    },
+    {
+     "skill": "lat",
+     "name": "Lines, angles and triangles",
+     "sec": "Math",
+     "share": 5.0,
+     "acc": 39,
+     "tried": 17,
+     "lessons": [
+      {
+       "id": "e2",
+       "title": "Angles",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/lat"
+      }
+     ],
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lat"
     },
     {
      "skill": "lin1",
@@ -2733,16 +2759,16 @@
     ],
     [
      "nleq",
-     2,
-     "core"
-    ],
-    [
-     "lat",
-     2,
+     3,
      "core"
     ],
     [
      "lin2",
+     1,
+     "core"
+    ],
+    [
+     "lat",
      1,
      "core"
     ],
@@ -2752,7 +2778,7 @@
      "core"
     ],
     [
-     "data2",
+     "ineq",
      1,
      "rotation"
     ],
@@ -2802,18 +2828,18 @@
     ],
     [
      "Nonlinear equations and systems",
-     2,
-     "Math",
-     "core"
-    ],
-    [
-     "Lines, angles and triangles",
-     2,
+     3,
      "Math",
      "core"
     ],
     [
      "Linear equations in two variables",
+     1,
+     "Math",
+     "core"
+    ],
+    [
+     "Lines, angles and triangles",
      1,
      "Math",
      "core"
@@ -2825,7 +2851,7 @@
      "core"
     ],
     [
-     "Two-variable data: models and scatterplots",
+     "Linear inequalities",
      1,
      "Math",
      "rotation"
@@ -2906,8 +2932,8 @@
      "name": "Nonlinear functions",
      "sec": "Math",
      "share": 16.8,
-     "acc": 48,
-     "tried": 100,
+     "acc": 50,
+     "tried": 127,
      "lessons": [
       {
        "id": "t2",
@@ -2953,8 +2979,8 @@
      "name": "Nonlinear equations and systems",
      "sec": "Math",
      "share": 10.0,
-     "acc": 45,
-     "tried": 49,
+     "acc": 46,
+     "tried": 50,
      "lessons": [
       {
        "id": "a1",
@@ -2968,22 +2994,6 @@
       }
      ],
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/nleq"
-    },
-    {
-     "skill": "lat",
-     "name": "Lines, angles and triangles",
-     "sec": "Math",
-     "share": 5.0,
-     "acc": 25,
-     "tried": 7,
-     "lessons": [
-      {
-       "id": "e2",
-       "title": "Angles",
-       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/lat"
-      }
-     ],
-     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lat"
     },
     {
      "skill": "lin2",
@@ -3000,6 +3010,22 @@
       }
      ],
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lin2"
+    },
+    {
+     "skill": "lat",
+     "name": "Lines, angles and triangles",
+     "sec": "Math",
+     "share": 5.0,
+     "acc": 39,
+     "tried": 17,
+     "lessons": [
+      {
+       "id": "e2",
+       "title": "Angles",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/lat"
+      }
+     ],
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lat"
     },
     {
      "skill": "lin1",
@@ -3176,12 +3202,12 @@
      "core"
     ],
     [
-     "lat",
+     "lin2",
      3,
      "core"
     ],
     [
-     "lin2",
+     "lat",
      2,
      "core"
     ],
@@ -3261,13 +3287,13 @@
      "core"
     ],
     [
-     "Lines, angles and triangles",
+     "Linear equations in two variables",
      3,
      "Math",
      "core"
     ],
     [
-     "Linear equations in two variables",
+     "Lines, angles and triangles",
      2,
      "Math",
      "core"
@@ -3360,8 +3386,8 @@
      "name": "Nonlinear functions",
      "sec": "Math",
      "share": 16.8,
-     "acc": 48,
-     "tried": 100,
+     "acc": 50,
+     "tried": 127,
      "lessons": [
       {
        "id": "t2",
@@ -3407,8 +3433,8 @@
      "name": "Nonlinear equations and systems",
      "sec": "Math",
      "share": 10.0,
-     "acc": 45,
-     "tried": 49,
+     "acc": 46,
+     "tried": 50,
      "lessons": [
       {
        "id": "a1",
@@ -3422,22 +3448,6 @@
       }
      ],
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/nleq"
-    },
-    {
-     "skill": "lat",
-     "name": "Lines, angles and triangles",
-     "sec": "Math",
-     "share": 5.0,
-     "acc": 25,
-     "tried": 7,
-     "lessons": [
-      {
-       "id": "e2",
-       "title": "Angles",
-       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/lat"
-      }
-     ],
-     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lat"
     },
     {
      "skill": "lin2",
@@ -3454,6 +3464,22 @@
       }
      ],
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lin2"
+    },
+    {
+     "skill": "lat",
+     "name": "Lines, angles and triangles",
+     "sec": "Math",
+     "share": 5.0,
+     "acc": 39,
+     "tried": 17,
+     "lessons": [
+      {
+       "id": "e2",
+       "title": "Angles",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/lat"
+      }
+     ],
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lat"
     },
     {
      "skill": "lin1",
@@ -3630,12 +3656,12 @@
      "core"
     ],
     [
-     "lat",
+     "lin2",
      3,
      "core"
     ],
     [
-     "lin2",
+     "lat",
      2,
      "core"
     ],
@@ -3715,13 +3741,13 @@
      "core"
     ],
     [
-     "Lines, angles and triangles",
+     "Linear equations in two variables",
      3,
      "Math",
      "core"
     ],
     [
-     "Linear equations in two variables",
+     "Lines, angles and triangles",
      2,
      "Math",
      "core"
@@ -3802,16 +3828,15 @@
    "note": "Focus set: biggest point-losers first, each category in a row",
    "carried": [
     "trans",
+    "nleq",
     "linf",
-    "lin2",
-    "wic"
+    "lin2"
    ],
    "focus": [
     "nlf",
-    "nleq",
-    "bound"
+    "wic"
    ],
-   "math_share": 53,
+   "math_share": 64,
    "review": [],
    "label": "Tue Dec 1",
    "concepts": [
@@ -3820,8 +3845,8 @@
      "name": "Nonlinear functions",
      "sec": "Math",
      "share": 16.8,
-     "acc": 48,
-     "tried": 100,
+     "acc": 50,
+     "tried": 127,
      "lessons": [
       {
        "id": "t2",
@@ -3867,8 +3892,8 @@
      "name": "Nonlinear equations and systems",
      "sec": "Math",
      "share": 10.0,
-     "acc": 45,
-     "tried": 49,
+     "acc": 46,
+     "tried": 50,
      "lessons": [
       {
        "id": "a1",
@@ -3882,22 +3907,6 @@
       }
      ],
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/nleq"
-    },
-    {
-     "skill": "lat",
-     "name": "Lines, angles and triangles",
-     "sec": "Math",
-     "share": 5.0,
-     "acc": 25,
-     "tried": 7,
-     "lessons": [
-      {
-       "id": "e2",
-       "title": "Angles",
-       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/lat"
-      }
-     ],
-     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lat"
     },
     {
      "skill": "lin2",
@@ -3914,6 +3923,22 @@
       }
      ],
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lin2"
+    },
+    {
+     "skill": "lat",
+     "name": "Lines, angles and triangles",
+     "sec": "Math",
+     "share": 5.0,
+     "acc": 39,
+     "tried": 17,
+     "lessons": [
+      {
+       "id": "e2",
+       "title": "Angles",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/lat"
+      }
+     ],
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lat"
     },
     {
      "skill": "lin1",
@@ -4069,8 +4094,7 @@
    "review_names": [],
    "focus_names": [
     "Nonlinear functions",
-    "Nonlinear equations and systems",
-    "Boundaries (punctuation)"
+    "Words in context"
    ],
    "n_questions": 50,
    "mix": [
@@ -4090,12 +4114,12 @@
      "core"
     ],
     [
-     "lat",
+     "lin2",
      3,
      "core"
     ],
     [
-     "lin2",
+     "lat",
      2,
      "core"
     ],
@@ -4105,12 +4129,12 @@
      "core"
     ],
     [
-     "data2",
+     "ineq",
      1,
      "rotation"
     ],
     [
-     "ineq",
+     "data2",
      1,
      "rotation"
     ],
@@ -4175,13 +4199,13 @@
      "core"
     ],
     [
-     "Lines, angles and triangles",
+     "Linear equations in two variables",
      3,
      "Math",
      "core"
     ],
     [
-     "Linear equations in two variables",
+     "Lines, angles and triangles",
      2,
      "Math",
      "core"
@@ -4193,13 +4217,13 @@
      "core"
     ],
     [
-     "Two-variable data: models and scatterplots",
+     "Linear inequalities",
      1,
      "Math",
      "rotation"
     ],
     [
-     "Linear inequalities",
+     "Two-variable data: models and scatterplots",
      1,
      "Math",
      "rotation"
@@ -4261,15 +4285,18 @@
    "learn": [],
    "note": "Focus set: biggest point-losers first, each category in a row",
    "carried": [
+    "wic",
     "bound",
-    "syn"
+    "syn",
+    "linf"
    ],
    "focus": [
+    "nlf",
     "nleq",
     "lin2",
-    "wic"
+    "trans"
    ],
-   "math_share": 53,
+   "math_share": 40,
    "review": [],
    "label": "Wed Dec 2",
    "concepts": [
@@ -4278,8 +4305,8 @@
      "name": "Nonlinear functions",
      "sec": "Math",
      "share": 16.8,
-     "acc": 48,
-     "tried": 100,
+     "acc": 50,
+     "tried": 127,
      "lessons": [
       {
        "id": "t2",
@@ -4325,8 +4352,8 @@
      "name": "Nonlinear equations and systems",
      "sec": "Math",
      "share": 10.0,
-     "acc": 45,
-     "tried": 49,
+     "acc": 46,
+     "tried": 50,
      "lessons": [
       {
        "id": "a1",
@@ -4340,22 +4367,6 @@
       }
      ],
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/nleq"
-    },
-    {
-     "skill": "lat",
-     "name": "Lines, angles and triangles",
-     "sec": "Math",
-     "share": 5.0,
-     "acc": 25,
-     "tried": 7,
-     "lessons": [
-      {
-       "id": "e2",
-       "title": "Angles",
-       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/lat"
-      }
-     ],
-     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lat"
     },
     {
      "skill": "lin2",
@@ -4372,6 +4383,22 @@
       }
      ],
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lin2"
+    },
+    {
+     "skill": "lat",
+     "name": "Lines, angles and triangles",
+     "sec": "Math",
+     "share": 5.0,
+     "acc": 39,
+     "tried": 17,
+     "lessons": [
+      {
+       "id": "e2",
+       "title": "Angles",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/lat"
+      }
+     ],
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lat"
     },
     {
      "skill": "lin1",
@@ -4526,9 +4553,10 @@
    "report_url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/report/2026-12-02",
    "review_names": [],
    "focus_names": [
+    "Nonlinear functions",
     "Nonlinear equations and systems",
     "Linear equations in two variables",
-    "Words in context"
+    "Transitions"
    ],
    "n_questions": 50,
    "mix": [
@@ -4548,12 +4576,12 @@
      "core"
     ],
     [
-     "lat",
+     "lin2",
      3,
      "core"
     ],
     [
-     "lin2",
+     "lat",
      2,
      "core"
     ],
@@ -4633,13 +4661,13 @@
      "core"
     ],
     [
-     "Lines, angles and triangles",
+     "Linear equations in two variables",
      3,
      "Math",
      "core"
     ],
     [
-     "Linear equations in two variables",
+     "Lines, angles and triangles",
      2,
      "Math",
      "core"
@@ -4718,6 +4746,10 @@
    "kind": "weak",
    "learn": [],
    "note": "Focus set: biggest point-losers first, each category in a row",
+   "carried": [
+    "fss",
+    "trans"
+   ],
    "focus": [
     "lin2",
     "bound"
@@ -4731,8 +4763,8 @@
      "name": "Nonlinear functions",
      "sec": "Math",
      "share": 16.8,
-     "acc": 48,
-     "tried": 100,
+     "acc": 50,
+     "tried": 127,
      "lessons": [
       {
        "id": "t2",
@@ -4778,8 +4810,8 @@
      "name": "Nonlinear equations and systems",
      "sec": "Math",
      "share": 10.0,
-     "acc": 45,
-     "tried": 49,
+     "acc": 46,
+     "tried": 50,
      "lessons": [
       {
        "id": "a1",
@@ -4793,22 +4825,6 @@
       }
      ],
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/nleq"
-    },
-    {
-     "skill": "lat",
-     "name": "Lines, angles and triangles",
-     "sec": "Math",
-     "share": 5.0,
-     "acc": 25,
-     "tried": 7,
-     "lessons": [
-      {
-       "id": "e2",
-       "title": "Angles",
-       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/lat"
-      }
-     ],
-     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lat"
     },
     {
      "skill": "lin2",
@@ -4825,6 +4841,22 @@
       }
      ],
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lin2"
+    },
+    {
+     "skill": "lat",
+     "name": "Lines, angles and triangles",
+     "sec": "Math",
+     "share": 5.0,
+     "acc": 39,
+     "tried": 17,
+     "lessons": [
+      {
+       "id": "e2",
+       "title": "Angles",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/lat"
+      }
+     ],
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lat"
     },
     {
      "skill": "lin1",
@@ -5000,12 +5032,12 @@
      "core"
     ],
     [
-     "lat",
+     "lin2",
      3,
      "core"
     ],
     [
-     "lin2",
+     "lat",
      2,
      "core"
     ],
@@ -5085,13 +5117,13 @@
      "core"
     ],
     [
-     "Lines, angles and triangles",
+     "Linear equations in two variables",
      3,
      "Math",
      "core"
     ],
     [
-     "Linear equations in two variables",
+     "Lines, angles and triangles",
      2,
      "Math",
      "core"
@@ -5185,8 +5217,8 @@
      "name": "Nonlinear functions",
      "sec": "Math",
      "share": 16.8,
-     "acc": 48,
-     "tried": 100,
+     "acc": 50,
+     "tried": 127,
      "lessons": [
       {
        "id": "t2",
@@ -5232,8 +5264,8 @@
      "name": "Nonlinear equations and systems",
      "sec": "Math",
      "share": 10.0,
-     "acc": 45,
-     "tried": 49,
+     "acc": 46,
+     "tried": 50,
      "lessons": [
       {
        "id": "a1",
@@ -5247,22 +5279,6 @@
       }
      ],
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/nleq"
-    },
-    {
-     "skill": "lat",
-     "name": "Lines, angles and triangles",
-     "sec": "Math",
-     "share": 5.0,
-     "acc": 25,
-     "tried": 7,
-     "lessons": [
-      {
-       "id": "e2",
-       "title": "Angles",
-       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/lat"
-      }
-     ],
-     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lat"
     },
     {
      "skill": "lin2",
@@ -5279,6 +5295,22 @@
       }
      ],
      "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lin2"
+    },
+    {
+     "skill": "lat",
+     "name": "Lines, angles and triangles",
+     "sec": "Math",
+     "share": 5.0,
+     "acc": 39,
+     "tried": 17,
+     "lessons": [
+      {
+       "id": "e2",
+       "title": "Angles",
+       "url": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/learn/lat"
+      }
+     ],
+     "drill": "https://allieburkesport-lang.github.io/act-tutor/sat/prep/#/drill/lat"
     },
     {
      "skill": "lin1",
@@ -5452,16 +5484,16 @@
     ],
     [
      "nleq",
-     2,
-     "core"
-    ],
-    [
-     "lat",
-     2,
+     3,
      "core"
     ],
     [
      "lin2",
+     1,
+     "core"
+    ],
+    [
+     "lat",
      1,
      "core"
     ],
@@ -5521,18 +5553,18 @@
     ],
     [
      "Nonlinear equations and systems",
-     2,
-     "Math",
-     "core"
-    ],
-    [
-     "Lines, angles and triangles",
-     2,
+     3,
      "Math",
      "core"
     ],
     [
      "Linear equations in two variables",
+     1,
+     "Math",
+     "core"
+    ],
+    [
+     "Lines, angles and triangles",
      1,
      "Math",
      "core"
