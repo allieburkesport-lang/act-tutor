@@ -1183,6 +1183,24 @@ function dwLine(raw){let t=dwTxt(raw).replace(/^(?:then\s+)?type\s+/i,'').trim()
   return [Object.assign({disp:t,latex:dwLatex(t)},label?{label}:{})]}
 let DW_LIVE='';function dwLive(spec){DW_LIVE=dwLive0(spec);return ''}
 function dwLive0(spec,lab){return `<div class="dw-lab2">${lab||'The real Desmos, already filled in · click, drag and zoom like on the test'}</div><div class="dsx-live" data-spec='${esc(JSON.stringify(spec)).replace(/'/g,'&#39;')}'></div>`}
+/* Answer markers (Allie, Nov 26): the answer must show in the list AND on the graph. After Desmos works out the values,
+   put a labeled point for each f(k) value, each ~ answer, and the final number, then zoom so they're all in view. */
+function dsMark(c,spec){try{const an=c.expressionAnalysis||{},pts=[],R=v=>Math.round(v*1e4)/1e4,ex=spec.ex||[];let k=0;
+  const add=(x,y,lab)=>{if(!isFinite(x)||!isFinite(y))return;pts.push([x,y]);c.setExpression({id:'mk'+(k++),latex:`\\left(${R(x)},${R(y)}\\right)`,color:'#000000',showLabel:true,label:lab,pointSize:12,dragMode:'NONE'})};
+  let lastNum=null;
+  ex.forEach((e,i)=>{const r=an['e'+i];if(!e.latex||!r||!r.evaluation||r.evaluation.type!=='Number')return;const v=r.evaluation.value;
+    const m=e.latex.match(/^([a-zA-Z])\\left\((.+)\\right\)$/);
+    if(m){const h=c.HelperExpression({latex:m[2]});setTimeout(()=>add(h.numericValue,v,`${m[1]}(${R(h.numericValue)}) = ${R(v)}`),150)}
+    else if(!/^[a-zA-Z](_\{\d\})?=/.test(e.latex))lastNum=v});
+  ex.forEach(e=>{if(!e.solve)return;const c0=+e.latex.split('\\sim')[0];const h=c.HelperExpression({latex:e.solve});
+    setTimeout(()=>add(h.numericValue,isFinite(c0)?c0:0,`${e.solve} = ${R(h.numericValue)}`),150)});
+  // a check line that comes out 0 isn't the answer: mark the slider value instead (e.g. b = −5)
+  const asg=ex.map((e,i)=>[e,an['e'+i]]).filter(([e,r])=>e.latex&&/^[a-zA-Z]=/.test(e.latex)&&r&&r.evaluation).map(([e,r])=>[e.latex[0],r.evaluation.value]);
+  if(lastNum===0&&asg.length){const [nm,v]=asg[asg.length-1];setTimeout(()=>add(0,v,`${nm} = ${R(v)}`),150)}
+  else if(lastNum!==null)setTimeout(()=>add(0,lastNum,`answer = ${R(lastNum)}`),150);
+  setTimeout(()=>{if(spec.b||!pts.length)return;const xs=pts.map(p=>p[0]).concat(0),ys=pts.map(p=>p[1]).concat(0);
+    const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys),dx=(x1-x0)||10,dy=(y1-y0)||10;
+    c.setMathBounds({left:x0-dx*0.3,right:x1+dx*0.3,bottom:y0-dy*0.3,top:y1+dy*0.3})},400)}catch(e){}}
 let DSPAD=null; // Patrick's own Desmos for the current question: kept alive when the page redraws, so his work isn't lost
 function dsMount(){document.querySelectorAll('.dsx-live:not([data-on])').forEach(el=>{el.dataset.on='1';const spec=JSON.parse(el.dataset.spec);
   if(spec.pad){if(!DSPAD||DSPAD.qid!==spec.pad){try{DSPAD&&DSPAD.calc&&DSPAD.calc.destroy()}catch(e){}const box=document.createElement('div');box.style.cssText='width:100%;height:100%';DSPAD={qid:spec.pad,box,calc:null};const me=DSPAD;
@@ -1193,6 +1211,7 @@ function dsMount(){document.querySelectorAll('.dsx-live:not([data-on])').forEach
     (spec.ex||[]).forEach((e,i)=>{const {note,solve,...x}=e;c.setExpression(Object.assign({id:'e'+i},x))});if(spec.b)c.setMathBounds(spec.b);
     const fix=()=>{const an=c.expressionAnalysis||{};(spec.ex||[]).forEach((e,i)=>{const r=an['e'+i];if(r&&(r.isError||/slider|variable/i.test(r.errorMessage||''))){c.removeExpression({id:'e'+i});if(e.note)c.setExpression({id:'n'+i,type:'text',text:e.note})}})};
     [400,1000,2500].forEach(ms=>setTimeout(fix,ms));
+    if(spec.mark)setTimeout(()=>dsMark(c,spec),1100);
     const fb=el.parentElement&&el.parentElement.querySelector('.dsx-fallback');if(fb)fb.style.display='none'})
   .catch(()=>{el.style.display='none';const fb=el.parentElement&&el.parentElement.querySelector('.dsx-fallback');if(fb)fb.style.display=''})})}
 new MutationObserver(()=>{if(document.querySelector('.dsx-live:not([data-on])'))dsMount()}).observe(document.documentElement,{childList:true,subtree:true});
@@ -1316,7 +1335,8 @@ function dsCard(spec){const ex=(spec.ex||[]).map(e=>Object.assign({},e));const L
     out=ex.filter(e=>!cons.includes(e)&&!fns.includes(e)).concat(tl)}
   const graphy=e=>{if(!e.latex)return false;const t=e.latex.replace(/\\[a-zA-Z]+/g,' ');if(/^[a-zA-Z]\([a-z]\)=/.test(t.replace(/\s/g,'')))return false;
     return /(^|[^a-zA-Z])[xy]([^a-zA-Z]|$)/.test(t)&&!/\\sim/.test(e.latex)||/^\s*\(.*,.*\)\s*$/.test(t)||/[<>≤≥]|\\le(?![a-z])|\\ge(?![a-z])|\\leq|\\geq/.test(e.latex)};
-  const list=!out.some(graphy);return {ex:out,b:list?null:spec.b,list}}
+  // Allie, Nov 26: always list + graph, and the answer is marked on the graph (see dsMark)
+  return {ex:out,b:spec.b||null,list:false,mark:true}}
 function desmosSol(q,h){let html='';try{html=desmosWay(q,h)}catch(e){return ''}
   const m=html.match(/data-spec='([^']*)'/);let spec={ex:[]};if(m){const tx=document.createElement('textarea');tx.innerHTML=m[1];try{spec=JSON.parse(tx.value)}catch(e){}}
   const how=(html.match(/<div class="dw-how-h">✓ How to do it<\/div>([\s\S]*?)<\/div>/)||[])[1]||'';const ans=(html.match(/<div class="dw-ans" data-frac>([\s\S]*?)<\/div>/)||[])[1]||'';
