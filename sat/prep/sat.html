@@ -521,6 +521,34 @@ function level(a,n){if(!n)return ['Not tried','#374151','#eef0f3'];if(a<50)retur
 /* ---------- Desmos check of the locked College Board questions (Allie, Nov 25) ----------
    Open #/desmoscheck on Patrick's computer (where the official questions are unlocked). It runs every locked math question
    through the real Desmos and saves only the results (question id, the Desmos line that failed) to his private HELM account. */
+/* Day check (Allie, Nov 26): every question in a plan day with its Desmos way, read-only. Records nothing for Patrick.
+   Checks each Desmos card automatically and saves only the results (question id, problem) to his account for Claude. */
+async function dayCheckPage(date,pg){D=null;date=date||today();const d=PLAN&&PLAN.days.find(x=>x.date===date);
+  if(!d){app().innerHTML=topbar('')+`<div class="page"><h1 class="hd">No plan for ${esc(date)}</h1></div>`;return}
+  const planned=buildDay(d,true),done=[...new Set(dayLog(date).map(x=>x.id))],fresh=buildDay(d);
+  const qs=done.map(id=>QBY[id]).filter(Boolean).concat(fresh.qs).slice(0,Math.max(planned.qs.length,done.length));
+  const math=qs.filter(q=>SK2[q.skill]&&SK2[q.skill].sec==='Math');
+  if(!window.DAYCK||DAYCK.date!==date){window.DAYCK={date,res:null};
+    app().innerHTML=topbar('')+`<div class="page"><h1 class="hd" style="font-size:26px;margin:0">Checking ${esc(date)}</h1><div id="dck" style="font-size:18px;margin:12px 0">Checking ${math.length} math questions in Desmos… keep this tab open.</div><div id="dckc" style="width:900px;height:500px;position:absolute;left:-9999px"></div></div>`;
+    await dsLoad();const c=Desmos.GraphingCalculator(document.getElementById('dckc'),{keypad:false});const res={};
+    for(const q of math){let h='';try{h=desmosSol(q,QH[q.id]||{d:[],c:[]})}catch(e){res[q.id]={bad:['render: '+e.message]};continue}
+      const m=h.match(/data-spec='([^']*)'/);if(!m){res[q.id]={bad:[],none:true};continue}
+      const tx=document.createElement('textarea');tx.innerHTML=m[1];const sp=JSON.parse(tx.value);c.setBlank();
+      sp.ex.forEach((e,k)=>{const {note,solve,...x}=e;c.setExpression(Object.assign({id:'e'+k},x))});await new Promise(r=>setTimeout(r,90));
+      const an=c.expressionAnalysis||{};res[q.id]={bad:Object.entries(an).filter(([k,v])=>v.isError).map(([k,v])=>(v.errorMessage||'')+' | '+((sp.ex[+k.slice(1)]||{}).latex||'')),list:!!sp.list,n:sp.ex.length}}
+    c.destroy();DAYCK.res=res;
+    const sum={when:new Date().toISOString(),date,total:qs.length,math:math.length,errors:Object.entries(res).filter(([k,v])=>v.bad.length).map(([k,v])=>({id:k,skill:(QBY[k]||{}).skill,bad:v.bad})),none:Object.entries(res).filter(([k,v])=>v.none).map(([k])=>k)};
+    try{const sb=window.HELM_SB;await window.HELM_AUTH;const {error}=await sb.from('helm_progress').upsert({key:'day_check',value:sum,updated_at:new Date().toISOString()},{onConflict:'user_id,key'});DAYCK.saved=error?'NOT saved':'Saved ✓'}catch(e){DAYCK.saved='NOT saved'}}
+  const res=DAYCK.res,P=10,np=Math.ceil(qs.length/P);pg=Math.max(0,Math.min(np-1,+pg||0));
+  const errs=Object.values(res).filter(v=>v.bad.length).length,none=Object.values(res).filter(v=>v.none).length;
+  const card=(q,i)=>{const s=SK2[q.skill]||{},r=res[q.id];const ch=q.ch?`<ol type="A" style="margin:6px 0 0 18px">${q.ch.map(c=>`<li>${c}</li>`).join('')}</ol>`:'';
+    const flag=!r?'<span style="color:#667">Reading &amp; Writing · no Desmos</span>':r.bad.length?`<b style="color:#b91c1c">✗ Desmos error: ${esc(r.bad[0])}</b>`:r.none?'<span style="color:#92400e">No one-step Desmos method · steps shown instead</span>':'<b style="color:#166534">✓ Desmos OK</b>';
+    return `<div class="box" style="margin:16px 0"><div class="lab">${i+1}. ${esc(s.name||q.skill)} · ${esc(q.id)} · ${flag}</div><div class="c" style="font-size:17px">${typeof figFor==='function'?figFor(q):''}${q.q}${ch}</div>${s.sec==='Math'?desmosSol(q,QH[q.id]||{d:[],c:[]}):''}</div>`};
+  app().innerHTML=topbar('')+`<div class="page"><h1 class="hd" style="font-size:26px;margin:0">Today's questions · ${esc(date)}</h1>
+    <div style="font-size:18px;margin:10px 0"><b>${qs.length} questions</b> (${math.length} math) · Desmos errors: <b style="color:${errs?'#b91c1c':'#166534'}">${errs}</b> · no one-step Desmos method: ${none} · ${esc(DAYCK.saved||'')}<br><span style="font-size:15px;color:#667">Look only: nothing here is saved as Patrick's work.</span></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">${Array.from({length:np},(_,k)=>`<button class="btn ${k===pg?'':'g'} sm" data-go="#/daycheck/${date}/${k}">${k*P+1}–${Math.min(qs.length,(k+1)*P)}</button>`).join('')}</div>
+    ${qs.slice(pg*P,pg*P+P).map((q,j)=>card(q,pg*P+j)).join('')}
+    ${pg<np-1?`<button class="btn" data-go="#/daycheck/${date}/${pg+1}">Next 10 questions</button>`:'<div style="font-size:18px"><b>That\'s all of them.</b></div>'}</div>`;scrollTo(0,0)}
 async function desmosCheckPage(){D=null;const QS=BANK.qs.filter(q=>/^(cbm|cb|bpr)-/.test(q.id)&&SK2[q.skill]&&SK2[q.skill].sec==='Math');
   app().innerHTML=topbar('')+`<div class="page"><h1 class="hd" style="font-size:26px;margin:0">Desmos check</h1><div id="dck" style="font-size:18px;margin:12px 0">${QS.length?'Checking '+QS.length+' official questions in Desmos… keep this tab open (about 2 minutes).':'The official questions are not unlocked on this device. Open HELM in the browser Patrick uses for practice.'}</div><div id="dckc" style="width:900px;height:500px;position:absolute;left:-9999px"></div></div>`;
   if(!QS.length)return;await dsLoad();const c=Desmos.GraphingCalculator(document.getElementById('dckc'),{keypad:false});const fails=[];let i=0;
@@ -537,6 +565,7 @@ async function desmosCheckPage(){D=null;const QS=BANK.qs.filter(q=>/^(cbm|cb|bpr
   try{const sb=window.HELM_SB;await window.HELM_AUTH;const {error}=await sb.from('helm_progress').upsert({key:'desmos_check',value:res,updated_at:new Date().toISOString()},{onConflict:'user_id,key'});saved=error?('NOT saved: '+error.message):'Saved ✓'}catch(e){saved='NOT saved: '+e.message}
   document.getElementById('dck').innerHTML=`<b>Done.</b> Checked ${QS.length} official questions · ${fails.length} need fixing · <b>${esc(saved)}</b>${/NOT/.test(saved)?'<br>Please send Claude a photo of this screen.':'<br>You can close this tab.'}`}
 function route(){const h=decodeURIComponent(location.hash.slice(1)||'/');const [_,v,a]=h.split('/');UI.nav=false;
+  if(v==='daycheck')return dayCheckPage(a,h.split('/')[3]);
   if(v==='drill')return startDrill(a);if(v==='look'){startDrill('ids:'+a);if(D){D.view=true;D.title='Look at this question (practice only, not saved)';UI.panel='show';drawDrill()}return}if(v==='day')return startDay(a);if(v==='report')return dayReport(a);if(v==='learn')return learnPage(a);if(v==='video')return videoPage(a);if(v==='stats')return statsPage(a);if(v==='skill'&&typeof skillPage==='function'){D=null;return skillPage(a)}if(v==='videos')return videosPage();if(v==='desmoscheck')return desmosCheckPage();D=null;home();}
 window.addEventListener('hashchange',route);
 setInterval(()=>{if(!D&&/^#\/(stats|report|$)/.test(location.hash||'#/')&&!document.querySelector('.drw.open'))pullOnline()},60000);
