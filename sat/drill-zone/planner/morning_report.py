@@ -41,6 +41,24 @@ SC = _scored(A); SCID = {id(a) for a in SC}
 R = [a for a in A if et(a['created_at']).strftime('%Y-%m-%d') == day]
 F = [a for a in R if id(a) in SCID]
 n = len(F); ok = sum(a['correct'] for a in F)
+# ---- 1500 Blueprint work that day (Allie, Nov 26): the email covers ALL his work from the day, HELM + Blueprint, in every stat ----
+BPD = [i for i in BP.get('items', []) if i.get('day') == day]          # first-try records (Blueprint second tries count as help)
+BPDAY = next((d for d in BP.get('daily', []) if d.get('day') == day and not d.get('week')), None)
+bn = len(BPD) or (BPDAY['n'] if BPDAY else 0)
+bok = sum(i['ok'] for i in BPD) if BPD else (round(BPDAY['n'] * BPDAY['acc'] / 100) if BPDAY else 0)
+def bp_day(d):  # (n, right) Blueprint on any day
+    it = [i for i in BP.get('items', []) if i.get('day') == d]
+    if it: return len(it), sum(i['ok'] for i in it)
+    r = next((x for x in BP.get('daily', []) if x.get('day') == d and not x.get('week')), None)
+    return (r['n'], round(r['n'] * r['acc'] / 100)) if r else (0, 0)
+def bp_before(k):  # Blueprint totals for a skill BEFORE the report day (the totals in blueprint.json already include later days)
+    s = BP['skills'].get(k)
+    if not s: return None
+    later = [i for i in BP.get('items', []) if i.get('skill') == k and i.get('day', '') >= day]
+    nn, oo = s['n'] - len(later), s['ok'] - sum(i['ok'] for i in later)
+    return (nn, oo) if nn > 0 else None
+BPK = collections.OrderedDict()
+for i in BPD: v = BPK.setdefault(i['skill'], [0, 0]); v[0] += 1; v[1] += i['ok']
 # HELM palette
 FONT = 'font-family:-apple-system,Helvetica,Arial,sans-serif'
 NAVY, BLUE, PUR, G, RED, INK, GRY, LN = '#1E3A8A', '#2563EB', '#7C3AED', '#059669', '#DC2626', '#111827', '#4B5563', '#E5E7EB'
@@ -195,13 +213,31 @@ if pd:
 else: plan = ''
 
 takes = []; WINS = []; coach = ''
-if n:
-    acc = round(100 * ok / n); secs = round(sum(a.get('seconds') or 0 for a in F) / n)
-    t0 = min(et(a['created_at']) for a in R); t1 = max(et(a['created_at']) for a in R); mins = round((t1 - t0).seconds / 60)
-    summary = (h2('Summary of the Day') + f"<div style='background:#F0F3F9;border-radius:15px;padding:6px'>{TB}>"
-        f"<tr>{metric(len(Q),'Questions Done',ic='doc')}{metric(f'{acc}%','Right First Try', GRN if acc>=80 else OR, ic='target')}{metric(len(wrong),'Wrong', RD, ic='xcirc')}</tr>"
-        f"<tr>{metric(len(helped),'Used Help On', OR, ic='spark')}{metric(len(calc),'Used Calculator', ic='calc')}{metric(f'{secs}s','Time per Question', DK, ic='watch')}</tr></table></div>"
-        f"<div style='font-size:13px;color:{MUT};margin-top:7px'>{mins} minutes on HELM &nbsp;·&nbsp; {len(asks)} tutor question{'s' if len(asks)!=1 else ''} asked</div>")
+if n or bn or R:
+    hacc_d = round(100 * ok / n) if n else None
+    tn, tok = n + bn, ok + bok; acc = round(100 * tok / tn) if tn else 0
+    secs = round(sum(a.get('seconds') or 0 for a in F) / n) if n else 0
+    if R: t0 = min(et(a['created_at']) for a in R); t1 = max(et(a['created_at']) for a in R); mins = round((t1 - t0).seconds / 60)
+    else: mins = 0
+    bwrong = bn - bok
+    split = (f"<b>HELM</b> {len(Q)} questions · {ok} of {n} right first try" + (f" ({hacc_d}%)" if n else '')
+             + (f" &nbsp;|&nbsp; <b>1500 Blueprint</b> {bn} questions · {bok} right first try ({round(100*bok/bn)}%)" if bn else " &nbsp;|&nbsp; <b>1500 Blueprint</b> none"))
+    summary = (h2('Summary of the Day') + f"<div style='font-size:13px;color:#101C34;margin:-4px 0 7px'>All of his work: HELM + 1500 Blueprint</div>"
+        f"<div style='background:#F0F3F9;border-radius:15px;padding:6px'>{TB}>"
+        f"<tr>{metric(len(Q) + bn,'Questions Done',ic='doc')}{metric(f'{acc}%','Right First Try', GRN if acc>=80 else OR, ic='target')}{metric(len(wrong) + bwrong,'Wrong', RD, ic='xcirc')}</tr>"
+        f"<tr>{metric(len(helped),'Used Help On', OR, note='HELM', ic='spark')}{metric(len(calc),'Used Calculator', note='HELM', ic='calc')}{metric(f'{secs}s','Time per Question', DK, note='HELM', ic='watch')}</tr></table></div>"
+        f"<div style='font-size:13px;color:#101C34;margin-top:7px;line-height:19px'>{split}</div>"
+        f"<div style='font-size:13px;color:{MUT};margin-top:4px'>{mins} minutes on HELM &nbsp;·&nbsp; {len(asks)} tutor question{'s' if len(asks)!=1 else ''} asked</div>")
+    # Blueprint panel: every Blueprint question that day, by skill
+    def bprow(i, k, v):
+        w = v[0] - v[1]; diffs = collections.Counter(x['diff'] for x in BPD if x['skill'] == k)
+        dl = ', '.join(f"{c} {({'E':'Easy','M':'Medium','H':'Hard'}).get(d, d)}" for d, c in diffs.items())
+        left = f"<b>{html.escape(sn(nm(k)))}</b><div style='font-size:12px;color:#5B6C80;margin-top:2px'>{v[0]} question{'s' if v[0] != 1 else ''}{' · ' + dl if dl else ''}</div>"
+        right = ((f"<span style='color:#00833E'>✓ {v[1]} right</span>" if v[1] else '') + ('<br>' if v[1] and w else '') + (f"<span style='color:#C21D1D'>✕ {w} wrong</span>" if w else ''))
+        return item(left, right, '#101C34', i == 0)
+    bprows = (''.join(bprow(i, k, v) for i, (k, v) in enumerate(sorted(BPK.items(), key=lambda kv: (kv[1][1] / kv[1][0], -kv[1][0]))))
+              or (item(f"{bn} questions, {bok} right first try ({BPDAY['acc']}%) — the Blueprint report has no skill breakdown for this day", '', MUT, True) if bn else ''))
+    bpanel = (f"<div style='margin-top:12px'>{panel(f'1500 Blueprint ({bn} questions · {bok} right · {bwrong} wrong)', 'target', '#EEF2FF', NAVY, TB + '>' + bprows + '</table>')}</div>") if bn else ''
     HN2 = {k: v for k, v in HN.items()}
     hrows = grouped([(k, Q[k]['first'], Q[k]['ok'], Q[k]['help'] - TOOLS) for k in helped])
     arows = grouped([(k, e['first'], e['ok'], None) for k, e in Q.items()])
@@ -224,8 +260,9 @@ if n:
         left = (ql(ms[0]['question_id']) + '<br>' if ms[0].get('question_id') else '') + '<br>'.join('“' + html.escape(m['content'][:200]) + '”' for m in ms) + after
         return item(left, res[0], res[1], i == 0)
     tutor = (f"<div style='margin-top:12px'>{panel(f'What He Asked the Tutor ({len(trows)})', 'qbub', '#E9F2FC', '#24639E', TB + '>' + ''.join(trow(i, k, ms) for i, (k, ms) in enumerate(trows)) + '</table>')}</div>") if asks else ''
-    by = collections.defaultdict(lambda: [0, 0, 0])
-    for a in F: v = by[a['concept_id']]; v[0] += 1; v[1] += a['correct']; v[2] += a.get('seconds') or 0
+    by = collections.defaultdict(lambda: [0, 0, 0, 0])
+    for a in F: v = by[a['concept_id']]; v[0] += 1; v[1] += a['correct']; v[2] += a.get('seconds') or 0; v[3] += 1
+    for k, (bn_, bo_) in BPK.items(): v = by[k]; v[0] += bn_; v[1] += bo_  # Blueprint counts too (no time recorded)
     order = sorted(by.items(), key=lambda x: (x[1][1] / x[1][0], -x[1][0]))
     def srow(k, v, first):
         p = round(100 * v[1] / v[0]); c = GRN if p >= 80 else OR if p >= 60 else RD
@@ -236,19 +273,23 @@ if n:
                 f"<td width='44' align='right' style='padding:9px 0;{bt}font-size:16px;font-weight:800;color:{c}'>{p}%</td></tr>")
     weak5 = [x for x in order if x[1][1] < x[1][0]][:5] or order[:5]
     perfect = [k for k, v in order if v[1] == v[0] and (k, v) not in weak5]
-    skills = (h2('By Skill (Weakest First)') + TB + '>' + ''.join(srow(k, v, i == 0) for i, (k, v) in enumerate(weak5)) + '</table>'
+    skills = (h2('By Skill (Weakest First) · HELM + Blueprint') + TB + '>' + ''.join(srow(k, v, i == 0) for i, (k, v) in enumerate(weak5)) + '</table>'
               + (f"<div style='font-size:13px;color:#101C34;margin-top:8px'><b style='color:{GRN}'>100%:</b> " + ', '.join(amp(sn(nm(k))) for k in perfect) + "</div>" if perfect else ''))
     # ---- Trend (Allie, Nov 25): right-first-try % per day (SAT rules) so she can see if he is getting more right ----
     byd = collections.OrderedDict()
     for a in sorted(SC, key=lambda a: a['created_at']):
         dd = et(a['created_at']).strftime('%Y-%m-%d')
         if dd > day: continue
-        v = byd.setdefault(dd, [0, 0]); v[0] += 1; v[1] += a['correct']
+        v = byd.setdefault(dd, [0, 0, 0, 0]); v[0] += 1; v[1] += a['correct']
+    for d0 in sorted({x['day'] for x in BP.get('daily', []) if not x.get('week')} | {x['day'] for x in BP.get('items', [])}):
+        if '2026-11-22' <= d0 <= day:  # same window as HELM (HELM counts from Nov 22)
+            bn_, bo_ = bp_day(d0); v = byd.setdefault(d0, [0, 0, 0, 0]); v[0] += bn_; v[1] += bo_; v[2] += bn_; v[3] += bo_
+    byd = collections.OrderedDict(sorted(byd.items()))
     tdays = [(d, v) for d, v in byd.items() if v[0] >= 5][-6:]
     def trow_d(i, d, v):
         p = round(100 * v[1] / v[0]); bt = '' if i == 0 else 'border-top:1px solid #DCE3EB;'
         c = '#0C8E40' if p >= 80 else OR if p >= 60 else '#C21D1D'
-        return (f"<tr><td width='70' style='padding:8px 0;{bt}font-size:13px;font-weight:{800 if d == day else 600};color:#101C34'>{datetime.date.fromisoformat(d).strftime('%a %-m/%-d')}</td>"
+        return (f"<tr><td width='70' style='padding:8px 0;{bt}font-size:13px;font-weight:{800 if d == day else 600};color:#101C34'>{datetime.date.fromisoformat(d).strftime('%a %-m/%-d')}<div style='font-size:10px;font-weight:600;color:#5B6C80;white-space:nowrap'>{('HELM ' + str(v[1]-v[3]) + '/' + str(v[0]-v[2]) + ' · ' if v[0]-v[2] else '') + 'BP ' + str(v[3]) + '/' + str(v[2]) if v[2] else ''}</div></td>"
                 f"<td style='padding:8px 6px;{bt}'>{bar(p, 8, c)}</td><td width='44' align='right' style='padding:8px 0;{bt}font-size:12px;color:#101C34'>{v[1]}/{v[0]}</td>"
                 f"<td width='44' align='right' style='padding:8px 0;{bt}font-size:16px;font-weight:800;color:{c}'>{p}%</td></tr>")
     trend = ''
@@ -256,16 +297,17 @@ if n:
         ps = [round(100 * v[1] / v[0]) for _, v in tdays]; dlt = ps[-1] - ps[-2]
         arrow = (f"<span style='color:{GRN}'>▲ up {dlt} points</span>" if dlt > 0 else f"<span style='color:#C21D1D'>▼ down {-dlt} points</span>" if dlt < 0 else "<span>no change</span>")
         sk_tr = []
-        for k in sorted({a['concept_id'] for a in F}):
-            bef = [a for a in SC if a.get('concept_id') == k and et(a['created_at']).strftime('%Y-%m-%d') < day]
-            now = [a for a in F if a.get('concept_id') == k]
+        for k in sorted({a['concept_id'] for a in F} | set(BPK)):
+            bef = [a['correct'] for a in SC if a.get('concept_id') == k and et(a['created_at']).strftime('%Y-%m-%d') < day]
+            bef += [i['ok'] for i in BP.get('items', []) if i.get('skill') == k and '2026-11-22' <= i.get('day', '') < day]
+            now = [a['correct'] for a in F if a.get('concept_id') == k] + [i['ok'] for i in BPD if i['skill'] == k]
             if len(bef) >= 3 and now:
-                pb, pn = round(100 * sum(a['correct'] for a in bef) / len(bef)), round(100 * sum(a['correct'] for a in now) / len(now))
+                pb, pn = round(100 * sum(bef) / len(bef)), round(100 * sum(now) / len(now))
                 sk_tr.append(f"{amp(sn(nm(k)))}: {pb}% before → <b style='color:{GRN if pn > pb else '#C21D1D' if pn < pb else '#101C34'}'>{pn}%</b>")
         trend = (h2('Trend · Right on First Try') + f"<div style='font-size:14px;color:#101C34;margin:-4px 0 6px'>{pretty(day)} vs. his last practice day: <b>{arrow}</b></div>"
                  + TB + '>' + ''.join(trow_d(i, d, v) for i, (d, v) in enumerate(tdays)) + '</table>'
                  + (f"<div style='font-size:13px;color:#101C34;margin-top:8px;line-height:20px'>{'<br>'.join(sk_tr)}</div>" if sk_tr else '')
-                 + f"<div style='font-size:11px;color:{MUT};margin-top:6px'>SAT rules: first answer only, no help. Days with fewer than 5 questions are left out.</div>")
+                 + f"<div style='font-size:11px;color:{MUT};margin-top:6px'>HELM + 1500 Blueprint together (BP = Blueprint). SAT rules: first answer only, no help. Days with fewer than 5 questions are left out.</div>")
         takes.insert(0, tk('Trend', f"{ps[-1]}% right on first try, {'up' if dlt > 0 else 'down' if dlt < 0 else 'same as'} {abs(dlt) if dlt else ''}{' points from' if dlt else ''} {ps[-2]}% last practice day"))
     # ---- Follow-ups ("Prove it") (Allie, Nov 25): how many were added, did he get them, did he use help on them ----
     fu = collections.OrderedDict(); pl = collections.OrderedDict()
@@ -308,7 +350,7 @@ if n:
                                    'kind': kind((a.get('question') or '').split(' ', 1)[-1])})
         e['ok'] = e['ok'] or a['correct']
     cats = [k for k in list(mix) + [e['sk'] for e in qrows.values()] if any(e['sk'] == k for e in qrows.values())]
-    cats = list(dict.fromkeys(cats))
+    cats = list(dict.fromkeys(cats + [k for k in mix if k in BPK] + list(BPK)))
     def pct(a, b): return round(100 * a / b) if b else None
     def ln(lab, val): return f"<tr><td style='padding:6px 0;border-top:1px solid #DCE3EB;font-size:13px;color:#34435A'>{lab}</td><td align='right' style='padding:6px 0;border-top:1px solid #DCE3EB;font-size:14px;color:#101C34'>{val}</td></tr>"
     def chg(d): return '—' if d is None else (f"<b style='color:{GRN}'>▲ +{d} pts</b>" if d > 0 else f"<b style='color:#C21D1D'>▼ {d} pts</b>" if d < 0 else '<b>no change</b>')
@@ -319,9 +361,10 @@ if n:
         fpr, fur = sum(e['first'] for e in fp), sum(e['first'] for e in fu_); pf, pu = pct(fpr, len(fp)), pct(fur, len(fu_))
         dom = SK.get(k, {}).get('dom') or ''; dk = DOMK.get(dom)
         sat = ' · '.join(f"{lab} {dpct(d[dk])}%" for lab, d in SAT_OFF if dk and d.get(dk)) or '—'
-        bp = BP['skills'].get(k); bpp = pct(bp['ok'], bp['n']) if bp else None
+        bp = bp_before(k); bpp = pct(bp[1], bp[0]) if bp else None; bpt = BPK.get(k)
         before = [a for a in SC if a.get('concept_id') == k and et(a['created_at']).strftime('%Y-%m-%d') < day]; hb = pct(sum(a['correct'] for a in before), len(before))
-        allq = fp + fu_; today = pct(sum(e['first'] for e in allq), len(allq))
+        fk = [a for a in F if a.get('concept_id') == k]  # SAT rules: first answer only, no help
+        today = pct(sum(a['correct'] for a in fk) + (bpt[1] if bpt else 0), len(fk) + (bpt[0] if bpt else 0))
         # insights by kind of question
         kk = collections.OrderedDict()
         for e in fp: kk.setdefault(e['kind'], [[0, 0], [0, 0]])[0][0] += 1; kk[e['kind']][0][1] += e['first']
@@ -336,7 +379,7 @@ if n:
         if fp and fu_:
             t1, t2 = round(sum(e['sec'] for e in fp) / len(fp)), round(sum(e['sec'] for e in fu_) / len(fu_))
             if abs(t1 - t2) >= 10: ins.append(f"{'Faster' if t2 < t1 else 'Slower'} on follow-ups: {t1}s → {t2}s per question.")
-        if hb is not None and today is not None and today - hb >= 10: ins.append(f"Yesterday ({today}%) was well above his HELM average before that ({hb}%) in this category.")
+        if hb is not None and today is not None and today - hb >= 10: ins.append(f"Yesterday ({today}%, HELM + Blueprint) was well above his HELM average before that ({hb}%) in this category.")
         # What this category is worth (Allie, Nov 25): baseline = his best official SAT level in this domain (superscore rule); goal level for 1300 ≈ 75% right
         ppq = 600 / N; bestp = max((dpct(d[dk]) for _, d in SAT_OFF if dk and d.get(dk)), default=None)
         base_r = round((bestp if bestp is not None else (bpp or 50)) / 100 * nq); goal_r = min(nq, -(-75 * nq // 100)); gain_q = max(0, goal_r - base_r); gain = round(gain_q * ppq)
@@ -351,9 +394,10 @@ if n:
                   + ln('First pass (did / right first try)', f"<b>{len(fp)}</b> · {fpr} right" + (f" (<b>{pf}%</b>)" if pf is not None else ''))
                   + ln('Follow-ups added (right first try)', f"<b>{len(fu_)}</b> · {fur} right" + (f" (<b>{pu}%</b>)" if pu is not None else ''))
                   + ln('Change: follow-ups vs. first pass', chg(pu - pf) if pf is not None and pu is not None else '—')
-                  + ln('Overall (first try)', f"<b>{today}%</b>" if today is not None else '—')
+                  + ln('1500 Blueprint that day (right first try)', f"<b>{bpt[0]}</b> · {bpt[1]} right (<b>{pct(bpt[1], bpt[0])}%</b>)" if bpt else '—')
+                  + ln('Overall that day, HELM + Blueprint (first try)', f"<b>{today}%</b>" if today is not None else '—')
                   + ln('HELM before that day', f"{hb}% ({len(before)} q)" if hb is not None else '—')
-                  + ln('Blueprint', f"{bpp}% ({bp['n']} q)" if bp else '—')
+                  + ln('Blueprint before that day', f"{bpp}% ({bp[0]} q)" if bp else '—')
                   + ln(f"Official SAT ({html.escape(dom)} score band)", sat)
                   + "</table>"
                   + f"<div style='margin-top:8px;background:#E7F5ED;border-radius:10px;padding:8px 10px;font-size:13px;line-height:19px;color:#101C34'>🎯 {worth}</div>"
@@ -385,14 +429,17 @@ if n:
     coach = (f"<div style='margin:12px 0 0;border-radius:14px;padding:13px 14px;background:#E7F5ED;border-left:6px solid #0C8E40'>"
              f"<div style='font-size:17px;font-weight:800;color:#087638;margin-bottom:4px'>💪 Patrick, great work</div>"
              f"<div style='font-size:15px;line-height:22px;color:#101C34'>{'<br>'.join(lines)}</div></div>")
-    slow = max(by.items(), key=lambda x: x[1][2] / x[1][0])
-    takes += [tk('Weakest skill', f"{amp(sn(nm(order[0][0])))} ({round(100*order[0][1][1]/order[0][1][0])}%)"),
-             tk('Slowest skill', f"{amp(sn(nm(slow[0])))} (~{round(slow[1][2]/slow[1][0])}s/question)"),
-             tk('Speed', f"{secs}s/question (SAT pace: 70–95s)")]
+    timed = [x for x in by.items() if x[1][3]]
+    slow = max(timed, key=lambda x: x[1][2] / x[1][3]) if timed else None
+    if by: takes += [tk('Weakest skill', f"{amp(sn(nm(order[0][0])))} ({round(100*order[0][1][1]/order[0][1][0])}%)"),
+             tk('Slowest skill', f"{amp(sn(nm(slow[0])))} (~{round(slow[1][2]/slow[1][3])}s/question on HELM)" if slow else '—'),
+             tk('Speed', f"{secs}s/question on HELM (SAT pace: 70–95s)")]
     if stuck: takes.append(tk('Review next', f"{len(stuck)} missed question{'s' if len(stuck)!=1 else ''} not fixed yet: " + bycount(stuck)))
     if pd and not finished: takes.append(tk('Plan', f"{planned - done} of {planned} planned questions still left"))
     if calc: takes.append(tk('Calculator', 'Desmos on ' + bycount(calc)))
-    day_html = coach + plan + summary + trend + catsec + panels + follow + tutor + skills
+    if bn: takes.insert(0, tk('1500 Blueprint', f"{bn} questions, {bok} right first try ({round(100*bok/bn)}%)" + (': ' + ', '.join(f"{amp(sn(nm(k)))} {v[1]}/{v[0]}" for k, v in BPK.items()) if BPK else '')))
+    takes.insert(0, tk('All work', f"{len(Q) + bn} questions (HELM {len(Q)} + Blueprint {bn}), {acc}% right on first try"))
+    day_html = coach + plan + summary + bpanel + trend + catsec + (panels if Q else '') + follow + tutor + (skills if by else '')
 else:
     takes = [tk('No work', f"No HELM questions on {pretty(day)}")]
     day_html = plan
