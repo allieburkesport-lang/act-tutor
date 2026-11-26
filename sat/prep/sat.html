@@ -105,6 +105,7 @@ aside.pan .ph .t{font-size:21px;font-weight:700}aside.pan .ph .s{font-size:14px;
 .dw-how-h{font-weight:700;color:#166534;margin-bottom:4px}
 .dw-more{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:#fff}.dw-more summary{cursor:pointer;font-weight:700;font-size:15px;color:var(--mute)}.dw-more[open] summary{margin-bottom:8px}
 .dw-steps{margin:4px 0 6px 0;padding-left:0;list-style:none;font-size:17px;line-height:1.6}.dw-steps li{margin:6px 0;padding:8px 12px;background:#fff;border:1px solid #dbe4f0;border-radius:10px}
+.dw-bp{background:#f7f8fa;border-radius:14px;padding:18px 22px;margin:6px 0}.dw-bp-h{font-weight:700;font-size:18px;color:#166534;margin-bottom:8px}.dw-bp p{font-size:17px;line-height:1.6;margin:8px 0}.dw-bp-fin{font-weight:600}
 .dw-lab2{font-size:14px;font-weight:700;color:var(--mute);margin-top:4px}
 .dsx{border:1.5px solid #cfcfcf;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.08)}
 .dsx-list{border-bottom:1.5px solid #ddd;font-family:Helvetica,Arial,sans-serif}
@@ -1346,12 +1347,14 @@ function desmosSol(q,h){let html='';try{html=desmosWay(q,h)}catch(e){return ''}
   let how=(html.match(/<div class="dw-how-h">✓ How to do it<\/div>([\s\S]*?)<\/div>/)||[])[1]||'';const ans=(html.match(/<div class="dw-ans" data-frac>([\s\S]*?)<\/div>/)||[])[1]||'';
   if(/dw-weak/.test(html)||!(spec.ex||[]).some(e=>e.latex))return `<div class="box b-blue"><div class="lab">The Desmos way</div><div class="c">Desmos can't do this one in a single step. Follow the steps above, and use your Desmos to check each one.</div></div>`;
   const card=dsCard(spec);card.how=how.replace(/<[^>]+>/g,'');const sv=card.ex.find(e=>e.solve);
-  if(/(^|\s)1\.\s/.test(how)&&/\s2\.\s/.test(how)){const parts=how.split(/(?:^|(?<=\.)\s)(\d)\.\s/).filter(x=>x&&!/^\d$/.test(x)).map(x=>x.trim());
-    how=`<ol class="dw-steps">${parts.map((x,i)=>`<li><b>Step ${i+1}.</b> ${x}</li>`).join('')}</ol>`}
+  // Blueprint format (Allie approved, Nov 26): one short paragraph, the Desmos screen, then "Therefore the final answer is option D, 3."
+  how=(/^\s*1\.\s/.test(how)?how.replace(/(?:^|(?<=[.!?])\s)\d\.\s/g,' '):how).replace(/\s*Answer:\s*[^.]*\.?\s*$/,'').replace(/\s*(?:So the answer is\s*)?[A-D]\.\s*$/,'').trim();if(how&&!/[.!?]$/.test(how))how+='.';
+  const fin=q.ch&&q.ch.length?`Therefore the final answer is option ${'ABCD'[q.ans]}, ${q.ch[q.ans]}.`:`Therefore the final answer is ${q.show||(q.grid||[''])[0]}.`;
   // No hand-made setup yet (Allie, Nov 26): the auto "how" can be generic, so show the real solution steps that get to the answer
   if(!DSET[q.id]&&(q.steps||[]).length){const st=q.steps.map(x=>dwTxt(x)).filter(Boolean);
-    return `<div class="box b-blue"><div class="lab">How to get the answer</div><ol style="margin:4px 0 10px 20px;font-size:16px;line-height:1.6">${st.map(x=>`<li data-frac>${esc(x)}</li>`).join('')}</ol>${dwLive0(card,'Check it in Desmos')}<div class="dw-ans" data-frac style="margin-top:8px">${ans}</div></div>`}
-  return `<div class="box b-blue"><div class="lab">The Desmos way</div><div class="c" style="margin-bottom:8px">${how}${sv?` <b>Desmos shortcut:</b> type it with <b>~</b> (tilde) instead of =, and Desmos solves for <i>${sv.solve}</i>.`:''}</div>${dwLive0(card,card.list?'What it looks like in Desmos':'What it looks like in Desmos · click and zoom the graph')}<div class="dw-ans" data-frac style="margin-top:8px">${ans}</div></div>`}
+    const fin0=q.ch&&q.ch.length?`Therefore the final answer is option ${'ABCD'[q.ans]}, ${q.ch[q.ans]}.`:`Therefore the final answer is ${q.show||(q.grid||[''])[0]}.`;
+    return `<div class="dw-bp"><div class="dw-bp-h">✓ How to get the answer</div><p data-frac>${st.map(x=>esc(/[.!?]$/.test(x)?x:x+'.')).join(' ')}</p>${dwLive0(card,' ')}<p class="dw-bp-fin" data-frac>${esc(fin0)}</p></div>`}
+  return `<div class="dw-bp"><div class="dw-bp-h">✓ The Desmos way</div><p data-frac>${how}</p>${dwLive0(card,' ')}<p class="dw-bp-fin" data-frac>${esc(fin)}</p></div>`}
 function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
   const head=(t,sub)=>`<div class="ph"><div><div class="t hd">${t}</div><div class="s">${sub}</div></div><button class="x" aria-label="Close panel" data-pan="${k}">✕</button></div>`;
   if(k==='show'){const res=carried(q,q.steps);const n=Math.max(1,st.shown);
