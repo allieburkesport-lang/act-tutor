@@ -1196,8 +1196,10 @@ function dsMark(c,spec){try{const an=c.expressionAnalysis||{},pts=[],R=v=>Math.r
     setTimeout(()=>add(h.numericValue,isFinite(c0)?c0:0,`${e.solve} = ${R(h.numericValue)}`),150)});
   // a check line that comes out 0 isn't the answer: mark the slider value instead (e.g. b = −5)
   const asg=ex.map((e,i)=>[e,an['e'+i]]).filter(([e,r])=>e.latex&&/^[a-zA-Z]=/.test(e.latex)&&r&&r.evaluation).map(([e,r])=>[e.latex[0],r.evaluation.value]);
-  if(lastNum===0&&asg.length){const [nm,v]=asg[asg.length-1];setTimeout(()=>add(0,v,`${nm} = ${R(v)}`),150)}
-  else if(lastNum!==null)setTimeout(()=>add(0,lastNum,`answer = ${R(lastNum)}`),150);
+  // where the graphs cross: a flat line y = c plus the crossing x-values named in the explanation ("cross at x = 14")
+  const cy=ex.find(e=>e.latex&&/^y=-?[\d.]+$/.test(e.latex.replace(/\{,\}/g,'')));
+  if(cy&&spec.how){const c0=+cy.latex.slice(2).replace(/\{,\}/g,'');const m2=String(spec.how).replace(/−/g,'-').match(/cross(?:es)? at (?:about )?(?:x = )?(-?[\d.]+)(?:,? and (?:x = )?(-?[\d.]+))?/);
+    if(m2)[m2[1],m2[2]].filter(Boolean).forEach(v=>add(+v,c0,`(${R(+v)}, ${R(c0)})`))}
   setTimeout(()=>{if(spec.b||!pts.length)return;const xs=pts.map(p=>p[0]).concat(0),ys=pts.map(p=>p[1]).concat(0);
     const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys),dx=(x1-x0)||10,dy=(y1-y0)||10;
     c.setMathBounds({left:x0-dx*0.3,right:x1+dx*0.3,bottom:y0-dy*0.3,top:y1+dy*0.3})},400)}catch(e){}}
@@ -1331,7 +1333,7 @@ function dsCard(spec){const ex=(spec.ex||[]).map(e=>Object.assign({},e));const L
   const cons=ex.filter(e=>e.latex&&/^y=-?[\d.]+$/.test(plain(e.latex))),fns=ex.filter(e=>e.latex&&/^y=/.test(e.latex)&&!cons.includes(e)&&!/(^|[^a-zA-Z\\])y/.test(e.latex.slice(2)));
   const used=L.join(' ').replace(/\\[a-zA-Z]+/g,' ');const P=['a','b','c','k','m','n','p','q','r','s','u','v','w'].find(v=>!new RegExp('(^|[^a-zA-Z])'+v+'([^a-zA-Z]|$)').test(used)&&!used.includes(v));
   let out=ex;
-  if(!spec.nt&&cons.length===1&&fns.length>=1&&fns.length<=2&&P){const c=plain(cons[0].latex).slice(2);const tl=fns.map(f=>({latex:c+'\\sim '+f.latex.slice(2).replace(/\\[a-zA-Z]+|x/g,m=>m==='x'?P:m),color:f.color||'#2d70b3',solve:P}));
+  if(false&&!spec.nt&&cons.length===1&&fns.length>=1&&fns.length<=2&&P){const c=plain(cons[0].latex).slice(2);const tl=fns.map(f=>({latex:c+'\\sim '+f.latex.slice(2).replace(/\\[a-zA-Z]+|x/g,m=>m==='x'?P:m),color:f.color||'#2d70b3',solve:P}));
     out=ex.filter(e=>!cons.includes(e)&&!fns.includes(e)).concat(tl)}
   const graphy=e=>{if(!e.latex)return false;const t=e.latex.replace(/\\[a-zA-Z]+/g,' ');if(/^[a-zA-Z]\([a-z]\)=/.test(t.replace(/\s/g,'')))return false;
     return /(^|[^a-zA-Z])[xy]([^a-zA-Z]|$)/.test(t)&&!/\\sim/.test(e.latex)||/^\s*\(.*,.*\)\s*$/.test(t)||/[<>≤≥]|\\le(?![a-z])|\\ge(?![a-z])|\\leq|\\geq/.test(e.latex)};
@@ -1341,7 +1343,7 @@ function desmosSol(q,h){let html='';try{html=desmosWay(q,h)}catch(e){return ''}
   const m=html.match(/data-spec='([^']*)'/);let spec={ex:[]};if(m){const tx=document.createElement('textarea');tx.innerHTML=m[1];try{spec=JSON.parse(tx.value)}catch(e){}}
   const how=(html.match(/<div class="dw-how-h">✓ How to do it<\/div>([\s\S]*?)<\/div>/)||[])[1]||'';const ans=(html.match(/<div class="dw-ans" data-frac>([\s\S]*?)<\/div>/)||[])[1]||'';
   if(/dw-weak/.test(html)||!(spec.ex||[]).some(e=>e.latex))return `<div class="box b-blue"><div class="lab">The Desmos way</div><div class="c">Desmos can't do this one in a single step. Follow the steps above, and use your Desmos to check each one.</div></div>`;
-  const card=dsCard(spec);const sv=card.ex.find(e=>e.solve);
+  const card=dsCard(spec);card.how=how.replace(/<[^>]+>/g,'');const sv=card.ex.find(e=>e.solve);
   // No hand-made setup yet (Allie, Nov 26): the auto "how" can be generic, so show the real solution steps that get to the answer
   if(!DSET[q.id]&&(q.steps||[]).length){const st=q.steps.map(x=>dwTxt(x)).filter(Boolean);
     return `<div class="box b-blue"><div class="lab">How to get the answer</div><ol style="margin:4px 0 10px 20px;font-size:16px;line-height:1.6">${st.map(x=>`<li data-frac>${esc(x)}</li>`).join('')}</ol>${dwLive0(card,'Check it in Desmos')}<div class="dw-ans" data-frac style="margin-top:8px">${ans}</div></div>`}
