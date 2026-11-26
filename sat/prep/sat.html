@@ -77,6 +77,7 @@ button{font:inherit;cursor:pointer}
 .navgrid button{width:44px;height:44px;border-radius:8px;border:1.5px dashed #9ca3af;background:#fff;font-weight:700}
 .navgrid button.ok{border:2px solid #15803d;color:#15803d}.navgrid button.no{border:2px solid #c2410c;color:#c2410c}.navgrid button.cur{outline:3px solid var(--navy)}
 /* right panel */
+aside.lpad{flex:0 0 min(560px,38vw);border-right:1px solid var(--line);background:#fafafa;padding:10px 10px 0;display:flex;flex-direction:column;gap:6px}aside.lpad .dsx-live{height:calc(100vh - 170px);min-height:420px}
 aside.pan{flex:0 0 min(560px,40vw);border-left:1px solid var(--line);background:#fafafa;padding:20px 22px 30px;overflow:auto;display:flex;flex-direction:column;gap:14px}
 aside.pan .ph{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
 aside.pan .ph .t{font-size:21px;font-weight:700}aside.pan .ph .s{font-size:14px;color:var(--mute);margin-top:2px}
@@ -140,7 +141,7 @@ aside.pan .ph .t{font-size:21px;font-weight:700}aside.pan .ph .s{font-size:14px;
 .vid{aspect-ratio:16/9;width:100%;border-radius:10px;background:#000}
 .vph{aspect-ratio:16/9;background:#2b3a33;border:8px solid #8a5a2b;border-radius:10px;display:grid;place-items:center;color:#f5f5dc;text-align:center;padding:16px}
 iframe.desmos{width:100%;height:calc(100vh - 190px);border:1px solid var(--line);border-radius:10px;background:#fff}
-@media (max-width:1000px){.dr .body{flex-direction:column}aside.pan{flex:none;border-left:0;border-top:1px solid var(--line)}.dr main{padding:20px}}
+@media (max-width:1000px){.dr .body{flex-direction:column}aside.pan{flex:none;border-left:0;border-top:1px solid var(--line)}aside.lpad{flex:none;border-right:0;border-bottom:1px solid var(--line)}aside.lpad .dsx-live{height:420px}.dr main{padding:20px}}
 @media (min-width:1600px){.qcol{max-width:900px}.qtext{font-size:22px}.passage,.ch button .t{font-size:21px}}
 /* lesson page */
 .lframe{width:100%;height:calc(100vh - 160px);border:1px solid var(--line);border-radius:14px;background:#fff}
@@ -919,8 +920,8 @@ function drawDrill(){if(D.done)return drawEnd();const q=cur(),st=D.st[D.i],s=SK2
   const left=Math.max(0,D.qs.length*PACE[s.sec]-Math.round((Date.now()-D.t0)/1000));
   app().innerHTML=`<div class="dr"><div class="bar1"><div><div style="font-weight:700;font-size:17px">${esc(s.sec==='English'?'Reading and Writing':'Math')} · ${esc(D.secs?D.secs[D.i]:D.title)}${D.more?(()=>{const f=D.st.filter(t=>t.tried.length),r=f.filter(t=>t.ok&&t.tried.length===1&&!t.coached).length;return ` · this run ${r}/${f.length} right first try · goal 80%`})():''}</div><a href="#/" style="font-size:14px">← Home</a></div>
    <div style="display:flex;align-items:center;gap:10px"><div class="timer" id="tmr" aria-label="Time left">${fmt(left)}</div><button class="btn g sm" data-pause="1" title="Pause the clock (bathroom, break)">⏸ Pause</button></div>
-   <div style="display:flex;gap:8px;flex-wrap:wrap">${eng?'':`<button class="btn g sm" data-pan="desmos">Desmos</button><button class="btn g sm" data-pan="ref">Reference</button>`}</div></div>
-   <div class="body"><main><div class="qcol">
+   <div style="display:flex;gap:8px;flex-wrap:wrap">${eng?'':`<button class="btn ${UI.lpad!==false?'':'g'} sm" data-lpad="1" title="Show or hide Desmos on the left">${UI.lpad!==false?'Hide Desmos':'Desmos'}</button><button class="btn g sm" data-pan="ref">Reference</button>`}</div></div>
+   <div class="body">${!eng&&UI.lpad!==false?`<aside class="lpad">${dwLive0({pad:q.id},'Desmos · same calculator as the test')}</aside>`:''}<main><div class="qcol">
     <div class="qhead"><div style="display:flex;align-items:center;gap:10px"><span class="qnum">${D.i+1}</span><button class="mark" data-mark="1">${st.mark?'☑':'☐'} Mark for review</button></div><span style="font-size:13px;color:var(--mute)">${DIFF[q.diff]}</span></div>
     ${chkTag}    <div class="help"><span style="font-size:14px;color:var(--mute);margin-right:4px">Need help?</span>${help}</div>
     ${passage?`<div class="passage">${passage}</div>`:''}
@@ -1363,7 +1364,7 @@ function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
      (n<q.steps.length?`<button class="btn" data-next="1" style="align-self:flex-start">Show the next step (${n+1} of ${q.steps.length})</button>`:`<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(q.trap)}</div></div>`)+
      (s.sec==='Math'?desmosSol(q,QH[q.id]||{d:[],c:[]}):`<div class="box b-blue"><div class="lab">Strategy</div><div class="c">${esc(q.tool)}</div></div>`);}
 
-  if(k==='desm'){const h=QH[q.id]||{d:[],c:[]};const tab=UI.dtab||'pad';
+  if(k==='desm'){const h=QH[q.id]||{d:[],c:[]};const tab=UI.dtab||(UI.lpad===false?'pad':'d');
     const list=a=>a.map((x,i)=>`<div class="step"><span class="n">${i+1}</span><div class="c">${esc(x)}</div></div>`).join('');
     let b=head('Desmos / calculator','Your own Desmos for this question');
     b+=`<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ${tab==='pad'?'':'g'} sm" data-dtab="pad">My Desmos</button><button class="btn ${tab==='d'?'':'g'} sm" data-dtab="d">The Desmos way</button><button class="btn ${tab==='c'?'':'g'} sm" data-dtab="c">TI-84 Evo calculator</button></div>`;
@@ -1409,6 +1410,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('button,[data-go]
   const q=D.done?null:cur(),st=D.done?null:D.st[D.i];
   if(d.pick!==undefined){const j=+d.pick;if(st.tried.includes(j)||st.ok)return;st.tried.push(j);answer(j===q.ans,q.ch[j]);return}
   if(d.grid)return gridCheck();
+  if(d.lpad){UI.lpad=UI.lpad===false;return drawDrill()}
   if(d.pan){UI.panel=UI.panel===d.pan?null:d.pan;if(UI.panel){const key=st.tried.length?'ha':'hb';st[key]=st[key]||[];if(!st[key].includes(UI.panel))st[key].push(UI.panel)}if(UI.panel==='show'){st.coached=st.coached||!st.ok;if(!st.shown)st.shown=1}return drawDrill()}
   if(d.dtab){UI.dtab=d.dtab;return drawDrill()}
   if(d.next){st.shown=(st.shown||1)+1;return drawDrill()}
