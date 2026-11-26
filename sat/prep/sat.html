@@ -441,6 +441,8 @@ async function unlockBP(code){code=code||store.get('helm_code','');if(!code||!wi
     return JSON.parse(new TextDecoder().decode(buf))};
   const add=qs=>qs.forEach(q=>{if(!QBY[q.id]){BANK.qs.push(q);QBY[q.id]=q}});
   try{const qs=await open('bpretry.enc.json');store.set('helm_code',code);BPR=qs;add(qs)}catch(x){return await unlockCBM(code)}
+  // newer missed Blueprint questions (Allie, Nov 25), kept in his signed-in account instead of the locked file
+  try{const more=window.HELM_PROGRESS&&await HELM_PROGRESS.pull('bp_missed');if(Array.isArray(more)){add(more);BPR=BPR.concat(more.filter(q=>!BPR.some(b=>b.id===q.id)))}}catch(x){}
   // the official College Board Reading & Writing question bank (1,501 text-only questions), private the same way
   try{CBQ=await open('cbrw.enc.json');add(CBQ)}catch(x){}
   // official Practice Tests 5-11 Reading & Writing (Test 4 is kept unseen for the full timed test)
