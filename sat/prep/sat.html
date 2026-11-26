@@ -1005,11 +1005,14 @@ function gridCheck(){const q=cur(),st=D.st[D.i],v=($('#gin').value||'').trim();i
   const ok=q.grid.some(g=>norm(g)===norm(v)||(!isNaN(num(g))&&Math.abs(num(g)-num(v))<1e-3));st.tried.push(v);answer(ok,v);}
 
 /* ---------- right panels ---------- */
+// College Board steps carry <sup>2</sup> etc.: show them as real superscripts (²), never as code (Allie, Nov 26)
+function supTxt(s){return String(s??'').replace(/<sup>\s*2\s*<\/sup>/gi,'²').replace(/<sup>\s*3\s*<\/sup>/gi,'³').replace(/<sup>(.*?)<\/sup>/gi,(m,x)=>'^'+x.replace(/<[^>]+>/g,'').trim()).replace(/<sub>(.*?)<\/sub>/gi,(m,x)=>x.replace(/\d/g,d=>'₀₁₂₃₄₅₆₇₈₉'[d])).replace(/<[^>]+>/g,'').replace(/&nbsp;/g,' ').replace(/&minus;/g,'−').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&')}
 function carried(q,steps){// numbers found as results in earlier steps and reused later (not given in the question)
   const given=new Set((plain(q.q).match(/-?\d+(?:\.\d+)?/g)||[]));const res=[];
-  steps.forEach((s,i)=>{const t=s.replace(/✓/g,'');const k=Math.max(t.lastIndexOf('='),t.lastIndexOf(':'),t.lastIndexOf('→'));const seg=k>=0?t.slice(k+1):'';const m=seg.match(/-?\d+(?:\.\d+)?/);if(m&&!given.has(m[0].replace('-','')) && !given.has(m[0]))res.push([m[0],i])});
+  // a result is the number the step ENDS on (right after its last "="), never 0 or 1 (Allie, Nov 26: "1 from step 3" on 1/32 was wrong)
+  steps.forEach((s,i)=>{const t=supTxt(s).replace(/✓/g,'');const k0=Math.max(t.lastIndexOf('='),t.lastIndexOf(':'),t.lastIndexOf('→'));if(k0<0||!/^\s*[−-]?\d/.test(t.slice(k0+1))||/^\s*[−-]?[01](?![\d.])/.test(t.slice(k0+1)))return;const k=Math.max(t.lastIndexOf('='),t.lastIndexOf(':'),t.lastIndexOf('→'));const seg=k>=0?t.slice(k+1):'';const m=seg.match(/-?\d+(?:\.\d+)?/);if(m&&!given.has(m[0].replace('-','')) && !given.has(m[0]))res.push([m[0],i])});
   return res;}
-function markCarry(text,i,res){let h=esc(text);res.forEach(([v,from])=>{if(from>=i)return;const e=v.replace(/[.\-]/g,'\\$&');const rx=new RegExp('(^|[^0-9.,])('+e+')(?![0-9.])');if(rx.test(h)&&!h.includes('from step '+(from+1)))h=h.replace(rx,`$1<span class="co">$2</span><span class="cot">from step ${from+1}</span>`)});return h}
+function markCarry(text,i,res){let h=esc(supTxt(text));res.forEach(([v,from])=>{if(from>=i)return;const e=v.replace(/[.\-]/g,'\\$&');const rx=new RegExp('(^|[^0-9.,/])('+e+')(?![0-9./])');if(rx.test(h)&&!h.includes('from step '+(from+1)))h=h.replace(rx,`$1<span class="co">$2</span><span class="cot">from step ${from+1}</span>`)});return h}
 
 /* where every number comes from (Show me how) */
 const nfmt=x=>{const r=Math.round(x*1000)/1000;return String(r)};
@@ -1115,7 +1118,17 @@ function dwTable(q){const pts=[];const H=String(q.q||'');
   const all=(H+' '+(q.ch||[]).join(' ')).toLowerCase(),T=dwTxt(all);
   let model=/quadratic|parabola/.test(T)||/x²|x\^2/.test(T)?'quad':(/exponential|grow|decay|percent/.test(T)||/\^x|\^\(x/.test(T)?'exp':(/linear|line/.test(T)?'lin':null));
   if(!model)return null;if(model==='quad'&&pts.length<3)return null;if(model==='exp'&&pts.some(p=>p[1]<=0))return null;
-  const fit=dwFit(pts,model);if(!fit)return null;return {pts,model,fit}}
+  /* Allie, Nov 26: "g(x) = f(x)/(x + 3) and f is linear" — the table gives g but the question is about f.
+     Rearrange first (f(x) = g(x)·(x + 3)), in the text AND in Desmos, then fit f. */
+  let tr=null;{const T0=dwTxt(H).replace(/−/g,'-');const m=T0.match(/\b([a-z])\(x\)\s*=\s*([a-z])\(x\)\s*(?:\/|÷)\s*\(\s*(-?\d*(?:\.\d+)?)\s*x\s*([+-])\s*(\d+(?:\.\d+)?)\s*\)/);
+    if(m&&m[1]!==m[2]){const a=m[3]===''?1:(m[3]==='-'?-1:+m[3]),k=(m[4]==='-'?-1:1)*(+m[5]);if(isFinite(a)&&isFinite(k)){
+      const ex=(a===1?'':a===-1?'−':a)+'x '+(k<0?'−':'+')+' '+Math.abs(k);
+      tr={g:m[1],f:m[2],ex,exL:(a===1?'':a===-1?'-':a)+'x_{1}'+(k<0?'-':'+')+Math.abs(k),fp:pts.map(p=>[p[0],p[1]*(a*p[0]+k)])}}}}
+  const fp=tr?tr.fp:pts;
+  const fit=dwFit(fp,model);if(!fit)return null;
+  // a regression that misses the points (R² well under 1) is wrong for a "function" question: don't show it
+  {const yb=fp.reduce((t,p)=>t+p[1],0)/fp.length,ss=fp.reduce((t,p)=>t+(p[1]-yb)**2,0),se=fp.reduce((t,p)=>t+(p[1]-fit.f(p[0]))**2,0);if(ss>0&&se/ss>0.01)return null}
+  return {pts,model,fit,tr}}
 function dwSolve(A,b){const n=b.length,M=A.map((r,i)=>[...r,b[i]]);for(let c=0;c<n;c++){let p=c;for(let r=c+1;r<n;r++)if(Math.abs(M[r][c])>Math.abs(M[p][c]))p=r;[M[c],M[p]]=[M[p],M[c]];if(Math.abs(M[c][c])<1e-12)return null;
   for(let r=0;r<n;r++)if(r!==c){const f=M[r][c]/M[c][c];for(let k=c;k<=n;k++)M[r][k]-=f*M[c][k]}}return M.map((r,i)=>r[n]/r[i])}
 function dwFit(pts,model){const ls=(rows,ys)=>{const k=rows[0].length,A=[...Array(k)].map((_,i)=>[...Array(k)].map((_,j)=>rows.reduce((s,r)=>s+r[i]*r[j],0))),b=[...Array(k)].map((_,i)=>rows.reduce((s,r,n)=>s+r[i]*ys[n],0));return dwSolve(A,b)};
@@ -1268,8 +1281,9 @@ function dwChoices(q){if(!q.ch||q.ch.length<2)return null;
   const pts=[];(q.steps||[]).concat([T]).forEach(st=>{for(const m of dwTxt(st).matchAll(/\(\s*(−?-?\d+(?:\.\d+)?)\s*,\s*(−?-?\d+(?:\.\d+)?)\s*\)/g)){const x=dwNum(m[1]),y=dwNum(m[2]);if(isFinite(x)&&isFinite(y)&&!pts.some(p=>p[0]===x&&p[1]===y))pts.push([x,y])}});
   return {rhs,shift,pts:pts.slice(0,6)}}
 let DSET={};(window.HELM_AUTH||Promise.reject()).then(()=>window.HELM_PROGRESS&&HELM_PROGRESS.pull('desmos_setups')).then(v=>{if(v&&typeof v==='object')DSET=v}).catch(()=>{});
+let DW_HOW='';
 function desmosWay(q0,h){
-  DW_LIVE='';
+  DW_LIVE='';DW_HOW='';
   {const S=DSET[q0.id];if(S&&S.ex&&S.ex.length){const C=['#c74440','#2d70b3','#388c46','#6042a6'];const q=Object.assign({},q0,{steps:(q0.steps||[]).map(dwTxt),ch:q0.ch?q0.ch.map(dwTxt):q0.ch});const ans=q.ch?`${L[q.ans]}) ${q.ch[q.ans]}`:(q.show||q.grid[0]);
     const ex=S.ex.map((e,i)=>typeof e==='string'?{latex:dwLatex(e),color:C[i%4],note:e}:e);
     const rest=q.steps.map((st,i)=>`<div class="dw-p">${esc(st)}</div>`).join('');
@@ -1293,7 +1307,21 @@ function desmosWay(q0,h){
     if(cm.pts.length)ex.push({type:'text',text:'Points from the graph'});cm.pts.forEach(p=>ex.push({latex:dwLatex('('+dwNumS(p[0])+', '+dwNumS(p[1])+')'),color:'#000000'}));
     o=dwLive({ex,b:dsBounds(cm.pts)})+`<div class="dw-h">Method 1: Desmos — check the choices</div><div class="dw-p">Type each answer choice${cm.shift?` with the <b>${esc(cm.shift.trim())}</b> from the question added on (the graph shows y = f(x)${esc(cm.shift)})`:''} as its own line${cm.pts.length?', then type the points you read off the graph':''}. The right choice is the only curve that goes through ${cm.pts.length>1?'every black point':'the graph'}.</div>`+
       `<div class="dw-p">In this one: ${cm.rhs.map((r,j)=>`<b>${L[j]}</b> ${esc(r)}`).join(' · ')}</div><div class="dw-ans">Answer: ${esc(ans)}</div>`;}
-  if(tb){const regL={lin:'y_{1}\\sim mx_{1}+b',quad:'y_{1}\\sim ax_{1}^{2}+bx_{1}+c',exp:'y_{1}\\sim a\\cdot b^{x_{1}}'}[tb.model];
+  if(tb&&tb.tr){const r=tb.tr,v=Object.fromEntries(tb.fit.vals),N=dwNumS;
+    const lhs='y_{1}\\left('+r.exL+'\\right)';
+    const ex=[{type:'table',columns:[{latex:'x_{1}',values:tb.pts.map(p=>String(p[0]))},{latex:'y_{1}',values:tb.pts.map(p=>String(p[1])),hidden:true}]},
+      {latex:lhs+'\\sim mx_{1}+b',color:'#2d70b3',note:'y₁('+r.ex.replace(/x/,'x₁')+') ~ mx₁ + b'},
+      {latex:'\\left(x_{1},'+lhs+'\\right)',color:'#c74440',pointStyle:'POINT'},
+      {latex:'y=mx+b',color:'#2d70b3'},
+      {latex:'\\left(0,b\\right)',color:'#000000',showLabel:true,label:'(0, '+N(v.b)+')',pointSize:14}];
+    o=dwLive({ex,b:dsBounds(r.fp.concat([[0,v.b]])),nm:true})+`<div class="dw-p">Rearrange first, then let Desmos find ${r.f}.</div>`;
+    DW_HOW=`The table gives ${r.g}(x), but the question asks about ${r.f}. So rearrange first: ${r.g}(x) = ${r.f}(x) ÷ (${r.ex}) means <b>${r.f}(x) = ${r.g}(x)(${r.ex})</b>. `+
+      `Line 1 is the table: the x-values in x₁ and the ${r.g}(x) values in y₁. `+
+      `Line 2 does the rearranging in Desmos: <b>y₁(${esc(r.ex.replace(/x/,'x₁'))})</b> turns each ${r.g} value into an ${r.f} value, and <b>~ mx₁ + b</b> finds the line through them. Desmos shows <b>m = ${N(v.m)}</b> and <b>b = ${N(v.b)}</b>. `+
+      `Line 3 plots the ${r.f} points: ${r.fp.map(p=>'('+N(p[0])+', '+N(p[1])+')').join(', ')}. `+
+      `Line 4 draws ${r.f}: y = ${esc(dwFormula(tb).replace(/^f\(x\) = /,''))}. `+
+      `Line 5 marks where it crosses the y-axis: x = 0, so y = b = <b>${N(v.b)}</b>, the point <b>(0, ${N(v.b)})</b>.`}
+  else if(tb){const regL={lin:'y_{1}\\sim mx_{1}+b',quad:'y_{1}\\sim ax_{1}^{2}+bx_{1}+c',exp:'y_{1}\\sim a\\cdot b^{x_{1}}'}[tb.model];
     o=dwLive({ex:[{type:'table',columns:[{latex:'x_{1}',values:tb.pts.map(p=>String(p[0]))},{latex:'y_{1}',values:tb.pts.map(p=>String(p[1])),color:'#c74440',pointStyle:'POINT'}]},{latex:regL,color:'#2d70b3'}],b:dsBounds(tb.pts)})+`<div class="dsx-fallback" style="display:none">${dwTableScreen(tb)}</div>`+`<div class="dw-p">For this one, put the points in a <b>Desmos table</b> and let Desmos find the equation with the <b>tilde (~)</b>. No algebra.</div>`+
     `<div class="dw-h">Method 1: Desmos table + tilde</div><div class="dw-p">Line 1: a table with the x-values in x₁ and the f(x) values in y₁. Line 2: <b>${esc(DW_REG[tb.model])}</b>. Desmos shows ${tb.fit.vals.map(([k,v])=>`<b>${k} = ${dwNumS(v)}</b>`).join(', ')}, so <b>${esc(dwFormula(tb))}</b>.</div>`+`<div class="dw-ans">Answer: ${esc(ans)}</div>`+
     `<div class="dw-p" style="font-size:15px;color:var(--mute)">Other way to check: type each answer choice into Desmos. The right one goes through every red dot.</div>`;}
@@ -1352,6 +1380,7 @@ function desmosWay(q0,h){
   const two=x=>{const z=dwTxt(x||'').replace(/^Desmos[^:]*:\s*/i,'');const ss=z.match(/[^.!?]+[.!?]?/g)||[];return ss.slice(0,2).join(' ').trim()};
   let how='';
   if(t)how=`Plug in the numbers you're given and leave <i>${esc(t.V)}</i> as the letter. Type it into Desmos with <b>~</b> instead of <b>=</b>, and Desmos shows <b>${esc(t.V)} = ${esc(t.val)}</b>.`;
+  else if(tb&&tb.tr)how=DW_HOW;
   else if(tb)how=`Put the table into Desmos, then type <b>${esc(DW_REG[tb.model])}</b>. Desmos shows ${tb.fit.vals.map(([k,v])=>`<b>${k} = ${dwNumS(v)}</b>`).join(', ')}, so <b>${esc(dwFormula(tb))}</b>.`;
   else if(cm)how=`Graph each answer choice${cm.shift?` with the <b>${esc(cm.shift.trim())}</b> added (the graph shows y = f(x)${esc(cm.shift)})`:''}. The answer is the only one that goes through ${cm.pts.length>1?'all the points':'the point'}.`;
   else how=esc(two(q.tool)||two(q.steps[0]))||'Use Desmos to check each step.';
@@ -1382,7 +1411,7 @@ function desmosSol(q,h){let html='';try{html=desmosWay(q,h)}catch(e){return ''}
   how=(/^\s*1\.\s/.test(how)?how.replace(/(?:^|(?<=[.!?])\s)\d\.\s/g,' '):how).replace(/\s*Answer:\s*[^.]*\.?\s*$/,'').replace(/\s*(?:So the answer is\s*)?[A-D]\.\s*$/,'').trim();if(how&&!/[.!?]$/.test(how))how+='.';
   const fin=q.ch&&q.ch.length?`Therefore the final answer is option ${'ABCD'[q.ans]}, ${q.ch[q.ans]}.`:`Therefore the final answer is ${q.show||(q.grid||[''])[0]}.`;
   // No hand-made setup yet (Allie, Nov 26): the auto "how" can be generic, so show the real solution steps that get to the answer
-  if(!DSET[q.id]&&(q.steps||[]).length){const st=q.steps.map(x=>dwTxt(x)).filter(Boolean);
+  if(!DSET[q.id]&&!DW_HOW&&(q.steps||[]).length){const st=q.steps.map(x=>dwTxt(x)).filter(Boolean);
     const fin0=q.ch&&q.ch.length?`Therefore the final answer is option ${'ABCD'[q.ans]}, ${q.ch[q.ans]}.`:`Therefore the final answer is ${q.show||(q.grid||[''])[0]}.`;
     return `<div class="dw-bp"><div class="dw-bp-h">✓ How to get the answer</div><p data-frac>${st.map(x=>esc(/[.!?]$/.test(x)?x:x+'.')).join(' ')}</p>${dwLive0(card,' ')}<p class="dw-bp-fin" data-frac>${fin0}</p></div>`}
   return `<div class="dw-bp"><div class="dw-bp-h">✓ The Desmos way</div><p data-frac>${how}</p>${dwLive0(card,' ')}<p class="dw-bp-fin" data-frac>${fin}</p></div>`}
