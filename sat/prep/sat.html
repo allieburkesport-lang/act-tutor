@@ -540,7 +540,7 @@ async function dayCheckPage(date,pg){D=null;date=date||today();
       sp.ex.forEach((e,k)=>{const {note,solve,...x}=e;c.setExpression(Object.assign({id:'e'+k},x))});await new Promise(r=>setTimeout(r,90));
       const an=c.expressionAnalysis||{};res[q.id]={bad:Object.entries(an).filter(([k,v])=>v.isError).map(([k,v])=>(v.errorMessage||'')+' | '+((sp.ex[+k.slice(1)]||{}).latex||'')),list:!!sp.list,n:sp.ex.length}}
     c.destroy();DAYCK.res=res;
-    const sum={when:new Date().toISOString(),date,total:qs.length,math:math.length,errors:Object.entries(res).filter(([k,v])=>v.bad.length).map(([k,v])=>({id:k,skill:(QBY[k]||{}).skill,bad:v.bad})),none:Object.entries(res).filter(([k,v])=>v.none).map(([k])=>k)};
+    const sum={when:new Date().toISOString(),date,total:qs.length,math:math.length,errors:Object.entries(res).filter(([k,v])=>v.bad.length).map(([k,v])=>({id:k,skill:(QBY[k]||{}).skill,bad:v.bad})),none:Object.entries(res).filter(([k,v])=>v.none).map(([k])=>{const q=QBY[k]||{};return {id:k,skill:q.skill,q:plain(q.q||'').slice(0,1500),fig:/cbfig|<img|<svg/.test(q.q||''),ch:(q.ch||[]).slice(0,4).map(plain),ans:q.ch?q.ans:null,grid:q.grid||null,show:q.show||null,steps:(q.steps||[]).map(plain).slice(0,8)}})};
     try{const sb=window.HELM_SB;await window.HELM_AUTH;const {error}=await sb.from('helm_progress').upsert({key:'day_check',value:sum,updated_at:new Date().toISOString()},{onConflict:'user_id,key'});DAYCK.saved=error?'NOT saved':'Saved ✓'}catch(e){DAYCK.saved='NOT saved'}}
   const res=DAYCK.res,P=10,np=Math.ceil(qs.length/P);pg=Math.max(0,Math.min(np-1,+pg||0));
   const errs=Object.values(res).filter(v=>v.bad.length).length,none=Object.values(res).filter(v=>v.none).length;
