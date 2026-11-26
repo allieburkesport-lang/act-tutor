@@ -104,6 +104,7 @@ aside.pan .ph .t{font-size:21px;font-weight:700}aside.pan .ph .s{font-size:14px;
 .dw-how{background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:12px;padding:12px 14px;font-size:16px;line-height:1.55}
 .dw-how-h{font-weight:700;color:#166534;margin-bottom:4px}
 .dw-more{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:#fff}.dw-more summary{cursor:pointer;font-weight:700;font-size:15px;color:var(--mute)}.dw-more[open] summary{margin-bottom:8px}
+.dw-steps{margin:4px 0 6px 0;padding-left:0;list-style:none;font-size:17px;line-height:1.6}.dw-steps li{margin:6px 0;padding:8px 12px;background:#fff;border:1px solid #dbe4f0;border-radius:10px}
 .dw-lab2{font-size:14px;font-weight:700;color:var(--mute);margin-top:4px}
 .dsx{border:1.5px solid #cfcfcf;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.08)}
 .dsx-list{border-bottom:1.5px solid #ddd;font-family:Helvetica,Arial,sans-serif}
@@ -1185,7 +1186,7 @@ let DW_LIVE='';function dwLive(spec){DW_LIVE=dwLive0(spec);return ''}
 function dwLive0(spec,lab){return `<div class="dw-lab2">${lab||'The real Desmos, already filled in · click, drag and zoom like on the test'}</div><div class="dsx-live" data-spec='${esc(JSON.stringify(spec)).replace(/'/g,'&#39;')}'></div>`}
 /* Answer markers (Allie, Nov 26): the answer must show in the list AND on the graph. After Desmos works out the values,
    put a labeled point for each f(k) value, each ~ answer, and the final number, then zoom so they're all in view. */
-function dsMark(c,spec){try{const an=c.expressionAnalysis||{},pts=[],R=v=>Math.round(v*1e4)/1e4,ex=spec.ex||[];let k=0;
+function dsMark(c,spec){if(spec.nm)return;try{const an=c.expressionAnalysis||{},pts=[],R=v=>Math.round(v*1e4)/1e4,ex=spec.ex||[];let k=0;
   const add=(x,y,lab)=>{if(!isFinite(x)||!isFinite(y))return;pts.push([x,y]);c.setExpression({id:'mk'+(k++),latex:`\\left(${R(x)},${R(y)}\\right)`,color:'#000000',showLabel:true,label:lab,pointSize:12,dragMode:'NONE'})};
   let lastNum=null;
   ex.forEach((e,i)=>{const r=an['e'+i];if(!e.latex||!r||!r.evaluation||r.evaluation.type!=='Number')return;const v=r.evaluation.value;
@@ -1208,6 +1209,7 @@ function dsMount(){document.querySelectorAll('.dsx-live:not([data-on])').forEach
   if(spec.pad){if(!DSPAD||DSPAD.qid!==spec.pad){try{DSPAD&&DSPAD.calc&&DSPAD.calc.destroy()}catch(e){}const box=document.createElement('div');box.style.cssText='width:100%;height:100%';DSPAD={qid:spec.pad,box,calc:null};const me=DSPAD;
       dsLoad().then(()=>{me.calc=Desmos.GraphingCalculator(box,{keypad:true,settingsMenu:true,zoomButtons:true,expressionsCollapsed:false,border:false})}).catch(()=>{box.innerHTML='<iframe class="desmos" src="https://www.desmos.com/calculator" title="Desmos" style="width:100%;height:100%;border:0"></iframe>'})}
     el.appendChild(DSPAD.box);if(DSPAD.calc)setTimeout(()=>DSPAD&&DSPAD.calc&&DSPAD.calc.resize(),30);return}
+  if(!spec.list&&(spec.ex||[]).length>6)el.style.height=Math.min(900,90*(spec.ex||[]).length)+'px';
   if(spec.list){const n=(spec.ex||[]).reduce((t,e)=>t+(e.type==='text'?52:(/\\sim/.test(e.latex||'')?158:82)),12);el.style.height=Math.min(n,760)+'px'}
   dsLoad().then(()=>{const c=Desmos.GraphingCalculator(el,spec.list?{graphpaper:false,keypad:false,settingsMenu:false,zoomButtons:false,expressionsTopbar:false,expressionsCollapsed:false,border:false,readonly:true}:{keypad:false,settingsMenu:false,zoomButtons:true,expressionsCollapsed:false,border:false,lockViewport:false});
     (spec.ex||[]).forEach((e,i)=>{const {note,solve,...x}=e;c.setExpression(Object.assign({id:'e'+i},x))});if(spec.b)c.setMathBounds(spec.b);
@@ -1239,7 +1241,7 @@ function desmosWay(q0,h){
   {const S=DSET[q0.id];if(S&&S.ex&&S.ex.length){const C=['#c74440','#2d70b3','#388c46','#6042a6'];const q=Object.assign({},q0,{steps:(q0.steps||[]).map(dwTxt),ch:q0.ch?q0.ch.map(dwTxt):q0.ch});const ans=q.ch?`${L[q.ans]}) ${q.ch[q.ans]}`:(q.show||q.grid[0]);
     const ex=S.ex.map((e,i)=>typeof e==='string'?{latex:dwLatex(e),color:C[i%4],note:e}:e);
     const rest=q.steps.map((st,i)=>`<div class="dw-p">${esc(st)}</div>`).join('');
-    return `<div class="dw"><div class="dw-how"><div class="dw-how-h">✓ How to do it</div>${esc(S.how||'')}</div>${dwLive0({ex,b:S.b||null,nt:S.nt||undefined})}<div class="dw-ans" data-frac>Answer: ${esc(ans)}</div>`+
+    return `<div class="dw"><div class="dw-how"><div class="dw-how-h">✓ How to do it</div>${esc(S.how||'')}</div>${dwLive0({ex,b:S.b||null,nt:S.nt||undefined,nm:S.nm||undefined})}<div class="dw-ans" data-frac>Answer: ${esc(ans)}</div>`+
       `<details class="dw-more"><summary>Show the steps by hand</summary><div class="dw">${rest}</div></details></div>`}}
   const q=Object.assign({},q0,{steps:(q0.steps||[]).map(dwTxt),tool:dwTxt(q0.tool),trap:dwTxt(q0.trap),ch:q0.ch?q0.ch.map(dwTxt):q0.ch});
   const t=dwTilde(q),c0=(QF[q.id]||[]).find(c=>c.ref!=='rule'),ans=q.ch?`${L[q.ans]}) ${q.ch[q.ans]}`:(q.show||q.grid[0]);
@@ -1338,12 +1340,14 @@ function dsCard(spec){const ex=(spec.ex||[]).map(e=>Object.assign({},e));const L
   const graphy=e=>{if(!e.latex)return false;const t=e.latex.replace(/\\[a-zA-Z]+/g,' ');if(/^[a-zA-Z]\([a-z]\)=/.test(t.replace(/\s/g,'')))return false;
     return /(^|[^a-zA-Z])[xy]([^a-zA-Z]|$)/.test(t)&&!/\\sim/.test(e.latex)||/^\s*\(.*,.*\)\s*$/.test(t)||/[<>≤≥]|\\le(?![a-z])|\\ge(?![a-z])|\\leq|\\geq/.test(e.latex)};
   // Allie, Nov 26: always list + graph, and the answer is marked on the graph (see dsMark)
-  return {ex:out,b:spec.b||null,list:false,mark:true}}
+  return {ex:out,b:spec.b||null,list:false,mark:true,nm:spec.nm}}
 function desmosSol(q,h){let html='';try{html=desmosWay(q,h)}catch(e){return ''}
   const m=html.match(/data-spec='([^']*)'/);let spec={ex:[]};if(m){const tx=document.createElement('textarea');tx.innerHTML=m[1];try{spec=JSON.parse(tx.value)}catch(e){}}
   const how=(html.match(/<div class="dw-how-h">✓ How to do it<\/div>([\s\S]*?)<\/div>/)||[])[1]||'';const ans=(html.match(/<div class="dw-ans" data-frac>([\s\S]*?)<\/div>/)||[])[1]||'';
   if(/dw-weak/.test(html)||!(spec.ex||[]).some(e=>e.latex))return `<div class="box b-blue"><div class="lab">The Desmos way</div><div class="c">Desmos can't do this one in a single step. Follow the steps above, and use your Desmos to check each one.</div></div>`;
   const card=dsCard(spec);card.how=how.replace(/<[^>]+>/g,'');const sv=card.ex.find(e=>e.solve);
+  if(/(^|\s)1\.\s/.test(how)&&/\s2\.\s/.test(how)){const parts=how.split(/(?:^|(?<=\.)\s)(\d)\.\s/).filter(x=>x&&!/^\d$/.test(x)).map(x=>x.trim());
+    how=`<ol class="dw-steps">${parts.map((x,i)=>`<li><b>Step ${i+1}.</b> ${x}</li>`).join('')}</ol>`}
   // No hand-made setup yet (Allie, Nov 26): the auto "how" can be generic, so show the real solution steps that get to the answer
   if(!DSET[q.id]&&(q.steps||[]).length){const st=q.steps.map(x=>dwTxt(x)).filter(Boolean);
     return `<div class="box b-blue"><div class="lab">How to get the answer</div><ol style="margin:4px 0 10px 20px;font-size:16px;line-height:1.6">${st.map(x=>`<li data-frac>${esc(x)}</li>`).join('')}</ol>${dwLive0(card,'Check it in Desmos')}<div class="dw-ans" data-frac style="margin-top:8px">${ans}</div></div>`}
