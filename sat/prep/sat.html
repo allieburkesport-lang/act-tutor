@@ -1343,7 +1343,7 @@ function dsCard(spec){const ex=(spec.ex||[]).map(e=>Object.assign({},e));const L
   return {ex:out,b:spec.b||null,list:false,mark:true,nm:spec.nm}}
 function desmosSol(q,h){let html='';try{html=desmosWay(q,h)}catch(e){return ''}
   const m=html.match(/data-spec='([^']*)'/);let spec={ex:[]};if(m){const tx=document.createElement('textarea');tx.innerHTML=m[1];try{spec=JSON.parse(tx.value)}catch(e){}}
-  const how=(html.match(/<div class="dw-how-h">✓ How to do it<\/div>([\s\S]*?)<\/div>/)||[])[1]||'';const ans=(html.match(/<div class="dw-ans" data-frac>([\s\S]*?)<\/div>/)||[])[1]||'';
+  let how=(html.match(/<div class="dw-how-h">✓ How to do it<\/div>([\s\S]*?)<\/div>/)||[])[1]||'';const ans=(html.match(/<div class="dw-ans" data-frac>([\s\S]*?)<\/div>/)||[])[1]||'';
   if(/dw-weak/.test(html)||!(spec.ex||[]).some(e=>e.latex))return `<div class="box b-blue"><div class="lab">The Desmos way</div><div class="c">Desmos can't do this one in a single step. Follow the steps above, and use your Desmos to check each one.</div></div>`;
   const card=dsCard(spec);card.how=how.replace(/<[^>]+>/g,'');const sv=card.ex.find(e=>e.solve);
   if(/(^|\s)1\.\s/.test(how)&&/\s2\.\s/.test(how)){const parts=how.split(/(?:^|(?<=\.)\s)(\d)\.\s/).filter(x=>x&&!/^\d$/.test(x)).map(x=>x.trim());
