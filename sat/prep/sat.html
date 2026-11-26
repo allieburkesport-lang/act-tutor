@@ -523,7 +523,10 @@ function level(a,n){if(!n)return ['Not tried','#374151','#eef0f3'];if(a<50)retur
    through the real Desmos and saves only the results (question id, the Desmos line that failed) to his private HELM account. */
 /* Day check (Allie, Nov 26): every question in a plan day with its Desmos way, read-only. Records nothing for Patrick.
    Checks each Desmos card automatically and saves only the results (question id, problem) to his account for Claude. */
-async function dayCheckPage(date,pg){D=null;date=date||today();const d=PLAN&&PLAN.days.find(x=>x.date===date);
+async function dayCheckPage(date,pg){D=null;date=date||today();
+  if(!window.DAYCK){app().innerHTML=topbar('')+`<div class="page"><h1 class="hd" style="font-size:26px;margin:0">Getting today's questions ready…</h1><div style="font-size:18px;margin:12px 0">Waiting for HELM to finish loading the official questions (up to 30 seconds).</div></div>`;
+    for(let k=0;k<60&&!(PLAN&&BANK&&BANK.qs.some(q=>/^cbm-/.test(q.id)));k++)await new Promise(r=>setTimeout(r,500))}
+  const d=PLAN&&PLAN.days.find(x=>x.date===date);
   if(!d){app().innerHTML=topbar('')+`<div class="page"><h1 class="hd">No plan for ${esc(date)}</h1></div>`;return}
   const planned=buildDay(d,true),done=[...new Set(dayLog(date).map(x=>x.id))],fresh=buildDay(d);
   const qs=done.map(id=>QBY[id]).filter(Boolean).concat(fresh.qs).slice(0,Math.max(planned.qs.length,done.length));
