@@ -1353,8 +1353,8 @@ function desmosSol(q,h){let html='';try{html=desmosWay(q,h)}catch(e){return ''}
   // No hand-made setup yet (Allie, Nov 26): the auto "how" can be generic, so show the real solution steps that get to the answer
   if(!DSET[q.id]&&(q.steps||[]).length){const st=q.steps.map(x=>dwTxt(x)).filter(Boolean);
     const fin0=q.ch&&q.ch.length?`Therefore the final answer is option ${'ABCD'[q.ans]}, ${q.ch[q.ans]}.`:`Therefore the final answer is ${q.show||(q.grid||[''])[0]}.`;
-    return `<div class="dw-bp"><div class="dw-bp-h">✓ How to get the answer</div><p data-frac>${st.map(x=>esc(/[.!?]$/.test(x)?x:x+'.')).join(' ')}</p>${dwLive0(card,' ')}<p class="dw-bp-fin" data-frac>${esc(fin0)}</p></div>`}
-  return `<div class="dw-bp"><div class="dw-bp-h">✓ The Desmos way</div><p data-frac>${how}</p>${dwLive0(card,' ')}<p class="dw-bp-fin" data-frac>${esc(fin)}</p></div>`}
+    return `<div class="dw-bp"><div class="dw-bp-h">✓ How to get the answer</div><p data-frac>${st.map(x=>esc(/[.!?]$/.test(x)?x:x+'.')).join(' ')}</p>${dwLive0(card,' ')}<p class="dw-bp-fin" data-frac>${fin0}</p></div>`}
+  return `<div class="dw-bp"><div class="dw-bp-h">✓ The Desmos way</div><p data-frac>${how}</p>${dwLive0(card,' ')}<p class="dw-bp-fin" data-frac>${fin}</p></div>`}
 function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
   const head=(t,sub)=>`<div class="ph"><div><div class="t hd">${t}</div><div class="s">${sub}</div></div><button class="x" aria-label="Close panel" data-pan="${k}">✕</button></div>`;
   if(k==='show'){const res=carried(q,q.steps);const n=Math.max(1,st.shown);
