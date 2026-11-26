@@ -526,10 +526,11 @@ function level(a,n){if(!n)return ['Not tried','#374151','#eef0f3'];if(a<50)retur
    through the real Desmos and saves only the results (question id, the Desmos line that failed) to his private HELM account. */
 /* Day check (Allie, Nov 26): every question in a plan day with its Desmos way, read-only. Records nothing for Patrick.
    Checks each Desmos card automatically and saves only the results (question id, problem) to his account for Claude. */
-async function dayCheckCompute(date,box){const d=PLAN&&PLAN.days.find(x=>x.date===date);if(!d)return null;
+async function dayCheckCompute(date,box,pool){let qs,allq;
+  if(pool){qs=allq=pool}else{const d=PLAN&&PLAN.days.find(x=>x.date===date);if(!d)return null;
   const planned=buildDay(d,true),done=[...new Set(dayLog(date).map(x=>x.id))],fresh=buildDay(d);
-  const qs=done.map(id=>QBY[id]).filter(Boolean).concat(fresh.qs).slice(0,Math.max(planned.qs.length,done.length));
-  const allq=[...new Map(qs.concat(planned.qs).map(q=>[q.id,q])).values()];
+  qs=done.map(id=>QBY[id]).filter(Boolean).concat(fresh.qs).slice(0,Math.max(planned.qs.length,done.length));
+  allq=[...new Map(qs.concat(planned.qs).map(q=>[q.id,q])).values()]}
   const math=allq.filter(q=>SK2[q.skill]&&SK2[q.skill].sec==='Math');
   await dsLoad();const c=Desmos.GraphingCalculator(box,{keypad:false});const res={};
   for(const q of math){let h='';try{h=desmosSol(q,QH[q.id]||{d:[],c:[]})}catch(e){res[q.id]={bad:['render: '+e.message]};continue}
@@ -546,7 +547,7 @@ async function dayCheckCompute(date,box){const d=PLAN&&PLAN.days.find(x=>x.date=
     none:Object.entries(res).filter(([k,v])=>v.none).map(([k])=>det(QBY[k]||{id:k})),
     hand:math.filter(q=>DSET[q.id]).map(q=>Object.assign(det(q),{setup:DSET[q.id]}))};
   let saved='NOT saved';try{const sb=window.HELM_SB;await window.HELM_AUTH;const now=new Date().toISOString();
-    const r1=await sb.from('helm_progress').upsert([{key:'day_check',value:sum,updated_at:now},{key:'day_check:'+date,value:sum,updated_at:now}],{onConflict:'user_id,key'});saved=r1.error?'NOT saved':'Saved ✓'}catch(e){}
+    const rows=pool?[{key:'day_check:'+date,value:sum,updated_at:now}]:[{key:'day_check',value:sum,updated_at:now},{key:'day_check:'+date,value:sum,updated_at:now}];const r1=await sb.from('helm_progress').upsert(rows,{onConflict:'user_id,key'});saved=r1.error?'NOT saved':'Saved ✓'}catch(e){}
   return {res,sum,qs,saved}}
 async function dayCheckAuto(){try{if(window.DCKAUTO)return;window.DCKAUTO=1;
   for(let k=0;k<80&&!(PLAN&&BANK&&BANK.qs.some(q=>/^cbm-/.test(q.id))&&window.HELM_SB);k++)await new Promise(r=>setTimeout(r,500));
@@ -555,7 +556,14 @@ async function dayCheckAuto(){try{if(window.DCKAUTO)return;window.DCKAUTO=1;
   for(const dt of dts){let fresh=false;try{const {data}=await sb.from('helm_progress').select('updated_at').eq('key','day_check:'+dt).limit(1);
       fresh=data&&data[0]&&(Date.now()-new Date(data[0].updated_at))<6*3600e3&&new Date(data[0].updated_at)>new Date((PLAN.updated||'2000-01-01')+'T00:00:00')}catch(e){}
     if(fresh)continue;const box=document.createElement('div');box.style.cssText='width:900px;height:500px;position:fixed;left:-9999px;top:0';document.body.appendChild(box);
-    await new Promise(r=>setTimeout(r,4000));await dayCheckCompute(dt,box);box.remove()}}catch(e){console.warn('daycheck auto',e)}}
+    await new Promise(r=>setTimeout(r,4000));await dayCheckCompute(dt,box);box.remove()}
+  /* Allie, Nov 26: the planner adds missed questions to redo at 12:07 AM. Check every missed math question too,
+     so the after-midnight Desmos check can cover any redo question that was not in the day's set. */
+  const since=new Date('2026-11-22T00:00:00').getTime(),ids=new Set();
+  LOG.forEach(x=>{if((x.attempt||1)===1&&!x.ok&&x.ts>=since)ids.add(x.id)});(typeof BPR!=='undefined'?BPR:[]).forEach(q=>ids.add(q.id));
+  const pool=[...ids].map(id=>QBY[id]).filter(q=>q&&SK2[q.skill]&&SK2[q.skill].sec==='Math');
+  if(pool.length){const box=document.createElement('div');box.style.cssText='width:900px;height:500px;position:fixed;left:-9999px;top:0';document.body.appendChild(box);
+    await dayCheckCompute('missed',box,pool);box.remove()}}catch(e){console.warn('daycheck auto',e)}}
 async function dayCheckPage(date,pg){D=null;date=date||today();
   if(!window.DAYCK){app().innerHTML=topbar('')+`<div class="page"><h1 class="hd" style="font-size:26px;margin:0">Getting today's questions ready…</h1><div style="font-size:18px;margin:12px 0">Waiting for HELM to finish loading the official questions (up to 30 seconds).</div></div>`;
     for(let k=0;k<60&&!(PLAN&&BANK&&BANK.qs.some(q=>/^cbm-/.test(q.id)));k++)await new Promise(r=>setTimeout(r,500))}
