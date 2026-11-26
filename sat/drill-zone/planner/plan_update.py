@@ -34,15 +34,15 @@ BASE = [
  # ---- FOCUS PLAN TO 1300 (Allie, Nov 23): from Nov 24 only the 8 biggest, most learnable point-winners. Nothing else is taught or reviewed.
  ('2026-11-24','learn',['nlf','bound','syn'],"Focus plan to 1300 · round 1"),
  ('2026-11-25','learn',['linf','fss','trans'],"Focus plan to 1300 · round 1"),
- ('2026-11-26','off',[],"Thanksgiving: off"),
- ('2026-11-27','light',[],"Light day: redo my misses in the 8 focus skills (about 30 min)"),
+ ('2026-11-26','learn',[],"Full day (Allie, Nov 26): 2-2.5 hours"),
+ ('2026-11-27','learn',[],"Full day (Allie, Nov 26): 2-2.5 hours"),
  ('2026-11-28','test',[],"Practice Test 4 in Bluebook (full test, timed). Send the score report afterward."),
  ('2026-11-29','learn',['nleq','lin2','bound','syn'],"Focus plan to 1300 · round 2"),
  ('2026-11-30','learn',['nlf','linf','fss','trans'],"Focus plan to 1300 · round 2"),
  ('2026-12-01','weak',[],"Focus skills he is weakest in right now · Also: download the exam in Bluebook and charge the laptop"),
  ('2026-12-02','weak',[],"Focus skills he is weakest in right now"),
  ('2026-12-03','weak',[],"Focus skills + mixed set at SAT pace"),
- ('2026-12-04','light',[],"Light: redo my misses, pack the bag, early bed"),
+ ('2026-12-04','learn',[],"Full day (Allie, Nov 26): 2-2.5 hours · pack the bag, early bed"),
  ('2026-12-05','sat',[],"SAT · check in by 7:45 AM"),
 ]
 FOCUS = ['nlf', 'linf', 'nleq', 'lin2', 'bound', 'fss', 'trans', 'syn', 'wic']   # + Words in context (Allie, Nov 23)   # 4 Math + 4 Reading & Writing (Allie, Nov 23)
@@ -59,7 +59,8 @@ SECQ = {'Math': 44, 'English': 54}
 def gap_mix(accp, dd, light=False):
     """accp(skill) -> fraction right (0-1) or None. Returns [[skill, n, 'core'|'rotation'], ...] in serving order."""
     out = []; idx = (dd - GAP_FROM).days
-    for sec, total, rot_n in (('Math', 30, 3), ('English', 20, 1)):
+    # Allie, Nov 26: at least 2-2.5 hours a day until the test -> 45 Math + 30 R&W (his pace: ~75 s Math, ~50 s R&W, plus follow-ups and reading the help)
+    for sec, total, rot_n in (('Math', 45, 3), ('English', 30, 1)):
         if light: total, rot_n = total // 2, (1 if sec == 'Math' else 0)
         sk = [s for s in SHARE if (s in MATH) == (sec == 'Math')]
         miss = {}
@@ -226,6 +227,17 @@ def main():
         else: day['review'] = []; day['math_share'] = None; day['focus'] = []
         for s in day['learn']:
             if s not in seen: seen.append(s)
+    # --- REDO (Allie, Nov 26): every question whose latest first try was wrong comes back, oldest first, up to 15 a day,
+    # inside the day's total (it replaces a fresh question in the same skill). Re-planned every night, so once he gets it right it drops off.
+    last = {}
+    for r in rows:
+        if r.get('kind') not in ('bank', 'official') or (r.get('attempt') or 1) != 1: continue
+        qid = (r.get('question') or '').split(' ')[0]; sk = r.get('concept_id')
+        if not qid or sk not in SHARE: continue
+        d = datetime.datetime.fromisoformat(r['created_at'].replace('Z', '+00:00')).astimezone(TZ).date().isoformat()
+        if d < '2026-11-22': continue
+        last[qid] = (d, sk, bool(r.get('correct')))
+    REDO = [(q, v[1]) for q, v in sorted(last.items(), key=lambda kv: kv[1][0]) if not v[2]]
     # --- what to click
     prev_mix = None   # (date, mix) of the latest past study day; its unanswered questions roll into today
     for day in days:
@@ -251,7 +263,7 @@ def main():
                     left = {s2: n2 for s2, n2 in left.items() if n2 > 0}
                     if left:
                         base_total = sum(n2 for _, n2, _ in day['mix'])
-                        total = max(base_total, min(sum(left.values()), 50))
+                        total = max(base_total, min(sum(left.values()), 75))
                         room = total - sum(left.values())
                         fresh = {}
                         for s2, n2, _ in day['mix']:   # fresh questions fill what is left, biggest point-losers first
@@ -277,6 +289,17 @@ def main():
             day['note'] = 'Focus set: biggest point-losers first, each category in a row'
             if day.get('carried_q'):
                 day['note'] += f" · includes {sum(day['carried_q'].values())} unfinished from {datetime.date.fromisoformat(day['carried_from']).strftime('%a')}"
+            if dd >= today and REDO:
+                chunk, REDO[:] = REDO[:15], REDO[15:]
+                day['redo'] = [q for q, _ in chunk]
+                for _, sk2 in chunk:   # keep the day the same length: one fewer fresh question in that skill
+                    m_ = next((m for m in day['mix'] if m[0] == sk2 and m[1] > 0), None)
+                    if m_: m_[1] -= 1
+                day['mix'] = [m for m in day['mix'] if m[1] > 0]
+                day['mix_names'] = [[names[s2], n2, 'Math' if s2 in MATH else 'English', t2] for s2, n2, t2 in day['mix']]
+                day['n_questions'] = sum(n2 for _, n2, _ in day['mix']) + len(day['redo'])
+                day['note'] += f" · {len(day['redo'])} to redo (missed before)"
+                if dd == today: changes.append(f"{len(day['redo'])} missed questions to redo today")
             if dd < today: prev_mix = (d0, day['mix'])
         res = byday.get(d0, {})
         q = sum(v[0] for v in res.values()); ok = sum(v[1] for v in res.values())

@@ -618,6 +618,8 @@ function tfFor(qid){const it=(TF.items||[]).find(i=>i.question_id===qid||(i.same
 function buildDay(d,all){tfAdd();const ord=all?(qs=>qs):order;const used=new Set(),qs=[],secs=[];const add=(list,label)=>list.forEach(q=>{if(q&&!used.has(q.id)){used.add(q.id);qs.push(q);secs.push(label)}});
   // Focus set (Allie, Nov 23): plan.json 'mix' = [[skill, n, core|rotation], ...] in serving order. Each category is ONE block, all in a row,
   // official College Board questions first inside the block. Biggest point-losers first: Math block, then Reading & Writing.
+  // Redo (Allie, Nov 26): questions he missed before come back first, then the fresh focus set
+  if(d.redo&&d.redo.length)add(d.redo.map(id=>QBY[id]).filter(Boolean),'Redo · you missed this one before');
   if(d.mix&&d.mix.length){const isOff=q=>/^(cb|pt|bpr)/.test(q.id);
     d.mix.forEach(([s,n,t])=>{if(!SK2[s])return;const pick=ord(BANK.qs.filter(q=>q.skill===s&&!used.has(q.id))).slice(0,n);
       const offF=all?pick:pick.filter(isOff).concat(pick.filter(q=>!isOff(q)));
