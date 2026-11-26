@@ -238,6 +238,7 @@ def main():
         if d < '2026-11-22': continue
         last[qid] = (d, sk, bool(r.get('correct')))
     REDO = [(q, v[1]) for q, v in sorted(last.items(), key=lambda kv: kv[1][0]) if not v[2]]
+    REDO_TOTAL = len(REDO)
     # --- what to click
     prev_mix = None   # (date, mix) of the latest past study day; its unanswered questions roll into today
     for day in days:
@@ -293,13 +294,13 @@ def main():
                 chunk, REDO[:] = REDO[:15], REDO[15:]
                 day['redo'] = [q for q, _ in chunk]
                 for _, sk2 in chunk:   # keep the day the same length: one fewer fresh question in that skill
-                    m_ = next((m for m in day['mix'] if m[0] == sk2 and m[1] > 0), None)
-                    if m_: m_[1] -= 1
+                    m_ = next((m for m in day['mix'] if m[0] == sk2 and m[1] > 0), None) or max(day['mix'], key=lambda m: m[1], default=None)
+                    if m_ and m_[1] > 0: m_[1] -= 1
                 day['mix'] = [m for m in day['mix'] if m[1] > 0]
                 day['mix_names'] = [[names[s2], n2, 'Math' if s2 in MATH else 'English', t2] for s2, n2, t2 in day['mix']]
                 day['n_questions'] = sum(n2 for _, n2, _ in day['mix']) + len(day['redo'])
                 day['note'] += f" · {len(day['redo'])} to redo (missed before)"
-                if dd == today: changes.append(f"{len(day['redo'])} missed questions to redo today")
+                if dd == today: changes.append(f"{len(day['redo'])} missed questions to redo today ({REDO_TOTAL} missed in all)")
             if dd < today: prev_mix = (d0, day['mix'])
         res = byday.get(d0, {})
         q = sum(v[0] for v in res.values()); ok = sum(v[1] for v in res.values())
