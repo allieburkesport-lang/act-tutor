@@ -86,6 +86,11 @@
     document.querySelectorAll('iframe').forEach(f => { try { const cw = f.contentWindow; if (!cw || !cw.location) return; w.frame = cw.location.href;
       try { const q = typeof cw.cur === 'function' && cw.cur(); if (q && q.id) w.qid = q.id } catch (e) {} } catch (e) {} });
     try { const q = typeof window.cur === 'function' && window.cur(); if (q && q.id) w.qid = q.id } catch (e) {}
+    // the words and Desmos lines on screen, so the fix can be made from the report alone (the picture is for people)
+    const docs = [document]; document.querySelectorAll('iframe').forEach(f => { try { if (f.contentDocument) docs.push(f.contentDocument) } catch (e) {} });
+    const main = docs[docs.length - 1], body = main.querySelector('main') || main.body;
+    try { w.text = (body.innerText || '').replace(/\n{3,}/g, '\n\n').slice(0, 15000) } catch (e) {}
+    try { w.desmos = [...main.querySelectorAll('.dsx-live[data-spec]')].map(el => el.dataset.spec).filter(x => x && !/"pad"/.test(x)).slice(0, 4).map(x => x.slice(0, 6000)) } catch (e) {}
     return w;
   }
   function shrink(file) {
