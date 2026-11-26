@@ -111,7 +111,8 @@
     w.innerHTML = `<div class="rp-card" role="dialog" aria-label="Report a problem"><h3>Report a problem</h3>
       <div style="font-size:15px;color:#475569">Something wrong or confusing? Take a screenshot (Windows: <b>Win + Shift + S</b>), then paste it here with <b>Ctrl + V</b>, or tap the box to pick a photo.</div>
       <div class="rp-drop" tabindex="0">Paste or tap to add a screenshot</div><input type="file" accept="image/*" hidden>
-      <textarea placeholder="What's wrong or what doesn't make sense? (optional)"></textarea>
+      <label for="rp-note" style="font-weight:700;font-size:15px;margin-bottom:-6px">Explain the issue</label>
+      <textarea id="rp-note" placeholder="Explain the issue (if needed)"></textarea>
       <div class="rp-msg" role="status"></div><div class="rp-row"><button class="rp-b g" data-x>Close</button><button class="rp-b" data-send>Send</button></div><div class="rp-list"></div></div>`;
     document.body.appendChild(w);
     const drop = w.querySelector('.rp-drop'), inp = w.querySelector('input'), msg = w.querySelector('.rp-msg');
