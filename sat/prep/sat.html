@@ -1056,6 +1056,16 @@ function qCards(q){const cs=QF[q.id]||[];if(!cs.length)return '';
   return cs.map(c=>{const rule=c.ref==='rule';const lab=rule?'Rule we use':('Formula we use · '+(c.ref==='ref'?'on the Reference sheet':'learn it (not on the sheet)'));
    return `<div class="box ${rule?'b-blue':'b-pur'}"><div class="lab">${esc(lab)}</div><div class="c"><div style="font-weight:700;color:var(--mute);font-size:14px">${esc(c.n)}</div><div style="font-size:${rule?17:21}px;font-weight:700;${rule?'':'color:#6d28d9;'}margin:2px 0 6px">${esc(c.eq)}</div>
    ${c.l.length?`<table style="border-collapse:collapse;width:100%;font-size:15px;background:#fff"><tr><th style="text-align:left;padding:4px 8px;border:1px solid #e9d5ff;font-size:12px">Letter</th><th style="text-align:left;padding:4px 8px;border:1px solid #e9d5ff;font-size:12px">What it means</th><th style="text-align:left;padding:4px 8px;border:1px solid #e9d5ff;font-size:12px">In this question</th></tr>${c.l.map(r=>`<tr><td style="padding:4px 8px;border:1px solid #e9d5ff;font-weight:700;color:#6d28d9">${esc(r[0])}</td><td style="padding:4px 8px;border:1px solid #e9d5ff">${esc(r[1])}</td><td style="padding:4px 8px;border:1px solid #e9d5ff;font-weight:700">${esc(r[2]||'')}</td></tr>`).join('')}</table>`:''}${rule?'':plugIn(c)}</div></div>`}).join('')}
+/* Show me how, the short way (Allie, Nov 27): when a question gives the vertex (max or min) and one other point,
+   and asks about the x the same distance on the other side, use symmetry instead of vertex form. Patrick: "there's a much simpler way". */
+function mirrorSteps(q){try{const all=(q.steps||[]).map(supTxt).join(' ').replace(/−/g,'-');
+  const V=all.match(/vertex is \(\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*\)/i),P=all.match(/point \(\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*\)/i);
+  const T=[...all.matchAll(/use [a-z] = (-?\d+(?:\.\d+)?)/gi)].pop();if(!V||!P||!T)return null;
+  const h=+V[1],k=+V[2],x1=+P[1],y1=+P[2],x2=+T[1];if(x1===h||Math.abs((2*h-x1)-x2)>1e-9)return null;
+  const f=v=>(v<0?'−':'')+nfmt(Math.abs(v)),d=f(Math.abs(x1-h)),word=/minimum/i.test(plain(q.q)+' '+all)?'minimum (the bottom)':'maximum (the top)';
+  return [`Find the turning point: The ${word} is the vertex, (${f(h)}, ${f(k)}).`,
+    `Use the mirror: ${f(x2)} and ${f(x1)} are both ${d} away from ${f(h)}. A parabola is the same on both sides of its vertex, so ${f(x2)} gives the same value as ${f(x1)}: ${f(y1)}`,
+    `Therefore the final answer is ${f(y1)}.`]}catch(e){return null}}
 function stepHTML(s,i,res,wf){const k=s.indexOf(': ');const head=k>0&&k<60?s.slice(0,k):'',body=k>0&&k<60?s.slice(k+2):s;
   return `<div class="step"><span class="n">${i+1}</span><div class="c">${head?`<b>${markCarry(head,i,res)}</b><br>`:''}${markCarry(body,i,res)}</div>${wf||''}</div>`}
 function lessonData(skill){const id=lessonFor(skill)[0];return id&&LES[id]}
@@ -1417,10 +1427,10 @@ function desmosSol(q,h){let html='';try{html=desmosWay(q,h)}catch(e){return ''}
   return `<div class="dw-bp"><div class="dw-bp-h">✓ The Desmos way</div><p data-frac>${how}</p>${dwLive0(card,' ')}<p class="dw-bp-fin" data-frac>${fin}</p></div>`}
 function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
   const head=(t,sub)=>`<div class="ph"><div><div class="t hd">${t}</div><div class="s">${sub}</div></div><button class="x" aria-label="Close panel" data-pan="${k}">✕</button></div>`;
-  if(k==='show'){const res=carried(q,q.steps);const n=Math.max(1,st.shown);
-    const seen=new Set();const wfs=q.steps.map((x,i)=>s.sec==='Math'?whereFrom(q,x,i,seen):'');
-    return head('Show me how','This question, one step at a time')+(typeof figFor==='function'?figFor(q):'')+(()=>{const t=tfFor(q.id);return t?`<div class="box b-yel"><div class="lab">Another way to see it · because you asked the tutor about this</div><div class="c">${t.another_way.map(x=>`<div style="margin-bottom:6px">${x}</div>`).join('')}</div></div>`:''})()+(s.sec==='Math'?qCards(q):'')+q.steps.slice(0,n).map((x,i)=>stepHTML(x,i,res,wfs[i])).join('')+
-     (n<q.steps.length?`<button class="btn" data-next="1" style="align-self:flex-start">Show the next step (${n+1} of ${q.steps.length})</button>`:`<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(q.trap)}</div></div>`)+
+  if(k==='show'){const steps=mirrorSteps(q)||q.steps;const res=carried(q,steps);const n=Math.max(1,st.shown);
+    const seen=new Set();const wfs=steps.map((x,i)=>s.sec==='Math'?whereFrom(q,x,i,seen):'');
+    return head('Show me how','This question, one step at a time')+(typeof figFor==='function'?figFor(q):'')+(()=>{const t=tfFor(q.id);return t?`<div class="box b-yel"><div class="lab">Another way to see it · because you asked the tutor about this</div><div class="c">${t.another_way.map(x=>`<div style="margin-bottom:6px">${x}</div>`).join('')}</div></div>`:''})()+(s.sec==='Math'?qCards(q):'')+steps.slice(0,n).map((x,i)=>stepHTML(x,i,res,wfs[i])).join('')+
+     (n<steps.length?`<button class="btn" data-next="1" style="align-self:flex-start">Show the next step (${n+1} of ${steps.length})</button>`:`<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(q.trap)}</div></div>`)+
      (s.sec==='Math'?desmosSol(q,QH[q.id]||{d:[],c:[]}):`<div class="box b-blue"><div class="lab">Strategy</div><div class="c">${esc(q.tool)}</div></div>`);}
 
   if(k==='desm'){const h=QH[q.id]||{d:[],c:[]};const tab=UI.dtab||(UI.lpad===false?'pad':'d');
