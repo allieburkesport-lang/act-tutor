@@ -712,18 +712,20 @@ function dayMix(d){if(d&&d.date>=MIRROR_FROM)return satMirror();const w={},sum={
   (d.learn||[]).forEach(s=>{const sh=(SK2[s]||{}).share||0;w[s]=Math.max(w[s]||0,sh>=7?10:sh>=4?6:4)});
   (d.review||[]).forEach(([s,n])=>{if(SK2[s])w[s]=Math.max(w[s]||0,Math.min(n,(SK2[s].share||0)>=4?n:2))});
   return w}
-function dayStore(done){if(!D||!D.date)return;store.set(runKey(D.date),{ids:D.qs.map(q=>q.id),secs:D.secs,i:D.i,st:D.st.map(t=>({tried:t.tried,ok:t.ok,coached:t.coached,hb:t.hb,ha:t.ha,chk:t.chk,chkMsg:t.chkMsg})),done:!!done})}
+// Refresh never starts him over (Allie, Nov 27): drills save their place too, not just plan days
+const drillKey=a=>'helm_drill_'+a;
+function dayStore(done){if(!D)return;if(!D.date){if(D.arg&&!D.view&&!D.more)store.set(drillKey(D.arg),{day:today(),ids:D.qs.map(q=>q.id),secs:D.secs,i:D.i,st:D.st.map(t=>({tried:t.tried,ok:t.ok,coached:t.coached,hb:t.hb,ha:t.ha,chk:t.chk,chkMsg:t.chkMsg})),done:!!done});return}store.set(runKey(D.date),{ids:D.qs.map(q=>q.id),secs:D.secs,i:D.i,st:D.st.map(t=>({tried:t.tried,ok:t.ok,coached:t.coached,hb:t.hb,ha:t.ha,chk:t.chk,chkMsg:t.chkMsg})),done:!!done})}
 function startDay(date){const d=PLAN&&PLAN.days.find(x=>x.date===date);if(!d)return home();
   if(dayHold(date)){app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">Almost ready</h1><p>${esc(dayHold(date))}</p><button class="btn" data-go="#/">Home</button></div>`;return}
   const run=store.get(runKey(date),null);let qs,secs,st,i=0;
-  if(run&&!run.done&&run.ids.every(id=>QBY[id])){qs=run.ids.map(id=>QBY[id]);secs=run.secs;st=run.st.map(t=>({...t,shown:0,t0:0}));
+  let at=null;if(run&&!run.done&&run.ids.some(id=>QBY[id])){const keep=run.ids.map((id,k)=>QBY[id]?k:-1).filter(k=>k>=0);at=run.ids[run.i];qs=keep.map(k=>QBY[run.ids[k]]);secs=keep.map(k=>(run.secs||[])[k]);st=keep.map(k=>({...run.st[k],shown:0,t0:0}));run.ids=keep.map(k=>run.ids[k]);
     // anything answered on another device since this run was saved counts too
     dayLog(date).forEach(x=>{const k=run.ids.indexOf(x.id);if(k>=0){if(!st[k].tried.length)st[k].tried.push(x.picked||'?');if(x.ok)st[k].ok=true}})}
   else{const planned=buildDay(d,true),done=[...new Set(dayLog(date).map(x=>x.id))];   // rebuild from saved answers so he never starts over
     const fresh=buildDay(d);qs=done.map(id=>QBY[id]).concat(fresh.qs).slice(0,Math.max(planned.qs.length,done.length));
     secs=done.map(id=>`Done earlier: ${SK2[QBY[id].skill].name}`).concat(fresh.secs).slice(0,qs.length);
     st=qs.map(q=>{const l=dayLog(date).filter(x=>x.id===q.id);return {tried:l.map(x=>x.picked||'?'),ok:l.some(x=>x.ok),shown:0,t0:0,coached:false}})}
-  i=st.findIndex(t=>!t.ok);if(i<0)i=qs.length-1;
+  i=at&&qs.findIndex(q=>q.id===at)>=0?qs.findIndex(q=>q.id===at):st.findIndex(t=>!t.ok);if(i<0)i=qs.length-1;
   if(!qs.length){app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">${esc(KIND[d.kind]||'')}</h1><p>${esc(d.note||'Nothing to drill today.')}</p><button class="btn" data-go="#/">Home</button></div>`;return}
   const lab=new Date(date+'T12:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
   UI.dtab=null;UI.panel=null;D={qs,secs,title:lab+' plan',skill:null,date,arg:'day:'+date,i,st,t0:Date.now(),done:false};dayStore();showQ();}
@@ -885,7 +887,9 @@ function order(qs){qs=fresh(qs);if(!qs.length)return qs;const sk=qs[0].skill,a=s
 function moreQs(sk,have){const ids=new Set(have.map(q=>q.id));let nx=order(BANK.qs.filter(q=>q.skill===sk&&!ids.has(q.id))).slice(0,SET);
   if(!nx.length)nx=BANK.qs.filter(q=>q.skill===sk&&!ids.has(q.id)&&LOG.some(x=>x.id===q.id&&x.first&&!x.ok)).slice(0,SET);return nx}
 function startDrill(arg){if(!arg)return home();if(arg.startsWith('more:')&&!SK2[arg.slice(5)])return home();if(arg!=='bpr'&&!arg.startsWith('more:')&&!arg.startsWith('review:')&&!arg.startsWith('ids:')&&!SK2[arg])return home();const p=pickQs(arg);if(!p.qs.length){app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">All caught up</h1><p>He has already done every question here. Fresh ones are added each night, so check back tomorrow, or redo his misses from the Stats page.</p><button class="btn" data-go="#/">Home</button></div>`;return}
-  UI.dtab=null;D={...p,arg,i:0,st:p.qs.map(()=>({tried:[],ok:false,shown:0,t0:0,coached:false})),t0:Date.now(),done:false};UI.panel=null;showQ();}
+  UI.dtab=null;D={...p,arg,i:0,st:p.qs.map(()=>({tried:[],ok:false,shown:0,t0:0,coached:false})),t0:Date.now(),done:false};UI.panel=null;
+  const sv=arg.startsWith('more:')?null:store.get(drillKey(arg),null);if(sv&&!sv.done&&sv.day===today()&&sv.ids.length&&sv.ids.every(id=>QBY[id])){D.qs=sv.ids.map(id=>QBY[id]);D.st=sv.st.map(t=>({...t,shown:0,t0:0}));if(sv.secs)D.secs=sv.secs;D.i=Math.max(0,Math.min(sv.i||0,D.qs.length-1))}
+  dayStore();showQ();}
 function cur(){return D.qs[D.i]} function sec(q){return SK2[q.skill].sec}
 
 // "Remember" notes (Allie, Nov 23): red reminders under the question for the traps Patrick keeps falling for.
@@ -1480,7 +1484,7 @@ function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
   return '';}
 
 /* ---------- end of set ---------- */
-function drawEnd(){if(D.date){const dt=D.date;dayStore(true);D=null;location.hash='#/report/'+dt;return}if(D.more){const t=D.st.filter(x=>x.tried.length);D.qs=D.qs.filter((q,k)=>D.st[k].tried.length);D.st=t}const n=D.qs.length,first=D.st.filter(t=>t.ok&&t.tried.length===1&&!t.coached).length,miss=D.qs.filter((q,k)=>!(D.st[k].ok&&D.st[k].tried.length===1));
+function drawEnd(){if(!D.date&&D.arg)dayStore(true);if(D.date){const dt=D.date;dayStore(true);D=null;location.hash='#/report/'+dt;return}if(D.more){const t=D.st.filter(x=>x.tried.length);D.qs=D.qs.filter((q,k)=>D.st[k].tried.length);D.st=t}const n=D.qs.length,first=D.st.filter(t=>t.ok&&t.tried.length===1&&!t.coached).length,miss=D.qs.filter((q,k)=>!(D.st[k].ok&&D.st[k].tried.length===1));
   app().innerHTML=topbar('')+`<div class="end"><h1 class="hd" style="font-size:30px;margin:0">${esc(D.title)}: done</h1><div style="font-size:22px"><b>${first} of ${n}</b> right on the first try</div>
    ${D.skill?(n&&first/n>=.8?`<div class="keepon ok">Mastered for today: ${Math.round(100*first/n)}% right on the first try ✓</div>`:`<div class="keepon">Let's keep drilling until we master this.</div>`):''}
    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">${D.skill?`<button class="btn" data-go="#/drill/more:${D.skill}?${Date.now()}">Keep drilling ${esc(SK2[D.skill].name)}</button>`:''}${miss.length?`<button class="btn o" data-redo="1">Redo the ${miss.length} I missed</button>`:''}${D.skill?`<button class="btn g" data-go="#/learn/${D.skill}">Learn it</button>`:''}<button class="btn g" data-go="#/">Home</button></div></div>`;}
@@ -1502,7 +1506,7 @@ document.addEventListener('click',e=>{const b=e.target.closest('button,[data-go]
   if(d.seek){UI.seek=+d.seek;const v=document.querySelector('video');if(v){v.currentTime=+d.seek;v.play().catch(()=>{})}return}
   if(d.mark){st.mark=!st.mark;return drawDrill()}
   if(d.navg){UI.nav=!UI.nav;return drawDrill()}
-  if(d.jump!==undefined){if(+d.jump>D.i&&st&&st.tried.length&&!st.ok)return;D.i=+d.jump;UI.nav=false;UI.dtab=null;return showQ()}
+  if(d.jump!==undefined){if(+d.jump>D.i&&st&&st.tried.length&&!st.ok)return;D.i=+d.jump;dayStore();UI.nav=false;UI.dtab=null;return showQ()}
   if(d.mv){if(+d.mv>0&&st&&st.tried.length&&!st.ok)return;const n=D.i+(+d.mv);if(n>=D.qs.length&&D.more){const nx=moreQs(D.more,D.qs);if(nx.length){D.qs=D.qs.concat(nx);D.st=D.st.concat(nx.map(()=>({tried:[],ok:false,shown:0,t0:0,coached:false})))}}
     if(n>=D.qs.length){D.done=true;return drawEnd()}if(n>=0){D.i=n;dayStore();UI.nav=false;if(UI.panel==='show')UI.panel=null;UI.dtab=null;showQ()}return}
   if(d.stopmore){D.done=true;return drawEnd()}
