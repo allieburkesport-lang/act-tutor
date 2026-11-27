@@ -1099,6 +1099,16 @@ function expSteps(q){try{const st=(q.steps||[]).map(supTxt).join(' '),all=(plain
     `Use (${f(x)}, ${o[2].replace('-','−')}): a${sup(x)} + ${f(b)} = ${o[2].replace('-','−')}. Take away ${f(b)}: ${ex}`,
     want==='ab'?`Multiply: ab = ${f(a)} × ${f(b)} = ${f(ans)}`:`Add: a + b = ${f(a)} + ${f(b)} = ${f(ans)}`,
     `Therefore the final answer is ${f(ans)}. Desmos shortcut: put both points in a table and type y₁ ~ a^x₁ + b, and Desmos gives a and b.`]}catch(e){return null}}
+/* Short Show me how for "when is it 0" with a factored function, e.g. −(1/55)(x + 19)(x − 35) (Allie, Nov 27: 7 steps was too many) */
+function zeroSteps(q){try{const all=(q.steps||[]).map(supTxt).join(' ').replace(/−/g,'-');if(!/=\s*0/.test(all))return null;
+  const fm=all.match(/((?:\(\s*[a-z]\s*[+-]\s*\d+(?:\.\d+)?\s*\)\s*){2,})\s*=\s*0/i);if(!fm)return null;
+  const fs=[...fm[1].matchAll(/\(\s*([a-z])\s*([+-])\s*(\d+(?:\.\d+)?)\s*\)/gi)],v=fs[0][1];const roots=fs.map(m=>m[2]==='-'?+m[3]:-m[3]);
+  const A=q.ch&&q.ch.length?q.ch[q.ans]:(q.show||(q.grid||[''])[0]);const av=parseFloat(String(plain(String(A))).replace(/−/g,'-').replace(/,/g,''));if(!isFinite(av))return null;
+  const hit=roots.find(r=>Math.abs(r-av)<1e-9);if(hit===undefined)return null;
+  const f=x=>(x<0?'−':'')+nfmt(Math.abs(x)),others=roots.filter(r=>r!==hit),pos=/>\s*0|minutes|seconds|hours|days|years|time/i.test(plain(q.q));
+  return [`Zero means the graph crosses the x-axis. The crossings are the numbers in the brackets with the sign flipped: ${fs.map((m,i)=>`(${v} ${m[2]==='-'?'−':'+'} ${m[3]}) gives ${f(roots[i])}`).join(', ')}`,
+    others.length?(pos&&others.every(r=>r<0)?`${others.map(f).join(' and ')} can't be the answer, because ${v} has to be more than 0. That leaves ${f(hit)}`:`The one the question asks for is ${f(hit)}`):`So ${v} = ${f(hit)}`,
+    `Therefore the final answer is ${A}. Desmos check: type the function and click where the graph crosses the x-axis.`]}catch(e){return null}}
 function stepHTML(s,i,res,wf){const k=s.indexOf(': ');const head=k>0&&k<60?s.slice(0,k):'',body=k>0&&k<60?s.slice(k+2):s;
   return `<div class="step"><span class="n">${i+1}</span><div class="c">${head?`<b>${markCarry(head,i,res)}</b><br>`:''}${markCarry(body,i,res)}</div>${wf||''}</div>`}
 function lessonData(skill){const id=lessonFor(skill)[0];return id&&LES[id]}
@@ -1460,7 +1470,7 @@ function desmosSol(q,h){let html='';try{html=desmosWay(q,h)}catch(e){return ''}
   return `<div class="dw-bp"><div class="dw-bp-h">✓ The Desmos way</div><p data-frac>${how}</p>${dwLive0(card,' ')}<p class="dw-bp-fin" data-frac>${fin}</p></div>`}
 function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
   const head=(t,sub)=>`<div class="ph"><div><div class="t hd">${t}</div><div class="s">${sub}</div></div><button class="x" aria-label="Close panel" data-pan="${k}">✕</button></div>`;
-  if(k==='show'){const steps=mirrorSteps(q)||expSteps(q)||(q.steps.length>2&&/^\s*Goal\b/i.test(q.steps[0])?q.steps.slice(1):q.steps); // no 'Goal' step: straight to the work (Allie, Nov 27: simplest possible)const res=carried(q,steps);const n=Math.max(1,st.shown);
+  if(k==='show'){const steps=mirrorSteps(q)||expSteps(q)||zeroSteps(q)||(q.steps.length>2&&/^\s*Goal\b/i.test(q.steps[0])?q.steps.slice(1):q.steps); // no 'Goal' step: straight to the work (Allie, Nov 27: simplest possible)const res=carried(q,steps);const n=Math.max(1,st.shown);
     const seen=new Set();const wfs=steps.map((x,i)=>s.sec==='Math'?whereFrom(q,x,i,seen):'');
     return head('Show me how','This question, one step at a time')+(typeof figFor==='function'?figFor(q):'')+(()=>{const t=tfFor(q.id);return t?`<div class="box b-yel"><div class="lab">Another way to see it · because you asked the tutor about this</div><div class="c">${t.another_way.map(x=>`<div style="margin-bottom:6px">${x}</div>`).join('')}</div></div>`:''})()+(s.sec==='Math'?qCards(q):'')+steps.slice(0,n).map((x,i)=>stepHTML(x,i,res,wfs[i])).join('')+
      (n<steps.length?`<button class="btn" data-next="1" style="align-self:flex-start">Show the next step (${n+1} of ${steps.length})</button>`:`<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(q.trap)}</div></div>`)+
