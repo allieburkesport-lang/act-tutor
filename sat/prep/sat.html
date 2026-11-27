@@ -1066,6 +1066,22 @@ function mirrorSteps(q){try{const all=(q.steps||[]).map(supTxt).join(' ').replac
   return [`Find the turning point: The ${word} is the vertex, (${f(h)}, ${f(k)}).`,
     `Use the mirror: ${f(x2)} and ${f(x1)} are both ${d} away from ${f(h)}. A parabola is the same on both sides of its vertex, so ${f(x2)} gives the same value as ${f(x1)}: ${f(y1)}`,
     `Therefore the final answer is ${f(y1)}.`]}catch(e){return null}}
+/* Short Show me how for h(x) = a^x + b through (0, k) and one more point (Allie, Nov 27: the 7-step version was "sooooo confusing"). */
+function expSteps(q){try{const st=(q.steps||[]).map(supTxt).join(' '),all=(plain(q.q)+' '+st).replace(/−/g,'-').replace(/ˣ/g,'^x');
+  if(!/a\s*\^\s*\(?x\)?\s*\+\s*b/i.test(all))return null;
+  const num=t=>{const m=t.split('/');return m.length===2?+m[0]/+m[1]:+t};
+  const pts=[...all.matchAll(/\(\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?(?:\/\d+)?)\s*\)/g)].map(m=>[+m[1],num(m[2]),m[2]]);
+  const z=pts.find(p=>p[0]===0),o=pts.find(p=>p[0]!==0);if(!z||!o)return null;
+  const b=z[1]-1,r=o[1]-b;if(!(r>0))return null;const a=Math.pow(r,1/o[0]);if(!(a>0)||Math.abs(a-Math.round(a*1000)/1000)>1e-6)return null;
+  const f=v=>(v<0?'−':'')+nfmt(Math.abs(v)),sup=n=>String(n).replace('-','⁻').replace(/\d/g,d=>'⁰¹²³⁴⁵⁶⁷⁸⁹'[d]);
+  const fr=v=>{for(let d=1;d<=1000;d++){const n=Math.round(v*d);if(Math.abs(n/d-v)<1e-9)return d===1?f(n):f(n)+'/'+d}return f(v)};
+  const want=/\bab\b|a\s*[×·*]\s*b|product of a and b/i.test(all)?'ab':/value of a\s*\+\s*b/i.test(all)?'a+b':null;if(!want)return null;
+  const ans=want==='ab'?a*b:a+b,x=o[0],ax=Math.abs(x);
+  const ex=x===1?`a = ${fr(r)}`:x>0?`a${sup(x)} = ${fr(r)}, so a = ${f(a)}`:`a${sup(x)} = ${fr(r)}. A negative power flips it, so a${ax===1?'':sup(ax)} = ${fr(1/r)}. That makes a = ${f(a)}`;
+  return [`Use (0, ${f(z[1])}): anything to the power 0 is 1, so 1 + b = ${f(z[1])}. That makes b = ${f(b)}`,
+    `Use (${f(x)}, ${o[2].replace('-','−')}): a${sup(x)} + ${f(b)} = ${o[2].replace('-','−')}. Take away ${f(b)}: ${ex}`,
+    want==='ab'?`Multiply: ab = ${f(a)} × ${f(b)} = ${f(ans)}`:`Add: a + b = ${f(a)} + ${f(b)} = ${f(ans)}`,
+    `Therefore the final answer is ${f(ans)}. Desmos shortcut: put both points in a table and type y₁ ~ a^x₁ + b, and Desmos gives a and b.`]}catch(e){return null}}
 function stepHTML(s,i,res,wf){const k=s.indexOf(': ');const head=k>0&&k<60?s.slice(0,k):'',body=k>0&&k<60?s.slice(k+2):s;
   return `<div class="step"><span class="n">${i+1}</span><div class="c">${head?`<b>${markCarry(head,i,res)}</b><br>`:''}${markCarry(body,i,res)}</div>${wf||''}</div>`}
 function lessonData(skill){const id=lessonFor(skill)[0];return id&&LES[id]}
@@ -1427,7 +1443,7 @@ function desmosSol(q,h){let html='';try{html=desmosWay(q,h)}catch(e){return ''}
   return `<div class="dw-bp"><div class="dw-bp-h">✓ The Desmos way</div><p data-frac>${how}</p>${dwLive0(card,' ')}<p class="dw-bp-fin" data-frac>${fin}</p></div>`}
 function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
   const head=(t,sub)=>`<div class="ph"><div><div class="t hd">${t}</div><div class="s">${sub}</div></div><button class="x" aria-label="Close panel" data-pan="${k}">✕</button></div>`;
-  if(k==='show'){const steps=mirrorSteps(q)||q.steps;const res=carried(q,steps);const n=Math.max(1,st.shown);
+  if(k==='show'){const steps=mirrorSteps(q)||expSteps(q)||q.steps;const res=carried(q,steps);const n=Math.max(1,st.shown);
     const seen=new Set();const wfs=steps.map((x,i)=>s.sec==='Math'?whereFrom(q,x,i,seen):'');
     return head('Show me how','This question, one step at a time')+(typeof figFor==='function'?figFor(q):'')+(()=>{const t=tfFor(q.id);return t?`<div class="box b-yel"><div class="lab">Another way to see it · because you asked the tutor about this</div><div class="c">${t.another_way.map(x=>`<div style="margin-bottom:6px">${x}</div>`).join('')}</div></div>`:''})()+(s.sec==='Math'?qCards(q):'')+steps.slice(0,n).map((x,i)=>stepHTML(x,i,res,wfs[i])).join('')+
      (n<steps.length?`<button class="btn" data-next="1" style="align-self:flex-start">Show the next step (${n+1} of ${steps.length})</button>`:`<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(q.trap)}</div></div>`)+
@@ -1516,6 +1532,6 @@ function publishSat(){try{if(!PLAN||!window.HELM_PROGRESS)return;
   HELM_PROGRESS.put('sat_summary',{updated:Date.now(),days,daysDone:days.filter(d=>d.done).length,daysTotal:days.length,dueDone:fin,dueTotal:due.length})}catch(e){}}
 setInterval(()=>{if(window.HELM_TOKEN)H.Authorization='Bearer '+window.HELM_TOKEN},60000);
 </script>
-<script src="stats.js?v=60"></script><script src="bi.js?v=41"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=7"></script><script src="figs.js?v=2"></script><script src="frac.js?v=2"></script>
+<script src="stats.js?v=60"></script><script src="bi.js?v=41"></script><script src="tutor-config.js?v=2"></script><script src="tutor.js?v=8"></script><script src="figs.js?v=2"></script><script src="frac.js?v=2"></script>
 </body>
 </html>
