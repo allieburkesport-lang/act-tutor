@@ -948,7 +948,7 @@ function drawDrill(){if(D.done)return drawEnd();const q=cur(),st=D.st[D.i],s=SK2
   const fin=st.ok;
   let chs='';if(q.ch)chs=`<div class="ch">${q.ch.map((c,j)=>{const cls=st.tried.includes(j)?(j===q.ans?'right':'wrong'):(fin&&j===q.ans?'right':'');return `<button class="${cls}" data-pick="${j}" ${fin||st.tried.includes(j)?'disabled':''}><span class="L">${L[j]}</span><span class="t">${c}</span></button>`}).join('')}</div>`;
   else chs=`<div class="grid-in"><label for="gin" style="font-weight:600">Your answer</label><input id="gin" ${fin?'disabled':''} value="${fin?esc(q.show||q.grid[0]):''}" autocomplete="off"><button class="btn" data-grid="1" ${fin?'disabled':''}>Check</button></div>`;
-  let fb='';if(fin)fb=`<div class="fb ok"><b>${st.tried.length===1&&!st.coached?'Right on the first try ✓':'Got it ✓'}</b> ${esc(q.trap?'Trap to watch: '+q.trap:'')}</div>`;
+  let fb='';if(fin)fb=`<div class="fb ok"><b>${st.tried.length===1&&!st.coached?'Right on the first try ✓':'Got it ✓'}</b> ${esc(q.trap?'Trap to watch: '+supTxt(q.trap):'')}</div>`;
   else if(st.tried.length)fb=`<div class="fb no"><b>Not quite. Try again.</b> Pick another answer before you move on. Stuck? Press <b>Show me how</b>.</div>`;
   const CHKM={start:'Nice. Now prove it: the next 1 or 2 questions are the same kind, with no help. Get 2 right in a row to lock it in.',again:'Same kind again, no help this time. You can do this.',
    'one more':'1 down. Get one more right with no help to lock it in.',locked:'Locked in ✓ Two right in a row with no help. On to the next one.',fixed:'Good, you got this kind right with no help. Moving on.',shaky:'Still shaky. That is okay: this one goes on your review list. Moving on.',none:''};
@@ -1123,6 +1123,15 @@ function halfSteps(q){try{const T=plain(q.q).replace(/−/g,'-');if(!/minimum|ma
   return [`Find the crossings. Flip the signs in the brackets: ${fs.map((m,i)=>`(x ${m[1]==='-'?'−':'+'} ${m[2]}) gives ${f(r[i])}`).join(', ')}`,
     `The ${/maximum/i.test(T)?'top':'bottom'} of the curve is exactly halfway between them. Add and divide by 2: (${f(r[0])} + ${r[1]<0?'('+f(r[1])+')':f(r[1])}) ÷ 2 = ${f(r[0]+r[1])} ÷ 2 = ${f(mid)}`,
     `Therefore the final answer is ${A}${String(A).includes('/')?' (that is '+f(mid)+')':''}. Desmos check: type the function, zoom out, and click the ${/maximum/i.test(T)?'top':'bottom'} of the curve.`]}catch(e){return null}}
+/* Shortcut box for "which equation / expression" choices in x (Allie, Nov 27): pick a number, plug it into each choice */
+function plugBox(q){try{if(!q.ch||q.ch.length<2)return '';const T=plain(q.q);if(!/which (equation|expression|function)|defines|equivalent/i.test(T))return '';
+  const js=c=>{let e=plain(String(c)).replace(/^\s*[a-z]\s*\(\s*x\s*\)\s*=\s*|^\s*y\s*=\s*/i,'').replace(/−/g,'-').replace(/×|·/g,'*').replace(/÷/g,'/').replace(/²/g,'^2').replace(/³/g,'^3').replace(/\s+/g,'');
+    if(/[^0-9x+\-*/^().]/.test(e))return null;e=e.replace(/(\d|\))(?=x|\()/g,'$1*').replace(/x(?=\(|\d)/g,'x*').replace(/\)(?=\()/g,')*').replace(/\^/g,'**');try{const f=new Function('x','return '+e);f(1);return f}catch(_){return null}};
+  const F=q.ch.map(js);if(F.some(f=>!f))return '';
+  for(const x of [10,3,2,5,4]){const v=F.map(f=>f(x));if(v.some(n=>!isFinite(n)))continue;if(new Set(v.map(n=>Math.round(n*1e6))).size!==v.length)continue;
+    const r=v[q.ans],f=n=>(n<0?'−':'')+nfmt(Math.abs(n));
+    return `<div class="box b-green"><div class="lab">Fastest way · plug in a number</div><div class="c">Pick <b>x = ${x}</b>. Work out the question's words with ${x}: you get <b>${f(r)}</b>. Now put ${x} into each choice: ${v.map((n,i)=>`<b>${'ABCD'[i]}</b> ${f(n)}`).join(' · ')}. Only <b>${'ABCD'[q.ans]}</b> gives ${f(r)}, so that's the answer.</div></div>`}
+  return ''}catch(e){return ''}}
 function stepHTML(s,i,res,wf){const k=s.indexOf(': ');const head=k>0&&k<60?s.slice(0,k):'',body=k>0&&k<60?s.slice(k+2):s;
   return `<div class="step"><span class="n">${i+1}</span><div class="c">${head?`<b>${markCarry(head,i,res)}</b><br>`:''}${markCarry(body,i,res)}</div>${wf||''}</div>`}
 function lessonData(skill){const id=lessonFor(skill)[0];return id&&LES[id]}
@@ -1442,7 +1451,7 @@ function desmosWay(q0,h){
   const trick=t?(given.length?given.filter(r=>r[0].trim().length<=6).map(r=>`${esc(cap(r[1]))} gives you ${esc(r[0])}.`).join(' ')+' ':'')+`Plug everything in and use the tilde (~) to find <i>${esc(t.V)}</i>.`:esc(q.tool);
   o+=`<div class="dw-p"><b>Memory trick:</b> ${tb?`Given a table or points? Put them in a Desmos table, then type <b>${esc(DW_REG[tb.model])}</b>. Desmos gives you the letters.`:trick}</div>`;
   if(dneg)o+=`<div class="dw-p">Remember to watch the double negative: <span class="dw-mi">x − (−1)</span> becomes <span class="dw-mi">x + 1</span>.</div>`;
-  if(q.trap)o+=`<div class="dw-p"><b>Watch out:</b> ${esc(q.trap)}</div>`;
+  if(q.trap)o+=`<div class="dw-p"><b>Watch out:</b> ${esc(supTxt(q.trap))}</div>`;
   // Simple layout (Allie, Nov 25 — like Blueprint): one short "how to", the real Desmos, the answer. Everything else folds away.
   const two=x=>{const z=dwTxt(x||'').replace(/^Desmos[^:]*:\s*/i,'');const ss=z.match(/[^.!?]+[.!?]?/g)||[];return ss.slice(0,2).join(' ').trim()};
   let how='';
@@ -1486,8 +1495,8 @@ function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
   const head=(t,sub)=>`<div class="ph"><div><div class="t hd">${t}</div><div class="s">${sub}</div></div><button class="x" aria-label="Close panel" data-pan="${k}">✕</button></div>`;
   if(k==='show'){const steps=mirrorSteps(q)||expSteps(q)||zeroSteps(q)||halfSteps(q)||fewSteps(q.steps); // no 'Goal' step: straight to the work (Allie, Nov 27: simplest possible)const res=carried(q,steps);const n=Math.max(1,st.shown);
     const seen=new Set();const wfs=steps.map((x,i)=>s.sec==='Math'?whereFrom(q,x,i,seen):'');
-    return head('Show me how','This question, one step at a time')+(typeof figFor==='function'?figFor(q):'')+(()=>{const t=tfFor(q.id);return t?`<div class="box b-yel"><div class="lab">Another way to see it · because you asked the tutor about this</div><div class="c">${t.another_way.map(x=>`<div style="margin-bottom:6px">${x}</div>`).join('')}</div></div>`:''})()+(s.sec==='Math'?qCards(q):'')+steps.slice(0,n).map((x,i)=>stepHTML(x,i,res,wfs[i])).join('')+
-     (n<steps.length?`<button class="btn" data-next="1" style="align-self:flex-start">Show the next step (${n+1} of ${steps.length})</button>`:`<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(q.trap)}</div></div>`)+
+    return head('Show me how','This question, one step at a time')+(typeof figFor==='function'?figFor(q):'')+(()=>{const t=tfFor(q.id);return t?`<div class="box b-yel"><div class="lab">Another way to see it · because you asked the tutor about this</div><div class="c">${t.another_way.map(x=>`<div style="margin-bottom:6px">${x}</div>`).join('')}</div></div>`:''})()+(s.sec==='Math'?plugBox(q)+qCards(q):'')+steps.slice(0,n).map((x,i)=>stepHTML(x,i,res,wfs[i])).join('')+
+     (n<steps.length?`<button class="btn" data-next="1" style="align-self:flex-start">Show the next step (${n+1} of ${steps.length})</button>`:`<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(supTxt(q.trap))}</div></div>`)+
      (s.sec==='Math'?desmosSol(q,QH[q.id]||{d:[],c:[]}):`<div class="box b-blue"><div class="lab">Strategy</div><div class="c">${esc(q.tool)}</div></div>`);}
 
   if(k==='desm'){const h=QH[q.id]||{d:[],c:[]};const tab=UI.dtab||(UI.lpad===false?'pad':'d');
