@@ -1062,14 +1062,23 @@ function qCards(q){const cs=QF[q.id]||[];if(!cs.length)return '';
    ${c.l.length?`<table style="border-collapse:collapse;width:100%;font-size:15px;background:#fff"><tr><th style="text-align:left;padding:4px 8px;border:1px solid #e9d5ff;font-size:12px">Letter</th><th style="text-align:left;padding:4px 8px;border:1px solid #e9d5ff;font-size:12px">What it means</th><th style="text-align:left;padding:4px 8px;border:1px solid #e9d5ff;font-size:12px">In this question</th></tr>${c.l.map(r=>`<tr><td style="padding:4px 8px;border:1px solid #e9d5ff;font-weight:700;color:#6d28d9">${esc(r[0])}</td><td style="padding:4px 8px;border:1px solid #e9d5ff">${esc(r[1])}</td><td style="padding:4px 8px;border:1px solid #e9d5ff;font-weight:700">${esc(r[2]||'')}</td></tr>`).join('')}</table>`:''}${rule?'':plugIn(c)}</div></div>`}).join('')}
 /* Show me how, the short way (Allie, Nov 27): when a question gives the vertex (max or min) and one other point,
    and asks about the x the same distance on the other side, use symmetry instead of vertex form. Patrick: "there's a much simpler way". */
-function mirrorSteps(q){try{const all=(q.steps||[]).map(supTxt).join(' ').replace(/−/g,'-');
-  const V=all.match(/vertex is \(\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*\)/i),P=all.match(/point \(\s*(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)\s*\)/i);
-  const T=[...all.matchAll(/use [a-z] = (-?\d+(?:\.\d+)?)/gi)].pop();if(!V||!P||!T)return null;
-  const h=+V[1],k=+V[2],x1=+P[1],y1=+P[2],x2=+T[1];if(x1===h||Math.abs((2*h-x1)-x2)>1e-9)return null;
-  const f=v=>(v<0?'−':'')+nfmt(Math.abs(v)),d=f(Math.abs(x1-h)),word=/minimum/i.test(plain(q.q)+' '+all)?'minimum (the bottom)':'maximum (the top)';
-  return [`Find the turning point: The ${word} is the vertex, (${f(h)}, ${f(k)}).`,
-    `Use the mirror: ${f(x2)} and ${f(x1)} are both ${d} away from ${f(h)}. A parabola is the same on both sides of its vertex, so ${f(x2)} gives the same value as ${f(x1)}: ${f(y1)}`,
-    `Therefore the final answer is ${f(y1)}.`]}catch(e){return null}}
+function mirrorSteps(q){try{const all=(q.steps||[]).map(supTxt).join(' ').replace(/−/g,'-').replace(/(\d),(\d{3})/g,'$1$2');
+  const N='(-?\\d+(?:\\.\\d+)?)',V=all.match(new RegExp('vertex(?: is)? \\(\\s*'+N+'\\s*,\\s*'+N+'\\s*\\)','i')),P=all.match(new RegExp('point \\(\\s*'+N+'\\s*,\\s*'+N+'\\s*\\)','i'));
+  const T=[...all.matchAll(/use ([a-z]) = (-?\d+(?:\.\d+)?)/gi)].pop();if(!V||!P||!T)return null;
+  const h=+V[1],k=+V[2],x1=+P[1],y1=+P[2],x2=+T[2],v=T[1];if(x1===h)return null;
+  const f=x=>(x<0?'−':'')+nfmt(Math.abs(x)),sh=x=>x===0?v:`${v} − ${f(x)}`.replace('− −','+ ');
+  const top=/minimum/i.test(plain(q.q)+' '+all)?'minimum (the bottom)':'maximum (the top)';
+  if(Math.abs((2*h-x1)-x2)<1e-9){const d=f(Math.abs(x1-h));
+    return [`Find the turning point: The ${top} is the vertex, (${f(h)}, ${f(k)}).`,
+      `Use the mirror: ${f(x2)} and ${f(x1)} are both ${d} away from ${f(h)}. A parabola is the same on both sides of its vertex, so ${f(x2)} gives the same value as ${f(x1)}: ${f(y1)}`,
+      `Therefore the final answer is ${f(y1)}.`]}
+  // not a mirror point (Allie, Nov 27: "where is the −16 coming from?"): vertex form, and show where a comes from
+  const a=(y1-k)/((x1-h)**2),ans=a*(x2-h)**2+k;if(!isFinite(a)||!isFinite(ans))return null;const sq=(x1-h)**2,sq2=(x2-h)**2;
+  const pf=x=>`(${x}${h===0?'':' − '+f(h)})²`.replace('− −','+ ');
+  return [`Start with the ${top}: The vertex is (${f(h)}, ${f(k)}), so the equation is y = a${pf(v)} + ${f(k)}. We only need a.`,
+    `Find a with the point (${f(x1)}, ${f(y1)}): ${f(y1)} = a${pf(f(x1))} + ${f(k)}. That is ${f(y1)} = ${f(sq)}a + ${f(k)}, so ${f(sq)}a = ${f(y1-k)} and a = ${f(a)}`,
+    `Put in ${v} = ${f(x2)}: ${f(a)}${pf(f(x2))} + ${f(k)} = ${f(a)} × ${f(sq2)} + ${f(k)} = ${f(ans)}`,
+    `Therefore the final answer is ${f(ans)}.`]}catch(e){return null}}
 /* Short Show me how for h(x) = a^x + b through (0, k) and one more point (Allie, Nov 27: the 7-step version was "sooooo confusing"). */
 function expSteps(q){try{const st=(q.steps||[]).map(supTxt).join(' '),all=(plain(q.q)+' '+st).replace(/−/g,'-').replace(/ˣ/g,'^x');
   if(!/a\s*\^\s*\(?x\)?\s*\+\s*b/i.test(all))return null;
