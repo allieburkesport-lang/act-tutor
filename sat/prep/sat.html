@@ -1448,7 +1448,7 @@ function dsCard(spec){const ex=(spec.ex||[]).map(e=>Object.assign({},e));const L
 function desmosSol(q,h){let html='';try{html=desmosWay(q,h)}catch(e){return ''}
   const m=html.match(/data-spec='([^']*)'/);let spec={ex:[]};if(m){const tx=document.createElement('textarea');tx.innerHTML=m[1];try{spec=JSON.parse(tx.value)}catch(e){}}
   let how=(html.match(/<div class="dw-how-h">✓ How to do it<\/div>([\s\S]*?)<\/div>/)||[])[1]||'';const ans=(html.match(/<div class="dw-ans" data-frac>([\s\S]*?)<\/div>/)||[])[1]||'';
-  if(/dw-weak/.test(html)||!(spec.ex||[]).some(e=>e.latex))return `<div class="box b-blue"><div class="lab">The Desmos way</div><div class="c">Desmos can't do this one in a single step. Follow the steps above, and use your Desmos to check each one.</div></div>`;
+  if(/dw-weak/.test(html)||!(spec.ex||[]).some(e=>e.latex))return `<div class="box b-blue"><div class="lab">The Desmos way</div><div class="c">Type the equation from the question into your Desmos on the left. Then click the point the question asks about: where the graph crosses the x-axis, the top or bottom of the curve, or where two lines meet. That point gives the answer. The steps above show the same thing by hand.</div></div>`;
   const card=dsCard(spec);card.how=how.replace(/<[^>]+>/g,'');const sv=card.ex.find(e=>e.solve);
   // Blueprint format (Allie approved, Nov 26): one short paragraph, the Desmos screen, then "Therefore the final answer is option D, 3."
   how=(/^\s*1\.\s/.test(how)?how.replace(/(?:^|(?<=[.!?])\s)\d\.\s/g,' '):how).replace(/\s*Answer:\s*[^.]*\.?\s*$/,'').replace(/\s*(?:So the answer is\s*)?[A-D]\.\s*$/,'').trim();if(how&&!/[.!?]$/.test(how))how+='.';
