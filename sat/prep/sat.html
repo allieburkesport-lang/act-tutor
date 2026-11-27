@@ -1035,7 +1035,7 @@ function formulaIntro(q){const p=pyth(q);if(!p)return '';
 function whereFrom(q,s,i,seen){const out=[],g=givenNums(q);
   const nums=(s.match(/\d+(?:\.\d+)?/g)||[]).filter(x=>g.has(x)&&!seen.has(x)&&!/^[0-3]$/.test(x));
   const nn=[...new Set(nums)];nn.forEach(x=>seen.add(x));
-  if(nn.length)out.push(`<b>${nn.join(', ')}</b> ${nn.length>1?'are':'is'} given in the question.`);
+  // 'X is given in the question' notes removed (Allie, Nov 27: too long). Only real math (squares, roots, %) is explained.
   const p=pyth(q);if(p&&p.i===i)out.push(`This is a² + b² with a = ${p.a} and b = ${p.b}. The total is <b>c²</b> (c squared), not c yet.`);
   for(const m of s.matchAll(/(\d+(?:\.\d+)?)²/g)){const v=+m[1];out.push(`${m[1]}² means ${m[1]} × ${m[1]} = <b>${nfmt(v*v)}</b>`)}
   for(const m of s.matchAll(/(\d+(?:\.\d+)?)³/g)){const v=+m[1];out.push(`${m[1]}³ means ${m[1]} × ${m[1]} × ${m[1]} = <b>${nfmt(v*v*v)}</b>`)}
@@ -1460,7 +1460,7 @@ function desmosSol(q,h){let html='';try{html=desmosWay(q,h)}catch(e){return ''}
   return `<div class="dw-bp"><div class="dw-bp-h">✓ The Desmos way</div><p data-frac>${how}</p>${dwLive0(card,' ')}<p class="dw-bp-fin" data-frac>${fin}</p></div>`}
 function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
   const head=(t,sub)=>`<div class="ph"><div><div class="t hd">${t}</div><div class="s">${sub}</div></div><button class="x" aria-label="Close panel" data-pan="${k}">✕</button></div>`;
-  if(k==='show'){const steps=mirrorSteps(q)||expSteps(q)||q.steps;const res=carried(q,steps);const n=Math.max(1,st.shown);
+  if(k==='show'){const steps=mirrorSteps(q)||expSteps(q)||(q.steps.length>2&&/^\s*Goal\b/i.test(q.steps[0])?q.steps.slice(1):q.steps); // no 'Goal' step: straight to the work (Allie, Nov 27: simplest possible)const res=carried(q,steps);const n=Math.max(1,st.shown);
     const seen=new Set();const wfs=steps.map((x,i)=>s.sec==='Math'?whereFrom(q,x,i,seen):'');
     return head('Show me how','This question, one step at a time')+(typeof figFor==='function'?figFor(q):'')+(()=>{const t=tfFor(q.id);return t?`<div class="box b-yel"><div class="lab">Another way to see it · because you asked the tutor about this</div><div class="c">${t.another_way.map(x=>`<div style="margin-bottom:6px">${x}</div>`).join('')}</div></div>`:''})()+(s.sec==='Math'?qCards(q):'')+steps.slice(0,n).map((x,i)=>stepHTML(x,i,res,wfs[i])).join('')+
      (n<steps.length?`<button class="btn" data-next="1" style="align-self:flex-start">Show the next step (${n+1} of ${steps.length})</button>`:`<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(q.trap)}</div></div>`)+
