@@ -687,7 +687,7 @@ document.addEventListener('click', (e) => {
   if (a === 'close') { state.drawer = null; render(); if (lastFocus && lastFocus.isConnected) lastFocus.focus(); lastFocus = null; return; }
   if (a === 'tab') { state.tab = id; renderCanvas(); return; }
   if (a === 'theme') { state.dark = !state.dark; store.set('theme', state.dark ? 'dark' : 'light'); render(); return; }
-  if (a === 'side') { state.collapsed = !state.collapsed; store.set('collapsed', state.collapsed); render(); return; }
+  if (a === 'side') { state.collapsed = !state.collapsed; if (autoCollapsed) autoCollapsed = false; else store.set('collapsed', state.collapsed); render(); return; }
   if (a === 'search') { lastFocus = document.activeElement; state.searchOpen = true; state.query = ''; renderOverlays(); return; }
   if (a === 'closeSearch') { state.searchOpen = false; renderOverlays(); return; }
   if (a === 'notif') { state.notifOpen = !state.notifOpen; renderNotif(); return; }
@@ -715,7 +715,16 @@ const LOADV = Date.now();   // always load the newest SAT pages (no stale copy i
 const FRAME_ROUTES = (h) => /^#\//.test(h) ? 'sat.html?v=' + LOADV + h : h === '#report' ? '../drill-zone/report.html?v=' + LOADV : null;
 let frameHash = null;
 window.HELM_FRAME_SYNC = (h) => { frameHash = h; navActive(h); };   // sat.html tells us when he moves around inside it
+/* Allie, Nov 27: opening a question (a day's set, a drill, a look-at) collapses the left nav for more room;
+   leaving the question brings it back. Not saved, and he can still expand it by hand while on a question. */
+let autoCollapsed = false;
+function autoSide(h) {
+  const isQ = /^#\/(day|drill|look)\//.test(h);
+  if (isQ && !state.collapsed) { state.collapsed = true; autoCollapsed = true; render(); }
+  else if (!isQ && autoCollapsed) { autoCollapsed = false; state.collapsed = store.get('collapsed', false); render(); }
+}
 function navActive(h) {
+  autoSide(h);
   document.querySelectorAll('.side [data-route], nav [data-route]').forEach((a) => { const r = a.dataset.route;
     const on = r === '#today' ? !FRAME_ROUTES(h) : r === '#/' ? /^#\/(?!stats|videos)/.test(h) : h.indexOf(r) === 0;
     a.classList.toggle('active', !!on); if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
