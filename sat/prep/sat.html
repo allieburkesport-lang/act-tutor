@@ -1132,6 +1132,11 @@ function plugBox(q){try{if(!q.ch||q.ch.length<2)return '';const T=plain(q.q);if(
     const r=v[q.ans],f=n=>(n<0?'−':'')+nfmt(Math.abs(n));
     return `<div class="box b-green"><div class="lab">Fastest way · plug in a number</div><div class="c">Pick <b>x = ${x}</b>. Work out the question's words with ${x}: you get <b>${f(r)}</b>. Now put ${x} into each choice: ${v.map((n,i)=>`<b>${'ABCD'[i]}</b> ${f(n)}`).join(' · ')}. Only <b>${'ABCD'[q.ans]}</b> gives ${f(r)}, so that's the answer.</div></div>`}
   return ''}catch(e){return ''}}
+/* The fastest way, from the audited Desmos help (qhelp.json): the exact lines to type + what to click/read (Allie, Nov 27) */
+function fastBox(q){const h=QH[q.id];if(!h)return '';const d=(h.d||[]).map(x=>String(x).replace(/^Type\s+/i,'')),note=h.n||'';
+  if(!d.length&&!note)return '';
+  if(!d.length)return `<div class="box b-green"><div class="lab">Fastest way · by hand</div><div class="c" data-frac>${esc(supTxt(note))}</div></div>`;
+  return `<div class="box b-green"><div class="lab">Fastest way · Desmos</div><div class="c">${d.map((x,i)=>/[A-Za-z]{4,}/.test(x.replace(/\b(mean|median|sqrt|stdev)\b/g,''))&&!/^y₁ ~/.test(x)?`<div style="margin:4px 0">${i+1}. ${esc(x)}</div>`:`<div style="margin:4px 0">${i+1}. Type <code style="font-size:17px">${esc(x)}</code></div>`).join('')}${note?`<div style="margin-top:8px" data-frac><b>${esc(supTxt(note))}</b></div>`:''}</div></div>`}
 function stepHTML(s,i,res,wf){const k=s.indexOf(': ');const head=k>0&&k<60?s.slice(0,k):'',body=k>0&&k<60?s.slice(k+2):s;
   return `<div class="step"><span class="n">${i+1}</span><div class="c">${head?`<b>${markCarry(head,i,res)}</b><br>`:''}${markCarry(body,i,res)}</div>${wf||''}</div>`}
 function lessonData(skill){const id=lessonFor(skill)[0];return id&&LES[id]}
@@ -1283,11 +1288,11 @@ const DESMOS_KEY='b421d86fb1ac4ece8976ec06f2d31884';let _dsLoad=null;
 function dsLoad(){if(window.Desmos)return Promise.resolve();if(_dsLoad)return _dsLoad;_dsLoad=new Promise((ok,no)=>{const sc=document.createElement('script');sc.src='https://www.desmos.com/api/v1.12/calculator.js?apiKey='+DESMOS_KEY;sc.onload=ok;sc.onerror=no;document.head.appendChild(sc)});return _dsLoad}
 const DW_FN='mean|median|stdev|stdevp|total|round|min|max|sin|cos|tan|log|ln|sqrt|cbrt|abs|exp';
 function dwExp(s){let o='',i=0;while(i<s.length){if(s[i]==='^'&&s[i+1]==='('){let d=0,j=i+1;for(;j<s.length;j++){if(s[j]==='(')d++;else if(s[j]===')'){d--;if(!d)break}}if(j<s.length){o+='^{'+dwExp(s.slice(i+2,j))+'}';i=j+1;continue}}o+=s[i];i++}return o}
-function dwLatex(t){let s=dwExp(dwClean(dwTxt(String(t))));if(!/\[/.test(s))s=s.replace(/(\d),(?=\d{3}(?!\d))/g,'$1');s=s.replace(/([²³⁴⁵⁶])√\s*\(([^()]*)\)/g,(m,n,x)=>'§RT'+('²³⁴⁵⁶'.indexOf(n)+2)+'§('+x+')').replace(/^(?:then\s+)?type\s+/i,'').replace(/−/g,'-').replace(/×|·/g,'\\cdot ').replace(/÷/g,'/').replace(/π/g,'\\pi ').replace(/~/g,'\\sim ').replace(/≤/g,'§LE§').replace(/≥/g,'§GE§').replace(/°/g,'');
+function dwLatex(t){let s=dwExp(dwClean(dwTxt(String(t)))).replace(/%\s*of\s*/g,'§PCT§');if(!/\[/.test(s))s=s.replace(/(\d),(?=\d{3}(?!\d))/g,'$1');s=s.replace(/([²³⁴⁵⁶])√\s*\(([^()]*)\)/g,(m,n,x)=>'§RT'+('²³⁴⁵⁶'.indexOf(n)+2)+'§('+x+')').replace(/^(?:then\s+)?type\s+/i,'').replace(/−/g,'-').replace(/×|·/g,'\\cdot ').replace(/÷/g,'/').replace(/π/g,'\\pi ').replace(/~/g,'\\sim ').replace(/≤/g,'§LE§').replace(/≥/g,'§GE§').replace(/°/g,'');
   s=s.replace(/\b(mean|median|stdev|stdevp|total|round)\s*\(/g,'\\operatorname{$1}(').replace(/\b(sin|cos|tan|log|ln)\s*\(/g,'\\$1(').replace(/\bsqrt\s*\(/g,'√(');
   s=s.replace(/([A-Za-z])_([A-Za-z0-9])/g,'$1_{$2}').replace(/([A-Za-z])([₀-₉])/g,(m,a,b)=>a+'_{'+'₀₁₂₃₄₅₆₇₈₉'.indexOf(b)+'}').replace(/²/g,'^{2}').replace(/³/g,'^{3}').replace(/\^\(([^()]*)\)/g,'^{$1}').replace(/\^(\{[^}]*\}|[0-9.]+|[A-Za-z](?:_\{[^}]*\})?)/g,(m,x)=>x.startsWith('{')?m:'^{'+x+'}');
   s=s.replace(/√\s*\(/g,'√(');{let o='',i=0;while(i<s.length){if(s[i]==='√'&&s[i+1]==='('){let d=0,j=i+1;for(;j<s.length;j++){if(s[j]==='(')d++;else if(s[j]===')'){d--;if(!d)break}}if(j<s.length){o+='\\sqrt{'+s.slice(i+2,j)+'}';i=j+1;continue}}o+=s[i];i++}s=o}s=s.replace(/√\s*(\d+)/g,'\\sqrt{$1}').replace(/√\s*([A-Za-z])/g,'\\sqrt{$1}').replace(/\|([^|]+)\|/g,'\\left|$1\\right|').replace(/\(/g,'\\left(').replace(/\)/g,'\\right)').replace(/\[/g,'\\left[').replace(/\]/g,'\\right]');
-  s=s.replace(/§RT(\d)§\\left\(([^]*?)\\right\)/g,'\\sqrt[$1]{$2}');return s.replace(/\s+/g,'').replace(/\\(sim|cdot|pi)(?=[A-Za-z0-9])/g,'\\$1 ').replace(/§LE§/g,'\\le ').replace(/§GE§/g,'\\ge ')}
+  s=s.replace(/§RT(\d)§\\left\(([^]*?)\\right\)/g,'\\sqrt[$1]{$2}');return s.replace(/\s+/g,'').replace(/\\(sim|cdot|pi)(?=[A-Za-z0-9])/g,'\\$1 ').replace(/§LE§/g,'\\le ').replace(/§GE§/g,'\\ge ').replace(/§PCT§/g,'\\%\\operatorname{of}')}
 /* Turn one human Desmos instruction ("Type x + y = 55", "Click the crossing", "y = x > 7 (choice A)") into Desmos-ready items */
 function dwLine(raw){let t=dwTxt(raw).replace(/^(?:then\s+)?type\s+/i,'').trim();if(!t)return [];
   const ROOT={square:2,cube:3,fourth:4,fifth:5,sixth:6};t=t.replace(/the (square|cube|fourth|fifth|sixth) root of\s+([^,;]+)/gi,(m,k,x)=>{const n=ROOT[k.toLowerCase()];return (n===2?'':'²³⁴⁵⁶'[n-2])+'√('+x.trim()+')'});
@@ -1401,7 +1406,11 @@ function desmosWay(q0,h){
     o=dwLive({ex:[{type:'table',columns:[{latex:'x_{1}',values:tb.pts.map(p=>String(p[0]))},{latex:'y_{1}',values:tb.pts.map(p=>String(p[1])),color:'#c74440',pointStyle:'POINT'}]},{latex:regL,color:'#2d70b3'}],b:dsBounds(tb.pts)})+`<div class="dsx-fallback" style="display:none">${dwTableScreen(tb)}</div>`+`<div class="dw-p">For this one, put the points in a <b>Desmos table</b> and let Desmos find the equation with the <b>tilde (~)</b>. No algebra.</div>`+
     `<div class="dw-h">Method 1: Desmos table + tilde</div><div class="dw-p">Line 1: a table with the x-values in x₁ and the f(x) values in y₁. Line 2: <b>${esc(DW_REG[tb.model])}</b>. Desmos shows ${tb.fit.vals.map(([k,v])=>`<b>${k} = ${dwNumS(v)}</b>`).join(', ')}, so <b>${esc(dwFormula(tb))}</b>.</div>`+`<div class="dw-ans">Answer: ${esc(ans)}</div>`+
     `<div class="dw-p" style="font-size:15px;color:var(--mute)">Other way to check: type each answer choice into Desmos. The right one goes through every red dot.</div>`;}
-  const items=tb||cm?[]:(h.d||[]).flatMap(dwLine),notes=items.filter(x=>x.text).map(x=>x.text);
+  // a table typed in the help ("x₁: …" / "y₁: …"), e.g. two points for a regression (Allie, Nov 27)
+  let DW_TBL=null;{const xl=(h.d||[]).find(z=>/x₁:/.test(z)),yl=(h.d||[]).find(z=>/y₁:\s*[−\-\d]/.test(z));
+    if(xl&&yl){const vals=z=>z.split(/[₁]:/)[1].split(',').map(v=>v.trim().replace(/−/g,'-')).filter(Boolean);DW_TBL={type:'table',columns:[{latex:'x_{1}',values:vals(xl)},{latex:'y_{1}',values:vals(yl),color:'#c74440',pointStyle:'POINT'}]}}}
+  const items=tb||cm?[]:(h.d||[]).filter(z=>!(DW_TBL&&(/x₁:/.test(z)||/y₁:\s*[−\-\d]/.test(z)))).flatMap(dwLine),notes=items.filter(x=>x.text).map(x=>x.text);
+  if(DW_TBL)notes.unshift('Click + › table. Put the x-values in x₁ and the y-values in y₁ (shown in the graph).');
   const dl=items.filter(x=>x.latex).map(x=>x.disp);const dlab=items.filter(x=>x.latex).map(x=>x.label||'');
   const lines=t?[{lab:'Line 1 — use the tilde (~)',m:t.line}]:dl.map((x,i)=>({lab:'Line '+(i+1)+(dlab[i]?' — '+dlab[i]:''),m:x}));
   if(lines.length&&!tb){
@@ -1410,7 +1419,7 @@ function desmosWay(q0,h){
       <div class="dw-row"><div class="dw-lab">${t?'Desmos calculates '+esc(t.V):'What you get'}</div><div class="dw-res" data-frac>${t?esc(t.V)+' = '+esc(t.val):esc(ans)}</div>${!t&&(h.n||notes.length)?`<div class="dw-note">${esc([...notes,h.n].filter(Boolean).join(' '))}</div>`:''}</div></div>`;
     {let ex=[],pts=[];if(t){ex.push({latex:dwLatex(t.line)});const gl=dwGraphLines(q,t,given);gl.forEach((x,j)=>ex.push({latex:dwLatex(x),color:j===0?'#c74440':(j===1?'#388c46':'#2d70b3')}));
         pts=dwPts(given).map(p=>[p.x,p.y]);}
-      else{ex=[];lines.forEach((l,j)=>{if(dlab[j])ex.push({type:'text',text:dlab[j]});ex.push({latex:dwLatex(l.m),color:['#c74440','#2d70b3','#388c46','#6042a6'][j%4],note:l.m})});notes.forEach(n=>ex.push({type:'text',text:n}))}
+      else{ex=DW_TBL?[DW_TBL]:[];notes.forEach(n=>{const m=n.match(/Click "([a-z])" to add a slider/);if(m)ex.push({latex:m[1]+'=1',sliderBounds:{min:'-30',max:'30',step:'1'}})});lines.forEach((l,j)=>{if(dlab[j])ex.push({type:'text',text:dlab[j]});ex.push({latex:dwLatex(l.m),color:['#c74440','#2d70b3','#388c46','#6042a6'][j%4],note:l.m})});notes.forEach(n=>ex.push({type:'text',text:n}))}
       const pic=t?dwScreen(q,t,given):(typeof desmosPic==='function'?desmosPic(h.d):'');
       o=dwLive({ex,b:dsBounds(pts)})+`<div class="dsx-fallback" style="display:none">${pic}</div>`+o;}
     o+=`<div class="dw-ans" data-frac>Answer: ${esc(ans)}</div>`;}
@@ -1481,24 +1490,27 @@ function dsCard(spec){const ex=(spec.ex||[]).map(e=>Object.assign({},e));const L
 function desmosSol(q,h){let html='';try{html=desmosWay(q,h)}catch(e){return ''}
   const m=html.match(/data-spec='([^']*)'/);let spec={ex:[]};if(m){const tx=document.createElement('textarea');tx.innerHTML=m[1];try{spec=JSON.parse(tx.value)}catch(e){}}
   let how=(html.match(/<div class="dw-how-h">✓ How to do it<\/div>([\s\S]*?)<\/div>/)||[])[1]||'';const ans=(html.match(/<div class="dw-ans" data-frac>([\s\S]*?)<\/div>/)||[])[1]||'';
+  if((/dw-weak/.test(html)||!(spec.ex||[]).some(e=>e.latex))&&h&&h.n&&!(h.d||[]).length)return `<div class="box b-green"><div class="lab">Fastest way · by hand (no Desmos needed)</div><div class="c" data-frac>${esc(supTxt(h.n))}</div></div>`;
   if(/dw-weak/.test(html)||!(spec.ex||[]).some(e=>e.latex))return `<div class="box b-blue"><div class="lab">The Desmos way</div><div class="c">Type the equation from the question into your Desmos on the left. Then click the point the question asks about: where the graph crosses the x-axis, the top or bottom of the curve, or where two lines meet. That point gives the answer. The steps above show the same thing by hand.</div></div>`;
   const card=dsCard(spec);card.how=how.replace(/<[^>]+>/g,'');const sv=card.ex.find(e=>e.solve);
   // Blueprint format (Allie approved, Nov 26): one short paragraph, the Desmos screen, then "Therefore the final answer is option D, 3."
   how=(/^\s*1\.\s/.test(how)?how.replace(/(?:^|(?<=[.!?])\s)\d\.\s/g,' '):how).replace(/\s*Answer:\s*[^.]*\.?\s*$/,'').replace(/\s*(?:So the answer is\s*)?[A-D]\.\s*$/,'').trim();if(how&&!/[.!?]$/.test(how))how+='.';
   const fin=q.ch&&q.ch.length?`Therefore the final answer is option ${'ABCD'[q.ans]}, ${q.ch[q.ans]}.`:`Therefore the final answer is ${q.show||(q.grid||[''])[0]}.`;
   // No hand-made setup yet (Allie, Nov 26): the auto "how" can be generic, so show the real solution steps that get to the answer
-  if(!DSET[q.id]&&!DW_HOW&&(q.steps||[]).length){const st=q.steps.map(x=>dwTxt(x)).filter(Boolean);
+  if(!DSET[q.id]&&!DW_HOW&&(q.steps||[]).length){const st=(QH[q.id]&&QH[q.id].n?[QH[q.id].n]:fewSteps(q.steps)).map(x=>dwTxt(x)).filter(Boolean); // short: the audited note, else at most 4 steps (Allie, Nov 27)
     const fin0=q.ch&&q.ch.length?`Therefore the final answer is option ${'ABCD'[q.ans]}, ${q.ch[q.ans]}.`:`Therefore the final answer is ${q.show||(q.grid||[''])[0]}.`;
-    return `<div class="dw-bp"><div class="dw-bp-h">✓ How to get the answer</div><p data-frac>${st.map(x=>esc(/[.!?]$/.test(x)?x:x+'.')).join(' ')}</p>${dwLive0(card,' ')}<p class="dw-bp-fin" data-frac>${fin0}</p></div>`}
+    return `<div class="dw-bp"><div class="dw-bp-h">✓ The fastest way</div><p data-frac>${st.map(x=>esc(/[.!?]$/.test(x)?x:x+'.')).join(' ')}</p>${dwLive0(card,' ')}<p class="dw-bp-fin" data-frac>${fin0}</p></div>`}
   return `<div class="dw-bp"><div class="dw-bp-h">✓ The Desmos way</div><p data-frac>${how}</p>${dwLive0(card,' ')}<p class="dw-bp-fin" data-frac>${fin}</p></div>`}
 function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
   const head=(t,sub)=>`<div class="ph"><div><div class="t hd">${t}</div><div class="s">${sub}</div></div><button class="x" aria-label="Close panel" data-pan="${k}">✕</button></div>`;
-  if(k==='show'){const steps=mirrorSteps(q)||expSteps(q)||zeroSteps(q)||halfSteps(q)||fewSteps(q.steps); // no 'Goal' step: straight to the work (Allie, Nov 27: simplest possible)const res=carried(q,steps);const n=Math.max(1,st.shown);
-    const seen=new Set();const wfs=steps.map((x,i)=>s.sec==='Math'?whereFrom(q,x,i,seen):'');
-    return head('Show me how','This question, one step at a time')+(typeof figFor==='function'?figFor(q):'')+(()=>{const t=tfFor(q.id);return t?`<div class="box b-yel"><div class="lab">Another way to see it · because you asked the tutor about this</div><div class="c">${t.another_way.map(x=>`<div style="margin-bottom:6px">${x}</div>`).join('')}</div></div>`:''})()+(s.sec==='Math'?plugBox(q)+qCards(q):'')+steps.slice(0,n).map((x,i)=>stepHTML(x,i,res,wfs[i])).join('')+
-     (n<steps.length?`<button class="btn" data-next="1" style="align-self:flex-start">Show the next step (${n+1} of ${steps.length})</button>`:`<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(supTxt(q.trap))}</div></div>`)+
-     (s.sec==='Math'?desmosSol(q,QH[q.id]||{d:[],c:[]}):`<div class="box b-blue"><div class="lab">Strategy</div><div class="c">${esc(q.tool)}</div></div>`);}
-
+  if(k==='show'){ // Show me how (Allie, Nov 27): the FASTEST way first, in a few short lines; the by-hand steps stay folded until he asks
+    const short=mirrorSteps(q)||expSteps(q)||zeroSteps(q)||halfSteps(q),steps=short||fewSteps(q.steps),res=carried(q,steps),math=s.sec==='Math';
+    const fast=math&&!short?fastBox(q):'',n=fast?Math.max(0,(st.shown||1)-1):Math.max(1,st.shown||1);
+    const seen=new Set(),wfs=steps.map((x,i)=>math?whereFrom(q,x,i,seen):'');
+    return head('Show me how',fast?'The fastest way first':'This question, step by step')+(typeof figFor==='function'?figFor(q):'')+(()=>{const t=tfFor(q.id);return t?`<div class="box b-yel"><div class="lab">Another way to see it · because you asked the tutor about this</div><div class="c">${t.another_way.map(x=>`<div style="margin-bottom:6px">${x}</div>`).join('')}</div></div>`:''})()+
+     (math?plugBox(q):'')+fast+steps.slice(0,n).map((x,i)=>stepHTML(x,i,res,wfs[i])).join('')+
+     (n<steps.length?`<button class="btn ${fast?'g ':''}" data-next="1" style="align-self:flex-start">${fast&&n===0?'Show the steps by hand':'Show the next step'} (${n+1} of ${steps.length})</button>`:(q.trap?`<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(supTxt(q.trap))}</div></div>`:''))+
+     (math?'':`<div class="box b-blue"><div class="lab">Strategy</div><div class="c">${esc(q.tool)}</div></div>`);}
   if(k==='desm'){const h=QH[q.id]||{d:[],c:[]};const tab=UI.dtab||(UI.lpad===false?'pad':'d');
     const list=a=>a.map((x,i)=>`<div class="step"><span class="n">${i+1}</span><div class="c">${esc(x)}</div></div>`).join('');
     let b=head('Desmos / calculator','Your own Desmos for this question');
