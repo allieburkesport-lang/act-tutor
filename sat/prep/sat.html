@@ -1109,6 +1109,20 @@ function zeroSteps(q){try{const all=(q.steps||[]).map(supTxt).join(' ').replace(
   return [`Zero means the graph crosses the x-axis. The crossings are the numbers in the brackets with the sign flipped: ${fs.map((m,i)=>`(${v} ${m[2]==='-'?'−':'+'} ${m[3]}) gives ${f(roots[i])}`).join(', ')}`,
     others.length?(pos&&others.every(r=>r<0)?`${others.map(f).join(' and ')} can't be the answer, because ${v} has to be more than 0. That leaves ${f(hit)}`:`The one the question asks for is ${f(hit)}`):`So ${v} = ${f(hit)}`,
     `Therefore the final answer is ${A}. Desmos check: type the function and click where the graph crosses the x-axis.`]}catch(e){return null}}
+/* Never more than 4 steps in Show me how (Allie, Nov 27). Drop the "Goal"/"The question asks" intro, then join the shortest neighbors. */
+function fewSteps(st){let a=(st||[]).slice();if(a.length>2&&/^\s*(Goal|The question asks)\b/i.test(supTxt(a[0])))a=a.slice(1);
+  while(a.length>4){let k=0,best=1e9;for(let i=0;i<a.length-1;i++){const L=supTxt(a[i]).length+supTxt(a[i+1]).length;if(L<best){best=L;k=i}}
+    const x=a[k].replace(/[.\s]+$/,''),y=a[k+1].replace(/^([^:]{1,40}):\s+/,'');a.splice(k,2,x+'. '+y)}
+  return a}
+/* Min or max of a factored parabola, e.g. f(x) = (x − 2)(x + 15): halfway between the crossings (Allie, Nov 27) */
+function halfSteps(q){try{const T=plain(q.q).replace(/−/g,'-');if(!/minimum|maximum|vertex/i.test(T)||!/value of x|x-coordinate|what value of x|at what x/i.test(T))return null;
+  const fm=T.match(/((?:\(\s*x\s*[+-]\s*\d+(?:\.\d+)?\s*\)\s*){2})/);if(!fm)return null;
+  const fs=[...fm[1].matchAll(/\(\s*x\s*([+-])\s*(\d+(?:\.\d+)?)\s*\)/g)];const r=fs.map(m=>m[1]==='-'?+m[2]:-m[2]),mid=(r[0]+r[1])/2;
+  const A=q.ch&&q.ch.length?q.ch[q.ans]:(q.show||(q.grid||[''])[0]);const av=parseFloat(String(plain(String(A))).replace(/−/g,'-'));
+  const f=x=>(x<0?'−':'')+nfmt(Math.abs(x));if(isFinite(av)&&Math.abs(av-mid)>1e-9&&!(String(A).includes('/')&&Math.abs(String(A).replace(/−/g,'-').split('/').reduce((p,c)=>p/ +c)-mid)<1e-9))return null;
+  return [`Find the crossings. Flip the signs in the brackets: ${fs.map((m,i)=>`(x ${m[1]==='-'?'−':'+'} ${m[2]}) gives ${f(r[i])}`).join(', ')}`,
+    `The ${/maximum/i.test(T)?'top':'bottom'} of the curve is exactly halfway between them. Add and divide by 2: (${f(r[0])} + ${r[1]<0?'('+f(r[1])+')':f(r[1])}) ÷ 2 = ${f(r[0]+r[1])} ÷ 2 = ${f(mid)}`,
+    `Therefore the final answer is ${A}${String(A).includes('/')?' (that is '+f(mid)+')':''}. Desmos check: type the function, zoom out, and click the ${/maximum/i.test(T)?'top':'bottom'} of the curve.`]}catch(e){return null}}
 function stepHTML(s,i,res,wf){const k=s.indexOf(': ');const head=k>0&&k<60?s.slice(0,k):'',body=k>0&&k<60?s.slice(k+2):s;
   return `<div class="step"><span class="n">${i+1}</span><div class="c">${head?`<b>${markCarry(head,i,res)}</b><br>`:''}${markCarry(body,i,res)}</div>${wf||''}</div>`}
 function lessonData(skill){const id=lessonFor(skill)[0];return id&&LES[id]}
@@ -1470,7 +1484,7 @@ function desmosSol(q,h){let html='';try{html=desmosWay(q,h)}catch(e){return ''}
   return `<div class="dw-bp"><div class="dw-bp-h">✓ The Desmos way</div><p data-frac>${how}</p>${dwLive0(card,' ')}<p class="dw-bp-fin" data-frac>${fin}</p></div>`}
 function panelHTML(){const q=cur(),st=D.st[D.i],s=SK2[q.skill],k=UI.panel;
   const head=(t,sub)=>`<div class="ph"><div><div class="t hd">${t}</div><div class="s">${sub}</div></div><button class="x" aria-label="Close panel" data-pan="${k}">✕</button></div>`;
-  if(k==='show'){const steps=mirrorSteps(q)||expSteps(q)||zeroSteps(q)||(q.steps.length>2&&/^\s*Goal\b/i.test(q.steps[0])?q.steps.slice(1):q.steps); // no 'Goal' step: straight to the work (Allie, Nov 27: simplest possible)const res=carried(q,steps);const n=Math.max(1,st.shown);
+  if(k==='show'){const steps=mirrorSteps(q)||expSteps(q)||zeroSteps(q)||halfSteps(q)||fewSteps(q.steps); // no 'Goal' step: straight to the work (Allie, Nov 27: simplest possible)const res=carried(q,steps);const n=Math.max(1,st.shown);
     const seen=new Set();const wfs=steps.map((x,i)=>s.sec==='Math'?whereFrom(q,x,i,seen):'');
     return head('Show me how','This question, one step at a time')+(typeof figFor==='function'?figFor(q):'')+(()=>{const t=tfFor(q.id);return t?`<div class="box b-yel"><div class="lab">Another way to see it · because you asked the tutor about this</div><div class="c">${t.another_way.map(x=>`<div style="margin-bottom:6px">${x}</div>`).join('')}</div></div>`:''})()+(s.sec==='Math'?qCards(q):'')+steps.slice(0,n).map((x,i)=>stepHTML(x,i,res,wfs[i])).join('')+
      (n<steps.length?`<button class="btn" data-next="1" style="align-self:flex-start">Show the next step (${n+1} of ${steps.length})</button>`:`<div class="box b-red"><div class="lab">Trap</div><div class="c">${esc(q.trap)}</div></div>`)+
