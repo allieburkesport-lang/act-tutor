@@ -299,7 +299,7 @@ def main():
                 day['mix'] = [m for m in day['mix'] if m[1] > 0]
                 day['mix_names'] = [[names[s2], n2, 'Math' if s2 in MATH else 'English', t2] for s2, n2, t2 in day['mix']]
                 day['n_questions'] = sum(n2 for _, n2, _ in day['mix']) + len(day['redo'])
-                day['note'] += f" · {len(day['redo'])} to redo (missed before)"
+                day['note'] += f" · {len(day['redo'])} new look-alikes for questions he missed (never the same question)"
                 if dd == today: changes.append(f"{len(day['redo'])} missed questions to redo today ({REDO_TOTAL} missed in all)")
             if dd < today: prev_mix = (d0, day['mix'])
         res = byday.get(d0, {})

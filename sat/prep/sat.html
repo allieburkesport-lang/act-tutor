@@ -684,7 +684,8 @@ function buildDay(d,all){tfAdd();const ord=all?(qs=>qs):order;const used=new Set
   // Focus set (Allie, Nov 23): plan.json 'mix' = [[skill, n, core|rotation], ...] in serving order. Each category is ONE block, all in a row,
   // official College Board questions first inside the block. Biggest point-losers first: Math block, then Reading & Writing.
   // Redo (Allie, Nov 26): questions he missed before come back first, then the fresh focus set
-  if(d.redo&&d.redo.length)add(d.redo.map(id=>QBY[id]).filter(Boolean),'Redo · you missed this one before');
+  // No repeats (Allie, Nov 27): a missed question never comes back. Its slot gets a NEW question of the same kind he hasn't seen.
+  if(d.redo&&d.redo.length)d.redo.map(id=>QBY[id]).filter(Boolean).forEach(m=>{const nx=all?m:ord(BANK.qs.filter(q=>q.skill===m.skill&&!used.has(q.id)))[0];if(nx)add([nx],'Same kind as one you missed before')});
   if(d.mix&&d.mix.length){const isOff=q=>/^(cb|pt|bpr)/.test(q.id);
     d.mix.forEach(([s,n,t])=>{if(!SK2[s])return;const pick=ord(BANK.qs.filter(q=>q.skill===s&&!used.has(q.id))).slice(0,n);
       const offF=all?pick:pick.filter(isOff).concat(pick.filter(q=>!isOff(q)));
@@ -725,6 +726,9 @@ function startDay(date){const d=PLAN&&PLAN.days.find(x=>x.date===date);if(!d)ret
     const fresh=buildDay(d);qs=done.map(id=>QBY[id]).concat(fresh.qs).slice(0,Math.max(planned.qs.length,done.length));
     secs=done.map(id=>`Done earlier: ${SK2[QBY[id].skill].name}`).concat(fresh.secs).slice(0,qs.length);
     st=qs.map(q=>{const l=dayLog(date).filter(x=>x.id===q.id);return {tried:l.map(x=>x.picked||'?'),ok:l.some(x=>x.ok),shown:0,t0:0,coached:false}})}
+  {const S=seenIds(),T=new Set(dayLog(date).map(x=>x.id)),inRun=new Set(qs.map(q=>q.id));
+   qs.forEach((q,k)=>{if(st[k].tried.length||!S.has(q.id)||T.has(q.id))return;const nx=order(BANK.qs.filter(x=>x.skill===q.skill&&!inRun.has(x.id)))[0];
+     if(nx){inRun.add(nx.id);qs[k]=nx;if(secs&&/^Redo/.test(secs[k]||''))secs[k]='Same kind as one you missed before'}})}
   i=at&&qs.findIndex(q=>q.id===at)>=0?qs.findIndex(q=>q.id===at):st.findIndex(t=>!t.ok);if(i<0)i=qs.length-1;
   if(!qs.length){app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">${esc(KIND[d.kind]||'')}</h1><p>${esc(d.note||'Nothing to drill today.')}</p><button class="btn" data-go="#/">Home</button></div>`;return}
   const lab=new Date(date+'T12:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
