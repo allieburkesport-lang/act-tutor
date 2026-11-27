@@ -88,7 +88,7 @@
     return [`SAT HELM question ${D.i + 1} · ${c.skill} · ${c.difficulty}`, '', c.text, fig ? '(This question has a picture. If you need it, ask me to describe it, or draw your own from the numbers.)' : '',
       c.choices ? c.choices.join('\n') : '(Fill-in answer)', '', `Correct answer: ${c.correct}`, `My answer(s) so far: ${c.student_answer || 'none yet'}`,
       c.steps_shown ? `Steps I already saw: ${c.steps_shown}` : '', c.desmos ? `Desmos tip on file: ${c.desmos}` : '', '', `What's confusing me: ${ask}`,
-      '', 'Tutor me on this one question with your project rules: one hint at a time, and draw a labeled picture if it helps.'].filter((x, i, a) => x !== '' || a[i - 1] !== '').join('\n').slice(0, 6000);
+      '', 'Tutor me on this one question with your project rules. Use the SIMPLEST, SHORTEST way to solve it, the fastest way on test day (a shortcut like symmetry, plugging in the answer choices, or one Desmos line beats long algebra). Plain words, 1 or 2 short sentences per step, no long walkthroughs. One hint at a time, and draw a labeled picture if it helps.'].filter((x, i, a) => x !== '' || a[i - 1] !== '').join('\n').slice(0, 6000);
   }
   async function openChat(switched) {
     if (typeof D === 'undefined' || !D) return;
