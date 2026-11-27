@@ -714,7 +714,7 @@ function dayMix(d){if(d&&d.date>=MIRROR_FROM)return satMirror();const w={},sum={
   return w}
 // Refresh never starts him over (Allie, Nov 27): drills save their place too, not just plan days
 const drillKey=a=>'helm_drill_'+a;
-function dayStore(done){if(!D)return;if(!D.date){if(D.arg&&!D.view&&!D.more)store.set(drillKey(D.arg),{day:today(),ids:D.qs.map(q=>q.id),secs:D.secs,i:D.i,st:D.st.map(t=>({tried:t.tried,ok:t.ok,coached:t.coached,hb:t.hb,ha:t.ha,chk:t.chk,chkMsg:t.chkMsg})),done:!!done});return}store.set(runKey(D.date),{ids:D.qs.map(q=>q.id),secs:D.secs,i:D.i,st:D.st.map(t=>({tried:t.tried,ok:t.ok,coached:t.coached,hb:t.hb,ha:t.ha,chk:t.chk,chkMsg:t.chkMsg})),done:!!done})}
+function dayStore(done){if(!D)return;if(!D.date){if(D.arg&&!D.view)store.set(drillKey(D.arg),{day:today(),ids:D.qs.map(q=>q.id),secs:D.secs,i:D.i,st:D.st.map(t=>({tried:t.tried,ok:t.ok,coached:t.coached,hb:t.hb,ha:t.ha,chk:t.chk,chkMsg:t.chkMsg})),done:!!done});return}store.set(runKey(D.date),{ids:D.qs.map(q=>q.id),secs:D.secs,i:D.i,st:D.st.map(t=>({tried:t.tried,ok:t.ok,coached:t.coached,hb:t.hb,ha:t.ha,chk:t.chk,chkMsg:t.chkMsg})),done:!!done})}
 function startDay(date){const d=PLAN&&PLAN.days.find(x=>x.date===date);if(!d)return home();
   if(dayHold(date)){app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">Almost ready</h1><p>${esc(dayHold(date))}</p><button class="btn" data-go="#/">Home</button></div>`;return}
   const run=store.get(runKey(date),null);let qs,secs,st,i=0;
@@ -888,7 +888,7 @@ function moreQs(sk,have){const ids=new Set(have.map(q=>q.id));let nx=order(BANK.
   if(!nx.length)nx=BANK.qs.filter(q=>q.skill===sk&&!ids.has(q.id)&&LOG.some(x=>x.id===q.id&&x.first&&!x.ok)).slice(0,SET);return nx}
 function startDrill(arg){if(!arg)return home();if(arg.startsWith('more:')&&!SK2[arg.slice(5)])return home();if(arg!=='bpr'&&!arg.startsWith('more:')&&!arg.startsWith('review:')&&!arg.startsWith('ids:')&&!SK2[arg])return home();const p=pickQs(arg);if(!p.qs.length){app().innerHTML=topbar('')+`<div class="end"><h1 class="hd">All caught up</h1><p>He has already done every question here. Fresh ones are added each night, so check back tomorrow, or redo his misses from the Stats page.</p><button class="btn" data-go="#/">Home</button></div>`;return}
   UI.dtab=null;D={...p,arg,i:0,st:p.qs.map(()=>({tried:[],ok:false,shown:0,t0:0,coached:false})),t0:Date.now(),done:false};UI.panel=null;
-  const sv=arg.startsWith('more:')?null:store.get(drillKey(arg),null);if(sv&&!sv.done&&sv.day===today()&&sv.ids.length&&sv.ids.every(id=>QBY[id])){D.qs=sv.ids.map(id=>QBY[id]);D.st=sv.st.map(t=>({...t,shown:0,t0:0}));if(sv.secs)D.secs=sv.secs;D.i=Math.max(0,Math.min(sv.i||0,D.qs.length-1))}
+  const sv=store.get(drillKey(arg),null);if(sv&&!sv.done&&sv.day===today()&&sv.ids.length&&sv.ids.every(id=>QBY[id])){D.qs=sv.ids.map(id=>QBY[id]);D.st=sv.st.map(t=>({...t,shown:0,t0:0}));if(sv.secs)D.secs=sv.secs;D.i=Math.max(0,Math.min(sv.i||0,D.qs.length-1))}
   dayStore();showQ();}
 function cur(){return D.qs[D.i]} function sec(q){return SK2[q.skill].sec}
 
